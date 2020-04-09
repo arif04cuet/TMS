@@ -1,0 +1,17 @@
+﻿using Infrastructure;
+using Module.Core.ViewModels;
+using System.Threading.Tasks;
+
+namespace Module.Core.Data
+{
+    public interface ITokenService : IScopedService
+    {
+        Task<TokenViewModel> CreateAsync(long userId);
+
+        Task<TokenViewModel> CreateAsync(TokenCreateRequest request);
+
+        Task<TokenViewModel> RefreshAsync(TokenRefreshRequest request);
+
+        Task<bool> RevokeAsync(TokenRevokeRequest request);
+    }
+}

@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>cc56b641-b8ef-47f6-a6e1-968c994a0465</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Data.EFCore\Infrastructure.Data.EFCore.csproj" />
+    <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Core\Module.Core.Data\Module.Core.Data.csproj" />
+    <ProjectReference Include="..\Modules\Core\Module.Core.Entities\Module.Core.Entities.csproj" />
+    <ProjectReference Include="..\Modules\Core\Module.Core\Module.Core.csproj" />
+    <ProjectReference Include="..\Modules\Library\Module.Library.Data\Module.Library.Data.csproj" />
+    <ProjectReference Include="..\Modules\Library\Module.Library.Entities\Module.Library.Entities.csproj" />
+    <ProjectReference Include="..\Modules\Library\Module.Library\Module.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+</Project>
