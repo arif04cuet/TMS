@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200408205853_M1")]
+    [Migration("20200409161623_M1")]
     partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,8 +80,29 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -91,42 +112,66 @@ namespace OTMS.Migrations
                         new
                         {
                             Id = 1L,
-                            Name = "A+"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "A+",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 2L,
-                            Name = "A-"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "A-",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 3L,
-                            Name = "B+"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "B+",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 4L,
-                            Name = "B-"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "B-",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 5L,
-                            Name = "AB+"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "AB+",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 6L,
-                            Name = "AB+"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "AB+",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 7L,
-                            Name = "O+"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "O+",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 8L,
-                            Name = "O-"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "O-",
+                            Version = 0L
                         });
                 });
 
@@ -200,6 +245,104 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Designation");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Director General",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Director",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Additional Director",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Deputy Director or Equivalent",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Assistant Director or Equivalent",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Social services officer 1st Class Gazetted or Equivalent",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Social services officer 2nd Class Gazetted or Equivalent",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Additional Secretary",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Secretary",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Joint Secretary",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Deputy Secretary",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Honorable Guest Speaker",
+                            Version = 0L
+                        });
                 });
 
             modelBuilder.Entity("Module.Core.Entities.District", b =>
@@ -224,8 +367,29 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -235,17 +399,26 @@ namespace OTMS.Migrations
                         new
                         {
                             Id = 1L,
-                            Name = "Male"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Male",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 2L,
-                            Name = "Female"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Female",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 3L,
-                            Name = "Other"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Other",
+                            Version = 0L
                         });
                 });
 
@@ -296,8 +469,29 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -307,27 +501,42 @@ namespace OTMS.Migrations
                         new
                         {
                             Id = 1L,
-                            Name = "Married"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Married",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 2L,
-                            Name = "UnMarried"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "UnMarried",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 3L,
-                            Name = "Widowed"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Widowed",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 4L,
-                            Name = "Divorced"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Divorced",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 5L,
-                            Name = "NeverMarried"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "NeverMarried",
+                            Version = 0L
                         });
                 });
 
@@ -931,8 +1140,29 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -942,42 +1172,66 @@ namespace OTMS.Migrations
                         new
                         {
                             Id = 1L,
-                            Name = "Islam"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Islam",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 2L,
-                            Name = "Judaism"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Judaism",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 3L,
-                            Name = "Hinduism"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Hinduism",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 4L,
-                            Name = "Christianity"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Christianity",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 5L,
-                            Name = "Buddhism"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Buddhism",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 6L,
-                            Name = "Jainism"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Jainism",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 7L,
-                            Name = "Sikhism"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Sikhism",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 8L,
-                            Name = "Other"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Other",
+                            Version = 0L
                         });
                 });
 
@@ -1088,8 +1342,29 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -1099,22 +1374,34 @@ namespace OTMS.Migrations
                         new
                         {
                             Id = 1L,
-                            Name = "Pending"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Pending",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 2L,
-                            Name = "Approved"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Approved",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 3L,
-                            Name = "Active"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Active",
+                            Version = 0L
                         },
                         new
                         {
                             Id = 4L,
-                            Name = "InActive"
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "InActive",
+                            Version = 0L
                         });
                 });
 
@@ -1167,6 +1454,12 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("DepartmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DesignationId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -1207,6 +1500,10 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("DesignationId");
 
                     b.HasIndex("StatusId");
 
@@ -1354,7 +1651,8 @@ namespace OTMS.Migrations
 
                     b.HasIndex("ReligionId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserProfile");
                 });
@@ -2068,6 +2366,14 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Core.Entities.User", b =>
                 {
+                    b.HasOne("Module.Core.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("Module.Core.Entities.Designation", "Designation")
+                        .WithMany()
+                        .HasForeignKey("DesignationId");
+
                     b.HasOne("Module.Core.Entities.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId");
@@ -2126,8 +2432,8 @@ namespace OTMS.Migrations
                         .HasForeignKey("ReligionId");
 
                     b.HasOne("Module.Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Profile")
+                        .HasForeignKey("Module.Core.Entities.UserProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

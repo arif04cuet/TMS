@@ -1,0 +1,80 @@
+.logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+  }
+
+  nz-layout {
+      background: #e3e8ee;
+      height: 100%;
+  }
+
+  nz-breadcrumb {
+    padding: 12px 20px;
+    background: #fff;
+    border-radius: 5px;
+  }
+
+  .left-layout {
+    margin-top: 70px;
+  }
+
+  nz-header {
+    height: 55px;
+    position: fixed;
+    // box-shadow: 0 2px 8px #f0f1f2;
+    width: 100%;
+    background: #fff;
+    padding: 0 20px;
+    z-index: 1;
+    border-bottom: 1px solid #e0e0e0;
+    .ant-menu-horizontal {
+        border: none;
+    }
+    .user-menu {
+      padding: 0 8px;
+      min-height: 100%;
+      cursor: pointer;
+      align-items: center;
+      display: flex;
+      &:hover, &:focus {
+        background-color: #fbfbfb;
+      }
+      .user-name {
+        padding-right: 10px;
+        font-weight: 500;
+        font-size: 14px;
+      }
+    }
+  }
+
+  nz-sider {
+    overflow: auto;
+    height: calc(100% - 55px);
+    position: fixed;
+    left: 0;
+    .ant-layout-sider-children {
+      border-right: 1px solid #e8e8e8;
+      .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+        border: none;
+      }
+    }
+  }
+
+  .right-layout {
+    margin-left: 200px;
+  }
+
+  nz-content {
+    margin: 0 16px 0;;
+    overflow: initial;
+  }
+
+  .inner-content {
+    background: #fff;
+    border-radius: 5px;
+  }
+
+  nz-footer {
+    text-align: center;
+  }

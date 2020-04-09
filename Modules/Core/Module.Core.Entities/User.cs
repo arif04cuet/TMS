@@ -12,7 +12,16 @@ namespace Module.Core.Entities
         public bool EmailConfirmed { get; set; }
         public bool TwoFactorEnabled { get; set; }
 
+        public long? StatusId { get; set; }
         public Status Status { get; set; }
+
+        public long? DesignationId { get; set; }
+        public Designation Designation { get; set; }
+
+        public long? DepartmentId { get; set; }
+        public Department Department { get; set; }
+
+        public virtual UserProfile Profile { get; set; }
 
     }
 }

@@ -10,8 +10,12 @@ namespace Module.Core.Filters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var result = await next();
-            var unitOfWork = result.HttpContext.RequestServices.GetService(typeof(IUnitOfWork)) as IUnitOfWork;
-            await unitOfWork.CommitAsync();
+
+            if(context.HttpContext.Request.Method != "GET")
+            {
+                var unitOfWork = result.HttpContext.RequestServices.GetService(typeof   (IUnitOfWork)) as IUnitOfWork;
+                await unitOfWork.CommitAsync();
+            }
         }
     }
 }

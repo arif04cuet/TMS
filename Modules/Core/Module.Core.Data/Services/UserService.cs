@@ -15,24 +15,45 @@ namespace Module.Core.Data
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<UserProfile> _userProfileRepository;
+        private readonly IRepository<UserRole> _userRoleRepository;
 
         public UserService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _userRepository = _unitOfWork.GetRepository<User>();
+            _userProfileRepository = _unitOfWork.GetRepository<UserProfile>();
+            _userRoleRepository = _unitOfWork.GetRepository<UserRole>();
         }
 
         public async Task<long> CreateAsync(UserCreateRequest request, CancellationToken cancellationToken = default)
         {
             User newUser = new User
             {
+                FullName = request.FullName,
+                EmployeeId = request.EmployeeId,
+                StatusId = request.Status,
                 Email = request.Email,
+                DepartmentId = request.Department,
+                DesignationId = request.Designation,
                 Password = request.Password.HashPassword()
             };
 
             await _userRepository.AddAsync(newUser, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var userRoles = request.Roles.Select(x => new UserRole
+            {
+                UserId = newUser.Id,
+                RoleId = x
+            });
+            await _userRoleRepository.AddRangeAsync(userRoles);
+
+            UserProfile profile = new UserProfile { UserId = newUser.Id };
+            await _userProfileRepository.AddAsync(profile, cancellationToken);
+
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
             return newUser.Id;
         }
 
@@ -43,7 +64,7 @@ namespace Module.Core.Data
             if (user == null)
                 throw new NotFoundException("User not found");
 
-            _userRepository.Remove(user);
+            user.IsDeleted = true;
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
         }
@@ -72,7 +93,11 @@ namespace Module.Core.Data
                 .Select(x => new UserListViewModel
                 {
                     Id = x.Id,
-                    Email = x.Email
+                    Designation = x.Designation.Name,
+                    Mobile = x.Mobile,
+                    FullName = x.FullName,
+                    Email = x.Email,
+                    Photo = x.Profile.Id.ToString()
                 })
                 .ApplyPagination(pagingOptions)
                 .ToListAsync();
@@ -90,7 +115,20 @@ namespace Module.Core.Data
             if (user == null)
                 throw new NotFoundException($"User not found");
 
-            //TODO: update user
+            user.FullName = request.FullName;
+            user.EmployeeId = request.EmployeeId;
+            user.DesignationId = request.Designation;
+            user.DepartmentId = request.Department;
+            user.Mobile = request.Mobile;
+            user.Password = request.Password;
+            user.StatusId = request.Status;
+
+            var oldRoles = _userRoleRepository.Where(x => x.UserId == user.Id);
+            if (oldRoles != null)
+                _userRoleRepository.RemoveRange(oldRoles);
+
+            var newRoles = request.Roles.Select(x => new UserRole { UserId = user.Id, RoleId = x });
+            await _userRoleRepository.AddRangeAsync(newRoles);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;

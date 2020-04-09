@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Module.Core.Filters;
-using Msi.UtilityKit.Pagination;
 using OTMS.Extensions;
 using FluentValidation.AspNetCore;
+using Infrastructure;
 
 namespace OTMS
 {
@@ -37,7 +30,14 @@ namespace OTMS
                 options.Filters.Add(typeof(AuthorizationFilter));
                 options.Filters.Add(typeof(ValidationFilter));
                 options.Filters.Add(typeof(UnitOfWorkCommitFilter));
-            }).AddFluentValidation();
+            }).ConfigureApiBehaviorOptions(opt =>
+            {
+                opt.SuppressModelStateInvalidFilter = true;
+            })
+            .AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssemblies(ProjectManager.Assemblies);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

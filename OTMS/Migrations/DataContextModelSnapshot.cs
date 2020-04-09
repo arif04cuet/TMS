@@ -1452,6 +1452,12 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("DepartmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DesignationId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -1492,6 +1498,10 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("DesignationId");
 
                     b.HasIndex("StatusId");
 
@@ -1639,7 +1649,8 @@ namespace OTMS.Migrations
 
                     b.HasIndex("ReligionId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserProfile");
                 });
@@ -2353,6 +2364,14 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Core.Entities.User", b =>
                 {
+                    b.HasOne("Module.Core.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("Module.Core.Entities.Designation", "Designation")
+                        .WithMany()
+                        .HasForeignKey("DesignationId");
+
                     b.HasOne("Module.Core.Entities.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId");
@@ -2411,8 +2430,8 @@ namespace OTMS.Migrations
                         .HasForeignKey("ReligionId");
 
                     b.HasOne("Module.Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Profile")
+                        .HasForeignKey("Module.Core.Entities.UserProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -32,6 +32,13 @@ namespace OTMS.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedBy = table.Column<long>(nullable: true),
+                    UpdatedBy = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    Version = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -120,6 +127,13 @@ namespace OTMS.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedBy = table.Column<long>(nullable: true),
+                    UpdatedBy = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    Version = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -178,6 +192,13 @@ namespace OTMS.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedBy = table.Column<long>(nullable: true),
+                    UpdatedBy = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    Version = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -296,6 +317,13 @@ namespace OTMS.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedBy = table.Column<long>(nullable: true),
+                    UpdatedBy = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    Version = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -329,6 +357,13 @@ namespace OTMS.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedBy = table.Column<long>(nullable: true),
+                    UpdatedBy = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    Version = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -476,11 +511,25 @@ namespace OTMS.Migrations
                     Password = table.Column<string>(nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    StatusId = table.Column<long>(nullable: true)
+                    StatusId = table.Column<long>(nullable: true),
+                    DesignationId = table.Column<long>(nullable: true),
+                    DepartmentId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Department_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Department",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_User_Designation_DesignationId",
+                        column: x => x.DesignationId,
+                        principalTable: "Designation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_User_Status_StatusId",
                         column: x => x.StatusId,
@@ -974,39 +1023,58 @@ namespace OTMS.Migrations
 
             migrationBuilder.InsertData(
                 table: "BloodGroup",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 1L, "A+" },
-                    { 2L, "A-" },
-                    { 3L, "B+" },
-                    { 4L, "B-" },
-                    { 5L, "AB+" },
-                    { 6L, "AB+" },
-                    { 7L, "O+" },
-                    { 8L, "O-" }
+                    { 1L, null, null, true, false, "A+", null, null, 0L },
+                    { 2L, null, null, true, false, "A-", null, null, 0L },
+                    { 3L, null, null, true, false, "B+", null, null, 0L },
+                    { 4L, null, null, true, false, "B-", null, null, 0L },
+                    { 5L, null, null, true, false, "AB+", null, null, 0L },
+                    { 6L, null, null, true, false, "AB+", null, null, 0L },
+                    { 7L, null, null, true, false, "O+", null, null, 0L },
+                    { 8L, null, null, true, false, "O-", null, null, 0L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Designation",
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
+                values: new object[,]
+                {
+                    { 12L, null, null, true, false, "Honorable Guest Speaker", null, null, 0L },
+                    { 11L, null, null, true, false, "Deputy Secretary", null, null, 0L },
+                    { 10L, null, null, true, false, "Joint Secretary", null, null, 0L },
+                    { 9L, null, null, true, false, "Secretary", null, null, 0L },
+                    { 8L, null, null, true, false, "Additional Secretary", null, null, 0L },
+                    { 7L, null, null, true, false, "Social services officer 2nd Class Gazetted or Equivalent", null, null, 0L },
+                    { 5L, null, null, true, false, "Assistant Director or Equivalent", null, null, 0L },
+                    { 4L, null, null, true, false, "Deputy Director or Equivalent", null, null, 0L },
+                    { 3L, null, null, true, false, "Additional Director", null, null, 0L },
+                    { 2L, null, null, true, false, "Director", null, null, 0L },
+                    { 1L, null, null, true, false, "Director General", null, null, 0L },
+                    { 6L, null, null, true, false, "Social services officer 1st Class Gazetted or Equivalent", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
                 table: "Gender",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 2L, "Female" },
-                    { 3L, "Other" },
-                    { 1L, "Male" }
+                    { 1L, null, null, true, false, "Male", null, null, 0L },
+                    { 2L, null, null, true, false, "Female", null, null, 0L },
+                    { 3L, null, null, true, false, "Other", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
                 table: "MaritalStatus",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 1L, "Married" },
-                    { 2L, "UnMarried" },
-                    { 3L, "Widowed" },
-                    { 4L, "Divorced" },
-                    { 5L, "NeverMarried" }
+                    { 5L, null, null, true, false, "NeverMarried", null, null, 0L },
+                    { 4L, null, null, true, false, "Divorced", null, null, 0L },
+                    { 2L, null, null, true, false, "UnMarried", null, null, 0L },
+                    { 1L, null, null, true, false, "Married", null, null, 0L },
+                    { 3L, null, null, true, false, "Widowed", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -1023,27 +1091,27 @@ namespace OTMS.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 5L, null, null, true, false, "Profile", null, null, 0L },
                     { 6L, null, null, true, false, "Book", null, null, 0L },
-                    { 4L, null, null, true, false, "Department", null, null, 0L },
                     { 1L, null, null, true, false, "User", null, null, 0L },
                     { 2L, null, null, true, false, "Role", null, null, 0L },
-                    { 3L, null, null, true, false, "Designation", null, null, 0L }
+                    { 3L, null, null, true, false, "Designation", null, null, 0L },
+                    { 4L, null, null, true, false, "Department", null, null, 0L },
+                    { 5L, null, null, true, false, "Profile", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
                 table: "Religion",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 1L, "Islam" },
-                    { 2L, "Judaism" },
-                    { 3L, "Hinduism" },
-                    { 4L, "Christianity" },
-                    { 5L, "Buddhism" },
-                    { 6L, "Jainism" },
-                    { 7L, "Sikhism" },
-                    { 8L, "Other" }
+                    { 8L, null, null, true, false, "Other", null, null, 0L },
+                    { 7L, null, null, true, false, "Sikhism", null, null, 0L },
+                    { 6L, null, null, true, false, "Jainism", null, null, 0L },
+                    { 5L, null, null, true, false, "Buddhism", null, null, 0L },
+                    { 2L, null, null, true, false, "Judaism", null, null, 0L },
+                    { 3L, null, null, true, false, "Hinduism", null, null, 0L },
+                    { 1L, null, null, true, false, "Islam", null, null, 0L },
+                    { 4L, null, null, true, false, "Christianity", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -1053,19 +1121,19 @@ namespace OTMS.Migrations
 
             migrationBuilder.InsertData(
                 table: "Status",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 4L, "InActive" },
-                    { 1L, "Pending" },
-                    { 2L, "Approved" },
-                    { 3L, "Active" }
+                    { 3L, null, null, true, false, "Active", null, null, 0L },
+                    { 4L, null, null, true, false, "InActive", null, null, 0L },
+                    { 1L, null, null, true, false, "Pending", null, null, 0L },
+                    { 2L, null, null, true, false, "Approved", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "EmailConfirmed", "EmployeeId", "FullName", "IsActive", "IsDeleted", "Mobile", "Password", "StatusId", "TwoFactorEnabled", "UpdatedAt", "UpdatedBy", "Version" },
-                values: new object[] { 1L, null, null, "admin@gmail.com", false, null, null, true, false, null, "l+0iiqNIdYjDQHR9FwJTzA==", null, false, null, null, 0L });
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "DepartmentId", "DesignationId", "Email", "EmailConfirmed", "EmployeeId", "FullName", "IsActive", "IsDeleted", "Mobile", "Password", "StatusId", "TwoFactorEnabled", "UpdatedAt", "UpdatedBy", "Version" },
+                values: new object[] { 1L, null, null, null, null, "admin@gmail.com", false, null, null, true, false, null, "l+0iiqNIdYjDQHR9FwJTzA==", null, false, null, null, 0L });
 
             migrationBuilder.InsertData(
                 table: "Permission",
@@ -1249,6 +1317,16 @@ namespace OTMS.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_User_DepartmentId",
+                table: "User",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_DesignationId",
+                table: "User",
+                column: "DesignationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_StatusId",
                 table: "User",
                 column: "StatusId");
@@ -1306,7 +1384,8 @@ namespace OTMS.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_UserProfile_UserId",
                 table: "UserProfile",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRole_RoleId",
@@ -1342,12 +1421,6 @@ namespace OTMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "BookSubject");
-
-            migrationBuilder.DropTable(
-                name: "Department");
-
-            migrationBuilder.DropTable(
-                name: "Designation");
 
             migrationBuilder.DropTable(
                 name: "EBook");
@@ -1438,6 +1511,12 @@ namespace OTMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "Upazila");
+
+            migrationBuilder.DropTable(
+                name: "Department");
+
+            migrationBuilder.DropTable(
+                name: "Designation");
 
             migrationBuilder.DropTable(
                 name: "Status");

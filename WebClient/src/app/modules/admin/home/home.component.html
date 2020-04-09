@@ -1,0 +1,77 @@
+<nz-layout>
+    <nz-header>
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col justify-content-end">
+                <div class="user-menu" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+                    <span class="user-name">Sahidul Islam</span>
+                    <nz-avatar nzSize="large" nzIcon="user">
+                    </nz-avatar>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu style="width: 160px;">
+                            <li nz-menu-item>
+                                <i nz-icon nzType="profile"></i>
+                                <span>Profile</span>
+                            </li>
+                            <li nz-menu-item>
+                                <i nz-icon nzType="logout"></i>
+                                <span>Logout</span>
+                            </li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </div>
+            </div>
+        </div>
+    </nz-header>
+    <nz-layout class="left-layout">
+        <nz-sider>
+            <!-- <div class="logo"></div> -->
+            <ul nz-menu nzMode="inline">
+                <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: nav }"></ng-container>
+                <ng-template #menuTemplate let-nav>
+                    <ng-container *ngFor="let n of nav">
+                        <li (click)="onMenuItemClick(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="n.level * 24">
+                            <i nz-icon nzType="{{n.icon}}"></i>
+                            <span>{{n.title}}</span>
+                        </li>
+                        <li (click)="onMenuItemClick(n)" *ngIf="n.nav" nz-submenu [nzTitle]="n.title" [nzIcon]="n.icon"
+                            [nzPaddingLeft]="n.level * 24">
+                            <ul>
+                                <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: n.nav }">
+                                </ng-container>
+                            </ul>
+                        </li>
+                    </ng-container>
+                </ng-template>
+            </ul>
+        </nz-sider>
+        <nz-layout class="right-layout">
+            <nz-content>
+                <div class="box">
+                    <nz-breadcrumb>
+                        <nz-breadcrumb-item>
+                            <i nz-icon nzType="dashboard"></i>
+                        </nz-breadcrumb-item>
+                        <nz-breadcrumb-item>
+                            <a>
+                                <i nz-icon nzType="team"></i>
+                                <span>User Management</span>
+                            </a>
+                        </nz-breadcrumb-item>
+                        <nz-breadcrumb-item>
+                            <a>
+                                <i nz-icon nzType="user"></i>
+                                <span>User</span>
+                            </a>
+                        </nz-breadcrumb-item>
+                    </nz-breadcrumb>
+                </div>
+                <div class="inner-content">
+                    <router-outlet></router-outlet>
+                </div>
+            </nz-content>
+        </nz-layout>
+    </nz-layout>
+</nz-layout>
