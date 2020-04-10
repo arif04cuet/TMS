@@ -2,7 +2,7 @@ import { Subscription, Observable } from 'rxjs';
 import { on, broadcast, BROADCAST_KEYS } from 'src/services/broadcast.service';
 import { AppInjector } from 'src/app/app.component';
 import { Router, NavigationExtras, UrlTree, ActivatedRouteSnapshot } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { HttpService } from 'src/services/http/http.service';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
@@ -16,6 +16,7 @@ export class BaseComponent {
     _router: Router;
     _httpService: HttpService;
     _translate: TranslateService;
+    _modalService: NzModalService
 
     protected _activatedRouteSnapshot: ActivatedRouteSnapshot
 
@@ -25,6 +26,7 @@ export class BaseComponent {
         this._router = AppInjector.get(Router);
         this._httpService = AppInjector.get(HttpService);
         this._translate = AppInjector.get(TranslateService);
+        this._modalService = AppInjector.get(NzModalService);
     }
 
     subscribe<T>(
@@ -137,6 +139,12 @@ export class BaseComponent {
         this._translate.use(lang);
         const s = this._translate.get(key).subscribe(x => this.invoke(onTranslate, x));
         this._subscriptions.push(s);
+    }
+
+    t(key: string) {
+        const lang = localStorage.getItem('lang') || 'bn';
+        this._translate.use(lang);
+        return this._translate.get(key).toPromise()
     }
 
     success(key: string) {

@@ -23,7 +23,7 @@ namespace Module.Core.Controllers
         }
 
         [HttpGet]
-        [RequirePermission(RoleList)]
+        [RequirePermission(RoleList, RoleManage)]
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions)
         {
             var result = await _roleService.ListAsync(pagingOptions);
@@ -31,7 +31,7 @@ namespace Module.Core.Controllers
         }
 
         [HttpGet("{id}")]
-        [RequirePermission(RoleView)]
+        [RequirePermission(RoleView, RoleManage)]
         public async Task<ActionResult> Get(long id)
         {
             var result = await _roleService.Get(id);
@@ -39,7 +39,7 @@ namespace Module.Core.Controllers
         }
 
         [HttpPost]
-        [RequirePermission(RoleCreate)]
+        [RequirePermission(RoleCreate, RoleManage)]
         public async Task<IActionResult> Post([FromBody] RoleCreateRequest request)
         {
             var result = await _roleService.CreateAsync(request);
@@ -47,7 +47,7 @@ namespace Module.Core.Controllers
         }
 
         [HttpPut("{id}")]
-        [RequirePermission(RoleUpdate)]
+        [RequirePermission(RoleUpdate, RoleManage)]
         public async Task<IActionResult> Put(int id, [FromBody] RoleUpdateRequest request)
         {
             request.Id = id;
@@ -56,7 +56,7 @@ namespace Module.Core.Controllers
         }
 
         [HttpDelete("{id}")]
-        [RequirePermission(RoleDelete)]
+        [RequirePermission(RoleDelete, RoleManage)]
         public async Task<IActionResult> Delete(long id)
         {
             await _roleService.DeleteAsync(id);

@@ -16,6 +16,16 @@ const routes: Routes = [
         path: 'roles',
         loadChildren: () => import('../user/role/list/role-list.module').then(x => x.RoleListModule),
         data: { name: 'role_list' }
+      },
+      {
+        path: 'designations',
+        loadChildren: () => import('../user/designation/list/designation-list.module').then(x => x.DesignationListModule),
+        data: { name: 'designation_list' }
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('../user/profile/view/profile-view.module').then(x => x.ProfileViewModule),
+        data: { name: 'profile_view' }
       }
     ]
   },

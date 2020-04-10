@@ -7,11 +7,11 @@ import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss']
+  selector: 'app-profile-view',
+  templateUrl: './profile-view.component.html',
+  styleUrls: ['./profile-view.component.scss']
 })
-export class UserListComponent extends TableComponent {
+export class ProfileViewComponent extends TableComponent {
 
   designations = [];
   roles = [];

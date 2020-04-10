@@ -23,7 +23,7 @@ namespace Module.Core.Controllers
         }
 
         [HttpGet]
-        [RequirePermission(RoleList)]
+        [RequirePermission(DepartmentList, DepartmentManage)]
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions)
         {
             var result = await _departmentService.ListAsync(pagingOptions);
@@ -31,7 +31,7 @@ namespace Module.Core.Controllers
         }
 
         [HttpGet("{id}")]
-        [RequirePermission(RoleView)]
+        [RequirePermission(DesignationView, DepartmentManage)]
         public async Task<ActionResult> Get(long id)
         {
             var result = await _departmentService.Get(id);

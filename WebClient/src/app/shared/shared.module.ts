@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { BoxLoaderModule } from './box-loader.component';
 
 
 @NgModule({
   imports: [
-    TranslateModule
+    TranslateModule,
+    BoxLoaderModule
   ],
   exports: [
-    TranslateModule
+    TranslateModule,
+    BoxLoaderModule
   ]
 })
 export class SharedModule {

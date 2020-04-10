@@ -46,12 +46,6 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
-            title: 'Permissions',
-            route: '/admin/permissions',
-            icon: 'safety'
-          },
-          {
-            level: 2,
             title: 'Designations',
             route: '/admin/designations',
             icon: 'safety'
@@ -67,7 +61,7 @@ export class HomeComponent extends BaseComponent {
   }
 
   profile() {
-    
+    this.goTo('/admin/profile')
   }
 
   onMenuItemClick(n) {

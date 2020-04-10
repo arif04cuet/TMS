@@ -23,7 +23,7 @@ namespace Module.Core.Controllers
         }
 
         [HttpGet]
-        [RequirePermission(RoleList)]
+        [RequirePermission(DesignationList, DepartmentManage)]
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions)
         {
             var result = await _designationService.ListAsync(pagingOptions);
@@ -31,11 +31,36 @@ namespace Module.Core.Controllers
         }
 
         [HttpGet("{id}")]
-        [RequirePermission(RoleView)]
+        [RequirePermission(DesignationView, DepartmentManage)]
         public async Task<ActionResult> Get(long id)
         {
             var result = await _designationService.Get(id);
             return Ok(new Response(result));
+        }
+
+        [HttpPost]
+        [RequirePermission(DesignationCreate, DepartmentManage)]
+        public async Task<IActionResult> Post([FromBody] DesignationCreateRequest request)
+        {
+            var result = await _designationService.CreateAsync(request);
+            return Created("", new Response(result));
+        }
+
+        [HttpPut("{id}")]
+        [RequirePermission(DesignationUpdate, DepartmentManage)]
+        public async Task<IActionResult> Put(int id, [FromBody] DesignationUpdateRequest request)
+        {
+            request.Id = id;
+            var result = await _designationService.UpdateAsync(request);
+            return Ok(new Response(result));
+        }
+
+        [HttpDelete("{id}")]
+        [RequirePermission(DesignationDelete, DepartmentManage)]
+        public async Task<IActionResult> Delete(long id)
+        {
+            await _designationService.DeleteAsync(id);
+            return NoContent();
         }
 
     }

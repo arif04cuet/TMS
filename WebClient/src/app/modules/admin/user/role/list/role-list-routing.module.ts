@@ -7,12 +7,12 @@ const routes: Routes = [
   {
     path: ':id/edit',
     loadChildren: () => import('../add/role-add.module').then(x => x.RoleAddModule),
-    data: { name: 'user_edit' }
+    data: { name: 'role_edit' }
   },
   {
     path: 'add',
     loadChildren: () => import('../add/role-add.module').then(x => x.RoleAddModule),
-    data: { name: 'user_add' }
+    data: { name: 'role_add' }
   },
 ];
 

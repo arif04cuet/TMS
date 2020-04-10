@@ -1,43 +1,42 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
-import { RoleHttpService } from 'src/services/http/role-http.service';
+import { DesignationHttpService } from 'src/services/http/designation-http.service';
 
 @Component({
-  selector: 'app-role-list',
-  templateUrl: './role-list.component.html',
-  styleUrls: ['./role-list.component.scss']
+  selector: 'app-designation-list',
+  templateUrl: './designation-list.component.html',
+  styleUrls: ['./designation-list.component.scss']
 })
-export class RoleListComponent extends TableComponent {
+export class DesignationListComponent extends TableComponent {
 
   constructor(
-    private roleHttpService: RoleHttpService
+    private designationHttpService: DesignationHttpService
   ) {
-    super(roleHttpService);
+    super(designationHttpService);
   }
 
   ngOnInit() {
     this.gets();
-
+    
     this.onDeleted = (res: any) => {
       this.gets();
     }
-    
   }
 
   add(model = null) {
     if (model) {
-      this.goTo(`/admin/roles/${model.id}/edit`);
+      this.goTo(`/admin/designations/${model.id}/edit`);
     }
     else {
-      this.goTo('/admin/roles/add');
+      this.goTo('/admin/designations/add');
     }
   }
 
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.roleHttpService.list()
+      this.designationHttpService.list()
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
@@ -52,10 +51,6 @@ export class RoleListComponent extends TableComponent {
 
   refresh() {
     this.gets(null, null);
-  }
-
-  assignPermission(data) {
-
   }
 
 }
