@@ -16,7 +16,10 @@ namespace Module.Core.Filters
                 {
                     Status = exception.Status,
                     Message = exception.Message
-                });
+                })
+                {
+                    StatusCode = exception.Status
+                };
             }
             else
             {
@@ -24,7 +27,10 @@ namespace Module.Core.Filters
                 {
                     Status = 500,
                     Message = "Something went wrong."
-                });
+                })
+                {
+                    StatusCode = 500
+                };
             }
         }
     }

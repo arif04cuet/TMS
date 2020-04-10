@@ -38,5 +38,12 @@
     "users": "Users",
     "cancel": "Cancel",
     "this.field.is.required": "This field is required",
-    "must.be.equal.or.greater.than.4.characters": "Must be equal or greater than 4 characters"
+    "must.be.equal.or.greater.than.4.characters": "Must be equal or greater than 4 characters",
+    "action": "Action",
+    "login": "Login",
+    "logout": "Logout",
+    "profile": "Profile",
+    "successfully.logged.in": "Successfully logged in",
+    "roles": "Roles"
+
 }

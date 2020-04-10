@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class SecurityService {
 
     private _storage: Storage;
-    private authDataKey = 'app_auth_data';
+    private authDataKey = 'otms_app_auth_data';
     private rememberMeTokenKey = 'remember_me';
 
     constructor() {
@@ -66,28 +66,8 @@ export class SecurityService {
         return null;
     }
 
-    public getOrganizationId() {
-        return this.getAccessTokenData('organization_id');
-    }
-
     public getUserId() {
         return this.getAccessTokenData('user_id');
-    }
-
-    public isSuperAdmin() {
-        return this.getAccessTokenData('is_super_admin') === 'true';
-    }
-
-    public isAdmin() {
-        return this.getAccessTokenData('is_admin') === 'true';
-    }
-
-    public getUserStatusId() {
-        return this.getAccessTokenData('user_status_id');
-    }
-
-    public getUserRoleId() {
-        return this.getAccessTokenData('user_role');
     }
 
     public getUserEmail() {
@@ -141,4 +121,5 @@ export interface IAuthData {
     accessToken: string;
     refreshToken: string;
     expiresIn: number;
+    userId: number
 }

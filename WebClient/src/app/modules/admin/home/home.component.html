@@ -6,18 +6,18 @@
             </div>
             <div class="col justify-content-end">
                 <div class="user-menu" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
-                    <span class="user-name">Sahidul Islam</span>
+                    <span class="user-name">{{ userInfo.name || userInfo.email }}</span>
                     <nz-avatar nzSize="large" nzIcon="user">
                     </nz-avatar>
                     <nz-dropdown-menu #menu="nzDropdownMenu">
                         <ul nz-menu style="width: 160px;">
-                            <li nz-menu-item>
+                            <li (click)="profile()" nz-menu-item>
                                 <i nz-icon nzType="profile"></i>
-                                <span>Profile</span>
+                                <span>{{'profile'|translate}}</span>
                             </li>
-                            <li nz-menu-item>
+                            <li (click)="logout()" nz-menu-item>
                                 <i nz-icon nzType="logout"></i>
-                                <span>Logout</span>
+                                <span>{{'logout'|translate}}</span>
                             </li>
                         </ul>
                     </nz-dropdown-menu>

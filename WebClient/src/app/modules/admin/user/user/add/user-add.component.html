@@ -77,6 +77,7 @@
                         <nz-form-item class="field-container">
                             <div>
                                 <label>{{'email'|translate }}</label>
+                                {{mode}}
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input nz-input formControlName="email" placeholder="{{'email'|translate}}" />
@@ -112,7 +113,7 @@
                                 <label>{{'role'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <nz-select class="btn-custom" nzMode="tags" formControlName="roles" nzShowSearch nzAllowClear
+                                <nz-select class="btn-custom" nzMode="multiple" formControlName="roles" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'role'|translate|lowercase}">
                                     <nz-option *ngFor="let p of roles" [nzLabel]="p.name"
                                         [nzValue]="p.id">
@@ -162,7 +163,6 @@
         </div>
     </div>
     <ng-template #errorTemplate let-control>
-        <!-- <i nz-icon nzType="warning" nzTheme="fill"></i> -->
         {{control?.errors?.message}}
     </ng-template>
 </div>

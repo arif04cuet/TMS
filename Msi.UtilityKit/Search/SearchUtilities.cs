@@ -45,7 +45,9 @@ namespace Msi.UtilityKit.Search
 
                         for (int j = 0; j < propertiesLength; j++)
                         {
-                            // if property has sortable attribute and sort term equals to property name
+                            var property = properties[j];
+
+                            // if property has searchable attribute and search term equals to property name
                             var searchableAttribute = properties[j].GetCustomAttributes<SearchableAttribute>().FirstOrDefault();
                             bool isSearchable = searchableAttribute != null && properties[j].Name.Equals(tokens[0], StringComparison.OrdinalIgnoreCase);
 
@@ -57,11 +59,13 @@ namespace Msi.UtilityKit.Search
                                 var parameter = ExpressionUtilities.Parameter<T>();
 
                                 // x.Property
-                                var left = parameter.GetPropertyExpression(properties[j]);
+                                var left = parameter.GetPropertyExpression(property);
 
                                 // "Value"
-                                var constantValue = Convert.ChangeType(tokens[2], properties[j].PropertyType);
-                                var right = Expression.Constant(constantValue);
+                                var propertyType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                                var constantValue = Convert.ChangeType(tokens[2], propertyType);
+
+                                var right = Expression.Constant(constantValue, property.PropertyType);
 
                                 // x.Property == "Value"
                                 var comparisonExpressionProvider = _comparisonExpressionProviderFactory.CreateProvider(tokens[1].ToLower());

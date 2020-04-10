@@ -1,29 +1,33 @@
 <div class="login-form">
-    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+    <form nz-form [formGroup]="form">
         <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your username!">
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                 <nz-input-group nzPrefixIcon="user">
-                    <input type="email" nz-input formControlName="email" placeholder="Username" />
+                    <input type="email" nz-input formControlName="email" placeholder="{{'email'|translate}}" />
                 </nz-input-group>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-control nzErrorTip="Please input your Password!">
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                 <nz-input-group nzPrefixIcon="lock">
-                    <input type="password" nz-input formControlName="password" placeholder="Password" />
+                    <input type="password" nz-input formControlName="password" placeholder="{{'password'|translate}}" />
                 </nz-input-group>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-control>
-                <label nz-checkbox formControlName="remember">
+                <!-- <label nz-checkbox formControlName="remember">
                     <span>Remember me</span>
                 </label>
-                <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
-                <button nz-button class="login-form-button" [nzType]="'primary'">Log in</button>
+                <a class="login-form-forgot" class="login-form-forgot">Forgot password</a> -->
+                <button [nzLoading]="submitting" (click)="submit()" nz-button class="login-form-button" [nzType]="'primary'">{{'login'|translate}}</button>
                 <!-- Or -->
                 <!-- <a>register now!</a> -->
             </nz-form-control>
         </nz-form-item>
     </form>
 </div>
+
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>

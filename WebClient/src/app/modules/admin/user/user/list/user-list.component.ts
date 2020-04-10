@@ -18,6 +18,11 @@ export class UserListComponent extends TableComponent {
   roles = [];
   statuses = [];
 
+  name;
+  designation;
+  mobile;
+  email;
+
   constructor(
     private modalService: NzModalService,
     private messageService: NzMessageService,
@@ -34,13 +39,18 @@ export class UserListComponent extends TableComponent {
   }
 
   add(model = null) {
-    this.goTo('/admin/users/add');
+    if (model) {
+      this.goTo(`/admin/users/${model.id}/edit`);
+    }
+    else {
+      this.goTo('/admin/users/add');
+    }
   }
 
-  gets() {
+  gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.userHttpService.list(),
+      this.userHttpService.list(pagination, search),
       this.designationHttpService.list(),
       this.roleHttpService.list(),
       this.commonHttpService.getStatusList()
@@ -62,7 +72,7 @@ export class UserListComponent extends TableComponent {
   delete(e) {
     const deleteModal = this.modalService.confirm({
       nzTitle: 'Confirm',
-      nzContent: `Do you want to delete ${this.formatUsername(e)}?`,
+      nzContent: `Do you want to delete?`,
       nzOkText: 'Delete',
       nzCancelText: 'Cancel',
       nzOkLoading: false,
@@ -72,7 +82,7 @@ export class UserListComponent extends TableComponent {
         this.userHttpService.delete(e.id).subscribe(
           res => {
             deleteModal.getInstance().nzOkLoading = false;
-            this.messageService.create('success', `${this.formatUsername(e)} deleted.`);
+            this.messageService.create('success', `Deleted.`);
             this.gets();
           },
           err => {
@@ -85,18 +95,28 @@ export class UserListComponent extends TableComponent {
   }
 
   refresh() {
-    this.gets();
+    this.gets(null, this.getSearchTerm());
   }
 
-  private formatUsername(user) {
-    let name = ""
-    if (user.firstName) {
-      name += user.firstName
+  search() {
+    this.gets(null, this.getSearchTerm())
+  }
+
+  private getSearchTerm() {
+    let search = ""
+    if (this.name) {
+      search += `Search=FullName like ${this.name}&`;
     }
-    if (user.lastName) {
-      name += ` ${user.lastName}`
+    if(this.email) {
+      search += `Search=Email like ${this.email}&`;
     }
-    return name;
+    if(this.designation) {
+      search += `Search=DesignationId eq ${this.designation}&`;
+    }
+    if(this.mobile) {
+      search += `Search=Mobile like ${this.mobile}&`;
+    }
+    return search;
   }
 
 }

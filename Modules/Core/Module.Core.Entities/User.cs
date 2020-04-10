@@ -1,12 +1,19 @@
 ﻿using Infrastructure.Entities;
+using Msi.UtilityKit.Search;
 
 namespace Module.Core.Entities
 {
     public class User : BaseEntity
     {
+        [Searchable]
         public string FullName { get; set; }
+
+        [Searchable]
         public string Email { get; set; }
+
+        [Searchable]
         public string Mobile { get; set; }
+
         public string EmployeeId { get; set; }
         public string Password { get; set; }
         public bool EmailConfirmed { get; set; }
@@ -15,6 +22,7 @@ namespace Module.Core.Entities
         public long? StatusId { get; set; }
         public Status Status { get; set; }
 
+        [Searchable]
         public long? DesignationId { get; set; }
         public Designation Designation { get; set; }
 

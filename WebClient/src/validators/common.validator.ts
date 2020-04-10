@@ -13,14 +13,4 @@ export class CommonValidator extends BaseComponent {
         return of(true);
     }
 
-    password(control: FormControl) {
-        if (!control.value) {
-            return this.error('this.field.is.required');
-        }
-        else if (control.value.length < 4){
-            return this.error('must.be.equal.or.greater.than.4.characters');
-        }
-        return of(true);
-    }
-
 }

@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Msi.UtilityKit.Pagination;
+using Msi.UtilityKit.Search;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace Module.Core.Data
 
         Task<UserViewModel> Get(long userId, CancellationToken cancellationToken = default);
 
-        Task<PagedCollection<UserListViewModel>> ListAsync(IPagingOptions pagingOptions, CancellationToken cancellationToken = default);
+        Task<PagedCollection<UserListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<bool> UpdateAsync(UserUpdateRequest request, CancellationToken cancellationToken = default);
     }

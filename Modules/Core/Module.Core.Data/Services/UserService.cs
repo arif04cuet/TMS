@@ -3,6 +3,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Core.Entities;
 using Msi.UtilityKit.Pagination;
+using Msi.UtilityKit.Search;
 using Msi.UtilityKit.Security;
 using System.Linq;
 using System.Threading;
@@ -59,7 +60,7 @@ namespace Module.Core.Data
 
         public async Task<bool> DeleteAsync(long userId, CancellationToken cancellationToken = default)
         {
-            User user = await _userRepository.FirstOrDefaultAsync(x => x.Id == userId, true);
+            User user = await _userRepository.FirstOrDefaultAsync(x => x.Id == userId && !x.IsDeleted, true);
 
             if (user == null)
                 throw new NotFoundException("User not found");
@@ -71,25 +72,48 @@ namespace Module.Core.Data
 
         public async Task<UserViewModel> Get(long userId, CancellationToken cancellationToken = default)
         {
-            var result = _userRepository
+
+            var roles = await _userRoleRepository
+                .Where(x => x.UserId == userId && !x.IsDeleted)
+                .Select(x => new IdNameViewModel
+                {
+                    Id = x.RoleId,
+                    Name = x.Role.Name
+                })
+                .ToListAsync();
+
+            var result = await _userRepository
                 .AsReadOnly()
+                .Where(x => !x.IsDeleted)
                 .Select(x => new UserViewModel
                 {
                     Id = x.Id,
-                    Email = x.Email
+                    Email = x.Email,
+                    EmployeeId = x.EmployeeId,
+                    FullName = x.FullName,
+                    Mobile = x.Mobile,
+                    Department = x.Department != null ? new IdNameViewModel { Id = x.Department.Id, Name = x.Department.Name } : null,
+                    Designation = x.Designation != null ? new IdNameViewModel { Id = x.Designation.Id, Name = x.Designation.Name } : null,
+                    Status = x.Status != null ? new IdNameViewModel { Id = x.Status.Id, Name = x.Status.Name } : null,
+                    Roles = roles
                 })
-                .FirstOrDefault(x => x.Id == userId);
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
             if (result == null)
                 throw new NotFoundException("User not found");
 
-            return await Task.FromResult(result);
+            return result;
         }
 
-        public async Task<PagedCollection<UserListViewModel>> ListAsync(IPagingOptions pagingOptions, CancellationToken cancellationToken = default)
+        public async Task<PagedCollection<UserListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var items = await _userRepository
+            var itemsQuery = _userRepository
                 .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
+            var items = await itemsQuery
+                .ApplyPagination(pagingOptions)
                 .Select(x => new UserListViewModel
                 {
                     Id = x.Id,
@@ -99,10 +123,9 @@ namespace Module.Core.Data
                     Email = x.Email,
                     Photo = x.Profile.Id.ToString()
                 })
-                .ApplyPagination(pagingOptions)
                 .ToListAsync();
 
-            var total = _userRepository.AsReadOnly().Count();
+            var total = await itemsQuery.Select(x => x.Id).CountAsync();
 
             var result = new PagedCollection<UserListViewModel>(items, total, pagingOptions);
             return result;
@@ -110,7 +133,7 @@ namespace Module.Core.Data
 
         public async Task<bool> UpdateAsync(UserUpdateRequest request, CancellationToken cancellationToken = default)
         {
-            var user = await _userRepository.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var user = await _userRepository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
 
             if (user == null)
                 throw new NotFoundException($"User not found");
@@ -120,7 +143,10 @@ namespace Module.Core.Data
             user.DesignationId = request.Designation;
             user.DepartmentId = request.Department;
             user.Mobile = request.Mobile;
-            user.Password = request.Password;
+            if (!string.IsNullOrEmpty(request.Password))
+            {
+                user.Password = request.Password.HashPassword();
+            }
             user.StatusId = request.Status;
 
             var oldRoles = _userRoleRepository.Where(x => x.UserId == user.Id);

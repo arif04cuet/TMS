@@ -558,3 +558,27 @@ nz-header .ant-badge-count {
   width: 1%;
   white-space: nowrap;
 }
+
+.v-align-top {
+  vertical-align: top;
+}
+
+.advanced-table-filter {
+  input, nz-select, button {
+    height: 27px;
+    margin-top: 5px;
+    font-weight: normal;
+  }
+  .ant-select-selection--single {
+    height: 27px;
+  }
+  nz-select {
+    text-transform: none;
+    padding: 0;
+    min-width: 134px;
+    max-width: 134px;
+  }
+  .ant-select-selection__rendered {
+    line-height: 24px;
+  }
+}

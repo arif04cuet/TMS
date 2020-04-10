@@ -1,7 +1,7 @@
 import { Subscription, Observable } from 'rxjs';
 import { on, broadcast, BROADCAST_KEYS } from 'src/services/broadcast.service';
 import { AppInjector } from 'src/app/app.component';
-import { Router, NavigationExtras, UrlTree, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, NavigationExtras, UrlTree, ActivatedRouteSnapshot } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { HttpService } from 'src/services/http/http.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -76,12 +76,6 @@ export class BaseComponent {
         broadcast(BROADCAST_KEYS.LOADING, init);
     }
 
-    ngOnDestroy() {
-        this.unsubscribe();
-        this.busy(false);
-        console.log('base destroy');
-    }
-
     handleError(error, redirect = '/login') {
         if (error && error.error) {
             if (error && error.status === 403) {
@@ -145,10 +139,36 @@ export class BaseComponent {
         this._subscriptions.push(s);
     }
 
+    success(key: string) {
+        this.translate(key, x => this._messageService.success(x));
+    }
+
+    failed(key: string) {
+        this.translate(key, x => this._messageService.error(x));
+    }
+
+    warning(key: string) {
+        this.translate(key, x => this._messageService.warning(x));
+    }
+
+    info(key: string) {
+        this.translate(key, x => this._messageService.info(x));
+    }
+
+    requesting(key: string) {
+        this.translate(key, x => this._messageService.loading(x));
+    }
+
     log(...args) {
         if(!environment.production) {
             console.log(...args)
         }
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe();
+        this.busy(false);
+        this.log('base destroy');
     }
 
 }

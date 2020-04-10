@@ -1,10 +1,9 @@
-<!-- <app-table-header [data]="tableHeader"></app-table-header> -->
 <div class="box">
     <div class="block header pad-v-12 pad-h-20 box-divider">
         <div class="column">
             <span class="title-text">
                 <i nz-icon nzType="team"></i>
-                {{'users'|translate}} ({{total}})
+                {{'roles'|translate}} ({{total}})
             </span>
         </div>
         <div class="column">
@@ -24,55 +23,18 @@
             <thead>
                 <tr class="v-align-top advanced-table-filter">
                     <th>
-                        <!-- {{'photo'|translate}} -->
-                    </th>
-                    <th>
                         {{'name'|translate}}
-                        <input [(ngModel)]="name" nz-input />
-                    </th>
-                    <th>
-                        <div>
-                            {{'designation'|translate}}
-                        </div>
-                        <div>
-                            <nz-select [(ngModel)]="designation" class="btn-custom" nzShowSearch nzAllowClear
-                                [nzPlaceHolder]="'select.x0'|translate:{x0: 'designation'|translate|lowercase}">
-                                <nz-option *ngFor="let p of designations" [nzLabel]="p.name" [nzValue]="p.id">
-                                </nz-option>
-                            </nz-select>
-                        </div>
-                    </th>
-                    <th>
-                        {{'mobile'|translate}}
-                        <input [(ngModel)]="mobile" nz-input />
-                    </th>
-                    <th>
-                        {{'email'|translate}}
-                        <input [(ngModel)]="email" nz-input />
                     </th>
                     <th>
                         <div class="ta-right">
                             {{'action'|translate}}
-                        </div>
-                        <div>
-                            <button (click)="search()" nz-button class="btn-custom">
-                                <i nz-icon nzType="search"></i>
-                                {{'search'|translate}}
-                            </button>
                         </div>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let data of basicTable.data">
-                    <td class="fit-cell">
-                        <nz-avatar nzSize="large" nzIcon="user">
-                        </nz-avatar>
-                    </td>
-                    <td>{{ data.fullName }}</td>
-                    <td class="fit-cell">{{ data.designation }}</td>
-                    <td>{{ data.mobile }}</td>
-                    <td>{{ data.email }}</td>
+                    <td>{{ data.name }}</td>
                     <td class="action-column fit-cell">
                         <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                             class="btn-custom">
@@ -88,12 +50,6 @@
                                 </li>
                             </ul>
                         </nz-dropdown-menu>
-                        <!-- <span (click)="add(data)" class="edit" title="{{'edit'}}">
-                            <i nz-icon nzType="edit"></i>
-                        </span>
-                        <span (click)="delete(data)" class="delete" title="{{'delete'}}">
-                            <i nz-icon nzType="delete"></i>
-                        </span> -->
                     </td>
                 </tr>
             </tbody>

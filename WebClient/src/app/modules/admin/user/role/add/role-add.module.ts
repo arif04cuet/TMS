@@ -3,17 +3,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './login.component';
-import { LoginRoutingModule } from './login-routing.module';
+import { RoleAddComponent } from './role-add.component';
+import { RoleAddRoutingModule } from './role-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    RoleAddComponent
   ],
   imports: [
-    LoginRoutingModule,
+    RoleAddRoutingModule,
     CommonModule,
     NzTableModule,
     FormsModule,
@@ -22,9 +23,10 @@ import { CommonValidator } from 'src/validators/common.validator';
     NgZorroAntdModule,
     SharedModule
   ],
-  exports: [LoginComponent],
+  exports: [RoleAddComponent],
   providers: [
+    RoleHttpService,
     CommonValidator
   ]
 })
-export class LoginModule { }
+export class RoleAddModule { }

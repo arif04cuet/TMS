@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Module.Core.Entities;
@@ -7,6 +8,7 @@ using Msi.UtilityKit.Security;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -54,6 +56,13 @@ namespace Module.Core.Data
             if (user == null)
                 throw new NotFoundException($"User not found");
 
+            // Delete old tokens
+            var oldTokens = _userTokenRepository.Where(x => x.UserId == userId);
+            var oldRefreshTokens = oldTokens.Select(x => x.RefreshToken);
+
+            _userTokenRepository.RemoveRange(oldTokens);
+            _refreshTokenRepository.RemoveRange(oldRefreshTokens);
+
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
@@ -75,17 +84,35 @@ namespace Module.Core.Data
                 AccessToken = GenerateToken(claims),
                 RefreshTokenId = refreshToken.Id,
                 ExpiresIn = _jwtTokenOptions.AccessTokenExpiration,
-                UserId = user.Id
+                UserId = userId
             };
 
             await _userTokenRepository.AddAsync(userToken);
             var result = await _unitOfWork.SaveChangesAsync();
 
+            var userRoles = await _unitOfWork.GetRepository<UserRole>()
+                .AsReadOnly()
+                .Where(x => x.UserId == userId)
+                .Select(x => new IdNameViewModel
+                {
+                    Id = x.RoleId,
+                    Name = x.Role.Name
+                })
+                .ToListAsync();
+
             return new TokenViewModel
             {
                 AccessToken = userToken.AccessToken,
                 RefreshToken = refreshToken.Token,
-                ExpiresIn = (int)_jwtTokenOptions.AccessTokenValidFor.TotalSeconds
+                ExpiresIn = (int)_jwtTokenOptions.AccessTokenValidFor.TotalSeconds,
+                UserId = userId,
+                UserInfo = new UserInfoViewModel
+                {
+                    Id = userId,
+                    Name = user.FullName,
+                    Email = user.Email,
+                    Roles = userRoles
+                }
             };
 
         }
@@ -110,7 +137,8 @@ namespace Module.Core.Data
             _refreshTokenRepository.Remove(userToken.RefreshToken);
 
             // Save new tokens
-            var newRefreshToken = new RefreshToken {
+            var newRefreshToken = new RefreshToken
+            {
                 Token = GenerateRefreshToken(),
                 ExpiresIn = _jwtTokenOptions.RefreshTokenExpiration
             };

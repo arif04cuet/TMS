@@ -12,8 +12,15 @@ export class UserHttpService {
         return this.httpService.get(`users/${id}`);
     }
 
-    public list() {
-        return this.httpService.get('users');
+    public list(pagination = null, search = null) {
+        let url = 'users?'
+        if(search) {
+            url += search
+        }
+        if(pagination) {
+            url += pagination
+        }
+        return this.httpService.get(url);
     }
 
     public add(body) {

@@ -86,6 +86,11 @@ namespace Msi.UtilityKit
             return (T)source;
         }
 
+        public static bool IsNullable<T>(this T type)
+        {
+            return Nullable.GetUnderlyingType(type.GetType()) != null;
+        }
+
         /// <summary>
         /// Callback's first argument is interface and second argument is implemented type
         /// </summary>

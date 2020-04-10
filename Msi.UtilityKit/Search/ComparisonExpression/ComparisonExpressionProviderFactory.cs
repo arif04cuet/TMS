@@ -8,10 +8,11 @@ namespace Msi.UtilityKit.Search
         private Dictionary<string, IComparisonExpressionProvider> _providers = new Dictionary<string, IComparisonExpressionProvider>
         {
             { "eq", new EqualComparisonExpressionProvider() },
-            { "gt", new GreaterThanComparisonExpression() },
+            { "gt", new GreaterThanComparisonExpressionProvider() },
             { "gte", new GreaterThanOrEqualComparisonExpressionProvider() },
             { "lt", new LessThanComparisonExpressionProvider() },
             { "lte", new LessThanOrEqualComparisonExpressionProvider() },
+            { "like", new LikeComparisonExpressionProvider() }
         };
 
         public void AddProvider(string @operator, IComparisonExpressionProvider expression)

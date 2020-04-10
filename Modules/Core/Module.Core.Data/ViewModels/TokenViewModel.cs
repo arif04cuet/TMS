@@ -12,5 +12,6 @@ namespace Module.Core.Data
         public int ExpiresIn { get; set; }
         [JsonProperty("user_id")]
         public long UserId { get; set; }
+        public UserInfoViewModel UserInfo { get; set; }
     }
 }

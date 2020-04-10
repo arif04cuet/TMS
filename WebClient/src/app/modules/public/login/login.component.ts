@@ -1,59 +1,51 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/services/auth.service';
-import { HttpService } from 'src/services/http/http.service';
-import { Router } from '@angular/router';
+import { FormComponent } from 'src/app/shared/form.component';
+import { CommonValidator } from 'src/validators/common.validator';
+import { ActivatedRoute } from '@angular/router';
+import { MessageKey } from 'src/constants/message-key.constant';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
-
-  form: FormGroup;
+export class LoginComponent extends FormComponent {
 
   constructor(
-    private fb: FormBuilder,
     private authService: AuthService,
-    private httpService: HttpService,
-    private router: Router
-  ) { }
+    private v: CommonValidator,
+    private activatedRoute: ActivatedRoute
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-
-    this.form = this.fb.group({
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]],
-      remember: []
+    this.onCheckMode = id => this.get(id);
+    this.createForm({
+      email: [null, [], this.v.required.bind(this)],
+      password: [null, [], this.v.required.bind(this)],
+      // remember: []
     });
-
+    super.ngOnInit(this.activatedRoute.snapshot);
   }
 
-  submitForm(): void {
-    for (const i in this.form.controls) {
-      this.form.controls[i].markAsDirty();
-      this.form.controls[i].updateValueAndValidity();
-    }
-
-    const body = {
-      username: this.form.controls.email.value,
-      password: this.form.controls.password.value
-    }
-
-    this.router.navigateByUrl('/admin');
-
-    // this.httpService.post('authenticate/login', body).subscribe(
-    //   (res: any) => {
-    //     if (res.authenticated) {
-    //       this.authService.signin(body.username, body.password)
-    //     }
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   });
-
+  submit(): void {
+    const body = this.constructObject(this.form.controls);
+    this.submitForm(
+      {
+        request: this.authService.login(body),
+        succeed: res => {
+          this.success(MessageKey.SUCCESSFULLY_LOGGED_IN);
+          this.goTo('/admin');
+        }
+      },
+      null
+    );
   }
 
+  get(id) {
+
+  }
 
 }

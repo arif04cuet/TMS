@@ -2,7 +2,7 @@
 
 namespace Msi.UtilityKit.Search
 {
-    public class GreaterThanComparisonExpression : IComparisonExpressionProvider
+    public class GreaterThanComparisonExpressionProvider : IComparisonExpressionProvider
     {
         public Expression GetExpression(Expression left, Expression right)
         {

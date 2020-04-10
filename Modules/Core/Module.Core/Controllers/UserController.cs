@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using static Module.Core.Data.PermissionConstants;
 using Module.Core.Data;
 using Msi.UtilityKit.Pagination;
+using Msi.UtilityKit.Search;
 
 namespace Module.Core.Controllers
 {
@@ -26,9 +27,9 @@ namespace Module.Core.Controllers
 
         [HttpGet]
         [RequirePermission(UserList)]
-        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions)
+        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _userService.ListAsync(pagingOptions);
+            var result = await _userService.ListAsync(pagingOptions, searchOptions);
             return Ok(new Response(result));
         }
 

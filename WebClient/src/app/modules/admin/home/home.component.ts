@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -9,12 +10,16 @@ import { BaseComponent } from 'src/app/shared/base.component';
 export class HomeComponent extends BaseComponent {
 
   nav = [];
+  userInfo;
 
-  constructor() {
+  constructor(
+    private authService: AuthService
+  ) {
     super();
   }
 
   ngOnInit(): void {
+    this.userInfo = this.authService.getLoggedInUserInfo();
     this.nav = [
       {
         level: 1,
@@ -54,6 +59,15 @@ export class HomeComponent extends BaseComponent {
         ]
       }
     ]
+  }
+
+  logout() {
+    this.authService.logout();
+    this.goTo('/');
+  }
+
+  profile() {
+    
   }
 
   onMenuItemClick(n) {
