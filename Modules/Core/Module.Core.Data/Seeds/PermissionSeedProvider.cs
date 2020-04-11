@@ -183,13 +183,6 @@ namespace Module.Core.Data
 
                 #region Profile
                 new Permission {
-                    Id = ProfileCreate,
-                    Name = Create,
-                    Code = $"profile.{Create.ToLower()}",
-                    GroupId = ProfileGroup,
-                    ModuleId = UserManagement
-                },
-                new Permission {
                     Id = ProfileUpdate,
                     Name = Update,
                     Code = $"profile.{Update.ToLower()}",
@@ -204,30 +197,9 @@ namespace Module.Core.Data
                     ModuleId = UserManagement
                 },
                 new Permission {
-                    Id = ProfileList,
-                    Name = List,
-                    Code = $"profile.{List.ToLower()}",
-                    GroupId = ProfileGroup,
-                    ModuleId = UserManagement
-                },
-                new Permission {
-                    Id = ProfileDelete,
-                    Name = Delete,
-                    Code = $"profile.{Delete.ToLower()}",
-                    GroupId = ProfileGroup,
-                    ModuleId = UserManagement
-                },
-                new Permission {
                     Id = ProfileManage,
                     Name = Manage,
                     Code = $"profile.{Manage.ToLower()}",
-                    GroupId = ProfileGroup,
-                    ModuleId = UserManagement
-                },
-                new Permission {
-                    Id = ProfileFilter,
-                    Name = Filter,
-                    Code = $"profile.{Filter.ToLower()}",
                     GroupId = ProfileGroup,
                     ModuleId = UserManagement
                 },

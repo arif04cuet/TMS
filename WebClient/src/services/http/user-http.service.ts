@@ -14,10 +14,10 @@ export class UserHttpService {
 
     public list(pagination = null, search = null) {
         let url = 'users?'
-        if(search) {
+        if (search) {
             url += search
         }
-        if(pagination) {
+        if (pagination) {
             url += pagination
         }
         return this.httpService.get(url);
@@ -41,6 +41,15 @@ export class UserHttpService {
 
     public updateProfile(id, body) {
         return this.httpService.put(`users/${id}/profile`, body);
+    }
+
+    public getPermissions(userId: number) {
+        return this.httpService.get(`users/${userId}/permissions`);
+    }
+
+    public assignPermissions(userId: number, permissionIds: number[]) {
+        const body = { permissions: permissionIds };
+        return this.httpService.put(`users/${userId}/permissions`, body);
     }
 
 }

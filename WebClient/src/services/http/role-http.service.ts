@@ -28,4 +28,13 @@ export class RoleHttpService {
         return this.httpService.put(`roles/${id}`, body);
     }
 
+    public getPermissions(userId) {
+        return this.httpService.get(`roles/${userId}/permissions`);
+    }
+
+    public assignPermissions(userId: number, permissionIds: number[]) {
+        const body = { permissions: permissionIds };
+        return this.httpService.put(`roles/${userId}/permissions`, body);
+    }
+
 }

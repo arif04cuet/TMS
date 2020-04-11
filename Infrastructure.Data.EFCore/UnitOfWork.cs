@@ -1,8 +1,10 @@
 ﻿using Infrastructure.Entities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,16 +16,18 @@ namespace Infrastructure.Data.EFCore
         private readonly IDataContext _dataContext;
         private readonly Dictionary<Type, object> _repositories;
         private readonly IDbContextTransaction _transaction;
+        private readonly IDbConnection _dbConnection;
 
         public UnitOfWork(IDataContext dataContext)
         {
-
+            Console.WriteLine("UnitOfWork Created at " + DateTime.Now);
             if (!(dataContext is DbContext))
                 throw new ArgumentException($"The {nameof(dataContext)} object must be an instance of the Microsoft.EntityFrameworkCore.DbContext class.");
 
             _transaction = (dataContext as DbContext).Database.BeginTransaction();
             _dataContext = dataContext;
             _repositories = new Dictionary<Type, object>();
+            _dbConnection = (_dataContext as DbContext).Database.GetDbConnection();
         }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -73,8 +77,14 @@ namespace Infrastructure.Data.EFCore
             }
         }
 
+        public IDbConnection GetConnection()
+        {
+            return new SqlConnection(_dbConnection.ConnectionString);
+        }
+
         public void Dispose()
         {
+            //_dbConnection.Dispose();
             (_dataContext as DbContext).Dispose();
             _transaction.Dispose();
         }

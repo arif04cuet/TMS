@@ -24,9 +24,9 @@ namespace Module.Core.Controllers
 
         [HttpGet]
         [RequirePermission(RoleList)]
-        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions)
+        public async Task<ActionResult> List(long? userId, [FromQuery]PagingOptions pagingOptions)
         {
-            var result = await _permissionService.ListAsync(pagingOptions);
+            var result = await _permissionService.ListAllPermissionsAsync(userId, pagingOptions);
             return Ok(new Response(result));
         }
 

@@ -34,13 +34,9 @@
         public const long DepartmentManage = 405;
         public const long DepartmentFilter = 406;
 
-        public const long ProfileCreate = 500;
         public const long ProfileUpdate = 501;
         public const long ProfileView = 502;
-        public const long ProfileDelete = 503;
-        public const long ProfileList = 504;
         public const long ProfileManage = 505;
-        public const long ProfileFilter = 506;
 
         public const long BookCreate = 600;
         public const long BookUpdate = 601;

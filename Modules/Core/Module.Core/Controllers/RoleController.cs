@@ -15,11 +15,14 @@ namespace Module.Core.Controllers
     {
 
         private readonly IRoleService _roleService;
+        private readonly IPermissionService _permissionService;
 
         public RoleController(
-            IRoleService roleService)
+            IRoleService roleService,
+            IPermissionService permissionService)
         {
             _roleService = roleService;
+            _permissionService = permissionService;
         }
 
         [HttpGet]
@@ -52,6 +55,23 @@ namespace Module.Core.Controllers
         {
             request.Id = id;
             var result = await _roleService.UpdateAsync(request);
+            return Ok(new Response(result));
+        }
+
+        [HttpGet("{id}/permissions")]
+        [RequirePermission(RoleUpdate, RoleManage)]
+        public async Task<IActionResult> ListRolePermission(long id, [FromQuery]PagingOptions pagingOptions)
+        {
+            var result = await _permissionService.ListRolePermissionsAsync(id, pagingOptions);
+            return Ok(new Response(result));
+        }
+
+        [HttpPut("{id}/permissions")]
+        [RequirePermission(RoleUpdate, RoleManage)]
+        public async Task<IActionResult> AssignPermissions(long id, [FromBody] RoleAssignPermissionRequest request)
+        {
+            request.Id = id;
+            var result = await _permissionService.AssignRolePermission(id, request.Permissions);
             return Ok(new Response(result));
         }
 

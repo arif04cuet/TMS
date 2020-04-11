@@ -5,6 +5,11 @@ namespace Module.Core.Entities
 	public class RolePermission : IEntity
 	{
 
+		public RolePermission()
+		{
+
+		}
+
 		public RolePermission(long id, long roleId, long permissionId)
 		{
 			Id = id;

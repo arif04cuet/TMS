@@ -74,18 +74,22 @@ export class UserListComponent extends TableComponent {
     this.gets(null, this.getSearchTerm())
   }
 
+  assignPermission(data) {
+    this.goTo(`/admin/users/${data.id}/permissions`);
+  }
+
   private getSearchTerm() {
     let search = ""
     if (this.name) {
       search += `Search=FullName like ${this.name}&`;
     }
-    if(this.email) {
+    if (this.email) {
       search += `Search=Email like ${this.email}&`;
     }
-    if(this.designation) {
+    if (this.designation) {
       search += `Search=DesignationId eq ${this.designation}&`;
     }
-    if(this.mobile) {
+    if (this.mobile) {
       search += `Search=Mobile like ${this.mobile}&`;
     }
     return search;

@@ -19,13 +19,16 @@ namespace Module.Core.Controllers
 
         private readonly IUserService _userService;
         private readonly IProfileService _profileService;
+        private readonly IPermissionService _permissionService;
 
         public UserController(
             IUserService userService,
-            IProfileService profileService)
+            IProfileService profileService,
+            IPermissionService permissionService)
         {
             _userService = userService;
             _profileService = profileService;
+            _permissionService = permissionService;
         }
 
         [HttpGet]
@@ -83,6 +86,23 @@ namespace Module.Core.Controllers
         {
             request.UserId = id;
             var result = await _profileService.UpdateAsync(request);
+            return Ok(new Response(result));
+        }
+
+        [HttpGet("{id}/permissions")]
+        [RequirePermission(RoleUpdate, RoleManage)]
+        public async Task<IActionResult> ListRolePermission(long id, [FromQuery]PagingOptions pagingOptions)
+        {
+            var result = await _permissionService.ListUserPermissionsAsync(id, pagingOptions);
+            return Ok(new Response(result));
+        }
+
+        [HttpPut("{id}/permissions")]
+        [RequirePermission(RoleUpdate, RoleManage)]
+        public async Task<IActionResult> AssignPermissions(long id, [FromBody] RoleAssignPermissionRequest request)
+        {
+            request.Id = id;
+            var result = await _permissionService.AssignUserPermission(id, request.Permissions);
             return Ok(new Response(result));
         }
 

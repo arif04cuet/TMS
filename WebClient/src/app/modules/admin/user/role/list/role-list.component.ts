@@ -55,7 +55,7 @@ export class RoleListComponent extends TableComponent {
   }
 
   assignPermission(data) {
-
+    this.goTo(`/admin/roles/${data.id}/permissions`)
   }
 
 }

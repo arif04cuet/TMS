@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('../add/user-add.module').then(x => x.UserAddModule),
     data: { name: 'user_add' }
   },
+  {
+    path: ':id/permissions',
+    loadChildren: () => import('../../permission/permission.module').then(x => x.PermissionModule),
+    data: { name: 'user_permissions' }
+  },
 ];
 
 @NgModule({

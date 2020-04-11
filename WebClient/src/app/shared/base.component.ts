@@ -141,10 +141,10 @@ export class BaseComponent {
         this._subscriptions.push(s);
     }
 
-    t(key: string) {
+    t(key: string, interpolateParams?: Object) {
         const lang = localStorage.getItem('lang') || 'bn';
         this._translate.use(lang);
-        return this._translate.get(key).toPromise()
+        return this._translate.get(key, interpolateParams).toPromise()
     }
 
     success(key: string) {

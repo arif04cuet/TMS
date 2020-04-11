@@ -46,7 +46,6 @@
     "successfully.logged.in": "Successfully logged in.",
     "roles": "Roles",
     "designations": "Designations",
-    "assign.permission": "Assign permission",
     "successfully.deleted": "Successfully deleted.",
     "do.you.want.to.delete": "Do you want to delete?",
     "confirm": "Confirm",
@@ -72,5 +71,8 @@
     "address.line.x0": "Address line {{x0}}",
     "office.name": "Office name",
     "upazila": "Upazila",
-    "district": "District"
+    "district": "District",
+    "assign.permissions": "Assign permissions",
+    "assign.permissions.to.x0": "Assign permissions to {{x0}}",
+    "back": "Back"
 }

@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Library.Entities", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Library", "Modules\Library\Module.Library\Module.Library.csproj", "{5B3106EB-5952-432E-8317-68CB1F7D8D79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Library.Data", "Modules\Library\Module.Library.Data\Module.Library.Data.csproj", "{8F185F46-0F62-455A-BB31-088FCEFB5A86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Library.Data", "Modules\Library\Module.Library.Data\Module.Library.Data.csproj", "{8F185F46-0F62-455A-BB31-088FCEFB5A86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

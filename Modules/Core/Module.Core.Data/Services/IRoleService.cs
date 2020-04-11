@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Module.Core.Data.Services;
 using Msi.UtilityKit.Pagination;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,5 +14,7 @@ namespace Module.Core.Data
         Task<bool> DeleteAsync(long roleId, CancellationToken cancellationToken = default);
 
         Task<bool> UpdateAsync(RoleUpdateRequest request, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<long>> GetRoleIdsAsync(long userId);
     }
 }

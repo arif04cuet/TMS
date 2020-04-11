@@ -1,6 +1,9 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Module.Core.Entities;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,6 +53,16 @@ namespace Module.Core.Data
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
+        }
+
+        public async Task<IEnumerable<long>> GetRoleIdsAsync(long userId)
+        {
+            var roles = await _unitOfWork.GetRepository<UserRole>()
+                .AsReadOnly()
+                .Where(x => x.UserId == userId)
+                .Select(x => x.RoleId)
+                .ToListAsync();
+            return roles;
         }
 
     }
