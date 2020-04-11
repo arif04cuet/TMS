@@ -57,14 +57,20 @@
     "marital.status": "Marital status",
     "religion": "Religion",
     "nid": "NID",
-    "employment.statement": "Employment Statement",
-    "educational.qualifications": "Educational qualifications",
+    "employment.statement": "Employment statement",
+    "highest.educational.qualifications": "Highest educational qualifications",
     "contact.details": "Contact Details",
     "date.of.joining": "Date of joining",
     "degree": "Degree",
     "university": "University",
     "result": "Result",
     "passing.year": "Passing year",
-    "office.name.and.address": "Office name & address"
-
+    "office.name.and.address": "Office name & address",
+    "n/a": "Not available",
+    "x0.x1": "{{x0}} {{x1}}",
+    "confirm.password": "Confirm password",
+    "address.line.x0": "Address line {{x0}}",
+    "office.name": "Office name",
+    "upazila": "Upazila",
+    "district": "District"
 }

@@ -18,11 +18,14 @@ namespace Module.Core.Controllers
     {
 
         private readonly IUserService _userService;
+        private readonly IProfileService _profileService;
 
         public UserController(
-            IUserService userService)
+            IUserService userService,
+            IProfileService profileService)
         {
             _userService = userService;
+            _profileService = profileService;
         }
 
         [HttpGet]
@@ -64,6 +67,23 @@ namespace Module.Core.Controllers
         {
             await _userService.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("{id}/profile")]
+        [RequirePermission(ProfileView, ProfileManage, UserManage)]
+        public async Task<ActionResult> GetProfile(long id)
+        {
+            var result = await _profileService.Get(id);
+            return Ok(new Response(result));
+        }
+
+        [HttpPut("{id}/profile")]
+        [RequirePermission(UserUpdate, UserManage)]
+        public async Task<IActionResult> Put(long id, [FromBody] ProfileRequest request)
+        {
+            request.UserId = id;
+            var result = await _profileService.UpdateAsync(request);
+            return Ok(new Response(result));
         }
 
     }

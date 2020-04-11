@@ -41,4 +41,9 @@ export class AuthService {
         return data.userInfo;
     }
 
+    public getLoggedInUserId() {
+        const data: any = this.securityService.getAuthData();
+        return data.userId;
+    }
+
 }

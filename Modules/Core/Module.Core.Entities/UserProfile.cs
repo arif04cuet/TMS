@@ -8,7 +8,7 @@ namespace Module.Core.Entities
     {
         public string NID { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public DateTime JoiningDate { get; set; }
+        public DateTime? JoiningDate { get; set; }
 
         public long? BloodGroupId { get; set; }
         public BloodGroup BloodGroup { get; set; }
@@ -33,6 +33,9 @@ namespace Module.Core.Entities
 
         public long? PermanentAddressId { get; set; }
         public Address PermanentAddress { get; set; }
+
+        public long? OfficeAddressId { get; set; }
+        public Address OfficeAddress { get; set; }
 
         public virtual ICollection<UserEducation> Educations { get; set; }
 

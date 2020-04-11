@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { CommonModule, DatePipe } from '@angular/common';
+import { NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserHttpService } from 'src/services/http/user-http.service';
 import { ProfileViewRoutingModule } from './profile-view-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { RoleHttpService } from 'src/services/http/role-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
 import { ProfileViewComponent } from './profile-view.component';
+import { AuthService } from 'src/services/auth.service';
+import { TimeAgoPipe } from 'src/pipes/time-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +17,6 @@ import { ProfileViewComponent } from './profile-view.component';
   imports: [
     CommonModule,
     ProfileViewRoutingModule,
-    NzTableModule,
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
@@ -28,9 +26,9 @@ import { ProfileViewComponent } from './profile-view.component';
   exports: [ProfileViewComponent],
   providers: [
     UserHttpService,
-    RoleHttpService,
-    CommonHttpService,
-    DesignationHttpService
+    AuthService,
+    DatePipe,
+    TimeAgoPipe
   ]
 })
 export class ProfileViewModule { }

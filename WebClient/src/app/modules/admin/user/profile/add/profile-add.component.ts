@@ -3,17 +3,17 @@ import { UserHttpService } from 'src/services/http/user-http.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { of, forkJoin } from 'rxjs';
+import { of, forkJoin, Observable, Observer } from 'rxjs';
 import { CommonHttpService } from 'src/services/http/common-http.service';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
-import { DepartmentHttpService } from 'src/services/http/department-http.service';
-import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MessageKey } from 'src/constants/message-key.constant';
+import { UploadFile } from 'ng-zorro-antd/upload';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-profile-add',
-  templateUrl: './profile-add.component.html'
+  templateUrl: './profile-add.component.html',
+  styleUrls: ['./profile-add.component.scss']
 })
 export class ProfileAddComponent extends FormComponent {
 
@@ -21,33 +21,48 @@ export class ProfileAddComponent extends FormComponent {
   roles = [];
   designations = [];
   departments = [];
-  statuses = []
+  statuses = [];
+  genders = [];
+  bloodGroups = [];
+  maritalStatus = [];
+  religions = [];
+
+  photoUrl;
+  photoLoading = false;
+
+  private userId;
 
   constructor(
     private userHttpService: UserHttpService,
     private activatedRoute: ActivatedRoute,
     private commonHttpService: CommonHttpService,
-    private designationHttpService: DesignationHttpService,
-    private departmentHttpService: DepartmentHttpService,
-    private roleHttpService: RoleHttpService,
-    private v: CommonValidator
+    private v: CommonValidator,
+    private authService: AuthService
   ) {
     super();
   }
 
   ngOnInit(): void {
+    this.userId = this.authService.getLoggedInUserId();
+    this.markModeAsEdit();
     this.getData();
-    this.onCheckMode = id => this.get(id);
     this.createForm({
       fullName: [null, [], this.v.required.bind(this)],
-      employeeId: [null, [], this.v.required.bind(this)],
       designation: [null, [], this.v.required.bind(this)],
       department: [],
       mobile: [null, [], this.v.required.bind(this)],
       email: [null, [], this.v.required.bind(this)],
-      password: [null, [], this.password.bind(this)],
       roles: [null, [], this.v.required.bind(this)],
-      status: [null, [], this.v.required.bind(this)]
+      status: [null, [], this.v.required.bind(this)],
+      dateOfBirth: [null, [], this.v.required.bind(this)],
+      joiningDate: [null, [], this.v.required.bind(this)],
+      gender: [null, [], this.v.required.bind(this)],
+      maritalStatus: [null, [], this.v.required.bind(this)],
+      religion: [null, [], this.v.required.bind(this)],
+      bloodGroup: [null, [], this.v.required.bind(this)],
+      nid: [null, [], this.v.required.bind(this)],
+      password: [null, [], this.v.required.bind(this)],
+      confirmPassword: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -96,24 +111,99 @@ export class ProfileAddComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/users');
+    this.goTo('/admin/profile');
   }
 
   getData() {
     const requests = [
-      this.commonHttpService.getStatusList(),
-      this.designationHttpService.list(),
-      this.departmentHttpService.list(),
-      this.roleHttpService.list(),
+      this.commonHttpService.getGenders(),
+      this.commonHttpService.getBloodGroups(),
+      this.commonHttpService.getMaritalStatusList(),
+      this.commonHttpService.getReligions(),
+      this.userHttpService.getProfile(this.userId),
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {
-        this.statuses = res[0].data.items,
-          this.designations = res[1].data.items,
-          this.departments = res[2].data.items,
-          this.roles = res[3].data.items
+        this.genders = res[0].data.items;
+        this.bloodGroups = res[1].data.items;
+        this.maritalStatus = res[2].data.items;
+        this.religions = res[3].data.items;
+        this.setValues(this.form.controls, res[4].data);
+        this.loading = false;
+      },
+      (err: any) => {
+        this.loading = false;
       }
     );
+  }
+
+  handlePhotoChange(info: { file: UploadFile }) {
+    switch (info.file.status) {
+      case 'uploading':
+        this.photoLoading = true;
+        break;
+      case 'done':
+        // Get this url from response in real world.
+        this.getBase64(info.file!.originFileObj!, (img: string) => {
+          this.photoLoading = false;
+          this.photoUrl = img;
+        });
+        break;
+      case 'error':
+        this._messageService.error('Network error');
+        this.photoLoading = false;
+        break;
+    }
+  }
+
+  beforePhotoUpload = (file: File) => {
+    return new Observable((observer: Observer<boolean>) => {
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJPG) {
+        this._messageService.error('You can only upload JPG file!');
+        observer.complete();
+        return;
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this._messageService.error('Image must smaller than 2MB!');
+        observer.complete();
+        return;
+      }
+      // check height
+      // this.checkImageDimension(file).then(dimensionRes => {
+      //   if (!dimensionRes) {
+      //     this._messageService.error('Image only 300x300 above');
+      //     observer.complete();
+      //     return;
+      //   }
+
+      //   observer.next(isJPG && isLt2M && dimensionRes);
+      //   observer.complete();
+      // });
+
+      observer.next(isJPG && isLt2M);
+      observer.complete();
+    });
+  };
+
+  private getBase64(img: File, callback: (img: string) => void): void {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result!.toString()));
+    reader.readAsDataURL(img);
+  }
+
+  private checkImageDimension(file: File): Promise<boolean> {
+    return new Promise(resolve => {
+      const img = new Image(); // create image
+      img.src = window.URL.createObjectURL(file);
+      img.onload = () => {
+        const width = img.naturalWidth;
+        const height = img.naturalHeight;
+        window.URL.revokeObjectURL(img.src!);
+        resolve(width === height && width >= 300);
+      };
+    });
   }
 
   private password(control: FormControl) {

@@ -35,4 +35,12 @@ export class UserHttpService {
         return this.httpService.put(`users/${id}`, body);
     }
 
+    public getProfile(id) {
+        return this.httpService.get(`users/${id}/profile`);
+    }
+
+    public updateProfile(id, body) {
+        return this.httpService.put(`users/${id}/profile`, body);
+    }
+
 }

@@ -30,7 +30,7 @@ namespace Module.Core.Data
 
         public async Task<long> CreateAsync(UserCreateRequest request, CancellationToken cancellationToken = default)
         {
-            User newUser = new User
+            var newUser = new User
             {
                 FullName = request.FullName,
                 EmployeeId = request.EmployeeId,
@@ -74,6 +74,7 @@ namespace Module.Core.Data
         {
 
             var roles = await _userRoleRepository
+                .AsReadOnly()
                 .Where(x => x.UserId == userId && !x.IsDeleted)
                 .Select(x => new IdNameViewModel
                 {

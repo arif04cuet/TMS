@@ -1,94 +1,76 @@
 import { Component } from '@angular/core';
 import { UserHttpService } from 'src/services/http/user-http.service';
-import { TableComponent } from 'src/app/shared/table.component';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
-import { forkJoin } from 'rxjs';
-import { RoleHttpService } from 'src/services/http/role-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
+import { BaseComponent } from 'src/app/shared/base.component';
+import { AuthService } from 'src/services/auth.service';
+import { DatePipe } from '@angular/common';
+import { TimeAgoPipe } from 'src/pipes/time-ago.pipe';
 
 @Component({
   selector: 'app-profile-view',
   templateUrl: './profile-view.component.html',
   styleUrls: ['./profile-view.component.scss']
 })
-export class ProfileViewComponent extends TableComponent {
+export class ProfileViewComponent extends BaseComponent {
 
-  designations = [];
-  roles = [];
-  statuses = [];
+  loading: boolean = false;
+  data: any = {}
 
-  name;
-  designation;
-  mobile;
-  email;
+  private userId;
 
   constructor(
     private userHttpService: UserHttpService,
-    private designationHttpService: DesignationHttpService,
-    private commonHttpService: CommonHttpService,
-    private roleHttpService: RoleHttpService
+    private authService: AuthService,
+    private datePipe: DatePipe,
+    private timeAgo: TimeAgoPipe
   ) {
-    super(userHttpService);
+    super();
   }
 
   ngOnInit() {
-    this.gets();
+    this.userId = this.authService.getLoggedInUserId();
+    this.get();
   }
 
-  add(model = null) {
-    if (model) {
-      this.goTo(`/admin/users/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/users/add');
-    }
-  }
-
-  gets(pagination = null, search = null) {
-    this.loading = true;
-    const request = [
-      this.userHttpService.list(pagination, search),
-      this.designationHttpService.list(),
-      this.roleHttpService.list(),
-      this.commonHttpService.getStatusList()
-    ]
-    this.subscribe(forkJoin(request),
+  get() {
+    this.subscribe(this.userHttpService.getProfile(this.userId),
       (res: any) => {
-        this.fill(res[0]);
-        this.designations = res[1].data.items;
-        this.roles = res[2].data.items;
-        this.statuses = res[3].data.items;
+        this.transformDate(res, 'dateOfBirth');
+        this.transformDate(res, 'joiningDate');
+        this.transformEducation(res);
+        this.data = res.data;
+        this.loading = false;
       },
-      err => {
-        console.log(err);
+      (err: any) => {
         this.loading = false;
       }
     );
   }
 
-  refresh() {
-    this.gets(null, this.getSearchTerm());
+  edit() {
+    this.goTo(`/admin/profile/edit`)
   }
 
-  search() {
-    this.gets(null, this.getSearchTerm())
+  private transformDate(res, property) {
+    let date = res.data[property] ? this.datePipe.transform(res.data[property]) : ''
+    if (date) {
+      const timeAgo = this.timeAgo.transform(res.data[property]);
+      date += ` (${timeAgo})`;
+      res.data[property] = date;
+    }
   }
 
-  private getSearchTerm() {
-    let search = ""
-    if (this.name) {
-      search += `Search=FullName like ${this.name}&`;
+  private transformEducation(res) {
+    if(res.data.educations && res.data.educations.length > 0) {
+      const e = res.data.educations[0];
+      res.data.educations = {
+        degree: e.degree,
+        university: e.university,
+        department: e.department,
+        passingYear: e.passingYear,
+        result: e.Result
+      }
     }
-    if(this.email) {
-      search += `Search=Email like ${this.email}&`;
-    }
-    if(this.designation) {
-      search += `Search=DesignationId eq ${this.designation}&`;
-    }
-    if(this.mobile) {
-      search += `Search=Mobile like ${this.mobile}&`;
-    }
-    return search;
+    res.data.educations = {};
   }
 
 }
