@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Module.Core\Module.Core.csproj" />
+    <ProjectReference Include="..\Module.Asset.Data\Module.Asset.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controller\" />
+  </ItemGroup>
+
+</Project>
