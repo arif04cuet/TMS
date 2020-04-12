@@ -110,28 +110,15 @@ namespace Module.Asset.Data
 
         public async Task<bool> UpdateAsync(VendorUpdateRequest request, CancellationToken cancellationToken = default)
         {
-            var user = await _vendorRepository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
+            var vendor = await _vendorRepository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
 
-            if (user == null)
-                throw new NotFoundException($"User not found");
+            if (vendor == null)
+                throw new NotFoundException($"Vendor not found");
 
-            user.FullName = request.FullName;
-            user.EmployeeId = request.EmployeeId;
-            user.DesignationId = request.Designation;
-            user.DepartmentId = request.Department;
-            user.Mobile = request.Mobile;
-            if (!string.IsNullOrEmpty(request.Password))
-            {
-                user.Password = request.Password.HashPassword();
-            }
-            user.StatusId = request.Status;
-
-            var oldRoles = _userRoleRepository.Where(x => x.UserId == user.Id);
-            if (oldRoles != null)
-                _userRoleRepository.RemoveRange(oldRoles);
-
-            var newRoles = request.Roles.Select(x => new UserRole { UserId = user.Id, RoleId = x });
-            await _userRoleRepository.AddRangeAsync(newRoles);
+            vendor.VendorName = request.VendorName;
+            vendor.VendorEmail = request.VendorEmail;
+            vendor.AccountManagerName = request.AccountManagerName;
+            vendor.AccountManagerPhone = request.AccountManagerPhone;
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
