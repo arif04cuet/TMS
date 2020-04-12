@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure.Data.EFCore\Infrastructure.Data.EFCore.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure.Data\Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Module.Asset.Entities\Module.Asset.Entities.csproj" />
   </ItemGroup>
 
