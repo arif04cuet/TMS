@@ -19,12 +19,18 @@ namespace OTMS.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Module.Core.Entities.Abcd", b =>
+            modelBuilder.Entity("Module.Asset.Entities.Vendor", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccountManagerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AccountManagerPhone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -32,17 +38,14 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Designation")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("StatusId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -50,12 +53,20 @@ namespace OTMS.Migrations
                     b.Property<long?>("UpdatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("VendorEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VendorName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("Version")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Abcd");
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("Vendor");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Address", b =>
@@ -933,14 +944,6 @@ namespace OTMS.Migrations
                         },
                         new
                         {
-                            Id = 500L,
-                            Code = "profile.create",
-                            GroupId = 5L,
-                            ModuleId = 1L,
-                            Name = "Create"
-                        },
-                        new
-                        {
                             Id = 501L,
                             Code = "profile.update",
                             GroupId = 5L,
@@ -957,35 +960,11 @@ namespace OTMS.Migrations
                         },
                         new
                         {
-                            Id = 504L,
-                            Code = "profile.list",
-                            GroupId = 5L,
-                            ModuleId = 1L,
-                            Name = "List"
-                        },
-                        new
-                        {
-                            Id = 503L,
-                            Code = "profile.delete",
-                            GroupId = 5L,
-                            ModuleId = 1L,
-                            Name = "Delete"
-                        },
-                        new
-                        {
                             Id = 505L,
                             Code = "profile.manage",
                             GroupId = 5L,
                             ModuleId = 1L,
                             Name = "Manage"
-                        },
-                        new
-                        {
-                            Id = 506L,
-                            Code = "profile.filter",
-                            GroupId = 5L,
-                            ModuleId = 1L,
-                            Name = "Filter"
                         },
                         new
                         {
@@ -1595,10 +1574,7 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("PermissionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("PermissionId1")
+                    b.Property<long>("PermissionId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("UserId")
@@ -1606,7 +1582,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PermissionId1");
+                    b.HasIndex("PermissionId");
 
                     b.HasIndex("UserId");
 
@@ -2369,6 +2345,13 @@ namespace OTMS.Migrations
                     b.ToTable("Subject");
                 });
 
+            modelBuilder.Entity("Module.Asset.Entities.Vendor", b =>
+                {
+                    b.HasOne("Module.Core.Entities.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId");
+                });
+
             modelBuilder.Entity("Module.Core.Entities.Address", b =>
                 {
                     b.HasOne("Module.Core.Entities.District", "District")
@@ -2436,7 +2419,9 @@ namespace OTMS.Migrations
                 {
                     b.HasOne("Module.Core.Entities.Permission", "Permission")
                         .WithMany()
-                        .HasForeignKey("PermissionId1");
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Module.Core.Entities.User", "User")
                         .WithMany()

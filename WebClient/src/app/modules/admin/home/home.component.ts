@@ -51,6 +51,19 @@ export class HomeComponent extends BaseComponent {
             icon: 'safety'
           }
         ]
+      },
+      {
+        level: 1,
+        title: 'Asset Management',
+        icon: 'team',
+        nav: [
+          {
+            level: 2,
+            title: 'Vendors',
+            route: '/admin/asset/vendors',
+            icon: 'user'
+          }
+        ]
       }
     ]
   }
