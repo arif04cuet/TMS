@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Module.Core.Data;
-using Module.Core.ViewModels;
+using Module.Core.Shared;
 using System.Threading.Tasks;
 
 namespace Module.Core.Controllers
@@ -28,7 +28,7 @@ namespace Module.Core.Controllers
             var result = await _tokenService.CreateAsync(request);
             if (result != null)
             {
-                return Ok(new Response(result));
+                return result.ToOkResult();
             }
             return Unauthorized();
         }
@@ -37,14 +37,14 @@ namespace Module.Core.Controllers
         public async Task<IActionResult> Refresh([FromBody]TokenRefreshRequest request)
         {
             var result = await _tokenService.RefreshAsync(request);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpPost("revoke")]
         public async Task<IActionResult> Revoke([FromBody]TokenRevokeRequest request)
         {
             var result = await _tokenService.RevokeAsync(request);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
     }

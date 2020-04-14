@@ -7,17 +7,35 @@ const routes: Routes = [
   {
     path: ':id/edit',
     loadChildren: () => import('../add/user-add.module').then(x => x.UserAddModule),
-    data: { name: 'user_edit' }
+    data: {
+      name: 'user_edit',
+      breadcrumb: {
+        icon: 'edit',
+        title: 'edit'
+      }
+    }
   },
   {
     path: 'add',
     loadChildren: () => import('../add/user-add.module').then(x => x.UserAddModule),
-    data: { name: 'user_add' }
+    data: {
+      name: 'user_add',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'add'
+      }
+    }
   },
   {
     path: ':id/permissions',
     loadChildren: () => import('../../permission/permission.module').then(x => x.PermissionModule),
-    data: { name: 'user_permissions' }
+    data: {
+      name: 'user_permissions',
+      breadcrumb: {
+        icon: 'safety',
+        title: 'assign.permissions'
+      }
+    }
   },
 ];
 

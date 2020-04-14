@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Module.Core.Shared;
+using Newtonsoft.Json;
 
 namespace Module.Core.Data
 {
-    public class TokenViewModel
+    public class TokenViewModel : IViewModel
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }

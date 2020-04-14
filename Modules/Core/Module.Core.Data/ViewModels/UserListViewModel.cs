@@ -1,6 +1,8 @@
-﻿namespace Module.Core.Data
+﻿using Module.Core.Shared;
+
+namespace Module.Core.Data
 {
-    public class UserListViewModel
+    public class UserListViewModel : IViewModel
     {
         public long Id { get; set; }
         public string Photo { get; set; }

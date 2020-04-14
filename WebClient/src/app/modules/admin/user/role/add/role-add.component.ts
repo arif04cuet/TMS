@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { of, forkJoin } from 'rxjs';
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
-import { MessageKey } from 'src/constants/message-key.constant';
+import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 
 @Component({
   selector: 'app-role-add',
@@ -38,14 +38,14 @@ export class RoleAddComponent extends FormComponent {
         request: this.roleHttpService.add(body),
         succeed: res => {
           this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_CREATED);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
       },
       {
         request: this.roleHttpService.edit(this.id, body),
         succeed: res => {
           this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_UPDATED);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
         }
       }
     );

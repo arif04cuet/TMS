@@ -1,7 +1,7 @@
 import { Subscription, Observable } from 'rxjs';
 import { on, broadcast, BROADCAST_KEYS } from 'src/services/broadcast.service';
 import { AppInjector } from 'src/app/app.component';
-import { Router, NavigationExtras, UrlTree, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, NavigationExtras, UrlTree, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { HttpService } from 'src/services/http/http.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +17,7 @@ export class BaseComponent {
     _httpService: HttpService;
     _translate: TranslateService;
     _modalService: NzModalService
+    breadcrumbs = [];
 
     protected _activatedRouteSnapshot: ActivatedRouteSnapshot
 
@@ -27,6 +28,7 @@ export class BaseComponent {
         this._httpService = AppInjector.get(HttpService);
         this._translate = AppInjector.get(TranslateService);
         this._modalService = AppInjector.get(NzModalService);
+
     }
 
     subscribe<T>(
@@ -70,7 +72,7 @@ export class BaseComponent {
         this._router.navigateByUrl(url, extras)
     }
 
-    protected invoke(fn: Function, ...args) {
+    invoke(fn: Function, ...args) {
         invoke(fn, ...args)
     }
 
@@ -93,11 +95,11 @@ export class BaseComponent {
         }
     }
 
-    protected getQueryParams(name: string) {
+    getQueryParams(name: string) {
         return this._activatedRouteSnapshot.queryParams[name] || this._activatedRouteSnapshot.params[name];
     }
 
-    protected constructObject(controls) {
+    constructObject(controls) {
         const obj = {}
         for (const key in controls) {
             if (controls.hasOwnProperty(key)) {
@@ -111,7 +113,7 @@ export class BaseComponent {
         return obj;
     }
 
-    protected setValues(controls, res) {
+    setValues(controls, res) {
         for (const key in res) {
             if (res.hasOwnProperty(key)) {
                 const control = controls[key];
@@ -123,7 +125,7 @@ export class BaseComponent {
         }
     }
 
-    protected error(key: string) {
+    error(key: string) {
         return this._translate.get(key).pipe(
             map(res => {
                 return {
@@ -168,9 +170,37 @@ export class BaseComponent {
     }
 
     log(...args) {
-        if(!environment.production) {
+        if (!environment.production) {
             console.log(...args)
         }
+    }
+
+    buildBreadcrumbs() {
+        let parent = this._activatedRouteSnapshot.parent;
+        let arr = [];
+        while (parent) {
+            if (parent.url && parent.url.length > 0) {
+                arr.push({
+                    url: parent.url.map(x => x.path).join('/'),
+                    icon: parent.data?.breadcrumb?.icon,
+                    title: parent.data?.breadcrumb?.title,
+                });
+            }
+            parent = parent.parent;
+        }
+        this.breadcrumbs = arr.reverse();
+        let route = ''
+        this.breadcrumbs = this.breadcrumbs.map((x, i) => {
+            route += `/${x.url}`
+            return { ...x, route: route, last: i == this.breadcrumbs.length - 1 };
+        });
+        this.log(this.breadcrumbs);
+        setTimeout(() => this.broadcast('breadcrumbs', this.breadcrumbs));
+    }
+
+    snapshot(snapshot: ActivatedRouteSnapshot) {
+        this._activatedRouteSnapshot = snapshot;
+        this.buildBreadcrumbs();
     }
 
     ngOnDestroy() {

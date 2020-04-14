@@ -4,6 +4,7 @@
     {
         public const long UserManagement = 1;
         public const long LibraryManagement = 2;
+        public const long AssetManagement = 3;
 
     }
 }

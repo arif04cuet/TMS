@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
 using Infrastructure.Data;
 using Module.Core.Entities;
+using Module.Core.Shared;
 using System.Threading.Tasks;
 
-using static Module.Core.Data.Constants.MessageConstants;
+using static Module.Core.Shared.MessageConstants;
 
 namespace Module.Core.Data.Validators
 {
@@ -24,9 +25,9 @@ namespace Module.Core.Data.Validators
                 RuleFor(x => x.Email).NotEmpty().NotNull()
                     .WithMessage(THIS_FIELD_IS_REQUIRED)
                     .EmailAddress()
-                    .WithMessage("Invalid email.")
+                    .WithMessage(INVALID_EMAIL)
                     .MustAsync(async (x, ct) => await IsValidEmailAsync(x))
-                    .WithMessage($"Email is not available.");
+                    .WithMessage(EMAIL_IS_NOT_AVAILABLE);
             }
 
             RuleFor(x => x.EmployeeId).NotEmpty().NotNull()
@@ -39,7 +40,7 @@ namespace Module.Core.Data.Validators
                 .NotEmpty().NotNull().When(x => string.IsNullOrEmpty(x.Password) && options != null && !options.IgnoreEmailValidation)
                 .WithMessage(THIS_FIELD_IS_REQUIRED)
                 .MinimumLength(4).When(x => string.IsNullOrEmpty(x.Password) && options != null && !options.IgnoreEmailValidation)
-                .WithMessage($"Must be equal or greater than 4 characters.");
+                .WithMessage(MUST_BE_EQUAL_OR_GREATER_THAN_X0_CHARACTERS.i18n(4));
 
             RuleFor(x => x.Roles)
                 .NotEmpty()

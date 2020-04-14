@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Module.Core.Attributes;
-using Module.Core.ViewModels;
 using System.Threading.Tasks;
-using Module.Core.Data;
 
-using static Module.Core.Data.PermissionConstants;
+using static Module.Core.Shared.PermissionConstants;
 using Msi.UtilityKit.Pagination;
+using Module.Core.Shared;
+using Module.Core.Entities;
+using Msi.UtilityKit.Search;
 
 namespace Module.Core.Controllers
 {
@@ -14,28 +15,28 @@ namespace Module.Core.Controllers
     public class DepartmentController : ControllerBase
     {
 
-        private readonly IDepartmentService _departmentService;
+        private readonly INameService<Department> _nameService;
 
         public DepartmentController(
-            IDepartmentService departmentService)
+            INameService<Department> nameService)
         {
-            _departmentService = departmentService;
+            _nameService = nameService;
         }
 
         [HttpGet]
         [RequirePermission(DepartmentList, DepartmentManage)]
-        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions)
+        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _departmentService.ListAsync(pagingOptions);
-            return Ok(new Response(result));
+            var result = await _nameService.ListAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
         }
 
         [HttpGet("{id}")]
         [RequirePermission(DesignationView, DepartmentManage)]
         public async Task<ActionResult> Get(long id)
         {
-            var result = await _departmentService.Get(id);
-            return Ok(new Response(result));
+            var result = await _nameService.Get(id);
+            return result.ToOkResult();
         }
 
     }

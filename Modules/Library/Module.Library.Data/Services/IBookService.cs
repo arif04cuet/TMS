@@ -1,11 +1,10 @@
 ﻿using Infrastructure;
-using Module.Library.Data.ViewModels;
-using Module.Library.ViewModels;
-using System.Collections.Generic;
+using Msi.UtilityKit.Pagination;
+using Msi.UtilityKit.Search;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Module.Library.Services
+namespace Module.Library.Data
 {
     public interface IBookService : IScopedService
     {
@@ -13,7 +12,7 @@ namespace Module.Library.Services
 
         Task<bool> DeleteAsync(long id, CancellationToken ct = default);
 
-        Task<IEnumerable<BookListViewModel>> ListAsync();
+        Task<PagedCollection<BookListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
         Task<BookViewModel> GetAsync(long id);
 

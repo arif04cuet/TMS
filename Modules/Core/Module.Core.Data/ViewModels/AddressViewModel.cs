@@ -1,8 +1,8 @@
-﻿using Infrastructure;
+﻿using Module.Core.Shared;
 
 namespace Module.Core.Data
 {
-    public class AddressViewModel
+    public class AddressViewModel : IViewModel
     {
         public string ContactName { get; set; }
 
@@ -10,6 +10,6 @@ namespace Module.Core.Data
         public string AddressLine2 { get; set; }
 
         public IdNameViewModel District { get; set; }
-        public IdNameViewModel Upazila { get; set; }
+        public string Upazila { get; set; }
     }
 }

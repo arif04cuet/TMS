@@ -9,7 +9,7 @@ import { DesignationHttpService } from 'src/services/http/designation-http.servi
 import { DepartmentHttpService } from 'src/services/http/department-http.service';
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
-import { MessageKey } from 'src/constants/message-key.constant';
+import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 
 @Component({
   selector: 'app-user-add',
@@ -22,6 +22,7 @@ export class UserAddComponent extends FormComponent {
   designations = [];
   departments = [];
   statuses = []
+  userOption = 'add_edit'
 
   constructor(
     private userHttpService: UserHttpService,
@@ -59,14 +60,14 @@ export class UserAddComponent extends FormComponent {
         request: this.userHttpService.add(body),
         succeed: res => {
           this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_CREATED);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
       },
       {
         request: this.userHttpService.edit(this.id, body),
         succeed: res => {
           this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_UPDATED);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
         }
       }
     );
@@ -116,13 +117,17 @@ export class UserAddComponent extends FormComponent {
     );
   }
 
+  optionChanged(e) {
+
+  }
+
   private password(control: FormControl) {
     if (this.mode == 'add' || control.value) {
       if (!control.value) {
-        return this.error(MessageKey.THIS_FIELD_IS_REQUIRED);
+        return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
       }
       else if (control.value.length < 4) {
-        return this.error(MessageKey.MUST_BE_EQUAL_OR_GREATER_THAN_4_CHARACTERS);
+        return this.error(MESSAGE_KEY.MUST_BE_EQUAL_OR_GREATER_THAN_4_CHARACTERS);
       }
     }
     return of(true);

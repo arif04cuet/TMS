@@ -2,12 +2,15 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Core.Entities;
+using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using Msi.UtilityKit.Security;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using static Module.Core.Shared.MessageConstants;
 
 namespace Module.Core.Data
 {
@@ -63,7 +66,7 @@ namespace Module.Core.Data
             User user = await _userRepository.FirstOrDefaultAsync(x => x.Id == userId && !x.IsDeleted, true);
 
             if (user == null)
-                throw new NotFoundException("User not found");
+                throw new NotFoundException(USER_NOT_FOUND);
 
             user.IsDeleted = true;
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -101,7 +104,7 @@ namespace Module.Core.Data
                 .FirstOrDefaultAsync(x => x.Id == userId);
 
             if (result == null)
-                throw new NotFoundException("User not found");
+                throw new NotFoundException(USER_NOT_FOUND);
 
             return result;
         }
@@ -137,7 +140,7 @@ namespace Module.Core.Data
             var user = await _userRepository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
 
             if (user == null)
-                throw new NotFoundException($"User not found");
+                throw new NotFoundException(USER_NOT_FOUND);
 
             user.FullName = request.FullName;
             user.EmployeeId = request.EmployeeId;

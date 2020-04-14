@@ -11,7 +11,13 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./modules/admin/home/home.module').then(x => x.HomeModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      name: 'admin',
+      breadcrumb: {
+        icon: 'dashboard'
+      }
+    }
   },
 ];
 

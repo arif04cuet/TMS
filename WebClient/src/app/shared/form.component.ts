@@ -19,9 +19,9 @@ export class FormComponent extends BaseComponent {
     onFail: (err: any) => void;
     onSuccess: (data: any) => void;
 
+    fb: FormBuilder;
     private static ADD = "add";
     private static EDIT = "edit";
-    private fb: FormBuilder;
 
     constructor() {
         super();
@@ -29,7 +29,7 @@ export class FormComponent extends BaseComponent {
     }
 
     ngOnInit(snapshot: ActivatedRouteSnapshot) {
-        this._activatedRouteSnapshot = snapshot;
+        this.snapshot(snapshot);
         this.checkMode(this.onCheckMode);
     }
 
@@ -140,6 +140,12 @@ export class FormComponent extends BaseComponent {
         }
         else if (this.isEditMode()) {
             this.update(updateOptions);
+        }
+    }
+
+    setValue(controlName, value) {
+        if (this.form.controls[controlName]) {
+            this.form.controls[controlName].setValue(value);
         }
     }
 

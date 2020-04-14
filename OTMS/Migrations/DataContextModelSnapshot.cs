@@ -100,8 +100,8 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("UpazilaId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Upazila")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -115,8 +115,6 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DistrictId");
-
-                    b.HasIndex("UpazilaId");
 
                     b.ToTable("Address");
                 });
@@ -202,7 +200,7 @@ namespace OTMS.Migrations
                             Id = 6L,
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "AB+",
+                            Name = "AB-",
                             Version = 0L
                         },
                         new
@@ -408,6 +406,75 @@ namespace OTMS.Migrations
                     b.ToTable("District");
                 });
 
+            modelBuilder.Entity("Module.Core.Entities.Education", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Degree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PassingYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("University")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Education");
+                });
+
+            modelBuilder.Entity("Module.Core.Entities.EmailTemplate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<byte>("Event")
+                        .HasColumnType("tinyint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Template")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailTemplate");
+                });
+
             modelBuilder.Entity("Module.Core.Entities.Gender", b =>
                 {
                     b.Property<long>("Id")
@@ -559,7 +626,7 @@ namespace OTMS.Migrations
                             Id = 2L,
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "UnMarried",
+                            Name = "Un married",
                             Version = 0L
                         },
                         new
@@ -583,7 +650,7 @@ namespace OTMS.Migrations
                             Id = 5L,
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "NeverMarried",
+                            Name = "Never married",
                             Version = 0L
                         });
                 });
@@ -601,13 +668,19 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Format")
+                    b.Property<string>("Extension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsInUse")
                         .HasColumnType("bit");
 
                     b.Property<string>("Path")
@@ -683,6 +756,14 @@ namespace OTMS.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Library Management",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Asset Management",
                             Version = 0L
                         });
                 });
@@ -1294,6 +1375,14 @@ namespace OTMS.Migrations
                             IsDeleted = false,
                             Name = "Administrator",
                             Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Librarian",
+                            Version = 0L
                         });
                 });
 
@@ -1416,7 +1505,7 @@ namespace OTMS.Migrations
                             Id = 4L,
                             IsActive = true,
                             IsDeleted = false,
-                            Name = "InActive",
+                            Name = "In active",
                             Version = 0L
                         });
                 });
@@ -1541,32 +1630,6 @@ namespace OTMS.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Module.Core.Entities.UserEducation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PassingYear")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("University")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("UserProfileId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserProfileId");
-
-                    b.ToTable("UserEducation");
-                });
-
             modelBuilder.Entity("Module.Core.Entities.UserPermission", b =>
                 {
                     b.Property<long>("Id")
@@ -1610,6 +1673,9 @@ namespace OTMS.Migrations
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
+
+                    b.Property<long?>("EducationId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("GenderId")
                         .HasColumnType("bigint");
@@ -1658,6 +1724,8 @@ namespace OTMS.Migrations
                     b.HasIndex("BloodGroupId");
 
                     b.HasIndex("ContactAddressId");
+
+                    b.HasIndex("EducationId");
 
                     b.HasIndex("GenderId");
 
@@ -1778,6 +1846,9 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -1799,11 +1870,11 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long?>("AuthorId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Binding")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("BookShelfId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -1816,9 +1887,6 @@ namespace OTMS.Migrations
 
                     b.Property<string>("Excerpt")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("HasEBook")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -1835,14 +1903,8 @@ namespace OTMS.Migrations
                     b.Property<string>("LanguageId1")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<long>("PublisherId")
+                    b.Property<long?>("PublisherId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("RackNumber")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -1856,12 +1918,9 @@ namespace OTMS.Migrations
                     b.Property<long>("Version")
                         .HasColumnType("bigint");
 
-                    b.Property<float>("Weight")
-                        .HasColumnType("real");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("BookShelfId");
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("LanguageId1");
 
@@ -1881,6 +1940,27 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<long>("BookId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -1908,8 +1988,14 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("EBookId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Edition")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("HasEBook")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -1917,13 +2003,180 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PageCount")
+                    b.Property<int>("NumberOfCopy")
                         .HasColumnType("int");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
+                    b.Property<int>("NumberOfPage")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PublicationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("PurchagePrice")
+                        .HasColumnType("real");
+
+                    b.Property<float>("RentalPrice")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("EBookId");
+
+                    b.ToTable("BookEdition");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.BookFormat", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookFormat");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Hardcover",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Paperback",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Audiobook",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Ebook",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Newspaper",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Magazine",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Journal",
+                            Version = 0L
+                        });
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.BookIssue", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("ActualReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("BookId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("BookItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ConvertedFromReservationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("FineId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("MemberId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("MemberLibraryCardId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ReturnDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -1939,23 +2192,98 @@ namespace OTMS.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BookEdition");
+                    b.HasIndex("BookItemId")
+                        .IsUnique();
+
+                    b.HasIndex("ConvertedFromReservationId");
+
+                    b.HasIndex("FineId");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("MemberLibraryCardId");
+
+                    b.ToTable("BookIssue");
                 });
 
-            modelBuilder.Entity("Module.Library.Entities.BookRequest", b =>
+            modelBuilder.Entity("Module.Library.Entities.BookItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("AcceptById")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTimeOffset?>("AcceptDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<string>("Barcode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("BookId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DateOfPurchage")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("EditionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("FormatId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<long?>("RackId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("StatusId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("EditionId");
+
+                    b.HasIndex("FormatId");
+
+                    b.HasIndex("RackId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("BookItem");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.BookReservation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("BookId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("BookItemId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -1973,14 +2301,14 @@ namespace OTMS.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("RequestById")
+                    b.Property<long?>("ReservationById")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTimeOffset>("RequestDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<byte>("Status")
-                        .HasColumnType("tinyint");
+                    b.Property<long?>("StatusId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -1993,24 +2321,23 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AcceptById");
-
                     b.HasIndex("BookId");
 
-                    b.HasIndex("RequestById");
+                    b.HasIndex("BookItemId");
 
-                    b.ToTable("BookRequest");
+                    b.HasIndex("ReservationById");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("BookReservation");
                 });
 
-            modelBuilder.Entity("Module.Library.Entities.BookShelf", b =>
+            modelBuilder.Entity("Module.Library.Entities.BookStatus", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -2027,9 +2354,6 @@ namespace OTMS.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalRackCount")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -2041,7 +2365,41 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BookShelf");
+                    b.ToTable("BookStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Available",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Reserved",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Loned",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Lost",
+                            Version = 0L
+                        });
                 });
 
             modelBuilder.Entity("Module.Library.Entities.BookSubject", b =>
@@ -2053,9 +2411,6 @@ namespace OTMS.Migrations
 
                     b.Property<long>("BookId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -2100,40 +2455,14 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("BookId")
-                        .HasColumnType("bigint");
-
-                    b.Property<byte>("Format")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("Link")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("EBook");
-                });
-
-            modelBuilder.Entity("Module.Library.Entities.Issue", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("BookId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTimeOffset>("ExpireDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<long?>("FormatId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -2141,20 +2470,11 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsForLibraryRead")
+                    b.Property<bool>("IsDownloadable")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset>("IssueDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<long?>("MemberId")
+                    b.Property<long>("MediaId")
                         .HasColumnType("bigint");
-
-                    b.Property<long?>("MemberLibraryCardId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTimeOffset?>("ReturnedDate")
-                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -2167,16 +2487,14 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("FormatId");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("MediaId");
 
-                    b.HasIndex("MemberLibraryCardId");
-
-                    b.ToTable("Issue");
+                    b.ToTable("EBook");
                 });
 
-            modelBuilder.Entity("Module.Library.Entities.LibraryCard", b =>
+            modelBuilder.Entity("Module.Library.Entities.EBookFormat", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2189,8 +2507,158 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTimeOffset>("ExpireDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EBookFormat");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "PDF",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "ePUB",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "WordDocument",
+                            Version = 0L
+                        });
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.Fine", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Fine");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.Library", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("AddressId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("LibrarianId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("LibrarianId");
+
+                    b.ToTable("Library");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.LibraryCard", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("CardTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ExpireDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<float>("Fees")
                         .HasColumnType("real");
@@ -2201,14 +2669,8 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MaxLendIssueCount")
+                    b.Property<int>("MaxIssueCount")
                         .HasColumnType("int");
-
-                    b.Property<int>("MaxReadIssueCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -2222,6 +2684,58 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LibraryCard");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.Member", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Blocked")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("LibraryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("MemberSince")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("TotalBooksCheckout")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LibraryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Member");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.MemberLibraryCard", b =>
@@ -2267,15 +2781,90 @@ namespace OTMS.Migrations
                     b.ToTable("MemberLibraryCard");
                 });
 
-            modelBuilder.Entity("Module.Library.Entities.Publisher", b =>
+            modelBuilder.Entity("Module.Library.Entities.MemberStatus", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code")
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MemberStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Active",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Closed",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Canceled",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Blacklisted",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "None",
+                            Version = 0L
+                        });
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.Publisher", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -2306,15 +2895,132 @@ namespace OTMS.Migrations
                     b.ToTable("Publisher");
                 });
 
-            modelBuilder.Entity("Module.Library.Entities.Subject", b =>
+            modelBuilder.Entity("Module.Library.Entities.Rack", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code")
+                    b.Property<string>("BuildingName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("FloorNo")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rack");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.ReservationStatus", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReservationStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Waiting",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Pending",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Completed",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Canceled",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "None",
+                            Version = 0L
+                        });
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.Subject", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -2357,10 +3063,6 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Core.Entities.District", "District")
                         .WithMany()
                         .HasForeignKey("DistrictId");
-
-                    b.HasOne("Module.Core.Entities.Upazila", "Upazila")
-                        .WithMany()
-                        .HasForeignKey("UpazilaId");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Permission", b =>
@@ -2406,15 +3108,6 @@ namespace OTMS.Migrations
                         .HasForeignKey("StatusId");
                 });
 
-            modelBuilder.Entity("Module.Core.Entities.UserEducation", b =>
-                {
-                    b.HasOne("Module.Core.Entities.UserProfile", "UserProfile")
-                        .WithMany("Educations")
-                        .HasForeignKey("UserProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Module.Core.Entities.UserPermission", b =>
                 {
                     b.HasOne("Module.Core.Entities.Permission", "Permission")
@@ -2439,6 +3132,10 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Core.Entities.Address", "ContactAddress")
                         .WithMany()
                         .HasForeignKey("ContactAddressId");
+
+                    b.HasOne("Module.Core.Entities.Education", "Education")
+                        .WithMany()
+                        .HasForeignKey("EducationId");
 
                     b.HasOne("Module.Core.Entities.Gender", "Gender")
                         .WithMany()
@@ -2503,11 +3200,9 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Library.Entities.Book", b =>
                 {
-                    b.HasOne("Module.Library.Entities.BookShelf", "BookShelf")
+                    b.HasOne("Module.Library.Entities.Author", "Author")
                         .WithMany()
-                        .HasForeignKey("BookShelfId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AuthorId");
 
                     b.HasOne("Module.Core.Entities.Language", "Language")
                         .WithMany()
@@ -2515,9 +3210,7 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Library.Entities.Publisher", "Publisher")
                         .WithMany()
-                        .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PublisherId");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.BookAuthor", b =>
@@ -2542,25 +3235,87 @@ namespace OTMS.Migrations
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Module.Library.Entities.EBook", "EBook")
+                        .WithMany()
+                        .HasForeignKey("EBookId");
                 });
 
-            modelBuilder.Entity("Module.Library.Entities.BookRequest", b =>
+            modelBuilder.Entity("Module.Library.Entities.BookIssue", b =>
                 {
-                    b.HasOne("Module.Core.Entities.User", "AcceptBy")
-                        .WithMany()
-                        .HasForeignKey("AcceptById");
-
                     b.HasOne("Module.Library.Entities.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Module.Core.Entities.User", "RequestBy")
+                    b.HasOne("Module.Library.Entities.BookItem", "BookItem")
+                        .WithOne()
+                        .HasForeignKey("Module.Library.Entities.BookIssue", "BookItemId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Module.Library.Entities.BookReservation", "ConvertedFromReservation")
                         .WithMany()
-                        .HasForeignKey("RequestById")
+                        .HasForeignKey("ConvertedFromReservationId");
+
+                    b.HasOne("Module.Library.Entities.Fine", "Fine")
+                        .WithMany()
+                        .HasForeignKey("FineId");
+
+                    b.HasOne("Module.Core.Entities.User", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
+
+                    b.HasOne("Module.Library.Entities.MemberLibraryCard", "MemberLibraryCard")
+                        .WithMany()
+                        .HasForeignKey("MemberLibraryCardId");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.BookItem", b =>
+                {
+                    b.HasOne("Module.Library.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Module.Library.Entities.BookEdition", "Edition")
+                        .WithMany()
+                        .HasForeignKey("EditionId");
+
+                    b.HasOne("Module.Library.Entities.BookFormat", "Format")
+                        .WithMany()
+                        .HasForeignKey("FormatId");
+
+                    b.HasOne("Module.Library.Entities.Rack", "Rack")
+                        .WithMany()
+                        .HasForeignKey("RackId");
+
+                    b.HasOne("Module.Library.Entities.BookStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.BookReservation", b =>
+                {
+                    b.HasOne("Module.Library.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Library.Entities.BookItem", "BookItem")
+                        .WithMany()
+                        .HasForeignKey("BookItemId");
+
+                    b.HasOne("Module.Core.Entities.User", "ReservationBy")
+                        .WithMany()
+                        .HasForeignKey("ReservationById");
+
+                    b.HasOne("Module.Library.Entities.ReservationStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.BookSubject", b =>
@@ -2580,28 +3335,41 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Library.Entities.EBook", b =>
                 {
-                    b.HasOne("Module.Library.Entities.Book", "Book")
+                    b.HasOne("Module.Library.Entities.EBookFormat", "Format")
                         .WithMany()
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("FormatId");
+
+                    b.HasOne("Module.Core.Entities.Media", "Media")
+                        .WithMany()
+                        .HasForeignKey("MediaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Module.Library.Entities.Issue", b =>
+            modelBuilder.Entity("Module.Library.Entities.Library", b =>
                 {
-                    b.HasOne("Module.Library.Entities.Book", "Book")
+                    b.HasOne("Module.Core.Entities.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("AddressId");
+
+                    b.HasOne("Module.Core.Entities.User", "Librarian")
+                        .WithMany()
+                        .HasForeignKey("LibrarianId");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.Member", b =>
+                {
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Module.Core.Entities.User", "Member")
+                    b.HasOne("Module.Core.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("MemberId");
-
-                    b.HasOne("Module.Library.Entities.MemberLibraryCard", "MemberLibraryCard")
-                        .WithMany()
-                        .HasForeignKey("MemberLibraryCardId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Module.Library.Entities.MemberLibraryCard", b =>

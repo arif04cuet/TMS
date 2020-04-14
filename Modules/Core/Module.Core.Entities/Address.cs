@@ -12,7 +12,6 @@ namespace Module.Core.Entities
         public long? DistrictId { get; set; }
         public District District { get; set; }
 
-        public long? UpazilaId { get; set; }
-        public Upazila Upazila { get; set; }
+        public string Upazila { get; set; }
     }
 }

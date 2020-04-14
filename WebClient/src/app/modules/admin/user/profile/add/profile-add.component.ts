@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
 import { of, forkJoin, Observable, Observer } from 'rxjs';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
-import { MessageKey } from 'src/constants/message-key.constant';
+import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { UploadFile } from 'ng-zorro-antd/upload';
 import { AuthService } from 'src/services/auth.service';
 
@@ -48,40 +48,46 @@ export class ProfileAddComponent extends FormComponent {
     this.getData();
     this.createForm({
       fullName: [null, [], this.v.required.bind(this)],
-      designation: [null, [], this.v.required.bind(this)],
-      department: [],
-      mobile: [null, [], this.v.required.bind(this)],
-      email: [null, [], this.v.required.bind(this)],
-      roles: [null, [], this.v.required.bind(this)],
-      status: [null, [], this.v.required.bind(this)],
-      dateOfBirth: [null, [], this.v.required.bind(this)],
-      joiningDate: [null, [], this.v.required.bind(this)],
-      gender: [null, [], this.v.required.bind(this)],
-      maritalStatus: [null, [], this.v.required.bind(this)],
-      religion: [null, [], this.v.required.bind(this)],
-      bloodGroup: [null, [], this.v.required.bind(this)],
-      nid: [null, [], this.v.required.bind(this)],
-      password: [null, [], this.v.required.bind(this)],
-      confirmPassword: [null, [], this.v.required.bind(this)]
+      mobile: [],
+      dateOfBirth: [],
+      joiningDate: [],
+      gender: [],
+      maritalStatus: [],
+      religion: [],
+      bloodGroup: [],
+      nid: [],
+      password: [],
+      confirmPassword: [],
+
+      officeName: [],
+      officeAddressLine1: [],
+      officeAddressLine2: [],
+
+      educationDegree: [],
+      educationUniversity: [],
+      educationDepartment: [],
+      educationPassingYear: [],
+      educationResult: [],
+
+      contactAddressLine1: [],
+      contactAddressLine2: [],
+      contactUpazila: [],
+      contactDistrict: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
 
   submit(): void {
-    const body = this.constructObject(this.form.controls);
+    this.markModeAsEdit();
+    const o: any = this.constructObject(this.form.controls);
+    this.mapRequestObject(o);
     this.submitForm(
+      null,
       {
-        request: this.userHttpService.add(body),
+        request: this.userHttpService.updateProfile(this.userId, o),
         succeed: res => {
           this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_CREATED);
-        }
-      },
-      {
-        request: this.userHttpService.edit(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_UPDATED);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
         }
       }
     );
@@ -129,6 +135,7 @@ export class ProfileAddComponent extends FormComponent {
         this.maritalStatus = res[2].data.items;
         this.religions = res[3].data.items;
         this.setValues(this.form.controls, res[4].data);
+        this.mapResponseObject(res[4].data);
         this.loading = false;
       },
       (err: any) => {
@@ -187,6 +194,56 @@ export class ProfileAddComponent extends FormComponent {
     });
   };
 
+  private mapResponseObject(data) {
+    if (data) {
+      this.setValue('gender', data.gender?.id);
+      this.setValue('bloodGroup', data.bloodGroup?.id);
+      this.setValue('maritalStatus', data.maritalStatus?.id);
+      this.setValue('religion', data.religion?.id);
+      if (data.officeAddress) {
+        this.setValue('officeName', data.officeAddress.contactName);
+        this.setValue('officeAddressLine1', data.officeAddress.addressLine1);
+        this.setValue('officeAddressLine2', data.officeAddress.addressLine2);
+      }
+      if (data.contactAddress) {
+        this.setValue('contactAddressLine1', data.contactAddress.addressLine1);
+        this.setValue('contactAddressLine2', data.contactAddress.addressLine2);
+        this.setValue('contactUpazila', data.contactAddress.upazila?.id);
+        this.setValue('contactDistrict', data.contactAddress.district?.id);
+      }
+      if (data.educations && data.educations.length > 0) {
+        const e = data.educations[0];
+        this.setValue('educationDegree', e.degree);
+        this.setValue('educationUniversity', e.university);
+        this.setValue('educationDepartment', e.department);
+        this.setValue('educationPassingYear', e.passingYear);
+        this.setValue('educationResult', e.result);
+      }
+    }
+  }
+
+  private mapRequestObject(o) {
+    o.userId = this.userId;
+    o.contactAddress = {
+      addressLine1: o.contactAddressLine1,
+      addressLine2: o.contactAddressLine2,
+      upazila: o.contactUpazila,
+      district: o.contactDistrict
+    };
+    o.officeAddress = {
+      contactName: o.officeName,
+      addressLine1: o.officeAddressLine1,
+      addressLine2: o.officeAddressLine2
+    };
+    o.educations = [{
+      degree: o.educationDegree,
+      University: o.educationUniversity,
+      department: o.educationDepartment,
+      passingYear: o.educationPassingYear,
+      result: o.educationResult
+    }];
+  }
+
   private getBase64(img: File, callback: (img: string) => void): void {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result!.toString()));
@@ -209,10 +266,10 @@ export class ProfileAddComponent extends FormComponent {
   private password(control: FormControl) {
     if (this.mode == 'add' || control.value) {
       if (!control.value) {
-        return this.error(MessageKey.THIS_FIELD_IS_REQUIRED);
+        return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
       }
       else if (control.value.length < 4) {
-        return this.error(MessageKey.MUST_BE_EQUAL_OR_GREATER_THAN_4_CHARACTERS);
+        return this.error(MESSAGE_KEY.MUST_BE_EQUAL_OR_GREATER_THAN_4_CHARACTERS);
       }
     }
     return of(true);

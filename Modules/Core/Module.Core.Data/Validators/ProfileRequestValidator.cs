@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Infrastructure.Data;
 
-using static Module.Core.Data.Constants.MessageConstants;
+using static Module.Core.Shared.MessageConstants;
 
 namespace Module.Core.Data.Validators
 {
@@ -19,16 +19,6 @@ namespace Module.Core.Data.Validators
                 .WithMessage(PASSWORD_NOT_MATCHED);
 
             RuleFor(x => x.FullName)
-                .NotEmpty()
-                .NotNull()
-                .WithMessage(THIS_FIELD_IS_REQUIRED);
-
-            RuleFor(x => x.EmployeeId)
-                .NotEmpty()
-                .NotNull()
-                .WithMessage(THIS_FIELD_IS_REQUIRED);
-
-            RuleFor(x => x.Mobile)
                 .NotEmpty()
                 .NotNull()
                 .WithMessage(THIS_FIELD_IS_REQUIRED);

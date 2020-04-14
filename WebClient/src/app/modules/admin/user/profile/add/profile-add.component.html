@@ -40,7 +40,7 @@
                                     <div>
                                         <label>{{'gender'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <nz-select class="btn-custom" formControlName="gender" nzShowSearch nzAllowClear
                                             [nzPlaceHolder]="'select.x0'|translate:{x0: 'gender'|translate|lowercase}">
                                             <nz-option *ngFor="let p of genders" [nzLabel]="p.name" [nzValue]="p.id">
@@ -54,7 +54,7 @@
                                     <div>
                                         <label>{{'nid'|translate}}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <input type="text" nz-input formControlName="nid"
                                             placeholder="{{'nid'|translate}}" />
                                     </nz-form-control>
@@ -65,7 +65,7 @@
                                     <div>
                                         <label>{{'password'|translate}}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <input type="text" nz-input formControlName="password"
                                             placeholder="{{'password'|translate}}" />
                                     </nz-form-control>
@@ -76,7 +76,7 @@
                                     <div>
                                         <label>{{'confirm.password'|translate}}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <input type="text" nz-input formControlName="confirmPassword"
                                             placeholder="{{'confirm.password'|translate}}" />
                                     </nz-form-control>
@@ -89,7 +89,7 @@
                                     <div>
                                         <label>{{'date.of.birth'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <nz-date-picker formControlName="dateOfBirth"></nz-date-picker>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -99,7 +99,7 @@
                                     <div>
                                         <label>{{'blood.group'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <nz-select class="btn-custom" formControlName="bloodGroup" nzShowSearch
                                             nzAllowClear
                                             [nzPlaceHolder]="'select.x0'|translate:{x0: 'blood.group'|translate|lowercase}">
@@ -115,7 +115,7 @@
                                     <div>
                                         <label>{{'marital.status'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <nz-select class="btn-custom" formControlName="maritalStatus" nzShowSearch
                                             nzAllowClear
                                             [nzPlaceHolder]="'select.x0'|translate:{x0: 'marital.status'|translate|lowercase}">
@@ -131,7 +131,7 @@
                                     <div>
                                         <label>{{'religion'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <nz-select class="btn-custom" formControlName="religion" nzShowSearch
                                             nzAllowClear
                                             [nzPlaceHolder]="'select.x0'|translate:{x0: 'religion'|translate|lowercase}">
@@ -174,7 +174,7 @@
                                     <div>
                                         <label>{{'mobile'|translate}}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <input type="text" nz-input formControlName="mobile"
                                             placeholder="{{'mobile'|translate}}" />
                                     </nz-form-control>
@@ -187,7 +187,7 @@
                                     <div>
                                         <label>{{'date.of.joining'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-form-control>
                                         <nz-date-picker formControlName="joiningDate"></nz-date-picker>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -213,8 +213,8 @@
                                     <div>
                                         <label>{{'office.name'|translate}}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="officeName"
                                             placeholder="{{'office.name'|translate}}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -224,8 +224,8 @@
                                     <div>
                                         <label>{{'address.line.x0'|translate:{x0: 1} }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="officeAddressLine1"
                                             placeholder="{{'address.line.x0'|translate:{x0: 1} }}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -237,8 +237,8 @@
                                     <div>
                                         <label>{{'address.line.x0'|translate:{x0: 2} }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="officeAddressLine2"
                                             placeholder="{{'address.line.x0'|translate:{x0: 2} }}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -264,8 +264,8 @@
                                     <div>
                                         <label>{{'degree'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="educationDegree"
                                             placeholder="{{'degree'|translate }}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -275,8 +275,8 @@
                                     <div>
                                         <label>{{'passing.year'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="educationPassingYear"
                                             placeholder="{{'passing.year'|translate }}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -288,8 +288,8 @@
                                     <div>
                                         <label>{{'university'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="educationUniversity"
                                             placeholder="{{'university'|translate }}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -299,8 +299,8 @@
                                     <div>
                                         <label>{{'result'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="educationResult"
                                             placeholder="{{'result'|translate }}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -312,8 +312,8 @@
                                     <div>
                                         <label>{{'department'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="educationDepartment"
                                             placeholder="{{'department'|translate }}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -339,8 +339,8 @@
                                     <div>
                                         <label>{{'address.line.x0'|translate:{x0: 1} }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="contactAddressLine1"
                                             placeholder="{{'address.line.x0'|translate:{x0: 1} }}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -350,8 +350,8 @@
                                     <div>
                                         <label>{{'address.line.x0'|translate:{x0: 2} }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input type="text" nz-input formControlName="mobile"
+                                    <nz-form-control>
+                                        <input type="text" nz-input formControlName="contactAddressLine2"
                                             placeholder="{{'address.line.x0'|translate:{x0: 2} }}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -363,9 +363,9 @@
                                     <div>
                                         <label>{{'upazila'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <nz-select class="btn-custom" formControlName="gender" nzShowSearch nzAllowClear
-                                            [nzPlaceHolder]="'select.x0'|translate:{x0: 'gender'|translate|lowercase}">
+                                    <nz-form-control>
+                                        <nz-select class="btn-custom" formControlName="contactUpazila" nzShowSearch nzAllowClear
+                                            [nzPlaceHolder]="'select.x0'|translate:{x0: 'upazila'|translate|lowercase}">
                                             <nz-option *ngFor="let p of genders" [nzLabel]="p.name" [nzValue]="p.id">
                                             </nz-option>
                                         </nz-select>
@@ -377,9 +377,9 @@
                                     <div>
                                         <label>{{'district'|translate }}</label>
                                     </div>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <nz-select class="btn-custom" formControlName="gender" nzShowSearch nzAllowClear
-                                            [nzPlaceHolder]="'select.x0'|translate:{x0: 'gender'|translate|lowercase}">
+                                    <nz-form-control>
+                                        <nz-select class="btn-custom" formControlName="contactDistrict" nzShowSearch nzAllowClear
+                                            [nzPlaceHolder]="'select.x0'|translate:{x0: 'district'|translate|lowercase}">
                                             <nz-option *ngFor="let p of genders" [nzLabel]="p.name" [nzValue]="p.id">
                                             </nz-option>
                                         </nz-select>

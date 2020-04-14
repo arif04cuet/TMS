@@ -1,6 +1,8 @@
 ﻿using Module.Library.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Module.Library.ViewModels
+namespace Module.Library.Data
 {
     public class BookCreateRequest
     {
@@ -12,29 +14,52 @@ namespace Module.Library.ViewModels
         public string Binding { get; set; }
         public float Weight { get; set; }
         public bool HasEBook { get; set; }
-        public long LanguageId { get; set; }
-        public long BookShelfId { get; set; }
-        public int RackNumber { get; set; }
-        public long AuthorId { get; set; }
-        public long PublisherId { get; set; }
+        public int NumberOfPages { get; set; }
+        public long Language { get; set; }
+        public long? Author { get; set; }
+        public long? Publisher { get; set; }
+        public long NumberOfCopy { get; set; }
+
+        public IEnumerable<long> Authors { get; set; }
+        public IEnumerable<long> Subjects { get; set; }
+        public IEnumerable<BookCreateItemRequest> BookItems { get; set; }
 
         public Book ToBook()
         {
             return new Book
             {
-                Binding = Binding,
-                BookShelfId = BookShelfId,
+                Title = Title,
                 Description = Description,
                 Excerpt = Excerpt,
-                HasEBook = HasEBook,
                 Isbn = Isbn,
-                LanguageId = LanguageId,
-                Price = Price,
-                PublisherId = PublisherId,
-                RackNumber = RackNumber,
-                Title = Title,
-                Weight = Weight
+                Binding = Binding,
+                LanguageId = Language,
+                AuthorId = Author,
+                PublisherId = Publisher,
             };
+        }
+        public IEnumerable<BookAuthor> ToBookAuthors(long bookId)
+        {
+            return Authors.Select(x => new BookAuthor
+            {
+                AuthorId = x,
+                BookId = bookId
+            });
+        }
+
+        public IEnumerable<BookItem> ToBookItems(long bookId)
+        {
+            return BookItems.Select(x =>
+            {
+                var item = x.ToBookItem();
+                item.BookId = bookId;
+                return item;
+            });
+        }
+
+        public IEnumerable<BookSubject> ToBookSubjects(long bookId)
+        {
+            return Subjects.Select(x => new BookSubject { BookId = bookId, SubjectId = x });
         }
     }
 }

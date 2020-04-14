@@ -22,10 +22,12 @@
     <ProjectReference Include="..\Modules\Asset\Module.Asset\Module.Asset.csproj" />
     <ProjectReference Include="..\Modules\Core\Module.Core.Data\Module.Core.Data.csproj" />
     <ProjectReference Include="..\Modules\Core\Module.Core.Entities\Module.Core.Entities.csproj" />
+    <ProjectReference Include="..\Modules\Core\Module.Core.Shared\Module.Core.Shared.csproj" />
     <ProjectReference Include="..\Modules\Core\Module.Core\Module.Core.csproj" />
     <ProjectReference Include="..\Modules\Library\Module.Library.Data\Module.Library.Data.csproj" />
     <ProjectReference Include="..\Modules\Library\Module.Library.Entities\Module.Library.Entities.csproj" />
     <ProjectReference Include="..\Modules\Library\Module.Library\Module.Library.csproj" />
+    <ProjectReference Include="..\Msi.UtilityKit\Msi.UtilityKit.csproj" />
   </ItemGroup>
 
 </Project>

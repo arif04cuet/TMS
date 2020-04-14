@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Data;
 using Module.Core.Entities;
 using System.Collections.Generic;
-using static Module.Core.Data.PermissionGroupConstants;
+using static Module.Core.Shared.PermissionGroupConstants;
 
 namespace Module.Core.Data
 {

@@ -3,6 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { VendorHttpService } from 'src/services/http/vendor-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,6 @@ export class VendorListComponent extends TableComponent {
 
   statuses = [];
 
-
   vendorName;
   vendorEmail;
   accountManagerName;
@@ -23,12 +23,14 @@ export class VendorListComponent extends TableComponent {
 
   constructor(
     private vendorHttpService: VendorHttpService,
-    private commonHttpService: CommonHttpService
+    private commonHttpService: CommonHttpService,
+    private activatedRoute: ActivatedRoute
   ) {
     super(vendorHttpService);
   }
 
   ngOnInit() {
+    this.snapshot(this.activatedRoute.snapshot);
     this.gets();
 
     this.onDeleted = (res: any) => {

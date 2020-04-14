@@ -1,5 +1,4 @@
-﻿using Infrastructure;
-using System.Collections.Generic;
+﻿using Module.Core.Shared;
 
 namespace Module.Asset.Data
 {

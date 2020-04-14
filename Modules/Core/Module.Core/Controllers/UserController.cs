@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Module.Core.Attributes;
-using Module.Core.ViewModels;
 using System.Threading.Tasks;
 
-using static Module.Core.Data.PermissionConstants;
+using static Module.Core.Shared.PermissionConstants;
 using Module.Core.Data;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using Module.Core.Shared;
 
 namespace Module.Core.Controllers
 {
@@ -36,7 +35,7 @@ namespace Module.Core.Controllers
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
             var result = await _userService.ListAsync(pagingOptions, searchOptions);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpGet("{id}")]
@@ -44,7 +43,7 @@ namespace Module.Core.Controllers
         public async Task<ActionResult> Get(long id)
         {
             var result = await _userService.Get(id);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpPost]
@@ -52,7 +51,7 @@ namespace Module.Core.Controllers
         public async Task<IActionResult> Post([FromBody] UserCreateRequest request)
         {
             var result = await _userService.CreateAsync(request);
-            return Created("", new Response(result));
+            return result.ToCreatedResult();
         }
 
         [HttpPut("{id}")]
@@ -61,7 +60,7 @@ namespace Module.Core.Controllers
         {
             request.Id = id;
             var result = await _userService.UpdateAsync(request);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpDelete("{id}")]
@@ -77,7 +76,7 @@ namespace Module.Core.Controllers
         public async Task<ActionResult> GetProfile(long id)
         {
             var result = await _profileService.Get(id);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpPut("{id}/profile")]
@@ -86,7 +85,7 @@ namespace Module.Core.Controllers
         {
             request.UserId = id;
             var result = await _profileService.UpdateAsync(request);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpGet("{id}/permissions")]
@@ -94,7 +93,7 @@ namespace Module.Core.Controllers
         public async Task<IActionResult> ListRolePermission(long id, [FromQuery]PagingOptions pagingOptions)
         {
             var result = await _permissionService.ListUserPermissionsAsync(id, pagingOptions);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpPut("{id}/permissions")]
@@ -103,7 +102,7 @@ namespace Module.Core.Controllers
         {
             request.Id = id;
             var result = await _permissionService.AssignUserPermission(id, request.Permissions);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
     }

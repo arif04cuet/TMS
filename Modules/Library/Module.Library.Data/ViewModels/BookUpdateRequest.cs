@@ -1,4 +1,4 @@
-﻿namespace Module.Library.ViewModels
+﻿namespace Module.Library.Data
 {
     public class BookUpdateRequest : BookCreateRequest
     {

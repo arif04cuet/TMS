@@ -11,7 +11,7 @@ namespace Infrastructure.Data.EFCore
             //
         }
 
-        public void Register(IServiceCollection services)
+        public void Register(IServiceCollection services, IConfiguration configuration)
         {
             var provider = services.BuildServiceProvider();
             var config = provider.GetService<IConfiguration>();

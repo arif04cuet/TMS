@@ -1,9 +1,9 @@
 ﻿using Infrastructure.Data;
 using Module.Core.Entities;
 using System.Collections.Generic;
-using static Module.Core.Data.PermissionConstants;
-using static Module.Core.Data.PermissionGroupConstants;
-using static Module.Core.Data.PermissionOperationConstants;
+using static Module.Core.Shared.PermissionConstants;
+using static Module.Core.Shared.PermissionGroupConstants;
+using static Module.Core.Shared.PermissionOperationConstants;
 using static Module.Core.Data.ModuleConstants;
 
 namespace Module.Core.Data

@@ -53,7 +53,7 @@ namespace Module.Core.Filters
             {
                 Status = 500,
                 Message = "Something went wrong.",
-                Error = CollectErrors(context)
+                Errors = CollectErrors(context)
             })
             {
                 StatusCode = 500

@@ -7,12 +7,24 @@ const routes: Routes = [
   {
     path: 'edit',
     loadChildren: () => import('../add/profile-add.module').then(x => x.ProfileAddModule),
-    data: { name: 'profile_edit' }
+    data: { 
+      name: 'profile_edit',
+      breadcrumb: {
+        icon: 'edit',
+        title: 'update'
+      }
+    }
   },
   {
     path: 'add',
     loadChildren: () => import('../add/profile-add.module').then(x => x.ProfileAddModule),
-    data: { name: 'profile_add' }
+    data: {
+      name: 'profile_add',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'add'
+      }
+    }
   },
 ];
 

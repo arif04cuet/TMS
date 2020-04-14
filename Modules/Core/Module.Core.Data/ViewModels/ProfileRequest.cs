@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Module.Core.Data
 {
@@ -24,7 +23,7 @@ namespace Module.Core.Data
         public AddressRequest ContactAddress { get; set; }
         public AddressRequest PermanentAddress { get; set; }
         public AddressRequest OfficeAddress { get; set; }
-        public ICollection<EducationRequest> Educations { get; set; }
+        public EducationRequest Education { get; set; }
 
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }

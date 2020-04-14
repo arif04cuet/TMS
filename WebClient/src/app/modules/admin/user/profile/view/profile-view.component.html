@@ -272,6 +272,7 @@
         </div>
     </div>
 
+    <!-- Contact Address -->
     <div class="box">
         <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
@@ -290,20 +291,20 @@
                         <div nz-row [nzGutter]="24">
                             <div class="field-container">
                                 <div>
-                                    <label>{{'address.line.1'|translate }}</label>
+                                    <label>{{'address.line.x0'|translate:{x0: 1} }}</label>
                                 </div>
                                 <div>
-                                    {{data.educations?.degree || 'n/a'|translate}}
+                                    {{data.contactAddress?.addressLine1 || 'n/a'|translate}}
                                 </div>
                             </div>
                         </div>
                         <div nz-row [nzGutter]="24">
                             <div class="field-container">
                                 <div>
-                                    <label>{{'address.line.2'|translate }}</label>
+                                    <label>{{'address.line.x0'|translate:{x0: 2} }}</label>
                                 </div>
                                 <div>
-                                    {{data.educations?.university || 'n/a'|translate}}
+                                    {{data.contactAddress?.addressLine2 || 'n/a'|translate}}
                                 </div>
                             </div>
                         </div>
@@ -316,7 +317,7 @@
                                     <label>{{'upazila'|translate }}</label>
                                 </div>
                                 <div>
-                                    {{data.educations?.upazila || 'n/a'|translate}}
+                                    {{data.contactAddress?.upazila?.name || 'n/a'|translate}}
                                 </div>
                             </div>
                         </div>
@@ -326,7 +327,7 @@
                                     <label>{{'district'|translate }}</label>
                                 </div>
                                 <div>
-                                    {{data.educations?.district || 'n/a'|translate}}
+                                    {{data.contactAddress?.district?.name || 'n/a'|translate}}
                                 </div>
                             </div>
                         </div>

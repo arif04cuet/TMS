@@ -5,6 +5,7 @@ import { DesignationHttpService } from 'src/services/http/designation-http.servi
 import { forkJoin } from 'rxjs';
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -26,12 +27,14 @@ export class UserListComponent extends TableComponent {
     private userHttpService: UserHttpService,
     private designationHttpService: DesignationHttpService,
     private commonHttpService: CommonHttpService,
-    private roleHttpService: RoleHttpService
+    private roleHttpService: RoleHttpService,
+    private activatedRoute: ActivatedRoute
   ) {
     super(userHttpService);
   }
 
   ngOnInit() {
+    this.snapshot(this.activatedRoute.snapshot);
     this.gets();
   }
 

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Module.Core.Attributes;
-using Module.Core.ViewModels;
 using System.Threading.Tasks;
-using Module.Core.Data;
 
-using static Module.Core.Data.PermissionConstants;
+using static Module.Core.Shared.PermissionConstants;
 using Msi.UtilityKit.Pagination;
+using Module.Core.Entities;
+using Module.Core.Shared;
 
 namespace Module.Core.Controllers
 {
@@ -14,28 +14,28 @@ namespace Module.Core.Controllers
     public class MaritalStatusController : ControllerBase
     {
 
-        private readonly IMatiralStatusService _matiralStatusService;
+        private readonly INameService<MaritalStatus> _nameService;
 
         public MaritalStatusController(
-            IMatiralStatusService matiralStatusService)
+            INameService<MaritalStatus> nameService)
         {
-            _matiralStatusService = matiralStatusService;
+            _nameService = nameService;
         }
 
         [HttpGet]
         [RequirePermission(RoleList)]
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions)
         {
-            var result = await _matiralStatusService.ListAsync(pagingOptions);
-            return Ok(new Response(result));
+            var result = await _nameService.ListAsync(pagingOptions);
+            return result.ToOkResult();
         }
 
         [HttpGet("{id}")]
         [RequirePermission(RoleView)]
         public async Task<ActionResult> Get(long id)
         {
-            var result = await _matiralStatusService.Get(id);
-            return Ok(new Response(result));
+            var result = await _nameService.Get(id);
+            return result.ToOkResult();
         }
 
     }

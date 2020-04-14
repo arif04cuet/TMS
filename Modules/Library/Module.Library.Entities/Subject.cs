@@ -2,7 +2,7 @@
 
 namespace Module.Library.Entities
 {
-    public class Subject : CodeName
+    public class Subject : IdNameEntity
     {
 
     }

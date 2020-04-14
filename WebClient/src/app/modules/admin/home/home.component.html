@@ -51,20 +51,15 @@
             <nz-content>
                 <div class="box">
                     <nz-breadcrumb>
-                        <nz-breadcrumb-item>
-                            <i nz-icon nzType="dashboard"></i>
-                        </nz-breadcrumb-item>
-                        <nz-breadcrumb-item>
-                            <a>
-                                <i nz-icon nzType="team"></i>
-                                <span>User Management</span>
+                        <nz-breadcrumb-item *ngFor="let b of breadcrumbs">
+                            <a (click)="navigate(b)" *ngIf="!b.last">
+                                <i *ngIf="b.icon" nz-icon [nzType]="b.icon"></i>
+                                <span>{{b.title|translate}}</span>
                             </a>
-                        </nz-breadcrumb-item>
-                        <nz-breadcrumb-item>
-                            <a>
-                                <i nz-icon nzType="user"></i>
-                                <span>User</span>
-                            </a>
+                            <ng-container *ngIf="b.last">
+                                <i *ngIf="b.icon" nz-icon [nzType]="b.icon"></i>
+                                <span>{{b.title|translate}}</span>
+                            </ng-container>
                         </nz-breadcrumb-item>
                     </nz-breadcrumb>
                 </div>

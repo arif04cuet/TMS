@@ -1,11 +1,10 @@
-﻿using Infrastructure;
-using Module.Core.Data.ViewModels;
+﻿using Module.Core.Shared;
 using System;
 using System.Collections.Generic;
 
 namespace Module.Core.Data
 {
-    public class ProfileViewModel
+    public class ProfileViewModel : IViewModel
     {
         public long Id { get; set; }
         public IdNameViewModel Status { get; set; }
@@ -29,7 +28,6 @@ namespace Module.Core.Data
         public AddressViewModel ContactAddress { get; set; }
         public AddressViewModel PermanentAddress { get; set; }
         public AddressViewModel OfficeAddress { get; set; }
-
-        public ICollection<EducationViewModel> Educations { get; set; }
+        public EducationViewModel Education { get; set; }
     }
 }

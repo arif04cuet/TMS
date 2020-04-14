@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Module.Core.Extensions;
-using Msi.UtilityKit.Pagination;
 
 namespace OTMS.Extensions
 {
@@ -19,7 +18,7 @@ namespace OTMS.Extensions
 
             foreach (var item in ProjectManager.ServiceRegistrars)
             {
-                item.Register(services);
+                item.Register(services, configuration);
             }
 
             services.AddSwagger();

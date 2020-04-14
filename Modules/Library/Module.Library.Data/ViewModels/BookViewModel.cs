@@ -1,6 +1,6 @@
-﻿using Infrastructure;
+﻿using Module.Core.Shared;
 
-namespace Module.Library.Data.ViewModels
+namespace Module.Library.Data
 {
     public class BookViewModel
     {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Module.Core.Data.ViewModels;
-using Module.Core.ViewModels;
+using Module.Core.Shared;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace Module.Core.Filters
                            let k = kvp.Key
                            select new ValidationError(k, string.IsNullOrEmpty(err.ErrorMessage) ? "Invalid Input" : err.ErrorMessage);
 
-                var response = new UnprocessableEntityObjectResult(new Response(data, (int)HttpStatusCode.UnprocessableEntity, "form_error"));
+                var response = new UnprocessableEntityObjectResult(new Result(data, (int)HttpStatusCode.UnprocessableEntity, "form_error"));
                 context.Result = response;
             }
 

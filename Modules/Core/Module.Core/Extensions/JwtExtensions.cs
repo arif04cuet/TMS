@@ -18,16 +18,16 @@ namespace Module.Core.Extensions
         public static void AddJwt(this IServiceCollection services, IConfiguration config)
         {
 
-            var jwtAuthConfig = config.GetSection(nameof(JwtTokenOptions));
+            var jwtTokenOptions = config.GetSection(nameof(JwtTokenOptions));
 
-            _secretKey = jwtAuthConfig[nameof(JwtTokenOptions.SecretKey)];
+            _secretKey = jwtTokenOptions[nameof(JwtTokenOptions.SecretKey)];
             _securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
             _signingKey = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256);
 
             services.Configure<JwtTokenOptions>(option =>
             {
-                option.Issuer = jwtAuthConfig[nameof(JwtTokenOptions.Issuer)];
-                option.Audience = jwtAuthConfig[nameof(JwtTokenOptions.Audience)];
+                option.Issuer = jwtTokenOptions[nameof(JwtTokenOptions.Issuer)];
+                option.Audience = jwtTokenOptions[nameof(JwtTokenOptions.Audience)];
                 option.SecretKey = _secretKey;
                 option.SigningCredentials = _signingKey;
             });

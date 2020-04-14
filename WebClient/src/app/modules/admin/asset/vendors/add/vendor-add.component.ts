@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { of, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
-import { MessageKey } from 'src/constants/message-key.constant';
 import { VendorHttpService } from 'src/services/http/vendor-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
+import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 
 @Component({
   selector: 'app-vendor-add',
@@ -47,14 +46,14 @@ export class VendorAddComponent extends FormComponent {
         request: this.vendorHttpService.add(body),
         succeed: res => {
           this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_CREATED);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
       },
       {
         request: this.vendorHttpService.edit(this.id, body),
         succeed: res => {
           this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_UPDATED);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
         }
       }
     );

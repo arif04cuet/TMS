@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Module.Core.Attributes;
-using Module.Core.ViewModels;
 using System.Threading.Tasks;
 using Module.Core.Data;
 
-using static Module.Core.Data.PermissionConstants;
+using static Module.Core.Shared.PermissionConstants;
 using Msi.UtilityKit.Pagination;
+using Module.Core.Shared;
 
 namespace Module.Core.Controllers
 {
@@ -27,7 +27,7 @@ namespace Module.Core.Controllers
         public async Task<ActionResult> List(long? userId, [FromQuery]PagingOptions pagingOptions)
         {
             var result = await _permissionService.ListAllPermissionsAsync(userId, pagingOptions);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
     }

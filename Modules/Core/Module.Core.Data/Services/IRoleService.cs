@@ -1,20 +1,13 @@
 ﻿using Infrastructure;
-using Module.Core.Data.Services;
-using Msi.UtilityKit.Pagination;
+using Module.Core.Entities;
+using Module.Core.Shared;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Module.Core.Data
 {
-    public interface IRoleService : IIdNameService
+    public interface IRoleService : INameCrudService<Role>, IScopedService
     {
-        Task<long> CreateAsync(RoleCreateRequest request, CancellationToken cancellationToken = default);
-
-        Task<bool> DeleteAsync(long roleId, CancellationToken cancellationToken = default);
-
-        Task<bool> UpdateAsync(RoleUpdateRequest request, CancellationToken cancellationToken = default);
-
         Task<IEnumerable<long>> GetRoleIdsAsync(long userId);
     }
 }

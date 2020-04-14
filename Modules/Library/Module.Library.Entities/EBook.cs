@@ -1,15 +1,14 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities;
 
 namespace Module.Library.Entities
 {
-    public class EBook : IEntity
+    public class EBook : BaseEntity
     {
-        public long Id { get; set; }
-        public long BookId { get; set; }
-        public Book Book { get; set; }
-
-        public string Link { get; set; }
-        public Format Format { get; set; }
+        public long MediaId { get; set; }
+        public Media Media { get; set; }
+        public bool IsDownloadable { get; set; }
+        public EBookFormat Format { get; set; }
 
     }
 }

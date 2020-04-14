@@ -48,7 +48,8 @@ namespace OTMS
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection();
+            ProjectManager.WebRootPath = env.WebRootPath;
+            app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseCors("default");

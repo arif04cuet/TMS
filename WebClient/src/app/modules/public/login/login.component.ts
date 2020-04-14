@@ -3,7 +3,7 @@ import { AuthService } from 'src/services/auth.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { CommonValidator } from 'src/validators/common.validator';
 import { ActivatedRoute } from '@angular/router';
-import { MessageKey } from 'src/constants/message-key.constant';
+import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,7 @@ export class LoginComponent extends FormComponent {
     this.createForm({
       email: [null, [], this.v.required.bind(this)],
       password: [null, [], this.v.required.bind(this)],
-      // remember: []
+      remember: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -36,7 +36,7 @@ export class LoginComponent extends FormComponent {
       {
         request: this.authService.login(body),
         succeed: res => {
-          this.success(MessageKey.SUCCESSFULLY_LOGGED_IN);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_LOGGED_IN);
           this.goTo('/admin');
         }
       },

@@ -1,9 +1,9 @@
-﻿using Infrastructure;
+﻿using Module.Core.Shared;
 using System.Collections.Generic;
 
 namespace Module.Core.Data
 {
-    public class UserViewModel
+    public class UserViewModel : IViewModel
     {
         public long Id { get; set; }
         public string FullName { get; set; }

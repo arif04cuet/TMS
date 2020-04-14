@@ -1,14 +1,16 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
-using Module.Library.Data.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using Module.Library.Entities;
-using Module.Library.ViewModels;
-using System.Collections.Generic;
+using Msi.UtilityKit.Pagination;
+using Msi.UtilityKit.Search;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Module.Library.Services
+using static Module.Core.Shared.MessageConstants;
+
+namespace Module.Library.Data
 {
     public class BookService : IBookService
     {
@@ -37,15 +39,23 @@ namespace Module.Library.Services
             return result > 0;
         }
 
-        public async Task<IEnumerable<BookListViewModel>> ListAsync()
+        public async Task<PagedCollection<BookListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
         {
-            var result = _bookRepository
+            var query = _bookRepository
                 .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
+            var items = await query
+                .ApplyPagination(pagingOptions)
                 .Select(x => new BookListViewModel
                 {
                     Id = x.Id
-                });
-            return await Task.FromResult(result);
+                })
+                .ToListAsync();
+
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<BookListViewModel>(items, total, pagingOptions);
         }
 
         public async Task<BookViewModel> GetAsync(long id)
@@ -65,7 +75,7 @@ namespace Module.Library.Services
             var book = await _bookRepository.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (book == null)
-                throw new NotFoundException($"Book {request.Id} not found");
+                throw new NotFoundException(BOOK_NOT_FOUND);
 
             book.Title = request.Title;
 

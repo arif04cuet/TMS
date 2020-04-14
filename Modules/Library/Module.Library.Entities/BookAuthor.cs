@@ -2,9 +2,8 @@
 
 namespace Module.Library.Entities
 {
-    public class BookAuthor : IEntity
+    public class BookAuthor : BaseEntity
     {
-        public long Id { get; set; }
         public long BookId { get; set; }
         public Book Book { get; set; }
 

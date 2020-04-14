@@ -7,12 +7,24 @@ const routes: Routes = [
   {
     path: ':id/edit',
     loadChildren: () => import('../add/designation-add.module').then(x => x.DesignationAddModule),
-    data: { name: 'designation_edit' }
+    data: {
+      name: 'designation_edit',
+      breadcrumb: {
+        icon: 'edit',
+        title: 'edit'
+      }
+    }
   },
   {
     path: 'add',
     loadChildren: () => import('../add/designation-add.module').then(x => x.DesignationAddModule),
-    data: { name: 'designation_add' }
+    data: {
+      name: 'designation_add',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'add'
+      }
+    }
   },
 ];
 

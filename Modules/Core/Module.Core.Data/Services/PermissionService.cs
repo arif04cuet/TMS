@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Core.Entities;
+using Module.Core.Shared;
 using Msi.UtilityKit;
 using Msi.UtilityKit.Pagination;
 using System.Collections.Generic;

@@ -422,6 +422,14 @@ nz-header .ant-badge-count {
   }
 }
 
+.block {
+  &.custom-tabs {
+    .ant-radio-button-wrapper {
+      // border: none !important;
+    }
+  }
+}
+
 .custom-tabs {
   border-radius: 5px !important;
   nz-radio-group {

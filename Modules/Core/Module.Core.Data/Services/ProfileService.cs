@@ -2,10 +2,13 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Core.Entities;
+using Module.Core.Shared;
 using Msi.UtilityKit.Security;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using static Module.Core.Shared.MessageConstants;
 
 namespace Module.Core.Data
 {
@@ -25,36 +28,6 @@ namespace Module.Core.Data
             _userProfileRepository = _unitOfWork.GetRepository<UserProfile>();
             _userRoleRepository = _unitOfWork.GetRepository<UserRole>();
         }
-
-        //public async Task<long> CreateAsync(UserCreateRequest request, CancellationToken cancellationToken = default)
-        //{
-        //    User newUser = new User
-        //    {
-        //        FullName = request.FullName,
-        //        EmployeeId = request.EmployeeId,
-        //        StatusId = request.Status,
-        //        Email = request.Email,
-        //        DepartmentId = request.Department,
-        //        DesignationId = request.Designation,
-        //        Password = request.Password.HashPassword()
-        //    };
-
-        //    await _userRepository.AddAsync(newUser, cancellationToken);
-        //    var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-        //    var userRoles = request.Roles.Select(x => new UserRole
-        //    {
-        //        UserId = newUser.Id,
-        //        RoleId = x
-        //    });
-        //    await _userRoleRepository.AddRangeAsync(userRoles);
-
-        //    UserProfile profile = new UserProfile { UserId = newUser.Id };
-        //    await _userProfileRepository.AddAsync(profile, cancellationToken);
-
-        //    result += await _unitOfWork.SaveChangesAsync(cancellationToken);
-        //    return newUser.Id;
-        //}
 
         public async Task<ProfileViewModel> Get(long userId, CancellationToken cancellationToken = default)
         {
@@ -130,11 +103,7 @@ namespace Module.Core.Data
                             Id = x.Profile.ContactAddress.District.Id,
                             Name = x.Profile.ContactAddress.District.Name
                         } : null,
-                        Upazila = x.Profile.ContactAddress.Upazila != null ? new IdNameViewModel
-                        {
-                            Id = x.Profile.ContactAddress.Upazila.Id,
-                            Name = x.Profile.ContactAddress.Upazila.Name
-                        } : null
+                        Upazila = x.Profile.ContactAddress.Upazila
                     } : null,
 
                     PermanentAddress = x.Profile.PermanentAddress != null ? new AddressViewModel
@@ -147,11 +116,7 @@ namespace Module.Core.Data
                             Id = x.Profile.PermanentAddress.District.Id,
                             Name = x.Profile.PermanentAddress.District.Name
                         } : null,
-                        Upazila = x.Profile.PermanentAddress.Upazila != null ? new IdNameViewModel
-                        {
-                            Id = x.Profile.PermanentAddress.Upazila.Id,
-                            Name = x.Profile.PermanentAddress.Upazila.Name
-                        } : null
+                        Upazila = x.Profile.PermanentAddress.Upazila
                     } : null,
 
                     OfficeAddress = x.Profile.OfficeAddress != null ? new AddressViewModel
@@ -164,25 +129,23 @@ namespace Module.Core.Data
                             Id = x.Profile.OfficeAddress.District.Id,
                             Name = x.Profile.OfficeAddress.District.Name
                         } : null,
-                        Upazila = x.Profile.OfficeAddress.Upazila != null ? new IdNameViewModel
-                        {
-                            Id = x.Profile.OfficeAddress.Upazila.Id,
-                            Name = x.Profile.OfficeAddress.Upazila.Name
-                        } : null
+                        Upazila = x.Profile.OfficeAddress.Upazila
                     } : null,
 
-                    Educations = x.Profile.Educations.Select(y => new EducationViewModel
+                    Education = x.Profile.Education != null ? new EducationViewModel
                     {
-                        Id = y.Id,
-                        Department = y.Department,
-                        PassingYear = y.PassingYear,
-                        University = y.University
-                    }).ToList()
+                        Id = x.Profile.Education.Id,
+                        Department = x.Profile.Education.Department,
+                        PassingYear = x.Profile.Education.PassingYear,
+                        University = x.Profile.Education.University,
+                        Degree = x.Profile.Education.Degree,
+                        Result = x.Profile.Education.Result
+                    } : null
                 })
                 .FirstOrDefaultAsync();
 
             if (result == null)
-                throw new NotFoundException("Profile not found.");
+                throw new NotFoundException(PROFILE_NOT_FOUND);
 
             return result;
         }
@@ -190,12 +153,10 @@ namespace Module.Core.Data
         public async Task<bool> UpdateAsync(ProfileRequest request, CancellationToken cancellationToken = default)
         {
             var user = await _userRepository
-                .AsQueryable()
-                .Include(x => x.Profile)
                 .FirstOrDefaultAsync(x => x.Id == request.UserId && !x.IsDeleted);
 
             if (user == null)
-                throw new NotFoundException($"Profile not found");
+                throw new NotFoundException(PROFILE_NOT_FOUND);
 
             user.FullName = request.FullName;
             user.Mobile = request.Mobile;
@@ -204,17 +165,40 @@ namespace Module.Core.Data
                 user.Password = request.Password.HashPassword();
             }
 
-            user.Profile.BloodGroupId = request.BloodGroup;
-            user.Profile.DateOfBirth = request.DateOfBirth;
-            user.Profile.GenderId = request.Gender;
-            user.Profile.JoiningDate = request.JoiningDate;
-            user.Profile.MaritalStatusId = request.MaritalStatus;
-            user.Profile.NID = request.NID;
-            user.Profile.ReligionId = request.Religion;
+            var profile = await _userProfileRepository
+                .AsQueryable()
+                .Include(x => x.ContactAddress)
+                .Include(x => x.OfficeAddress)
+                .Include(x => x.PermanentAddress)
+                .FirstOrDefaultAsync(x => x.UserId == user.Id);
 
-            request.ContactAddress.MapTo(user.Profile.ContactAddress);
-            request.PermanentAddress.MapTo(user.Profile.PermanentAddress);
-            request.OfficeAddress.MapTo(user.Profile.OfficeAddress);
+            if (profile == null)
+            {
+                profile = new UserProfile();
+                profile.UserId = user.Id;
+                profile.ContactAddress = new Address();
+                profile.OfficeAddress = new Address();
+                profile.PermanentAddress = new Address();
+                profile.Education = new Education();
+                await _userProfileRepository.AddAsync(profile);
+            }
+
+            profile.BloodGroupId = request.BloodGroup;
+            profile.DateOfBirth = request.DateOfBirth;
+            profile.GenderId = request.Gender;
+            profile.JoiningDate = request.JoiningDate;
+            profile.MaritalStatusId = request.MaritalStatus;
+            profile.NID = request.NID;
+            profile.ReligionId = request.Religion;
+
+            if (request.ContactAddress != null)
+                request.ContactAddress.MapTo(profile.ContactAddress);
+
+            if (request.PermanentAddress != null)
+                request.PermanentAddress.MapTo(profile.PermanentAddress);
+
+            if (request.OfficeAddress != null)
+                request.OfficeAddress.MapTo(profile.OfficeAddress);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;

@@ -2,7 +2,7 @@
 
 namespace Module.Library.Entities
 {
-    public class Publisher : CodeName
+    public class Publisher : IdNameEntity
     {
 
     }

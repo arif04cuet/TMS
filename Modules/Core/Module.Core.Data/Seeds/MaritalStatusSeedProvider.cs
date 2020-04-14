@@ -14,10 +14,10 @@ namespace Module.Core.Data.Seeds
         {
             return new List<MaritalStatus> {
                 new MaritalStatus(Married, "Married"),
-                new MaritalStatus(UnMarried, "UnMarried"),
+                new MaritalStatus(UnMarried, "Un married"),
                 new MaritalStatus(Widowed, "Widowed"),
                 new MaritalStatus(Divorced, "Divorced"),
-                new MaritalStatus(NeverMarried, "NeverMarried")
+                new MaritalStatus(NeverMarried, "Never married")
             };
         }
     }

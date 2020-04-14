@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,13 +13,19 @@ export class HomeComponent extends BaseComponent {
   nav = [];
   userInfo;
 
+
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute
   ) {
     super();
   }
 
   ngOnInit(): void {
+    this.snapshot(this.activatedRoute.snapshot);
+    this.on('breadcrumbs', (data: any[]) => {
+      this.breadcrumbs = data;
+    })
     this.userInfo = this.authService.getLoggedInUserInfo();
     this.nav = [
       {
@@ -81,6 +88,12 @@ export class HomeComponent extends BaseComponent {
     this.log('on menu item click', n);
     if (n.route) {
       this.goTo(n.route);
+    }
+  }
+
+  navigate(b) {
+    if (!b.last) {
+      this.goTo(b.route);
     }
   }
 

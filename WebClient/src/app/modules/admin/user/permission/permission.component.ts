@@ -6,7 +6,7 @@ import { PermissionHttpService } from 'src/services/http/permission-http.service
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserHttpService } from 'src/services/http/user-http.service';
-import { MessageKey } from 'src/constants/message-key.constant';
+import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 
 @Component({
   selector: 'app-permission',
@@ -22,7 +22,7 @@ export class PermissionComponent extends BaseComponent {
   title;
 
   private userId;
-  private snapshot;
+  private _snapshot;
   private service;
   private cancelUrl;
 
@@ -41,8 +41,9 @@ export class PermissionComponent extends BaseComponent {
   }
 
   async ngOnInit() {
-    this.snapshot = this.activatedRoute.snapshot;
-    this.id = this.snapshot.queryParams['id'] || this.snapshot.params['id'];
+    this._snapshot = this.activatedRoute.snapshot;
+    this.snapshot(this._snapshot);
+    this.id = this._snapshot.queryParams['id'] || this._snapshot.params['id'];
     this.userId = this.authService.getLoggedInUserId();
     await this.init();
     this.get();
@@ -69,7 +70,7 @@ export class PermissionComponent extends BaseComponent {
       if (permissionIds.length > 0) {
         this.subscribe(this.service.assignPermissions(this.id, permissionIds),
           (res: any) => {
-            this.success(MessageKey.SUCCESSFULLY_UPDATED);
+            this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
           },
           (err: any) => {
 
@@ -84,25 +85,25 @@ export class PermissionComponent extends BaseComponent {
   }
 
   cancel() {
-    if (this.snapshot && this.snapshot.data) {
-      if (this.snapshot.data.name == 'role_permissions') {
+    if (this.snapshot && this._snapshot.data) {
+      if (this._snapshot.data.name == 'role_permissions') {
         this.goTo('/admin/roles');
       }
-      else if (this.snapshot.data.name == 'user_permissions') {
+      else if (this._snapshot.data.name == 'user_permissions') {
         this.goTo('/admin/users');
       }
     }
   }
 
   private async init() {
-    if (this.snapshot && this.snapshot.data) {
-      if (this.snapshot.data.name == 'role_permissions') {
+    if (this.snapshot && this._snapshot.data) {
+      if (this._snapshot.data.name == 'role_permissions') {
         this.service = this.roleHttpService;
         this.cancelUrl = '/admin/roles';
         const params = await this.t('roles');
         this.title = await this.t('assign.permissions.to.x0', { x0: params });
       }
-      else if (this.snapshot.data.name == 'user_permissions') {
+      else if (this._snapshot.data.name == 'user_permissions') {
         this.service = this.userHttpService;
         this.cancelUrl = '/admin/users';
         const params = await this.t('users');

@@ -16,7 +16,7 @@ namespace Module.Core.Data
                 new Status(Pending, "Pending"),
                 new Status(Approved, "Approved"),
                 new Status(Active, "Active"),
-                new Status(InActive, "InActive")
+                new Status(InActive, "In active")
             };
         }
     }

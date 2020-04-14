@@ -1,5 +1,4 @@
 ﻿using Infrastructure;
-using Module.Core.ViewModels;
 using System.Threading.Tasks;
 
 namespace Module.Core.Data

@@ -13,6 +13,7 @@ namespace Module.Core.Data
             {
                 new Entities.Module(UserManagement, "User Management"),
                 new Entities.Module(LibraryManagement, "Library Management"),
+                new Entities.Module(AssetManagement, "Asset Management"),
             };
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Module.Library.Data.ViewModels
+﻿namespace Module.Library.Data
 {
     public class BookListViewModel
     {

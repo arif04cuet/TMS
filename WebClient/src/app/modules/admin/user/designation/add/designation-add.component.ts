@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { of, forkJoin } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
-import { MessageKey } from 'src/constants/message-key.constant';
+import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { DesignationHttpService } from 'src/services/http/designation-http.service';
 
 @Component({
@@ -38,14 +38,14 @@ export class DesignationAddComponent extends FormComponent {
         request: this.designationHttpService.add(body),
         succeed: res => {
           this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_CREATED);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
       },
       {
         request: this.designationHttpService.edit(this.id, body),
         succeed: res => {
           this.cancel();
-          this.success(MessageKey.SUCCESSFULLY_UPDATED);
+          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
         }
       }
     );

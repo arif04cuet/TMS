@@ -2,10 +2,9 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
-using Module.Core.Entities;
+using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
-using Msi.UtilityKit.Security;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

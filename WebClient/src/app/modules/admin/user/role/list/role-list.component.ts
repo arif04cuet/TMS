@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { RoleHttpService } from 'src/services/http/role-http.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-role-list',
@@ -11,14 +12,15 @@ import { RoleHttpService } from 'src/services/http/role-http.service';
 export class RoleListComponent extends TableComponent {
 
   constructor(
-    private roleHttpService: RoleHttpService
+    private roleHttpService: RoleHttpService,
+    private activatedRoute: ActivatedRoute
   ) {
     super(roleHttpService);
   }
 
   ngOnInit() {
+    this.snapshot(this.activatedRoute.snapshot);
     this.gets();
-
     this.onDeleted = (res: any) => {
       this.gets();
     }

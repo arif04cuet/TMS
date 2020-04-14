@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Module.Core.Attributes;
-using Module.Core.ViewModels;
 using System.Threading.Tasks;
 using Module.Core.Data;
 
-using static Module.Core.Data.PermissionConstants;
+using static Module.Core.Shared.PermissionConstants;
 using Msi.UtilityKit.Pagination;
+using Module.Core.Shared;
 
 namespace Module.Core.Controllers
 {
@@ -30,7 +30,7 @@ namespace Module.Core.Controllers
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions)
         {
             var result = await _roleService.ListAsync(pagingOptions);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpGet("{id}")]
@@ -38,24 +38,24 @@ namespace Module.Core.Controllers
         public async Task<ActionResult> Get(long id)
         {
             var result = await _roleService.Get(id);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpPost]
         [RequirePermission(RoleCreate, RoleManage)]
-        public async Task<IActionResult> Post([FromBody] RoleCreateRequest request)
+        public async Task<IActionResult> Post([FromBody] NameCreateRequest request)
         {
             var result = await _roleService.CreateAsync(request);
-            return Created("", new Response(result));
+            return result.ToCreatedResult();
         }
 
         [HttpPut("{id}")]
         [RequirePermission(RoleUpdate, RoleManage)]
-        public async Task<IActionResult> Put(int id, [FromBody] RoleUpdateRequest request)
+        public async Task<IActionResult> Put(int id, [FromBody] NameUpdateRequest request)
         {
             request.Id = id;
             var result = await _roleService.UpdateAsync(request);
-            return Ok(new Response(result));
+            return Ok(new Result(result));
         }
 
         [HttpGet("{id}/permissions")]
@@ -63,7 +63,7 @@ namespace Module.Core.Controllers
         public async Task<IActionResult> ListRolePermission(long id, [FromQuery]PagingOptions pagingOptions)
         {
             var result = await _permissionService.ListRolePermissionsAsync(id, pagingOptions);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpPut("{id}/permissions")]
@@ -72,7 +72,7 @@ namespace Module.Core.Controllers
         {
             request.Id = id;
             var result = await _permissionService.AssignRolePermission(id, request.Permissions);
-            return Ok(new Response(result));
+            return result.ToOkResult();
         }
 
         [HttpDelete("{id}")]

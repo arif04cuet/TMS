@@ -8,10 +8,14 @@ namespace Module.Library.Entities
     /// </summary>
     public class LibraryCard : BaseEntity
     {
-        public string Type { get; set; }
-        public float Fees { get; set; }
-        public int MaxReadIssueCount { get; set; }
-        public int MaxLendIssueCount { get; set; }
-        public DateTimeOffset ExpireDate { get; set; }
+        public string CardNumber { get; set; }
+
+        // Type can be Silver, Gold, Platinum etc
+        
+        public long CardTypeId { get; set; }
+
+        public float Fees { get; set; } // anoter entity with year relatuion
+        public int MaxIssueCount { get; set; }
+        public DateTime ExpireDate { get; set; }
     }
 }

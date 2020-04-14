@@ -2,7 +2,7 @@
 
 namespace Module.Library.Entities
 {
-    public class Author : BaseEntity
+    public class Author : IdNameEntity
     {
     }
 }

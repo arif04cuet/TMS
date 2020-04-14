@@ -1,19 +1,21 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 
 <div *ngIf="!loading" class="box">
-    <div class="block pad-v-12 pad-h-20 box-divider">
-        <div class="content">
-            <div class="header-container">
-                <span class="header">
-                    <span *ngIf="mode=='add'">
-                        {{ 'create.a.x0'|translate:{x0: 'user'|translate|lowercase} }}
-                    </span>
-                    <span *ngIf="mode=='edit'">
-                        {{ 'update.a.x0'|translate:{x0: 'user'|translate|lowercase} }}
-                    </span>
+
+    <div class="block box-divider custom-tabs">
+        <nz-radio-group [(ngModel)]="userOption" (ngModelChange)="optionChanged($event)">
+            <div nz-radio-button nzValue="add_edit" class="pad-v-12 pad-h-20">
+                <span *ngIf="mode=='add'">
+                    {{ 'create.a.x0'|translate:{x0: 'user'|translate|lowercase} }}
+                </span>
+                <span *ngIf="mode=='edit'">
+                    {{ 'update.a.x0'|translate:{x0: 'user'|translate|lowercase} }}
                 </span>
             </div>
-        </div>
+            <div nz-radio-button nzValue="permissions" class="pad-v-12 pad-h-20">
+                {{'permissions'|translate}}
+            </div>
+        </nz-radio-group>
     </div>
     <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
         <div class="content">
@@ -37,7 +39,8 @@
                                 <label>{{'employee.id'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input nz-input formControlName="employeeId" placeholder="{{'employee.id'|translate}}" />
+                                <input nz-input formControlName="employeeId"
+                                    placeholder="{{'employee.id'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -79,7 +82,6 @@
                         <nz-form-item class="field-container">
                             <div>
                                 <label>{{'email'|translate }}</label>
-                                {{mode}}
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input nz-input formControlName="email" placeholder="{{'email'|translate}}" />
@@ -92,7 +94,8 @@
                                 <label>{{'mobile'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="text" nz-input formControlName="mobile" placeholder="{{'mobile'|translate}}" />
+                                <input type="text" nz-input formControlName="mobile"
+                                    placeholder="{{'mobile'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -105,7 +108,8 @@
                                 <label>{{'password'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="password" nz-input formControlName="password" placeholder="{{'password'|translate}}" />
+                                <input type="password" nz-input formControlName="password"
+                                    placeholder="{{'password'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -115,10 +119,10 @@
                                 <label>{{'role'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <nz-select class="btn-custom" nzMode="multiple" formControlName="roles" nzShowSearch nzAllowClear
+                                <nz-select class="btn-custom" nzMode="multiple" formControlName="roles" nzShowSearch
+                                    nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'role'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of roles" [nzLabel]="p.name"
-                                        [nzValue]="p.id">
+                                    <nz-option *ngFor="let p of roles" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
                                 </nz-select>
                             </nz-form-control>

@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Entities;
 using System;
-using System.Collections.Generic;
 
 namespace Module.Core.Entities
 {
@@ -37,7 +36,8 @@ namespace Module.Core.Entities
         public long? OfficeAddressId { get; set; }
         public Address OfficeAddress { get; set; }
 
-        public virtual ICollection<UserEducation> Educations { get; set; }
+        public long? EducationId { get; set; }
+        public Education Education { get; set; }
 
     }
 }

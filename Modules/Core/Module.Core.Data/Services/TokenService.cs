@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Module.Core.Entities;
+using Module.Core.Shared;
 using Msi.UtilityKit.Security;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+
+using static Module.Core.Shared.MessageConstants;
 
 namespace Module.Core.Data
 {
@@ -44,7 +47,7 @@ namespace Module.Core.Data
             var user = await _userRepository.FirstOrDefaultAsync(x => x.Email.ToLower() == request.Email.ToLower() && x.Password == hashedPassword);
 
             if (user == null)
-                throw new ValidationException("Invalid email or password");
+                throw new ValidationException(INVALID_EMAIL_OR_PASSWORD);
 
             return await CreateAsync(user.Id);
         }
@@ -54,7 +57,7 @@ namespace Module.Core.Data
             var user = await _userRepository.FirstOrDefaultAsync(x => x.Id == userId, true);
 
             if (user == null)
-                throw new NotFoundException($"User not found");
+                throw new NotFoundException(USER_NOT_FOUND);
 
             // Delete old tokens
             var oldTokens = _userTokenRepository.Where(x => x.UserId == userId);
@@ -123,7 +126,7 @@ namespace Module.Core.Data
             var userToken = await _userTokenRepository.FirstOrDefaultAsync(x => x.AccessToken == request.AccessToken && x.RefreshToken.Token == request.RefreshToken);
 
             if (userToken == null)
-                throw new SecurityTokenException("Invalid token");
+                throw new SecurityTokenException(INVALID_TOKEN);
 
             // TODO: Check token expire time
 
@@ -168,7 +171,7 @@ namespace Module.Core.Data
             var userToken = await _userTokenRepository.FirstOrDefaultAsync(x => x.RefreshToken.Token == request.RefreshToken);
 
             if (userToken == null)
-                throw new NotFoundException("Invalid token");
+                throw new NotFoundException(INVALID_TOKEN);
 
             _userTokenRepository.Remove(userToken);
             _refreshTokenRepository.Remove(userToken.RefreshToken);
@@ -208,7 +211,7 @@ namespace Module.Core.Data
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                throw new SecurityTokenException("Invalid token");
+                throw new SecurityTokenException(INVALID_TOKEN);
             return principal;
         }
 
