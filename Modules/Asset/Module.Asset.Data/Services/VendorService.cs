@@ -119,6 +119,7 @@ namespace Module.Asset.Data
             vendor.VendorEmail = request.VendorEmail;
             vendor.AccountManagerName = request.AccountManagerName;
             vendor.AccountManagerPhone = request.AccountManagerPhone;
+            vendor.StatusId = request.Status;
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;

@@ -74,5 +74,8 @@
     "district": "District",
     "assign.permissions": "Assign permissions",
     "assign.permissions.to.x0": "Assign permissions to {{x0}}",
-    "back": "Back"
+    "back": "Back",
+    "vendors": "Vendors",
+    "vendor_name": "Vendor Name",
+    "account_manager_name": "Account Manager Name"
 }

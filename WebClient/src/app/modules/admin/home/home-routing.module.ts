@@ -26,6 +26,11 @@ const routes: Routes = [
         path: 'profile',
         loadChildren: () => import('../user/profile/view/profile-view.module').then(x => x.ProfileViewModule),
         data: { name: 'profile_view' }
+      },
+      {
+        path: 'asset/vendors',
+        loadChildren: () => import('../asset/vendors/list/vendor-list.module').then(x => x.VendorListModule),
+        data: { name: 'vendor_list' }
       }
     ]
   },

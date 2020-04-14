@@ -18,6 +18,7 @@ namespace Module.Asset.Entities
         [Searchable]
         public string AccountManagerPhone { get; set; }
 
+        [Searchable]
         public long? StatusId { get; set; }
         public Status Status { get; set; }
 
