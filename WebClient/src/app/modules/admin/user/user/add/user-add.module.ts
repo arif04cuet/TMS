@@ -12,6 +12,7 @@ import { DesignationHttpService } from 'src/services/http/designation-http.servi
 import { DepartmentHttpService } from 'src/services/http/department-http.service';
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
+import { PermissionModule } from '../../permission/permission.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    PermissionModule
   ],
   exports: [UserAddComponent],
   providers: [

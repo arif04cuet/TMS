@@ -1,6 +1,8 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Module.Core.Data;
+using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System.Linq;
@@ -27,7 +29,8 @@ namespace Module.Library.Data
             var newItem = new Entities.Library
             {
                 Name = request.Name,
-                Address = request.Address?.ToAddress()
+                Address = request.Address?.ToAddress(),
+                LibrarianId = request.Librarian
             };
             await _libraryRepository.AddAsync(newItem, ct);
             var result = await _unitOfWork.SaveChangesAsync(ct);
@@ -50,11 +53,17 @@ namespace Module.Library.Data
                 .ApplySearch(searchOptions);
 
             var items = await query
+                .Include(x => x.Librarian)
                 .ApplyPagination(pagingOptions)
                 .Select(x => new LibraryListViewModel
                 {
                     Id = x.Id,
-                    Name = x.Name
+                    Name = x.Name,
+                    Librarian = x.Librarian != null ? new IdNameViewModel
+                    {
+                        Id = (long)x.LibrarianId,
+                        Name = x.Librarian.FullName
+                    } : null
                 })
                 .ToListAsync();
 
@@ -62,29 +71,50 @@ namespace Module.Library.Data
             return new PagedCollection<LibraryListViewModel>(items, total, pagingOptions);
         }
 
-        public async Task<BookViewModel> GetAsync(long id)
+        public async Task<LibraryViewModel> GetAsync(long id)
         {
-            var result = _libraryRepository
+            var result = await _libraryRepository
                 .AsReadOnly()
-                .Select(x => new BookViewModel
+                .Where(x => !x.IsDeleted)
+                .Select(x => new LibraryViewModel
                 {
-                    Id = x.Id
+                    Id = x.Id,
+                    Name = x.Name,
+                    Librarian = x.Librarian != null ? new IdNameViewModel
+                    {
+                        Id = (long)x.LibrarianId,
+                        Name = x.Librarian.FullName
+                    } : null,
+                    Address = x.Address != null ? new AddressViewModel
+                    {
+                        AddressLine1 = x.Address.AddressLine1,
+                        AddressLine2 = x.Address.AddressLine2,
+                        ContactName = x.Address.ContactName,
+                        District = x.Address.District != null ? new IdNameViewModel
+                        {
+                            Id = x.Address.District.Id,
+                            Name = x.Address.District.Name
+                        } : null,
+                        Upazila = x.Address.Upazila
+                    } : null
                 })
-                .FirstOrDefault(x => x.Id == id);
-            return await Task.FromResult(result);
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return result;
         }
 
         public async Task<bool> UpdateAsync(LibraryUpdateRequest request, CancellationToken ct = default)
         {
-            var book = await _libraryRepository.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var item = await _libraryRepository.FirstOrDefaultAsync(x => x.Id == request.Id);
 
-            if (book == null)
+            if (item == null)
                 throw new NotFoundException(LIBRARY_NOT_FOUND);
 
-            book.Name = request.Name;
+            item.Name = request.Name;
+            item.LibrarianId = request.Librarian;
 
-            if (book.Address != null)
-                request.Address.MapTo(book.Address);
+            if (item.Address != null)
+                request.Address.MapTo(item.Address);
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;

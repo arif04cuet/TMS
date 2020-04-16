@@ -1,45 +1,45 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
-import { RoleHttpService } from 'src/services/http/role-http.service';
 import { ActivatedRoute } from '@angular/router';
+import { DepartmentHttpService } from 'src/services/http/department-http.service';
 
 @Component({
-  selector: 'app-role-list',
-  templateUrl: './role-list.component.html',
-  styleUrls: ['./role-list.component.scss']
+  selector: 'app-department-list',
+  templateUrl: './department-list.component.html',
+  styleUrls: ['./department-list.component.scss']
 })
-export class RoleListComponent extends TableComponent {
+export class DepartmentListComponent extends TableComponent {
 
   constructor(
-    private roleHttpService: RoleHttpService,
+    private departmentHttpService: DepartmentHttpService,
     private activatedRoute: ActivatedRoute
   ) {
-    super(roleHttpService);
+    super(departmentHttpService);
   }
 
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
     this.gets();
+    
     this.onDeleted = (res: any) => {
       this.gets();
     }
-    
   }
 
   add(model = null) {
     if (model) {
-      this.goTo(`/admin/roles/${model.id}/edit`);
+      this.goTo(`/admin/departments/${model.id}/edit`);
     }
     else {
-      this.goTo('/admin/roles/add');
+      this.goTo('/admin/departments/add');
     }
   }
 
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.roleHttpService.list()
+      this.departmentHttpService.list()
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {

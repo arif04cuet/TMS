@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RoleListComponent } from './role-list.component';
+import { LibraryListComponent } from './library-list.component';
 
 const routes: Routes = [
-  { path: '', component: RoleListComponent },
+  { path: '', component: LibraryListComponent },
   {
     path: ':id/edit',
-    loadChildren: () => import('../add/role-add.module').then(x => x.RoleAddModule),
+    loadChildren: () => import('../add/library-add.module').then(x => x.LibraryAddModule),
     data: {
-      name: 'role_edit',
+      name: 'user_edit',
       breadcrumb: {
         icon: 'edit',
         title: 'edit'
@@ -17,9 +17,9 @@ const routes: Routes = [
   },
   {
     path: 'add',
-    loadChildren: () => import('../add/role-add.module').then(x => x.RoleAddModule),
+    loadChildren: () => import('../add/library-add.module').then(x => x.LibraryAddModule),
     data: {
-      name: 'role_add',
+      name: 'user_add',
       breadcrumb: {
         icon: 'plus',
         title: 'add'
@@ -32,4 +32,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RoleListRoutingModule { }
+export class LibraryListRoutingModule { }

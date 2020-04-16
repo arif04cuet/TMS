@@ -25,18 +25,7 @@ const routes: Routes = [
         title: 'add'
       }
     }
-  },
-  {
-    path: ':id/permissions',
-    loadChildren: () => import('../../permission/permission.module').then(x => x.PermissionModule),
-    data: {
-      name: 'user_permissions',
-      breadcrumb: {
-        icon: 'safety',
-        title: 'assign.permissions'
-      }
-    }
-  },
+  }
 ];
 
 @NgModule({

@@ -364,11 +364,8 @@
                                         <label>{{'upazila'|translate }}</label>
                                     </div>
                                     <nz-form-control>
-                                        <nz-select class="btn-custom" formControlName="contactUpazila" nzShowSearch nzAllowClear
-                                            [nzPlaceHolder]="'select.x0'|translate:{x0: 'upazila'|translate|lowercase}">
-                                            <nz-option *ngFor="let p of genders" [nzLabel]="p.name" [nzValue]="p.id">
-                                            </nz-option>
-                                        </nz-select>
+                                        <input type="text" nz-input formControlName="contactUpazila"
+                                            placeholder="{{'upazila'|translate }}" />
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -380,7 +377,7 @@
                                     <nz-form-control>
                                         <nz-select class="btn-custom" formControlName="contactDistrict" nzShowSearch nzAllowClear
                                             [nzPlaceHolder]="'select.x0'|translate:{x0: 'district'|translate|lowercase}">
-                                            <nz-option *ngFor="let p of genders" [nzLabel]="p.name" [nzValue]="p.id">
+                                            <nz-option *ngFor="let p of districts" [nzLabel]="p.name" [nzValue]="p.id">
                                             </nz-option>
                                         </nz-select>
                                     </nz-form-control>

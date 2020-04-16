@@ -22,7 +22,6 @@ namespace Module.Core.Data
                 new Permission (UserList, List, $"user.{List.ToLower()}", UserGroup, UserManagement),
                 new Permission ( UserDelete,  Delete, $"user.{Delete.ToLower()}", UserGroup, UserManagement),
                 new Permission (UserManage,  Manage, $"user.{Manage.ToLower()}", UserGroup, UserManagement),
-                new Permission (UserFilter,  Filter, $"user.{Filter.ToLower()}", UserGroup, UserManagement),
                 #endregion
 
                 #region Role
@@ -65,13 +64,6 @@ namespace Module.Core.Data
                     Id = RoleManage,
                     Name = Manage,
                     Code = $"role.{Manage.ToLower()}",
-                    GroupId = RoleGroup,
-                    ModuleId = UserManagement
-                },
-                new Permission {
-                    Id = RoleFilter,
-                    Name = Filter,
-                    Code = $"role.{Filter.ToLower()}",
                     GroupId = RoleGroup,
                     ModuleId = UserManagement
                 },
@@ -120,13 +112,6 @@ namespace Module.Core.Data
                     GroupId = DesignationGroup,
                     ModuleId = UserManagement
                 },
-                new Permission {
-                    Id = DesignationFilter,
-                    Name = Filter,
-                    Code = $"designation.{Filter.ToLower()}",
-                    GroupId = DesignationGroup,
-                    ModuleId = UserManagement
-                },
                 #endregion
 
                 #region Department
@@ -172,13 +157,6 @@ namespace Module.Core.Data
                     GroupId = DepartmentGroup,
                     ModuleId = UserManagement
                 },
-                new Permission {
-                    Id = DepartmentFilter,
-                    Name = Filter,
-                    Code = $"department.{Filter.ToLower()}",
-                    GroupId = DepartmentGroup,
-                    ModuleId = UserManagement
-                },
                 #endregion
 
                 #region Profile
@@ -212,7 +190,6 @@ namespace Module.Core.Data
                 new Permission (BookList, List, $"book.{List.ToLower()}", BookGroup, LibraryManagement),
                 new Permission (BookDelete,  Delete, $"book.{Delete.ToLower()}", BookGroup, LibraryManagement),
                 new Permission (BookManage,  Manage, $"book.{Manage.ToLower()}", BookGroup, LibraryManagement),
-                new Permission (BookFilter,  Filter, $"book.{Filter.ToLower()}", BookGroup, LibraryManagement),
                 #endregion
             };
         }

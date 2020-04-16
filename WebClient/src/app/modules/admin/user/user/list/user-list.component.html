@@ -1,7 +1,6 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 
 <div *ngIf="!loading">
-
     <div class="box">
         <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
@@ -88,20 +87,11 @@
                                     <li nz-menu-item (click)="add(data)">
                                         <i nz-icon nzType="edit"></i>{{'edit'|translate}}
                                     </li>
-                                    <li nz-menu-item (click)="assignPermission(data)">
-                                        <i nz-icon nzType="safety"></i>{{'assign.permissions'|translate}}
-                                    </li>
                                     <li nz-menu-item (click)="delete(data)">
                                         <i nz-icon nzType="delete"></i>{{'delete'|translate}}
                                     </li>
                                 </ul>
                             </nz-dropdown-menu>
-                            <!-- <span (click)="add(data)" class="edit" title="{{'edit'}}">
-                            <i nz-icon nzType="edit"></i>
-                        </span>
-                        <span (click)="delete(data)" class="delete" title="{{'delete'}}">
-                            <i nz-icon nzType="delete"></i>
-                        </span> -->
                         </td>
                     </tr>
                 </tbody>

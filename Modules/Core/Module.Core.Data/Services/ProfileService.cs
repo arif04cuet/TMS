@@ -170,6 +170,7 @@ namespace Module.Core.Data
                 .Include(x => x.ContactAddress)
                 .Include(x => x.OfficeAddress)
                 .Include(x => x.PermanentAddress)
+                .Include(x => x.Education)
                 .FirstOrDefaultAsync(x => x.UserId == user.Id);
 
             if (profile == null)
@@ -199,6 +200,9 @@ namespace Module.Core.Data
 
             if (request.OfficeAddress != null)
                 request.OfficeAddress.MapTo(profile.OfficeAddress);
+
+            if (request.Education != null)
+                request.Education.MapTo(profile.Education);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;

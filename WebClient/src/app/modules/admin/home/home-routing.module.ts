@@ -41,6 +41,17 @@ const routes: Routes = [
         }
       },
       {
+        path: 'departments',
+        loadChildren: () => import('../user/department/list/department-list.module').then(x => x.DepartmentListModule),
+        data: {
+          name: 'department_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'departments'
+          }
+        }
+      },
+      {
         path: 'profile',
         loadChildren: () => import('../user/profile/view/profile-view.module').then(x => x.ProfileViewModule),
         data: {
@@ -48,6 +59,17 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'profile'
+          }
+        }
+      },
+      {
+        path: 'libraries',
+        loadChildren: () => import('../library/library/list/library-list.module').then(x => x.LibraryListModule),
+        data: {
+          name: 'library_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'libraries'
           }
         }
       },

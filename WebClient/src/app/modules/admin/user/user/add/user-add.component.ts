@@ -23,6 +23,7 @@ export class UserAddComponent extends FormComponent {
   departments = [];
   statuses = []
   userOption = 'add_edit'
+  addEditTitle;
 
   constructor(
     private userHttpService: UserHttpService,
@@ -36,7 +37,7 @@ export class UserAddComponent extends FormComponent {
     super();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getData();
     this.onCheckMode = id => this.get(id);
     this.createForm({
@@ -51,6 +52,13 @@ export class UserAddComponent extends FormComponent {
       status: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
+
+    if(this.mode == 'add') {
+      this.addEditTitle = await this.t('create.a.x0', {x0: 'user'});
+    }
+    else if (this.mode == 'edit') {
+      this.addEditTitle = await this.t('update.a.x0', {x0: 'user'});
+    }
   }
 
   submit(): void {

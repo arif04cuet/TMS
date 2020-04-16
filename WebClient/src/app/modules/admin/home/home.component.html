@@ -34,9 +34,9 @@
                     <ng-container *ngFor="let n of nav">
                         <li (click)="onMenuItemClick(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="n.level * 24">
                             <i nz-icon nzType="{{n.icon}}"></i>
-                            <span>{{n.title}}</span>
+                            <span>{{n.title|translate}}</span>
                         </li>
-                        <li (click)="onMenuItemClick(n)" *ngIf="n.nav" nz-submenu [nzTitle]="n.title" [nzIcon]="n.icon"
+                        <li (click)="onMenuItemClick(n)" *ngIf="n.nav" nz-submenu nzTitle="{{n.title|translate}}" [nzIcon]="n.icon"
                             [nzPaddingLeft]="n.level * 24">
                             <ul>
                                 <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: n.nav }">

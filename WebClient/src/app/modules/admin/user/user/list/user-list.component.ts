@@ -6,6 +6,7 @@ import { forkJoin } from 'rxjs';
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
+import { Searchable, getSearchableProperties } from 'src/decorators/searchable.decorator';
 
 @Component({
   selector: 'app-user-list',
@@ -18,10 +19,10 @@ export class UserListComponent extends TableComponent {
   roles = [];
   statuses = [];
 
-  name;
-  designation;
-  mobile;
-  email;
+  @Searchable("FullName", "like") name;
+  @Searchable("DesignationId", "eq") designation;
+  @Searchable("Mobile", "like") mobile;
+  @Searchable("Email", "like") email;
 
   constructor(
     private userHttpService: UserHttpService,
@@ -70,32 +71,11 @@ export class UserListComponent extends TableComponent {
   }
 
   refresh() {
-    this.gets(null, this.getSearchTerm());
+    this.gets(null, this.getSearchTerms());
   }
 
   search() {
-    this.gets(null, this.getSearchTerm())
-  }
-
-  assignPermission(data) {
-    this.goTo(`/admin/users/${data.id}/permissions`);
-  }
-
-  private getSearchTerm() {
-    let search = ""
-    if (this.name) {
-      search += `Search=FullName like ${this.name}&`;
-    }
-    if (this.email) {
-      search += `Search=Email like ${this.email}&`;
-    }
-    if (this.designation) {
-      search += `Search=DesignationId eq ${this.designation}&`;
-    }
-    if (this.mobile) {
-      search += `Search=Mobile like ${this.mobile}&`;
-    }
-    return search;
+    this.gets(null, this.getSearchTerms())
   }
 
 }

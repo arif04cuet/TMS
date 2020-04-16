@@ -26,6 +26,7 @@ export class ProfileAddComponent extends FormComponent {
   bloodGroups = [];
   maritalStatus = [];
   religions = [];
+  districts = [];
 
   photoUrl;
   photoLoading = false;
@@ -211,8 +212,8 @@ export class ProfileAddComponent extends FormComponent {
         this.setValue('contactUpazila', data.contactAddress.upazila?.id);
         this.setValue('contactDistrict', data.contactAddress.district?.id);
       }
-      if (data.educations && data.educations.length > 0) {
-        const e = data.educations[0];
+      if (data.education) {
+        const e = data.education;
         this.setValue('educationDegree', e.degree);
         this.setValue('educationUniversity', e.university);
         this.setValue('educationDepartment', e.department);
@@ -235,13 +236,13 @@ export class ProfileAddComponent extends FormComponent {
       addressLine1: o.officeAddressLine1,
       addressLine2: o.officeAddressLine2
     };
-    o.educations = [{
+    o.education = {
       degree: o.educationDegree,
       University: o.educationUniversity,
       department: o.educationDepartment,
       passingYear: o.educationPassingYear,
       result: o.educationResult
-    }];
+    };
   }
 
   private getBase64(img: File, callback: (img: string) => void): void {

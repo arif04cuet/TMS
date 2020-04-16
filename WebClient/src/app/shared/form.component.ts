@@ -48,6 +48,7 @@ export class FormComponent extends BaseComponent {
                             this.submitting = false;
                             this.invoke(this.onFail, e);
                             this.invoke(options.failed, e);
+                            this.bindServerValidationErrorsWithFormControls(e);
                         }
                     );
                 }
@@ -70,15 +71,7 @@ export class FormComponent extends BaseComponent {
                             this.submitting = false;
                             this.invoke(this.onFail, e);
                             this.invoke(options.failed, e);
-                            if (e.error && e.error.message == "form_error") {
-                                forEachObj(this.form.controls, (k, v) => {
-                                    const data = e.error.data.filter(x => x.field.toLowerCase() == k.toLowerCase());
-                                    if (data && data.length > 0) {
-                                        const err = { message: data[data.length - 1].message }
-                                        v.setErrors(err);
-                                    }
-                                });
-                            }
+                            this.bindServerValidationErrorsWithFormControls(e);
                         }
                     );
                 }
@@ -146,6 +139,18 @@ export class FormComponent extends BaseComponent {
     setValue(controlName, value) {
         if (this.form.controls[controlName]) {
             this.form.controls[controlName].setValue(value);
+        }
+    }
+
+    bindServerValidationErrorsWithFormControls(e) {
+        if (e.error && e.error.message == "form_error") {
+            forEachObj(this.form.controls, (k, v) => {
+                const data = e.error.data.filter(x => x.field.toLowerCase() == k.toLowerCase());
+                if (data && data.length > 0) {
+                    const err = { message: data[data.length - 1].message }
+                    v.setErrors(err);
+                }
+            });
         }
     }
 

@@ -3,32 +3,32 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RoleAddComponent } from './role-add.component';
-import { RoleAddRoutingModule } from './role-add-routing.module';
+import { LibraryAddComponent } from './library-add.component';
+import { UserHttpService } from 'src/services/http/user-http.service';
+import { LibraryAddRoutingModule } from './library-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
-import { PermissionModule } from '../../permission/permission.module';
+import { LibraryHttpService } from 'src/services/http/library-http.service';
 
 @NgModule({
   declarations: [
-    RoleAddComponent
+    LibraryAddComponent
   ],
   imports: [
-    RoleAddRoutingModule,
+    LibraryAddRoutingModule,
     CommonModule,
     NzTableModule,
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule,
-    PermissionModule
+    SharedModule
   ],
-  exports: [RoleAddComponent],
+  exports: [LibraryAddComponent],
   providers: [
-    RoleHttpService,
+    UserHttpService,
+    LibraryHttpService,
     CommonValidator
   ]
 })
-export class RoleAddModule { }
+export class LibraryAddModule { }

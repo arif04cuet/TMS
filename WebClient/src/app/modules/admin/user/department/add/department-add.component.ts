@@ -1,56 +1,46 @@
 import { Component } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { of, forkJoin } from 'rxjs';
-import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
+import { DepartmentHttpService } from 'src/services/http/department-http.service';
 
 @Component({
-  selector: 'app-role-add',
-  templateUrl: './role-add.component.html'
+  selector: 'app-department-add',
+  templateUrl: './department-add.component.html'
 })
-export class RoleAddComponent extends FormComponent {
+export class DepartmentAddComponent extends FormComponent {
 
   loading: boolean = true;
-  addEditTitle;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private roleHttpService: RoleHttpService,
+    private departmentHttpService: DepartmentHttpService,
     private v: CommonValidator
   ) {
     super();
   }
 
-  async ngOnInit() {
+  ngOnInit(): void {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
-
-    if(this.mode == 'add') {
-      this.addEditTitle = await this.t('create.a.x0', {x0: 'role'});
-    }
-    else if (this.mode == 'edit') {
-      this.addEditTitle = await this.t('update.a.x0', {x0: 'role'});
-    }
   }
 
   submit(): void {
     const body = this.constructObject(this.form.controls);
     this.submitForm(
       {
-        request: this.roleHttpService.add(body),
+        request: this.departmentHttpService.add(body),
         succeed: res => {
           this.cancel();
           this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
       },
       {
-        request: this.roleHttpService.edit(this.id, body),
+        request: this.departmentHttpService.edit(this.id, body),
         succeed: res => {
           this.cancel();
           this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
@@ -62,7 +52,7 @@ export class RoleAddComponent extends FormComponent {
   get(id) {
     this.loading = true;
     if (id != null) {
-      this.subscribe(this.roleHttpService.get(id),
+      this.subscribe(this.departmentHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
           this.loading = false;
@@ -75,7 +65,7 @@ export class RoleAddComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/roles');
+    this.goTo('/admin/departments');
   }
 
 }

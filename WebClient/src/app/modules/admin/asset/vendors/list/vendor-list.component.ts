@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { VendorHttpService } from 'src/services/http/vendor-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
+import { Searchable } from 'src/decorators/searchable.decorator';
 
 
 @Component({
@@ -15,11 +16,11 @@ export class VendorListComponent extends TableComponent {
 
   statuses = [];
 
-  vendorName;
-  vendorEmail;
-  accountManagerName;
-  accountManagerPhone;
-  status;
+  @Searchable("VendorName", "like") vendorName;
+  @Searchable("VendorEmail", "like") vendorEmail;
+  @Searchable("AccountManagerName", "like") accountManagerName;
+  @Searchable("AccountManagerPhone", "like") accountManagerPhone;
+  @Searchable("StatusId", "like") status;
 
   constructor(
     private vendorHttpService: VendorHttpService,
@@ -66,33 +67,7 @@ export class VendorListComponent extends TableComponent {
   }
 
   search() {
-    this.gets(null, this.getSearchTerm())
-  }
-
-  private getSearchTerm() {
-    let search = ""
-    if (this.vendorName) {
-      search += `Search=VendorName like ${this.vendorName}&`;
-    }
-
-    if (this.vendorEmail) {
-      search += `Search=VendorEmail like ${this.vendorEmail}&`;
-    }
-
-    if (this.accountManagerName) {
-      search += `Search=AccountManagerName like ${this.accountManagerName}&`;
-    }
-
-
-    if (this.accountManagerPhone) {
-      search += `Search=AccountManagerPhone like ${this.accountManagerPhone}&`;
-    }
-
-    if (this.status) {
-      search += `Search=StatusId eq ${this.status}&`;
-    }
-
-    return search;
+    this.gets(null, this.getSearchTerms())
   }
 
   refresh() {

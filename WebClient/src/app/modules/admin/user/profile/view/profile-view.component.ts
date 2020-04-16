@@ -39,7 +39,6 @@ export class ProfileViewComponent extends BaseComponent {
       (res: any) => {
         this.transformDate(res, 'dateOfBirth');
         this.transformDate(res, 'joiningDate');
-        this.transformEducation(res);
         this.transformOfficeAddress(res);
         this.data = res.data;
         this.loading = false;
@@ -78,20 +77,6 @@ export class ProfileViewComponent extends BaseComponent {
       date += ` (${timeAgo})`;
       res.data[property] = date;
     }
-  }
-
-  private transformEducation(res) {
-    if (res.data.educations && res.data.educations.length > 0) {
-      const e = res.data.educations[0];
-      res.data.educations = {
-        degree: e.degree,
-        university: e.university,
-        department: e.department,
-        passingYear: e.passingYear,
-        result: e.Result
-      }
-    }
-    res.data.educations = {};
   }
 
 }

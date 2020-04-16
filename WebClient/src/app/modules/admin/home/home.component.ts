@@ -30,43 +30,62 @@ export class HomeComponent extends BaseComponent {
     this.nav = [
       {
         level: 1,
-        title: 'Dashboard',
+        title: 'dashboard',
         route: '/admin',
         icon: 'dashboard',
       },
       {
         level: 1,
-        title: 'User Management',
+        title: 'user.management',
         icon: 'team',
         nav: [
           {
             level: 2,
-            title: 'Users',
+            title: 'users',
             route: '/admin/users',
             icon: 'user'
           },
           {
             level: 2,
-            title: 'Roles',
+            title: 'roles',
             route: '/admin/roles',
             icon: 'safety'
           },
           {
             level: 2,
-            title: 'Designations',
+            title: 'designations',
             route: '/admin/designations',
+            icon: 'safety'
+          },
+          {
+            level: 2,
+            title: 'departments',
+            route: '/admin/departments',
             icon: 'safety'
           }
         ]
       },
       {
         level: 1,
-        title: 'Asset Management',
+        title: 'library.management',
         icon: 'team',
         nav: [
           {
             level: 2,
-            title: 'Vendors',
+            title: 'libraries',
+            route: '/admin/libraries',
+            icon: 'user'
+          }
+        ]
+      },
+      {
+        level: 1,
+        title: 'asset.management',
+        icon: 'team',
+        nav: [
+          {
+            level: 2,
+            title: 'vendors',
             route: '/admin/asset/vendors',
             icon: 'user'
           }

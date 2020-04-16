@@ -1,4 +1,5 @@
 import { BaseComponent } from './base.component';
+import { getSearchableProperties } from 'src/decorators/searchable.decorator';
 
 export class TableComponent extends BaseComponent {
 
@@ -52,6 +53,14 @@ export class TableComponent extends BaseComponent {
                 );
             }
         });
+    }
+
+    getSearchTerms() {
+        const searchableProperties: any = getSearchableProperties(this);
+        if (searchableProperties) {
+            return searchableProperties.join("&");
+        }
+        return "";
     }
 
 }

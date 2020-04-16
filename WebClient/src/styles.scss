@@ -422,13 +422,34 @@ nz-header .ant-badge-count {
   }
 }
 
-.block {
-  &.custom-tabs {
-    .ant-radio-button-wrapper {
-      // border: none !important;
+.form-tabset {
+  .ant-tabs-bar {
+    margin: 0;
+    background-color: #fff;
+    border-radius: 5px 5px 0 0;
+  }
+  .ant-tabs-nav {
+    .ant-tabs-tab {
+      padding: 15px 20px;
+      font-size: 17px;
+    }
+    .ant-tabs-tab-active {
+      font-weight: normal;
     }
   }
 }
+
+.form.custom-tabs {
+  .ant-radio-button-wrapper {
+    &:first-child {
+      border-radius: 4px 0 0 0;
+    }
+    &:last-child {
+      border-radius: 0 4px 0 0;
+    }
+  }
+}
+
 
 .custom-tabs {
   border-radius: 5px !important;

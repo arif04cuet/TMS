@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RoleListComponent } from './role-list.component';
+import { DepartmentListComponent } from './department-list.component';
 
 const routes: Routes = [
-  { path: '', component: RoleListComponent },
+  { path: '', component: DepartmentListComponent },
   {
     path: ':id/edit',
-    loadChildren: () => import('../add/role-add.module').then(x => x.RoleAddModule),
+    loadChildren: () => import('../add/department-add.module').then(x => x.DepartmentAddModule),
     data: {
-      name: 'role_edit',
+      name: 'department_edit',
       breadcrumb: {
         icon: 'edit',
         title: 'edit'
@@ -17,19 +17,19 @@ const routes: Routes = [
   },
   {
     path: 'add',
-    loadChildren: () => import('../add/role-add.module').then(x => x.RoleAddModule),
+    loadChildren: () => import('../add/department-add.module').then(x => x.DepartmentAddModule),
     data: {
-      name: 'role_add',
+      name: 'department_add',
       breadcrumb: {
         icon: 'plus',
         title: 'add'
       }
     }
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RoleListRoutingModule { }
+export class DepartmentListRoutingModule { }

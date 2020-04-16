@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
 import { NzTreeNodeOptions, NzFormatEmitEvent } from 'ng-zorro-antd';
@@ -20,6 +20,7 @@ export class PermissionComponent extends BaseComponent {
   defaultCheckedKeys = [];
   defaultSelectedKeys = [];
   title;
+  @Input() purpose;
 
   private userId;
   private _snapshot;
@@ -97,17 +98,17 @@ export class PermissionComponent extends BaseComponent {
 
   private async init() {
     if (this.snapshot && this._snapshot.data) {
-      if (this._snapshot.data.name == 'role_permissions') {
+      if (this.purpose == 'role') {
         this.service = this.roleHttpService;
-        this.cancelUrl = '/admin/roles';
-        const params = await this.t('roles');
-        this.title = await this.t('assign.permissions.to.x0', { x0: params });
+        // this.cancelUrl = '/admin/roles';
+        // const params = await this.t('roles');
+        // this.title = await this.t('assign.permissions.to.x0', { x0: params });
       }
-      else if (this._snapshot.data.name == 'user_permissions') {
+      else if (this.purpose == 'user') {
         this.service = this.userHttpService;
-        this.cancelUrl = '/admin/users';
-        const params = await this.t('users');
-        this.title = await this.t('assign.permissions.to.x0', { x0: params });
+        // this.cancelUrl = '/admin/users';
+        // const params = await this.t('users');
+        // this.title = await this.t('assign.permissions.to.x0', { x0: params });
       }
     }
   }
