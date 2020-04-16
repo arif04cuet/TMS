@@ -13,6 +13,7 @@ namespace Module.Library.Entities
         // Type can be Silver, Gold, Platinum etc
         
         public long CardTypeId { get; set; }
+        public LibraryCardType CardType { get; set; }
 
         public float Fees { get; set; } // anoter entity with year relatuion
         public int MaxIssueCount { get; set; }

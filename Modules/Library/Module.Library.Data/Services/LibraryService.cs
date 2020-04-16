@@ -39,7 +39,12 @@ namespace Module.Library.Data
 
         public async Task<bool> DeleteAsync(long id, CancellationToken ct = default)
         {
-            var item = new Entities.Library { Id = id };
+            var item = await _libraryRepository
+                .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+
+            if (item == null)
+                throw new NotFoundException(LIBRARY_NOT_FOUND);
+
             _libraryRepository.Remove(item);
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
@@ -105,7 +110,10 @@ namespace Module.Library.Data
 
         public async Task<bool> UpdateAsync(LibraryUpdateRequest request, CancellationToken ct = default)
         {
-            var item = await _libraryRepository.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var item = await _libraryRepository
+                .AsQueryable()
+                .Include(x => x.Address)
+                .FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (item == null)
                 throw new NotFoundException(LIBRARY_NOT_FOUND);

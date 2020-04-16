@@ -10,19 +10,14 @@ namespace Module.Library.Data
         public string Description { get; set; }
         public string Excerpt { get; set; }
         public string Isbn { get; set; }
-        public float Price { get; set; }
         public string Binding { get; set; }
-        public float Weight { get; set; }
-        public bool HasEBook { get; set; }
-        public int NumberOfPages { get; set; }
         public long Language { get; set; }
         public long? Author { get; set; }
         public long? Publisher { get; set; }
-        public long NumberOfCopy { get; set; }
 
         public IEnumerable<long> Authors { get; set; }
         public IEnumerable<long> Subjects { get; set; }
-        public IEnumerable<BookCreateItemRequest> BookItems { get; set; }
+        public IEnumerable<BookItemRequest> BookItems { get; set; }
 
         public Book ToBook()
         {

@@ -15,10 +15,10 @@ namespace Module.Library.Controllers
     public class EBookFormatController : ControllerBase
     {
 
-        private readonly INameCrudService<BookFormat> _nameService;
+        private readonly INameService<BookFormat> _nameService;
 
         public EBookFormatController(
-            INameCrudService<BookFormat> nameService)
+            INameService<BookFormat> nameService)
         {
             _nameService = nameService;
         }

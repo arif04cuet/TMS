@@ -84,5 +84,11 @@
     "library.management": "Library management",
     "dashboard": "Dashboard",
     "libraries": "Libraries",
-    "librarian": "Librarian"
+    "librarian": "Librarian",
+    "subjects": "Subjects",
+    "subject": "Subject",
+    "publishers": "Publishers",
+    "publisher": "Publisher",
+    "author": "Author",
+    "authors": "Authors"
 }

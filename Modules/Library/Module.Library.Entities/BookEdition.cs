@@ -13,7 +13,6 @@ namespace Module.Library.Entities
 
         public DateTime PublicationDate { get; set; }
 
-        public bool HasEBook { get; set; }
         public int NumberOfPage { get; set; }
         public int NumberOfCopy { get; set; }
         public float PurchagePrice { get; set; }

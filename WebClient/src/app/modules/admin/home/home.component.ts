@@ -75,6 +75,24 @@ export class HomeComponent extends BaseComponent {
             title: 'libraries',
             route: '/admin/libraries',
             icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'authors',
+            route: '/admin/library/authors',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'publishers',
+            route: '/admin/library/publishers',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'subjects',
+            route: '/admin/library/subjects',
+            icon: 'user'
           }
         ]
       },

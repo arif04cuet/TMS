@@ -25,7 +25,7 @@ namespace Module.Core.Shared
             return new OkObjectResult(pagedCollection.ToResult(status, message));
         }
 
-        public static ActionResult ToCreatedResult<T>(this T value, string location = "", int status = 200, string message = default)
+        public static ActionResult ToCreatedResult<T>(this T value, string location = "", int status = 201, string message = default)
         {
             return new CreatedResult(location, value.ToResult(status, message));
         }

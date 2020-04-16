@@ -849,14 +849,6 @@ namespace OTMS.Migrations
                         },
                         new
                         {
-                            Id = 106L,
-                            Code = "user.filter",
-                            GroupId = 1L,
-                            ModuleId = 1L,
-                            Name = "Filter"
-                        },
-                        new
-                        {
                             Id = 200L,
                             Code = "role.create",
                             GroupId = 2L,
@@ -902,14 +894,6 @@ namespace OTMS.Migrations
                             GroupId = 2L,
                             ModuleId = 1L,
                             Name = "Manage"
-                        },
-                        new
-                        {
-                            Id = 206L,
-                            Code = "role.filter",
-                            GroupId = 2L,
-                            ModuleId = 1L,
-                            Name = "Filter"
                         },
                         new
                         {
@@ -961,14 +945,6 @@ namespace OTMS.Migrations
                         },
                         new
                         {
-                            Id = 306L,
-                            Code = "designation.filter",
-                            GroupId = 3L,
-                            ModuleId = 1L,
-                            Name = "Filter"
-                        },
-                        new
-                        {
                             Id = 400L,
                             Code = "department.create",
                             GroupId = 4L,
@@ -1014,14 +990,6 @@ namespace OTMS.Migrations
                             GroupId = 4L,
                             ModuleId = 1L,
                             Name = "Manage"
-                        },
-                        new
-                        {
-                            Id = 406L,
-                            Code = "department.filter",
-                            GroupId = 4L,
-                            ModuleId = 1L,
-                            Name = "Filter"
                         },
                         new
                         {
@@ -1094,14 +1062,6 @@ namespace OTMS.Migrations
                             GroupId = 6L,
                             ModuleId = 2L,
                             Name = "Manage"
-                        },
-                        new
-                        {
-                            Id = 606L,
-                            Code = "book.filter",
-                            GroupId = 6L,
-                            ModuleId = 2L,
-                            Name = "Filter"
                         });
                 });
 
@@ -1994,9 +1954,6 @@ namespace OTMS.Migrations
                     b.Property<string>("Edition")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("HasEBook")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -2683,10 +2640,48 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CardTypeId");
+
                     b.ToTable("LibraryCard");
                 });
 
-            modelBuilder.Entity("Module.Library.Entities.Member", b =>
+            modelBuilder.Entity("Module.Library.Entities.LibraryCardType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LibraryCardType");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.LibraryMember", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2735,7 +2730,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Member");
+                    b.ToTable("LibraryMember");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.MemberLibraryCard", b =>
@@ -3357,7 +3352,16 @@ namespace OTMS.Migrations
                         .HasForeignKey("LibrarianId");
                 });
 
-            modelBuilder.Entity("Module.Library.Entities.Member", b =>
+            modelBuilder.Entity("Module.Library.Entities.LibraryCard", b =>
+                {
+                    b.HasOne("Module.Library.Entities.LibraryCardType", "CardType")
+                        .WithMany()
+                        .HasForeignKey("CardTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.LibraryMember", b =>
                 {
                     b.HasOne("Module.Library.Entities.Library", "Library")
                         .WithMany()

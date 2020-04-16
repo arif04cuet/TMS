@@ -44,7 +44,7 @@ namespace Module.Library.Controllers
         public async Task<IActionResult> Post([FromBody] BookCreateRequest request)
         {
             var result = await _bookService.CreateAsync(request);
-            return result.ToCreatedResult();
+            return result.ToCreatedResult($"api/books/{result}");
         }
 
         [HttpPut("{id}")]

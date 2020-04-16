@@ -15,10 +15,10 @@ namespace Module.Library.Controllers
     public class BookReservationStatusController : ControllerBase
     {
 
-        private readonly INameCrudService<ReservationStatus> _nameService;
+        private readonly INameService<ReservationStatus> _nameService;
 
         public BookReservationStatusController(
-            INameCrudService<ReservationStatus> nameService)
+            INameService<ReservationStatus> nameService)
         {
             _nameService = nameService;
         }

@@ -3,7 +3,7 @@ using Module.Core.Shared;
 
 namespace Module.Library.Data
 {
-    public class LibraryViewModel
+    public class LibraryViewModel : IViewModel
     {
         public long Id { get; set; }
         public string Name { get; set; }

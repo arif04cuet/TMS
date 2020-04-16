@@ -14,6 +14,8 @@
         public const string ITEM_NOT_FOUND = "Item not found.";
         public const string BOOK_NOT_FOUND = "Book not found.";
         public const string LIBRARY_NOT_FOUND = "Library not found.";
+        public const string RACK_NOT_FOUND = "Rack not found.";
+        public const string LIBRARY_CARD_NOT_FOUND = "Library card not found.";
 
     }
 }

@@ -74,6 +74,39 @@ const routes: Routes = [
         }
       },
       {
+        path: 'library/authors',
+        loadChildren: () => import('../library/author/list/author-list.module').then(x => x.AuthorListModule),
+        data: {
+          name: 'author_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'authors'
+          }
+        }
+      },
+      {
+        path: 'library/publishers',
+        loadChildren: () => import('../library/publisher/list/publisher-list.module').then(x => x.PublisherListModule),
+        data: {
+          name: 'publisher_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'publishers'
+          }
+        }
+      },
+      {
+        path: 'library/subjects',
+        loadChildren: () => import('../library/subject/list/subject-list.module').then(x => x.SubjectListModule),
+        data: {
+          name: 'subject_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'subjects'
+          }
+        }
+      },
+      {
         path: 'asset/vendors',
         loadChildren: () => import('../asset/vendors/list/vendor-list.module').then(x => x.VendorListModule),
         data: {

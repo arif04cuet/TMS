@@ -44,7 +44,7 @@ namespace Module.Library.Controllers
         public async Task<IActionResult> Post([FromBody] LibraryCreateRequest request)
         {
             var result = await _libraryService.CreateAsync(request);
-            return result.ToCreatedResult();
+            return result.ToCreatedResult($"api/libraries/{result}");
         }
 
         [HttpPut("{id}")]

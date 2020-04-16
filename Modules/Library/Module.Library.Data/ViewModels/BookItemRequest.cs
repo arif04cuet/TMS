@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Library.Data
 {
-    public class BookCreateItemRequest
+    public class BookItemRequest
     {
         public float Price { get; set; }
         public string Barcode { get; set; }

@@ -15,10 +15,10 @@ namespace Module.Library.Controllers
     public class BookPublisherController : ControllerBase
     {
 
-        private readonly INameCrudService<Author> _nameCrudService;
+        private readonly INameCrudService<Publisher> _nameCrudService;
 
         public BookPublisherController(
-            INameCrudService<Author> nameCrudService)
+            INameCrudService<Publisher> nameCrudService)
         {
             _nameCrudService = nameCrudService;
         }
@@ -44,7 +44,7 @@ namespace Module.Library.Controllers
         public async Task<IActionResult> Post([FromBody] NameCreateRequest request)
         {
             var result = await _nameCrudService.CreateAsync(request);
-            return result.ToCreatedResult();
+            return result.ToCreatedResult($"api/books/publishers/{result}");
         }
 
         [HttpPut("{id}")]

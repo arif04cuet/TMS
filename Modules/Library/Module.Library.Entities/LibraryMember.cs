@@ -4,7 +4,7 @@ using System;
 
 namespace Module.Library.Entities
 {
-    public class Member : BaseEntity
+    public class LibraryMember : BaseEntity
     {
 
         public long LibraryId { get; set; }

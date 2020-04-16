@@ -13,7 +13,14 @@ export class LibraryHttpService {
     }
 
     public list(pagination = null, search = null) {
-        return this.httpService.get('libraries');
+        let url = 'libraries?'
+        if(pagination){
+            url += pagination
+        }
+        if(search) {
+            url += search
+        }
+        return this.httpService.get(url);
     }
 
     public add(body) {

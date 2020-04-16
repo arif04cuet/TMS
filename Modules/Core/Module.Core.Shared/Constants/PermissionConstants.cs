@@ -89,6 +89,13 @@
         public const long LibraryList = 1404;
         public const long LibraryManage = 1405;
 
+        public const long RackCreate = 1500;
+        public const long RackUpdate = 1501;
+        public const long RackView = 1502;
+        public const long RackDelete = 1503;
+        public const long RackList = 1504;
+        public const long RackManage = 1505;
+
     }
 
     public static class PermissionGroupConstants

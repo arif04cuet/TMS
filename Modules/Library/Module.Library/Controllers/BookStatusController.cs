@@ -15,10 +15,10 @@ namespace Module.Library.Controllers
     public class BookStatusController : ControllerBase
     {
 
-        private readonly INameCrudService<BookStatus> _nameService;
+        private readonly INameService<BookStatus> _nameService;
 
         public BookStatusController(
-            INameCrudService<BookStatus> nameService)
+            INameService<BookStatus> nameService)
         {
             _nameService = nameService;
         }
