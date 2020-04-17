@@ -23,6 +23,14 @@ namespace Module.Library.Controllers
             _libraryService = libraryService;
         }
 
+        [HttpGet("librarians")]
+        [RequirePermission(LibraryList, LibraryManage)]
+        public async Task<ActionResult> ListLibrarian([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _libraryService.ListLibrarianAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet]
         [RequirePermission(LibraryList, LibraryManage)]
         public async Task<ActionResult> List([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)

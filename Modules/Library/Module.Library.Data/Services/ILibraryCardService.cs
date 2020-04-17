@@ -1,4 +1,5 @@
 ﻿using Infrastructure;
+using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System.Threading;
@@ -13,6 +14,8 @@ namespace Module.Library.Data
         Task<bool> DeleteAsync(long id, CancellationToken ct = default);
 
         Task<PagedCollection<LibraryCardListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
+
+        Task<PagedCollection<IdNameViewModel>> ListCardTypesAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
         Task<LibraryCardViewModel> GetAsync(long id);
 

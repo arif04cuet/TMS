@@ -31,6 +31,14 @@ namespace Module.Library.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("types")]
+        [RequirePermission(LibraryList, LibraryManage)]
+        public async Task<ActionResult> ListCardTypes([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _libraryCardService.ListCardTypesAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet("{id}")]
         [RequirePermission(LibraryView, LibraryManage)]
         public async Task<ActionResult> Get(long id)

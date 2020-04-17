@@ -23,6 +23,17 @@ export class LibraryHttpService {
         return this.httpService.get(url);
     }
 
+    public listLibrarians(pagination = null, search = null) {
+        let url = 'libraries/librarians?'
+        if(pagination){
+            url += pagination
+        }
+        if(search) {
+            url += search
+        }
+        return this.httpService.get(url);
+    }
+
     public add(body) {
         return this.httpService.post('libraries', body);
     }

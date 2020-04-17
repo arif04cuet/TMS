@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities;
+using Msi.UtilityKit.Search;
 using System;
 
 namespace Module.Library.Entities
@@ -8,10 +9,12 @@ namespace Module.Library.Entities
     /// </summary>
     public class LibraryCard : BaseEntity
     {
+        [Searchable]
         public string CardNumber { get; set; }
 
         // Type can be Silver, Gold, Platinum etc
-        
+
+        [Searchable]
         public long CardTypeId { get; set; }
         public LibraryCardType CardType { get; set; }
 

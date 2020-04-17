@@ -9,6 +9,9 @@ import { BookHttpService } from 'src/services/http/book-http.service';
 import { AuthorHttpService } from 'src/services/http/author-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
+import { forEachObj } from 'src/services/utilities.service';
+import { AbstractControl, FormArray } from '@angular/forms';
+import { SubjectHttpService } from 'src/services/http/subject-http.service';
 
 @Component({
   selector: 'app-book-add',
@@ -23,6 +26,7 @@ export class BookAddComponent extends FormComponent {
   languages = [];
   publishers = [];
   authors = [];
+  subjects = [];
 
   constructor(
     private userHttpService: UserHttpService,
@@ -31,6 +35,7 @@ export class BookAddComponent extends FormComponent {
     private authorHttpService: AuthorHttpService,
     private publisherHttpService: PublisherHttpService,
     private commonHttpService: CommonHttpService,
+    private subjectHttpService: SubjectHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -45,8 +50,10 @@ export class BookAddComponent extends FormComponent {
       binding: [],
       language: [],
       publisher: [],
+      subjects: [],
       author: [],
-      district: []
+      district: [],
+      editions: this.fb.array([])
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -76,8 +83,9 @@ export class BookAddComponent extends FormComponent {
     if (id != null) {
       this.subscribe(this.bookHttpService.get(id),
         (res: any) => {
-          this.setValues(this.form.controls, res.data);
-          this.form.controls.librarian.setValue(res.data.librarian?.id);
+          this.setValues(this.form.controls, res.data, ['editions']);
+          this.form.controls.editions = this.fb.array([]);
+          this.prepareForm(res);
           this.loading = false;
         }
       );
@@ -95,13 +103,15 @@ export class BookAddComponent extends FormComponent {
     const requests = [
       this.publisherHttpService.list(),
       this.authorHttpService.list(),
-      this.commonHttpService.getLanguages()
+      this.commonHttpService.getLanguages(),
+      this.subjectHttpService.list()
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {
         this.publishers = res[0].data.items;
         this.authors = res[1].data.items;
         this.languages = res[2].data.items;
+        this.subjects = res[3].data.items;
       }
     );
   }
@@ -111,7 +121,45 @@ export class BookAddComponent extends FormComponent {
   }
 
   addEdition() {
+    this.createEditionFormGroup({});
+  }
 
+  deleteEdition(index) {
+    const editionFormArray = this.getEditionFormArray();
+    if (editionFormArray.controls && editionFormArray.controls.length) {
+      editionFormArray.removeAt(index);
+    }
+  }
+
+  private prepareForm(res) {
+    if (res.data && res.data.editions?.length) {
+      res.data.editions.forEach(x => {
+        this.createEditionFormGroup(x);
+      });
+    }
+  }
+
+  private createEditionFormGroup(data: any) {
+    const formGroup = this.fb.group({
+      publicationDate: [null, [], this.v.required.bind(this)],
+      numberOfPage: [null, [], this.v.required.bind(this)],
+      numberOfCopy: [null, [], this.v.required.bind(this)],
+      purchagePrice: [null, [], this.v.required.bind(this)],
+      rentalPrice: [null, [], this.v.required.bind(this)],
+      edition: [null, [], this.v.required.bind(this)]
+    });
+    forEachObj(formGroup.controls, (k, v) => {
+      const dataValue = data[k];
+      if (dataValue) {
+        (v as AbstractControl).setValue(dataValue);
+      }
+    });
+    const editionFormArray = this.getEditionFormArray();
+    editionFormArray.push(formGroup);
+  }
+
+  private getEditionFormArray(): FormArray {
+    return this.form.get("editions") as FormArray;
   }
 
 

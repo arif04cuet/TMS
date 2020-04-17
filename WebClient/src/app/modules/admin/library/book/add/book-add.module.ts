@@ -12,6 +12,7 @@ import { BookHttpService } from 'src/services/http/book-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { AuthorHttpService } from 'src/services/http/author-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
+import { SubjectHttpService } from 'src/services/http/subject-http.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PublisherHttpService } from 'src/services/http/publisher-http.service';
     CommonValidator,
     CommonHttpService,
     AuthorHttpService,
-    PublisherHttpService
+    PublisherHttpService,
+    SubjectHttpService
   ]
 })
 export class BookAddModule { }

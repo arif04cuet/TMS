@@ -6,7 +6,7 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { HttpService } from 'src/services/http/http.service';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
-import { invoke } from 'src/services/utilities.service';
+import { invoke, getLang } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
 
 export class BaseComponent {
@@ -113,13 +113,21 @@ export class BaseComponent {
         return obj;
     }
 
-    setValues(controls, res) {
+    setValues(controls, res, ignoreControls = []) {
         for (const key in res) {
-            if (res.hasOwnProperty(key)) {
+            if (!ignoreControls.includes(key) && res.hasOwnProperty(key)) {
                 const control = controls[key];
                 if (control) {
                     const value = res[key];
-                    control.setValue(value);
+                    if (Array.isArray(value)) {
+                        control.setValue(value.map(x => x.id));
+                    }
+                    else if (typeof (value) === 'object') {
+                        control.setValue(value?.id);
+                    }
+                    else {
+                        control.setValue(value);
+                    }
                 }
             }
         }
@@ -137,15 +145,13 @@ export class BaseComponent {
     }
 
     translate(key: string, onTranslate: (msg: string) => void) {
-        const lang = localStorage.getItem('lang') || 'bn';
-        this._translate.use(lang);
+        this._translate.use(getLang());
         const s = this._translate.get(key).subscribe(x => this.invoke(onTranslate, x));
         this._subscriptions.push(s);
     }
 
     t(key: string, interpolateParams?: Object) {
-        const lang = localStorage.getItem('lang') || 'bn';
-        this._translate.use(lang);
+        this._translate.use(getLang());
         return this._translate.get(key, interpolateParams).toPromise()
     }
 

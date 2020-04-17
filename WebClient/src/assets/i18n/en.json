@@ -107,5 +107,18 @@
     "number.of.copy": "Number of copy",
     "number.of.page": "Number of page",
     "add.new.edition": "Add new edition",
-    "delete.edition": "Delete edition"
+    "delete.edition": "Delete edition",
+    "racks": "Racks",
+    "rack": "Rack",
+    "floor.no": "Floor no",
+    "building.name": "Building name",
+    "cards": "Cards",
+    "card": "Card",
+    "members": "Members",
+    "member": "member",
+    "max.issue.count": "Max issue count",
+    "expire.date": "Expire date",
+    "card.number": "Card number",
+    "card.type": "Card type",
+    "fees": "Fees"
 }

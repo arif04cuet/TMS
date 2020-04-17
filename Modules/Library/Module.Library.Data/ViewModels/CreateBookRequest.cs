@@ -17,7 +17,7 @@ namespace Module.Library.Data
 
         public IEnumerable<long> Authors { get; set; }
         public IEnumerable<long> Subjects { get; set; }
-        public IEnumerable<BookItemRequest> BookItems { get; set; }
+        public IEnumerable<BookEditionRequest> Editions { get; set; }
 
         public Book ToBook()
         {
@@ -42,19 +42,28 @@ namespace Module.Library.Data
             });
         }
 
-        public IEnumerable<BookItem> ToBookItems(long bookId)
-        {
-            return BookItems.Select(x =>
-            {
-                var item = x.ToBookItem();
-                item.BookId = bookId;
-                return item;
-            });
-        }
-
         public IEnumerable<BookSubject> ToBookSubjects(long bookId)
         {
             return Subjects.Select(x => new BookSubject { BookId = bookId, SubjectId = x });
+        }
+
+        public IEnumerable<BookEdition> ToBookEditions(long bookId)
+        {
+            return Editions.Select(x => ToBookEdition(x, bookId));
+        }
+
+        public BookEdition ToBookEdition(BookEditionRequest x, long bookId)
+        {
+            return new BookEdition
+            {
+                BookId = bookId,
+                Edition = x.Edition,
+                NumberOfCopy = x.NumberOfCopy,
+                NumberOfPage = x.NumberOfPage,
+                PublicationDate = x.PublicationDate,
+                PurchagePrice = x.PurchagePrice,
+                RentalPrice = x.RentalPrice
+            };
         }
     }
 }

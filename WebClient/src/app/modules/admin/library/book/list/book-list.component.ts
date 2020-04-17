@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { UserHttpService } from 'src/services/http/user-http.service';
 import { BookHttpService } from 'src/services/http/book-http.service';
+import { PublisherHttpService } from 'src/services/http/publisher-http.service';
+import { AuthorHttpService } from 'src/services/http/author-http.service';
 
 @Component({
   selector: 'app-book-list',
@@ -12,14 +14,18 @@ import { BookHttpService } from 'src/services/http/book-http.service';
 })
 export class BookListComponent extends TableComponent {
 
-  users = [];
+  publishers = [];
+  authors = [];
 
-  @Searchable("Name", "like") name;
-  @Searchable("LibrarianId", "eq") librarian;
+  @Searchable("Name", "like") title;
+  @Searchable("PublisherId", "eq") publisher;
+  @Searchable("AuthorId", "eq") author;
 
   constructor(
     private bookHttpService: BookHttpService,
     private userHttpService: UserHttpService,
+    private publisherHttpService: PublisherHttpService,
+    private authorHttpService: AuthorHttpService,
     private activatedRoute: ActivatedRoute
   ) {
     super(bookHttpService);
@@ -43,12 +49,14 @@ export class BookListComponent extends TableComponent {
     this.loading = true;
     const request = [
       this.bookHttpService.list(pagination, search),
-      this.userHttpService.list()
+      this.authorHttpService.list(),
+      this.publisherHttpService.list(),
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
         this.fill(res[0]);
-        this.users = res[1].data.items;
+        this.authors = res[1].data.items;
+        this.publishers = res[2].data.items;
       },
       err => {
         console.log(err);

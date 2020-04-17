@@ -4,7 +4,6 @@ import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { Searchable } from 'src/decorators/searchable.decorator';
-import { UserHttpService } from 'src/services/http/user-http.service';
 
 @Component({
   selector: 'app-library-list',
@@ -12,14 +11,13 @@ import { UserHttpService } from 'src/services/http/user-http.service';
 })
 export class LibraryListComponent extends TableComponent {
 
-  users = [];
+  librarians = [];
 
   @Searchable("Name", "like") name;
   @Searchable("LibrarianId", "eq") librarian;
 
   constructor(
     private libraryHttpService: LibraryHttpService,
-    private userHttpService: UserHttpService,
     private activatedRoute: ActivatedRoute
   ) {
     super(libraryHttpService);
@@ -43,12 +41,12 @@ export class LibraryListComponent extends TableComponent {
     this.loading = true;
     const request = [
       this.libraryHttpService.list(pagination, search),
-      this.userHttpService.list()
+      this.libraryHttpService.listLibrarians()
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
         this.fill(res[0]);
-        this.users = res[1].data.items;
+        this.librarians = res[1].data.items;
       },
       err => {
         console.log(err);

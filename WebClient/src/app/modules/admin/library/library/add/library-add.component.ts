@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { UserHttpService } from 'src/services/http/user-http.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
+import { CommonHttpService } from 'src/services/http/common-http.service';
 
 @Component({
   selector: 'app-library-add',
@@ -14,13 +14,13 @@ import { LibraryHttpService } from 'src/services/http/library-http.service';
 export class LibraryAddComponent extends FormComponent {
 
   loading: boolean = true;
-  users = [];
+  librarians = [];
   districts = [];
 
   constructor(
-    private userHttpService: UserHttpService,
     private activatedRoute: ActivatedRoute,
     private libraryHttpService: LibraryHttpService,
+    private commonHttpService: CommonHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -68,7 +68,6 @@ export class LibraryAddComponent extends FormComponent {
         (res: any) => {
           this.setValues(this.form.controls, res.data);
           this.mapResponseData(res.data);
-          this.form.controls.librarian.setValue(res.data.librarian?.id);
           this.loading = false;
         }
       );
@@ -84,11 +83,13 @@ export class LibraryAddComponent extends FormComponent {
 
   getData() {
     const requests = [
-      this.userHttpService.list()
+      this.libraryHttpService.listLibrarians(),
+      this.commonHttpService.getDistricts()
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {
-        this.users = res[0].data.items;
+        this.librarians = res[0].data.items;
+        this.districts = res[1].data.items;
       }
     );
   }
@@ -102,7 +103,7 @@ export class LibraryAddComponent extends FormComponent {
       addressLine1: o.addressLine1,
       addressLine2: o.addressLine2,
       upazila: o.upazila,
-      district: o.district?.id
+      district: o.district
     }
   }
 

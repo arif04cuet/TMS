@@ -74,6 +74,28 @@ const routes: Routes = [
         }
       },
       {
+        path: 'library/members',
+        loadChildren: () => import('../library/member/list/member-list.module').then(x => x.MemberListModule),
+        data: {
+          name: 'library_member_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'members'
+          }
+        }
+      },
+      {
+        path: 'library/cards',
+        loadChildren: () => import('../library/card/list/card-list.module').then(x => x.CardListModule),
+        data: {
+          name: 'library_card_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'cards'
+          }
+        }
+      },
+      {
         path: 'library/books',
         loadChildren: () => import('../library/book/list/book-list.module').then(x => x.BookListModule),
         data: {
@@ -81,6 +103,17 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'books'
+          }
+        }
+      },
+      {
+        path: 'library/racks',
+        loadChildren: () => import('../library/rack/list/rack-list.module').then(x => x.RackListModule),
+        data: {
+          name: 'rack_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'racks'
           }
         }
       },

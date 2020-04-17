@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Entities
+﻿using Msi.UtilityKit.Search;
+
+namespace Infrastructure.Entities
 {
     [IgnoredEntity]
     public class IdNameEntity : BaseEntity, IIdNameEntity
@@ -14,6 +16,7 @@
             Name = name;
         }
 
+        [Searchable]
         public string Name { get; set; }
     }
 }

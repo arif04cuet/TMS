@@ -4,7 +4,6 @@ import { LibraryListComponent } from './library-list.component';
 import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserHttpService } from 'src/services/http/user-http.service';
 import { LibraryListRoutingModule } from './library-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
@@ -25,7 +24,6 @@ import { LibraryHttpService } from 'src/services/http/library-http.service';
   ],
   exports: [LibraryListComponent],
   providers: [
-    UserHttpService,
     LibraryHttpService
   ]
 })

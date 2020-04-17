@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BoxLoaderModule } from './box-loader.component';
+import { getLang } from 'src/services/utilities.service';
 
 
 @NgModule({
@@ -15,7 +16,6 @@ import { BoxLoaderModule } from './box-loader.component';
 })
 export class SharedModule {
   constructor(private translate: TranslateService) {
-    const lang = localStorage.getItem('otms_lang') || 'en';
-    translate.use(lang);
+    translate.use(getLang());
   }
 }

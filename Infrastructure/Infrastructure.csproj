@@ -31,4 +31,8 @@
     <Folder Include="Queries\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Msi.UtilityKit\Msi.UtilityKit.csproj" />
+  </ItemGroup>
+
 </Project>

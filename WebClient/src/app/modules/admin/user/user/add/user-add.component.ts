@@ -90,10 +90,6 @@ export class UserAddComponent extends FormComponent {
       this.subscribe(this.userHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
-          this.form.controls.status.setValue(res.data.status?.id);
-          this.form.controls.designation.setValue(res.data.designation?.id);
-          this.form.controls.department.setValue(res.data.department?.id);
-          this.form.controls.roles.setValue(res.data.roles.map(x => x.id))
           this.loading = false;
         }
       );

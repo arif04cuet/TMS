@@ -42,7 +42,7 @@
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="librarian" nzShowSearch nzAllowClear
                                         [nzPlaceHolder]="'select.x0'|translate:{x0: 'librarian'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of users" [nzLabel]="p.fullName" [nzValue]="p.id">
+                                        <nz-option *ngFor="let p of librarians" [nzLabel]="p.name" [nzValue]="p.id">
                                         </nz-option>
                                     </nz-select>
                                 </nz-form-control>

@@ -2,6 +2,7 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Core.Data;
+using Module.Core.Entities;
 using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
@@ -74,6 +75,25 @@ namespace Module.Library.Data
 
             var total = await query.Select(x => x.Id).CountAsync();
             return new PagedCollection<LibraryListViewModel>(items, total, pagingOptions);
+        }
+
+        public async Task<PagedCollection<IdNameViewModel>> ListLibrarianAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+            var query = _unitOfWork.GetRepository<UserRole>()
+                .Where(x => x.RoleId == RoleConstants.Librarian && !x.User.IsDeleted);
+
+            var items = await query
+                .ApplyPagination(pagingOptions)
+                .Include(x => x.User)
+                .Select(x => new IdNameViewModel
+                {
+                    Id = x.UserId,
+                    Name = x.User.FullName
+                })
+                .ToListAsync();
+
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<IdNameViewModel>(items, total, pagingOptions);
         }
 
         public async Task<LibraryViewModel> GetAsync(long id)

@@ -100,15 +100,9 @@ export class PermissionComponent extends BaseComponent {
     if (this.snapshot && this._snapshot.data) {
       if (this.purpose == 'role') {
         this.service = this.roleHttpService;
-        // this.cancelUrl = '/admin/roles';
-        // const params = await this.t('roles');
-        // this.title = await this.t('assign.permissions.to.x0', { x0: params });
       }
       else if (this.purpose == 'user') {
         this.service = this.userHttpService;
-        // this.cancelUrl = '/admin/users';
-        // const params = await this.t('users');
-        // this.title = await this.t('assign.permissions.to.x0', { x0: params });
       }
     }
   }

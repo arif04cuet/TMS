@@ -136,7 +136,7 @@ export class FormComponent extends BaseComponent {
         }
     }
 
-    setValue(controlName, value) {
+    setValue(controlName: string, value: any): void {
         if (this.form.controls[controlName]) {
             this.form.controls[controlName].setValue(value);
         }

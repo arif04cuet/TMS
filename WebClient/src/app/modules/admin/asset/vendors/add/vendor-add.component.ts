@@ -65,7 +65,6 @@ export class VendorAddComponent extends FormComponent {
       this.subscribe(this.vendorHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
-          this.form.controls.status.setValue(res.data.status?.id);
           this.loading = false;
         }
       );

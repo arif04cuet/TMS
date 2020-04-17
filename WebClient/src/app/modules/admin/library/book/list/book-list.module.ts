@@ -8,6 +8,8 @@ import { UserHttpService } from 'src/services/http/user-http.service';
 import { BookListRoutingModule } from './book-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BookHttpService } from 'src/services/http/book-http.service';
+import { PublisherHttpService } from 'src/services/http/publisher-http.service';
+import { AuthorHttpService } from 'src/services/http/author-http.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { BookHttpService } from 'src/services/http/book-http.service';
   exports: [BookListComponent],
   providers: [
     UserHttpService,
-    BookHttpService
+    BookHttpService,
+    PublisherHttpService,
+    AuthorHttpService
   ]
 })
 export class BookListModule { }

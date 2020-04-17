@@ -3241,6 +3241,24 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LibraryCardType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Normal",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Premium",
+                            Version = 0L
+                        });
                 });
 
             modelBuilder.Entity("Module.Library.Entities.LibraryMember", b =>

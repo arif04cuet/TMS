@@ -10,14 +10,6 @@ export class AppComponent {
     AppInjector = injector
   }
 
-  ngOnInit() {
-    const key = 'otms_lang';
-    const lang = localStorage.getItem(key);
-    if (!lang) {
-      localStorage.setItem(key, 'en');
-    }
-  }
-
 }
 
 export let AppInjector: Injector;

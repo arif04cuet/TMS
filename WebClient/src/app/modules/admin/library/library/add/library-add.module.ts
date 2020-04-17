@@ -9,6 +9,7 @@ import { LibraryAddRoutingModule } from './library-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
+import { CommonHttpService } from 'src/services/http/common-http.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LibraryHttpService } from 'src/services/http/library-http.service';
   providers: [
     UserHttpService,
     LibraryHttpService,
-    CommonValidator
+    CommonValidator,
+    CommonHttpService
   ]
 })
 export class LibraryAddModule { }
