@@ -5,9 +5,17 @@ import { Component, Injector } from '@angular/core';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  
+
   constructor(private injector: Injector) {
     AppInjector = injector
+  }
+
+  ngOnInit() {
+    const key = 'otms_lang';
+    const lang = localStorage.getItem(key);
+    if (!lang) {
+      localStorage.setItem(key, 'en');
+    }
   }
 
 }
