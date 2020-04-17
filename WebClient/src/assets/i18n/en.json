@@ -90,5 +90,22 @@
     "publishers": "Publishers",
     "publisher": "Publisher",
     "author": "Author",
-    "authors": "Authors"
+    "authors": "Authors",
+    "books": "Books",
+    "book": "Book",
+    "title": "Title",
+    "binding": "Binding",
+    "language": "Language",
+    "isbn": "ISBN",
+    "editions": "Editions",
+    "basic.information": "Basic information",
+    "add.x0": "Add {{x0}}",
+    "edition": "Edition",
+    "publication.date": "Publication date",
+    "purchage.price": "Purchage price",
+    "rental.price": "Rental price",
+    "number.of.copy": "Number of copy",
+    "number.of.page": "Number of page",
+    "add.new.edition": "Add new edition",
+    "delete.edition": "Delete edition"
 }

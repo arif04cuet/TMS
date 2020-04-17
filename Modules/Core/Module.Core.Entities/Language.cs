@@ -2,10 +2,15 @@
 
 namespace Module.Core.Entities
 {
-    public class Language : BaseEntityWithTypeId<string>
+    public class Language : IdNameEntity
     {
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string Group { get; set; }
+        public Language() : base()
+        {
+
+        }
+
+        public Language(long id, string name) : base(id, name)
+        {
+        }
     }
 }

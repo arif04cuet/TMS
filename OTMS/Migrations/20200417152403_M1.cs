@@ -243,7 +243,8 @@ namespace OTMS.Migrations
                 name: "Language",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedBy = table.Column<long>(nullable: true),
                     UpdatedBy = table.Column<long>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
@@ -251,9 +252,7 @@ namespace OTMS.Migrations
                     Version = table.Column<long>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: true),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
-                    Code = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Group = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,7 +260,7 @@ namespace OTMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LibraryCard",
+                name: "LibraryCardType",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -273,15 +272,11 @@ namespace OTMS.Migrations
                     Version = table.Column<long>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: true),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
-                    CardNumber = table.Column<string>(nullable: true),
-                    CardTypeId = table.Column<long>(nullable: false),
-                    Fees = table.Column<float>(nullable: false),
-                    MaxIssueCount = table.Column<int>(nullable: false),
-                    ExpireDate = table.Column<DateTime>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LibraryCard", x => x.Id);
+                    table.PrimaryKey("PK_LibraryCardType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -603,6 +598,36 @@ namespace OTMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LibraryCard",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedBy = table.Column<long>(nullable: true),
+                    UpdatedBy = table.Column<long>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    Version = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    CardNumber = table.Column<string>(nullable: true),
+                    CardTypeId = table.Column<long>(nullable: false),
+                    Fees = table.Column<float>(nullable: false),
+                    MaxIssueCount = table.Column<int>(nullable: false),
+                    ExpireDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LibraryCard", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LibraryCard_LibraryCardType_CardTypeId",
+                        column: x => x.CardTypeId,
+                        principalTable: "LibraryCardType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EBook",
                 columns: table => new
                 {
@@ -684,7 +709,6 @@ namespace OTMS.Migrations
                     Isbn = table.Column<string>(nullable: true),
                     Binding = table.Column<string>(nullable: true),
                     LanguageId = table.Column<long>(nullable: false),
-                    LanguageId1 = table.Column<string>(nullable: true),
                     PublisherId = table.Column<long>(nullable: true),
                     AuthorId = table.Column<long>(nullable: true)
                 },
@@ -698,11 +722,11 @@ namespace OTMS.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Book_Language_LanguageId1",
-                        column: x => x.LanguageId1,
+                        name: "FK_Book_Language_LanguageId",
+                        column: x => x.LanguageId,
                         principalTable: "Language",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Book_Publisher_PublisherId",
                         column: x => x.PublisherId,
@@ -863,7 +887,6 @@ namespace OTMS.Migrations
                     BookId = table.Column<long>(nullable: false),
                     EBookId = table.Column<long>(nullable: true),
                     PublicationDate = table.Column<DateTime>(nullable: false),
-                    HasEBook = table.Column<bool>(nullable: false),
                     NumberOfPage = table.Column<int>(nullable: false),
                     NumberOfCopy = table.Column<int>(nullable: false),
                     PurchagePrice = table.Column<float>(nullable: false),
@@ -1225,7 +1248,7 @@ namespace OTMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Member",
+                name: "LibraryMember",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -1245,15 +1268,15 @@ namespace OTMS.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Member", x => x.Id);
+                    table.PrimaryKey("PK_LibraryMember", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Member_Library_LibraryId",
+                        name: "FK_LibraryMember_Library_LibraryId",
                         column: x => x.LibraryId,
                         principalTable: "Library",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Member_User_UserId",
+                        name: "FK_LibraryMember_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
@@ -1393,13 +1416,13 @@ namespace OTMS.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 3L, null, null, true, false, "Audiobook", null, null, 0L },
-                    { 2L, null, null, true, false, "Paperback", null, null, 0L },
                     { 1L, null, null, true, false, "Hardcover", null, null, 0L },
+                    { 2L, null, null, true, false, "Paperback", null, null, 0L },
+                    { 4L, null, null, true, false, "Ebook", null, null, 0L },
+                    { 5L, null, null, true, false, "Newspaper", null, null, 0L },
                     { 6L, null, null, true, false, "Magazine", null, null, 0L },
                     { 7L, null, null, true, false, "Journal", null, null, 0L },
-                    { 4L, null, null, true, false, "Ebook", null, null, 0L },
-                    { 5L, null, null, true, false, "Newspaper", null, null, 0L }
+                    { 3L, null, null, true, false, "Audiobook", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -1419,17 +1442,88 @@ namespace OTMS.Migrations
                 values: new object[,]
                 {
                     { 8L, null, null, true, false, "Additional Secretary", null, null, 0L },
-                    { 5L, null, null, true, false, "Assistant Director or Equivalent", null, null, 0L },
-                    { 6L, null, null, true, false, "Social services officer 1st Class Gazetted or Equivalent", null, null, 0L },
-                    { 4L, null, null, true, false, "Deputy Director or Equivalent", null, null, 0L },
-                    { 7L, null, null, true, false, "Social services officer 2nd Class Gazetted or Equivalent", null, null, 0L },
-                    { 3L, null, null, true, false, "Additional Director", null, null, 0L },
                     { 1L, null, null, true, false, "Director General", null, null, 0L },
+                    { 2L, null, null, true, false, "Director", null, null, 0L },
+                    { 3L, null, null, true, false, "Additional Director", null, null, 0L },
+                    { 4L, null, null, true, false, "Deputy Director or Equivalent", null, null, 0L },
+                    { 5L, null, null, true, false, "Assistant Director or Equivalent", null, null, 0L },
                     { 12L, null, null, true, false, "Honorable Guest Speaker", null, null, 0L },
                     { 11L, null, null, true, false, "Deputy Secretary", null, null, 0L },
                     { 10L, null, null, true, false, "Joint Secretary", null, null, 0L },
                     { 9L, null, null, true, false, "Secretary", null, null, 0L },
-                    { 2L, null, null, true, false, "Director", null, null, 0L }
+                    { 6L, null, null, true, false, "Social services officer 1st Class Gazetted or Equivalent", null, null, 0L },
+                    { 7L, null, null, true, false, "Social services officer 2nd Class Gazetted or Equivalent", null, null, 0L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "District",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 45L, "Bogura" },
+                    { 49L, "Chapainawabganj" },
+                    { 48L, "Natore" },
+                    { 47L, "Naogaon" },
+                    { 46L, "Joypurhat" },
+                    { 40L, "Satkhira" },
+                    { 43L, "Netrokona" },
+                    { 42L, "Mymensingh" },
+                    { 41L, "Jamalpur" },
+                    { 50L, "Pabna" },
+                    { 44L, "Sherpur" },
+                    { 51L, "Rajshahi" },
+                    { 60L, "Thakurgaon" },
+                    { 54L, "Gaibandha" },
+                    { 55L, "Kurigram" },
+                    { 56L, "Lalmonirhat" },
+                    { 57L, "Nilphamari" },
+                    { 58L, "Panchagarh" },
+                    { 59L, "Rangpur" },
+                    { 61L, "Habiganj" },
+                    { 62L, "Moulvibazar" },
+                    { 63L, "Sunamganj" },
+                    { 64L, "Sylhet" },
+                    { 39L, "Narail" },
+                    { 53L, "Dinajpur" },
+                    { 38L, "Meherpur" },
+                    { 52L, "Sirajganj" },
+                    { 36L, "Kushtia" },
+                    { 16L, "Noakhali" },
+                    { 15L, "Lakshmipur" },
+                    { 14L, "Khagrachhari" },
+                    { 13L, "Feni" },
+                    { 12L, "Cox's Bazar" },
+                    { 10L, "Chattogram" },
+                    { 37L, "Magura" },
+                    { 17L, "Rangamati" },
+                    { 1L, "Barguna" },
+                    { 3L, "Bhola" },
+                    { 4L, "Jhalokathi" },
+                    { 5L, "Patuakhali" },
+                    { 6L, "Pirojpur" },
+                    { 7L, "Bandarban" },
+                    { 8L, "Brahmanbaria" },
+                    { 9L, "Chandpur" },
+                    { 2L, "Barishal" },
+                    { 18L, "Dhaka" },
+                    { 11L, "Cumilla" },
+                    { 20L, "Gazipur" },
+                    { 19L, "Faridpur" },
+                    { 27L, "Narsingdi" },
+                    { 28L, "Rajbari" },
+                    { 29L, "Shariatpur" },
+                    { 30L, "Tangail" },
+                    { 31L, "Bagerhat" },
+                    { 32L, "Chuadanga" },
+                    { 34L, "Jhenaidah" },
+                    { 33L, "Jashore" },
+                    { 24L, "Manikganj" },
+                    { 35L, "Khulna" },
+                    { 23L, "Madaripur" },
+                    { 22L, "Kishoreganj" },
+                    { 21L, "Gopalganj" },
+                    { 25L, "Munshiganj" },
+                    { 26L, "Narayanganj" }
                 });
 
             migrationBuilder.InsertData(
@@ -1437,9 +1531,9 @@ namespace OTMS.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
+                    { 3L, null, null, true, false, "WordDocument", null, null, 0L },
                     { 1L, null, null, true, false, "PDF", null, null, 0L },
-                    { 2L, null, null, true, false, "ePUB", null, null, 0L },
-                    { 3L, null, null, true, false, "WordDocument", null, null, 0L }
+                    { 2L, null, null, true, false, "ePUB", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -1453,15 +1547,26 @@ namespace OTMS.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Language",
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
+                values: new object[,]
+                {
+                    { 1L, null, null, true, false, "Bangla", null, null, 0L },
+                    { 4L, null, null, true, false, "Hindi", null, null, 0L },
+                    { 3L, null, null, true, false, "Arabic", null, null, 0L },
+                    { 2L, null, null, true, false, "English", null, null, 0L }
+                });
+
+            migrationBuilder.InsertData(
                 table: "MaritalStatus",
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
                     { 5L, null, null, true, false, "Never married", null, null, 0L },
-                    { 1L, null, null, true, false, "Married", null, null, 0L },
-                    { 2L, null, null, true, false, "Un married", null, null, 0L },
+                    { 4L, null, null, true, false, "Divorced", null, null, 0L },
                     { 3L, null, null, true, false, "Widowed", null, null, 0L },
-                    { 4L, null, null, true, false, "Divorced", null, null, 0L }
+                    { 2L, null, null, true, false, "Un married", null, null, 0L },
+                    { 1L, null, null, true, false, "Married", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -1469,11 +1574,11 @@ namespace OTMS.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 4L, null, null, true, false, "Blacklisted", null, null, 0L },
-                    { 3L, null, null, true, false, "Canceled", null, null, 0L },
                     { 2L, null, null, true, false, "Closed", null, null, 0L },
                     { 1L, null, null, true, false, "Active", null, null, 0L },
-                    { 5L, null, null, true, false, "None", null, null, 0L }
+                    { 4L, null, null, true, false, "Blacklisted", null, null, 0L },
+                    { 5L, null, null, true, false, "None", null, null, 0L },
+                    { 3L, null, null, true, false, "Canceled", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -1482,8 +1587,8 @@ namespace OTMS.Migrations
                 values: new object[,]
                 {
                     { 3L, null, null, true, false, "Asset Management", null, null, 0L },
-                    { 2L, null, null, true, false, "Library Management", null, null, 0L },
-                    { 1L, null, null, true, false, "User Management", null, null, 0L }
+                    { 1L, null, null, true, false, "User Management", null, null, 0L },
+                    { 2L, null, null, true, false, "Library Management", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -1491,12 +1596,12 @@ namespace OTMS.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 1L, null, null, true, false, "User", null, null, 0L },
-                    { 3L, null, null, true, false, "Designation", null, null, 0L },
-                    { 4L, null, null, true, false, "Department", null, null, 0L },
-                    { 6L, null, null, true, false, "Book", null, null, 0L },
                     { 2L, null, null, true, false, "Role", null, null, 0L },
-                    { 5L, null, null, true, false, "Profile", null, null, 0L }
+                    { 3L, null, null, true, false, "Designation", null, null, 0L },
+                    { 5L, null, null, true, false, "Profile", null, null, 0L },
+                    { 6L, null, null, true, false, "Book", null, null, 0L },
+                    { 1L, null, null, true, false, "User", null, null, 0L },
+                    { 4L, null, null, true, false, "Department", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -1505,13 +1610,13 @@ namespace OTMS.Migrations
                 values: new object[,]
                 {
                     { 1L, null, null, true, false, "Islam", null, null, 0L },
-                    { 5L, null, null, true, false, "Buddhism", null, null, 0L },
-                    { 8L, null, null, true, false, "Other", null, null, 0L },
-                    { 7L, null, null, true, false, "Sikhism", null, null, 0L },
-                    { 6L, null, null, true, false, "Jainism", null, null, 0L },
-                    { 2L, null, null, true, false, "Judaism", null, null, 0L },
+                    { 3L, null, null, true, false, "Hinduism", null, null, 0L },
                     { 4L, null, null, true, false, "Christianity", null, null, 0L },
-                    { 3L, null, null, true, false, "Hinduism", null, null, 0L }
+                    { 5L, null, null, true, false, "Buddhism", null, null, 0L },
+                    { 7L, null, null, true, false, "Sikhism", null, null, 0L },
+                    { 8L, null, null, true, false, "Other", null, null, 0L },
+                    { 6L, null, null, true, false, "Jainism", null, null, 0L },
+                    { 2L, null, null, true, false, "Judaism", null, null, 0L }
                 });
 
             migrationBuilder.InsertData(
@@ -1519,10 +1624,10 @@ namespace OTMS.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
                 values: new object[,]
                 {
-                    { 3L, null, null, true, false, "Completed", null, null, 0L },
-                    { 2L, null, null, true, false, "Pending", null, null, 0L },
-                    { 1L, null, null, true, false, "Waiting", null, null, 0L },
                     { 4L, null, null, true, false, "Canceled", null, null, 0L },
+                    { 1L, null, null, true, false, "Waiting", null, null, 0L },
+                    { 2L, null, null, true, false, "Pending", null, null, 0L },
+                    { 3L, null, null, true, false, "Completed", null, null, 0L },
                     { 5L, null, null, true, false, "None", null, null, 0L }
                 });
 
@@ -1552,39 +1657,34 @@ namespace OTMS.Migrations
                 values: new object[,]
                 {
                     { 100L, "user.create", null, 1L, 1L, "Create" },
-                    { 400L, "department.create", null, 4L, 1L, "Create" },
-                    { 401L, "department.update", null, 4L, 1L, "Update" },
-                    { 402L, "department.view", null, 4L, 1L, "View" },
-                    { 404L, "department.list", null, 4L, 1L, "List" },
-                    { 403L, "department.delete", null, 4L, 1L, "Delete" },
-                    { 405L, "department.manage", null, 4L, 1L, "Manage" },
-                    { 406L, "department.filter", null, 4L, 1L, "Filter" },
-                    { 306L, "designation.filter", null, 3L, 1L, "Filter" },
-                    { 501L, "profile.update", null, 5L, 1L, "Update" },
-                    { 505L, "profile.manage", null, 5L, 1L, "Manage" },
-                    { 600L, "book.create", null, 6L, 2L, "Create" },
-                    { 601L, "book.update", null, 6L, 2L, "Update" },
-                    { 602L, "book.view", null, 6L, 2L, "View" },
-                    { 604L, "book.list", null, 6L, 2L, "List" },
                     { 603L, "book.delete", null, 6L, 2L, "Delete" },
-                    { 605L, "book.manage", null, 6L, 2L, "Manage" },
+                    { 604L, "book.list", null, 6L, 2L, "List" },
+                    { 602L, "book.view", null, 6L, 2L, "View" },
+                    { 601L, "book.update", null, 6L, 2L, "Update" },
+                    { 600L, "book.create", null, 6L, 2L, "Create" },
+                    { 505L, "profile.manage", null, 5L, 1L, "Manage" },
                     { 502L, "profile.view", null, 5L, 1L, "View" },
-                    { 606L, "book.filter", null, 6L, 2L, "Filter" },
+                    { 501L, "profile.update", null, 5L, 1L, "Update" },
+                    { 405L, "department.manage", null, 4L, 1L, "Manage" },
+                    { 403L, "department.delete", null, 4L, 1L, "Delete" },
+                    { 404L, "department.list", null, 4L, 1L, "List" },
+                    { 402L, "department.view", null, 4L, 1L, "View" },
+                    { 401L, "department.update", null, 4L, 1L, "Update" },
+                    { 400L, "department.create", null, 4L, 1L, "Create" },
                     { 305L, "designation.manage", null, 3L, 1L, "Manage" },
+                    { 303L, "designation.delete", null, 3L, 1L, "Delete" },
                     { 304L, "designation.list", null, 3L, 1L, "List" },
                     { 101L, "user.update", null, 1L, 1L, "Update" },
                     { 102L, "user.view", null, 1L, 1L, "View" },
                     { 104L, "user.list", null, 1L, 1L, "List" },
                     { 103L, "user.delete", null, 1L, 1L, "Delete" },
                     { 105L, "user.manage", null, 1L, 1L, "Manage" },
-                    { 106L, "user.filter", null, 1L, 1L, "Filter" },
                     { 200L, "role.create", null, 2L, 1L, "Create" },
-                    { 303L, "designation.delete", null, 3L, 1L, "Delete" },
+                    { 605L, "book.manage", null, 6L, 2L, "Manage" },
                     { 201L, "role.update", null, 2L, 1L, "Update" },
                     { 204L, "role.list", null, 2L, 1L, "List" },
                     { 203L, "role.delete", null, 2L, 1L, "Delete" },
                     { 205L, "role.manage", null, 2L, 1L, "Manage" },
-                    { 206L, "role.filter", null, 2L, 1L, "Filter" },
                     { 300L, "designation.create", null, 3L, 1L, "Create" },
                     { 301L, "designation.update", null, 3L, 1L, "Update" },
                     { 302L, "designation.view", null, 3L, 1L, "View" },
@@ -1624,9 +1724,9 @@ namespace OTMS.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Book_LanguageId1",
+                name: "IX_Book_LanguageId",
                 table: "Book",
-                column: "LanguageId1");
+                column: "LanguageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Book_PublisherId",
@@ -1760,13 +1860,18 @@ namespace OTMS.Migrations
                 column: "LibrarianId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Member_LibraryId",
-                table: "Member",
+                name: "IX_LibraryCard_CardTypeId",
+                table: "LibraryCard",
+                column: "CardTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LibraryMember_LibraryId",
+                table: "LibraryMember",
                 column: "LibraryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Member_UserId",
-                table: "Member",
+                name: "IX_LibraryMember_UserId",
+                table: "LibraryMember",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -1916,7 +2021,7 @@ namespace OTMS.Migrations
                 name: "EmailTemplate");
 
             migrationBuilder.DropTable(
-                name: "Member");
+                name: "LibraryMember");
 
             migrationBuilder.DropTable(
                 name: "MemberStatus");
@@ -2013,6 +2118,9 @@ namespace OTMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "BookStatus");
+
+            migrationBuilder.DropTable(
+                name: "LibraryCardType");
 
             migrationBuilder.DropTable(
                 name: "District");

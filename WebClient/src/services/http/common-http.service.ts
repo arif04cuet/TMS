@@ -48,4 +48,8 @@ export class CommonHttpService {
         return this.httpService.get('blood-groups');
     }
 
+    public getLanguages() {
+        return this.httpService.get('languages');
+    }
+
 }

@@ -404,6 +404,328 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("District");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "Barguna"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Name = "Barishal"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Name = "Bhola"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            Name = "Jhalokathi"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            Name = "Patuakhali"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            Name = "Pirojpur"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            Name = "Bandarban"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            Name = "Brahmanbaria"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            Name = "Chandpur"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            Name = "Chattogram"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            Name = "Cumilla"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            Name = "Cox's Bazar"
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            Name = "Feni"
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            Name = "Khagrachhari"
+                        },
+                        new
+                        {
+                            Id = 15L,
+                            Name = "Lakshmipur"
+                        },
+                        new
+                        {
+                            Id = 16L,
+                            Name = "Noakhali"
+                        },
+                        new
+                        {
+                            Id = 17L,
+                            Name = "Rangamati"
+                        },
+                        new
+                        {
+                            Id = 18L,
+                            Name = "Dhaka"
+                        },
+                        new
+                        {
+                            Id = 19L,
+                            Name = "Faridpur"
+                        },
+                        new
+                        {
+                            Id = 20L,
+                            Name = "Gazipur"
+                        },
+                        new
+                        {
+                            Id = 21L,
+                            Name = "Gopalganj"
+                        },
+                        new
+                        {
+                            Id = 22L,
+                            Name = "Kishoreganj"
+                        },
+                        new
+                        {
+                            Id = 23L,
+                            Name = "Madaripur"
+                        },
+                        new
+                        {
+                            Id = 24L,
+                            Name = "Manikganj"
+                        },
+                        new
+                        {
+                            Id = 25L,
+                            Name = "Munshiganj"
+                        },
+                        new
+                        {
+                            Id = 26L,
+                            Name = "Narayanganj"
+                        },
+                        new
+                        {
+                            Id = 27L,
+                            Name = "Narsingdi"
+                        },
+                        new
+                        {
+                            Id = 28L,
+                            Name = "Rajbari"
+                        },
+                        new
+                        {
+                            Id = 29L,
+                            Name = "Shariatpur"
+                        },
+                        new
+                        {
+                            Id = 30L,
+                            Name = "Tangail"
+                        },
+                        new
+                        {
+                            Id = 31L,
+                            Name = "Bagerhat"
+                        },
+                        new
+                        {
+                            Id = 32L,
+                            Name = "Chuadanga"
+                        },
+                        new
+                        {
+                            Id = 33L,
+                            Name = "Jashore"
+                        },
+                        new
+                        {
+                            Id = 34L,
+                            Name = "Jhenaidah"
+                        },
+                        new
+                        {
+                            Id = 35L,
+                            Name = "Khulna"
+                        },
+                        new
+                        {
+                            Id = 36L,
+                            Name = "Kushtia"
+                        },
+                        new
+                        {
+                            Id = 37L,
+                            Name = "Magura"
+                        },
+                        new
+                        {
+                            Id = 38L,
+                            Name = "Meherpur"
+                        },
+                        new
+                        {
+                            Id = 39L,
+                            Name = "Narail"
+                        },
+                        new
+                        {
+                            Id = 40L,
+                            Name = "Satkhira"
+                        },
+                        new
+                        {
+                            Id = 41L,
+                            Name = "Jamalpur"
+                        },
+                        new
+                        {
+                            Id = 42L,
+                            Name = "Mymensingh"
+                        },
+                        new
+                        {
+                            Id = 43L,
+                            Name = "Netrokona"
+                        },
+                        new
+                        {
+                            Id = 44L,
+                            Name = "Sherpur"
+                        },
+                        new
+                        {
+                            Id = 45L,
+                            Name = "Bogura"
+                        },
+                        new
+                        {
+                            Id = 46L,
+                            Name = "Joypurhat"
+                        },
+                        new
+                        {
+                            Id = 47L,
+                            Name = "Naogaon"
+                        },
+                        new
+                        {
+                            Id = 48L,
+                            Name = "Natore"
+                        },
+                        new
+                        {
+                            Id = 49L,
+                            Name = "Chapainawabganj"
+                        },
+                        new
+                        {
+                            Id = 50L,
+                            Name = "Pabna"
+                        },
+                        new
+                        {
+                            Id = 51L,
+                            Name = "Rajshahi"
+                        },
+                        new
+                        {
+                            Id = 52L,
+                            Name = "Sirajganj"
+                        },
+                        new
+                        {
+                            Id = 53L,
+                            Name = "Dinajpur"
+                        },
+                        new
+                        {
+                            Id = 54L,
+                            Name = "Gaibandha"
+                        },
+                        new
+                        {
+                            Id = 55L,
+                            Name = "Kurigram"
+                        },
+                        new
+                        {
+                            Id = 56L,
+                            Name = "Lalmonirhat"
+                        },
+                        new
+                        {
+                            Id = 57L,
+                            Name = "Nilphamari"
+                        },
+                        new
+                        {
+                            Id = 58L,
+                            Name = "Panchagarh"
+                        },
+                        new
+                        {
+                            Id = 59L,
+                            Name = "Rangpur"
+                        },
+                        new
+                        {
+                            Id = 60L,
+                            Name = "Thakurgaon"
+                        },
+                        new
+                        {
+                            Id = 61L,
+                            Name = "Habiganj"
+                        },
+                        new
+                        {
+                            Id = 62L,
+                            Name = "Moulvibazar"
+                        },
+                        new
+                        {
+                            Id = 63L,
+                            Name = "Sunamganj"
+                        },
+                        new
+                        {
+                            Id = 64L,
+                            Name = "Sylhet"
+                        });
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Education", b =>
@@ -539,20 +861,16 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Core.Entities.Language", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("Group")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -575,6 +893,40 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Language");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Bangla",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "English",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Arabic",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Hindi",
+                            Version = 0L
+                        });
                 });
 
             modelBuilder.Entity("Module.Core.Entities.MaritalStatus", b =>
@@ -1860,9 +2212,6 @@ namespace OTMS.Migrations
                     b.Property<long>("LanguageId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("LanguageId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<long?>("PublisherId")
                         .HasColumnType("bigint");
 
@@ -1882,7 +2231,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("LanguageId1");
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("PublisherId");
 
@@ -3201,7 +3550,9 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Core.Entities.Language", "Language")
                         .WithMany()
-                        .HasForeignKey("LanguageId1");
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Module.Library.Entities.Publisher", "Publisher")
                         .WithMany()

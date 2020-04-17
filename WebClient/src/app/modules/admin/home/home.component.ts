@@ -78,6 +78,12 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
+            title: 'books',
+            route: '/admin/library/books',
+            icon: 'user'
+          },
+          {
+            level: 2,
             title: 'authors',
             route: '/admin/library/authors',
             icon: 'user'

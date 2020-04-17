@@ -74,6 +74,17 @@ const routes: Routes = [
         }
       },
       {
+        path: 'library/books',
+        loadChildren: () => import('../library/book/list/book-list.module').then(x => x.BookListModule),
+        data: {
+          name: 'book_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'books'
+          }
+        }
+      },
+      {
         path: 'library/authors',
         loadChildren: () => import('../library/author/list/author-list.module').then(x => x.AuthorListModule),
         data: {
