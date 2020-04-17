@@ -128,6 +128,7 @@ export class ProfileAddComponent extends FormComponent {
       this.commonHttpService.getMaritalStatusList(),
       this.commonHttpService.getReligions(),
       this.userHttpService.getProfile(this.userId),
+      this.commonHttpService.getDistricts()
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {
@@ -135,6 +136,7 @@ export class ProfileAddComponent extends FormComponent {
         this.bloodGroups = res[1].data.items;
         this.maritalStatus = res[2].data.items;
         this.religions = res[3].data.items;
+        this.districts = res[5].data.items;
         this.setValues(this.form.controls, res[4].data);
         this.mapResponseObject(res[4].data);
         this.loading = false;

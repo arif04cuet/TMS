@@ -2,20 +2,15 @@
 
 namespace Module.Core.Entities
 {
-    public class District : IEntity
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        
-        public District()
+    public class District : IdNameEntity
+    {        
+        public District() : base()
         {
 
         }
 
-        public District(long id, string name)
+        public District(long id, string name) : base(id, name)
         {
-            Id = id;
-            Name = name;
         }
     }
 }

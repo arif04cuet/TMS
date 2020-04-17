@@ -99,7 +99,9 @@ export class BookAddComponent extends FormComponent {
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {
-        this.users = res[0].data.items;
+        this.publishers = res[0].data.items;
+        this.authors = res[1].data.items;
+        this.languages = res[2].data.items;
       }
     );
   }

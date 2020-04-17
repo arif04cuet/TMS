@@ -52,4 +52,8 @@ export class CommonHttpService {
         return this.httpService.get('languages');
     }
 
+    public getDistricts() {
+        return this.httpService.get('districts?offset=0&limit=64');
+    }
+
 }
