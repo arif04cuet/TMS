@@ -1,0 +1,105 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+<div *ngIf="!loading">
+    <div class="box">
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class="column content">
+                <div class="header-container">
+                    <span class="header">
+                        {{'manufacturers'|translate}} ({{total}})
+                    </span>
+                </div>
+            </div>
+            <div class="column">
+                <button (click)="add()" nz-button class="btn-custom">
+                    <i nz-icon nzType="plus" nzTheme="outline"></i>
+                    {{'new'|translate}}
+                </button>
+                <button (click)="refresh()" nz-button class="btn-custom">
+                    <i nz-icon nzType="sync" nzTheme="outline"></i>
+                    {{'refresh'|translate}}
+                </button>
+            </div>
+        </div>
+        <div class="block">
+            <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items">
+                <thead>
+                    <tr class="v-align-top advanced-table-filter">
+                        <th>
+                            {{'name'|translate}}
+                            <input [(ngModel)]="Name" nz-input />
+                        </th>
+
+                        <th>
+                            {{'support_email'|translate}}
+                            <input [(ngModel)]="SupportEmail" nz-input />
+                        </th>
+
+                        <th>
+                            {{'support_phone'|translate}}
+                            <input [(ngModel)]="SupportPhone" nz-input />
+                        </th>
+
+                        <th>
+                            {{'support_url'|translate}}
+                            <input [(ngModel)]="SupportUrl" nz-input />
+                        </th>
+
+                        <th>
+                            {{'status'|translate}}
+
+                            <div>
+                                <nz-select [(ngModel)]="IsActive" class="btn-custom" nzShowSearch nzAllowClear
+                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'isActive'|translate|lowercase}">
+                                    <nz-option *ngFor="let p of statuses" [nzLabel]="p.name" [nzValue]="p.id">
+                                    </nz-option>
+                                </nz-select>
+
+                            </div>
+
+                        </th>
+                        <th>
+                            <div class="ta-right">
+                                {{'action'|translate}}
+                            </div>
+                            <div>
+                                <button (click)="search()" nz-button class="btn-custom">
+                                    <i nz-icon nzType="search"></i>
+                                    {{'search'|translate}}
+                                </button>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of basicTable.data">
+                        <td>{{ data.name }}</td>
+                        <td>{{ data.supportEmail }}</td>
+                        <td>{{ data.supportPhone }}</td>
+                        <td>{{ data.supportUrl }}</td>
+                        <td>{{ data.isActive ? 'Active':'In Active' }}</td>
+
+                        <td class="action-column fit-cell">
+                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
+                                class="btn-custom">
+                                <i nz-icon nzType="ellipsis"></i>
+                            </button>
+                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item (click)="add(data)">
+                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
+                                    </li>
+                                    <li nz-menu-item (click)="delete(data)">
+                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
+                                    </li>
+                                </ul>
+                            </nz-dropdown-menu>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
+</div>

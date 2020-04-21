@@ -120,5 +120,17 @@
     "expire.date": "Expire date",
     "card.number": "Card number",
     "card.type": "Card type",
-    "fees": "Fees"
+    "fees": "Fees",
+    "supplier": "Supplier",
+    "active": "Active",
+    "contact_name": "Contact Name",
+    "contact_email": "Contact Email",
+    "contact_phone": "Contact Phone",
+    "type": "Type",
+    "color": " Color",
+    "note": "Note",
+    "is_require_user_confirmation": "Require users to confirm acceptance of assets in this category.",
+    "is_send_email": "Send email to user on checkin/checkout.",
+    "eula": "Category EULA",
+    "save_new": "Save & New"
 }

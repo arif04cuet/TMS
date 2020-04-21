@@ -130,6 +130,42 @@ export class HomeComponent extends BaseComponent {
             title: 'vendors',
             route: '/admin/asset/vendors',
             icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'Supplier',
+            route: '/admin/asset/suppliers',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'Depeciation',
+            route: '/admin/asset/depreciations',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'Location',
+            route: '/admin/asset/locations',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'Manufacturer',
+            route: '/admin/asset/manufacturers',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'Status Label',
+            route: '/admin/asset/statuses',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'Category',
+            route: '/admin/asset/categories',
+            icon: 'user'
           }
         ]
       }

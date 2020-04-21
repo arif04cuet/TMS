@@ -1,4 +1,5 @@
 ﻿using System;
+using Msi.UtilityKit.Search;
 
 namespace Infrastructure.Entities
 {
@@ -9,6 +10,7 @@ namespace Infrastructure.Entities
         public long? CreatedBy { get; set; }
         public long? UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
+        [Searchable]
         public bool IsActive { get; set; } = true;
         public long Version { get; set; }
         public DateTime? CreatedAt { get; set; }

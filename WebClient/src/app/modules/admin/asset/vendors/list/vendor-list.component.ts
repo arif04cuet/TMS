@@ -58,6 +58,7 @@ export class VendorListComponent extends TableComponent {
       (res: any) => {
         this.fill(res[0]);
         this.statuses = res[1].data.items;
+        console.log(this.statuses);
       },
       err => {
         console.log(err);

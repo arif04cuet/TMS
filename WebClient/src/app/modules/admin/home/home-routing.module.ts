@@ -160,6 +160,72 @@ const routes: Routes = [
             title: 'vendors'
           }
         }
+      },
+      {
+        path: 'asset/suppliers',
+        loadChildren: () => import('../asset/supplier/list/supplier-list.module').then(x => x.SupplierListModule),
+        data: {
+          name: 'supplier_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'Suppliers'
+          }
+        }
+      },
+      {
+        path: 'asset/depreciations',
+        loadChildren: () => import('../asset/depreciation/list/depreciation-list.module').then(x => x.DepreciationListModule),
+        data: {
+          name: 'depreciation_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'Depreciations'
+          }
+        }
+      },
+      {
+        path: 'asset/locations',
+        loadChildren: () => import('../asset/location/list/location-list.module').then(x => x.LocationListModule),
+        data: {
+          name: 'location_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'Locations'
+          }
+        }
+      },
+      {
+        path: 'asset/manufacturers',
+        loadChildren: () => import('../asset/manufacturer/list/manufacturer-list.module').then(x => x.ManufacturerListModule),
+        data: {
+          name: 'manufacturer_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'Manufacturers'
+          }
+        }
+      },
+      {
+        path: 'asset/statuses',
+        loadChildren: () => import('../asset/status/list/status-list.module').then(x => x.StatusListModule),
+        data: {
+          name: 'status_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'Statuses'
+          }
+        }
+      },
+      {
+        path: 'asset/categories',
+        loadChildren: () => import('../asset/category/list/category-list.module').then(x => x.CategoryListModule),
+        data: {
+          name: 'category_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'Categories'
+          }
+        }
       }
     ]
   },

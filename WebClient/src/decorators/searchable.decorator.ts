@@ -26,9 +26,9 @@ export function getSearchableProperties(origin: object): object {
         const arr = key.split(":");
         const property = arr[0];
         const value = origin[property];
-        if(value != undefined && value != null && value != "") {
+        if (value !== undefined && value !== null && value !== "") {
             result.push(`Search=${arr[1]} ${arr[2]} ${value}`);
         }
     });
     return result;
-  }
+}
