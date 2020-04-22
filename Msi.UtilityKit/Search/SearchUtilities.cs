@@ -17,7 +17,7 @@ namespace Msi.UtilityKit.Search
             if (options?.Search?.Length > 0)
             {
 
-                if(_utilitiesOptions == null)
+                if (_utilitiesOptions == null)
                 {
                     _utilitiesOptions = SearchUtilitiesOptions.DefaultOptions;
                     _comparisonExpressionProviderFactory = _utilitiesOptions.ComparisonExpressionProviderFactory;
@@ -62,7 +62,7 @@ namespace Msi.UtilityKit.Search
                                 // x.Property
                                 var left = parameter.GetPropertyExpression(property);
 
-                                if(tokenParts.Length > 1)
+                                if (tokenParts.Length > 1)
                                 {
                                     left = tokenParts.Skip(1).Aggregate(left, Expression.Property);
                                 }
@@ -79,12 +79,20 @@ namespace Msi.UtilityKit.Search
                                     }
                                 }
 
-                                var constantValue = Convert.ChangeType(tokens[2], propertyType);
+                                object constantValue = null;
+                                if (propertyType.IsEnum)
+                                {
+                                    constantValue = Enum.Parse(propertyType, value);
+                                }
+                                else
+                                {
+                                    constantValue = Convert.ChangeType(value, propertyType);
+                                }
 
                                 var right = Expression.Constant(constantValue, property.PropertyType);
 
                                 // x.Property == "Value"
-                                var comparisonExpressionProvider = _comparisonExpressionProviderFactory.CreateProvider(tokens[1].ToLower());
+                                var comparisonExpressionProvider = _comparisonExpressionProviderFactory.CreateProvider(@operator.ToLower());
                                 var comparisonExpression = comparisonExpressionProvider.GetExpression(left, right);
 
                                 // x => x.Property == "Value"
