@@ -11,7 +11,7 @@ import { LibraryCardHttpService } from 'src/services/http/library-card-http.serv
 })
 export class CardListComponent extends TableComponent {
 
-  @Searchable("CardNumber", "like") number;
+  @Searchable("Name", "like") number;
   @Searchable("CardTypeId", "like") type;
   
   constructor(

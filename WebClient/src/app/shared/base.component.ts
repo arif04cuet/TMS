@@ -133,8 +133,8 @@ export class BaseComponent {
         }
     }
 
-    error(key: string) {
-        return this._translate.get(key).pipe(
+    error(key: string, interpolateParams?: Object) {
+        return this._translate.get(key, interpolateParams).pipe(
             map(res => {
                 return {
                     error: true,
@@ -200,7 +200,6 @@ export class BaseComponent {
             route += `/${x.url}`
             return { ...x, route: route, last: i == this.breadcrumbs.length - 1 };
         });
-        this.log(this.breadcrumbs);
         setTimeout(() => this.broadcast('breadcrumbs', this.breadcrumbs));
     }
 
@@ -212,7 +211,6 @@ export class BaseComponent {
     ngOnDestroy() {
         this.unsubscribe();
         this.busy(false);
-        this.log('base destroy');
     }
 
 }

@@ -66,6 +66,9 @@ span.ant-table-column-title {
 .ant-table {
   .action-column {
       text-align: right;
+      button {
+        margin-left: 5px;
+      }
       >span {
           cursor: pointer;
           margin-left: 10px;

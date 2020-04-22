@@ -7,6 +7,7 @@ using Module.Core.Shared;
 using static Module.Core.Shared.PermissionConstants;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using Module.Library.Entities;
 
 namespace Module.Library.Controllers
 {
@@ -16,11 +17,17 @@ namespace Module.Library.Controllers
     {
 
         private readonly ILibraryCardService _libraryCardService;
+        private readonly INameService<LibraryCardStatus> _libraryCardStatusService;
+        private readonly INameService<LibraryCardType> _libraryCardTypeService;
 
         public LibraryCardController(
-            ILibraryCardService libraryCardService)
+            ILibraryCardService libraryCardService,
+            INameService<LibraryCardStatus> libraryCardStatusService,
+            INameService<LibraryCardType> libraryCardTypeService)
         {
             _libraryCardService = libraryCardService;
+            _libraryCardStatusService = libraryCardStatusService;
+            _libraryCardTypeService = libraryCardTypeService;
         }
 
         [HttpGet]
@@ -35,7 +42,15 @@ namespace Module.Library.Controllers
         [RequirePermission(LibraryList, LibraryManage)]
         public async Task<ActionResult> ListCardTypes([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _libraryCardService.ListCardTypesAsync(pagingOptions, searchOptions);
+            var result = await _libraryCardTypeService.ListAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("status")]
+        [RequirePermission(LibraryList, LibraryManage)]
+        public async Task<ActionResult> ListCardStatues([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _libraryCardStatusService.ListAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

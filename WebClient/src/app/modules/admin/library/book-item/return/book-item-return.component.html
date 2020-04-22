@@ -1,0 +1,104 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+<div *ngIf="!loading" class="box">
+    <div class="block pad-v-12 pad-h-20 box-divider">
+        <div class="content">
+            <div class="header-container">
+                <span class="header">
+                    <span>
+                        {{ 'return.a.book'|translate }}
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="block bg-offset pad-v-12 pad-h-20 box-divider">
+        <div class="content">
+            <form nz-form [formGroup]="form">
+
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzMd]="12" [nzSm]="24">
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'book'|translate}}</label>
+                                </div>
+                                <span>
+                                    {{ data?.book?.name }}
+                                </span>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'member'|translate}}</label>
+                                </div>
+                                <span>
+                                    {{ data?.member?.name }}
+                                </span>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'card'|translate}}</label>
+                                </div>
+                                <span>
+                                    {{ data?.card?.name }}
+                                </span>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div nz-col [nzMd]="12" [nzSm]="24">
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'issue.date'|translate}}</label>
+                                </div>
+                                <span>
+                                    {{ data?.issueDate|date }}
+                                </span>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'return.date'|translate}}</label>
+                                </div>
+                                <span>
+                                    {{ data?.returnDate|date }}
+                                </span>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'actual.return.date'|translate}}</label>
+                                </div>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-date-picker formControlName="actualReturnDate"></nz-date-picker>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="block footer pad-v-12 pad-h-20 box-divider">
+        <div class="column">
+            <button (click)="cancel()" nz-button class="btn-custom">
+                {{'cancel'|translate}}
+            </button>
+            <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
+                <span>
+                    {{'return'|translate}}
+                </span>
+            </button>
+        </div>
+    </div>
+    <ng-template #errorTemplate let-control>
+        {{control?.errors?.message}}
+    </ng-template>
+</div>

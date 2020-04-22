@@ -4,12 +4,11 @@ import { MemberListComponent } from './member-list.component';
 import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserHttpService } from 'src/services/http/user-http.service';
 import { MemberListRoutingModule } from './member-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
+import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
+import { LibraryHttpService } from 'src/services/http/library-http.service';
 
 @NgModule({
   declarations: [
@@ -27,10 +26,9 @@ import { DesignationHttpService } from 'src/services/http/designation-http.servi
   ],
   exports: [MemberListComponent],
   providers: [
-    UserHttpService,
-    RoleHttpService,
+    LibraryMemberHttpService,
+    LibraryHttpService,
     CommonHttpService,
-    DesignationHttpService
   ]
 })
 export class MemberListModule { }

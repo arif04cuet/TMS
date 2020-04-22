@@ -1218,6 +1218,42 @@ namespace OTMS.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Module.Core.Entities.Division", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Division");
+                });
+
             modelBuilder.Entity("Module.Core.Entities.Education", b =>
                 {
                     b.Property<long>("Id")
@@ -2185,6 +2221,14 @@ namespace OTMS.Migrations
                             IsDeleted = false,
                             Name = "Librarian",
                             Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Library Member",
+                            Version = 0L
                         });
                 });
 
@@ -2325,6 +2369,12 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("DistrictId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("DivisionId")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -2344,6 +2394,10 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("DivisionId");
 
                     b.ToTable("Upazila");
                 });
@@ -2675,9 +2729,6 @@ namespace OTMS.Migrations
                     b.Property<long?>("AuthorId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Binding")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -2695,9 +2746,6 @@ namespace OTMS.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Isbn")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("LanguageId")
                         .HasColumnType("bigint");
@@ -2807,12 +2855,6 @@ namespace OTMS.Migrations
 
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<float>("PurchagePrice")
-                        .HasColumnType("real");
-
-                    b.Property<float>("RentalPrice")
-                        .HasColumnType("real");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -3036,7 +3078,10 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<float>("Price")
+                    b.Property<string>("Isbn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("PurchagePrice")
                         .HasColumnType("real");
 
                     b.Property<long?>("RackId")
@@ -3441,9 +3486,6 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CardNumber")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("CardTypeId")
                         .HasColumnType("bigint");
 
@@ -3468,6 +3510,9 @@ namespace OTMS.Migrations
                     b.Property<int>("MaxIssueCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -3482,6 +3527,68 @@ namespace OTMS.Migrations
                     b.HasIndex("CardTypeId");
 
                     b.ToTable("LibraryCard");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.LibraryCardStatus", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LibraryCardStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Active",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "In active",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Lost",
+                            Version = 0L
+                        });
                 });
 
             modelBuilder.Entity("Module.Library.Entities.LibraryCardType", b =>
@@ -3597,6 +3704,15 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CardExpireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("CardStatusId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -3625,6 +3741,8 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CardStatusId");
 
                     b.HasIndex("LibraryCardId");
 
@@ -3959,6 +4077,21 @@ namespace OTMS.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Module.Core.Entities.Upazila", b =>
+                {
+                    b.HasOne("Module.Core.Entities.District", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Core.Entities.Division", "Division")
+                        .WithMany()
+                        .HasForeignKey("DivisionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Module.Core.Entities.User", b =>
                 {
                     b.HasOne("Module.Core.Entities.Department", "Department")
@@ -4251,6 +4384,12 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Library.Entities.MemberLibraryCard", b =>
                 {
+                    b.HasOne("Module.Library.Entities.LibraryCardStatus", "CardStatus")
+                        .WithMany()
+                        .HasForeignKey("CardStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Module.Library.Entities.LibraryCard", "LibraryCard")
                         .WithMany()
                         .HasForeignKey("LibraryCardId")

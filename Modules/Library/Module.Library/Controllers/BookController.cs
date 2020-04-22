@@ -64,5 +64,14 @@ namespace Module.Library.Controllers
             return NoContent();
         }
 
+        // Book Editions
+        [HttpGet("{bookId}/editions")]
+        [RequirePermission(BookList, BookManage)]
+        public async Task<ActionResult> ListBookEditions(long bookId, [FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _bookService.ListBookEditionsAsync(bookId, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
     }
 }

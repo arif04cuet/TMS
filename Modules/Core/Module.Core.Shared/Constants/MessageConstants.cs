@@ -13,9 +13,15 @@
         public const string MUST_BE_EQUAL_OR_GREATER_THAN_X0_CHARACTERS = "Must be equal or greater than {0} characters.";
         public const string ITEM_NOT_FOUND = "Item not found.";
         public const string BOOK_NOT_FOUND = "Book not found.";
+        public const string BOOK_ITEM_NOT_FOUND = "Book item not found.";
         public const string LIBRARY_NOT_FOUND = "Library not found.";
+        public const string LIBRARY_MEMBER_NOT_FOUND = "Library member not found.";
         public const string RACK_NOT_FOUND = "Rack not found.";
         public const string LIBRARY_CARD_NOT_FOUND = "Library card not found.";
+        public const string ALREADY_A_MEMBER = "Already a member.";
+        public const string BOOK_IS_NOT_AVAILABLE_FOR_ISSUE = "Book is not available for issue.";
+        public const string BOOK_IS_ALREADY_ISSUED = "Book is already issued.";
+        public const string ISSUE_QOUTA_EXCEEDS = "Issue qouta exceeds.";
 
     }
 }

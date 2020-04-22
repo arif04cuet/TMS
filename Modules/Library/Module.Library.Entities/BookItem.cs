@@ -1,14 +1,17 @@
 ﻿using Infrastructure.Entities;
+using Msi.UtilityKit.Search;
 using System;
 
 namespace Module.Library.Entities
 {
     public class BookItem : BaseEntity
     {
-        public float Price { get; set; }
+        public float PurchagePrice { get; set; }
+        public string Isbn { get; set; }
         public string Barcode { get; set; }
 
         public long BookId { get; set; }
+        [Searchable]
         public Book Book { get; set; }
 
         public long? FormatId { get; set; }

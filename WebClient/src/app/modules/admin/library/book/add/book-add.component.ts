@@ -22,7 +22,6 @@ export class BookAddComponent extends FormComponent {
 
   loading: boolean = true;
   users = [];
-  districts = [];
   languages = [];
   publishers = [];
   authors = [];
@@ -46,13 +45,10 @@ export class BookAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       title: [null, [], this.v.required.bind(this)],
-      isbn: [null, [], this.v.required.bind(this)],
-      binding: [],
       language: [],
       publisher: [],
       subjects: [],
       author: [],
-      district: [],
       editions: this.fb.array([])
     });
     super.ngOnInit(this.activatedRoute.snapshot);
@@ -143,9 +139,7 @@ export class BookAddComponent extends FormComponent {
     const formGroup = this.fb.group({
       publicationDate: [null, [], this.v.required.bind(this)],
       numberOfPage: [null, [], this.v.required.bind(this)],
-      numberOfCopy: [null, [], this.v.required.bind(this)],
-      purchagePrice: [null, [], this.v.required.bind(this)],
-      rentalPrice: [null, [], this.v.required.bind(this)],
+      // numberOfCopy: [null, [], this.v.required.bind(this)],
       edition: [null, [], this.v.required.bind(this)]
     });
     forEachObj(formGroup.controls, (k, v) => {

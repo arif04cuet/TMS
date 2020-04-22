@@ -25,6 +25,17 @@ const routes: Routes = [
         title: 'add'
       }
     }
+  },
+  {
+    path: 'existing/add',
+    loadChildren: () => import('../add-existing/member-add.module').then(x => x.MemberAddModule),
+    data: {
+      name: 'library_member_existing_add',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'add'
+      }
+    }
   }
 ];
 

@@ -16,7 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
                     if (!environment.production) {
-                        console.log('event ->>>', event);
+                        // console.log('event ->>>', event);
                     }
                 }
                 return event

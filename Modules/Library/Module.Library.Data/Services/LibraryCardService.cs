@@ -30,7 +30,7 @@ namespace Module.Library.Data
         {
             var newItem = new LibraryCard
             {
-                CardNumber = request.CardNumber,
+                Name = request.Name,
                 CardTypeId = request.CardType,
                 ExpireDate = request.ExpireDate,
                 Fees = request.Fees,
@@ -66,7 +66,7 @@ namespace Module.Library.Data
                 .Select(x => new LibraryCardListViewModel
                 {
                     Id = x.Id,
-                    CardNumber = x.CardNumber,
+                    Name = x.Name,
                     CardType = x.CardType != null ? new IdNameViewModel
                     {
                         Id = x.CardType.Id,
@@ -82,26 +82,6 @@ namespace Module.Library.Data
             return new PagedCollection<LibraryCardListViewModel>(items, total, pagingOptions);
         }
 
-        public async Task<PagedCollection<IdNameViewModel>> ListCardTypesAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
-        {
-            var query = _libraryCardTypeRepository
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions);
-
-            var items = await query
-                .ApplyPagination(pagingOptions)
-                .Select(x => new IdNameViewModel
-                {
-                    Id = x.Id,
-                    Name = x.Name
-                })
-                .ToListAsync();
-
-            var total = await query.Select(x => x.Id).CountAsync();
-            return new PagedCollection<IdNameViewModel>(items, total, pagingOptions);
-        }
-
         public async Task<LibraryCardViewModel> GetAsync(long id)
         {
             var result = await _libraryCardRepository
@@ -110,7 +90,7 @@ namespace Module.Library.Data
                 .Select(x => new LibraryCardViewModel
                 {
                     Id = x.Id,
-                    CardNumber = x.CardNumber,
+                    Name = x.Name,
                     CardType = x.CardType != null ? new IdNameViewModel
                     {
                         Id = x.CardType.Id,
@@ -137,7 +117,7 @@ namespace Module.Library.Data
             item.MaxIssueCount = request.MaxIssueCount;
             item.Fees = request.Fees;
             item.ExpireDate = request.ExpireDate;
-            item.CardNumber = request.CardNumber;
+            item.Name = request.Name;
             item.CardTypeId = request.CardType;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);

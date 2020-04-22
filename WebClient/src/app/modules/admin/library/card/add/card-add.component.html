@@ -6,10 +6,10 @@
             <div class="header-container">
                 <span class="header">
                     <span *ngIf="mode=='add'">
-                        {{ 'create.a.x0'|translate:{x0: 'library'|translate|lowercase} }}
+                        {{ 'create.a.x0'|translate:{x0: 'card'|translate|lowercase} }}
                     </span>
                     <span *ngIf="mode=='edit'">
-                        {{ 'update.a.x0'|translate:{x0: 'library'|translate|lowercase} }}
+                        {{ 'update.a.x0'|translate:{x0: 'card'|translate|lowercase} }}
                     </span>
                 </span>
             </div>
@@ -24,11 +24,11 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'card.number'|translate}}</label>
+                                    <label>{{'name'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="text" nz-input formControlName="cardNumber"
-                                        placeholder="{{'card.number'|translate}}" />
+                                    <input type="text" nz-input formControlName="name"
+                                        placeholder="{{'name'|translate}}" />
                                 </nz-form-control>
                             </nz-form-item>
                         </div>

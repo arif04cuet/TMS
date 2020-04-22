@@ -107,6 +107,17 @@ const routes: Routes = [
         }
       },
       {
+        path: 'library/books/items',
+        loadChildren: () => import('../library/book-item/list/book-item-list.module').then(x => x.BookItemListModule),
+        data: {
+          name: 'book_item_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'books'
+          }
+        }
+      },
+      {
         path: 'library/racks',
         loadChildren: () => import('../library/rack/list/rack-list.module').then(x => x.RackListModule),
         data: {
@@ -140,13 +151,13 @@ const routes: Routes = [
         }
       },
       {
-        path: 'library/subjects',
+        path: 'library/categories',
         loadChildren: () => import('../library/subject/list/subject-list.module').then(x => x.SubjectListModule),
         data: {
-          name: 'subject_list',
+          name: 'category_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'subjects'
+            title: 'categories'
           }
         }
       },

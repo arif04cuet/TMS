@@ -34,6 +34,17 @@ export class LibraryCardHttpService {
         return this.httpService.get(url);
     }
 
+    public listStatus(pagination = null, search = null) {
+        let url = 'libraries/cards/status?'
+        if(pagination){
+            url += pagination
+        }
+        if(search) {
+            url += search
+        }
+        return this.httpService.get(url);
+    }
+
     public add(body) {
         return this.httpService.post('libraries/cards', body);
     }

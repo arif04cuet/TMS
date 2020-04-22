@@ -6,10 +6,10 @@
             <div class="header-container">
                 <span class="header">
                     <span *ngIf="mode=='add'">
-                        {{ 'create.a.x0'|translate:{x0: 'book'|translate|lowercase} }}
+                        {{ 'create.a.x0'|translate:{x0: 'book.model'|translate|lowercase} }}
                     </span>
                     <span *ngIf="mode=='edit'">
-                        {{ 'update.a.x0'|translate:{x0: 'book'|translate|lowercase} }}
+                        {{ 'update.a.x0'|translate:{x0: 'book.model'|translate|lowercase} }}
                     </span>
                 </span>
             </div>
@@ -56,35 +56,8 @@
                             </nz-form-item>
                         </div>
 
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'subjects'|translate }}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-select class="btn-custom" nzMode="multiple" formControlName="subjects"
-                                        nzShowSearch nzAllowClear
-                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'subjects'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of subjects" [nzLabel]="p.name" [nzValue]="p.id">
-                                        </nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-
                     </div>
                     <div nz-col [nzMd]="8" [nzSm]="24">
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'isbn'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="text" nz-input formControlName="isbn"
-                                        placeholder="{{'isbn'|translate}}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
@@ -99,19 +72,23 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
-                    </div>
-                    <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'binding'|translate}}</label>
+                                    <label>{{'categories'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="text" nz-input formControlName="binding"
-                                        placeholder="{{'binding'|translate}}" />
+                                    <nz-select class="btn-custom" nzMode="multiple" formControlName="subjects"
+                                        nzShowSearch nzAllowClear
+                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'categories'|translate|lowercase}">
+                                        <nz-option *ngFor="let p of subjects" [nzLabel]="p.name" [nzValue]="p.id">
+                                        </nz-option>
+                                    </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
+                    </div>
+                    <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
@@ -159,19 +136,6 @@
                                                 </nz-form-control>
                                             </nz-form-item>
                                         </div>
-
-                                        <div nz-row [nzGutter]="24">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'purchage.price'|translate }}</label>
-                                                </div>
-                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="number" nz-input formControlName="purchagePrice"
-                                                        placeholder="{{'purchage.price'|translate}}" />
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-
                                     </div>
                                     <div nz-col [nzMd]="8" [nzSm]="24">
                                         <div nz-row [nzGutter]="24">
@@ -184,30 +148,8 @@
                                                 </nz-form-control>
                                             </nz-form-item>
                                         </div>
-                                        <div nz-row [nzGutter]="24">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'rental.price'|translate }}</label>
-                                                </div>
-                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="number" nz-input formControlName="rentalPrice"
-                                                        placeholder="{{'rental.price'|translate}}" />
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
                                     </div>
                                     <div nz-col [nzMd]="8" [nzSm]="24">
-                                        <div nz-row [nzGutter]="24">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'number.of.copy'|translate}}</label>
-                                                </div>
-                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="number" nz-input formControlName="numberOfCopy"
-                                                        placeholder="{{'number.of.copy'|translate}}" />
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
                                         <div nz-row [nzGutter]="24">
                                             <nz-form-item class="field-container">
                                                 <div>

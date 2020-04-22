@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Infrastructure.Data;
+using Module.Core.Shared;
 
 using static Module.Core.Shared.MessageConstants;
 
@@ -18,10 +19,7 @@ namespace Module.Core.Data.Validators
                 .Must(x => IsValidPassword(x))
                 .WithMessage(PASSWORD_NOT_MATCHED);
 
-            RuleFor(x => x.FullName)
-                .NotEmpty()
-                .NotNull()
-                .WithMessage(THIS_FIELD_IS_REQUIRED);
+            RuleFor(x => x.FullName).Required();
         }
 
         bool IsValidPassword(ProfileRequest request)

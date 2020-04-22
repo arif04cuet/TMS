@@ -49,7 +49,8 @@ namespace Msi.UtilityKit.Search
 
                             // if property has searchable attribute and search term equals to property name
                             var searchableAttribute = properties[j].GetCustomAttributes<SearchableAttribute>().FirstOrDefault();
-                            bool isSearchable = searchableAttribute != null && properties[j].Name.Equals(tokens[0], StringComparison.OrdinalIgnoreCase);
+                            var tokenParts = tokens[0].Split('.');
+                            bool isSearchable = searchableAttribute != null && properties[j].Name.Equals(tokenParts[0], StringComparison.OrdinalIgnoreCase);
 
                             if (isSearchable)
                             {
@@ -61,8 +62,23 @@ namespace Msi.UtilityKit.Search
                                 // x.Property
                                 var left = parameter.GetPropertyExpression(property);
 
+                                if(tokenParts.Length > 1)
+                                {
+                                    left = tokenParts.Skip(1).Aggregate(left, Expression.Property);
+                                }
+
                                 // "Value"
-                                var propertyType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                                var propertyType = property.GetSafePropertyType();
+
+                                if (tokenParts.Length > 1)
+                                {
+                                    foreach (var tokenPart in tokenParts.Skip(1))
+                                    {
+                                        property = propertyType.GetProperty(tokenPart);
+                                        propertyType = property.GetSafePropertyType();
+                                    }
+                                }
+
                                 var constantValue = Convert.ChangeType(tokens[2], propertyType);
 
                                 var right = Expression.Constant(constantValue, property.PropertyType);
@@ -90,6 +106,11 @@ namespace Msi.UtilityKit.Search
         {
             _utilitiesOptions = new SearchUtilitiesOptions();
             options.Invoke(_utilitiesOptions);
+        }
+
+        private static Type GetSafePropertyType(this PropertyInfo propertyInfo)
+        {
+            return Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType;
         }
 
     }

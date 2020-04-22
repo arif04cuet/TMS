@@ -26,7 +26,7 @@ export class CardAddComponent extends FormComponent {
   ngOnInit() {
     this.onCheckMode = id => this.get(id);
     this.createForm({
-      cardNumber: [null, [], this.v.required.bind(this)],
+      name: [null, [], this.v.required.bind(this)],
       cardType: [null, [], this.v.required.bind(this)],
       fees: [null, [], this.v.required.bind(this)],
       maxIssueCount: [null, [], this.v.required.bind(this)],

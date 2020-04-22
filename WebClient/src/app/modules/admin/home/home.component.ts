@@ -90,8 +90,14 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
-            title: 'books',
+            title: 'book.models',
             route: '/admin/library/books',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'books',
+            route: '/admin/library/books/items',
             icon: 'user'
           },
           {
@@ -114,8 +120,8 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
-            title: 'subjects',
-            route: '/admin/library/subjects',
+            title: 'categories',
+            route: '/admin/library/categories',
             icon: 'user'
           }
         ]

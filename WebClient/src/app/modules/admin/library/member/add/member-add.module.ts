@@ -4,15 +4,13 @@ import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MemberAddComponent } from './member-add.component';
-import { UserHttpService } from 'src/services/http/user-http.service';
 import { MemberAddRoutingModule } from './member-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonHttpService } from 'src/services/http/common-http.service';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
-import { DepartmentHttpService } from 'src/services/http/department-http.service';
-import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { PermissionModule } from '../../../user/permission/permission.module';
+import { LibraryHttpService } from 'src/services/http/library-http.service';
+import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
 
 @NgModule({
   declarations: [
@@ -31,12 +29,10 @@ import { PermissionModule } from '../../../user/permission/permission.module';
   ],
   exports: [MemberAddComponent],
   providers: [
-    UserHttpService,
     CommonHttpService,
-    DesignationHttpService,
-    DepartmentHttpService,
-    RoleHttpService,
-    CommonValidator
+    LibraryHttpService,
+    CommonValidator,
+    LibraryCardHttpService
   ]
 })
 export class MemberAddModule { }

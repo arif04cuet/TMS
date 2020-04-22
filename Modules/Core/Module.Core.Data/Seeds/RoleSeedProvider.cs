@@ -14,7 +14,8 @@ namespace Module.Core.Data
             return new List<Role>
             {
                 new Role(Administrator, "Administrator"),
-                new Role(Librarian, "Librarian")
+                new Role(Librarian, "Librarian"),
+                new Role(LibraryMember, "Library Member")
             };
         }
     }

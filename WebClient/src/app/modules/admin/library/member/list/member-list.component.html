@@ -6,16 +6,26 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'users'|translate}} ({{total}})
+                        {{'members'|translate}} ({{total}})
                     </span>
                 </div>
             </div>
 
             <div class="column">
-                <button (click)="add()" nz-button class="btn-custom">
+                <button nz-dropdown [nzDropdownMenu]="addActions" nzTrigger="click" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
+                <nz-dropdown-menu #addActions="nzDropdownMenu">
+                    <ul nz-menu>
+                        <li nz-menu-item (click)="add()">
+                            <i nz-icon nzType="plus"></i>{{'add.new'|translate}}
+                        </li>
+                        <li nz-menu-item (click)="addFromExisting()">
+                            <i nz-icon nzType="plus"></i>{{'add.from.existing'|translate}}
+                        </li>
+                    </ul>
+                </nz-dropdown-menu>
                 <button (click)="refresh()" nz-button class="btn-custom">
                     <i nz-icon nzType="sync" nzTheme="outline"></i>
                     {{'refresh'|translate}}
@@ -36,12 +46,12 @@
                         </th>
                         <th>
                             <div>
-                                {{'designation'|translate}}
+                                {{'library'|translate}}
                             </div>
                             <div>
-                                <nz-select [(ngModel)]="designation" class="btn-custom" nzShowSearch nzAllowClear
-                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'designation'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of designations" [nzLabel]="p.name" [nzValue]="p.id">
+                                <nz-select [(ngModel)]="library" class="btn-custom" nzShowSearch nzAllowClear
+                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'library'|translate|lowercase}">
+                                    <nz-option *ngFor="let p of libraries" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
                                 </nz-select>
                             </div>
@@ -74,7 +84,7 @@
                             </nz-avatar>
                         </td>
                         <td>{{ data.fullName }}</td>
-                        <td class="fit-cell">{{ data.designation }}</td>
+                        <td>{{ data.library?.name }}</td>
                         <td>{{ data.mobile }}</td>
                         <td>{{ data.email }}</td>
                         <td class="action-column fit-cell">

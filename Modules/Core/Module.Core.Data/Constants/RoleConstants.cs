@@ -4,5 +4,6 @@
     {
         public const long Administrator = 1;
         public const long Librarian = 2;
+        public const long LibraryMember = 3;
     }
 }

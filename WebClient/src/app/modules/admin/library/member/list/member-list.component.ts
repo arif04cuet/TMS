@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { UserHttpService } from 'src/services/http/user-http.service';
 import { TableComponent } from 'src/app/shared/table.component';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
 import { forkJoin } from 'rxjs';
-import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
+import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
+import { LibraryHttpService } from 'src/services/http/library-http.service';
 
 @Component({
   selector: 'app-member-list',
@@ -14,23 +13,20 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 })
 export class MemberListComponent extends TableComponent {
 
-  designations = [];
-  roles = [];
-  statuses = [];
+  libraries = [];
 
-  @Searchable("FullName", "like") name;
-  @Searchable("DesignationId", "eq") designation;
-  @Searchable("Mobile", "like") mobile;
-  @Searchable("Email", "like") email;
+  @Searchable("User.FullName", "like") name;
+  @Searchable("LibraryId", "eq") library;
+  @Searchable("User.Mobile", "like") mobile;
+  @Searchable("User.Email", "like") email;
 
   constructor(
-    private userHttpService: UserHttpService,
-    private designationHttpService: DesignationHttpService,
+    private libraryMemberHttpService: LibraryMemberHttpService,
+    private libraryHttpService: LibraryHttpService,
     private commonHttpService: CommonHttpService,
-    private roleHttpService: RoleHttpService,
     private activatedRoute: ActivatedRoute
   ) {
-    super(userHttpService);
+    super(libraryMemberHttpService);
   }
 
   ngOnInit() {
@@ -47,20 +43,21 @@ export class MemberListComponent extends TableComponent {
     }
   }
 
+  addFromExisting() {
+    this.goTo('/admin/library/members/existing/add');
+  }
+
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.userHttpService.list(pagination, search),
-      this.designationHttpService.list(),
-      this.roleHttpService.list(),
+      this.libraryMemberHttpService.list(pagination, search),
+      this.libraryHttpService.list(),
       this.commonHttpService.getStatusList()
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
         this.fill(res[0]);
-        this.designations = res[1].data.items;
-        this.roles = res[2].data.items;
-        this.statuses = res[3].data.items;
+        this.libraries = res[1].data.items;
       },
       err => {
         console.log(err);

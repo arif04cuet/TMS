@@ -15,8 +15,6 @@ namespace Module.Library.Data
 
         Task<PagedCollection<LibraryCardListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
-        Task<PagedCollection<IdNameViewModel>> ListCardTypesAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
-
         Task<LibraryCardViewModel> GetAsync(long id);
 
         Task<bool> UpdateAsync(LibraryCardUpdateRequest request, CancellationToken ct = default);

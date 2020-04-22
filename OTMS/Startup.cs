@@ -49,6 +49,7 @@ namespace OTMS
             }
 
             ProjectManager.WebRootPath = env.WebRootPath;
+            ProjectManager.Env = env.EnvironmentName;
             app.UseHttpsRedirection();
 
             app.UseRouting();

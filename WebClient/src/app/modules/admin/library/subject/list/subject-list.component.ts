@@ -28,10 +28,10 @@ export class SubjectListComponent extends TableComponent {
 
   add(model = null) {
     if (model) {
-      this.goTo(`/admin/library/subjects/${model.id}/edit`);
+      this.goTo(`/admin/library/categories/${model.id}/edit`);
     }
     else {
-      this.goTo('/admin/library/subjects/add');
+      this.goTo('/admin/library/categories/add');
     }
   }
 

@@ -12,11 +12,8 @@ namespace Module.Library.Entities
         public EBook EBook { get; set; }
 
         public DateTime PublicationDate { get; set; }
-
         public int NumberOfPage { get; set; }
         public int NumberOfCopy { get; set; }
-        public float PurchagePrice { get; set; }
-        public float RentalPrice { get; set; }
         public string Edition { get; set; }
 
     }
