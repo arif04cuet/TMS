@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200422175709_M2")]
+    partial class M2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2981,7 +2983,7 @@ namespace OTMS.Migrations
                     b.Property<long>("BookId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("BookItemId")
+                    b.Property<long>("BookItemId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("ConvertedFromReservationId")
@@ -3030,7 +3032,8 @@ namespace OTMS.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("BookItemId");
+                    b.HasIndex("BookItemId")
+                        .IsUnique();
 
                     b.HasIndex("ConvertedFromReservationId");
 
@@ -4260,8 +4263,10 @@ namespace OTMS.Migrations
                         .IsRequired();
 
                     b.HasOne("Module.Library.Entities.BookItem", "BookItem")
-                        .WithMany()
-                        .HasForeignKey("BookItemId");
+                        .WithOne()
+                        .HasForeignKey("Module.Library.Entities.BookIssue", "BookItemId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("Module.Library.Entities.BookReservation", "ConvertedFromReservation")
                         .WithMany()

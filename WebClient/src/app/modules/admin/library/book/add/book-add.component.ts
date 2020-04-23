@@ -137,9 +137,9 @@ export class BookAddComponent extends FormComponent {
 
   private createEditionFormGroup(data: any) {
     const formGroup = this.fb.group({
+      id: [],
       publicationDate: [null, [], this.v.required.bind(this)],
       numberOfPage: [null, [], this.v.required.bind(this)],
-      // numberOfCopy: [null, [], this.v.required.bind(this)],
       edition: [null, [], this.v.required.bind(this)]
     });
     forEachObj(formGroup.controls, (k, v) => {

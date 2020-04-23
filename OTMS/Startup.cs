@@ -7,6 +7,9 @@ using Module.Core.Filters;
 using OTMS.Extensions;
 using FluentValidation.AspNetCore;
 using Infrastructure;
+using Module.Core.Extensions;
+using System.IO;
+using Module.Core.Shared;
 
 namespace OTMS
 {
@@ -48,7 +51,7 @@ namespace OTMS
                 app.UseDeveloperExceptionPage();
             }
 
-            ProjectManager.WebRootPath = env.WebRootPath;
+            ProjectManager.StoragePath = Path.Combine(Directory.GetCurrentDirectory(), MediaConstants.Path);
             ProjectManager.Env = env.EnvironmentName;
             app.UseHttpsRedirection();
 
@@ -56,6 +59,7 @@ namespace OTMS
             app.UseCors("default");
 
             app.UseAuthorization();
+            app.UseStaticFilesService();
 
             app.UseEndpoints(endpoints =>
             {

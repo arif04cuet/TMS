@@ -143,16 +143,19 @@
                             </div>
                         </div>
                         <div nz-col [nzSpan]="8">
-                            <nz-upload class="photo-uploader" nzAction="https://jsonplaceholder.typicode.com/posts/"
-                                nzName="photo" nzListType="picture-card" [nzShowUploadList]="false"
-                                [nzShowButton]="true" [nzBeforeUpload]="beforePhotoUpload"
-                                (nzChange)="handlePhotoChange($event)">
-                                <ng-container *ngIf="!photoUrl">
-                                    <i class="upload-icon" nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
-                                    <div class="ant-upload-text">{{'upload'|translate}}</div>
-                                </ng-container>
-                                <img *ngIf="photoUrl" [src]="photoUrl" class="photo" />
-                            </nz-upload>
+
+                            <div (click)="photo.click()" class="photo-uploader cursor-pointer">
+                                <div class="container">
+                                    <input (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
+                                    <div class="placeholder" *ngIf="!photoLoading && !photoUrl">
+                                        <i nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
+                                        <span>{{'choose.photo'|translate}}</span>
+                                    </div>
+                                    <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i> 
+                                    <img *ngIf="!photoLoading && photoUrl" [src]="photoUrl" class="photo" />
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -269,7 +272,7 @@
                                             placeholder="{{'degree'|translate }}" />
                                     </nz-form-control>
                                 </nz-form-item>
-                            </div>      
+                            </div>
                             <div nz-row [nzGutter]="24">
                                 <nz-form-item class="field-container">
                                     <div>
@@ -280,7 +283,7 @@
                                             placeholder="{{'passing.year'|translate }}" />
                                     </nz-form-control>
                                 </nz-form-item>
-                            </div>                            
+                            </div>
                         </div>
                         <div nz-col [nzSpan]="8">
                             <div nz-row [nzGutter]="24">
@@ -304,7 +307,7 @@
                                             placeholder="{{'result'|translate }}" />
                                     </nz-form-control>
                                 </nz-form-item>
-                            </div>             
+                            </div>
                         </div>
                         <div nz-col [nzSpan]="8">
                             <div nz-row [nzGutter]="24">
@@ -375,7 +378,8 @@
                                         <label>{{'district'|translate }}</label>
                                     </div>
                                     <nz-form-control>
-                                        <nz-select class="btn-custom" formControlName="contactDistrict" nzShowSearch nzAllowClear
+                                        <nz-select class="btn-custom" formControlName="contactDistrict" nzShowSearch
+                                            nzAllowClear
                                             [nzPlaceHolder]="'select.x0'|translate:{x0: 'district'|translate|lowercase}">
                                             <nz-option *ngFor="let p of districts" [nzLabel]="p.name" [nzValue]="p.id">
                                             </nz-option>

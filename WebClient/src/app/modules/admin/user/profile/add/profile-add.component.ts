@@ -3,17 +3,17 @@ import { UserHttpService } from 'src/services/http/user-http.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { of, forkJoin, Observable, Observer } from 'rxjs';
+import { of, forkJoin, } from 'rxjs';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
-import { UploadFile } from 'ng-zorro-antd/upload';
 import { AuthService } from 'src/services/auth.service';
+import { MediaHttpService } from 'src/services/http/media-http.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile-add',
-  templateUrl: './profile-add.component.html',
-  styleUrls: ['./profile-add.component.scss']
+  templateUrl: './profile-add.component.html'
 })
 export class ProfileAddComponent extends FormComponent {
 
@@ -38,7 +38,8 @@ export class ProfileAddComponent extends FormComponent {
     private activatedRoute: ActivatedRoute,
     private commonHttpService: CommonHttpService,
     private v: CommonValidator,
-    private authService: AuthService
+    private authService: AuthService,
+    private mediaHttpService: MediaHttpService
   ) {
     super();
   }
@@ -59,6 +60,7 @@ export class ProfileAddComponent extends FormComponent {
       nid: [],
       password: [],
       confirmPassword: [],
+      media: [],
 
       officeName: [],
       officeAddressLine1: [],
@@ -94,29 +96,6 @@ export class ProfileAddComponent extends FormComponent {
     );
   }
 
-  get(id) {
-    this.loading = true;
-    if (this.mode == "edit") {
-      this.form.controls.email.disable();
-    }
-    if (id != null) {
-      this.subscribe(this.userHttpService.get(id),
-        (res: any) => {
-          this.setValues(this.form.controls, res.data);
-          this.form.controls.status.setValue(res.data.status?.id);
-          this.form.controls.designation.setValue(res.data.designation?.id);
-          this.form.controls.department.setValue(res.data.department?.id);
-          this.form.controls.roles.setValue(res.data.roles.map(x => x.id))
-          this.loading = false;
-        }
-      );
-    }
-    else {
-      this.form.controls.status.setValue(1);
-      this.loading = false;
-    }
-  }
-
   cancel() {
     this.goTo('/admin/profile');
   }
@@ -147,58 +126,36 @@ export class ProfileAddComponent extends FormComponent {
     );
   }
 
-  handlePhotoChange(info: { file: UploadFile }) {
-    switch (info.file.status) {
-      case 'uploading':
-        this.photoLoading = true;
-        break;
-      case 'done':
-        // Get this url from response in real world.
-        this.getBase64(info.file!.originFileObj!, (img: string) => {
+  handlePhotoChange(e) {
+    const file = e.target.files[0];
+    if (file) {
+      this.photoLoading = true;
+      var fr = new FileReader();
+      fr.onload = () => {
+        this.photoUrl = fr.result;
+      }
+      fr.readAsDataURL(file);
+      this.mediaHttpService.upload(file, true,
+        progress => {
+          this.log('progress', progress);
+        },
+        success => {
+          this.log('success', success);
+          this.form.controls.media.setValue(success.data);
           this.photoLoading = false;
-          this.photoUrl = img;
-        });
-        break;
-      case 'error':
-        this._messageService.error('Network error');
-        this.photoLoading = false;
-        break;
+        },
+        error => {
+          this.photoLoading = false;
+        }
+      );
     }
   }
 
-  beforePhotoUpload = (file: File) => {
-    return new Observable((observer: Observer<boolean>) => {
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJPG) {
-        this._messageService.error('You can only upload JPG file!');
-        observer.complete();
-        return;
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this._messageService.error('Image must smaller than 2MB!');
-        observer.complete();
-        return;
-      }
-      // check height
-      // this.checkImageDimension(file).then(dimensionRes => {
-      //   if (!dimensionRes) {
-      //     this._messageService.error('Image only 300x300 above');
-      //     observer.complete();
-      //     return;
-      //   }
-
-      //   observer.next(isJPG && isLt2M && dimensionRes);
-      //   observer.complete();
-      // });
-
-      observer.next(isJPG && isLt2M);
-      observer.complete();
-    });
-  };
-
   private mapResponseObject(data) {
     if (data) {
+      if(data.photo) {
+        this.photoUrl = `${environment.serverUri}/${data.photo}`;
+      }
       this.setValue('gender', data.gender?.id);
       this.setValue('bloodGroup', data.bloodGroup?.id);
       this.setValue('maritalStatus', data.maritalStatus?.id);
@@ -251,19 +208,6 @@ export class ProfileAddComponent extends FormComponent {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result!.toString()));
     reader.readAsDataURL(img);
-  }
-
-  private checkImageDimension(file: File): Promise<boolean> {
-    return new Promise(resolve => {
-      const img = new Image(); // create image
-      img.src = window.URL.createObjectURL(file);
-      img.onload = () => {
-        const width = img.naturalWidth;
-        const height = img.naturalHeight;
-        window.URL.revokeObjectURL(img.src!);
-        resolve(width === height && width >= 300);
-      };
-    });
   }
 
   private password(control: FormControl) {

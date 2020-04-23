@@ -10,6 +10,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { AuthService } from 'src/services/auth.service';
+import { MediaHttpService } from 'src/services/http/media-http.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AuthService } from 'src/services/auth.service';
     UserHttpService,
     CommonHttpService,
     CommonValidator,
-    AuthService
+    AuthService,
+    MediaHttpService
   ]
 })
 export class ProfileAddModule { }

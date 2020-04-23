@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Module.Core.Entities;
 using Module.Core.Shared;
 using Msi.UtilityKit.Security;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Module.Core.Data
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly IRepository<UserRole> _userRoleRepository;
+        private readonly IRepository<Media> _mediaRepository;
 
         public ProfileService(
             IUnitOfWork unitOfWork)
@@ -27,6 +29,7 @@ namespace Module.Core.Data
             _userRepository = _unitOfWork.GetRepository<User>();
             _userProfileRepository = _unitOfWork.GetRepository<UserProfile>();
             _userRoleRepository = _unitOfWork.GetRepository<UserRole>();
+            _mediaRepository = _unitOfWork.GetRepository<Media>();
         }
 
         public async Task<ProfileViewModel> Get(long userId, CancellationToken cancellationToken = default)
@@ -140,7 +143,8 @@ namespace Module.Core.Data
                         University = x.Profile.Education.University,
                         Degree = x.Profile.Education.Degree,
                         Result = x.Profile.Education.Result
-                    } : null
+                    } : null,
+                    Photo = x.Profile.MediaId.HasValue ? Path.Combine(MediaConstants.Path, x.Profile.Media.FileName) : string.Empty
                 })
                 .FirstOrDefaultAsync();
 
@@ -171,6 +175,7 @@ namespace Module.Core.Data
                 .Include(x => x.OfficeAddress)
                 .Include(x => x.PermanentAddress)
                 .Include(x => x.Education)
+                .Include(x => x.Media)
                 .FirstOrDefaultAsync(x => x.UserId == user.Id);
 
             if (profile == null)
@@ -192,6 +197,18 @@ namespace Module.Core.Data
             profile.NID = request.NID;
             profile.ReligionId = request.Religion;
 
+            var oldMedia = profile.Media;
+            if (request.Media.HasValue)
+            {
+                profile.MediaId = request.Media;
+                var media = await _mediaRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.Media.Value);
+                if (media != null)
+                {
+                    media.IsInUse = true;
+                }
+            }
+
             if (request.ContactAddress != null)
                 request.ContactAddress.MapTo(profile.ContactAddress);
 
@@ -205,6 +222,17 @@ namespace Module.Core.Data
                 request.Education.MapTo(profile.Education);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            if (oldMedia != null && result > 0)
+            {
+                // successfully updated
+                string oldProfilePhotoPath = Path.Combine(ProjectManager.StoragePath, oldMedia.FileName);
+                if (File.Exists(oldProfilePhotoPath))
+                {
+                    File.Delete(oldProfilePhotoPath);
+                    _mediaRepository.Remove(oldMedia);
+                    result += await _unitOfWork.SaveChangesAsync();
+                }
+            }
             return result > 0;
         }
 

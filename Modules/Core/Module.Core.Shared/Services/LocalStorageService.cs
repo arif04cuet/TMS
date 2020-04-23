@@ -7,16 +7,15 @@ namespace Module.Core.Shared
 {
     public class LocalStorageService : IStorageService
     {
-        private const string MediaRootFoler = "user-content";
 
         public string GetMediaUrl(string fileName)
         {
-            return $"/{MediaRootFoler}/{fileName}";
+            return Path.Combine(MediaConstants.Path, fileName);
         }
 
         public async Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null)
         {
-            var filePath = Path.Combine(ProjectManager.WebRootPath, MediaRootFoler, fileName);
+            var filePath = GetFilePath(fileName);
             using (var output = new FileStream(filePath, FileMode.Create))
             {
                 await mediaBinaryStream.CopyToAsync(output);
@@ -25,11 +24,16 @@ namespace Module.Core.Shared
 
         public async Task DeleteMediaAsync(string fileName)
         {
-            var filePath = Path.Combine(ProjectManager.WebRootPath, MediaRootFoler, fileName);
+            var filePath = GetFilePath(fileName);
             if (File.Exists(filePath))
             {
                 await Task.Run(() => File.Delete(filePath));
             }
+        }
+
+        public string GetFilePath(string fileName)
+        {
+            return Path.Combine(ProjectManager.StoragePath, fileName);
         }
     }
 }

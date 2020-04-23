@@ -342,3 +342,4 @@ healthchecksdb
 /OTMS/appsettings.json
 .vscode/
 /WebClient/src/environments/environment.ts
+UserContents

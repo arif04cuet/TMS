@@ -41,10 +41,17 @@ namespace Module.Core.Data.Services
             return GetMediaUrl(media);
         }
 
-        public Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null)
+        public async Task<long> SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null)
         {
-            return _storageService.SaveMediaAsync(mediaBinaryStream, fileName, mimeType);
-
+            await _storageService.SaveMediaAsync(mediaBinaryStream, fileName, mimeType);
+            var media = new Media
+            {
+                FileName = fileName,
+                Extension = Path.GetExtension(fileName)
+            };
+            await _mediaRepository.AddAsync(media);
+            var result = await _unitOfWork.SaveChangesAsync();
+            return media.Id;
         }
 
         public Task DeleteMediaAsync(Media media)

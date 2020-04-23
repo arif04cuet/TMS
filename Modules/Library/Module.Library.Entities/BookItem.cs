@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities;
 using Msi.UtilityKit.Search;
 using System;
 
@@ -27,6 +28,12 @@ namespace Module.Library.Entities
         public BookEdition Edition { get; set; }
 
         public DateTime? DateOfPurchage { get; set; }
+
+        public long? IssuedToId { get; set; }
+        public virtual User IssuedTo { get; set; }
+
+        public long? ReservedForId { get; set; }
+        public virtual User ReservedFor { get; set; }
 
     }
 }

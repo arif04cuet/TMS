@@ -1,16 +1,14 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
-
 <div *ngIf="!loading">
     <div class="box">
         <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'users'|translate}} ({{total}})
+                        {{'books'|translate}} ({{total}})
                     </span>
                 </div>
             </div>
-
             <div class="column">
                 <button (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
@@ -24,38 +22,51 @@
         </div>
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items">
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>
-                            <!-- {{'photo'|translate}} -->
+                            {{'isbn'|translate}}
                         </th>
                         <th>
-                            {{'name'|translate}}
-                            <input [(ngModel)]="name" nz-input />
+                            {{'barcode'|translate}}
+                        </th>
+                        <th>
+                            {{'title'|translate}}
+                            <input [(ngModel)]="title" nz-input />
                         </th>
                         <th>
                             <div>
-                                {{'designation'|translate}}
+                                {{'author'|translate}}
                             </div>
                             <div>
-                                <nz-select [(ngModel)]="designation" class="btn-custom" nzShowSearch nzAllowClear
+                                <nz-select [(ngModel)]="author" class="btn-custom" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'designation'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of designations" [nzLabel]="p.name" [nzValue]="p.id">
+                                    <nz-option *ngFor="let p of authors" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
                                 </nz-select>
                             </div>
                         </th>
                         <th>
-                            {{'mobile'|translate}}
-                            <input [(ngModel)]="mobile" nz-input />
+                            <div>
+                                {{'publishers'|translate}}
+                            </div>
+                            <div>
+                                <nz-select [(ngModel)]="publisher" class="btn-custom" nzShowSearch nzAllowClear
+                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'publisher'|translate|lowercase}">
+                                    <nz-option *ngFor="let p of publishers" [nzLabel]="p.name" [nzValue]="p.id">
+                                    </nz-option>
+                                </nz-select>
+                            </div>
                         </th>
                         <th>
-                            {{'email'|translate}}
-                            <input [(ngModel)]="email" nz-input />
+                            {{'status'|translate}}
                         </th>
                         <th>
-                            <div class="ta-right">
+                            {{'issued.to'|translate}}
+                        </th>
+                        <th class="ta-right">
+                            <div>
                                 {{'action'|translate}}
                             </div>
                             <div>
@@ -69,15 +80,20 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td class="fit-cell">
-                            <nz-avatar nzSrc="{{serverUri}}/{{data.photo}}" *ngIf="data.photo" nzSize="large"></nz-avatar>
-                            <nz-avatar *ngIf="!data.photo" nzSize="large" nzIcon="user"></nz-avatar>
-                        </td>
-                        <td>{{ data.fullName }}</td>
-                        <td class="fit-cell">{{ data.designation }}</td>
-                        <td>{{ data.mobile }}</td>
-                        <td>{{ data.email }}</td>
+                        <td>{{ data.isbn }}</td>
+                        <td>{{ data.barcode }}</td>
+                        <td>{{ data.title }}</td>
+                        <td>{{ data.author?.name }}</td>
+                        <td>{{ data.publisher?.name }}</td>
+                        <td>{{ data.status?.name }}</td>
+                        <td>{{ data.issuedTo?.name }}</td>
                         <td class="action-column fit-cell">
+                            <button *ngIf="!data.issuedTo" nzType="primary" (click)="issue(data)" nz-button class="btn-custom">
+                                {{'issue'|translate}}
+                            </button>
+                            <button *ngIf="data.issuedTo" nz-button (click)="return(data)" class="btn-custom">
+                                {{'return'|translate}}
+                            </button>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
                                 <i nz-icon nzType="ellipsis"></i>

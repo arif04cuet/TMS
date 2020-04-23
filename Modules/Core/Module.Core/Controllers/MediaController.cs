@@ -4,19 +4,20 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System;
 using System.IO;
-using Module.Core.Data.Services;
+using Module.Core.Data;
+using Module.Core.Shared;
 
 namespace Module.Core.Controllers
 {
 
-    [Route("api/common")]
+    [Route("api/media")]
     [ApiController]
-    public class CommonController : ControllerBase
+    public class MediaController : ControllerBase
     {
 
         private readonly IMediaService _mediaService;
 
-        public CommonController(
+        public MediaController(
             IMediaService mediaService)
         {
             _mediaService = mediaService;
@@ -27,9 +28,8 @@ namespace Module.Core.Controllers
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-            await _mediaService.SaveMediaAsync(file.OpenReadStream(), fileName, file.ContentType);
-
-            return Ok(_mediaService.GetMediaUrl(fileName));
+            var result = await _mediaService.SaveMediaAsync(file.OpenReadStream(), fileName, file.ContentType);
+            return result.ToOkResult();
         }
 
     }

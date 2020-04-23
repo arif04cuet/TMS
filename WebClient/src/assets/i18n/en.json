@@ -152,9 +152,9 @@
     "contact_phone": "Contact Phone",
     "type": "Type",
     "color": " Color",
-    "note": "Note",
     "is_require_user_confirmation": "Require users to confirm acceptance of assets in this category.",
     "is_send_email": "Send email to user on checkin/checkout.",
     "eula": "Category EULA",
-    "save_new": "Save & New"
+    "save_new": "Save & New",
+    "choose.photo": "Choose photo"
 }

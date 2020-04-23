@@ -13,7 +13,7 @@ namespace Infrastructure
         private static ConcurrentDictionary<Type, IEnumerable<Type>> cachedTypes;
 
         public static string Env { get; set; }
-        public static string WebRootPath { get; set; }
+        public static string StoragePath { get; set; }
         public static IEnumerable<Assembly> Assemblies { get; private set; }
         public static List<IServiceRegistrar> ServiceRegistrars { get; private set; }
         public static List<Type> Entities { get; private set; }

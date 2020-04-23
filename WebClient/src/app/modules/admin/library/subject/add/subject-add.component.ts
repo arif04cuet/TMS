@@ -65,7 +65,7 @@ export class SubjectAddComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/library/subjects');
+    this.goTo('/admin/library/categories');
   }
 
 }

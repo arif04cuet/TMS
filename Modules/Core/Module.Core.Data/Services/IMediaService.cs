@@ -3,7 +3,7 @@ using Module.Core.Entities;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Module.Core.Data.Services
+namespace Module.Core.Data
 {
     public interface IMediaService : IScopedService
     {
@@ -13,7 +13,7 @@ namespace Module.Core.Data.Services
 
         string GetThumbnailUrl(Media media);
 
-        Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null);
+        Task<long> SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null);
 
         Task DeleteMediaAsync(Media media);
 

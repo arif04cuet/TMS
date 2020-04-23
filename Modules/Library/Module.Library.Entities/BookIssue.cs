@@ -9,7 +9,7 @@ namespace Module.Library.Entities
         public long BookId { get; set; }
         public Book Book { get; set; }
 
-        public long BookItemId { get; set; }
+        public long? BookItemId { get; set; }
         public BookItem BookItem { get; set; }
 
         public long? MemberId { get; set; }

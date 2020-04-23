@@ -68,6 +68,10 @@ export class HttpService {
         }
     }
 
+    getClient() {
+        return this.http;
+    }
+
     public getCommonHeader() {
         const headers = {
             'Content-Type': 'application/json',

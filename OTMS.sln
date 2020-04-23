@@ -41,9 +41,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Asset.Data", "Module
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Asset.Entities", "Modules\Asset\Module.Asset.Entities\Module.Asset.Entities.csproj", "{F906F9C5-1D27-4E77-9FC5-BDC67BCAD664}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Core.Shared", "Modules\Core\Module.Core.Shared\Module.Core.Shared.csproj", "{36F1460D-62C5-443C-A31A-1B2C2C005703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Core.Shared", "Modules\Core\Module.Core.Shared\Module.Core.Shared.csproj", "{36F1460D-62C5-443C-A31A-1B2C2C005703}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Core.Hangfire", "Modules\Core\Module.Core.Hangfire\Module.Core.Hangfire.csproj", "{152565B5-0AF6-4F67-B49E-93C89C8C6E2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Migrator", "Migrator\Migrator.csproj", "{F711E23C-F31A-4651-A1BF-F35B952EB43E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +117,10 @@ Global
 		{152565B5-0AF6-4F67-B49E-93C89C8C6E2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{152565B5-0AF6-4F67-B49E-93C89C8C6E2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{152565B5-0AF6-4F67-B49E-93C89C8C6E2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F711E23C-F31A-4651-A1BF-F35B952EB43E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F711E23C-F31A-4651-A1BF-F35B952EB43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F711E23C-F31A-4651-A1BF-F35B952EB43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F711E23C-F31A-4651-A1BF-F35B952EB43E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

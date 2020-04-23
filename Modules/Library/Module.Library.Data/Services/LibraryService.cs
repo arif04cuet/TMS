@@ -30,9 +30,12 @@ namespace Module.Library.Data
             var newItem = new Entities.Library
             {
                 Name = request.Name,
-                Address = request.Address?.ToAddress(),
                 LibrarianId = request.Librarian
             };
+            if (request.Address != null)
+            {
+                newItem.Address = request.Address.ToAddress();
+            }
             await _libraryRepository.AddAsync(newItem, ct);
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return newItem.Id;

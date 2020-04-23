@@ -618,3 +618,26 @@ nz-header .ant-badge-count {
     line-height: 27px;
   }
 }
+
+.photo-uploader {
+  display: flex;
+  justify-content: center;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+  .container, img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+}

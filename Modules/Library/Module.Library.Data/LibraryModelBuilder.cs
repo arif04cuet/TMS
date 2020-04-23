@@ -8,10 +8,10 @@ namespace Module.Library.Data
     {
         public void Build(ModelBuilder modelbuilder)
         {
-            modelbuilder.Entity<BookIssue>()
-                .HasOne(x => x.BookItem)
-                .WithOne()
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelbuilder.Entity<BookIssue>()
+            //    .HasOne(x => x.BookItem)
+            //    .WithMany()
+            //    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

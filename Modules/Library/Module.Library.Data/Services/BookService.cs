@@ -128,6 +128,7 @@ namespace Module.Library.Data
                     .Where(x => x.BookId == result.Id)
                     .Select(x => new BookEditionViewModel
                     {
+                        Id = x.Id,
                         EBookId = x.EBookId,
                         Edition = x.Edition,
                         NumberOfCopy = x.NumberOfCopy,
@@ -155,7 +156,7 @@ namespace Module.Library.Data
 
         public async Task<bool> UpdateAsync(BookUpdateRequest request, CancellationToken ct = default)
         {
-            var book = await _bookRepository.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var book = await _bookRepository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
 
             if (book == null)
                 throw new NotFoundException(BOOK_NOT_FOUND);
@@ -166,6 +167,34 @@ namespace Module.Library.Data
             book.Excerpt = request.Excerpt;
             book.LanguageId = request.Language;
             book.PublisherId = request.Publisher;
+
+            foreach (var edition in request.Editions)
+            {
+                if (edition.Id.HasValue)
+                {
+                    // update
+                    var dbEdition = await _bookEditionRepository
+                        .FirstOrDefaultAsync(x => x.Id == edition.Id && !x.IsDeleted);
+                    if (dbEdition != null)
+                    {
+                        edition.MapTo(dbEdition);
+                    }
+                }
+                else
+                {
+                    // new
+                    var newEdition = edition.ToBookBookEdition(book.Id);
+                    await _bookEditionRepository.AddAsync(newEdition);
+                }
+            }
+
+            // delete edition
+            var requestBookEditions = request.Editions.Where(x => x.Id.HasValue).Select(x => (long)x.Id);
+            var editionToBeDelete = await _bookEditionRepository
+                .Where(x => x.BookId == book.Id && !requestBookEditions.Contains(x.Id))
+                .ToListAsync();
+
+            _bookEditionRepository.RemoveRange(editionToBeDelete);
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
@@ -320,37 +349,37 @@ namespace Module.Library.Data
                 .Where(x => !x.IsDeleted)
                 .ApplySearch(searchOptions);
 
-            var result = from item in items
-                         join issue in issues on item.Id equals issue.BookItemId into data
-                         from d in data.DefaultIfEmpty()
-                         // where d.ActualReturnDate == null // currently issued book has no actual return date
-                         select new BookItemListViewModel
-                         {
-                             Id = item.Id,
-                             Isbn = item.Isbn,
-                             Barcode = item.Barcode,
-                             Title = item.Book.Title,
-                             Author = item.Book.Author != null ? new IdNameViewModel
-                             {
-                                 Id = item.Book.Author.Id,
-                                 Name = item.Book.Author.Name
-                             } : null,
-                             Publisher = item.Book.Publisher != null ? new IdNameViewModel
-                             {
-                                 Id = item.Book.Publisher.Id,
-                                 Name = item.Book.Publisher.Name
-                             } : null,
-                             IssuedTo = d != null ? new IdNameViewModel
-                             {
-                                 Id = d.Member.Id,
-                                 Name = d.Member.FullName
-                             } : null,
-                             Status = item.Status != null ? new IdNameViewModel
-                             {
-                                 Id = item.Status.Id,
-                                 Name = item.Status.Name
-                             } : null
-                         };
+            //var result = from item in items
+            //             join issue in issues on item.Id equals issue.BookItemId into data
+            //             from d in data.DefaultIfEmpty()
+            // where d.ActualReturnDate == null // currently issued book has no actual return date
+            var result = items.Select(x => new BookItemListViewModel
+            {
+                Id = x.Id,
+                Isbn = x.Isbn,
+                Barcode = x.Barcode,
+                Title = x.Book.Title,
+                Author = x.Book.Author != null ? new IdNameViewModel
+                {
+                    Id = x.Book.Author.Id,
+                    Name = x.Book.Author.Name
+                } : null,
+                Publisher = x.Book.Publisher != null ? new IdNameViewModel
+                {
+                    Id = x.Book.Publisher.Id,
+                    Name = x.Book.Publisher.Name
+                } : null,
+                IssuedTo = x.IssuedToId != null ? new IdNameViewModel
+                {
+                    Id = x.IssuedTo.Id,
+                    Name = x.IssuedTo.FullName
+                } : null,
+                Status = x.StatusId != null ? new IdNameViewModel
+                {
+                    Id = x.Status.Id,
+                    Name = x.Status.Name
+                } : null
+            });
 
             var _items = await result
                 .ApplyPagination(pagingOptions)
@@ -412,6 +441,7 @@ namespace Module.Library.Data
             await _bookIssueRepository.AddAsync(issue, ct);
 
             item.StatusId = BookStatusConstants.Loned;
+            item.IssuedToId = user.Id;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return issue.Id;
@@ -429,6 +459,7 @@ namespace Module.Library.Data
 
             issue.ActualReturnDate = request.ActualReturnDate ?? DateTime.Now;
             issue.BookItem.StatusId = BookStatusConstants.Available;
+            issue.BookItem.IssuedToId = null;
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
         }

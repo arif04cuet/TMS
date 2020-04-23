@@ -94,16 +94,14 @@ export class LibraryAddComponent extends FormComponent {
     );
   }
 
-  optionChanged(e) {
-
-  }
-
   private mapRequestData(o) {
-    o.address = {
-      addressLine1: o.addressLine1,
-      addressLine2: o.addressLine2,
-      upazila: o.upazila,
-      district: o.district
+    if (o.addressLine1 || o.addressLine2 || o.upazila || o.district) {
+      o.address = {
+        addressLine1: o.addressLine1,
+        addressLine2: o.addressLine2,
+        upazila: o.upazila,
+        district: o.district
+      }
     }
   }
 

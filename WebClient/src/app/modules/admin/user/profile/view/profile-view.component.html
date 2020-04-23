@@ -53,6 +53,17 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div nz-row [nzGutter]="24">
+                            <div class="field-container">
+                                <div>
+                                    <label>{{'religion'|translate }}</label>
+                                </div>
+                                <div>
+                                    {{data.religion?.name || 'n/a'|translate}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div nz-col [nzSpan]="8">
@@ -90,12 +101,9 @@
 
                     <div nz-col [nzSpan]="8">
                         <div nz-row [nzGutter]="24">
-                            <div class="field-container">
-                                <div>
-                                    <label>{{'religion'|translate }}</label>
-                                </div>
-                                <div>
-                                    {{data.religion?.name || 'n/a'|translate}}
+                            <div class="photo-uploader">
+                                <div class="container">
+                                    <img *ngIf="data.photo" [src]="data.photo" class="photo" />
                                 </div>
                             </div>
                         </div>

@@ -6,6 +6,7 @@ using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using Msi.UtilityKit.Security;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -125,7 +126,7 @@ namespace Module.Core.Data
                     Mobile = x.Mobile,
                     FullName = x.FullName,
                     Email = x.Email,
-                    Photo = x.Profile.Id.ToString()
+                    Photo = x.Profile.Media != null ? Path.Combine(MediaConstants.Path, x.Profile.Media.FileName) : string.Empty
                 })
                 .ToListAsync();
 
