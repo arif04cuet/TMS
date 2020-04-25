@@ -75,6 +75,7 @@ namespace Module.Library.Data
                 {
                     Id = x.Id,
                     Title = x.Title,
+                    Isbn = x.Isbn,
                     Description = x.Description,
                     Author = x.Author != null ? new IdNameViewModel
                     {
@@ -100,6 +101,7 @@ namespace Module.Library.Data
                 .Select(x => new BookViewModel
                 {
                     Id = x.Id,
+                    Isbn = x.Isbn,
                     Author = x.Author != null ? new IdNameViewModel
                     {
                         Id = x.AuthorId.Value,
@@ -219,18 +221,20 @@ namespace Module.Library.Data
 
         public async Task<long> CreateBookItemAsync(BookItemCreateRequest request, CancellationToken ct = default)
         {
-            var items = request.IsbnAndBarcodes.Select(x => new BookItem
+            List<BookItem> items = new List<BookItem>();
+            for (int i = 0; i < request.NumberOfCopy; i++)
             {
-                Barcode = x.Barcode,
-                Isbn = x.Isbn,
-                BookId = request.Book,
-                DateOfPurchage = request.DateOfPurchase,
-                FormatId = request.Format,
-                PurchagePrice = request.PurchasePrice,
-                EditionId = request.Edition,
-                RackId = request.Rack,
-                StatusId = request.Status
-            });
+                items.Add(new BookItem
+                {
+                    BookId = request.Book,
+                    DateOfPurchage = request.DateOfPurchase,
+                    FormatId = request.Format,
+                    PurchagePrice = request.PurchasePrice,
+                    EditionId = request.Edition,
+                    RackId = request.Rack,
+                    StatusId = request.Status
+                });
+            }
             await _bookItemRepository.AddRangeAsync(items, ct);
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result;
@@ -303,7 +307,6 @@ namespace Module.Library.Data
                         Id = x.Format.Id,
                         Name = x.Format.Name
                     } : null,
-                    Isbn = x.Isbn,
                     Rack = x.Rack != null ? new IdNameViewModel
                     {
                         Id = x.Rack.Id,
@@ -356,7 +359,7 @@ namespace Module.Library.Data
             var result = items.Select(x => new BookItemListViewModel
             {
                 Id = x.Id,
-                Isbn = x.Isbn,
+                Isbn = x.Book.Isbn,
                 Barcode = x.Barcode,
                 Title = x.Book.Title,
                 Author = x.Book.Author != null ? new IdNameViewModel
@@ -464,6 +467,23 @@ namespace Module.Library.Data
             return result > 0;
         }
 
+        public async Task<bool> CheckFineAsync(BookItemReturnRequest request, CancellationToken ct = default)
+        {
+            var issue = await _bookIssueRepository
+                .AsQueryable()
+                .Include(x => x.BookItem)
+                .FirstOrDefaultAsync(x => x.BookItemId == request.BookItem && x.ActualReturnDate == null && !x.IsDeleted, ct);
+
+            if (issue == null)
+                throw new ValidationException(ITEM_NOT_FOUND);
+
+            issue.ActualReturnDate = request.ActualReturnDate ?? DateTime.Now;
+            issue.BookItem.StatusId = BookStatusConstants.Available;
+            issue.BookItem.IssuedToId = null;
+            var result = await _unitOfWork.SaveChangesAsync(ct);
+            return result > 0;
+        }
+
         public async Task<BookItemIssueViewModel> GetIssueAsync(long bookItemId)
         {
             var result = await _bookIssueRepository
@@ -521,6 +541,41 @@ namespace Module.Library.Data
 
             var total = await query.Select(x => x.Id).CountAsync();
             return new PagedCollection<IdNameViewModel>(items, total, pagingOptions);
+        }
+
+        public async Task<PagedCollection<BookIssueListViewModel>> ListIssueAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+
+            var query = _bookIssueRepository
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
+            var result = await query
+                .Select(x => new BookIssueListViewModel
+                {
+                    Id = x.Id,
+                    Isbn = x.Book.Isbn,
+                    Title = x.Book.Title,
+                    Author = x.Book.Author != null ? new IdNameViewModel
+                    {
+                        Id = x.Book.Author.Id,
+                        Name = x.Book.Author.Name
+                    } : null,
+                    IssuedTo = x.Member != null ? new IdNameViewModel
+                    {
+                        Id = x.Member.Id,
+                        Name = x.Member.FullName
+                    } : null,
+                    ActualReturnDate = x.ActualReturnDate,
+                    IssueDate = x.IssueDate,
+                    ReturnDate = x.ReturnDate
+                })
+                .ApplyPagination(pagingOptions)
+                .ToListAsync();
+
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<BookIssueListViewModel>(result, total, pagingOptions);
         }
 
     }

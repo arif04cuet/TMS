@@ -19,7 +19,7 @@ namespace Module.Core.Data
                 address.AddressLine1 = AddressLine1;
                 address.AddressLine2 = AddressLine2;
                 address.DistrictId = District;
-                address.Upazila = Upazila;
+                //address.UpazilaId = Upazila;
                 address.ContactName = ContactName;
             }
             return address;
@@ -32,7 +32,7 @@ namespace Module.Core.Data
                 AddressLine1 = AddressLine1,
                 AddressLine2 = AddressLine2,
                 DistrictId = District,
-                Upazila = Upazila,
+                //Upazila = Upazila,
                 ContactName = ContactName
             };
             return address;

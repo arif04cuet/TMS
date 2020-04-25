@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
 import { NzTreeNodeOptions, NzFormatEmitEvent } from 'ng-zorro-antd';
@@ -6,7 +6,6 @@ import { PermissionHttpService } from 'src/services/http/permission-http.service
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserHttpService } from 'src/services/http/user-http.service';
-import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 
 @Component({
   selector: 'app-permission',
@@ -21,15 +20,14 @@ export class PermissionComponent extends BaseComponent {
   defaultSelectedKeys = [];
   title;
   @Input() purpose;
+  @Output() changePermissions = new EventEmitter(true);
 
   private userId;
   private _snapshot;
   private service;
-  private cancelUrl;
 
   // could be roleId, or userId. depends on route
   private id;
-
 
   constructor(
     private roleHttpService: RoleHttpService,
@@ -64,35 +62,13 @@ export class PermissionComponent extends BaseComponent {
     }
   }
 
-  assign() {
-    if (this.service && this.id && this.nodes && this.nodes.length > 0) {
-      const permissionIds = [];
-      this.getPermissionIds(this.nodes, permissionIds);
-      if (permissionIds.length > 0) {
-        this.subscribe(this.service.assignPermissions(this.id, permissionIds),
-          (res: any) => {
-            this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
-          },
-          (err: any) => {
-
-          }
-        );
-      }
-    }
-  }
-
   nzEvent(event: NzFormatEmitEvent): void {
     this.log(event);
   }
 
-  cancel() {
-    if (this.snapshot && this._snapshot.data) {
-      if (this._snapshot.data.name == 'role_permissions') {
-        this.goTo('/admin/roles');
-      }
-      else if (this._snapshot.data.name == 'user_permissions') {
-        this.goTo('/admin/users');
-      }
+  getPermissions(permissionIds = []) {
+    if (this.nodes && this.nodes.length > 0) {
+      this.getPermissionIds(this.nodes, permissionIds);
     }
   }
 
@@ -153,6 +129,13 @@ export class PermissionComponent extends BaseComponent {
         }
       }
     }
+  }
+
+  ngOnDestroy() {
+    const permissionIds = [];
+    this.getPermissions(permissionIds);
+    this.changePermissions.emit(permissionIds);
+    super.ngOnDestroy();
   }
 
 }

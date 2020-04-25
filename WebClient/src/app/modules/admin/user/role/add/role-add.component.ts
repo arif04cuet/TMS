@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
@@ -6,6 +6,7 @@ import { of, forkJoin } from 'rxjs';
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
+import { PermissionComponent } from '../../permission/permission.component';
 
 @Component({
   selector: 'app-role-add',
@@ -15,6 +16,10 @@ export class RoleAddComponent extends FormComponent {
 
   loading: boolean = true;
   addEditTitle;
+
+  @ViewChild("permission") permissionComponent: PermissionComponent;
+
+  private permissionIds;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,16 +36,20 @@ export class RoleAddComponent extends FormComponent {
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
-    if(this.mode == 'add') {
-      this.addEditTitle = await this.t('create.a.x0', {x0: 'role'});
+    if (this.mode == 'add') {
+      this.addEditTitle = await this.t('create.a.x0', { x0: 'role' });
     }
     else if (this.mode == 'edit') {
-      this.addEditTitle = await this.t('update.a.x0', {x0: 'role'});
+      this.addEditTitle = await this.t('update.a.x0', { x0: 'role' });
     }
   }
 
   submit(): void {
-    const body = this.constructObject(this.form.controls);
+    const body: any = this.constructObject(this.form.controls);
+    const permissions = this.getPermissions();
+    if (permissions && permissions.length > 0) {
+      body.permissions = permissions;
+    }
     this.submitForm(
       {
         request: this.roleHttpService.add(body),
@@ -76,6 +85,19 @@ export class RoleAddComponent extends FormComponent {
 
   cancel() {
     this.goTo('/admin/roles');
+  }
+
+  onChangePermissions(permissions) {
+    this.permissionIds = permissions;
+  }
+
+  private getPermissions() {
+    if (this.permissionComponent) {
+      const _permissionIds = [];
+      this.permissionComponent.getPermissions(_permissionIds);
+      this.permissionIds = _permissionIds;
+    }
+    return this.permissionIds;
   }
 
 }

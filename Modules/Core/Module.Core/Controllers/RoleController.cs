@@ -51,10 +51,10 @@ namespace Module.Core.Controllers
 
         [HttpPut("{id}")]
         [RequirePermission(RoleUpdate, RoleManage)]
-        public async Task<IActionResult> Put(int id, [FromBody] NameUpdateRequest request)
+        public async Task<IActionResult> Put(int id, [FromBody] RoleUpdateRequest request)
         {
             request.Id = id;
-            var result = await _roleService.UpdateAsync(request);
+            var result = await _roleService.UpdateRoleAsync(request);
             return Ok(new Result(result));
         }
 

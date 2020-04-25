@@ -1,9 +1,11 @@
-﻿using Infrastructure.Entities;
-using Module.Core.Entities;
+﻿using Module.Core.Entities;
+using Module.Core.Entities.Constants;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Library.Entities
 {
-    public class EBook : BaseEntity
+    [Table(nameof(EBook), Schema = SchemaConstants.Library)]
+    public class EBook : LibraryEntity
     {
         public long MediaId { get; set; }
         public Media Media { get; set; }

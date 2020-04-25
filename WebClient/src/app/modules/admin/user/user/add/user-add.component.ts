@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { UserHttpService } from 'src/services/http/user-http.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,7 @@ import { DepartmentHttpService } from 'src/services/http/department-http.service
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
+import { PermissionComponent } from '../../permission/permission.component';
 
 @Component({
   selector: 'app-user-add',
@@ -24,6 +25,10 @@ export class UserAddComponent extends FormComponent {
   statuses = []
   userOption = 'add_edit'
   addEditTitle;
+
+  @ViewChild("permission") permissionComponent: PermissionComponent;
+
+  private permissionIds;
 
   constructor(
     private userHttpService: UserHttpService,
@@ -45,7 +50,7 @@ export class UserAddComponent extends FormComponent {
       employeeId: [null, [], this.v.required.bind(this)],
       designation: [null, [], this.v.required.bind(this)],
       department: [],
-      mobile: [null, [], this.v.required.bind(this)],
+      mobile: [null, [], this.v.mobile.bind(this)],
       email: [null, [], this.v.required.bind(this)],
       password: [null, [], this.password.bind(this)],
       roles: [null, [], this.v.required.bind(this)],
@@ -62,7 +67,11 @@ export class UserAddComponent extends FormComponent {
   }
 
   submit(): void {
-    const body = this.constructObject(this.form.controls);
+    const body: any = this.constructObject(this.form.controls);
+    const permissions = this.getPermissions();
+    if (permissions && permissions.length > 0) {
+      body.permissions = permissions;
+    }
     this.submitForm(
       {
         request: this.userHttpService.add(body),
@@ -121,8 +130,18 @@ export class UserAddComponent extends FormComponent {
     );
   }
 
-  optionChanged(e) {
+  onChangePermissions(permissions) {
+    this.permissionIds = permissions;
+    this.log('permissions', permissions);
+  }
 
+  private getPermissions() {
+    if (this.permissionComponent) {
+      const _permissionIds = [];
+      this.permissionComponent.getPermissions(_permissionIds);
+      this.permissionIds = _permissionIds;
+    }
+    return this.permissionIds;
   }
 
   private password(control: FormControl) {

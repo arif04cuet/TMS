@@ -7,7 +7,7 @@
             <div class="col justify-content-end">
                 <div class="user-menu" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
                     <span class="user-name">{{ userInfo.name || userInfo.email }}</span>
-                    <nz-avatar nzSize="large" nzIcon="user">
+                    <nz-avatar [nzSrc]="userInfo.photo" nzSize="large" nzIcon="user">
                     </nz-avatar>
                     <nz-dropdown-menu #menu="nzDropdownMenu">
                         <ul nz-menu style="width: 160px;">

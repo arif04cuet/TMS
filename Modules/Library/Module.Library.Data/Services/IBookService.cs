@@ -36,5 +36,7 @@ namespace Module.Library.Data
         Task<bool> ReturnBookItemAsync(BookItemReturnRequest request, CancellationToken ct = default);
 
         Task<BookItemIssueViewModel> GetIssueAsync(long bookItemId);
+
+        Task<PagedCollection<BookIssueListViewModel>> ListIssueAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
     }
 }

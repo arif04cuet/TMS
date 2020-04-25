@@ -114,7 +114,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'books'
-          }
+          },
+          permissions: ['user.manage']
         }
       },
       {
@@ -158,6 +159,17 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'categories'
+          }
+        }
+      },
+      {
+        path: 'library/issues',
+        loadChildren: () => import('../library/issue/list/issue-list.module').then(x => x.IssueListModule),
+        data: {
+          name: 'issue_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'issues'
           }
         }
       },

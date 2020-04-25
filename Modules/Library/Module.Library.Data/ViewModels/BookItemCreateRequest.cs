@@ -1,6 +1,5 @@
 ﻿using Module.Library.Entities;
 using System;
-using System.Collections.Generic;
 
 namespace Module.Library.Data
 {
@@ -14,7 +13,6 @@ namespace Module.Library.Data
         public float PurchasePrice { get; set; }
         public long? Edition { get; set; }
         public long NumberOfCopy { get; set; }
-        public ICollection<BookItemIsbnBarcodeRequest> IsbnAndBarcodes { get; set; }
 
         public BookItem ToBookItem()
         {

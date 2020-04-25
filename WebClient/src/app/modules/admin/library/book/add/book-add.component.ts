@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { UserHttpService } from 'src/services/http/user-http.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -21,14 +20,12 @@ import { SubjectHttpService } from 'src/services/http/subject-http.service';
 export class BookAddComponent extends FormComponent {
 
   loading: boolean = true;
-  users = [];
   languages = [];
   publishers = [];
   authors = [];
   subjects = [];
 
   constructor(
-    private userHttpService: UserHttpService,
     private activatedRoute: ActivatedRoute,
     private bookHttpService: BookHttpService,
     private authorHttpService: AuthorHttpService,
@@ -45,10 +42,10 @@ export class BookAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       title: [null, [], this.v.required.bind(this)],
-      language: [],
-      publisher: [],
+      language: [null, [], this.v.required.bind(this)],
+      publisher: [null, [], this.v.required.bind(this)],
       subjects: [],
-      author: [],
+      author: [null, [], this.v.required.bind(this)],
       editions: this.fb.array([])
     });
     super.ngOnInit(this.activatedRoute.snapshot);

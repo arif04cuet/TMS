@@ -6,8 +6,7 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { BookHttpService } from 'src/services/http/book-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
-import { forEachObj } from 'src/services/utilities.service';
-import { AbstractControl, FormArray, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { RackHttpService } from 'src/services/http/rack-http.service';
 
 @Component({
@@ -48,7 +47,6 @@ export class BookItemAddComponent extends FormComponent {
       numberOfCopy: [null, [], this.numberOfCopyValidator.bind(this)],
       format: [null, [], this.v.required.bind(this)],
       status: [null, [], this.v.required.bind(this)],
-      isbnAndBarcodes: this.fb.array([])
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -78,9 +76,7 @@ export class BookItemAddComponent extends FormComponent {
     if (id != null) {
       this.subscribe(this.bookHttpService.getBookItem(id),
         (res: any) => {
-          this.setValues(this.form.controls, res.data, ['isbnAndBarcodes']);
-          this.form.controls.isbnAndBarcodes = this.fb.array([]);
-          this.prepareForm(res);
+          this.setValues(this.form.controls, res.data);
           this.loading = false;
         }
       );
@@ -88,7 +84,6 @@ export class BookItemAddComponent extends FormComponent {
     else {
       this.setValue('status', 1);
       this.setValue('numberOfCopy', 1);
-      this.prepareForm(1);
       this.loading = false;
     }
   }
@@ -125,49 +120,6 @@ export class BookItemAddComponent extends FormComponent {
         this.editionLoading = false;
       }
     );
-  }
-
-  onChangeNumberOfCopy(e) {
-    const number = Number(e.data);
-    const controlLen = this.getIsbnAndBarcodeFormArray().length;
-    if(number > controlLen) {
-      const addLen = number - controlLen;
-      for (let i = 0; i < addLen; i++) {
-        this.createIsbnAndBarcodeFormGroup({});        
-      }
-    }
-    else if (controlLen > number) {
-      const subLen = controlLen - number;
-      for (let i = 0; i < subLen; i++) {
-        const index = controlLen - i - 1;
-        this.getIsbnAndBarcodeFormArray().removeAt(index);
-      }
-    }
-  }
-
-  private prepareForm(numberOfCpoy) {
-    for (let i = 0; i < numberOfCpoy; i++) {
-      this.createIsbnAndBarcodeFormGroup({});
-    }
-  }
-
-  private createIsbnAndBarcodeFormGroup(data: any) {
-    const formGroup = this.fb.group({
-      isbn: [null, [], this.v.required.bind(this)],
-      barcode: [null, [], this.v.required.bind(this)]
-    });
-    forEachObj(formGroup.controls, (k, v) => {
-      const dataValue = data[k];
-      if (dataValue) {
-        (v as AbstractControl).setValue(dataValue);
-      }
-    });
-    const isbnAndBarcodeFormArray = this.getIsbnAndBarcodeFormArray();
-    isbnAndBarcodeFormArray.push(formGroup);
-  }
-
-  private getIsbnAndBarcodeFormArray(): FormArray {
-    return this.form.get("isbnAndBarcodes") as FormArray;
   }
 
   private numberOfCopyValidator(control: FormControl) {

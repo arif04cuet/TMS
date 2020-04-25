@@ -16,7 +16,7 @@ namespace Module.Core.Shared
         {
         }
 
-        public async Task<long> CreateAsync(INameCreateRequest request, CancellationToken cancellationToken = default)
+        public virtual async Task<long> CreateAsync(INameCreateRequest request, CancellationToken cancellationToken = default)
         {
             var newItem = new T
             {
@@ -28,7 +28,7 @@ namespace Module.Core.Shared
             return newItem.Id;
         }
 
-        public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
             var item = await _repository.FirstOrDefaultAsync(x => x.Id == id, true);
 
@@ -40,7 +40,7 @@ namespace Module.Core.Shared
             return result > 0;
         }
 
-        public async Task<bool> UpdateAsync(INameUpdateRequest request, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> UpdateAsync(INameUpdateRequest request, CancellationToken cancellationToken = default)
         {
             var item = await _repository.FirstOrDefaultAsync(x => x.Id == request.Id);
 

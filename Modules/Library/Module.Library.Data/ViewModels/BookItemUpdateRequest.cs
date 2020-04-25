@@ -14,7 +14,6 @@ namespace Module.Library.Data
         public float PurchasePrice { get; set; }
         public long? Edition { get; set; }
         public long NumberOfCopy { get; set; }
-        public string Isbn { get; set; }
         public string Barcode { get; set; }
 
         public void MapTo(BookItem bookItem)
@@ -26,7 +25,6 @@ namespace Module.Library.Data
                 bookItem.DateOfPurchage = DateOfPurchase;
                 bookItem.EditionId = Edition;
                 bookItem.FormatId = Format;
-                bookItem.Isbn = Isbn;
                 bookItem.PurchagePrice = PurchasePrice;
                 bookItem.RackId = Rack;
                 bookItem.StatusId = Status;

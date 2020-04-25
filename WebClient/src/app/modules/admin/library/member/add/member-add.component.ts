@@ -9,7 +9,6 @@ import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
-import { forEachObj } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-member-add',
@@ -39,7 +38,7 @@ export class MemberAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       fullName: [null, [], this.v.required.bind(this)],
-      mobile: [null, [], this.v.required.bind(this)],
+      mobile: [null, [], this.v.mobile.bind(this)],
       email: [null, [], this.v.required.bind(this)],
       password: [null, [], this.password.bind(this)],
       status: [null, [], this.v.required.bind(this)],
@@ -113,6 +112,9 @@ export class MemberAddComponent extends FormComponent {
         this.libraries = res[1].data.items;
         this.cards = res[2].data.items;
         this.cardStatuses = res[3].data.items;
+        if (this.libraries.length > 0) {
+          this.form.controls.library.setValue(this.libraries[0].id);
+        }
       }
     );
   }

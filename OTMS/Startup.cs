@@ -30,7 +30,7 @@ namespace OTMS
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(ExceptionFilter));
-                options.Filters.Add(typeof(AuthorizationFilter));
+                //options.Filters.Add(typeof(AuthorizationFilter));
                 options.Filters.Add(typeof(ValidationFilter));
                 options.Filters.Add(typeof(UnitOfWorkCommitFilter));
             }).ConfigureApiBehaviorOptions(opt =>

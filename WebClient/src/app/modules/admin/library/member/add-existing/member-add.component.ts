@@ -93,6 +93,9 @@ export class MemberAddComponent extends FormComponent {
         this.users = res[0].data.items;
         this.libraries = res[1].data.items;
         this.cards = res[2].data.items;
+        if (this.libraries.length > 0) {
+          this.form.controls.library.setValue(this.libraries[0].id);
+        }
       }
     );
   }

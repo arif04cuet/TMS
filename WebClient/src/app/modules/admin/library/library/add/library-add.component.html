@@ -52,61 +52,15 @@
                 </div>
 
                 <div nz-row [nzGutter]="24">
-                    <div nz-col [nzSpan]="24" style="margin: 10px 0">
-                        <span class="title-text">
-                            {{'address'|translate|uppercase}}
-                        </span>
-                    </div>
-                </div>
-
-                <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="12">
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'address.line.x0'|translate:{x0: 1} }}</label>
+                                    <label>{{'address'|translate }}</label>
                                 </div>
                                 <nz-form-control>
-                                    <input type="text" nz-input formControlName="addressLine1"
-                                        placeholder="{{'address.line.x0'|translate:{x0: 1} }}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'address.line.x0'|translate:{x0: 2} }}</label>
-                                </div>
-                                <nz-form-control>
-                                    <input type="text" nz-input formControlName="addressLine2"
-                                        placeholder="{{'address.line.x0'|translate:{x0: 2} }}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                    </div>
-                    <div nz-col [nzSpan]="12">
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'upazila'|translate }}</label>
-                                </div>
-                                <nz-form-control>
-                                    <input type="text" nz-input formControlName="upazila"
-                                        placeholder="{{'upazila'|translate }}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'district'|translate }}</label>
-                                </div>
-                                <nz-form-control>
-                                    <nz-select class="btn-custom" formControlName="district" nzShowSearch nzAllowClear
-                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'district'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of districts" [nzLabel]="p.name" [nzValue]="p.id">
-                                        </nz-option>
-                                    </nz-select>
+                                    <textarea type="text" nz-input formControlName="addressLine1"
+                                        placeholder="{{'address'|translate }}" ></textarea>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>

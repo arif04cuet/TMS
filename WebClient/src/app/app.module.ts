@@ -22,6 +22,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import {TranslateModule, TranslateLoader, TranslatePipe, TranslateService} from '@ngx-translate/core';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { PermissionHttpService } from 'src/services/http/permission-http.service';
 
 registerLocaleData(en);
 
@@ -64,6 +65,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AuthService,
     IdentityService,
     BroadcastService,
+    PermissionHttpService,
     TranslatePipe,
     { provide: ErrorHandler, useClass: ErrorHandler },
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

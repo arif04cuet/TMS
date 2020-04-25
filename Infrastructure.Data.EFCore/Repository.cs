@@ -101,5 +101,11 @@ namespace Infrastructure.Data.EFCore
 
             return set.Where(predicate);
         }
+
+        public Task<TResponse> MatchAsync<TResponse>(ICriteria<TEntity, TResponse> criteria)
+        {
+            var set = _dataContext.Set<TEntity>();
+            return criteria.MatchAsync(set);
+        }
     }
 }

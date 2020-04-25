@@ -1,7 +1,10 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities.Constants;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Core.Entities
 {
+    [Table(nameof(Address), Schema = SchemaConstants.Core)]
     public class Address : BaseEntity
     {
         public string ContactName { get; set; }
@@ -12,6 +15,10 @@ namespace Module.Core.Entities
         public long? DistrictId { get; set; }
         public District District { get; set; }
 
-        public string Upazila { get; set; }
+        public long? UpazilaId { get; set; }
+        public Upazila Upazila { get; set; }
+
+        public long? DivisionId { get; set; }
+        public Division Division { get; set; }
     }
 }

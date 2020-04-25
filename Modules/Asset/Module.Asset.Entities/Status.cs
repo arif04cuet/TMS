@@ -1,5 +1,7 @@
 using Infrastructure.Entities;
+using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Asset.Entities
 {
@@ -11,7 +13,7 @@ namespace Module.Asset.Entities
         Archived = 4
     }
 
-
+    [Table(nameof(Status), Schema = SchemaConstants.Asset)]
     public class Status : BaseEntity
     {
         [Searchable]

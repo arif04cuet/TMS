@@ -2,14 +2,13 @@ import { Component } from '@angular/core';
 import { UserHttpService } from 'src/services/http/user-http.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { of, forkJoin, } from 'rxjs';
+import { forkJoin, of, } from 'rxjs';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { AuthService } from 'src/services/auth.service';
 import { MediaHttpService } from 'src/services/http/media-http.service';
-import { environment } from 'src/environments/environment';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-add',
@@ -58,7 +57,7 @@ export class ProfileAddComponent extends FormComponent {
       religion: [],
       bloodGroup: [],
       nid: [],
-      password: [],
+      password: [null, [], this.password.bind(this)],
       confirmPassword: [],
       media: [],
 
@@ -154,12 +153,8 @@ export class ProfileAddComponent extends FormComponent {
   private mapResponseObject(data) {
     if (data) {
       if(data.photo) {
-        this.photoUrl = `${environment.serverUri}/${data.photo}`;
+        this.photoUrl = data.photo;
       }
-      this.setValue('gender', data.gender?.id);
-      this.setValue('bloodGroup', data.bloodGroup?.id);
-      this.setValue('maritalStatus', data.maritalStatus?.id);
-      this.setValue('religion', data.religion?.id);
       if (data.officeAddress) {
         this.setValue('officeName', data.officeAddress.contactName);
         this.setValue('officeAddressLine1', data.officeAddress.addressLine1);
@@ -204,13 +199,7 @@ export class ProfileAddComponent extends FormComponent {
     };
   }
 
-  private getBase64(img: File, callback: (img: string) => void): void {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result!.toString()));
-    reader.readAsDataURL(img);
-  }
-
-  private password(control: FormControl) {
+  password(control: FormControl) {
     if (this.mode == 'add' || control.value) {
       if (!control.value) {
         return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
@@ -221,6 +210,5 @@ export class ProfileAddComponent extends FormComponent {
     }
     return of(true);
   }
-
 
 }

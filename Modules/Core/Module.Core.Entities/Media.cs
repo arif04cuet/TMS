@@ -1,7 +1,10 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities.Constants;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Core.Entities
 {
+    [Table(nameof(Media), Schema = SchemaConstants.Core)]
     public class Media : BaseEntity
     {
         public string Title { get; set; }

@@ -156,5 +156,11 @@
     "is_send_email": "Send email to user on checkin/checkout.",
     "eula": "Category EULA",
     "save_new": "Save & New",
-    "choose.photo": "Choose photo"
+    "choose.photo": "Choose photo",
+    "issues": "Issues",
+    "book.issues": "Book issues",
+    "reports": "Reports",
+    "must.be.equal.x0.characters": "Must be equal {{x0}} characters",
+    "must.be.numeric": "Must be numeric",
+    "access.denied": "It's seems you have no permission to access this page."
 }

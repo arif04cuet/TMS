@@ -7,6 +7,7 @@ namespace Module.Library.Data
     public class BookCreateRequest
     {
         public string Title { get; set; }
+        public string Isbn { get; set; }
         public string Description { get; set; }
         public string Excerpt { get; set; }
         public long Language { get; set; }
@@ -27,6 +28,7 @@ namespace Module.Library.Data
                 LanguageId = Language,
                 AuthorId = Author,
                 PublisherId = Publisher,
+                Isbn = Isbn
             };
         }
         public IEnumerable<BookAuthor> ToBookAuthors(long bookId)

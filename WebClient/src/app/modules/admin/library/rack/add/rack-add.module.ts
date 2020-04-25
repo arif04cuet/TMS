@@ -8,6 +8,7 @@ import { RackAddRoutingModule } from './rack-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
 import { RackHttpService } from 'src/services/http/rack-http.service';
+import { LibraryHttpService } from 'src/services/http/library-http.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RackHttpService } from 'src/services/http/rack-http.service';
   exports: [RackAddComponent],
   providers: [
     RackHttpService,
-    CommonValidator
+    CommonValidator,
+    LibraryHttpService
   ]
 })
 export class RackAddModule { }
