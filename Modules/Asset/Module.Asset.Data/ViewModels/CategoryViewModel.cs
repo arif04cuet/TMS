@@ -7,5 +7,6 @@ namespace Module.Asset.Data
     {
 
         public long Id { get; set; }
+        public string Photo { get; set; }
     }
 }

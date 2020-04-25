@@ -6,6 +6,8 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
+import { MediaHttpService } from 'src/services/http/media-http.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-category-add',
@@ -17,10 +19,14 @@ export class CategoryAddComponent extends FormComponent {
   savenew: boolean = false;
   mastercategories = [];
 
+  photoUrl;
+  photoLoading = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private categoryHttpService: CategoryHttpService,
-    private v: CommonValidator
+    private v: CommonValidator,
+    private mediaHttpService: MediaHttpService
   ) {
     super();
   }
@@ -34,7 +40,8 @@ export class CategoryAddComponent extends FormComponent {
       eula: [null, []],
       isRequireUserConfirmation: [null, []],
       isSendEmail: [null, []],
-      isActive: [null, []]
+      isActive: [null, []],
+      media: [],
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
@@ -66,6 +73,32 @@ export class CategoryAddComponent extends FormComponent {
     this.submit();
   }
 
+  handlePhotoChange(e) {
+    const file = e.target.files[0];
+    if (file) {
+      this.photoLoading = true;
+      var fr = new FileReader();
+      fr.onload = () => {
+        this.photoUrl = fr.result;
+      }
+      fr.readAsDataURL(file);
+      this.mediaHttpService.upload(file, true,
+        progress => {
+          this.log('progress', progress);
+        },
+        success => {
+          this.log('success', success);
+          this.form.controls.media.setValue(success.data);
+          this.photoLoading = false;
+        },
+        error => {
+          this.photoLoading = false;
+        }
+      );
+    }
+  }
+
+
   get(id) {
     this.loading = true;
 
@@ -74,6 +107,10 @@ export class CategoryAddComponent extends FormComponent {
         (res: any) => {
           this.setValues(this.form.controls, res.data);
           this.loading = false;
+          console.log(`${environment}`);
+          if (res.data.photo) {
+            this.photoUrl = `${environment.serverUri}/${res.data.photo}`;
+          }
         }
       );
     }

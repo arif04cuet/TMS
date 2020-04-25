@@ -8,7 +8,7 @@ import { CategoryAddRoutingModule } from './category-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
-
+import { MediaHttpService } from 'src/services/http/media-http.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,8 @@ import { CommonValidator } from 'src/validators/common.validator';
   exports: [CategoryAddComponent],
   providers: [
     RoleHttpService,
-    CommonValidator
+    CommonValidator,
+    MediaHttpService
   ]
 })
 export class CategoryAddModule { }

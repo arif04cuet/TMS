@@ -11,5 +11,6 @@ namespace Module.Asset.Data
         public bool IsSendEmail { get; set; }
         public bool IsActive { get; set; }
 
+
     }
 }

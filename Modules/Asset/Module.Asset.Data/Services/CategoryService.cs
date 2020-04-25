@@ -2,11 +2,13 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
+using Module.Core.Entities;
 using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,13 +20,14 @@ namespace Module.Asset.Data
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Category> _repository;
-
+        private readonly IRepository<Media> _mediaRepository;
 
         public CategoryService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetRepository<Category>();
+            _mediaRepository = _unitOfWork.GetRepository<Media>();
 
         }
 
@@ -40,6 +43,17 @@ namespace Module.Asset.Data
                 IsActive = request.IsActive
 
             };
+
+            if (request.Media.HasValue)
+            {
+                newEntity.MediaId = request.Media;
+                var media = await _mediaRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.Media.Value);
+                if (media != null)
+                {
+                    media.IsInUse = true;
+                }
+            }
 
             await _repository.AddAsync(newEntity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -94,7 +108,8 @@ namespace Module.Asset.Data
                     Name = x.Name,
                     IsRequireUserConfirmation = x.IsRequireUserConfirmation,
                     IsSendEmail = x.IsSendEmail,
-                    IsActive = x.IsActive
+                    IsActive = x.IsActive,
+                    Photo = x.MediaId.HasValue ? Path.Combine(MediaConstants.Path, x.Media.FileName) : string.Empty
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
 
