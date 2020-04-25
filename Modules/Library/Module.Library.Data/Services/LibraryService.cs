@@ -123,7 +123,7 @@ namespace Module.Library.Data
                             Id = x.Address.District.Id,
                             Name = x.Address.District.Name
                         } : null,
-                        Upazila = x.Address.Upazila
+                        //Upazila = x.Address.Upazila
                     } : null
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);

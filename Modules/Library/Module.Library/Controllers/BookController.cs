@@ -73,5 +73,12 @@ namespace Module.Library.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("issues")]
+        [RequirePermission(BookList, BookManage)]
+        public async Task<ActionResult> ListIssue([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _bookService.ListIssueAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
     }
 }

@@ -31,11 +31,8 @@ export class LibraryAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
-      librarian: [null, [], this.v.required.bind(this)],
-      addressLine1: [],
-      addressLine2: [],
-      upazila: [],
-      district: []
+      librarian: [],
+      addressLine1: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -95,12 +92,9 @@ export class LibraryAddComponent extends FormComponent {
   }
 
   private mapRequestData(o) {
-    if (o.addressLine1 || o.addressLine2 || o.upazila || o.district) {
+    if (o.addressLine1) {
       o.address = {
-        addressLine1: o.addressLine1,
-        addressLine2: o.addressLine2,
-        upazila: o.upazila,
-        district: o.district
+        addressLine1: o.addressLine1
       }
     }
   }
@@ -108,10 +102,6 @@ export class LibraryAddComponent extends FormComponent {
   private mapResponseData(data) {
     if (data.address) {
       this.setValue('addressLine1', data.address?.addressLine1);
-      this.setValue('addressLine2', data.address?.addressLine2);
-      this.setValue('contactName', data.address?.contactName);
-      this.setValue('upazila', data.address?.upazila);
-      this.setValue('district', data.address?.district?.id);
     }
   }
 

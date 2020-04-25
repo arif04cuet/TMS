@@ -1,10 +1,12 @@
-﻿using Infrastructure.Entities;
-using Module.Core.Entities;
+﻿using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Library.Entities
 {
-    public class BookReservation : BaseEntity
+    [Table(nameof(BookReservation), Schema = SchemaConstants.Library)]
+    public class BookReservation : LibraryEntity
     {
         public long BookId { get; set; }
         public Book Book { get; set; }
@@ -19,6 +21,9 @@ namespace Module.Library.Entities
         public DateTime ReservationDate { get; set; }
         public long? ReservationById { get; set; }
         public User ReservationBy { get; set; }
+
+        public long? LibraryId { get; set; }
+        public Library Library { get; set; }
 
     }
 }

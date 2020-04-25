@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { PermissionHttpService } from 'src/services/http/permission-http.service';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgZorroAntdModule,
     SharedModule
   ],
-  exports: [HomeComponent]
+  exports: [HomeComponent],
+  providers: [
+    PermissionHttpService
+  ]
 })
 export class HomeModule { }

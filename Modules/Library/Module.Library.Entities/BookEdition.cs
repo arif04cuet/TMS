@@ -1,8 +1,11 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities.Constants;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Library.Entities
 {
+    [Table(nameof(BookEdition), Schema = SchemaConstants.Library)]
     public class BookEdition : BaseEntity
     {
         public long BookId { get; set; }

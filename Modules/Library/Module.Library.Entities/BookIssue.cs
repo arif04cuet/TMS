@@ -1,10 +1,12 @@
-﻿using Infrastructure.Entities;
-using Module.Core.Entities;
+﻿using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Library.Entities
 {
-    public class BookIssue : BaseEntity
+    [Table(nameof(BookIssue), Schema = SchemaConstants.Library)]
+    public class BookIssue : LibraryEntity
     {
         public long BookId { get; set; }
         public Book Book { get; set; }

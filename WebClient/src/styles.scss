@@ -641,3 +641,10 @@ nz-header .ant-badge-count {
     border-radius: 50%;
   }
 }
+
+.ant-result {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

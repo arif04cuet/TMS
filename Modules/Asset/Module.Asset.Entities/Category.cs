@@ -1,6 +1,8 @@
 using Infrastructure.Entities;
 using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Asset.Entities
 {
@@ -13,7 +15,7 @@ namespace Module.Asset.Entities
         License = 5
     }
 
-
+    [Table(nameof(Category), Schema = SchemaConstants.Asset)]
     public class Category : BaseEntity
     {
         [Searchable]

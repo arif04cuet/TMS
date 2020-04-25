@@ -1,9 +1,12 @@
 using Infrastructure.Entities;
 using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Asset.Entities
 {
+    [Table(nameof(Manufacturer), Schema = SchemaConstants.Asset)]
     public class Manufacturer : BaseEntity
     {
         [Searchable]

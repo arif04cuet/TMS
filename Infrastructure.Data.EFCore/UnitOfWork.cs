@@ -20,7 +20,6 @@ namespace Infrastructure.Data.EFCore
 
         public UnitOfWork(IDataContext dataContext)
         {
-            Console.WriteLine("UnitOfWork Created at " + DateTime.Now);
             if (!(dataContext is DbContext))
                 throw new ArgumentException($"The {nameof(dataContext)} object must be an instance of the Microsoft.EntityFrameworkCore.DbContext class.");
 

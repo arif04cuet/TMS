@@ -1,10 +1,12 @@
-﻿using Infrastructure.Entities;
+﻿using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Library.Entities
 {
-    public class LibraryCard : BaseEntity
+    [Table(nameof(LibraryCard), Schema = SchemaConstants.Library)]
+    public class LibraryCard : LibraryEntity
     {
         [Searchable]
         public string Name { get; set; }

@@ -1,7 +1,10 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities.Constants;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Core.Entities
 {
+    [Table(nameof(Education), Schema = SchemaConstants.Core)]
     public class Education : IEntity
     {
         public long Id { get; set; }

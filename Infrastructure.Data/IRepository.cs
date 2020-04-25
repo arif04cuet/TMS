@@ -1,5 +1,4 @@
-﻿using Infrastructure;
-using Infrastructure.Entities;
+﻿using Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,5 +42,7 @@ namespace Infrastructure.Data
         IQueryable<TEntity> AsQueryable();
 
         IQueryable<TEntity> AsReadOnly();
+
+        Task<TResponse> MatchAsync<TResponse>(ICriteria<TEntity, TResponse> criteria);
     }
 }

@@ -10,6 +10,7 @@ namespace Module.Library.Data
         public string Title { get; set; }
         public string Description { get; set; }
         public string Excerpt { get; set; }
+        public string Isbn { get; set; }
 
         public IdNameViewModel Language { get; set; }
         public IdNameViewModel Author { get; set; }

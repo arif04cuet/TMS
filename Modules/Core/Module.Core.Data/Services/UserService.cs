@@ -22,11 +22,17 @@ namespace Module.Core.Data
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly IRepository<UserRole> _userRoleRepository;
+        private readonly IPermissionService _permissionService;
+        private readonly IAppService _appService;
 
         public UserService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IPermissionService permissionService,
+            IAppService appService)
         {
             _unitOfWork = unitOfWork;
+            _appService = appService;
+            _permissionService = permissionService;
             _userRepository = _unitOfWork.GetRepository<User>();
             _userProfileRepository = _unitOfWork.GetRepository<UserProfile>();
             _userRoleRepository = _unitOfWork.GetRepository<UserRole>();
@@ -126,7 +132,7 @@ namespace Module.Core.Data
                     Mobile = x.Mobile,
                     FullName = x.FullName,
                     Email = x.Email,
-                    Photo = x.Profile.Media != null ? Path.Combine(MediaConstants.Path, x.Profile.Media.FileName) : string.Empty
+                    Photo = x.Profile.Media != null ? Path.Combine(_appService.GetServerUrl(), MediaConstants.Path, x.Profile.Media.FileName) : string.Empty
                 })
                 .ToListAsync();
 
@@ -148,18 +154,31 @@ namespace Module.Core.Data
             user.DesignationId = request.Designation;
             user.DepartmentId = request.Department;
             user.Mobile = request.Mobile;
+            user.StatusId = request.Status;
+
             if (!string.IsNullOrEmpty(request.Password))
             {
                 user.Password = request.Password.HashPassword();
             }
-            user.StatusId = request.Status;
 
+            // delete old roles
             var oldRoles = _userRoleRepository.Where(x => x.UserId == user.Id);
             if (oldRoles != null)
                 _userRoleRepository.RemoveRange(oldRoles);
 
-            var newRoles = request.Roles.Select(x => new UserRole { UserId = user.Id, RoleId = x });
+            // add new roles
+            var newRoles = request.Roles.Select(x => new UserRole
+            {
+                UserId = user.Id,
+                RoleId = x
+            });
             await _userRoleRepository.AddRangeAsync(newRoles);
+
+            // update permissions
+            if (request.Permissions != null && request.Permissions.Count > 0)
+            {
+                var r = await _permissionService.AssignUserPermission(user.Id, request.Permissions);
+            }
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;

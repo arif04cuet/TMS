@@ -3,10 +3,9 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
-import { UserHttpService } from 'src/services/http/user-http.service';
 import { BookHttpService } from 'src/services/http/book-http.service';
-import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { AuthorHttpService } from 'src/services/http/author-http.service';
+import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 
 @Component({
   selector: 'app-issue-list',
@@ -14,17 +13,16 @@ import { AuthorHttpService } from 'src/services/http/author-http.service';
 })
 export class IssueListComponent extends TableComponent {
 
-  publishers = [];
+  members = [];
   authors = [];
 
   @Searchable("Book.Title", "like") title;
-  @Searchable("Book.PublisherId", "eq") publisher;
+  @Searchable("Book.MemberId", "eq") issuedTo;
   @Searchable("Book.AuthorId", "eq") author;
 
   constructor(
     private bookHttpService: BookHttpService,
-    private userHttpService: UserHttpService,
-    private publisherHttpService: PublisherHttpService,
+    private libraryMemberHttpService: LibraryMemberHttpService,
     private authorHttpService: AuthorHttpService,
     private activatedRoute: ActivatedRoute
   ) {
@@ -36,27 +34,18 @@ export class IssueListComponent extends TableComponent {
     this.gets();
   }
 
-  add(model = null) {
-    if (model) {
-      this.goTo(`/admin/library/books/items/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/library/books/items/add');
-    }
-  }
-
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.bookHttpService.listBookItems(pagination, search),
+      this.bookHttpService.listIssues(pagination, search),
       this.authorHttpService.list(),
-      this.publisherHttpService.list(),
+      this.libraryMemberHttpService.list(),
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
         this.fill(res[0]);
         this.authors = res[1].data.items;
-        this.publishers = res[2].data.items;
+        this.members = res[2].data.items;
       },
       err => {
         console.log(err);
@@ -71,14 +60,6 @@ export class IssueListComponent extends TableComponent {
 
   search() {
     this.gets(null, this.getSearchTerms())
-  }
-
-  issue(item) {
-    this.goTo(`/admin/library/books/items/${item.id}/issues`);
-  }
-
-  return(item) {
-    this.goTo(`/admin/library/books/items/${item.id}/returns`);
   }
 
 }

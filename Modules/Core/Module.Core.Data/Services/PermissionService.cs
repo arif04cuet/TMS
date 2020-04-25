@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Module.Core.Data.Criteria;
 using Module.Core.Entities;
 using Module.Core.Shared;
 using Msi.UtilityKit;
@@ -19,14 +20,11 @@ namespace Module.Core.Data
         private readonly IRepository<Permission> _permissionRepository;
         private readonly IRepository<RolePermission> _rolePermissionRepository;
         private readonly IRepository<UserPermission> _userPermissionRepository;
-        private readonly IRoleService _roleService;
 
         public PermissionService(
-            IUnitOfWork unitOfWork,
-            IRoleService roleService)
+            IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _roleService = roleService;
             _permissionRepository = _unitOfWork.GetRepository<Permission>();
             _rolePermissionRepository = _unitOfWork.GetRepository<RolePermission>();
             _userPermissionRepository = _unitOfWork.GetRepository<UserPermission>();
@@ -37,7 +35,7 @@ namespace Module.Core.Data
             if (!userId.HasValue)
                 userId = 0;
 
-            var roles = await _roleService.GetRoleIdsAsync((long)userId);
+            var roles = await GetRoleIdsAsync((long)userId);
 
             if (roles.Count() == 0)
                 roles = new long[] { 0 };
@@ -45,16 +43,16 @@ namespace Module.Core.Data
             var rolesStr = roles.Join(",");
 
             var sql = $@"select p.*, m.Name ModuleName, pg.Name GroupName,
-                            case when up.Id = {userId.Value} or rp.RoleId in ({rolesStr})
+                            case when up.UserId = @UserId or rp.RoleId in (@RoleId)
                             then 1 else 0 end as 'Granted'
                         from Permission p
-                        left join RolePermission rp on rp.PermissionId = p.Id
-                        left join UserPermission up on up.PermissionId = p.Id
-                        left join Module m on m.Id = p.ModuleId
-                        left join PermissionGroup pg on pg.Id = p.GroupId
+                        left join [core].[RolePermission] rp on rp.PermissionId = p.Id
+                        left join [core].[UserPermission] up on up.PermissionId = p.Id
+                        left join [core].[Module] m on m.Id = p.ModuleId
+                        left join [core].[PermissionGroup] pg on pg.Id = p.GroupId
                         order by p.ModuleId asc, p.GroupId asc";
             var permissions = await _unitOfWork.GetConnection()
-                .QueryAsync<PermissionDto>(sql);
+                .QueryAsync<PermissionDto>(sql, new { UserId = userId.Value, RoleId = rolesStr });
 
             var result = CreatePagedCollection(permissions, pagingOptions);
             return result;
@@ -63,15 +61,15 @@ namespace Module.Core.Data
         public async Task<PagedCollection<ModulePermissionViewModel>> ListUserPermissionsAsync(long userId, IPagingOptions pagingOptions, CancellationToken cancellationToken = default)
         {
             var sql = $@"select p.*, m.Name ModuleName, pg.Name GroupName,
-                            case when up.Id = {userId}
+                            case when up.UserId = @UserId
                             then 1 else 0 end as 'Granted'
-                        from Permission p
-                        left join UserPermission up on up.PermissionId = p.Id
-                        left join Module m on m.Id = p.ModuleId
-                        left join PermissionGroup pg on pg.Id = p.GroupId
+                        from [core].[Permission] p
+                        left join [core].[UserPermission] up on up.PermissionId = p.Id
+                        left join [core].[Module] m on m.Id = p.ModuleId
+                        left join [core].[PermissionGroup] pg on pg.Id = p.GroupId
                         order by p.ModuleId asc, p.GroupId asc";
             var permissions = await _unitOfWork.GetConnection()
-                .QueryAsync<PermissionDto>(sql);
+                .QueryAsync<PermissionDto>(sql, new { UserId = userId });
 
             var result = CreatePagedCollection(permissions, pagingOptions);
             return result;
@@ -80,15 +78,15 @@ namespace Module.Core.Data
         public async Task<PagedCollection<ModulePermissionViewModel>> ListRolePermissionsAsync(long roleId, IPagingOptions pagingOptions, CancellationToken cancellationToken = default)
         {
             var sql = $@"select p.*, m.Name ModuleName, pg.Name GroupName,
-                            case when rp.RoleId in ({roleId})
+                            case when rp.RoleId in (@RoleId)
                             then 1 else 0 end as 'Granted'
-                        from Permission p
-                        left join RolePermission rp on rp.PermissionId = p.Id
-                        left join Module m on m.Id = p.ModuleId
-                        left join PermissionGroup pg on pg.Id = p.GroupId
+                        from [core].[Permission] p
+                        left join [core].[RolePermission] rp on rp.PermissionId = p.Id
+                        left join [core].[Module] m on m.Id = p.ModuleId
+                        left join [core].[PermissionGroup] pg on pg.Id = p.GroupId
                         order by p.ModuleId asc, p.GroupId asc";
             var permissions = await _unitOfWork.GetConnection()
-                .QueryAsync<PermissionDto>(sql);
+                .QueryAsync<PermissionDto>(sql, new { RoleId = roleId });
 
             var result = CreatePagedCollection(permissions, pagingOptions);
             return result;
@@ -134,8 +132,35 @@ namespace Module.Core.Data
 
         public async Task<bool> Check(long userId, string permissioCode)
         {
-            var roleIds = await _roleService.GetRoleIdsAsync(userId);
+            var roleIds = await GetRoleIdsAsync(userId);
             return false;
+        }
+
+        public async Task<IEnumerable<CheckPermissionViewModel>> CheckPermissions(CheckPermissionRequest request)
+        {
+            if (!request.UserId.HasValue)
+                request.UserId = 0;
+
+            var roles = await GetRoleIdsAsync((long)request.UserId);
+
+            if (roles.Count() == 0)
+                roles = new long[] { 0 };
+
+            var rolesStr = roles.Join(",");
+            var codes = request.Permissions != null && request.Permissions.Count() > 0 ? request.Permissions.Select(x => "\'" + x + "\'").Join(",") : "";
+
+            var sql = $@"select p.Id, p.Code,
+                            case when p.Code in ({codes}) and (up.UserId = @UserId or rp.RoleId in (@RoleId))
+                            then 1 else 0 end as 'Granted'
+                        from [core].[Permission] p
+                        left join [core].[RolePermission] rp on rp.PermissionId = p.Id
+                        left join [core].[UserPermission] up on up.PermissionId = p.Id
+                        where p.Code in ({codes})";
+
+            var result = await _unitOfWork.GetConnection()
+                .QueryAsync<CheckPermissionViewModel>(sql, new { UserId = request.UserId.Value, RoleId = rolesStr });
+
+            return result;
         }
 
         private PagedCollection<ModulePermissionViewModel> CreatePagedCollection(IEnumerable<PermissionDto> permissions, IPagingOptions pagingOptions)
@@ -185,6 +210,12 @@ namespace Module.Core.Data
             var result = new PagedCollection<ModulePermissionViewModel>(modulePermissions, total, pagingOptions);
 
             return result;
+        }
+
+        private async Task<IEnumerable<long>> GetRoleIdsAsync(long userId)
+        {
+            var roles = await _unitOfWork.GetRepository<UserRole>().MatchAsync(new RoleIdsByUserIdCriteria(userId));
+            return roles;
         }
     }
 }

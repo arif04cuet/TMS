@@ -6,5 +6,6 @@ namespace Module.Library.Data
     {
         public long BookItem { get; set; }
         public DateTime? ActualReturnDate { get; set; }
+        public BookItemFineRequest Fine { get; set; }
     }
 }

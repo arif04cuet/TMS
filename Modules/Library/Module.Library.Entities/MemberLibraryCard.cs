@@ -1,10 +1,12 @@
-﻿using Infrastructure.Entities;
-using Module.Core.Entities;
+﻿using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Library.Entities
 {
-    public class MemberLibraryCard : BaseEntity
+    [Table(nameof(MemberLibraryCard), Schema = SchemaConstants.Library)]
+    public class MemberLibraryCard : LibraryEntity
     {
         public string CardNumber { get; set; }
         public long UserId { get; set; }

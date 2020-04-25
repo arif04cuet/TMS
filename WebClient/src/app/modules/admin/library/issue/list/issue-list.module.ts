@@ -4,12 +4,11 @@ import { IssueListComponent } from './issue-list.component';
 import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserHttpService } from 'src/services/http/user-http.service';
 import { IssueListRoutingModule } from './issue-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BookHttpService } from 'src/services/http/book-http.service';
-import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { AuthorHttpService } from 'src/services/http/author-http.service';
+import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 
 @NgModule({
   declarations: [
@@ -27,10 +26,9 @@ import { AuthorHttpService } from 'src/services/http/author-http.service';
   ],
   exports: [IssueListComponent],
   providers: [
-    UserHttpService,
     BookHttpService,
-    PublisherHttpService,
-    AuthorHttpService
+    AuthorHttpService,
+    LibraryMemberHttpService
   ]
 })
 export class IssueListModule { }

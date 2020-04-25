@@ -9,6 +9,7 @@ using Msi.UtilityKit.Security;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -27,14 +28,17 @@ namespace Module.Core.Data
         private readonly IRepository<UserToken> _userTokenRepository;
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<RefreshToken> _refreshTokenRepository;
+        private readonly IAppService _appService;
         private static long ToUnixEpochDate(DateTime date)
           => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
 
         public TokenService(
             IUnitOfWork unitOfWork,
-            IOptions<JwtTokenOptions> jwtTokenOptions)
+            IOptions<JwtTokenOptions> jwtTokenOptions,
+            IAppService appService)
         {
             _unitOfWork = unitOfWork;
+            _appService = appService;
             _jwtTokenOptions = jwtTokenOptions.Value;
             _userTokenRepository = _unitOfWork.GetRepository<UserToken>();
             _userRepository = _unitOfWork.GetRepository<User>();
@@ -103,6 +107,16 @@ namespace Module.Core.Data
                 })
                 .ToListAsync();
 
+            var profilePhoto = await _unitOfWork.GetRepository<UserProfile>()
+                .Where(x => x.UserId == user.Id && !x.IsDeleted)
+                .Select(x => x.Media.FileName)
+                .FirstOrDefaultAsync();
+
+            if(!string.IsNullOrEmpty(profilePhoto))
+            {
+                profilePhoto = Path.Combine(_appService.GetServerUrl(), MediaConstants.Path, profilePhoto);
+            }
+
             return new TokenViewModel
             {
                 AccessToken = userToken.AccessToken,
@@ -114,7 +128,8 @@ namespace Module.Core.Data
                     Id = userId,
                     Name = user.FullName,
                     Email = user.Email,
-                    Roles = userRoles
+                    Roles = userRoles,
+                    Photo = profilePhoto
                 }
             };
 

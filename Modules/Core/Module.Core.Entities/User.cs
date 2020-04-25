@@ -1,8 +1,11 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Core.Entities
 {
+    [Table(nameof(User), Schema = SchemaConstants.Core)]
     public class User : BaseEntity
     {
         [Searchable]

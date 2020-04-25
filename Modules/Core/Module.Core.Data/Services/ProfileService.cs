@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Module.Core.Data.Criteria;
 using Module.Core.Entities;
 using Module.Core.Shared;
 using Msi.UtilityKit.Security;
@@ -21,29 +22,24 @@ namespace Module.Core.Data
         private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly IRepository<UserRole> _userRoleRepository;
         private readonly IRepository<Media> _mediaRepository;
+        private readonly IAppService _appService;
 
         public ProfileService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IAppService appService)
         {
             _unitOfWork = unitOfWork;
             _userRepository = _unitOfWork.GetRepository<User>();
             _userProfileRepository = _unitOfWork.GetRepository<UserProfile>();
             _userRoleRepository = _unitOfWork.GetRepository<UserRole>();
             _mediaRepository = _unitOfWork.GetRepository<Media>();
+            _appService = appService;
         }
 
         public async Task<ProfileViewModel> Get(long userId, CancellationToken cancellationToken = default)
         {
 
-            var roles = await _userRoleRepository
-                .AsReadOnly()
-                .Where(x => x.UserId == userId && !x.IsDeleted)
-                .Select(x => new IdNameViewModel
-                {
-                    Id = x.RoleId,
-                    Name = x.Role.Name
-                })
-                .ToListAsync();
+            var roles = await _userRoleRepository.MatchAsync(new RolesByUserIdCriteria(userId));
 
             var result = await _userRepository
                 .AsReadOnly()
@@ -106,7 +102,7 @@ namespace Module.Core.Data
                             Id = x.Profile.ContactAddress.District.Id,
                             Name = x.Profile.ContactAddress.District.Name
                         } : null,
-                        Upazila = x.Profile.ContactAddress.Upazila
+                        //Upazila = x.Profile.ContactAddress.Upazila?.Name
                     } : null,
 
                     PermanentAddress = x.Profile.PermanentAddress != null ? new AddressViewModel
@@ -119,7 +115,7 @@ namespace Module.Core.Data
                             Id = x.Profile.PermanentAddress.District.Id,
                             Name = x.Profile.PermanentAddress.District.Name
                         } : null,
-                        Upazila = x.Profile.PermanentAddress.Upazila
+                        //Upazila = x.Profile.PermanentAddress.Upazila
                     } : null,
 
                     OfficeAddress = x.Profile.OfficeAddress != null ? new AddressViewModel
@@ -132,7 +128,7 @@ namespace Module.Core.Data
                             Id = x.Profile.OfficeAddress.District.Id,
                             Name = x.Profile.OfficeAddress.District.Name
                         } : null,
-                        Upazila = x.Profile.OfficeAddress.Upazila
+                        //Upazila = x.Profile.OfficeAddress.Upazila
                     } : null,
 
                     Education = x.Profile.Education != null ? new EducationViewModel
@@ -144,7 +140,7 @@ namespace Module.Core.Data
                         Degree = x.Profile.Education.Degree,
                         Result = x.Profile.Education.Result
                     } : null,
-                    Photo = x.Profile.MediaId.HasValue ? Path.Combine(MediaConstants.Path, x.Profile.Media.FileName) : string.Empty
+                    Photo = x.Profile.MediaId.HasValue ? Path.Combine(_appService.GetServerUrl(), MediaConstants.Path, x.Profile.Media.FileName) : string.Empty
                 })
                 .FirstOrDefaultAsync();
 

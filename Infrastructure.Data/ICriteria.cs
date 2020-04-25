@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Entities;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
@@ -7,7 +8,7 @@ namespace Infrastructure.Data
         where TEntity : IEntity
     {
 
-        IQueryable<TResponse> Match(IQueryable<TEntity> query, bool readOnly = false);
+        Task<TResponse> MatchAsync(IQueryable<TEntity> query, bool readOnly = false);
 
     }
 }

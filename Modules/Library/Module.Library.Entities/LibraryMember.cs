@@ -1,16 +1,14 @@
-﻿using Infrastructure.Entities;
-using Module.Core.Entities;
+﻿using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Library.Entities
 {
-    public class LibraryMember : BaseEntity
+    [Table(nameof(LibraryMember), Schema = SchemaConstants.Library)]
+    public class LibraryMember : LibraryEntity
     {
-        [Searchable]
-        public long LibraryId { get; set; }
-        public Library Library { get; set; }
-
         public long UserId { get; set; }
         [Searchable]
         public User User { get; set; }

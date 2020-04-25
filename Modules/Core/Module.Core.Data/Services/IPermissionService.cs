@@ -17,5 +17,7 @@ namespace Module.Core.Data
         Task<bool> AssignRolePermission(long roleId, ICollection<long> permissions, CancellationToken cancellationToken = default);
 
         Task<bool> AssignUserPermission(long userId, ICollection<long> permissions, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<CheckPermissionViewModel>> CheckPermissions(CheckPermissionRequest request);
     }
 }

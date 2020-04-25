@@ -12,4 +12,8 @@ export class PermissionHttpService {
         return this.httpService.get(`permissions?userId=${userId}`);
     }
 
+    public check(body) {
+        return this.httpService.post(`permissions/check`, body);
+    }
+
 }

@@ -12,6 +12,7 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./modules/admin/home/home.module').then(x => x.HomeModule),
     canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     data: {
       name: 'admin',
       breadcrumb: {
@@ -19,6 +20,10 @@ const routes: Routes = [
       }
     }
   },
+  {
+    path: 'access-denied',
+    loadChildren: () => import('./modules/public/access-denied/access-denied.module').then(x => x.AccessDeniedModule)
+  }
 ];
 
 @NgModule({

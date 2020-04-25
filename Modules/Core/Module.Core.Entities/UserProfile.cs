@@ -1,8 +1,11 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities.Constants;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Core.Entities
 {
+    [Table(nameof(UserProfile), Schema = SchemaConstants.Core)]
     public class UserProfile : BaseEntity
     {
         public string NID { get; set; }

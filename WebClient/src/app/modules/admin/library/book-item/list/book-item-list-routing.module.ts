@@ -23,7 +23,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'add'
-      }
+      },
+      permissions: ['user.create']
     }
   },
   {

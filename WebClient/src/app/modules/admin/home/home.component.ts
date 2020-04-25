@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { PermissionHttpService } from 'src/services/http/permission-http.service';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +15,10 @@ export class HomeComponent extends BaseComponent {
   nav = [];
   userInfo;
 
-
   constructor(
     private authService: AuthService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private permissionHttpService: PermissionHttpService
   ) {
     super();
   }
@@ -123,6 +125,19 @@ export class HomeComponent extends BaseComponent {
             title: 'categories',
             route: '/admin/library/categories',
             icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'reports',
+            icon: 'user',
+            nav: [
+              {
+                level: 3,
+                title: 'issue',
+                icon: 'user',
+                route: '/admin/library/issues',
+              }
+            ]
           }
         ]
       },
@@ -176,6 +191,8 @@ export class HomeComponent extends BaseComponent {
         ]
       }
     ]
+
+    this.checkPermissions();
   }
 
   logout() {
@@ -188,7 +205,6 @@ export class HomeComponent extends BaseComponent {
   }
 
   onMenuItemClick(n) {
-    this.log('on menu item click', n);
     if (n.route) {
       this.goTo(n.route);
     }
@@ -198,6 +214,21 @@ export class HomeComponent extends BaseComponent {
     if (!b.last) {
       this.goTo(b.route);
     }
+  }
+
+  checkPermissions() {
+    const body = {
+      userId: this.authService.getLoggedInUserId(),
+      permissions: ['user.create', 'user.update']
+    }
+    this.subscribe(this.permissionHttpService.check(body),
+      (res: any) => {
+        this.log('permissions', res);
+      },
+      err => {
+
+      }
+    );
   }
 
 }

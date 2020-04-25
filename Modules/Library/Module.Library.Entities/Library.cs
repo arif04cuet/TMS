@@ -1,9 +1,12 @@
 ﻿using Infrastructure.Entities;
 using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Library.Entities
 {
+    [Table(nameof(Library), Schema = SchemaConstants.Library)]
     public class Library : BaseEntity
     {
         [Searchable]

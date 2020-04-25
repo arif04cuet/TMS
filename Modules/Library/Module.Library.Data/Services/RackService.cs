@@ -1,7 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Module.Core.Data;
 using Module.Core.Shared;
 using Module.Library.Entities;
 using Msi.UtilityKit.Pagination;
@@ -31,7 +30,8 @@ namespace Module.Library.Data
             {
                 Name = request.Name,
                 BuildingName = request.BuildingName,
-                FloorNo = request.FloorNo
+                FloorNo = request.FloorNo,
+                LibraryId = request.Library
             };
             await _rackRepository.AddAsync(newItem, ct);
             var result = await _unitOfWork.SaveChangesAsync(ct);
@@ -46,7 +46,7 @@ namespace Module.Library.Data
             if (item == null)
                 throw new NotFoundException(RACK_NOT_FOUND);
 
-            _rackRepository.Remove(item);
+            item.IsDeleted = true;
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
         }
@@ -65,7 +65,12 @@ namespace Module.Library.Data
                     Id = x.Id,
                     Name = x.Name,
                     FloorNo = x.FloorNo,
-                    BuildingName = x.BuildingName
+                    BuildingName = x.BuildingName,
+                    Library = x.LibraryId != null ? new IdNameViewModel
+                    {
+                        Id = x.Library.Id,
+                        Name = x.Library.Name
+                    } : null
                 })
                 .ToListAsync();
 
@@ -83,7 +88,12 @@ namespace Module.Library.Data
                     Id = x.Id,
                     Name = x.Name,
                     BuildingName = x.BuildingName,
-                    FloorNo = x.FloorNo
+                    FloorNo = x.FloorNo,
+                    Library = x.LibraryId != null ? new IdNameViewModel
+                    {
+                        Id = x.Library.Id,
+                        Name = x.Library.Name
+                    } : null
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
 

@@ -94,6 +94,17 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'number.of.copy'|translate}}</label>
+                                </div>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <input type="number" nz-input formControlName="numberOfCopy"
+                                        placeholder="{{'number.of.copy'|translate}}" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
                     </div>
                     <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
@@ -126,67 +137,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div nz-row [nzGutter]="24">
-                    <div nz-col [nzSpan]="24" style="margin: 10px 0">
-                        <span class="title-text">
-                            {{'isbn.and.barcode'|translate|uppercase}}
-                        </span>
-                    </div>
-                </div>
-
-                <div nz-row [nzGutter]="24">
-                    <div nz-col [nzSpan]="24" style="margin: 10px 0">
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'number.of.copy'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="number" nz-input (input)="onChangeNumberOfCopy($event)" formControlName="numberOfCopy"
-                                        placeholder="{{'number.of.copy'|translate}}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                    </div>
-                </div>
-
-                <ng-container formArrayName="isbnAndBarcodes">
-                    <ng-container *ngFor="let isbnAndBarcode of form.get('isbnAndBarcodes')?.controls; let i = index">
-                        <div nz-row [nzGutter]="24" [formGroupName]="i">
-                            <div nz-col [nzSpan]="24">
-                                <div nz-row class="edition-row">
-                                    <div nz-col [nzMd]="12" [nzSm]="24">
-                                        <div nz-row [nzGutter]="24">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'isbn'|translate}}</label>
-                                                </div>
-                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="text" nz-input formControlName="isbn"
-                                                        placeholder="{{'isbn'|translate}}" />
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-                                    </div>
-                                    <div nz-col [nzMd]="12" [nzSm]="24">
-                                        <div nz-row [nzGutter]="24">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'barcode'|translate}}</label>
-                                                </div>
-                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="text" nz-input formControlName="barcode"
-                                                        placeholder="{{'barcode'|translate}}" />
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-                </ng-container>
 
             </form>
         </div>

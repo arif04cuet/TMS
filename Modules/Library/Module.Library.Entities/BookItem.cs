@@ -1,14 +1,15 @@
-﻿using Infrastructure.Entities;
-using Module.Core.Entities;
+﻿using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Library.Entities
 {
-    public class BookItem : BaseEntity
+    [Table(nameof(BookItem), Schema = SchemaConstants.Library)]
+    public class BookItem : LibraryEntity
     {
         public float PurchagePrice { get; set; }
-        public string Isbn { get; set; }
         public string Barcode { get; set; }
 
         public long BookId { get; set; }

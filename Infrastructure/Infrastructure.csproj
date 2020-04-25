@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
+    <Folder Include="Constants\" />
     <Folder Include="Queries\" />
   </ItemGroup>
 

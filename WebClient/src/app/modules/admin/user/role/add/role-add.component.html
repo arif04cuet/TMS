@@ -27,7 +27,7 @@
         </nz-tab>
         <nz-tab nzTitle="{{'assign.permissions'|translate}}">
             <ng-template nz-tab>
-                <app-permission purpose='role'></app-permission>
+                <app-permission (changePermissions)="onChangePermissions($event)" #permission purpose='role'></app-permission>
             </ng-template>
         </nz-tab>
     </nz-tabset>

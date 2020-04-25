@@ -81,7 +81,7 @@ export class FormComponent extends BaseComponent {
 
     markModeAsAdd(): void {
         this.mode = FormComponent.ADD;
-        this.submitButtonText = "Create";
+        this.submitButtonText = 'create';
     }
 
     isAddMode(): boolean {
@@ -94,7 +94,7 @@ export class FormComponent extends BaseComponent {
 
     markModeAsEdit(): void {
         this.mode = FormComponent.EDIT;
-        this.submitButtonText = "Update";
+        this.submitButtonText = "update";
     }
 
     checkMode(fn: (id: number) => void, paramKey: string = 'id'): void {

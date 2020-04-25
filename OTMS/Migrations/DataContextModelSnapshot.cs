@@ -69,7 +69,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("MediaId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category","asset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Depreciation", b =>
@@ -108,7 +108,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Depreciation");
+                    b.ToTable("Depreciation","asset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Location", b =>
@@ -147,7 +147,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location");
+                    b.ToTable("Location","asset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Manufacturer", b =>
@@ -200,7 +200,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("MediaId");
 
-                    b.ToTable("Manufacturer");
+                    b.ToTable("Manufacturer","asset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Status", b =>
@@ -245,7 +245,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Status");
+                    b.ToTable("Status","asset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Supplier", b =>
@@ -293,7 +293,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Supplier");
+                    b.ToTable("Supplier","asset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Vendor", b =>
@@ -343,7 +343,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Vendor");
+                    b.ToTable("Vendor","asset");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Address", b =>
@@ -368,7 +368,14 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long?>("DistrictId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DivisionId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
@@ -377,8 +384,8 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Upazila")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("UpazilaId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -393,7 +400,13 @@ namespace OTMS.Migrations
 
                     b.HasIndex("DistrictId");
 
-                    b.ToTable("Address");
+                    b.HasIndex("DivisionId");
+
+                    b.HasIndex("UpazilaId");
+
+                    b.ToTable("Address","core");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Address");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.BloodGroup", b =>
@@ -429,7 +442,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BloodGroup");
+                    b.ToTable("BloodGroup","core");
 
                     b.HasData(
                         new
@@ -531,7 +544,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Department");
+                    b.ToTable("Department","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Designation", b =>
@@ -567,7 +580,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Designation");
+                    b.ToTable("Designation","core");
 
                     b.HasData(
                         new
@@ -701,7 +714,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("District");
+                    b.ToTable("District","core");
 
                     b.HasData(
                         new
@@ -1251,7 +1264,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Division");
+                    b.ToTable("Division","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Education", b =>
@@ -1278,7 +1291,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Education");
+                    b.ToTable("Education","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.EmailTemplate", b =>
@@ -1320,7 +1333,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmailTemplate");
+                    b.ToTable("EmailTemplate","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Gender", b =>
@@ -1356,7 +1369,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Gender");
+                    b.ToTable("Gender","core");
 
                     b.HasData(
                         new
@@ -1418,7 +1431,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Language");
+                    b.ToTable("Language","core");
 
                     b.HasData(
                         new
@@ -1488,7 +1501,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MaritalStatus");
+                    b.ToTable("MaritalStatus","core");
 
                     b.HasData(
                         new
@@ -1581,7 +1594,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Media");
+                    b.ToTable("Media","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Module", b =>
@@ -1617,7 +1630,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Module");
+                    b.ToTable("Module","core");
 
                     b.HasData(
                         new
@@ -1674,7 +1687,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("ModuleId");
 
-                    b.ToTable("Permission");
+                    b.ToTable("Permission","core");
 
                     b.HasData(
                         new
@@ -1976,7 +1989,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PermissionGroup");
+                    b.ToTable("PermissionGroup","core");
 
                     b.HasData(
                         new
@@ -2065,7 +2078,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshToken","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Religion", b =>
@@ -2101,7 +2114,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Religion");
+                    b.ToTable("Religion","core");
 
                     b.HasData(
                         new
@@ -2203,7 +2216,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Role","core");
 
                     b.HasData(
                         new
@@ -2251,7 +2264,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermission");
+                    b.ToTable("RolePermission","core");
 
                     b.HasData(
                         new
@@ -2319,7 +2332,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Status1");
+                    b.ToTable("Status","core");
 
                     b.HasData(
                         new
@@ -2369,10 +2382,10 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("DistrictId")
+                    b.Property<long?>("DistrictId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("DivisionId")
+                    b.Property<long?>("DivisionId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
@@ -2399,7 +2412,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("DivisionId");
 
-                    b.ToTable("Upazila");
+                    b.ToTable("Upazila","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.User", b =>
@@ -2468,7 +2481,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("User");
+                    b.ToTable("User","core");
 
                     b.HasData(
                         new
@@ -2505,7 +2518,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserPermission");
+                    b.ToTable("UserPermission","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.UserProfile", b =>
@@ -2598,7 +2611,7 @@ namespace OTMS.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserProfile");
+                    b.ToTable("UserProfile","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.UserRole", b =>
@@ -2641,7 +2654,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRole","core");
 
                     b.HasData(
                         new
@@ -2680,7 +2693,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserToken");
+                    b.ToTable("UserToken","core");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.Author", b =>
@@ -2716,7 +2729,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Author");
+                    b.ToTable("Author","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.Book", b =>
@@ -2747,7 +2760,13 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Isbn")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("LanguageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("LibraryId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("PublisherId")
@@ -2771,9 +2790,11 @@ namespace OTMS.Migrations
 
                     b.HasIndex("LanguageId");
 
+                    b.HasIndex("LibraryId");
+
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Book");
+                    b.ToTable("Book","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.BookAuthor", b =>
@@ -2816,7 +2837,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BookAuthor");
+                    b.ToTable("BookAuthor","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.BookEdition", b =>
@@ -2871,7 +2892,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("EBookId");
 
-                    b.ToTable("BookEdition");
+                    b.ToTable("BookEdition","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.BookFormat", b =>
@@ -2907,7 +2928,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BookFormat");
+                    b.ToTable("BookFormat","library");
 
                     b.HasData(
                         new
@@ -3005,6 +3026,9 @@ namespace OTMS.Migrations
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<long?>("LibraryId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("MemberId")
                         .HasColumnType("bigint");
 
@@ -3036,11 +3060,13 @@ namespace OTMS.Migrations
 
                     b.HasIndex("FineId");
 
+                    b.HasIndex("LibraryId");
+
                     b.HasIndex("MemberId");
 
                     b.HasIndex("MemberLibraryCardId");
 
-                    b.ToTable("BookIssue");
+                    b.ToTable("BookIssue","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.BookItem", b =>
@@ -3077,10 +3103,10 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Isbn")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long?>("IssuedToId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("LibraryId")
                         .HasColumnType("bigint");
 
                     b.Property<float>("PurchagePrice")
@@ -3114,13 +3140,15 @@ namespace OTMS.Migrations
 
                     b.HasIndex("IssuedToId");
 
+                    b.HasIndex("LibraryId");
+
                     b.HasIndex("RackId");
 
                     b.HasIndex("ReservedForId");
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("BookItem");
+                    b.ToTable("BookItem","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.BookReservation", b =>
@@ -3147,6 +3175,9 @@ namespace OTMS.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<long?>("LibraryId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -3175,11 +3206,13 @@ namespace OTMS.Migrations
 
                     b.HasIndex("BookItemId");
 
+                    b.HasIndex("LibraryId");
+
                     b.HasIndex("ReservationById");
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("BookReservation");
+                    b.ToTable("BookReservation","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.BookStatus", b =>
@@ -3215,7 +3248,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BookStatus");
+                    b.ToTable("BookStatus","library");
 
                     b.HasData(
                         new
@@ -3295,7 +3328,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("BookSubject");
+                    b.ToTable("BookSubject","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.EBook", b =>
@@ -3323,6 +3356,9 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDownloadable")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("LibraryId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("MediaId")
                         .HasColumnType("bigint");
 
@@ -3339,9 +3375,11 @@ namespace OTMS.Migrations
 
                     b.HasIndex("FormatId");
 
+                    b.HasIndex("LibraryId");
+
                     b.HasIndex("MediaId");
 
-                    b.ToTable("EBook");
+                    b.ToTable("EBook","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.EBookFormat", b =>
@@ -3377,7 +3415,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EBookFormat");
+                    b.ToTable("EBookFormat","library");
 
                     b.HasData(
                         new
@@ -3422,11 +3460,20 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<float>("DueAmount")
+                        .HasColumnType("real");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<long?>("LibraryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -3439,7 +3486,9 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Fine");
+                    b.HasIndex("LibraryId");
+
+                    b.ToTable("Fine","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.Library", b =>
@@ -3485,7 +3534,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("LibrarianId");
 
-                    b.ToTable("Library");
+                    b.ToTable("Library","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.LibraryCard", b =>
@@ -3516,6 +3565,9 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("LibraryId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("MaxIssueCount")
                         .HasColumnType("int");
 
@@ -3535,7 +3587,9 @@ namespace OTMS.Migrations
 
                     b.HasIndex("CardTypeId");
 
-                    b.ToTable("LibraryCard");
+                    b.HasIndex("LibraryId");
+
+                    b.ToTable("LibraryCard","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.LibraryCardStatus", b =>
@@ -3571,7 +3625,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LibraryCardStatus");
+                    b.ToTable("LibraryCardStatus","library");
 
                     b.HasData(
                         new
@@ -3633,7 +3687,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LibraryCardType");
+                    b.ToTable("LibraryCardType","library");
 
                     b.HasData(
                         new
@@ -3676,7 +3730,7 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long>("LibraryId")
+                    b.Property<long?>("LibraryId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("MemberSince")
@@ -3703,7 +3757,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LibraryMember");
+                    b.ToTable("LibraryMember","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.MemberLibraryCard", b =>
@@ -3737,6 +3791,9 @@ namespace OTMS.Migrations
                     b.Property<long>("LibraryCardId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("LibraryId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -3755,9 +3812,11 @@ namespace OTMS.Migrations
 
                     b.HasIndex("LibraryCardId");
 
+                    b.HasIndex("LibraryId");
+
                     b.HasIndex("UserId");
 
-                    b.ToTable("MemberLibraryCard");
+                    b.ToTable("MemberLibraryCard","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.MemberStatus", b =>
@@ -3793,7 +3852,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MemberStatus");
+                    b.ToTable("MemberStatus","library");
 
                     b.HasData(
                         new
@@ -3871,7 +3930,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publisher");
+                    b.ToTable("Publisher","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.Rack", b =>
@@ -3899,6 +3958,9 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("LibraryId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -3913,7 +3975,9 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rack");
+                    b.HasIndex("LibraryId");
+
+                    b.ToTable("Rack","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.ReservationStatus", b =>
@@ -3949,7 +4013,7 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ReservationStatus");
+                    b.ToTable("ReservationStatus","library");
 
                     b.HasData(
                         new
@@ -4027,7 +4091,19 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subject");
+                    b.ToTable("Subject","library");
+                });
+
+            modelBuilder.Entity("Module.Core.Entities.Office", b =>
+                {
+                    b.HasBaseType("Module.Core.Entities.Address");
+
+                    b.Property<string>("OfficeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Office","core");
+
+                    b.HasDiscriminator().HasValue("Office");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Category", b =>
@@ -4056,6 +4132,14 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Core.Entities.District", "District")
                         .WithMany()
                         .HasForeignKey("DistrictId");
+
+                    b.HasOne("Module.Core.Entities.Division", "Division")
+                        .WithMany()
+                        .HasForeignKey("DivisionId");
+
+                    b.HasOne("Module.Core.Entities.Upazila", "Upazila")
+                        .WithMany()
+                        .HasForeignKey("UpazilaId");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Permission", b =>
@@ -4090,15 +4174,11 @@ namespace OTMS.Migrations
                 {
                     b.HasOne("Module.Core.Entities.District", "District")
                         .WithMany()
-                        .HasForeignKey("DistrictId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DistrictId");
 
                     b.HasOne("Module.Core.Entities.Division", "Division")
                         .WithMany()
-                        .HasForeignKey("DivisionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DivisionId");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.User", b =>
@@ -4218,6 +4298,10 @@ namespace OTMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
+
                     b.HasOne("Module.Library.Entities.Publisher", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId");
@@ -4271,6 +4355,10 @@ namespace OTMS.Migrations
                         .WithMany()
                         .HasForeignKey("FineId");
 
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
+
                     b.HasOne("Module.Core.Entities.User", "Member")
                         .WithMany()
                         .HasForeignKey("MemberId");
@@ -4300,6 +4388,10 @@ namespace OTMS.Migrations
                         .WithMany()
                         .HasForeignKey("IssuedToId");
 
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
+
                     b.HasOne("Module.Library.Entities.Rack", "Rack")
                         .WithMany()
                         .HasForeignKey("RackId");
@@ -4324,6 +4416,10 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Library.Entities.BookItem", "BookItem")
                         .WithMany()
                         .HasForeignKey("BookItemId");
+
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
 
                     b.HasOne("Module.Core.Entities.User", "ReservationBy")
                         .WithMany()
@@ -4355,11 +4451,22 @@ namespace OTMS.Migrations
                         .WithMany()
                         .HasForeignKey("FormatId");
 
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
+
                     b.HasOne("Module.Core.Entities.Media", "Media")
                         .WithMany()
                         .HasForeignKey("MediaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.Fine", b =>
+                {
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.Library", b =>
@@ -4380,15 +4487,17 @@ namespace OTMS.Migrations
                         .HasForeignKey("CardTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.LibraryMember", b =>
                 {
                     b.HasOne("Module.Library.Entities.Library", "Library")
                         .WithMany()
-                        .HasForeignKey("LibraryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LibraryId");
 
                     b.HasOne("Module.Core.Entities.User", "User")
                         .WithMany()
@@ -4411,11 +4520,22 @@ namespace OTMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
+
                     b.HasOne("Module.Core.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.Rack", b =>
+                {
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
                 });
 #pragma warning restore 612, 618
         }
