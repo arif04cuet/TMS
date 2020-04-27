@@ -85,17 +85,6 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'isbn'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="text" nz-input formControlName="isbn"
-                                        placeholder="{{'isbn'|translate}}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
                     </div>
                     <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
@@ -126,17 +115,6 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'barcode'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="text" nz-input formControlName="barcode"
-                                        placeholder="{{'barcode'|translate}}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
                     </div>
                 </div>
             </form>
@@ -148,12 +126,7 @@
                 {{'cancel'|translate}}
             </button>
             <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
-                <span *ngIf="mode=='add'">
-                    {{'create'|translate}}
-                </span>
-                <span *ngIf="mode=='edit'">
-                    {{'update'|translate}}
-                </span>
+                {{submitButtonText|translate}}
             </button>
         </div>
     </div>

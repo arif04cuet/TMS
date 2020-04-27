@@ -42,6 +42,7 @@ export class BookAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       title: [null, [], this.v.required.bind(this)],
+      isbn: [null, [], this.v.required.bind(this)],
       language: [null, [], this.v.required.bind(this)],
       publisher: [null, [], this.v.required.bind(this)],
       subjects: [],

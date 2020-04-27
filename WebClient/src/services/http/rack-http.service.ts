@@ -8,8 +8,19 @@ export class RackHttpService {
         private httpService: HttpService
     ) { }
 
-    public get(id) {
-        return this.httpService.get(`libraries/racks/${id}`);
+    public get(rackId) {
+        return this.httpService.get(`libraries/racks/${rackId}`);
+    }
+
+    public listLibraryRacks(libraryId, pagination = null, search = null) {
+        let url = `libraries/${libraryId}/racks?`
+        if(pagination){
+            url += pagination
+        }
+        if(search) {
+            url += search
+        }
+        return this.httpService.get(url);
     }
 
     public list(pagination = null, search = null) {
@@ -24,7 +35,7 @@ export class RackHttpService {
     }
 
     public add(body) {
-        return this.httpService.post('libraries/racks', body);
+        return this.httpService.post(`libraries/racks`, body);
     }
 
     public delete(id: number) {

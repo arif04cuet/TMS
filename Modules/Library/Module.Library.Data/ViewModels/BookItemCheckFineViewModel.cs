@@ -2,7 +2,7 @@
 {
     public class BookItemCheckFineViewModel
     {
-        public long FineDays { get; set; }
-        public float FineAmount { get; set; }
+        public double FineDays { get; set; }
+        public double FineAmount { get; set; }
     }
 }

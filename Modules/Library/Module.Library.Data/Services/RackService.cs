@@ -58,24 +58,17 @@ namespace Module.Library.Data
                 .Where(x => !x.IsDeleted)
                 .ApplySearch(searchOptions);
 
-            var items = await query
-                .ApplyPagination(pagingOptions)
-                .Select(x => new RackListViewModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    FloorNo = x.FloorNo,
-                    BuildingName = x.BuildingName,
-                    Library = x.LibraryId != null ? new IdNameViewModel
-                    {
-                        Id = x.Library.Id,
-                        Name = x.Library.Name
-                    } : null
-                })
-                .ToListAsync();
+            return await GetRackPagedCollection(query, pagingOptions, searchOptions);
+        }
 
-            var total = await query.Select(x => x.Id).CountAsync();
-            return new PagedCollection<RackListViewModel>(items, total, pagingOptions);
+        public async Task<PagedCollection<RackListViewModel>> ListLibraryRacksAsync(long libraryId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+            var query = _rackRepository
+                .AsReadOnly()
+                .Where(x => x.LibraryId == libraryId && !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
+            return await GetRackPagedCollection(query, pagingOptions, searchOptions);
         }
 
         public async Task<RackViewModel> GetAsync(long id)
@@ -112,9 +105,32 @@ namespace Module.Library.Data
             item.Name = request.Name;
             item.BuildingName = request.BuildingName;
             item.FloorNo = request.FloorNo;
+            item.LibraryId = request.Library;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
+        }
+
+        private async Task<PagedCollection<RackListViewModel>> GetRackPagedCollection(IQueryable<Rack> query, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+            var items = await query
+                .ApplyPagination(pagingOptions)
+                .Select(x => new RackListViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    FloorNo = x.FloorNo,
+                    BuildingName = x.BuildingName,
+                    Library = x.LibraryId != null ? new IdNameViewModel
+                    {
+                        Id = x.Library.Id,
+                        Name = x.Library.Name
+                    } : null
+                })
+                .ToListAsync();
+
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<RackListViewModel>(items, total, pagingOptions);
         }
 
     }

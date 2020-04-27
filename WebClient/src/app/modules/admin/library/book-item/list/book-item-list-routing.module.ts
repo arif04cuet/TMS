@@ -24,7 +24,6 @@ const routes: Routes = [
         icon: 'plus',
         title: 'add'
       },
-      permissions: ['user.create']
     }
   },
   {

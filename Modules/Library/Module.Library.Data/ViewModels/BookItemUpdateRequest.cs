@@ -14,13 +14,11 @@ namespace Module.Library.Data
         public float PurchasePrice { get; set; }
         public long? Edition { get; set; }
         public long NumberOfCopy { get; set; }
-        public string Barcode { get; set; }
 
         public void MapTo(BookItem bookItem)
         {
             if(bookItem != null)
             {
-                bookItem.Barcode = Barcode;
                 bookItem.BookId = Book;
                 bookItem.DateOfPurchage = DateOfPurchase;
                 bookItem.EditionId = Edition;

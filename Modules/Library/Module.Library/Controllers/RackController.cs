@@ -31,6 +31,14 @@ namespace Module.Library.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("/api/libraries/{libraryId}/racks")]
+        [RequirePermission(RackList, RackManage)]
+        public async Task<ActionResult> ListLibraryRacks(long libraryId, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _rackService.ListLibraryRacksAsync(libraryId, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet("{id}")]
         [RequirePermission(RackView, RackManage)]
         public async Task<ActionResult> Get(long id)

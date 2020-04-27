@@ -23,6 +23,7 @@
         public const string BOOK_IS_NOT_AVAILABLE_FOR_ISSUE = "Book is not available for issue.";
         public const string BOOK_IS_ALREADY_ISSUED = "Book is already issued.";
         public const string ISSUE_QOUTA_EXCEEDS = "Issue qouta exceeds.";
+        public const string ISSUE_NOT_FOUND = "Issue not found.";
 
     }
 }

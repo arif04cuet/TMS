@@ -92,44 +92,9 @@ namespace Module.Core.Data
                     DateOfBirth = x.Profile.DateOfBirth,
                     NID = x.Profile.NID,
                     JoiningDate = x.Profile.JoiningDate,
-                    ContactAddress = x.Profile.ContactAddress != null ? new AddressViewModel
-                    {
-                        AddressLine1 = x.Profile.ContactAddress.AddressLine1,
-                        AddressLine2 = x.Profile.ContactAddress.AddressLine2,
-                        ContactName = x.Profile.ContactAddress.ContactName,
-                        District = x.Profile.ContactAddress.District != null ? new IdNameViewModel
-                        {
-                            Id = x.Profile.ContactAddress.District.Id,
-                            Name = x.Profile.ContactAddress.District.Name
-                        } : null,
-                        //Upazila = x.Profile.ContactAddress.Upazila?.Name
-                    } : null,
-
-                    PermanentAddress = x.Profile.PermanentAddress != null ? new AddressViewModel
-                    {
-                        AddressLine1 = x.Profile.PermanentAddress.AddressLine1,
-                        AddressLine2 = x.Profile.PermanentAddress.AddressLine2,
-                        ContactName = x.Profile.PermanentAddress.ContactName,
-                        District = x.Profile.PermanentAddress.District != null ? new IdNameViewModel
-                        {
-                            Id = x.Profile.PermanentAddress.District.Id,
-                            Name = x.Profile.PermanentAddress.District.Name
-                        } : null,
-                        //Upazila = x.Profile.PermanentAddress.Upazila
-                    } : null,
-
-                    OfficeAddress = x.Profile.OfficeAddress != null ? new AddressViewModel
-                    {
-                        AddressLine1 = x.Profile.OfficeAddress.AddressLine1,
-                        AddressLine2 = x.Profile.OfficeAddress.AddressLine2,
-                        ContactName = x.Profile.OfficeAddress.ContactName,
-                        District = x.Profile.OfficeAddress.District != null ? new IdNameViewModel
-                        {
-                            Id = x.Profile.OfficeAddress.District.Id,
-                            Name = x.Profile.OfficeAddress.District.Name
-                        } : null,
-                        //Upazila = x.Profile.OfficeAddress.Upazila
-                    } : null,
+                    ContactAddress = AddressViewModel.Map(x.Profile.ContactAddress),
+                    PermanentAddress = AddressViewModel.Map(x.Profile.PermanentAddress),
+                    OfficeAddress = AddressViewModel.Map(x.Profile.OfficeAddress),
 
                     Education = x.Profile.Education != null ? new EducationViewModel
                     {

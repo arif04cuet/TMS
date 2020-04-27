@@ -25,17 +25,18 @@
                 [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>
+                        <!-- <th>
                             {{'isbn'|translate}}
-                        </th>
+                        </th> -->
                         <th>
                             {{'barcode'|translate}}
+                            <input [(ngModel)]="barcode" nz-input />
                         </th>
                         <th>
                             {{'title'|translate}}
                             <input [(ngModel)]="title" nz-input />
                         </th>
-                        <th>
+                        <!-- <th>
                             <div>
                                 {{'author'|translate}}
                             </div>
@@ -58,12 +59,18 @@
                                     </nz-option>
                                 </nz-select>
                             </div>
-                        </th>
+                        </th> -->
                         <th>
                             {{'status'|translate}}
                         </th>
                         <th>
                             {{'issued.to'|translate}}
+                        </th>
+                        <th>
+                            {{'issue.date'|translate}}
+                        </th>
+                        <th>
+                            {{'return.date'|translate}}
                         </th>
                         <th class="ta-right">
                             <div>
@@ -80,13 +87,12 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.isbn }}</td>
                         <td>{{ data.barcode }}</td>
                         <td>{{ data.title }}</td>
-                        <td>{{ data.author?.name }}</td>
-                        <td>{{ data.publisher?.name }}</td>
                         <td>{{ data.status?.name }}</td>
                         <td>{{ data.issuedTo?.name }}</td>
+                        <td>{{ data.issueDate|date }}</td>
+                        <td>{{ data.returnDate|date }}</td>
                         <td class="action-column fit-cell">
                             <button *ngIf="!data.issuedTo" nzType="primary" (click)="issue(data)" nz-button class="btn-custom">
                                 {{'issue'|translate}}

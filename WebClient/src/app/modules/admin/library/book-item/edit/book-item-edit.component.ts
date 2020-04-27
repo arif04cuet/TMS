@@ -5,7 +5,6 @@ import { forkJoin, of } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { BookHttpService } from 'src/services/http/book-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
 import { RackHttpService } from 'src/services/http/rack-http.service';
 
 @Component({
@@ -26,7 +25,6 @@ export class BookItemEditComponent extends FormComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private bookHttpService: BookHttpService,
-    private commonHttpService: CommonHttpService,
     private rackHttpService: RackHttpService,
     private v: CommonValidator
   ) {
@@ -43,10 +41,7 @@ export class BookItemEditComponent extends FormComponent {
       purchasePrice: [null, [], this.v.required.bind(this)],
       dateOfPurchase: [null, [], this.v.required.bind(this)],
       format: [null, [], this.v.required.bind(this)],
-      status: [null, [], this.v.required.bind(this)],
-      isbn: [null, [], this.v.required.bind(this)],
-      barcode: [null, [], this.v.required.bind(this)],
-      isbnAndBarcodes: this.fb.array([])
+      status: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -76,8 +71,7 @@ export class BookItemEditComponent extends FormComponent {
     if (id != null) {
       this.subscribe(this.bookHttpService.getBookItem(id),
         (res: any) => {
-          this.setValues(this.form.controls, res.data, ['isbnAndBarcodes']);
-          this.form.controls.editions = this.fb.array([]);
+          this.setValues(this.form.controls, res.data);
           this.onBookChange(res.data.book?.id);
           this.loading = false;
         }

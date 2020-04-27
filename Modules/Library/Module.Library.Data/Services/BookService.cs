@@ -77,16 +77,8 @@ namespace Module.Library.Data
                     Title = x.Title,
                     Isbn = x.Isbn,
                     Description = x.Description,
-                    Author = x.Author != null ? new IdNameViewModel
-                    {
-                        Id = x.Author.Id,
-                        Name = x.Author.Name
-                    } : null,
-                    Publisher = x.Publisher != null ? new IdNameViewModel
-                    {
-                        Id = x.Publisher.Id,
-                        Name = x.Publisher.Name
-                    } : null
+                    Author = IdNameViewModel.Map(x.Author),
+                    Publisher = IdNameViewModel.Map(x.Publisher)
                 })
                 .ToListAsync();
 
@@ -102,24 +94,12 @@ namespace Module.Library.Data
                 {
                     Id = x.Id,
                     Isbn = x.Isbn,
-                    Author = x.Author != null ? new IdNameViewModel
-                    {
-                        Id = x.AuthorId.Value,
-                        Name = x.Author.Name
-                    } : null,
+                    Author = IdNameViewModel.Map(x.Author),
                     Description = x.Description,
                     Excerpt = x.Excerpt,
-                    Language = x.Language != null ? new IdNameViewModel
-                    {
-                        Id = x.LanguageId,
-                        Name = x.Language.Name
-                    } : null,
+                    Language = IdNameViewModel.Map(x.Language),
                     Title = x.Title,
-                    Publisher = x.Publisher != null ? new IdNameViewModel
-                    {
-                        Id = x.PublisherId.Value,
-                        Name = x.Publisher.Name
-                    } : null
+                    Publisher = IdNameViewModel.Map(x.Publisher)
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -141,14 +121,7 @@ namespace Module.Library.Data
                 result.Editions = editions;
 
                 // Subjects
-                var subjects = await _bookSubjecRepository
-                    .Where(x => x.BookId == result.Id)
-                    .Select(x => new IdNameViewModel
-                    {
-                        Id = x.SubjectId,
-                        Name = x.Subject.Name
-                    })
-                    .ToListAsync();
+                var subjects = await _bookSubjecRepository.MatchAsync(new SubjectsByBookIdCriteria(result.Id));
 
                 result.Subjects = subjects;
             }
@@ -164,6 +137,7 @@ namespace Module.Library.Data
                 throw new NotFoundException(BOOK_NOT_FOUND);
 
             book.Title = request.Title;
+            book.Isbn = request.Isbn;
             book.AuthorId = request.Author;
             book.Description = request.Description;
             book.Excerpt = request.Excerpt;
@@ -232,7 +206,8 @@ namespace Module.Library.Data
                     PurchagePrice = request.PurchasePrice,
                     EditionId = request.Edition,
                     RackId = request.Rack,
-                    StatusId = request.Status
+                    StatusId = request.Status,
+                    Barcode = DateTime.Now.Ticks.ToString()
                 });
             }
             await _bookItemRepository.AddRangeAsync(items, ct);
@@ -273,23 +248,11 @@ namespace Module.Library.Data
                 .Select(x => new BookItemViewModel
                 {
                     Id = x.Id,
-                    Author = x.Book.Author != null ? new IdNameViewModel
-                    {
-                        Id = x.Book.AuthorId.Value,
-                        Name = x.Book.Author.Name
-                    } : null,
+                    Author = IdNameViewModel.Map(x.Book.Author),
                     Description = x.Book.Description,
-                    Language = x.Book.Language != null ? new IdNameViewModel
-                    {
-                        Id = x.Book.LanguageId,
-                        Name = x.Book.Language.Name
-                    } : null,
+                    Language = IdNameViewModel.Map(x.Book.Language),
                     Title = x.Book.Title,
-                    Publisher = x.Book.Publisher != null ? new IdNameViewModel
-                    {
-                        Id = x.Book.PublisherId.Value,
-                        Name = x.Book.Publisher.Name
-                    } : null,
+                    Publisher = IdNameViewModel.Map(x.Book.Publisher),
                     Edition = x.Edition != null ? new BookEditionViewModel
                     {
                         Id = x.Edition.Id,
@@ -302,21 +265,9 @@ namespace Module.Library.Data
                     Barcode = x.Barcode,
                     DateOfPurchase = x.DateOfPurchage,
                     PurchasePrice = x.PurchagePrice,
-                    Format = x.Format != null ? new IdNameViewModel
-                    {
-                        Id = x.Format.Id,
-                        Name = x.Format.Name
-                    } : null,
-                    Rack = x.Rack != null ? new IdNameViewModel
-                    {
-                        Id = x.Rack.Id,
-                        Name = x.Rack.Name
-                    } : null,
-                    Status = x.Status != null ? new IdNameViewModel
-                    {
-                        Id = x.Status.Id,
-                        Name = x.Status.Name
-                    } : null,
+                    Format = IdNameViewModel.Map(x.Format),
+                    Rack = IdNameViewModel.Map(x.Rack),
+                    Status = IdNameViewModel.Map(x.Status),
                     Book = x.Book != null ? new IdNameViewModel
                     {
                         Id = x.Book.Id,
@@ -328,14 +279,7 @@ namespace Module.Library.Data
             if (result != null)
             {
                 // Subjects
-                var subjects = await _bookSubjecRepository
-                    .Where(x => x.BookId == result.Id)
-                    .Select(x => new IdNameViewModel
-                    {
-                        Id = x.SubjectId,
-                        Name = x.Subject.Name
-                    })
-                    .ToListAsync();
+                var subjects = await _bookSubjecRepository.MatchAsync(new SubjectsByBookIdCriteria(result.Id));
 
                 result.Subjects = subjects;
             }
@@ -362,26 +306,16 @@ namespace Module.Library.Data
                 Isbn = x.Book.Isbn,
                 Barcode = x.Barcode,
                 Title = x.Book.Title,
-                Author = x.Book.Author != null ? new IdNameViewModel
-                {
-                    Id = x.Book.Author.Id,
-                    Name = x.Book.Author.Name
-                } : null,
-                Publisher = x.Book.Publisher != null ? new IdNameViewModel
-                {
-                    Id = x.Book.Publisher.Id,
-                    Name = x.Book.Publisher.Name
-                } : null,
+                Author = IdNameViewModel.Map(x.Book.Author),
+                Publisher = IdNameViewModel.Map(x.Book.Publisher),
                 IssuedTo = x.IssuedToId != null ? new IdNameViewModel
                 {
                     Id = x.IssuedTo.Id,
                     Name = x.IssuedTo.FullName
                 } : null,
-                Status = x.StatusId != null ? new IdNameViewModel
-                {
-                    Id = x.Status.Id,
-                    Name = x.Status.Name
-                } : null
+                Status = IdNameViewModel.Map(x.Status),
+                IssueDate = x.CurrentIssue.IssueDate,
+                ReturnDate = x.CurrentIssue.ReturnDate
             });
 
             var _items = await result
@@ -409,29 +343,26 @@ namespace Module.Library.Data
                 throw new ValidationException(BOOK_IS_ALREADY_ISSUED);
 
             var user = await _unitOfWork.GetRepository<LibraryMember>()
+                .AsReadOnly()
                 .Where(x => x.Id == request.Member && !x.IsDeleted && !x.User.IsDeleted)
-                .Select(x => new
-                {
-                    Id = x.UserId
-                })
+                .Select(x => new { Id = x.UserId })
                 .FirstOrDefaultAsync(ct);
 
             if (user == null)
                 throw new ValidationException(LIBRARY_MEMBER_NOT_FOUND);
 
             var card = await _unitOfWork.GetRepository<MemberLibraryCard>()
-                .AsQueryable()
+                .AsReadOnly()
                 .Where(x => x.UserId == user.Id && x.Id == request.Card && !x.IsDeleted)
-                .Select(x => new
-                {
-                    MaxIssueCount = x.LibraryCard.MaxIssueCount
-                })
+                .Select(x => new { MaxIssueCount = x.LibraryCard.MaxIssueCount })
                 .FirstOrDefaultAsync(ct);
 
             if (card == null)
                 throw new ValidationException(LIBRARY_CARD_NOT_FOUND);
 
+            // check member library card max issue count
             var issueCount = await _bookIssueRepository
+                .AsReadOnly()
                 .Where(x => x.MemberId == request.Member && x.MemberLibraryCardId == request.Card && x.ActualReturnDate != null && !x.IsDeleted)
                 .Select(x => x.Id)
                 .CountAsync(ct);
@@ -439,14 +370,21 @@ namespace Module.Library.Data
             if (issueCount >= card.MaxIssueCount)
                 throw new ValidationException(ISSUE_QOUTA_EXCEEDS);
 
+            // add book issue
             issue = request.ToBookIssue();
             issue.MemberId = user.Id;
             await _bookIssueRepository.AddAsync(issue, ct);
 
+            // mark book item as loaned
             item.StatusId = BookStatusConstants.Loned;
             item.IssuedToId = user.Id;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
+
+            // set book item current issue reference
+            item.CurrentIssueId = issue.Id;
+            result += await _unitOfWork.SaveChangesAsync(ct);
+
             return issue.Id;
         }
 
@@ -461,27 +399,42 @@ namespace Module.Library.Data
                 throw new ValidationException(ITEM_NOT_FOUND);
 
             issue.ActualReturnDate = request.ActualReturnDate ?? DateTime.Now;
+
+            // TODO: check this book has reservation request
+            // if reservation request, then reserver it
+
             issue.BookItem.StatusId = BookStatusConstants.Available;
             issue.BookItem.IssuedToId = null;
+            issue.BookItem.CurrentIssueId = null;
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
         }
 
-        public async Task<bool> CheckFineAsync(BookItemReturnRequest request, CancellationToken ct = default)
+        public async Task<BookItemCheckFineViewModel> CheckFineAsync(BookItemReturnRequest request, CancellationToken ct = default)
         {
             var issue = await _bookIssueRepository
-                .AsQueryable()
+                .AsReadOnly()
                 .Include(x => x.BookItem)
                 .FirstOrDefaultAsync(x => x.BookItemId == request.BookItem && x.ActualReturnDate == null && !x.IsDeleted, ct);
 
             if (issue == null)
-                throw new ValidationException(ITEM_NOT_FOUND);
+                throw new ValidationException(ISSUE_NOT_FOUND);
 
-            issue.ActualReturnDate = request.ActualReturnDate ?? DateTime.Now;
-            issue.BookItem.StatusId = BookStatusConstants.Available;
-            issue.BookItem.IssuedToId = null;
-            var result = await _unitOfWork.SaveChangesAsync(ct);
-            return result > 0;
+            if (request.ActualReturnDate == null)
+                request.ActualReturnDate = DateTime.Now;
+
+            if (request.ActualReturnDate.HasValue && issue.ReturnDate.HasValue && request.ActualReturnDate > issue.ReturnDate)
+            {
+                // fined
+                var days = (request.ActualReturnDate.Value - issue.ReturnDate.Value).TotalDays;
+                var fineAmount = days * 10;
+                return new BookItemCheckFineViewModel
+                {
+                    FineDays = days,
+                    FineAmount = fineAmount
+                };
+            }
+            return default;
         }
 
         public async Task<BookItemIssueViewModel> GetIssueAsync(long bookItemId)
@@ -557,11 +510,7 @@ namespace Module.Library.Data
                     Id = x.Id,
                     Isbn = x.Book.Isbn,
                     Title = x.Book.Title,
-                    Author = x.Book.Author != null ? new IdNameViewModel
-                    {
-                        Id = x.Book.Author.Id,
-                        Name = x.Book.Author.Name
-                    } : null,
+                    Author = IdNameViewModel.Map(x.Book.Author),
                     IssuedTo = x.Member != null ? new IdNameViewModel
                     {
                         Id = x.Member.Id,

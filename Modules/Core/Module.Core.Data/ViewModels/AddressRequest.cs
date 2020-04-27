@@ -10,7 +10,8 @@ namespace Module.Core.Data
         public string AddressLine2 { get; set; }
 
         public long? District { get; set; }
-        public string Upazila { get; set; }
+        public long? Upazila { get; set; }
+        public long? Division { get; set; }
 
         public Address MapTo(Address address)
         {
@@ -19,7 +20,8 @@ namespace Module.Core.Data
                 address.AddressLine1 = AddressLine1;
                 address.AddressLine2 = AddressLine2;
                 address.DistrictId = District;
-                //address.UpazilaId = Upazila;
+                address.UpazilaId = Upazila;
+                address.DivisionId = Division;
                 address.ContactName = ContactName;
             }
             return address;
@@ -32,7 +34,8 @@ namespace Module.Core.Data
                 AddressLine1 = AddressLine1,
                 AddressLine2 = AddressLine2,
                 DistrictId = District,
-                //Upazila = Upazila,
+                UpazilaId = Upazila,
+                DivisionId = Division,
                 ContactName = ContactName
             };
             return address;

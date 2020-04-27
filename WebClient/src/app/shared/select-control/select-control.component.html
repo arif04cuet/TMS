@@ -1,0 +1,15 @@
+<nz-form-item class="field-container">
+    <div>
+        <label>{{label|translate }}</label>
+    </div>
+    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+        <nz-select [(ngModel)]="value" class="btn-custom" [nzLoading]="loading" nzShowSearch
+            nzAllowClear [nzPlaceHolder]="'select.x0'|translate:{x0: label|translate|lowercase}">
+            <nz-option *ngFor="let p of items" [nzLabel]="p.name" [nzValue]="p.id">
+            </nz-option>
+        </nz-select>
+    </nz-form-control>
+</nz-form-item>
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>
