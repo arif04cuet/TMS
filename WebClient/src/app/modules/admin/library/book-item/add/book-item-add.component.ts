@@ -1,45 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { BookHttpService } from 'src/services/http/book-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
 import { FormControl } from '@angular/forms';
 import { RackHttpService } from 'src/services/http/rack-http.service';
+import { LibraryHttpService } from 'src/services/http/library-http.service';
+import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 
 @Component({
   selector: 'app-book-item-add',
-  templateUrl: './book-item-add.component.html',
-  styleUrls: ['./book-item-add.component.scss']
+  templateUrl: './book-item-add.component.html'
 })
 export class BookItemAddComponent extends FormComponent {
 
   loading: boolean = true;
-  editionLoading: boolean = false;
 
-  racks = [];
-  books = [];
-  formats = [];
-  statuses = [];
-  editions = [];
+  @ViewChild('statusSelect') statusSelect: SelectControlComponent;
+  @ViewChild('formatSelect') formatSelect: SelectControlComponent;
+  @ViewChild('bookSelect') bookSelect: SelectControlComponent;
+  @ViewChild('editionSelect') editionSelect: SelectControlComponent;
+  @ViewChild('librarySelect') librarySelect: SelectControlComponent;
+  @ViewChild('rackSelect') rackSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private bookHttpService: BookHttpService,
-    private commonHttpService: CommonHttpService,
     private rackHttpService: RackHttpService,
+    private libraryHttpService: LibraryHttpService,
     private v: CommonValidator
   ) {
     super();
   }
 
   ngOnInit() {
-    this.getData();
     this.onCheckMode = id => this.get(id);
     this.createForm({
       book: [null, [], this.v.required.bind(this)],
+      library: [null, [], this.v.required.bind(this)],
       edition: [null, [], this.v.required.bind(this)],
       rack: [null, [], this.v.required.bind(this)],
       purchasePrice: [null, [], this.v.required.bind(this)],
@@ -49,6 +49,24 @@ export class BookItemAddComponent extends FormComponent {
       status: [null, [], this.v.required.bind(this)],
     });
     super.ngOnInit(this.activatedRoute.snapshot);
+  }
+
+  ngAfterViewInit() {
+    this.statusSelect.register((pagination, search) => {
+      return this.bookHttpService.listBookStatus(pagination, search);
+    }).fetch();
+
+    this.formatSelect.register((pagination, search) => {
+      return this.bookHttpService.listBookFormats(pagination, search);
+    }).fetch();
+
+    this.bookSelect.register((pagination, search) => {
+      return this.bookHttpService.list(pagination, search);
+    }).fetch();
+
+    this.librarySelect.register((pagination, search) => {
+      return this.libraryHttpService.list(pagination, search);
+    }).selectFirstOption().fetch();
   }
 
   submit(): void {
@@ -92,34 +110,20 @@ export class BookItemAddComponent extends FormComponent {
     this.goTo('/admin/library/books/items');
   }
 
-  getData() {
-    const requests = [
-      this.bookHttpService.listBookStatus(),
-      this.bookHttpService.listBookFormats(),
-      this.rackHttpService.list(),
-      this.bookHttpService.list()
-    ]
-    this.subscribe(forkJoin(requests),
-      (res: any[]) => {
-        this.statuses = res[0].data.items;
-        this.formats = res[1].data.items;
-        this.racks = res[2].data.items;
-        this.books = res[3].data.items;
-      }
-    );
+  onBookChange(e) {
+    if (e) {
+      this.editionSelect.register((pagination, search) => {
+        return this.bookHttpService.getEditions(e, pagination, search);
+      }).fetch();
+    }
   }
 
-  onBookChange(e) {
-    this.editionLoading = true;
-    this.subscribe(this.bookHttpService.getEditions(e),
-      (res: any) => {
-        this.editions = res.data.items;
-        this.editionLoading = false;
-      },
-      err => {
-        this.editionLoading = false;
-      }
-    );
+  onLibraryChange(e) {
+    if (e) {
+      this.rackSelect.register((pagination, search) => {
+        return this.rackHttpService.listLibraryRacks(e, pagination, search);
+      }).fetch();
+    }
   }
 
   private numberOfCopyValidator(control: FormControl) {
@@ -128,7 +132,7 @@ export class BookItemAddComponent extends FormComponent {
       return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
     }
     else if (Number(v) < 1) {
-      return this.error('must.be.greater.than.x0', {x0: 1});
+      return this.error('must.be.greater.than.x0', { x0: 1 });
     }
     return of(true);
   }

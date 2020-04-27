@@ -10,6 +10,7 @@ namespace Module.Library.Entities
     public class BookItem : LibraryEntity
     {
         public float PurchagePrice { get; set; }
+        [Searchable]
         public string Barcode { get; set; }
 
         public long BookId { get; set; }
@@ -32,6 +33,10 @@ namespace Module.Library.Entities
 
         public long? IssuedToId { get; set; }
         public virtual User IssuedTo { get; set; }
+
+        public long? CurrentIssueId { get; set; }
+        [ForeignKey(nameof(CurrentIssueId))]
+        public BookIssue CurrentIssue { get; set; }
 
         public long? ReservedForId { get; set; }
         public virtual User ReservedFor { get; set; }

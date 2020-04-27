@@ -113,18 +113,7 @@ namespace Module.Library.Data
                         Id = (long)x.LibrarianId,
                         Name = x.Librarian.FullName
                     } : null,
-                    Address = x.Address != null ? new AddressViewModel
-                    {
-                        AddressLine1 = x.Address.AddressLine1,
-                        AddressLine2 = x.Address.AddressLine2,
-                        ContactName = x.Address.ContactName,
-                        District = x.Address.District != null ? new IdNameViewModel
-                        {
-                            Id = x.Address.District.Id,
-                            Name = x.Address.District.Name
-                        } : null,
-                        //Upazila = x.Address.Upazila
-                    } : null
+                    Address = AddressViewModel.Map(x.Address)
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
 

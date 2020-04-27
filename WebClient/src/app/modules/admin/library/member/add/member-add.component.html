@@ -215,12 +215,7 @@
                 {{'cancel'|translate}}
             </button>
             <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
-                <span *ngIf="mode=='add'">
-                    {{'create'|translate}}
-                </span>
-                <span *ngIf="mode=='edit'">
-                    {{'update'|translate}}
-                </span>
+                {{submitButtonText|translate}}
             </button>
         </div>
     </div>

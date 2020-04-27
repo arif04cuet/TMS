@@ -18,6 +18,7 @@ export class BookItemListComponent extends TableComponent {
   authors = [];
 
   @Searchable("Book.Title", "like") title;
+  @Searchable("Barcode", "like") barcode;
   @Searchable("Book.PublisherId", "eq") publisher;
   @Searchable("Book.AuthorId", "eq") author;
 

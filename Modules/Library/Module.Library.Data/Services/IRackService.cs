@@ -14,6 +14,8 @@ namespace Module.Library.Data
 
         Task<PagedCollection<RackListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
+        Task<PagedCollection<RackListViewModel>> ListLibraryRacksAsync(long libraryId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
+
         Task<RackViewModel> GetAsync(long id);
 
         Task<bool> UpdateAsync(RackUpdateRequest request, CancellationToken ct = default);

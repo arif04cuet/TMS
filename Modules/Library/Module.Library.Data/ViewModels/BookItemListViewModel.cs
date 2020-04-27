@@ -1,4 +1,5 @@
 ﻿using Module.Core.Shared;
+using System;
 
 namespace Module.Library.Data
 {
@@ -13,6 +14,8 @@ namespace Module.Library.Data
         public IdNameViewModel Publisher { get; set; }
         public IdNameViewModel IssuedTo { get; set; }
         public IdNameViewModel Status { get; set; }
+        public DateTime? IssueDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
 
     }
 }

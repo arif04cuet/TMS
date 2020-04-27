@@ -38,6 +38,7 @@ export class RackAddComponent extends FormComponent {
 
   submit(): void {
     const body = this.constructObject(this.form.controls);
+    const libraryId = this.form.controls.library.value;
     this.submitForm(
       {
         request: this.rackHttpService.add(body),

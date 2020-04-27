@@ -30,18 +30,12 @@
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'book'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-select class="btn-custom" formControlName="book" nzShowSearch nzAllowClear (ngModelChange)="onBookChange($event)"
-                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'book'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of books" [nzLabel]="p.title" [nzValue]="p.id">
-                                        </nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
+                            <app-select-control (onChange)="onLibraryChange($event)" #librarySelect label="library" formControlName="library">
+                            </app-select-control>
+                        </div>
+                        <div nz-row [nzGutter]="24">
+                            <app-select-control (onChange)="onBookChange($event)" labelKey="title" #bookSelect label="book" formControlName="book">
+                            </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
@@ -54,45 +48,15 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'status'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-select class="btn-custom" formControlName="status" nzShowSearch nzAllowClear
-                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'status'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of statuses" [nzLabel]="p.name" [nzValue]="p.id">
-                                        </nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
                     </div>
                     <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'edition'|translate }}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-select class="btn-custom" formControlName="edition" nzShowSearch nzAllowClear
-                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'edition'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of editions" [nzLabel]="p.name" [nzValue]="p.id">
-                                        </nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
+                            <app-select-control #rackSelect label="rack" formControlName="rack">
+                            </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'date.of.purchase'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-date-picker formControlName="dateOfPurchase"></nz-date-picker>
-                                </nz-form-control>
-                            </nz-form-item>
+                            <app-select-control #editionSelect label="edition" formControlName="edition">
+                            </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
@@ -110,30 +74,20 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'rack'|translate }}</label>
+                                    <label>{{'date.of.purchase'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-select class="btn-custom" formControlName="rack" nzShowSearch nzAllowClear
-                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'rack'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of racks" [nzLabel]="p.name" [nzValue]="p.id">
-                                        </nz-option>
-                                    </nz-select>
+                                    <nz-date-picker formControlName="dateOfPurchase"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'format'|translate }}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-select class="btn-custom" formControlName="format" nzShowSearch nzAllowClear
-                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'format'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of formats" [nzLabel]="p.name" [nzValue]="p.id">
-                                        </nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
+                            <app-select-control #formatSelect label="format" formControlName="format">
+                            </app-select-control>
+                        </div>
+                        <div nz-row [nzGutter]="24">
+                            <app-select-control #statusSelect label="status" formControlName="status">
+                            </app-select-control>
                         </div>
                     </div>
                 </div>
@@ -147,12 +101,7 @@
                 {{'cancel'|translate}}
             </button>
             <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
-                <span *ngIf="mode=='add'">
-                    {{'create'|translate}}
-                </span>
-                <span *ngIf="mode=='edit'">
-                    {{'update'|translate}}
-                </span>
+                {{submitButtonText|translate}}
             </button>
         </div>
     </div>
