@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200427063237_RemoveVendorLocationTables")]
+    partial class RemoveVendorLocationTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,7 +103,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Accessory","asset");
+                    b.ToTable("Accessory");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AccessoryUser", b =>
@@ -150,7 +152,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("IssuedToUserId");
 
-                    b.ToTable("AccessoryUser","asset");
+                    b.ToTable("AccessoryUser");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Asset", b =>
@@ -235,7 +237,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Asset","asset");
+                    b.ToTable("Asset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AssetAudit", b =>
@@ -282,7 +284,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("AssetId");
 
-                    b.ToTable("AssetAudit","asset");
+                    b.ToTable("AssetAudit");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AssetMaintenance", b =>
@@ -346,7 +348,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("AssetMaintenance","asset");
+                    b.ToTable("AssetMaintenance");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AssetModel", b =>
@@ -419,7 +421,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("MediaId");
 
-                    b.ToTable("AssetModel","asset");
+                    b.ToTable("AssetModel");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Category", b =>
@@ -557,7 +559,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Component","asset");
+                    b.ToTable("Component");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.ComponentAsset", b =>
@@ -609,7 +611,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("IssuedToAssetId");
 
-                    b.ToTable("ComponentAsset","asset");
+                    b.ToTable("ComponentAsset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Consumable", b =>
@@ -691,7 +693,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Consumable","asset");
+                    b.ToTable("Consumable");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.ConsumableUser", b =>
@@ -740,7 +742,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("IssuedToUserId");
 
-                    b.ToTable("ConsumableUser","asset");
+                    b.ToTable("ConsumableUser");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Depreciation", b =>
@@ -870,7 +872,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("License","asset");
+                    b.ToTable("License");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.LicenseSeat", b =>
@@ -927,7 +929,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("LicenseId");
 
-                    b.ToTable("LicenseSeat","asset");
+                    b.ToTable("LicenseSeat");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Manufacturer", b =>
