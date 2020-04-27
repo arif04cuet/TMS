@@ -39,7 +39,7 @@ namespace Module.Asset.Entities
         public bool IsRequestable { get; set; }
 
         public long LocationId { get; set; }
-        public Location Location { get; set; }
+        public Office Location { get; set; }
 
         public long? MediaId { get; set; }
         public Media Media { get; set; }

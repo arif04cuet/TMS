@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Infrastructure.Entities;
+using Module.Core.Entities;
 using Msi.UtilityKit.Search;
 
 namespace Module.Asset.Entities
@@ -37,7 +38,7 @@ namespace Module.Asset.Entities
         public Supplier Supplier { get; set; }
 
         public long LocationId { get; set; }
-        public Location Location { get; set; }
+        public Office Location { get; set; }
 
         public long DepreciationId { get; set; }
         public Depreciation Depreciation { get; set; }

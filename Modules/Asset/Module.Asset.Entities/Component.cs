@@ -21,7 +21,7 @@ namespace Module.Asset.Entities
         public Supplier Supplier { get; set; }
 
         public long LocationId { get; set; }
-        public Location Location { get; set; }
+        public Office Location { get; set; }
 
         [Searchable]
         public string ModelNo { get; set; }
