@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, Output } from '@angular/core';
+import { Component, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
 
@@ -16,7 +16,8 @@ import { Observable } from 'rxjs';
 export class SelectControlComponent implements ControlValueAccessor {
 
   @Input() label;
-  @Output() onChange;
+  @Output() onChange = new EventEmitter();
+  @Input() labelKey = 'name';
 
   loading: boolean = false;
   items = [];
@@ -98,7 +99,9 @@ export class SelectControlComponent implements ControlValueAccessor {
   }
 
   onValueChange(e) {
-    this.propagateChange(e);
+    if (this.onChange) {
+      this.onChange.emit(e);
+    }
   }
 
   ngOnDestroy() {

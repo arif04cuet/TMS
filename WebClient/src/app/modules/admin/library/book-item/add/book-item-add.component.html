@@ -30,11 +30,11 @@
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
-                            <app-select-control #librarySelect label="library" formControlName="library">
+                            <app-select-control (onChange)="onLibraryChange($event)" #librarySelect label="library" formControlName="library">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control #bookSelect label="book" formControlName="book">
+                            <app-select-control (onChange)="onBookChange($event)" labelKey="title" #bookSelect label="book" formControlName="book">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">

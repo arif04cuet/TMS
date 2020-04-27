@@ -122,7 +122,7 @@ export class BookItemAddComponent extends FormComponent {
     if (e) {
       this.rackSelect.register((pagination, search) => {
         return this.rackHttpService.listLibraryRacks(e, pagination, search);
-      });
+      }).fetch();
     }
   }
 
