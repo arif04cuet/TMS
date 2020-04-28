@@ -6,7 +6,7 @@ import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepartmentListRoutingModule } from './department-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { DepartmentHttpService } from 'src/services/http/department-http.service';
+import { DepartmentHttpService } from 'src/services/http/user/department-http.service';
 
 @NgModule({
   declarations: [

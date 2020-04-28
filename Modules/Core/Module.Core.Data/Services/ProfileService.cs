@@ -39,7 +39,7 @@ namespace Module.Core.Data
         public async Task<ProfileViewModel> Get(long userId, CancellationToken cancellationToken = default)
         {
 
-            var roles = await _userRoleRepository.MatchAsync(new RolesByUserIdCriteria(userId));
+            var roles = await _userRoleRepository.MatchAsync(new FindRolesByUserIdCriteria(userId));
 
             var result = await _userRepository
                 .AsReadOnly()

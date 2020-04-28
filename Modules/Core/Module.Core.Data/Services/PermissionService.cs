@@ -214,7 +214,7 @@ namespace Module.Core.Data
 
         private async Task<IEnumerable<long>> GetRoleIdsAsync(long userId)
         {
-            var roles = await _unitOfWork.GetRepository<UserRole>().MatchAsync(new RoleIdsByUserIdCriteria(userId));
+            var roles = await _unitOfWork.GetRepository<UserRole>().MatchAsync(new FindRoleIdsByUserIdCriteria(userId));
             return roles;
         }
     }

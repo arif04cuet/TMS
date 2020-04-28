@@ -6,7 +6,7 @@ import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DesignationListRoutingModule } from './designation-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
+import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 
 @NgModule({
   declarations: [

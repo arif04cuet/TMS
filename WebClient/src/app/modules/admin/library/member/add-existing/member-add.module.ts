@@ -8,7 +8,7 @@ import { MemberAddRoutingModule } from './member-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
 
 @NgModule({

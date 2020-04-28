@@ -4,13 +4,13 @@ import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserAddComponent } from './user-add.component';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { UserAddRoutingModule } from './user-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonHttpService } from 'src/services/http/common-http.service';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
-import { DepartmentHttpService } from 'src/services/http/department-http.service';
-import { RoleHttpService } from 'src/services/http/role-http.service';
+import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
+import { DepartmentHttpService } from 'src/services/http/user/department-http.service';
+import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { PermissionModule } from '../../permission/permission.module';
 

@@ -101,7 +101,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Accessory","asset");
+                    b.ToTable("Accessory");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AccessoryUser", b =>
@@ -150,7 +150,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("IssuedToUserId");
 
-                    b.ToTable("AccessoryUser","asset");
+                    b.ToTable("AccessoryUser");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Asset", b =>
@@ -235,7 +235,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Asset","asset");
+                    b.ToTable("Asset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AssetAudit", b =>
@@ -282,7 +282,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("AssetId");
 
-                    b.ToTable("AssetAudit","asset");
+                    b.ToTable("AssetAudit");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AssetMaintenance", b =>
@@ -346,7 +346,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("AssetMaintenance","asset");
+                    b.ToTable("AssetMaintenance");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AssetModel", b =>
@@ -419,7 +419,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("MediaId");
 
-                    b.ToTable("AssetModel","asset");
+                    b.ToTable("AssetModel");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Category", b =>
@@ -557,7 +557,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Component","asset");
+                    b.ToTable("Component");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.ComponentAsset", b =>
@@ -609,7 +609,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("IssuedToAssetId");
 
-                    b.ToTable("ComponentAsset","asset");
+                    b.ToTable("ComponentAsset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Consumable", b =>
@@ -691,7 +691,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Consumable","asset");
+                    b.ToTable("Consumable");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.ConsumableUser", b =>
@@ -740,7 +740,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("IssuedToUserId");
 
-                    b.ToTable("ConsumableUser","asset");
+                    b.ToTable("ConsumableUser");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Depreciation", b =>
@@ -870,7 +870,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("License","asset");
+                    b.ToTable("License");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.LicenseSeat", b =>
@@ -927,7 +927,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("LicenseId");
 
-                    b.ToTable("LicenseSeat","asset");
+                    b.ToTable("LicenseSeat");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.Manufacturer", b =>
@@ -1098,10 +1098,6 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long?>("DistrictId")
                         .HasColumnType("bigint");
 
@@ -1135,8 +1131,6 @@ namespace OTMS.Migrations
                     b.HasIndex("UpazilaId");
 
                     b.ToTable("Address","core");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Address");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.BloodGroup", b =>
@@ -2387,6 +2381,63 @@ namespace OTMS.Migrations
                             Name = "Asset Management",
                             Version = 0L
                         });
+                });
+
+            modelBuilder.Entity("Module.Core.Entities.Office", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AddressLine1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressLine2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DistrictId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DivisionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OfficeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("UpazilaId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("DivisionId");
+
+                    b.HasIndex("UpazilaId");
+
+                    b.ToTable("Office","core");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Permission", b =>
@@ -4829,18 +4880,6 @@ namespace OTMS.Migrations
                     b.ToTable("Subject","library");
                 });
 
-            modelBuilder.Entity("Module.Core.Entities.Office", b =>
-                {
-                    b.HasBaseType("Module.Core.Entities.Address");
-
-                    b.Property<string>("OfficeName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("Office","core");
-
-                    b.HasDiscriminator().HasValue("Office");
-                });
-
             modelBuilder.Entity("Module.Asset.Entities.Accessory", b =>
                 {
                     b.HasOne("Module.Asset.Entities.Category", "Category")
@@ -5118,6 +5157,21 @@ namespace OTMS.Migrations
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Address", b =>
+                {
+                    b.HasOne("Module.Core.Entities.District", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictId");
+
+                    b.HasOne("Module.Core.Entities.Division", "Division")
+                        .WithMany()
+                        .HasForeignKey("DivisionId");
+
+                    b.HasOne("Module.Core.Entities.Upazila", "Upazila")
+                        .WithMany()
+                        .HasForeignKey("UpazilaId");
+                });
+
+            modelBuilder.Entity("Module.Core.Entities.Office", b =>
                 {
                     b.HasOne("Module.Core.Entities.District", "District")
                         .WithMany()

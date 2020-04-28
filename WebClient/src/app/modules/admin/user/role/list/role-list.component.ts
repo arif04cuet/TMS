@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
-import { RoleHttpService } from 'src/services/http/role-http.service';
+import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

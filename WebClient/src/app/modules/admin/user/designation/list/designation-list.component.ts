@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
+import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ManufacturerAddComponent } from './manufacturer-add.component';
 import { ManufacturerAddRoutingModule } from './manufacturer-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { RoleHttpService } from 'src/services/http/role-http.service';
+import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({

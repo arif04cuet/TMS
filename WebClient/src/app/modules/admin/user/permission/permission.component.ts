@@ -2,10 +2,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
 import { NzTreeNodeOptions, NzFormatEmitEvent } from 'ng-zorro-antd';
-import { PermissionHttpService } from 'src/services/http/permission-http.service';
-import { RoleHttpService } from 'src/services/http/role-http.service';
+import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
+import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { ActivatedRoute } from '@angular/router';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 
 @Component({
   selector: 'app-permission',

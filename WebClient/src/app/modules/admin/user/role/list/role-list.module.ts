@@ -6,7 +6,7 @@ import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoleListRoutingModule } from './role-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { RoleHttpService } from 'src/services/http/role-http.service';
+import { RoleHttpService } from 'src/services/http/user/role-http.service';
 
 @NgModule({
   declarations: [

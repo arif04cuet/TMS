@@ -3,7 +3,7 @@ import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
-import { DepartmentHttpService } from 'src/services/http/department-http.service';
+import { DepartmentHttpService } from 'src/services/http/user/department-http.service';
 
 @Component({
   selector: 'app-department-add',

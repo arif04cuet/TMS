@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin, of, } from 'rxjs';
@@ -106,7 +106,7 @@ export class ProfileAddComponent extends FormComponent {
       this.commonHttpService.getMaritalStatusList(),
       this.commonHttpService.getReligions(),
       this.userHttpService.getProfile(this.userId),
-      this.commonHttpService.getDistricts()
+      this.commonHttpService.getAllDistrict()
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {

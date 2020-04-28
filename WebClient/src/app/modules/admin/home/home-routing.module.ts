@@ -30,6 +30,17 @@ const routes: Routes = [
         }
       },
       {
+        path: 'offices',
+        loadChildren: () => import('../user/office/list/office-list.module').then(x => x.OfficeListModule),
+        data: {
+          name: 'office_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'offices'
+          }
+        }
+      },
+      {
         path: 'designations',
         loadChildren: () => import('../user/designation/list/designation-list.module').then(x => x.DesignationListModule),
         data: {
@@ -173,17 +184,17 @@ const routes: Routes = [
           }
         }
       },
-      {
-        path: 'asset/vendors',
-        loadChildren: () => import('../asset/vendors/list/vendor-list.module').then(x => x.VendorListModule),
-        data: {
-          name: 'vendor_list',
-          breadcrumb: {
-            icon: 'safety',
-            title: 'vendors'
-          }
-        }
-      },
+      // {
+      //   path: 'asset/vendors',
+      //   loadChildren: () => import('../asset/vendors/list/vendor-list.module').then(x => x.VendorListModule),
+      //   data: {
+      //     name: 'vendor_list',
+      //     breadcrumb: {
+      //       icon: 'safety',
+      //       title: 'vendors'
+      //     }
+      //   }
+      // },
       {
         path: 'asset/suppliers',
         loadChildren: () => import('../asset/supplier/list/supplier-list.module').then(x => x.SupplierListModule),
@@ -191,7 +202,7 @@ const routes: Routes = [
           name: 'supplier_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Suppliers'
+            title: 'suppliers'
           }
         }
       },
@@ -202,21 +213,21 @@ const routes: Routes = [
           name: 'depreciation_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Depreciations'
+            title: 'depreciations'
           }
         }
       },
-      {
-        path: 'asset/locations',
-        loadChildren: () => import('../asset/location/list/location-list.module').then(x => x.LocationListModule),
-        data: {
-          name: 'location_list',
-          breadcrumb: {
-            icon: 'safety',
-            title: 'Locations'
-          }
-        }
-      },
+      // {
+      //   path: 'asset/locations',
+      //   loadChildren: () => import('../asset/location/list/location-list.module').then(x => x.LocationListModule),
+      //   data: {
+      //     name: 'location_list',
+      //     breadcrumb: {
+      //       icon: 'safety',
+      //       title: 'Locations'
+      //     }
+      //   }
+      // },
       {
         path: 'asset/manufacturers',
         loadChildren: () => import('../asset/manufacturer/list/manufacturer-list.module').then(x => x.ManufacturerListModule),
@@ -224,7 +235,7 @@ const routes: Routes = [
           name: 'manufacturer_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Manufacturers'
+            title: 'manufacturers'
           }
         }
       },
@@ -235,7 +246,7 @@ const routes: Routes = [
           name: 'status_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Statuses'
+            title: 'status'
           }
         }
       },
@@ -246,7 +257,7 @@ const routes: Routes = [
           name: 'category_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Categories'
+            title: 'categories'
           }
         }
       }

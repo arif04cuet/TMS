@@ -3,7 +3,7 @@ import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { of, forkJoin } from 'rxjs';
-import { RoleHttpService } from 'src/services/http/role-http.service';
+import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { PermissionComponent } from '../../permission/permission.component';

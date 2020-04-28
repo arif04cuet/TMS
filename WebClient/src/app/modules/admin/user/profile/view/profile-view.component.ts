@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
 import { DatePipe } from '@angular/common';

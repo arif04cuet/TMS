@@ -22,7 +22,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import {TranslateModule, TranslateLoader, TranslatePipe, TranslateService} from '@ngx-translate/core';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { PermissionHttpService } from 'src/services/http/permission-http.service';
+import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
 
 registerLocaleData(en);
 

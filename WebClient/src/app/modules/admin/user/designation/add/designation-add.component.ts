@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { of, forkJoin } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
+import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 
 @Component({
   selector: 'app-designation-add',
