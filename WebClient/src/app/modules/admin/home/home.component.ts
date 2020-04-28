@@ -146,12 +146,14 @@ export class HomeComponent extends BaseComponent {
         title: 'asset.management',
         icon: 'team',
         nav: [
+
           {
             level: 2,
-            title: 'vendors',
-            route: '/admin/asset/vendors',
+            title: 'License',
+            route: '/admin/asset/licenses',
             icon: 'user'
           },
+
           {
             level: 2,
             title: 'Supplier',
@@ -164,12 +166,7 @@ export class HomeComponent extends BaseComponent {
             route: '/admin/asset/depreciations',
             icon: 'user'
           },
-          {
-            level: 2,
-            title: 'Location',
-            route: '/admin/asset/locations',
-            icon: 'user'
-          },
+
           {
             level: 2,
             title: 'Manufacturer',

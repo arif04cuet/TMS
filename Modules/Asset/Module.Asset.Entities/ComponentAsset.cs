@@ -2,13 +2,14 @@ using System;
 using Infrastructure.Entities;
 using Module.Core.Entities;
 using Msi.UtilityKit.Search;
+using System.ComponentModel.DataAnnotations.Schema;
+using Module.Core.Entities.Constants;
 
 namespace Module.Asset.Entities
 {
+    [Table(nameof(ComponentAsset), Schema = SchemaConstants.Asset)]
     public class ComponentAsset : BaseEntity
     {
-
-
         public long ComponentId { get; set; }
         public Component Component { get; set; }
 

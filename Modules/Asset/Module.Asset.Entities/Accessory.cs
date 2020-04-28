@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Infrastructure.Entities;
 using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
 
 namespace Module.Asset.Entities
 {
+    [Table(nameof(Accessory), Schema = SchemaConstants.Asset)]
     public class Accessory : BaseEntity
     {
         [Searchable]

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BaseHttpService } from './base-http-service';
+import { AssetBaseHttpService } from './asset-http-service';
 
 @Injectable()
-export class CategoryHttpService extends BaseHttpService {
+export class CategoryHttpService extends AssetBaseHttpService {
 
-    END_POINT = 'asset/categories';
+    EndPoint = 'categories';
 
     public mastercategories() {
-        return this.httpService.get(this.END_POINT + '/mastercategories');
+        return this.httpService.get(this.AssetBaseUri + '/' + this.EndPoint + '/mastercategories');
     }
 }

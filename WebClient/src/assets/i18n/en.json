@@ -162,5 +162,17 @@
     "reports": "Reports",
     "must.be.equal.x0.characters": "Must be equal {{x0}} characters",
     "must.be.numeric": "Must be numeric",
-    "access.denied": "It's seems you have no permission to access this page."
+    "access.denied": "It's seems you have no permission to access this page.",
+    "license": "License",
+    "product_key": " Product Key",
+    "expired_date": "Expired Date",
+    "seats": "Seats",
+    "manufacturer": "Manufacturer",
+    "purchase_cost": "Purchase Cost",
+    "purchase_date": "Purchase Date",
+    "expire_date": "Expire Date",
+    "licensed_to_name": "Licensed To Name",
+    "licensed_to_email": "Licensed To Email",
+    "order_number": "Order Number",
+    "depreciation": "Depreciation"
 }

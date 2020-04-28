@@ -10,6 +10,15 @@ export class BaseHttpService {
 
     }
 
+    public getStatus() {
+
+        var status = [
+            { id: true, name: 'Active' },
+            { id: false, name: 'In Active' }
+        ];
+
+        return status;
+    }
     public get(id) {
         return this.httpService.get(this.END_POINT + '/' + `${id}`);
     }

@@ -2,9 +2,12 @@ using System;
 using Infrastructure.Entities;
 using Module.Core.Entities;
 using Msi.UtilityKit.Search;
+using System.ComponentModel.DataAnnotations.Schema;
+using Module.Core.Entities.Constants;
 
 namespace Module.Asset.Entities
 {
+    [Table(nameof(ConsumableUser), Schema = SchemaConstants.Asset)]
     public class ConsumableUser : BaseEntity
     {
 

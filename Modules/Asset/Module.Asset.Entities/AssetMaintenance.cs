@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Infrastructure.Entities;
 using Module.Core.Entities;
 using Msi.UtilityKit.Search;
+using System.ComponentModel.DataAnnotations.Schema;
+using Module.Core.Entities.Constants;
 
 namespace Module.Asset.Entities
 {
@@ -17,7 +19,7 @@ namespace Module.Asset.Entities
         Others = 6
     }
 
-
+    [Table(nameof(AssetMaintenance), Schema = SchemaConstants.Asset)]
     public class AssetMaintenance : BaseEntity
     {
         [Searchable]

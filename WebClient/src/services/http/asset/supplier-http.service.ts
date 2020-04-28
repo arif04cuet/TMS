@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BaseHttpService } from './base-http-service';
+import { AssetBaseHttpService } from './asset-http-service';
 
 @Injectable()
-export class SupplierHttpService extends BaseHttpService {
+export class SupplierHttpService extends AssetBaseHttpService {
 
-    END_POINT = 'asset/suppliers';
+    EndPoint = 'suppliers';
 
 }
