@@ -174,5 +174,8 @@
     "licensed_to_name": "Licensed To Name",
     "licensed_to_email": "Licensed To Email",
     "order_number": "Order Number",
-    "depreciation": "Depreciation"
+    "depreciation": "Depreciation",
+    "site_name": "Training Management Solution(OTMS)",
+    "remember_me": "Remember Me",
+    "forgot_password": "Forgot Password"
 }

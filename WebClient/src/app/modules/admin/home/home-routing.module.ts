@@ -191,7 +191,7 @@ const routes: Routes = [
           name: 'supplier_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'suppliers'
+            title: 'supplier'
           }
         }
       },
@@ -202,7 +202,7 @@ const routes: Routes = [
           name: 'depreciation_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Depreciations'
+            title: 'Depreciation'
           }
         }
       },
@@ -214,7 +214,7 @@ const routes: Routes = [
           name: 'manufacturer_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'manufacturers'
+            title: 'manufacturer'
           }
         }
       },
@@ -236,7 +236,7 @@ const routes: Routes = [
           name: 'category_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'categories'
+            title: 'category'
           }
         }
       },
@@ -247,7 +247,7 @@ const routes: Routes = [
           name: 'license_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Licenses'
+            title: 'license'
           }
         }
       }

@@ -6,7 +6,7 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'licenses'|translate}} ({{total}})
+                        {{'license'|translate}} ({{total}})
                     </span>
                 </div>
             </div>
@@ -47,6 +47,11 @@
                         </th>
 
                         <th>
+                            {{'available'|translate}}
+
+                        </th>
+
+                        <th>
                             {{'status'|translate}}
 
                             <div>
@@ -75,10 +80,10 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.name }}</td>
-                        <td>{{ data.ProductKey }}</td>
-                        <td>{{ data.ExpireDate }}</td>
-                        <td>{{ data.Seats }}</td>
-
+                        <td>{{ data.productKey }}</td>
+                        <td>{{ data.expireDate }}</td>
+                        <td>{{ data.seats }}</td>
+                        <td>{{ data.available }}</td>
                         <td>{{ data.isActive ? 'Active':'In Active' }}</td>
 
                         <td class="action-column fit-cell">

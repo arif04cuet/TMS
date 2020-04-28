@@ -155,39 +155,39 @@ export class HomeComponent extends BaseComponent {
 
           {
             level: 2,
-            title: 'License',
+            title: 'license',
             route: '/admin/asset/licenses',
             icon: 'user'
           },
 
           {
             level: 2,
-            title: 'Supplier',
+            title: 'supplier',
             route: '/admin/asset/suppliers',
             icon: 'user'
           },
           {
             level: 2,
-            title: 'Depeciation',
+            title: 'depreciation',
             route: '/admin/asset/depreciations',
             icon: 'user'
           },
 
           {
             level: 2,
-            title: 'Manufacturer',
+            title: 'manufacturer',
             route: '/admin/asset/manufacturers',
             icon: 'user'
           },
           {
             level: 2,
-            title: 'Status Label',
+            title: 'status',
             route: '/admin/asset/statuses',
             icon: 'user'
           },
           {
             level: 2,
-            title: 'Category',
+            title: 'category',
             route: '/admin/asset/categories',
             icon: 'user'
           }

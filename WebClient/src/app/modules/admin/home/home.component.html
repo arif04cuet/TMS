@@ -2,6 +2,7 @@
     <nz-header>
         <div class="row">
             <div class="col">
+                <h2>{{'site_name'|translate}}</h2>
 
             </div>
             <div class="col justify-content-end">
@@ -36,8 +37,8 @@
                             <i nz-icon nzType="{{n.icon}}"></i>
                             <span>{{n.title|translate}}</span>
                         </li>
-                        <li (click)="onMenuItemClick(n)" *ngIf="n.nav" nz-submenu nzTitle="{{n.title|translate}}" [nzIcon]="n.icon"
-                            [nzPaddingLeft]="n.level * 24">
+                        <li (click)="onMenuItemClick(n)" *ngIf="n.nav" nz-submenu nzTitle="{{n.title|translate}}"
+                            [nzIcon]="n.icon" [nzPaddingLeft]="n.level * 24">
                             <ul>
                                 <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: n.nav }">
                                 </ng-container>

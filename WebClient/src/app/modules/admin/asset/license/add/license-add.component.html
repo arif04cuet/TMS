@@ -89,9 +89,13 @@
                                 <label>{{'purchase_cost'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input size="small" type="number" nz-input formControlName="purchaseCost"
-                                    placeholder="{{'purchase_cost'|translate}}" />{{'tk'|translate}}
+                                <nz-input-group nzSuffix="{{'tk'|translate}}">
+                                    <input size="small" type="number" nz-input formControlName="purchaseCost"
+                                        placeholder="{{'purchase_cost'|translate}}" />
+                                </nz-input-group>
                             </nz-form-control>
+
+
                         </nz-form-item>
                     </div>
 
@@ -170,6 +174,12 @@
                     </div>
 
 
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control #locationSelect labelKey="officeName" label="location"
+                            formControlName="locationId">
+                        </app-select-control>
+                    </div>
+
 
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
@@ -182,12 +192,6 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-
-                    <div nz-col [nzSpan]="8">
-                        <!-- <app-select-control #locationSelect label="location" formControlName="locationId">
-                        </app-select-control> -->
-                    </div>
-
 
 
 

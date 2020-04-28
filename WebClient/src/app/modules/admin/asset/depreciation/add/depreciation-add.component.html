@@ -36,9 +36,14 @@
                                 <label>{{'term'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="number" nz-input formControlName="term"
-                                    placeholder="{{'term'|translate}}" />
-                                {{'month'|translate}}
+
+                                <nz-input-group nzSuffix="{{'month'|translate}}">
+                                    <input type="number" nz-input formControlName="term"
+                                        placeholder="{{'term'|translate}}" />
+                                </nz-input-group>
+
+
+
                             </nz-form-control>
                         </nz-form-item>
                     </div>

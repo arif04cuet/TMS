@@ -23,7 +23,7 @@ export function clean(o) {
                 _o[k] = arr;
             }
             else {
-                if(v) {
+                if (v) {
                     _o[k] = v;
                 }
             }

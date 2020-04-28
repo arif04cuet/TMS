@@ -1,4 +1,11 @@
+<br>
+<div>
+    <h1 align="center">{{'site_name'|translate}}</h1>
+</div>
+
 <div class="login-form">
+
+
     <form nz-form [formGroup]="form">
         <nz-form-item>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
@@ -17,10 +24,11 @@
         <nz-form-item>
             <nz-form-control>
                 <label nz-checkbox formControlName="remember">
-                    <span>Remember me</span>
+                    <span>{{'remember_me'|translate}}</span>
                 </label>
-                <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
-                <button [nzLoading]="submitting" (click)="submit()" nz-button class="login-form-button" [nzType]="'primary'">{{'login'|translate}}</button>
+                <a class="login-form-forgot" class="login-form-forgot">{{'forgot_password'|translate}}</a>
+                <button [nzLoading]="submitting" (click)="submit()" nz-button class="login-form-button"
+                    [nzType]="'primary'">{{'login'|translate}}</button>
                 <!-- Or -->
                 <!-- <a>register now!</a> -->
             </nz-form-control>

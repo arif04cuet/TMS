@@ -39,7 +39,7 @@ export class LicenseAddComponent extends FormComponent {
       manufacturerId: [null, [], this.v.required.bind(this)],
       supplierId: [null, [], this.v.required.bind(this)],
       depreciationId: [null, [], this.v.required.bind(this)],
-      //locationId: [null, [], this.v.required.bind(this)],
+      locationId: [null, [], this.v.required.bind(this)],
       productKey: [null, [], this.v.required.bind(this)],
       orderNumber: [null, [], this.v.required.bind(this)],
       licenseToName: [null, [], this.v.required.bind(this)],
@@ -73,9 +73,9 @@ export class LicenseAddComponent extends FormComponent {
       return this.licenseHttpService.dereciations(pagination, search);
     }).fetch();
 
-    // this.locationSelect.register((pagination, search) => {
-    //   return this.licenseHttpService.locations(pagination, search);
-    // }).fetch();
+    this.locationSelect.register((pagination, search) => {
+      return this.licenseHttpService.locations(pagination, search);
+    }).fetch();
 
   }
 

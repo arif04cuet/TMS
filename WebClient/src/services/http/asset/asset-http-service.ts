@@ -45,7 +45,7 @@ export class AssetBaseHttpService {
     }
 
     public locations(pagination = null, search = null) {
-        let url = this.AssetBaseUri + '/locations' + '?';
+        let url = 'offices' + '?';
         if (search) {
             url += search
         }
