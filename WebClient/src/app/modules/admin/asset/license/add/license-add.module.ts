@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LicenseAddComponent } from './license-add.component';
 import { LicenseAddRoutingModule } from './license-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { RoleHttpService } from 'src/services/http/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 
@@ -27,7 +26,6 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
   ],
   exports: [LicenseAddComponent],
   providers: [
-    RoleHttpService,
     CommonValidator
   ]
 })
