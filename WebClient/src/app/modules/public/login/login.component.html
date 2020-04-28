@@ -1,12 +1,9 @@
-<br>
-<div>
-    <h1 align="center">{{'site_name'|translate}}</h1>
-</div>
-
 <div class="login-form">
-
-
     <form nz-form [formGroup]="form">
+        <div class="logo">
+            <img height="100" src="../../../../assets/images/logo.jpg" />
+            <h1 align="center">{{'site_name'|translate}}</h1>
+        </div>
         <nz-form-item>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                 <nz-input-group nzPrefixIcon="user">
