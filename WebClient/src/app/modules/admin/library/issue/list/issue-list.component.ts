@@ -3,8 +3,8 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
-import { BookHttpService } from 'src/services/http/book-http.service';
-import { AuthorHttpService } from 'src/services/http/author-http.service';
+import { BookHttpService } from 'src/services/http/user/book-http.service';
+import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 
 @Component({

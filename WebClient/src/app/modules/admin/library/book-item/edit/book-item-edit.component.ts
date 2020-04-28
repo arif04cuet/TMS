@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
-import { BookHttpService } from 'src/services/http/book-http.service';
+import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { RackHttpService } from 'src/services/http/rack-http.service';
 
 @Component({

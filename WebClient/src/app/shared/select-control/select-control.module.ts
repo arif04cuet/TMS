@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectControlComponent } from './select-control.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -11,7 +11,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   imports: [
     CommonModule,
-    NzTableModule,
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,

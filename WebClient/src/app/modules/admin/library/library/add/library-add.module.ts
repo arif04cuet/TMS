@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LibraryAddComponent } from './library-add.component';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { LibraryAddRoutingModule } from './library-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';

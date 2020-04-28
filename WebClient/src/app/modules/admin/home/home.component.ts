@@ -3,7 +3,7 @@ import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { PermissionHttpService } from 'src/services/http/permission-http.service';
+import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
 
 @Component({
   selector: 'app-home',
@@ -51,6 +51,12 @@ export class HomeComponent extends BaseComponent {
             level: 2,
             title: 'roles',
             route: '/admin/roles',
+            icon: 'safety'
+          },
+          {
+            level: 2,
+            title: 'offices',
+            route: '/admin/offices',
             icon: 'safety'
           },
           {

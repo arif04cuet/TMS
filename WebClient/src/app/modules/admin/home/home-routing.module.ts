@@ -30,6 +30,17 @@ const routes: Routes = [
         }
       },
       {
+        path: 'offices',
+        loadChildren: () => import('../user/office/list/office-list.module').then(x => x.OfficeListModule),
+        data: {
+          name: 'office_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'offices'
+          }
+        }
+      },
+      {
         path: 'designations',
         loadChildren: () => import('../user/designation/list/designation-list.module').then(x => x.DesignationListModule),
         data: {
@@ -180,7 +191,7 @@ const routes: Routes = [
           name: 'supplier_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Suppliers'
+            title: 'suppliers'
           }
         }
       },
@@ -203,7 +214,7 @@ const routes: Routes = [
           name: 'manufacturer_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Manufacturers'
+            title: 'manufacturers'
           }
         }
       },
@@ -214,7 +225,7 @@ const routes: Routes = [
           name: 'status_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Statuses'
+            title: 'status'
           }
         }
       },
@@ -225,7 +236,7 @@ const routes: Routes = [
           name: 'category_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Categories'
+            title: 'categories'
           }
         }
       },

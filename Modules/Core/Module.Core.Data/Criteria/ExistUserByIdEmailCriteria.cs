@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Module.Core.Data.Criteria
 {
-    public class UserExistsByIdEmailCriteria : ICriteria<User, bool>
+    public class ExistUserByIdEmailCriteria : ICriteria<User, bool>
     {
         private readonly long _id;
         private readonly string _email;
 
-        public UserExistsByIdEmailCriteria(long id, string email)
+        public ExistUserByIdEmailCriteria(long id, string email)
         {
             _id = id;
             _email = email;

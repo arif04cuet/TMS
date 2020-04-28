@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { TableComponent } from 'src/app/shared/table.component';
-import { DesignationHttpService } from 'src/services/http/designation-http.service';
+import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 import { forkJoin } from 'rxjs';
-import { RoleHttpService } from 'src/services/http/role-http.service';
+import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';

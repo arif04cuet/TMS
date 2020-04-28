@@ -24,6 +24,7 @@
         public const string BOOK_IS_ALREADY_ISSUED = "Book is already issued.";
         public const string ISSUE_QOUTA_EXCEEDS = "Issue qouta exceeds.";
         public const string ISSUE_NOT_FOUND = "Issue not found.";
+        public const string OFFICE_NOT_FOUND = "Office not found.";
 
     }
 }

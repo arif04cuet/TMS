@@ -33,5 +33,5 @@ export function clean(o) {
 }
 
 export function getLang() {
-    return localStorage.getItem('otms_lang') || 'en'
+    return localStorage.getItem('otms_lang') || 'bn'
 }

@@ -30,7 +30,7 @@ namespace Module.Core.Authorizations
         {
             if (_authenticatedUser != null && _authenticatedUser.Id > 0)
             {
-                var criteria = new UserExistsByIdEmailCriteria(_authenticatedUser.Id, _authenticatedUser.Email);
+                var criteria = new ExistUserByIdEmailCriteria(_authenticatedUser.Id, _authenticatedUser.Email);
                 if (await _userRepository.MatchAsync(criteria))
                 {
                     context.Succeed(null);

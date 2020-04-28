@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { AuthorHttpService } from 'src/services/http/author-http.service';
+import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 
 @Component({
   selector: 'app-author-list',

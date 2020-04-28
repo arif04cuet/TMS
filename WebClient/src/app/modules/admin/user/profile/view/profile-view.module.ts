@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { ProfileViewRoutingModule } from './profile-view-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProfileViewComponent } from './profile-view.component';

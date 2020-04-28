@@ -3,7 +3,7 @@ import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
-import { AuthorHttpService } from 'src/services/http/author-http.service';
+import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 
 @Component({
   selector: 'app-author-add',

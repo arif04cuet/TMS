@@ -52,8 +52,16 @@ export class CommonHttpService {
         return this.httpService.get('languages');
     }
 
-    public getDistricts() {
+    public getAllDistrict(search?: string) {
         return this.httpService.get('districts?offset=0&limit=64');
+    }
+
+    public getAllDivision(search?: string) {
+        return this.httpService.get('divisions');
+    }
+
+    public getAllUpazila(search?: string) {
+        return this.httpService.get('upazilas');
     }
 
 }

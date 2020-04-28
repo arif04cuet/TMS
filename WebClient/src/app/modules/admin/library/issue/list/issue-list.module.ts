@@ -6,8 +6,8 @@ import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IssueListRoutingModule } from './issue-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { BookHttpService } from 'src/services/http/book-http.service';
-import { AuthorHttpService } from 'src/services/http/author-http.service';
+import { BookHttpService } from 'src/services/http/user/book-http.service';
+import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 
 @NgModule({

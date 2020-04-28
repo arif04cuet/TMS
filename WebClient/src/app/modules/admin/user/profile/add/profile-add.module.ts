@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule, NzDatePickerModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileAddComponent } from './profile-add.component';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { ProfileAddRoutingModule } from './profile-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonHttpService } from 'src/services/http/common-http.service';

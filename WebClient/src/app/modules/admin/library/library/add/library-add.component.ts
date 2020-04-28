@@ -81,7 +81,7 @@ export class LibraryAddComponent extends FormComponent {
   getData() {
     const requests = [
       this.libraryHttpService.listLibrarians(),
-      this.commonHttpService.getDistricts()
+      this.commonHttpService.getAllDistrict()
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {

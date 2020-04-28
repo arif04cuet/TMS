@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookItemEditRoutingModule } from './book-item-edit-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
-import { BookHttpService } from 'src/services/http/book-http.service';
+import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { RackHttpService } from 'src/services/http/rack-http.service';
 import { BookItemEditComponent } from './book-item-edit.component';
 

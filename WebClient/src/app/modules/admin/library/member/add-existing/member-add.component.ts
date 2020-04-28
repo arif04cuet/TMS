@@ -6,7 +6,7 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
-import { UserHttpService } from 'src/services/http/user-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
 
 @Component({

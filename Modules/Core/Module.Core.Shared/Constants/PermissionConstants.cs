@@ -96,6 +96,13 @@
         public const long RackList = 1504;
         public const long RackManage = 1505;
 
+        public const long OfficeCreate = 1600;
+        public const long OfficeUpdate = 1601;
+        public const long OfficeView = 1602;
+        public const long OfficeDelete = 1603;
+        public const long OfficeList = 1604;
+        public const long OfficeManage = 1605;
+
     }
 
     public static class PermissionGroupConstants

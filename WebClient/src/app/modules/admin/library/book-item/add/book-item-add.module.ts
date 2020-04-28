@@ -7,7 +7,7 @@ import { BookItemAddComponent } from './book-item-add.component';
 import { BookItemAddRoutingModule } from './book-item-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
-import { BookHttpService } from 'src/services/http/book-http.service';
+import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { RackHttpService } from 'src/services/http/rack-http.service';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Module.Core.Data.Criteria
 {
-    public class UserCountByEmailPasswordCriteria : ICriteria<User, bool>
+    public class ExistUserByEmailPasswordCriteria : ICriteria<User, bool>
     {
         private readonly string _email;
         private readonly string _password;
 
-        public UserCountByEmailPasswordCriteria(string email, string password)
+        public ExistUserByEmailPasswordCriteria(string email, string password)
         {
             _email = email;
             _password = password;

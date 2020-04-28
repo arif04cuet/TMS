@@ -23,21 +23,9 @@ namespace Module.Core.Data
                     AddressLine1 = address.AddressLine1,
                     AddressLine2 = address.AddressLine2,
                     ContactName = address.ContactName,
-                    Division = address.Division != null ? new IdNameViewModel
-                    {
-                        Id = address.Division.Id,
-                        Name = address.Division.Name
-                    } : null,
-                    District = address.District != null ? new IdNameViewModel
-                    {
-                        Id = address.District.Id,
-                        Name = address.District.Name
-                    } : null,
-                    Upazila = address.Upazila != null ? new IdNameViewModel
-                    {
-                        Id = address.Upazila.Id,
-                        Name = address.Upazila.Name
-                    } : null
+                    Division = IdNameViewModel.Map(address.Division),
+                    District = IdNameViewModel.Map(address.District),
+                    Upazila = IdNameViewModel.Map(address.Upazila)
                 };
             }
             return default;

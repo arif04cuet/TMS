@@ -7,7 +7,7 @@ import { AuthorAddComponent } from './author-add.component';
 import { AuthorAddRoutingModule } from './author-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
-import { AuthorHttpService } from 'src/services/http/author-http.service';
+import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 
 @NgModule({
   declarations: [

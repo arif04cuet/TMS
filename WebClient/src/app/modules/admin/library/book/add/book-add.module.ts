@@ -7,9 +7,9 @@ import { BookAddComponent } from './book-add.component';
 import { BookAddRoutingModule } from './book-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
-import { BookHttpService } from 'src/services/http/book-http.service';
+import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
-import { AuthorHttpService } from 'src/services/http/author-http.service';
+import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
 

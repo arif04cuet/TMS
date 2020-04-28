@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { DepartmentHttpService } from 'src/services/http/department-http.service';
+import { DepartmentHttpService } from 'src/services/http/user/department-http.service';
 
 @Component({
   selector: 'app-department-list',
