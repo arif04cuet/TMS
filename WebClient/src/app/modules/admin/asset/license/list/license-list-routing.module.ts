@@ -4,6 +4,20 @@ import { LicenseListComponent } from './license-list.component';
 
 const routes: Routes = [
   { path: '', component: LicenseListComponent },
+
+  {
+    path: ':id/view',
+    loadChildren: () => import('../view/license-view.module').then(x => x.LicenseViewModule),
+    data: {
+      name: 'license_view',
+      breadcrumb: {
+        icon: 'eye',
+        title: 'View'
+      }
+    }
+  },
+
+
   {
     path: ':id/edit',
     loadChildren: () => import('../add/license-add.module').then(x => x.LicenseAddModule),

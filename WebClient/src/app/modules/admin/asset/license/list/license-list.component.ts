@@ -49,6 +49,13 @@ export class LicenseListComponent extends TableComponent {
     }
   }
 
+  view(model = null) {
+    if (model) {
+      this.goTo(`/admin/asset/licenses/${model.id}/view`);
+    }
+  }
+
+
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
@@ -56,6 +63,7 @@ export class LicenseListComponent extends TableComponent {
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
+        console.log(res);
         this.fill(res[0]);
       },
       err => {

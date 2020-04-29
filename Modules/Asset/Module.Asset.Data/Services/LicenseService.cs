@@ -17,41 +17,27 @@ namespace Module.Asset.Data
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<License> _repository;
-
+        private readonly IRepository<LicenseSeat> _seatRepository;
 
         public LicenseService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetRepository<License>();
+            _seatRepository = _unitOfWork.GetRepository<LicenseSeat>();
 
         }
 
         public async Task<long> CreateAsync(LicenseCreateRequest request, CancellationToken cancellationToken = default)
         {
-            var newEntity = new License
-            {
-                Name = request.Name,
-                ProductKey = request.ProductKey,
-                Seats = request.Seats,
-                OrderNumber = request.OrderNumber,
-                LicenseToName = request.LicenseToName,
-                LicenseToEmail = request.LicenseToEmail,
-                PurchaseDate = request.PurchaseDate,
-                PurchaseCost = request.PurchaseCost,
-                ExpireDate = request.ExpireDate,
-                Note = request.Note,
-                CategoryId = request.CategoryId,
-                ManufacturerId = request.ManufacturerId,
-                IsActive = request.IsActive,
-                SupplierId = request.SupplierId,
-                LocationId = request.LocationId,
-                DepreciationId = request.DepreciationId
-
-            };
+            //create license
+            var newEntity = request.ToMap();
 
             await _repository.AddAsync(newEntity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            //create seats
+            await CreateSeats(newEntity);
 
             return newEntity.Id;
         }
@@ -64,22 +50,7 @@ namespace Module.Asset.Data
             if (entity == null)
                 throw new NotFoundException($"License not found");
 
-            entity.Name = request.Name;
-            entity.ProductKey = request.ProductKey;
-            entity.Seats = request.Seats;
-            entity.OrderNumber = request.OrderNumber;
-            entity.LicenseToName = request.LicenseToName;
-            entity.LicenseToEmail = request.LicenseToEmail;
-            entity.PurchaseDate = request.PurchaseDate;
-            entity.PurchaseCost = request.PurchaseCost;
-            entity.ExpireDate = request.ExpireDate;
-            entity.Note = request.Note;
-            entity.CategoryId = request.CategoryId;
-            entity.ManufacturerId = request.ManufacturerId;
-            entity.IsActive = request.IsActive;
-            entity.SupplierId = request.SupplierId;
-            entity.LocationId = request.LocationId;
-            entity.DepreciationId = request.DepreciationId;
+            entity = request.ToMap(entity);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
@@ -133,6 +104,53 @@ namespace Module.Asset.Data
             return result;
         }
 
+        public async Task<LicenseViewModel> GetDetails(long id, CancellationToken cancellationToken = default)
+        {
+
+            var result = await _repository
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .Where(x => x.IsActive == true)
+                .Include(x => x.Manufacturer)
+                .Include(x => x.Supplier)
+                .Include(x => x.Location)
+                .Include(x => x.Depreciation)
+                .Include(x => x.LicenseSeats)
+                .Select(x => new LicenseViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ProductKey = x.ProductKey,
+                    Seats = x.Seats,
+                    OrderNumber = x.OrderNumber,
+                    LicenseToName = x.LicenseToName,
+                    LicenseToEmail = x.LicenseToEmail,
+                    PurchaseDate = x.PurchaseDate,
+                    PurchaseCost = x.PurchaseCost,
+                    ExpireDate = x.ExpireDate,
+                    Note = x.Note,
+                    CategoryId = x.CategoryId,
+                    Category = x.Category,
+                    ManufacturerId = x.ManufacturerId,
+                    Manufacturer = x.Manufacturer,
+                    IsActive = x.IsActive,
+                    SupplierId = x.SupplierId,
+                    Supplier = x.Supplier,
+                    LocationId = x.LocationId,
+                    DepreciationId = x.DepreciationId,
+                    Depreciation = x.Depreciation,
+                    SeatList = x.LicenseSeats
+
+                })
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (result == null)
+                throw new NotFoundException("License not found");
+
+            return result;
+        }
+
+
         public async Task<PagedCollection<LicenseViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var itemsQuery = _repository
@@ -170,6 +188,22 @@ namespace Module.Asset.Data
             return result;
         }
 
+        public async Task<long> CreateSeats(License license, CancellationToken ct = default)
+        {
+            List<LicenseSeat> items = new List<LicenseSeat>();
 
+            for (int i = 0; i < license.Seats; i++)
+            {
+                items.Add(new LicenseSeat
+                {
+                    Name = "Seat " + i,
+                    LicenseId = license.Id
+                });
+            }
+            await _seatRepository.AddRangeAsync(items, ct);
+            var result = await _unitOfWork.SaveChangesAsync(ct);
+
+            return result;
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace Module.Asset.Data
         Task<bool> DeleteAsync(long Id, CancellationToken cancellationToken = default);
 
         Task<LicenseViewModel> Get(long Id, CancellationToken cancellationToken = default);
-
+        Task<LicenseViewModel> GetDetails(long Id, CancellationToken cancellationToken = default);
         Task<PagedCollection<LicenseViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
 

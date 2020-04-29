@@ -34,6 +34,14 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
+
+        [HttpGet("{id}/details")]
+        public async Task<ActionResult> GetDetails(long id)
+        {
+            var result = await _service.GetDetails(id);
+            return result.ToOkResult();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] LicenseCreateRequest request)
         {

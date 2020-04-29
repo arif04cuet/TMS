@@ -1,0 +1,173 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+<div *ngIf="!loading" class="box">
+
+
+    <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
+        <div class="content">
+
+            <nz-tabset>
+                <nz-tab nzTitle="{{'details'|translate}}">
+                    <div class="pad-l-10">
+
+                        <nz-table nzTemplateMode nzSize="small">
+
+                            <tbody>
+
+
+                                <tr>
+                                    <td>{{ 'manufacturer'|translate}}</td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td>{{item.manufacturer.name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i nz-icon nzType="link" nzTheme="outline"></i><a
+                                                        href="{{item.manufacturer.url}}">{{item.manufacturer.url}}</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><i nz-icon nzType="link" nzTheme="outline"></i><a
+                                                        href="{{item.manufacturer.supportUrl}}">{{item.manufacturer.supportUrl}}</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><i nz-icon nzType="phone"
+                                                        nzTheme="outline"></i>{{item.manufacturer.supportPhone}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><i nz-icon nzType="mail"
+                                                        nzTheme="outline"></i>{{item.manufacturer.supportEmai}}</td>
+                                            </tr>
+                                        </table>
+
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>{{ 'product_key'|translate}}</td>
+                                    <td>{{item.productKey}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{ 'category'|translate}}</td>
+                                    <td>{{item.category.name}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{ 'licensed_to_name'|translate}}</td>
+                                    <td>{{item.licenseToName}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{ 'licensed_to_email'|translate}}</td>
+                                    <td>{{item.licenseToEmail}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{ 'supplier'|translate}}</td>
+                                    <td>{{item.supplier.name}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{ 'purchase_cost'|translate}}</td>
+                                    <td>{{item.purchaseCost}} {{'tk'|translate}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{ 'purchase_date'|translate}}</td>
+                                    <td>{{item.purchaseDate}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{ 'expire_date'|translate}}</td>
+                                    <td>{{item.expireDate}}</td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>{{ 'order_number'|translate}}</td>
+                                    <td>{{item.orderNumber}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{ 'seats'|translate}}</td>
+                                    <td>{{item.seats}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{ 'note'|translate}}</td>
+                                    <td>{{item.note}}</td>
+                                </tr>
+
+                            </tbody>
+                        </nz-table>
+
+                    </div>
+
+                </nz-tab>
+                <nz-tab nzTitle="{{ 'seats'|translate }}">
+
+
+                    <div nz-row>
+                        <div nz-col nzSpan="12">
+                            <nz-table #basicTable [nzData]="item.seatList">
+                                <thead>
+                                    <tr class="v-align-top advanced-table-filter">
+
+                                        <th>
+                                            {{'name'|translate}}
+                                        </th>
+
+                                        <th>
+                                            {{'user'|translate}}
+
+                                        </th>
+
+                                        <th>
+                                            {{'date'|translate}}
+
+                                        </th>
+
+                                        <th>
+                                            {{'action'|translate}}
+
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of item.seatList">
+                                        <td>{{ data.name }}</td>
+                                        <td>{{ data.issuedToUser ? data.issuedToUser.name:''}}</td>
+                                        <td>{{ data.issueDate}}</td>
+                                        <td>
+                                            <button *ngIf="data.issuedToUserId" nz-button
+                                                nzType="primary">Checkin</button>
+                                            <button *ngIf="!data.issuedToUserId" nz-button
+                                                nzType="default">Checkout</button>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+
+                </nz-tab>
+
+                <nz-tab nzTitle="{{ 'history'|translate }}">
+
+                </nz-tab>
+            </nz-tabset>
+
+
+        </div>
+    </div>
+
+    <ng-template #errorTemplate let-control>
+        {{control?.errors?.message}}
+    </ng-template>
+</div>
