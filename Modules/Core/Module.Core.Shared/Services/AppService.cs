@@ -8,6 +8,7 @@ namespace Module.Core.Shared
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IAuthenticatedUser _authenticatedUser;
+        private readonly HttpRequest _request;
 
         public AppService(
             IHttpContextAccessor httpContextAccessor,
@@ -15,11 +16,12 @@ namespace Module.Core.Shared
         {
             _httpContextAccessor = httpContextAccessor;
             _authenticatedUser = authenticatedUser;
+            _request = _httpContextAccessor.HttpContext.Request;
         }
 
         public string GetServerUrl()
         {
-            string url = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.ToString()}";
+            string url = $"{_request.Scheme}://{_request.Host}";
             return url;
         }
 
