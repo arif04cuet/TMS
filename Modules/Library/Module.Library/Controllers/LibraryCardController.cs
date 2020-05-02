@@ -38,6 +38,14 @@ namespace Module.Library.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("assignable")]
+        [RequirePermission(LibraryList, LibraryManage)]
+        public async Task<ActionResult> ListAssigable([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _libraryCardService.ListAssignableAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet("types")]
         [RequirePermission(LibraryList, LibraryManage)]
         public async Task<ActionResult> ListCardTypes([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)

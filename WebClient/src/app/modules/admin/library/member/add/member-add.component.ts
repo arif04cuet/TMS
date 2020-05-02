@@ -19,7 +19,6 @@ export class MemberAddComponent extends FormComponent {
   loading: boolean = true;
   libraries = [];
   statuses = [];
-  cardStatuses = [];
   cards = [];
 
   constructor(
@@ -44,21 +43,14 @@ export class MemberAddComponent extends FormComponent {
       status: [null, [], this.v.required.bind(this)],
       library: [null, [], this.v.required.bind(this)],
       memberSince: [null, [], this.v.required.bind(this)],
-      card: this.fb.array([
-        this.fb.group({
-          number: [null, [], this.v.required.bind(this)],
-          card: [null, [], this.v.required.bind(this)],
-          status: [null, [], this.v.required.bind(this)],
-          expireDate: [null, [], this.v.required.bind(this)]
-        })
-      ]),
+      cardId: [null, [], this.v.required.bind(this)],
+      cardExpireDate: [null, [], this.v.required.bind(this)],
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
 
   submit(): void {
     const body: any = this.constructObject(this.form.controls);
-    body.card = body.card[0];
     this.submitForm(
       {
         request: this.libraryMemberHttpService.add(body),
@@ -80,17 +72,23 @@ export class MemberAddComponent extends FormComponent {
   get(id) {
     this.loading = true;
     if (id != null) {
+      this.form.controls.email.disable();
+      this.form.controls.cardId.disable();
       this.subscribe(this.libraryMemberHttpService.get(id),
         (res: any) => {
-          this.setValues(this.form.controls, res.data, ["card"]);
-          this.setValues(this.getCardControls(), res.data.card);
+          this.setValues(this.form.controls, res.data);
+          const card = res.data.card;
+          if(card) {
+            this.cards.push({id: card.id, name: card.barcode});
+            this.setValue('cardId', card.id);
+            this.setValue('cardExpireDate', card.expireDate);
+          }
           this.loading = false;
         }
       );
     }
     else {
-      this.form.controls.status.setValue(1);
-      this.getCardControls().status.setValue(1);
+      this.form.controls.status.setValue(3);
       this.loading = false;
     }
   }
@@ -103,15 +101,13 @@ export class MemberAddComponent extends FormComponent {
     const requests = [
       this.commonHttpService.getStatusList(),
       this.libraryHttpService.list(),
-      this.libraryCardHttpService.list(),
-      this.libraryCardHttpService.listStatus(),
+      this.libraryCardHttpService.listAssignableCards()
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {
         this.statuses = res[0].data.items;
         this.libraries = res[1].data.items;
         this.cards = res[2].data.items;
-        this.cardStatuses = res[3].data.items;
         if (this.libraries.length > 0) {
           this.form.controls.library.setValue(this.libraries[0].id);
         }
@@ -129,17 +125,6 @@ export class MemberAddComponent extends FormComponent {
       }
     }
     return of(true);
-  }
-
-  private getCardFormArray(): FormArray {
-    return this.form.get("card") as FormArray;
-  }
-
-  private getCardControls(): {
-    [key: string]: AbstractControl;
-  } {
-    const formGroup = this.getCardFormArray().controls[0] as FormGroup
-    return formGroup.controls;
   }
 
 }

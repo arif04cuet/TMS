@@ -11,12 +11,10 @@ export class BaseHttpService {
     }
 
     public getStatus() {
-
         var status = [
             { id: true, name: 'Active' },
             { id: false, name: 'In Active' }
         ];
-
         return status;
     }
     public get(id) {
@@ -26,7 +24,7 @@ export class BaseHttpService {
     public list(pagination = null, search = null) {
         let url = this.END_POINT + '?';
         if (search) {
-            url += search
+            url += `${search}&`
         }
         if (pagination) {
             url += pagination

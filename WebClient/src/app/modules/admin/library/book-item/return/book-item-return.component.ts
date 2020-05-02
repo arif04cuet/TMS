@@ -7,6 +7,7 @@ import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-book-item-return',
@@ -19,6 +20,10 @@ export class BookItemReturnComponent extends FormComponent {
   members = [];
   cards = [];
   data: any = <any>{};
+  fine;
+  dateTitle;
+
+  private checkFine = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,34 +35,39 @@ export class BookItemReturnComponent extends FormComponent {
     super();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getData();
     this.onCheckMode = id => this.get(id);
     this.createForm({
       bookItem: [],
-      actualReturnDate: [null, [], this.v.required.bind(this)]
+      actualReturnDate: [new Date(), [], this.v.required.bind(this)],
+      nextReturnDate: [null, [], this.nextReturnDateValidation.bind(this)],
+      returnOrRenew: ['return'],
+      payFine: [true],
+      fineAmount: [null, [], this.fineAmountValidation.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
+
+    await this.updateTitle();
+    this.checkFineRequest();
   }
 
   submit(): void {
-    const body = this.constructObject(this.form.controls);
-    this.submitForm(
-      {
-        request: this.bookHttpService.returnBookItem(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
-        }
-      },
-      {
-        request: this.bookHttpService.returnBookItem(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
-        }
-      }
-    );
+
+    // check fine
+    const date = this.form.controls.actualReturnDate.value
+    const valid = this.validateForm();
+    if (!valid && (date === null || date === undefined))
+      return;
+
+    if (this.checkFine) {
+      this.checkFineRequest(() => {
+        this._submit();
+      });
+    }
+    else {
+      this._submit();
+    }
   }
 
   get(id) {
@@ -100,6 +110,113 @@ export class BookItemReturnComponent extends FormComponent {
         this.cards = res.data.items;
       }
     );
+  }
+
+  isReturn() {
+    return this.form.controls.returnOrRenew.value === "return";
+  }
+
+  isRenew() {
+    return this.form.controls.returnOrRenew.value === "renew";
+  }
+
+  dateChange(e) {
+    this.checkFine = true;
+    this.checkFineRequest();
+  }
+
+  async updateTitle() {
+    if (this.isReturn()) {
+      this.submitButtonText = await this.t('return');
+      this.dateTitle = await this.t('actual.return.date');
+    }
+    else if (this.isRenew()) {
+      this.submitButtonText = await this.t('renew');
+      this.dateTitle = await this.t('return.date');
+    }
+  }
+
+  async returnOrRenewChange(e) {
+    await this.updateTitle();
+  }
+
+  private checkFineRequest(onNoFine?: () => void) {
+    const fineBody = {
+      actualReturnDate: this.form.controls.actualReturnDate.value
+    }
+    this.subscribe(this.bookHttpService.checkFine(this.id, fineBody),
+      (res: any) => {
+        if (res.data !== null && res.data !== undefined) {
+          // fined
+          this.fine = res.data;
+          this.checkFine = false;
+          this.loading = false;
+          this.form.controls.fineAmount.setValue(this.fine.fineAmount);
+        }
+        else {
+          this.invoke(onNoFine);
+        }
+      },
+      err => {
+        this.loading = false;
+      }
+    );
+  }
+
+  private _submit() {
+    const body: any = this.constructObject(this.form.controls);
+    const fineAmount = this.form.controls.fineAmount.value
+    if (fineAmount && this.fine && this.form.controls.payFine) {
+      const fineBody = {
+        amount: this.form.controls.fineAmount.value
+      }
+      body.fine = fineBody;
+    }
+    body.actualReturnDate = this.form.controls.actualReturnDate.value;
+    body.nextReturnDate = this.form.controls.nextReturnDate.value;
+    body.isRenew = this.isRenew();
+    this.submitForm(
+      {
+        request: this.bookHttpService.returnBookItem(this.id, body),
+        succeed: res => {
+          this.cancel();
+          this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
+        }
+      },
+      {
+        request: this.bookHttpService.returnBookItem(this.id, body),
+        succeed: res => {
+          this.cancel();
+          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
+        }
+      }
+    );
+  }
+
+  private fineAmountValidation(control: FormControl) {
+    if (this.fine && this.form.controls.payFine.value) {
+      const v = control.value;
+      if (v === null || v === undefined) {
+        return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+      }
+      else if (v <= 0) {
+        return this.error('value.can.not.negative');
+      }
+      else if (v > this.fine.fineAmount) {
+        return this.error('amount.exceeds');
+      }
+    }
+    return of(false);
+  }
+
+  private nextReturnDateValidation(control: FormControl) {
+    if (this.form && this.isRenew()) {
+      const v = control.value;
+      if (!v) {
+        return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+      }
+    }
+    return of(false);
   }
 
 }

@@ -25,59 +25,16 @@
                 </div>
 
                 <div nz-row [nzGutter]="24">
-                    <div nz-col [nzMd]="12" [nzSm]="24">
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'book'|translate}}</label>
-                                </div>
-                                <span>
-                                    {{ data?.book?.name }}
-                                </span>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'member'|translate}}</label>
-                                </div>
-                                <span>
-                                    {{ data?.member?.name }}
-                                </span>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'card'|translate}}</label>
-                                </div>
-                                <span>
-                                    {{ data?.card?.name }}
-                                </span>
-                            </nz-form-item>
-                        </div>
+                    <div nz-col [nzMd]="8" [nzSm]="24">
+                        <app-view label="book" [data]="data?.book?.name"></app-view>
+                        <app-view label="member" [data]="data?.member?.name"></app-view>
                     </div>
-                    <div nz-col [nzMd]="12" [nzSm]="24">
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'issue.date'|translate}}</label>
-                                </div>
-                                <span>
-                                    {{ data?.issueDate|date }}
-                                </span>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'return.date'|translate}}</label>
-                                </div>
-                                <span>
-                                    {{ data?.returnDate|date }}
-                                </span>
-                            </nz-form-item>
-                        </div>
+                    <div nz-col [nzMd]="8" [nzSm]="24">
+                        <app-view label="issue.date" [data]="data?.issueDate|date"></app-view>
+                        <app-view label="return.date" [data]="data?.returnDate|date"></app-view>
+                    </div>
+                    <div nz-col [nzMd]="8" [nzSm]="24">
+                        <app-view label="card" [data]="data?.card?.name"></app-view>
                     </div>
                 </div>
 
@@ -93,22 +50,74 @@
                     <div nz-col [nzMd]="12" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'actual.return.date'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-date-picker formControlName="actualReturnDate"></nz-date-picker>
-                                </nz-form-control>
+                                <nz-radio-group (ngModelChange)="returnOrRenewChange($event)"
+                                    formControlName="returnOrRenew">
+                                    <label nz-radio nzValue="return">{{'return'|translate}}</label>
+                                    <label nz-radio nzValue="renew">{{'renew'|translate}}</label>
+                                </nz-radio-group>
                             </nz-form-item>
                         </div>
                     </div>
                 </div>
 
                 <div nz-row [nzGutter]="24">
+                    <div nz-col [nzMd]="12" [nzSm]="24">
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'actual.return.date'|translate}}</label>
+                                </div>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-date-picker (ngModelChange)="dateChange($event)" formControlName="actualReturnDate"></nz-date-picker>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div *ngIf="isRenew()" nz-col [nzMd]="12" [nzSm]="24">
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'next.return.date'|translate}}</label>
+                                </div>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-date-picker (ngModelChange)="dateChange($event)" formControlName="nextReturnDate"></nz-date-picker>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="fine" nz-row [nzGutter]="24">
                     <div nz-col [nzMd]="24" [nzSm]="24">
-                        <nz-alert nzType="info" nzMessage="Informational Notes"
-                            nzDescription="Additional description and informations about copywriting." nzShowIcon>
-                        </nz-alert>
+                        <div nz-row [nzGutter]="24">
+                            <nz-alert class="field-container" nzType="info"
+                                nzMessage="{{'you.are.fined.tk.x0.for.x1.day'|translate:{x0: fine.fineAmount, x1: fine.fineDays} }}"
+                                nzShowIcon>
+                            </nz-alert>
+                        </div>
+                    </div>
+                </div>
+
+                <div [style.display]="fine == null ? 'none' : ''" nz-row [nzGutter]="24">
+                    <div nz-col [nzMd]="24" [nzSm]="24">
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <label #payFine nz-checkbox formControlName="payFine">{{'pay.fine'|translate}}</label>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="fine && payFine.nzChecked" nz-row [nzGutter]="24">
+                    <div nz-col [nzMd]="12" [nzSm]="24">
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <input type="number" nz-input formControlName="fineAmount"
+                                        placeholder="{{'fine.amount'|translate}}" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
                     </div>
                 </div>
 
@@ -122,7 +131,7 @@
             </button>
             <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
                 <span>
-                    {{'return'|translate}}
+                    {{submitButtonText|translate}}
                 </span>
             </button>
         </div>

@@ -3,7 +3,7 @@
         <label>{{label|translate }}</label>
     </div>
     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-        <nz-select [(ngModel)]="value" class="btn-custom" [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)"
+        <nz-select [formControl]="formControl" class="btn-custom" [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)"
             nzAllowClear [nzPlaceHolder]="'select.x0'|translate:{x0: label|translate|lowercase}">
             <nz-option *ngFor="let p of items" [nzLabel]="p[labelKey]" [nzValue]="p.id">
             </nz-option>

@@ -5,6 +5,8 @@ using Module.Core.Shared;
 using Module.Library.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,17 +30,24 @@ namespace Module.Library.Data
 
         public async Task<long> CreateAsync(LibraryCardCreateRequest request, CancellationToken ct = default)
         {
-            var newItem = new LibraryCard
+            List<LibraryCard> cards = new List<LibraryCard>();
+            for (int i = 0; i < request.NumberOfCopy; i++)
             {
-                Name = request.Name,
-                CardTypeId = request.CardType,
-                ExpireDate = request.ExpireDate,
-                Fees = request.Fees,
-                MaxIssueCount = request.MaxIssueCount
-            };
-            await _libraryCardRepository.AddAsync(newItem, ct);
+                var card = new LibraryCard
+                {
+                    Barcode = DateTime.Now.Ticks.ToString(),
+                    CardTypeId = request.CardType,
+                    //ExpireDate = request.ExpireDate,
+                    Fees = request.Fees,
+                    MaxIssueCount = request.MaxIssueCount,
+                    CardStatusId = LibraryCardStatusConstants.Active,
+                    LibraryId = request.LibraryId
+                };
+                cards.Add(card);
+            }
+            await _libraryCardRepository.AddRangeAsync(cards, ct);
             var result = await _unitOfWork.SaveChangesAsync(ct);
-            return newItem.Id;
+            return result;
         }
 
         public async Task<bool> DeleteAsync(long id, CancellationToken ct = default)
@@ -49,7 +58,7 @@ namespace Module.Library.Data
             if (item == null)
                 throw new NotFoundException(LIBRARY_CARD_NOT_FOUND);
 
-            _libraryCardRepository.Remove(item);
+            item.IsDeleted = true;
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
         }
@@ -61,25 +70,27 @@ namespace Module.Library.Data
                 .Where(x => !x.IsDeleted)
                 .ApplySearch(searchOptions);
 
+            return await ListCards(query, pagingOptions);
+        }
+
+        public async Task<PagedCollection<IdNameViewModel>> ListAssignableAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+            var query = _libraryCardRepository
+                .AsReadOnly()
+                .Where(x => x.MemberId == null && !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
             var items = await query
                 .ApplyPagination(pagingOptions)
-                .Select(x => new LibraryCardListViewModel
+                .Select(x => new IdNameViewModel
                 {
                     Id = x.Id,
-                    Name = x.Name,
-                    CardType = x.CardType != null ? new IdNameViewModel
-                    {
-                        Id = x.CardType.Id,
-                        Name = x.CardType.Name
-                    } : null,
-                    ExpireDate = x.ExpireDate,
-                    Fees = x.Fees,
-                    MaxIssueCount = x.MaxIssueCount
+                    Name = x.Barcode
                 })
                 .ToListAsync();
 
             var total = await query.Select(x => x.Id).CountAsync();
-            return new PagedCollection<LibraryCardListViewModel>(items, total, pagingOptions);
+            return new PagedCollection<IdNameViewModel>(items, total, pagingOptions);
         }
 
         public async Task<LibraryCardViewModel> GetAsync(long id)
@@ -90,15 +101,17 @@ namespace Module.Library.Data
                 .Select(x => new LibraryCardViewModel
                 {
                     Id = x.Id,
-                    Name = x.Name,
-                    CardType = x.CardType != null ? new IdNameViewModel
-                    {
-                        Id = x.CardType.Id,
-                        Name = x.CardType.Name
-                    } : null,
+                    Barcode = x.Barcode,
+                    CardType = IdNameViewModel.Map(x.CardType),
                     ExpireDate = x.ExpireDate,
                     Fees = x.Fees,
-                    MaxIssueCount = x.MaxIssueCount
+                    MaxIssueCount = x.MaxIssueCount,
+                    Status = IdNameViewModel.Map(x.CardStatus),
+                    Member = x.MemberId != null ? new IdNameViewModel
+                    {
+                        Id = x.Member.Id,
+                        Name = x.Member.FullName
+                    } : null
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -116,12 +129,39 @@ namespace Module.Library.Data
 
             item.MaxIssueCount = request.MaxIssueCount;
             item.Fees = request.Fees;
-            item.ExpireDate = request.ExpireDate;
-            item.Name = request.Name;
+            //item.ExpireDate = request.ExpireDate;
             item.CardTypeId = request.CardType;
+            item.CardStatusId = request.CardType;
+            item.CardStatusId = request.StatusId;
+            item.LibraryId = request.LibraryId;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
+        }
+
+        private async Task<PagedCollection<LibraryCardListViewModel>> ListCards(IQueryable<LibraryCard> query, IPagingOptions pagingOptions)
+        {
+            var items = await query
+                .ApplyPagination(pagingOptions)
+                .Select(x => new LibraryCardListViewModel
+                {
+                    Id = x.Id,
+                    Barcode = x.Barcode,
+                    CardType = IdNameViewModel.Map(x.CardType),
+                    ExpireDate = x.ExpireDate,
+                    Fees = x.Fees,
+                    MaxIssueCount = x.MaxIssueCount,
+                    Member = x.MemberId != null ? new IdNameViewModel
+                    {
+                        Id = x.Member.Id,
+                        Name = x.Member.FullName
+                    } : null,
+                    Status = IdNameViewModel.Map(x.CardStatus)
+                })
+                .ToListAsync();
+
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<LibraryCardListViewModel>(items, total, pagingOptions);
         }
 
     }

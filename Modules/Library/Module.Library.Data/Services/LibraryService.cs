@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Module.Core.Data;
 using Module.Core.Entities;
 using Module.Core.Shared;
+using Module.Library.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,11 +20,15 @@ namespace Module.Library.Data
     {
         public readonly IUnitOfWork _unitOfWork;
         public readonly IRepository<Entities.Library> _libraryRepository;
+        public readonly IRepository<Fine> _fineRepository;
+        public readonly IRepository<BookIssue> _bookIssueRepository;
 
         public LibraryService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _libraryRepository = _unitOfWork.GetRepository<Entities.Library>();
+            _fineRepository = _unitOfWork.GetRepository<Fine>();
+            _bookIssueRepository = _unitOfWork.GetRepository<BookIssue>();
         }
 
         public async Task<long> CreateAsync(LibraryCreateRequest request, CancellationToken ct = default)
@@ -140,5 +146,33 @@ namespace Module.Library.Data
             return result > 0;
         }
 
+        public async Task<PagedCollection<FineListViewModel>> ListFineAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = null)
+        {
+            var query = _bookIssueRepository
+                .Where(x => x.FineId != null && !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
+            var items = await query
+                .ApplyPagination(pagingOptions)
+                .Include(x => x.Fine)
+                .Select(x => new FineListViewModel
+                {
+                    Id = (long)x.FineId,
+                    DueAmount = x.Fine.DueAmount,
+                    PaidAmount = x.Fine.Amount - x.Fine.DueAmount,
+                    TotalAmount = x.Fine.Amount,
+                    PaymentDate = (DateTime)x.Fine.PaymentDate,
+                    Member = new IdNameViewModel
+                    {
+                        Id = (long)x.MemberId,
+                        Name = x.Member.FullName
+                    },
+                    Status = x.Fine.DueAmount <= 0 ? "paid" : "due"
+                })
+                .ToListAsync(); ;
+
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<FineListViewModel>(items, total, pagingOptions);
+        }
     }
 }

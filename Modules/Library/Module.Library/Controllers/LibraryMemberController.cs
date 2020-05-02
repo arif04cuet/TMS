@@ -31,6 +31,14 @@ namespace Module.Library.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("cards")]
+        [RequirePermission(LibraryList, LibraryManage)]
+        public async Task<ActionResult> ListMemberCards([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _libraryMemberService.ListMemberCardsAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet("{id}")]
         [RequirePermission(LibraryView, LibraryManage)]
         public async Task<ActionResult> Get(long id)
@@ -70,14 +78,6 @@ namespace Module.Library.Controllers
         {
             await _libraryMemberService.DeleteAsync(id);
             return NoContent();
-        }
-
-        [HttpGet("{id}/cards")]
-        [RequirePermission(LibraryView, LibraryManage)]
-        public async Task<ActionResult> GetCards(long id, [FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
-        {
-            var result = await _libraryMemberService.GetCardsAsync(id, pagingOptions, searchOptions);
-            return result.ToOkResult();
         }
 
     }

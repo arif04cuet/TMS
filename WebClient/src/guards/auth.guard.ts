@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
             _route = _route.firstChild;
         }
         const permissions = _route.data?.permissions;
-        if (route.component && permissions && permissions.length > 0) {
+        if (false && route.component && permissions && permissions.length > 0) {
             const body = {
                 userId: this.authService.getLoggedInUserId(),
                 permissions: permissions

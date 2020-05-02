@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200501145634_M2")]
+    partial class M2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3550,9 +3552,6 @@ namespace OTMS.Migrations
                     b.Property<long?>("LibraryId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("MediaId")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("PublisherId")
                         .HasColumnType("bigint");
 
@@ -3575,8 +3574,6 @@ namespace OTMS.Migrations
                     b.HasIndex("LanguageId");
 
                     b.HasIndex("LibraryId");
-
-                    b.HasIndex("MediaId");
 
                     b.HasIndex("PublisherId");
 
@@ -3896,6 +3893,9 @@ namespace OTMS.Migrations
                     b.Property<long?>("LibraryId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("MediaId")
+                        .HasColumnType("bigint");
+
                     b.Property<float>("PurchagePrice")
                         .HasColumnType("real");
 
@@ -3932,6 +3932,8 @@ namespace OTMS.Migrations
                     b.HasIndex("IssuedToId");
 
                     b.HasIndex("LibraryId");
+
+                    b.HasIndex("MediaId");
 
                     b.HasIndex("RackId");
 
@@ -5307,10 +5309,6 @@ namespace OTMS.Migrations
                         .WithMany()
                         .HasForeignKey("LibraryId");
 
-                    b.HasOne("Module.Core.Entities.Media", "Media")
-                        .WithMany()
-                        .HasForeignKey("MediaId");
-
                     b.HasOne("Module.Library.Entities.Publisher", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId");
@@ -5400,6 +5398,10 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Library.Entities.Library", "Library")
                         .WithMany()
                         .HasForeignKey("LibraryId");
+
+                    b.HasOne("Module.Core.Entities.Media", "Media")
+                        .WithMany()
+                        .HasForeignKey("MediaId");
 
                     b.HasOne("Module.Library.Entities.Rack", "Rack")
                         .WithMany()

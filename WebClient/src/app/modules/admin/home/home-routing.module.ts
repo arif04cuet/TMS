@@ -185,6 +185,17 @@ const routes: Routes = [
         }
       },
       {
+        path: 'library/fines',
+        loadChildren: () => import('../library/fine/list/fine-list.module').then(x => x.FineListModule),
+        data: {
+          name: 'fine_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'fines'
+          }
+        }
+      },
+      {
         path: 'asset/suppliers',
         loadChildren: () => import('../asset/supplier/list/supplier-list.module').then(x => x.SupplierListModule),
         data: {

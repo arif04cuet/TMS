@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
+import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-library-card-add',
@@ -14,6 +16,8 @@ export class CardAddComponent extends FormComponent {
 
   loading: boolean = true;
   cardTypes = [];
+
+  @ViewChild('statusSelect') statusSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,14 +30,24 @@ export class CardAddComponent extends FormComponent {
   ngOnInit() {
     this.onCheckMode = id => this.get(id);
     this.createForm({
-      name: [null, [], this.v.required.bind(this)],
+      numberOfCopy: [null, [], this.numberOfCopyValidation.bind(this)],
       cardType: [null, [], this.v.required.bind(this)],
       fees: [null, [], this.v.required.bind(this)],
       maxIssueCount: [null, [], this.v.required.bind(this)],
-      expireDate: [null, [], this.v.required.bind(this)],
+      statusId: [null, [], this.v.required.bind(this)],
     });
     super.ngOnInit(this.activatedRoute.snapshot);
     this.getData();
+  }
+
+  ngAfterViewInit() {
+    this.statusSelect.register((pagination, search) => {
+      return this.libraryCardHttpService.listStatus(pagination, search);
+    });
+    if(this.isAddMode()) {
+      this.statusSelect.selectFirstOption();
+    }
+    this.statusSelect.fetch();
   }
 
   submit(): void {
@@ -63,6 +77,7 @@ export class CardAddComponent extends FormComponent {
         (res: any) => {
           this.setValues(this.form.controls, res.data);
           this.setValue('cardType', res.data.cardType?.id);
+          this.setValue('statusId', res.data.status?.id)
           this.loading = false;
         }
       );
@@ -85,6 +100,13 @@ export class CardAddComponent extends FormComponent {
 
   cancel() {
     this.goTo('/admin/library/cards');
+  }
+
+  numberOfCopyValidation(control: FormControl) {
+    if (this.isAddMode() && !control.value) {
+      return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+    }
+    return of(false);
   }
 
 }

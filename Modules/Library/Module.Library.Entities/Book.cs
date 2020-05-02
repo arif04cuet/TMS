@@ -16,15 +16,18 @@ namespace Module.Library.Entities
         public string Isbn { get; set; }
 
         public long LanguageId { get; set; }
-        public Language Language { get; set; }
+        public virtual Language Language { get; set; }
 
         [Searchable]
         public long? PublisherId { get; set; }
-        public Publisher Publisher { get; set; }
+        public virtual Publisher Publisher { get; set; }
 
         [Searchable]
         public long? AuthorId { get; set; }
-        public Author Author { get; set; }
+        public virtual Author Author { get; set; }
+
+        public long? MediaId { get; set; }
+        public virtual Media Media { get; set; }
 
     }
 }

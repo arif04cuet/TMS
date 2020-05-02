@@ -31,21 +31,6 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'member'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-select class="btn-custom" (ngModelChange)="onMemberChange($event)"
-                                        formControlName="member" nzShowSearch nzAllowClear
-                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'member'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of members" [nzLabel]="p.fullName" [nzValue]="p.id">
-                                        </nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
                                     <label>{{'card'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
@@ -54,6 +39,17 @@
                                         <nz-option *ngFor="let p of cards" [nzLabel]="p.name" [nzValue]="p.id">
                                         </nz-option>
                                     </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row [nzGutter]="24">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'note'|translate}}</label>
+                                </div>
+                                <nz-form-control>
+                                    <textarea type="note" nz-input formControlName="note"
+                                        placeholder="{{'note'|translate}}"></textarea>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -81,13 +77,10 @@
                         </div>
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
+                                <label>{{'notification'|translate}}</label>
                                 <div>
-                                    <label>{{'note'|translate}}</label>
+                                    <span nz-checkbox formControlName="sendEmail">{{'notify.user.via.email.about.this.issue'|translate}}</span>
                                 </div>
-                                <nz-form-control>
-                                    <textarea type="note" nz-input formControlName="note"
-                                        placeholder="{{'note'|translate}}"></textarea>
-                                </nz-form-control>
                             </nz-form-item>
                         </div>
                     </div>

@@ -38,7 +38,8 @@ export class MemberAddComponent extends FormComponent {
       library: [null, [], this.v.required.bind(this)],
       user: [null, [], this.v.required.bind(this)],
       memberSince: [null, [], this.v.required.bind(this)],
-      card: [null, [], this.v.required.bind(this)]
+      cardId: [null, [], this.v.required.bind(this)],
+      cardExpireDate: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -69,6 +70,11 @@ export class MemberAddComponent extends FormComponent {
       this.subscribe(this.libraryMemberHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
+          const card = res.data.card;
+          if(card) {
+            this.setValue('cardId', card.id);
+            this.setValue('cardExpireDate', card.expireDate);
+          }
           this.loading = false;
         }
       );
@@ -86,7 +92,7 @@ export class MemberAddComponent extends FormComponent {
     const requests = [
       this.userHttpService.list(),
       this.libraryHttpService.list(),
-      this.libraryCardHttpService.list(),
+      this.libraryCardHttpService.listAssignableCards(),
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {

@@ -177,5 +177,20 @@
     "depreciation": "Depreciation",
     "site_name": "Training Management Solution(OTMS)",
     "remember_me": "Remember Me",
-    "forgot_password": "Forgot Password"
+    "forgot_password": "Forgot Password",
+    "you.are.fined.tk.x0.for.x1.day": "You are fined tk {{x0}} for {{x1}} day(s).",
+    "renew": "Renew",
+    "pay.fine": "Pay fine",
+    "fine.amount": "Fine amount",
+    "value.can.not.negative": "Value can not negative",
+    "amount.exceeds": "Amount exceeds",
+    "next.return.date": "Next return date",
+    "fines": "Fines",
+    "payment.date": "Payment date",
+    "fine": "Fine",
+    "photo": "Photo",
+    "notify.user.via.email.about.this.issue": "Notify user via email about this issue",
+    "notification": "Notification",
+    "book.catalog": "Book catalog",
+    "offices": "Offices"
 }

@@ -5,7 +5,6 @@ using Module.Core.Data.Criteria;
 using Module.Core.Entities;
 using Module.Core.Shared;
 using Msi.UtilityKit.Security;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,18 +21,18 @@ namespace Module.Core.Data
         private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly IRepository<UserRole> _userRoleRepository;
         private readonly IRepository<Media> _mediaRepository;
-        private readonly IAppService _appService;
+        private readonly IMediaService _mediaService;
 
         public ProfileService(
             IUnitOfWork unitOfWork,
-            IAppService appService)
+            IMediaService mediaService)
         {
             _unitOfWork = unitOfWork;
+            _mediaService = mediaService;
             _userRepository = _unitOfWork.GetRepository<User>();
             _userProfileRepository = _unitOfWork.GetRepository<UserProfile>();
             _userRoleRepository = _unitOfWork.GetRepository<UserRole>();
             _mediaRepository = _unitOfWork.GetRepository<Media>();
-            _appService = appService;
         }
 
         public async Task<ProfileViewModel> Get(long userId, CancellationToken cancellationToken = default)
@@ -52,43 +51,15 @@ namespace Module.Core.Data
                     EmployeeId = x.EmployeeId,
                     FullName = x.FullName,
                     Mobile = x.Mobile,
-                    Department = x.Department != null ? new IdNameViewModel
-                    {
-                        Id = x.Department.Id,
-                        Name = x.Department.Name
-                    } : null,
-                    Designation = x.Designation != null ? new IdNameViewModel
-                    {
-                        Id = x.Designation.Id,
-                        Name = x.Designation.Name
-                    } : null,
-                    Status = x.Status != null ? new IdNameViewModel
-                    {
-                        Id = x.Status.Id,
-                        Name = x.Status.Name
-                    } : null,
+                    Department = IdNameViewModel.Map(x.Department),
+                    Designation = IdNameViewModel.Map(x.Designation),
+                    Status = IdNameViewModel.Map(x.Status),
                     Roles = roles,
 
-                    BloodGroup = x.Profile.BloodGroup != null ? new IdNameViewModel
-                    {
-                        Id = (long)x.Profile.BloodGroupId,
-                        Name = x.Profile.BloodGroup.Name
-                    } : null,
-                    Gender = x.Profile.Gender != null ? new IdNameViewModel
-                    {
-                        Id = (long)x.Profile.GenderId,
-                        Name = x.Profile.Gender.Name
-                    } : null,
-                    MaritalStatus = x.Profile.MaritalStatus != null ? new IdNameViewModel
-                    {
-                        Id = (long)x.Profile.MaritalStatusId,
-                        Name = x.Profile.MaritalStatus.Name
-                    } : null,
-                    Religion = x.Profile.Religion != null ? new IdNameViewModel
-                    {
-                        Id = (long)x.Profile.ReligionId,
-                        Name = x.Profile.Religion.Name
-                    } : null,
+                    BloodGroup = IdNameViewModel.Map(x.Profile.BloodGroup),
+                    Gender = IdNameViewModel.Map(x.Profile.Gender),
+                    MaritalStatus = IdNameViewModel.Map(x.Profile.MaritalStatus),
+                    Religion = IdNameViewModel.Map(x.Profile.Religion),
                     DateOfBirth = x.Profile.DateOfBirth,
                     NID = x.Profile.NID,
                     JoiningDate = x.Profile.JoiningDate,
@@ -105,7 +76,7 @@ namespace Module.Core.Data
                         Degree = x.Profile.Education.Degree,
                         Result = x.Profile.Education.Result
                     } : null,
-                    Photo = x.Profile.MediaId.HasValue ? Path.Combine(_appService.GetServerUrl(), MediaConstants.Path, x.Profile.Media.FileName) : string.Empty
+                    Photo = _mediaService.GetFullUrl(x.Profile.Media)
                 })
                 .FirstOrDefaultAsync();
 
@@ -162,12 +133,7 @@ namespace Module.Core.Data
             if (request.Media.HasValue)
             {
                 profile.MediaId = request.Media;
-                var media = await _mediaRepository
-                    .FirstOrDefaultAsync(x => x.Id == request.Media.Value);
-                if (media != null)
-                {
-                    media.IsInUse = true;
-                }
+                await _mediaService.UseAsync(request.Media.Value);
             }
 
             if (request.ContactAddress != null)
@@ -186,13 +152,7 @@ namespace Module.Core.Data
             if (oldMedia != null && result > 0)
             {
                 // successfully updated
-                string oldProfilePhotoPath = Path.Combine(ProjectManager.StoragePath, oldMedia.FileName);
-                if (File.Exists(oldProfilePhotoPath))
-                {
-                    File.Delete(oldProfilePhotoPath);
-                    _mediaRepository.Remove(oldMedia);
-                    result += await _unitOfWork.SaveChangesAsync();
-                }
+                _mediaService.DeleteMediaAsync(oldMedia.Id);
             }
             return result > 0;
         }

@@ -11,6 +11,7 @@ import { CommonHttpService } from 'src/services/http/common-http.service';
 import { forEachObj } from 'src/services/utilities.service';
 import { AbstractControl, FormArray } from '@angular/forms';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
+import { MediaHttpService } from 'src/services/http/media-http.service';
 
 @Component({
   selector: 'app-book-add',
@@ -24,6 +25,8 @@ export class BookAddComponent extends FormComponent {
   publishers = [];
   authors = [];
   subjects = [];
+
+  photoUrl;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,6 +50,7 @@ export class BookAddComponent extends FormComponent {
       publisher: [null, [], this.v.required.bind(this)],
       subjects: [],
       author: [null, [], this.v.required.bind(this)],
+      mediaId: [],
       editions: this.fb.array([])
     });
     super.ngOnInit(this.activatedRoute.snapshot);
@@ -78,6 +82,7 @@ export class BookAddComponent extends FormComponent {
       this.subscribe(this.bookHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data, ['editions']);
+          this.photoUrl = res.data.photo;
           this.form.controls.editions = this.fb.array([]);
           this.prepareForm(res);
           this.loading = false;
@@ -108,10 +113,6 @@ export class BookAddComponent extends FormComponent {
         this.subjects = res[3].data.items;
       }
     );
-  }
-
-  optionChanged(e) {
-
   }
 
   addEdition() {

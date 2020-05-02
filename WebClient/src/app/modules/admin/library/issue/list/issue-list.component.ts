@@ -17,7 +17,7 @@ export class IssueListComponent extends TableComponent {
   authors = [];
 
   @Searchable("Book.Title", "like") title;
-  @Searchable("Book.MemberId", "eq") issuedTo;
+  @Searchable("MemberId", "eq") issuedTo;
   @Searchable("Book.AuthorId", "eq") author;
 
   constructor(

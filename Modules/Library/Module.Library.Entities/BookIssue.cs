@@ -1,5 +1,6 @@
 ﻿using Module.Core.Entities;
 using Module.Core.Entities.Constants;
+using Msi.UtilityKit.Search;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,16 +10,18 @@ namespace Module.Library.Entities
     public class BookIssue : LibraryEntity
     {
         public long BookId { get; set; }
+        [Searchable]
         public Book Book { get; set; }
 
         public long? BookItemId { get; set; }
         public BookItem BookItem { get; set; }
 
+        [Searchable]
         public long? MemberId { get; set; }
         public User Member { get; set; }
 
-        public long? MemberLibraryCardId { get; set; }
-        public MemberLibraryCard MemberLibraryCard { get; set; }
+        public long? LibraryCardId { get; set; }
+        public LibraryCard LibraryCard { get; set; }
 
         public DateTime IssueDate { get; set; }
         public DateTime? ReturnDate { get; set; }

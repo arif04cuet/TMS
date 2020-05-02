@@ -17,6 +17,14 @@ namespace Module.Core.Data
 
         Task DeleteMediaAsync(Media media);
 
+        Task DeleteMediaAsync(long? mediaId);
+
         Task DeleteMediaAsync(string fileName);
+
+        string GetFullUrl(Media media);
+
+        string GetFullUrl(string fileName);
+
+        Task<bool> UseAsync(long mediaId, bool value = true);
     }
 }

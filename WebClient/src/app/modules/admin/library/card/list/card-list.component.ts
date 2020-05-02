@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
-import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
@@ -11,8 +10,8 @@ import { LibraryCardHttpService } from 'src/services/http/library-card-http.serv
 })
 export class CardListComponent extends TableComponent {
 
-  @Searchable("Name", "like") number;
-  @Searchable("CardTypeId", "like") type;
+  @Searchable("Barcode", "like") number;
+  @Searchable("CardType.Name", "like") type;
   
   constructor(
     private libraryCardHttpService: LibraryCardHttpService,
@@ -23,7 +22,7 @@ export class CardListComponent extends TableComponent {
 
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
-    this.gets();
+    this.load();
   }
 
   add(model = null) {
@@ -35,28 +34,12 @@ export class CardListComponent extends TableComponent {
     }
   }
 
-  gets(pagination = null, search = null) {
-    this.loading = true;
-    const request = [
-      this.libraryCardHttpService.list(pagination, search)
-    ]
-    this.subscribe(forkJoin(request),
-      (res: any) => {
-        this.fill(res[0]);
-      },
-      err => {
-        console.log(err);
-        this.loading = false;
-      }
-    );
-  }
-
   refresh() {
-    this.gets(null, this.getSearchTerms());
+    this.load();
   }
 
   search() {
-    this.gets(null, this.getSearchTerms())
+    this.load()
   }
 
 }

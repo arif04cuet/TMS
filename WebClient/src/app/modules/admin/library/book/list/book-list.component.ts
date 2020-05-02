@@ -16,7 +16,7 @@ export class BookListComponent extends TableComponent {
   publishers = [];
   authors = [];
 
-  @Searchable("Name", "like") title;
+  @Searchable("Title", "like") title;
   @Searchable("Isbn", "like") isbn;
   @Searchable("PublisherId", "eq") publisher;
   @Searchable("AuthorId", "eq") author;

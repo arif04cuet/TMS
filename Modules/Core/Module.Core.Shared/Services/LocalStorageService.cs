@@ -10,7 +10,7 @@ namespace Module.Core.Shared
 
         public string GetMediaUrl(string fileName)
         {
-            return Path.Combine(MediaConstants.Path, fileName);
+            return GetFilePath(fileName);
         }
 
         public async Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null)

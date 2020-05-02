@@ -72,5 +72,13 @@ namespace Module.Library.Controllers
             return NoContent();
         }
 
+        [HttpGet("fines")]
+        [RequirePermission(BookList, BookManage)]
+        public async Task<ActionResult> ListIssue([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _libraryService.ListFineAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
     }
 }

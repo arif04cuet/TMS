@@ -14,6 +14,6 @@ namespace Module.Library.Data
         public DateTime? MemberSince { get; set; }
         public IdNameViewModel Status { get; set; }
         public IdNameViewModel Library { get; set; }
-        public MemberLibraryCardViewModel Card { get; set; }
+        public LibraryCardViewModel Card { get; set; }
     }
 }

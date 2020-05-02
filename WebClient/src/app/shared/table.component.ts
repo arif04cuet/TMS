@@ -8,6 +8,7 @@ export class TableComponent extends BaseComponent {
     pageIndex: number = 1;
     pageSize: number = 20;
     items = [];
+    additionalSearchTerm;
 
     service;
     onDeleted: (res: any) => void;
@@ -61,6 +62,35 @@ export class TableComponent extends BaseComponent {
             return searchableProperties.join("&");
         }
         return "";
+    }
+
+    load(e?) {
+        let offset = 0;
+        if(this.pageIndex > 1) {
+            offset = (this.pageSize * this.pageIndex) - this.pageSize;
+        }
+        const pagination = `offset=${offset}&limit=${this.pageSize}`;
+        let search = this.getSearchTerms();
+        this.loading = true;
+        this.subscribe(this.service.list(pagination, search),
+            (res: any) => {
+                this.fill(res);
+            },
+            err => {
+                console.log(err);
+                this.loading = false;
+            }
+        );
+    }
+
+    pageIndexChanged(pageIndex) {
+        this.pageIndex = pageIndex;
+        this.load();
+    }
+
+    pageSizeChanged(pageSize) {
+        this.pageSize = pageSize;
+        this.load();
     }
 
 }

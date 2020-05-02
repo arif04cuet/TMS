@@ -10,6 +10,7 @@ import { CommonHttpService } from 'src/services/http/common-http.service';
 import { BookItemReturnComponent } from './book-item-return.component';
 import { BookItemReturnRoutingModule } from './book-item-return-routing.module';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
+import { ViewModule } from 'src/app/shared/view.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LibraryMemberHttpService } from 'src/services/http/library-member-http.
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    ViewModule
   ],
   exports: [BookItemReturnComponent],
   providers: [

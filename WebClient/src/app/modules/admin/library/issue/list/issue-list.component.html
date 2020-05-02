@@ -46,7 +46,7 @@
                             <div>
                                 <nz-select [(ngModel)]="issuedTo" class="btn-custom" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'member'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of members" [nzLabel]="p.fullName" [nzValue]="p.id">
+                                    <nz-option *ngFor="let p of members" [nzLabel]="p.fullName" [nzValue]="p.userId">
                                     </nz-option>
                                 </nz-select>
                             </div>

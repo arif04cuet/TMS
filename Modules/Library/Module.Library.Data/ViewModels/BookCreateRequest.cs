@@ -13,6 +13,7 @@ namespace Module.Library.Data
         public long Language { get; set; }
         public long? Author { get; set; }
         public long? Publisher { get; set; }
+        public long? MediaId { get; set; }
 
         public IEnumerable<long> Authors { get; set; }
         public IEnumerable<long> Subjects { get; set; }
@@ -28,7 +29,8 @@ namespace Module.Library.Data
                 LanguageId = Language,
                 AuthorId = Author,
                 PublisherId = Publisher,
-                Isbn = Isbn
+                Isbn = Isbn,
+                MediaId = MediaId
             };
         }
         public IEnumerable<BookAuthor> ToBookAuthors(long bookId)

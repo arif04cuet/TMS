@@ -64,17 +64,17 @@
 
 
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #categorySelect label="category" formControlName="categoryId">
+                        <app-select-control #categorySelect label="category" [formControl]="form.controls.categoryId">
                         </app-select-control>
                     </div>
 
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #supplierSelect label="supplier" formControlName="supplierId">
+                        <app-select-control #supplierSelect label="supplier" [formControl]="form.controls.supplierId">
                         </app-select-control>
                     </div>
 
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #manufacturerSelect label="manufacturer" formControlName="manufacturerId">
+                        <app-select-control #manufacturerSelect label="manufacturer" [formControl]="form.controls.manufacturerId">
                         </app-select-control>
                     </div>
 
@@ -170,14 +170,14 @@
 
 
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #depreciationSelect label="depreciation" formControlName="depreciationId">
+                        <app-select-control #depreciationSelect label="depreciation" [formControl]="form.controls.depreciationId">
                         </app-select-control>
                     </div>
 
 
                     <div nz-col [nzSpan]="8">
                         <app-select-control #locationSelect labelKey="officeName" label="location"
-                            formControlName="locationId">
+                            [formControl]="form.controls.locationId">
                         </app-select-control>
                     </div>
 

@@ -22,7 +22,8 @@
         </div>
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <!-- <th>
@@ -94,7 +95,8 @@
                         <td>{{ data.issueDate|date }}</td>
                         <td>{{ data.returnDate|date }}</td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="!data.issuedTo" nzType="primary" (click)="issue(data)" nz-button class="btn-custom">
+                            <button *ngIf="!data.issuedTo" nzType="primary" (click)="issue(data)" nz-button
+                                class="btn-custom">
                                 {{'issue'|translate}}
                             </button>
                             <button *ngIf="data.issuedTo" nz-button (click)="return(data)" class="btn-custom">

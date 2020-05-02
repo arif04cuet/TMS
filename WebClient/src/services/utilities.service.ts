@@ -1,3 +1,5 @@
+import { environment } from 'src/environments/environment';
+
 export function forEachObj(obj: any, fn: (k: any, v: any) => void) {
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
@@ -33,5 +35,6 @@ export function clean(o) {
 }
 
 export function getLang() {
-    return localStorage.getItem('otms_lang') || 'bn'
+    const lang = environment.production ? 'bn' : 'en'
+    return localStorage.getItem('otms_lang') || lang
 }

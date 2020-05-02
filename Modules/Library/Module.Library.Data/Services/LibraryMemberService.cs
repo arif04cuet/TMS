@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Dapper;
+using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Core.Data;
@@ -24,18 +25,21 @@ namespace Module.Library.Data
         public readonly IRepository<User> _userRepository;
         public readonly IRepository<UserRole> _userRoleRepository;
         public readonly IUserService _userService;
-        public readonly IRepository<MemberLibraryCard> _memberLibraryCardRepository;
+        public readonly IRepository<LibraryCard> _libraryCardRepository;
+        public readonly IMediaService _mediaService;
 
         public LibraryMemberService(
             IUnitOfWork unitOfWork,
-            IUserService userService)
+            IUserService userService,
+            IMediaService mediaService)
         {
+            _mediaService = mediaService;
             _unitOfWork = unitOfWork;
             _userService = userService;
             _libraryMemberRepository = _unitOfWork.GetRepository<LibraryMember>();
             _userRepository = _unitOfWork.GetRepository<User>();
             _userRoleRepository = _unitOfWork.GetRepository<UserRole>();
-            _memberLibraryCardRepository = _unitOfWork.GetRepository<MemberLibraryCard>();
+            _libraryCardRepository = _unitOfWork.GetRepository<LibraryCard>();
         }
 
         public async Task<long> CreateFromUserAsync(LibraryMemberCreateFromUserRequest request, CancellationToken ct = default)
@@ -53,11 +57,17 @@ namespace Module.Library.Data
             if (member != null)
                 throw new ValidationException(ALREADY_A_MEMBER);
 
+            var card = await _libraryCardRepository
+                .FirstOrDefaultAsync(x => x.Id == request.CardId && !x.IsDeleted && x.MemberId == null);
+
+            if (card == null)
+                throw new ValidationException(LIBRARY_CARD_NOT_FOUND);
+
             member = new LibraryMember
             {
                 UserId = user.Id,
                 LibraryId = request.Library,
-                MemberSince = request.MemberSince.HasValue ? request.MemberSince.Value : DateTime.Now
+                MemberSince = request.MemberSince ?? DateTime.Now
             };
             await _libraryMemberRepository.AddAsync(member, ct);
 
@@ -75,11 +85,9 @@ namespace Module.Library.Data
                 await _userRoleRepository.AddAsync(role, ct);
             }
 
-            if (request.Card != null)
-            {
-                var card = request.Card.ToMemberLibraryCard(user.Id);
-                await _memberLibraryCardRepository.AddAsync(card, ct);
-            }
+            card.MemberId = user.Id;
+            card.ExpireDate = request.CardExpireDate;
+            member.CurrentCardId = card.Id;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return user.Id;
@@ -87,6 +95,13 @@ namespace Module.Library.Data
 
         public async Task<long> CreateAsync(LibraryMemberCreateRequest request, CancellationToken ct = default)
         {
+
+            var card = await _libraryCardRepository
+                .FirstOrDefaultAsync(x => x.Id == request.CardId && !x.IsDeleted && x.MemberId == null);
+
+            if (card == null)
+                throw new ValidationException(LIBRARY_CARD_NOT_FOUND);
+
             var user = new User
             {
                 FullName = request.FullName,
@@ -114,11 +129,10 @@ namespace Module.Library.Data
             };
             await _userRoleRepository.AddAsync(role, ct);
 
-            if (request.Card != null)
-            {
-                var card = request.Card.ToMemberLibraryCard(user.Id);
-                await _memberLibraryCardRepository.AddAsync(card, ct);
-            }
+            card.MemberId = user.Id;
+            card.ExpireDate = request.CardExpireDate;
+
+            member.CurrentCardId = card.Id;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return user.Id;
@@ -134,9 +148,8 @@ namespace Module.Library.Data
 
             if (item == null || user == null)
                 throw new NotFoundException(LIBRARY_MEMBER_NOT_FOUND);
-            _libraryMemberRepository.Remove(item);
-
-            await _userService.DeleteAsync(item.UserId);
+            
+            item.IsDeleted = true;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
@@ -154,6 +167,7 @@ namespace Module.Library.Data
                 .Select(x => new LibraryMemberListViewModel
                 {
                     Id = x.Id,
+                    UserId = x.UserId,
                     Email = x.User.Email,
                     FullName = x.User.FullName,
                     Mobile = x.User.Mobile,
@@ -162,7 +176,7 @@ namespace Module.Library.Data
                         Id = x.Library.Id,
                         Name = x.Library.Name
                     },
-                    Photo = x.Id.ToString()
+                    Photo = _mediaService.GetFullUrl(x.User.Profile.Media)
                 })
                 .ToListAsync();
 
@@ -170,11 +184,27 @@ namespace Module.Library.Data
             return new PagedCollection<LibraryMemberListViewModel>(items, total, pagingOptions);
         }
 
+        public async Task<PagedCollection<IdNameViewModel>> ListMemberCardsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+
+            var sql = @"select  c.Id, c.Barcode as Name from [library].[LibraryMember] m
+                        left join [library].[LibraryCard] c on c.Id = m.CurrentCardId
+                        where m.CurrentCardId IS NOT NULL";
+
+            var items = await _unitOfWork.GetConnection()
+                .QueryAsync<IdNameViewModel>(sql);
+
+            var total = items.Count();
+            return new PagedCollection<IdNameViewModel>(items.ToList(), total, pagingOptions);
+        }
+
+
         public async Task<LibraryMemberViewModel> GetAsync(long id)
         {
             var result = await _libraryMemberRepository
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)
+                .Include(x => x.CurrentCard)
                 .Select(x => new LibraryMemberViewModel
                 {
                     Id = x.Id,
@@ -182,11 +212,7 @@ namespace Module.Library.Data
                     Email = x.User.Email,
                     FullName = x.User.FullName,
                     Mobile = x.User.Mobile,
-                    Status = new IdNameViewModel
-                    {
-                        Id = x.User.Status.Id,
-                        Name = x.User.Status.Name
-                    },
+                    Status = IdNameViewModel.Map(x.User.Status),
                     Library = new IdNameViewModel
                     {
                         Id = x.Library.Id,
@@ -194,52 +220,39 @@ namespace Module.Library.Data
                     },
                     MemberSince = x.MemberSince,
                     Photo = x.Id.ToString(),
+                    Card = x.CurrentCardId != null ? new LibraryCardViewModel
+                    {
+                        ExpireDate = x.CurrentCard.ExpireDate,
+                        Id = x.CurrentCard.Id,
+                        Barcode = x.CurrentCard.Barcode,
+                        Status = IdNameViewModel.Map(x.CurrentCard.CardStatus),
+                        CardType = IdNameViewModel.Map(x.CurrentCard.CardType),
+                        Fees = x.CurrentCard.Fees,
+                        MaxIssueCount = x.CurrentCard.MaxIssueCount
+                    } : null
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (result != null)
-            {
-                var card = await _unitOfWork.GetRepository<MemberLibraryCard>()
-                    .AsReadOnly()
-                    .Where(x => x.UserId == result.UserId && !x.IsDeleted)
-                    .Select(x => new MemberLibraryCardViewModel
-                    {
-                        Card = new IdNameViewModel
-                        {
-                            Id = x.LibraryCard.Id,
-                            Name = x.LibraryCard.Name
-                        },
-                        ExpireDate = x.CardExpireDate,
-                        Id = x.Id,
-                        Number = x.CardNumber,
-                        Status = new IdNameViewModel
-                        {
-                            Id = x.CardStatus.Id,
-                            Name = x.CardStatus.Name
-                        }
-                    })
-                    .FirstOrDefaultAsync();
-                result.Card = card;
-            }
 
             return result;
         }
 
         public async Task<bool> UpdateAsync(LibraryMemberUpdateRequest request, CancellationToken ct = default)
         {
-            var item = await _libraryMemberRepository
+            var member = await _libraryMemberRepository
+                .AsQueryable()
+                .Include(x => x.CurrentCard)
                 .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
 
             var user = await _userRepository
-                .FirstOrDefaultAsync(x => x.Id == item.UserId && !x.IsDeleted);
+                .FirstOrDefaultAsync(x => x.Id == member.UserId && !x.IsDeleted);
 
-            if (item == null || user == null)
+            if (member == null || user == null)
                 throw new NotFoundException(LIBRARY_MEMBER_NOT_FOUND);
 
-            item.LibraryId = request.Library;
+            member.LibraryId = request.Library;
             if (request.MemberSince.HasValue)
             {
-                item.MemberSince = request.MemberSince.Value;
+                member.MemberSince = request.MemberSince.Value;
             }
 
             user.Mobile = request.Mobile;
@@ -250,51 +263,13 @@ namespace Module.Library.Data
                 user.Password = request.Password.HashPassword();
             }
 
-            var card = await _memberLibraryCardRepository
-                .FirstOrDefaultAsync(x => x.UserId == user.Id && !x.IsDeleted);
-
-            if (card != null && request.Card != null)
+            if (member.CurrentCard != null)
             {
-                request.Card.MapTo(card);
-            }
-
-            if (card == null && request.Card != null)
-            {
-                card = request.Card.ToMemberLibraryCard(user.Id);
-                await _memberLibraryCardRepository.AddAsync(card, ct);
+                member.CurrentCard.ExpireDate = request.CardExpireDate;
             }
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
-        }
-
-        public async Task<PagedCollection<IdNameViewModel>> GetCardsAsync(long memberId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
-        {
-            var userId = await GetUserIdByMemberIdAsync(memberId);
-            var query = _memberLibraryCardRepository
-                .Where(x => x.UserId == userId.Value)
-                .ApplySearch(searchOptions);
-
-            var items = await query
-                .ApplyPagination(pagingOptions)
-                .Select(x => new IdNameViewModel
-                {
-                    Id = x.Id,
-                    Name = x.CardNumber
-                })
-                .ToListAsync();
-
-            var total = await query.Select(x => x.Id).CountAsync();
-            return new PagedCollection<IdNameViewModel>(items, total, pagingOptions);
-        }
-
-        private async Task<long?> GetUserIdByMemberIdAsync(long memberId)
-        {
-            var user = await _libraryMemberRepository
-                .Where(x => x.Id == memberId && !x.IsDeleted)
-                .Select(x => new { Id = x.UserId })
-                .FirstOrDefaultAsync();
-            return user?.Id;
         }
 
     }

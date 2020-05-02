@@ -1,5 +1,5 @@
 import { Component, Input, forwardRef, Output, EventEmitter } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 export class SelectControlComponent implements ControlValueAccessor {
 
   @Input() label;
+  @Input() formControl: FormControl;
   @Output() onChange = new EventEmitter();
   @Input() labelKey = 'name';
 
@@ -31,6 +32,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   private fetchFn: (pagination: string, search?: string) => Observable<Object>;
   private subscriptions = [];
   private _selectFirstOption = false;
+
 
   get value() {
     return this._value;
@@ -72,9 +74,9 @@ export class SelectControlComponent implements ControlValueAccessor {
         (res: any) => {
           this.items = res.data.items || [];
           this.busy(false);
-          if (this._selectFirstOption && this.items[0].length > 0) {
+          if (this._selectFirstOption && this.items.length > 0) {
             this._value = this.items[0].id;
-            this.propagateChange(this._value);
+            this.formControl.setValue(this._value);
           }
         },
         err => {

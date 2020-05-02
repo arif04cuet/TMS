@@ -11,6 +11,7 @@ namespace Module.Library.Data
         public string Description { get; set; }
         public IdNameViewModel Author { get; set; }
         public IdNameViewModel Publisher { get; set; }
+        public string Photo { get; set; }
 
     }
 }

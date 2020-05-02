@@ -8,6 +8,7 @@ import { CardAddRoutingModule } from './card-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
+import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { LibraryCardHttpService } from 'src/services/http/library-card-http.serv
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    SelectControlModule
   ],
   exports: [CardAddComponent],
   providers: [

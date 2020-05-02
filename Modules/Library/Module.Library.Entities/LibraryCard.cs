@@ -1,4 +1,5 @@
-﻿using Module.Core.Entities.Constants;
+﻿using Module.Core.Entities;
+using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,14 +10,23 @@ namespace Module.Library.Entities
     public class LibraryCard : LibraryEntity
     {
         [Searchable]
-        public string Name { get; set; }
+        public string Barcode { get; set; }
 
         [Searchable]
         public long CardTypeId { get; set; }
+        [Searchable]
         public LibraryCardType CardType { get; set; }
 
         public float Fees { get; set; }
         public int MaxIssueCount { get; set; }
-        public DateTime ExpireDate { get; set; }
+        public DateTime? ExpireDate { get; set; }
+
+        [Searchable]
+        public long? MemberId { get; set; }
+        public User Member { get; set; }
+
+        [Searchable]
+        public long? CardStatusId { get; set; }
+        public LibraryCardStatus CardStatus { get; set; }
     }
 }

@@ -20,5 +20,7 @@ namespace Module.Library.Data
         Task<LibraryViewModel> GetAsync(long id);
 
         Task<bool> UpdateAsync(LibraryUpdateRequest request, CancellationToken ct = default);
+
+        Task<PagedCollection<FineListViewModel>> ListFineAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
     }
 }

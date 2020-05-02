@@ -43,7 +43,7 @@
                             </nz-form-item>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control #districtSelect label="district" formControlName="district">
+                            <app-select-control #districtSelect label="district" [formControl]="form.controls.district">
                             </app-select-control>
                         </div>
                     </div>
@@ -60,11 +60,11 @@
                             </nz-form-item>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control #divisionSelect label="division" formControlName="division">
+                            <app-select-control #divisionSelect label="division" [formControl]="form.controls.division">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control #upazilaSelect label="upazila" formControlName="upazila">
+                            <app-select-control #upazilaSelect label="upazila" [formControl]="form.controls.upazila">
                             </app-select-control>
                         </div>
                     </div>

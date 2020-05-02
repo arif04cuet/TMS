@@ -5,7 +5,7 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'book.issues'|translate}} ({{total}})
+                        {{'fines'|translate}} ({{total}})
                     </span>
                 </div>
             </div>
@@ -18,59 +18,47 @@
         </div>
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>
-                            {{'isbn'|translate}}
-                        </th>
-                        <th>
-                            {{'title'|translate}}
-                        </th>
+                        <th></th>
                         <th>
                             <div>
-                                {{'author'|translate}}
+                                {{'member'|translate}}
                             </div>
                             <div>
-                                <nz-select [(ngModel)]="author" class="btn-custom" nzShowSearch nzAllowClear
+                                <nz-select [(ngModel)]="member" class="btn-custom" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'designation'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of authors" [nzLabel]="p.name" [nzValue]="p.id">
+                                    <nz-option *ngFor="let p of members" [nzLabel]="p.fullName" [nzValue]="p.userId">
                                     </nz-option>
                                 </nz-select>
                             </div>
                         </th>
                         <th>
-                            <div>
-                                {{'issued.to'|translate}}
-                            </div>
-                            <div>
-                                <nz-select [(ngModel)]="issuedTo" class="btn-custom" nzShowSearch nzAllowClear
-                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'member'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of members" [nzLabel]="p.fullName" [nzValue]="p.id">
-                                    </nz-option>
-                                </nz-select>
-                            </div>
+                            {{'due'|translate}}
                         </th>
                         <th>
-                            {{'issue.date'|translate}}
+                            {{'paid'|translate}}
                         </th>
                         <th>
-                            {{'return.date'|translate}}
+                            {{'total'|translate}}
                         </th>
                         <th>
-                            {{'actual.return.date'|translate}}
+                            {{'payment.date'|translate}}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.isbn }}</td>
-                        <td>{{ data.title }}</td>
-                        <td>{{ data.author?.name }}</td>
-                        <td>{{ data.issuedTo?.name }}</td>
-                        <td>{{ data.issueDate|date }}</td>
-                        <td>{{ data.returnDate|date }}</td>
-                        <td>{{ data.actualReturnDate|date }}</td>
+                        <td class="fit-cell status-badge {{data.status}}">
+                            <nz-tag class="capitalize">{{data.status}}</nz-tag>
+                        </td>
+                        <td>{{ data.member?.name }}</td>
+                        <td>{{ data.dueAmount > 0 ? data.dueAmount : '-' }}</td>
+                        <td>{{ data.paidAmount > 0 ? data.paidAmount : '-' }}</td>
+                        <td>{{ data.totalAmount }}</td>
+                        <td>{{ data.paymentDate|date }}</td>
                     </tr>
                 </tbody>
             </nz-table>

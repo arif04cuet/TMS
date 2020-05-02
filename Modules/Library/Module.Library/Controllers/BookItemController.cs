@@ -90,5 +90,14 @@ namespace Module.Library.Controllers
             return result.ToOkResult();
         }
 
+        [HttpPost("{id}/check-fine")]
+        [RequirePermission(BookCreate, BookManage)]
+        public async Task<IActionResult> CheckFine(long id, [FromBody] BookItemReturnRequest request)
+        {
+            request.BookItem = id;
+            var result = await _bookService.CheckFineAsync(request);
+            return result.ToOkResult();
+        }
+
     }
 }

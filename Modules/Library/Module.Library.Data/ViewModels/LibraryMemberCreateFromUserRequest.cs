@@ -7,6 +7,8 @@ namespace Module.Library.Data
         public long User { get; set; }
         public long Library { get; set; }
         public DateTime? MemberSince { get; set; }
-        public MemberLibraryCardRequest Card { get; set; }
+
+        public long CardId { get; set; }
+        public DateTime CardExpireDate { get; set; }
     }
 }

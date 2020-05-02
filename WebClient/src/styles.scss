@@ -128,6 +128,9 @@ app-layout-default .menu-sidebar {
   .ant-pagination-item {
       border: none;
   }
+  .ant-pagination-total-text {
+    box-shadow: none;
+  }
 }
 
 .ant-pagination-disabled a, .ant-pagination-disabled:hover a, .ant-pagination-disabled:focus a, .ant-pagination-disabled .ant-pagination-item-link, .ant-pagination-disabled:hover .ant-pagination-item-link, .ant-pagination-disabled:focus .ant-pagination-item-link {
@@ -650,4 +653,8 @@ nz-header .ant-badge-count {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }

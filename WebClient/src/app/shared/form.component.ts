@@ -112,19 +112,19 @@ export class FormComponent extends BaseComponent {
         this.form = this.fb.group(controlsConfig);
     }
 
-    validateForm(fn: () => void) {
+    validateForm(fn?: () => void) {
         this.busy();
         for (const i in this.form.controls) {
             this.form.controls[i].markAsDirty();
             this.form.controls[i].updateValueAndValidity();
         }
         if (this.form.valid) {
-
             this.invoke(fn);
         }
         else {
             this.busy(false);
         }
+        return this.form.valid;
     }
 
     submitForm(createOptions: IRequestOptions, updateOptions: IRequestOptions) {

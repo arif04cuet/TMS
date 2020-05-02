@@ -46,4 +46,15 @@ export class LibraryHttpService {
         return this.httpService.put(`libraries/${id}`, body);
     }
 
+    public listFines(pagination = null, search = null) {
+        let url = 'libraries/fines?'
+        if(pagination){
+            url += pagination
+        }
+        if(search) {
+            url += search
+        }
+        return this.httpService.get(url);
+    }
+
 }

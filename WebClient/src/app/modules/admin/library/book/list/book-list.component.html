@@ -25,6 +25,7 @@
                 [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
+                        <th></th>
                         <th>
                             {{'isbn'|translate}}
                             <input [(ngModel)]="isbn" nz-input />
@@ -72,6 +73,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
+                        <td class="fit-cell">
+                            <nz-avatar [nzSrc]="data.photo" *ngIf="data.photo" nzSize="large"></nz-avatar>
+                            <nz-avatar *ngIf="!data.photo" nzSize="large" nzIcon="user"></nz-avatar>
+                        </td>
                         <td>{{ data.isbn }}</td>
                         <td>{{ data.title }}</td>
                         <td>{{ data.author?.name }}</td>

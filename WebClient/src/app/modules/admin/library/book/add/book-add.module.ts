@@ -12,6 +12,7 @@ import { CommonHttpService } from 'src/services/http/common-http.service';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
+import { PhotoUploadModule } from 'src/app/shared/photo.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SubjectHttpService } from 'src/services/http/subject-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    PhotoUploadModule
   ],
   exports: [BookAddComponent],
   providers: [

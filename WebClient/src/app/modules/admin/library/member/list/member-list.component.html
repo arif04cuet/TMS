@@ -37,9 +37,7 @@
                 [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>
-                            <!-- {{'photo'|translate}} -->
-                        </th>
+                        <!-- <th></th> -->
                         <th>
                             {{'name'|translate}}
                             <input [(ngModel)]="name" nz-input />
@@ -79,10 +77,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td class="fit-cell">
+                        <!-- <td class="fit-cell">
                             <nz-avatar nzSize="large" nzIcon="user">
                             </nz-avatar>
-                        </td>
+                        </td> -->
                         <td>{{ data.fullName }}</td>
                         <td>{{ data.library?.name }}</td>
                         <td>{{ data.mobile }}</td>

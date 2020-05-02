@@ -5,7 +5,6 @@ import { forkJoin, of } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { BookHttpService } from 'src/services/http/user/book-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 
 @Component({
@@ -15,15 +14,12 @@ import { LibraryMemberHttpService } from 'src/services/http/library-member-http.
 export class BookItemIssueComponent extends FormComponent {
 
   loading: boolean = true;
-
-  members = [];
   cards = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private bookHttpService: BookHttpService,
     private libraryMemberHttpService: LibraryMemberHttpService,
-    private commonHttpService: CommonHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -36,11 +32,11 @@ export class BookItemIssueComponent extends FormComponent {
       title: [null, [], this.v.required.bind(this)],
       book: [],
       bookItem: [],
-      member: [null, [], this.v.required.bind(this)],
       issueDate: [null, [], this.v.required.bind(this)],
       returnDate: [null, [], this.v.required.bind(this)],
       card: [null, [], this.v.required.bind(this)],
-      note: []
+      note: [],
+      sendEmail: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
     this.setValue('issueDate', new Date());
@@ -89,19 +85,11 @@ export class BookItemIssueComponent extends FormComponent {
 
   getData() {
     const requests = [
-      this.libraryMemberHttpService.list()
+      this.libraryMemberHttpService.cards()
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {
-        this.members = res[0].data.items;
-      }
-    );
-  }
-
-  onMemberChange(e) {
-    this.subscribe(this.libraryMemberHttpService.cards(e),
-      (res: any) => {
-        this.cards = res.data.items;
+        this.cards = res[0].data.items;
       }
     );
   }
