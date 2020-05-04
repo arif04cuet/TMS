@@ -1,0 +1,27 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div *ngIf="!loading">
+    <div class="pad-l-10">
+        <nz-table #basicTable [nzData]="item.seatList">
+            <thead>
+                <tr class="v-align-top advanced-table-filter">
+                    <th>{{'name'|translate}}</th>
+                    <th>{{'user'|translate}}</th>
+                    <th>{{'date'|translate}}</th>
+                    <th>{{'action'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of item.seatList">
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.issuedToUser ? data.issuedToUser.name:''}}</td>
+                    <td>{{ data.issueDate}}</td>
+                    <td>
+                        <button *ngIf="data.issuedToUserId" nz-button nzType="primary">Checkin</button>
+                        <button *ngIf="!data.issuedToUserId" nz-button nzType="default">Checkout</button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

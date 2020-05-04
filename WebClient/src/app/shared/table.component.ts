@@ -1,5 +1,6 @@
 import { BaseComponent } from './base.component';
 import { getSearchableProperties } from 'src/decorators/searchable.decorator';
+import { Observable } from 'rxjs';
 
 export class TableComponent extends BaseComponent {
 
@@ -64,23 +65,33 @@ export class TableComponent extends BaseComponent {
         return "";
     }
 
-    load(e?) {
+    load(fn?: (pagination: string, search: string) => Observable<Object>) {
         let offset = 0;
-        if(this.pageIndex > 1) {
+        if (this.pageIndex > 1) {
             offset = (this.pageSize * this.pageIndex) - this.pageSize;
         }
         const pagination = `offset=${offset}&limit=${this.pageSize}`;
         let search = this.getSearchTerms();
         this.loading = true;
-        this.subscribe(this.service.list(pagination, search),
-            (res: any) => {
-                this.fill(res);
-            },
-            err => {
-                console.log(err);
-                this.loading = false;
-            }
-        );
+        let listFn;
+        if (fn) {
+            listFn = fn(pagination, search);
+        }
+        else if (this.service && this.service.list) {
+            listFn = this.service.list(pagination, search);
+        }
+        if (listFn) {
+            this.subscribe(listFn,
+                (res: any) => {
+                    this.fill(res);
+                    this.loading = false;
+                },
+                err => {
+                    console.log(err);
+                    this.loading = false;
+                }
+            );
+        }
     }
 
     pageIndexChanged(pageIndex) {

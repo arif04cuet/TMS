@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Module.Asset.Entities;
 
-
 namespace Module.Asset.Data
 {
     public class LicenseResource
@@ -14,35 +13,26 @@ namespace Module.Asset.Data
         public string LicenseToName { get; set; }
         public string LicenseToEmail { get; set; }
         public DateTime PurchaseDate { get; set; }
-        public Double PurchaseCost { get; set; }
+        public double PurchaseCost { get; set; }
         public DateTime ExpireDate { get; set; }
-
         public string Note { get; set; }
-
         public long CategoryId { get; set; }
-
         public virtual Category Category { get; set; }
         public long ManufacturerId { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
         public long SupplierId { get; set; }
         public virtual Supplier Supplier { get; set; }
-
         public long LocationId { get; set; }
 
         //public virtual Office Location { get; set; }
         public long DepreciationId { get; set; }
-
         public virtual Depreciation Depreciation { get; set; }
-
         public List<LicenseSeat> SeatList { get; set; }
-
         public bool IsActive { get; set; }
-
 
         public License ToMap(License license = null)
         {
-            var entity = license != null ? license : new License { };
-
+            var entity = license ?? new License();
             entity.Name = Name;
             entity.ProductKey = ProductKey;
             entity.Seats = Seats;
@@ -60,8 +50,6 @@ namespace Module.Asset.Data
             entity.SupplierId = SupplierId;
             entity.LocationId = LocationId;
             entity.DepreciationId = DepreciationId;
-
-
             return entity;
         }
 

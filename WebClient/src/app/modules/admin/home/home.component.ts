@@ -158,44 +158,48 @@ export class HomeComponent extends BaseComponent {
         title: 'asset.management',
         icon: 'team',
         nav: [
-
           {
             level: 2,
             title: 'license',
             route: '/admin/asset/licenses',
             icon: 'user'
           },
-
           {
             level: 2,
-            title: 'supplier',
-            route: '/admin/asset/suppliers',
-            icon: 'user'
-          },
-          {
-            level: 2,
-            title: 'depreciation',
-            route: '/admin/asset/depreciations',
-            icon: 'user'
-          },
-
-          {
-            level: 2,
-            title: 'manufacturer',
-            route: '/admin/asset/manufacturers',
-            icon: 'user'
-          },
-          {
-            level: 2,
-            title: 'status',
-            route: '/admin/asset/statuses',
-            icon: 'user'
-          },
-          {
-            level: 2,
-            title: 'category',
-            route: '/admin/asset/categories',
-            icon: 'user'
+            title: 'settings',
+            icon: 'setting',
+            nav: [
+              {
+                level: 3,
+                title: 'supplier',
+                route: '/admin/asset/suppliers',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'depreciation',
+                route: '/admin/asset/depreciations',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'manufacturer',
+                route: '/admin/asset/manufacturers',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'status',
+                route: '/admin/asset/statuses',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'category',
+                route: '/admin/asset/categories',
+                icon: 'user'
+              }
+            ]
           }
         ]
       }

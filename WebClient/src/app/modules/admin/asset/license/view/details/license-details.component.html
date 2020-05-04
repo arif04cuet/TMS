@@ -1,0 +1,93 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div *ngIf="!loading">
+    <div class="pad-l-10 block">
+        <nz-table [nzData]="[{}]" nzShowPagination="false">
+            <tbody>
+                <tr>
+                    <td>{{ 'manufacturer'|translate}}</td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>{{item.manufacturer.name}}</td>
+                            </tr>
+                            <tr>
+                                <td><i nz-icon nzType="link" nzTheme="outline"></i><a
+                                        href="{{item.manufacturer.url}}">{{item.manufacturer.url}}</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i nz-icon nzType="link" nzTheme="outline"></i><a
+                                        href="{{item.manufacturer.supportUrl}}">{{item.manufacturer.supportUrl}}</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i nz-icon nzType="phone" nzTheme="outline"></i>{{item.manufacturer.supportPhone}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i nz-icon nzType="mail" nzTheme="outline"></i>{{item.manufacturer.supportEmai}}
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'product_key'|translate}}</td>
+                    <td>{{item.productKey}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'category'|translate}}</td>
+                    <td>{{item.category.name}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ 'licensed_to_name'|translate}}</td>
+                    <td>{{item.licenseToName}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ 'licensed_to_email'|translate}}</td>
+                    <td>{{item.licenseToEmail}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ 'supplier'|translate}}</td>
+                    <td>{{item.supplier.name}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ 'purchase_cost'|translate}}</td>
+                    <td>{{item.purchaseCost}} {{'tk'|translate}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ 'purchase_date'|translate}}</td>
+                    <td>{{item.purchaseDate|date}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ 'expire_date'|translate}}</td>
+                    <td>{{item.expireDate|date}}</td>
+                </tr>
+
+
+                <tr>
+                    <td>{{ 'order_number'|translate}}</td>
+                    <td>{{item.orderNumber}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ 'seats'|translate}}</td>
+                    <td>{{item.seats}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ 'note'|translate}}</td>
+                    <td>{{item.note}}</td>
+                </tr>
+
+            </tbody>
+        </nz-table>
+    </div>
+</div>

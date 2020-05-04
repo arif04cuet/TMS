@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
-import { forkJoin } from 'rxjs';
 import { LicenseHttpService } from 'src/services/http/asset/license-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 
@@ -20,7 +18,6 @@ export class LicenseListComponent extends TableComponent {
   @Searchable("ProductKey", "like") ProductKey;
   @Searchable("IsActive", "eq") IsActive;
 
-
   constructor(
     private licenseHttpService: LicenseHttpService,
     private activatedRoute: ActivatedRoute
@@ -29,14 +26,11 @@ export class LicenseListComponent extends TableComponent {
   }
 
   ngOnInit() {
-
     this.statuses = this.licenseHttpService.getStatus();
-
     this.snapshot(this.activatedRoute.snapshot);
-    this.gets();
-
+    this.load();
     this.onDeleted = (res: any) => {
-      this.gets();
+      this.load();
     }
   }
 
@@ -55,32 +49,13 @@ export class LicenseListComponent extends TableComponent {
     }
   }
 
-
-  gets(pagination = null, search = null) {
-    this.loading = true;
-    const request = [
-      this.licenseHttpService.list(pagination, search)
-    ]
-    this.subscribe(forkJoin(request),
-      (res: any) => {
-        console.log(res);
-        this.fill(res[0]);
-      },
-      err => {
-        console.log(err);
-        this.loading = false;
-      }
-    );
-
-  }
-
   search() {
-    this.gets(null, this.getSearchTerms())
+    this.load();
   }
 
   refresh() {
     this.resetFilters();
-    this.gets(null, null);
+    this.load();
   }
 
   resetFilters() {

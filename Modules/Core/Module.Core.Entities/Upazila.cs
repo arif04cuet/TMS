@@ -7,20 +7,27 @@ namespace Module.Core.Entities
     [Table(nameof(Upazila), Schema = SchemaConstants.Core)]
     public class Upazila : IdNameEntity
     {
-
+        public string BnName { get; set; }
         public long? DivisionId { get; set; }
         public Division Division { get; set; }
 
         public long? DistrictId { get; set; }
         public District District { get; set; }
 
-        public Upazila()
+        public Upazila() : base()
         {
 
         }
 
-        public Upazila(long id, string name)
+        public Upazila(long id, string name) : base(id, name)
         {
+        }
+
+        public Upazila(long id, long? districtId, long? divistionId, string name, string bnName) : base(id, name)
+        {
+            DistrictId = districtId;
+            DivisionId = divistionId;
+            BnName = bnName;
         }
     }
 }

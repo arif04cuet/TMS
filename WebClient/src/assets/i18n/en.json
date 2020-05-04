@@ -192,5 +192,8 @@
     "notify.user.via.email.about.this.issue": "Notify user via email about this issue",
     "notification": "Notification",
     "book.catalog": "Book catalog",
-    "offices": "Offices"
+    "offices": "Offices",
+    "location": "Location",
+    "history": "History",
+    "checkin": "Checkin"
 }

@@ -66,7 +66,6 @@ export class AssetBaseHttpService {
         return this.httpService.get(url);
     }
 
-
     public getStatus() {
 
         var status = [

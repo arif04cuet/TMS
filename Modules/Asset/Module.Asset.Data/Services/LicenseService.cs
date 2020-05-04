@@ -191,7 +191,6 @@ namespace Module.Asset.Data
         public async Task<long> CreateSeats(License license, CancellationToken ct = default)
         {
             List<LicenseSeat> items = new List<LicenseSeat>();
-
             for (int i = 0; i < license.Seats; i++)
             {
                 items.Add(new LicenseSeat
@@ -202,7 +201,6 @@ namespace Module.Asset.Data
             }
             await _seatRepository.AddRangeAsync(items, ct);
             var result = await _unitOfWork.SaveChangesAsync(ct);
-
             return result;
         }
     }
