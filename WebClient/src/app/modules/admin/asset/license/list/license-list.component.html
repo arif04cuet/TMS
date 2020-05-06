@@ -75,7 +75,7 @@
                         <td>{{ data.isActive ? 'Active':'In Active' }}</td>
 
                         <td class="action-column fit-cell">
-                            <button class="btn-custom" nz-button nzType="primary">{{'checkin'|translate}}</button>
+                            <button class="btn-custom" nz-button nzType="primary" (click)="checkout(data)">{{'checkout'|translate}}</button>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
                                 <i nz-icon nzType="ellipsis"></i>

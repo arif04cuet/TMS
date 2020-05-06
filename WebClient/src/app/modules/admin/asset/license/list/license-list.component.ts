@@ -49,6 +49,12 @@ export class LicenseListComponent extends TableComponent {
     }
   }
 
+  checkout(model = null) {
+    if (model) {
+      this.goTo(`/admin/asset/licenses/${model.id}/checkout`);
+    }
+  }
+
   search() {
     this.load();
   }

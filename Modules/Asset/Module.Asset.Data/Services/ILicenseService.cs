@@ -19,5 +19,7 @@ namespace Module.Asset.Data
         Task<LicenseViewModel> GetDetails(long Id, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<LicenseViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+        
+        Task<bool> CheckoutAsync(LicenseCheckoutRequest request, CancellationToken cancellationToken = default);
     }
 }

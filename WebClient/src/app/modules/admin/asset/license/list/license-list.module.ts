@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LicenseListRoutingModule } from './license-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LicenseHttpService } from 'src/services/http/asset/license-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { LicenseHttpService } from 'src/services/http/asset/license-http.service
   ],
   exports: [LicenseListComponent],
   providers: [
-    LicenseHttpService
+    LicenseHttpService,
+    UserHttpService
   ]
 })
 export class LicenseListModule { }

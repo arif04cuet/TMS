@@ -11,6 +11,6 @@ export class LicenseHttpService extends AssetBaseHttpService {
     }
 
     public checkout(id: number, body) {
-        return this.httpService.put(this.AssetBaseUri + '/' + this.EndPoint + '/' + `${id}`, body);
+        return this.httpService.put(this.AssetBaseUri + '/' + this.EndPoint + '/' + `${id}` + '/checkout', body);
     }
 }

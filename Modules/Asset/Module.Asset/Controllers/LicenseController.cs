@@ -57,6 +57,14 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
+        [HttpPut("{id}/checkout")]
+        public async Task<IActionResult> Checkout(long id, [FromBody] LicenseCheckoutRequest request)
+        {
+            request.Id = id;
+            var result = await _service.CheckoutAsync(request);
+            return result.ToOkResult();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {

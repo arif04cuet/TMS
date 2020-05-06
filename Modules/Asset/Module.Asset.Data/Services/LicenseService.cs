@@ -3,8 +3,10 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
 using Module.Core.Shared;
+using Msi.UtilityKit;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -18,6 +20,7 @@ namespace Module.Asset.Data
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<License> _repository;
         private readonly IRepository<LicenseSeat> _seatRepository;
+        private readonly IRepository<CheckoutHistory> _checkoutHistoryRepository;
 
         public LicenseService(
             IUnitOfWork unitOfWork)
@@ -25,6 +28,7 @@ namespace Module.Asset.Data
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetRepository<License>();
             _seatRepository = _unitOfWork.GetRepository<LicenseSeat>();
+            _checkoutHistoryRepository = _unitOfWork.GetRepository<CheckoutHistory>();
 
         }
 
@@ -45,14 +49,17 @@ namespace Module.Asset.Data
 
         public async Task<bool> UpdateAsync(LicenseUpdateRequest request, CancellationToken cancellationToken = default)
         {
-            License entity = await _repository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
+            var entity = await _repository.Where(x => x.Id == request.Id && !x.IsDeleted).Include(x=>x.LicenseSeats).FirstOrDefaultAsync();
 
             if (entity == null)
                 throw new NotFoundException($"License not found");
 
-            entity = request.ToMap(entity);
+            await UpdateSeats(entity, request.Seats);
 
+            entity = request.ToMap(entity);
+            entity.Available = entity.LicenseSeats.Count(ls => ls.IssuedToUserId == null && ls.IssuedToAssetId == null && !ls.IsDeleted);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
             return result > 0;
         }
 
@@ -115,7 +122,7 @@ namespace Module.Asset.Data
                 .Include(x => x.Supplier)
                 .Include(x => x.Location)
                 .Include(x => x.Depreciation)
-                .Include(x => x.LicenseSeats)
+                .Include(x => x.LicenseSeats).ThenInclude(x => x.IssuedToUser)
                 .Select(x => new LicenseViewModel
                 {
                     Id = x.Id,
@@ -139,7 +146,7 @@ namespace Module.Asset.Data
                     LocationId = x.LocationId,
                     DepreciationId = x.DepreciationId,
                     Depreciation = x.Depreciation,
-                    SeatList = x.LicenseSeats
+                    SeatList = x.LicenseSeats.Where(ls=>!ls.IsDeleted).ToList()
 
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -166,6 +173,7 @@ namespace Module.Asset.Data
                     Name = x.Name,
                     ProductKey = x.ProductKey,
                     Seats = x.Seats,
+                    Available = (int)x.Available,
                     OrderNumber = x.OrderNumber,
                     LicenseToName = x.LicenseToName,
                     LicenseToEmail = x.LicenseToEmail,
@@ -203,5 +211,73 @@ namespace Module.Asset.Data
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result;
         }
+
+        public async Task UpdateSeats(License license, int requestedSeats, CancellationToken ct = default)
+        {
+            List<LicenseSeat> licenseSeats = license.LicenseSeats.Where(ls =>!ls.IsDeleted).ToList();
+            if (licenseSeats.Count < requestedSeats)
+            {
+                List<LicenseSeat> items = new List<LicenseSeat>();
+                for (int i = 1; i <= (requestedSeats - licenseSeats.Count); i++)
+                {
+                    items.Add(new LicenseSeat
+                    {
+                        Name = "Seat " + (licenseSeats.Count + i),
+                        LicenseId = license.Id
+                    });
+                }
+                await _seatRepository.AddRangeAsync(items, ct);
+            }
+            else if(licenseSeats.Count > requestedSeats)
+            {
+                var availableToDelete = licenseSeats.Count(ls => ls.IssuedToUserId == null);
+                var requestedToDelete = (licenseSeats.Count - requestedSeats);
+                
+                if (availableToDelete < requestedToDelete)
+                {
+                    throw new Exception("This license is currently checked out to a user and cannot be deleted. Please check the license in first, and then try deleting again.");
+                }
+                else
+                {
+                    licenseSeats = licenseSeats.OrderByDescending(ls => ls.Id).Take(requestedToDelete).ToList();
+                    foreach(LicenseSeat licenseSeat in licenseSeats)
+                    {
+                        licenseSeat.IsDeleted = true;
+                    }
+                }
+            }
+            await _unitOfWork.SaveChangesAsync(ct);
+        }
+
+        public async Task<bool> CheckoutAsync(LicenseCheckoutRequest request, CancellationToken cancellationToken = default)
+        {
+            var entity = await _repository.Where(x => x.Id == request.Id && !x.IsDeleted).Include(x => x.LicenseSeats).FirstOrDefaultAsync();
+
+            if (entity == null)
+                throw new NotFoundException($"License not found");
+
+            var availableLicenceSeat = entity.LicenseSeats.FirstOrDefault(ls => ls.IssuedToUserId == null && ls.IssuedToAssetId == null && !ls.IsDeleted);
+            
+            if(availableLicenceSeat != null)
+            {
+                availableLicenceSeat.IssuedToUserId = request.IssuedToUserId;
+                entity.Available = entity.Available - 1;
+
+                //create history
+                var newEntity = request.ToMap();
+                newEntity.TargetType = AssetType.Users;
+                newEntity.ItemType = AssetType.Seats;
+                newEntity.ItemId = availableLicenceSeat.Id;
+                await _checkoutHistoryRepository.AddAsync(newEntity, cancellationToken);
+            }
+            else
+            {
+                throw new NotFoundException($"License Seat not found");
+            }
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return result > 0;
+        }
+
     }
 }

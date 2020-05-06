@@ -195,5 +195,7 @@
     "offices": "Offices",
     "location": "Location",
     "history": "History",
-    "checkin": "Checkin"
+    "checkin": "Checkin",
+    "checkout": "Checkout",
+    "checkout.a.x0": "Checkout a {{x0}}"
 }

@@ -6,6 +6,7 @@ namespace Module.Asset.Entities
         Accessories = 2,
         Consumables = 3,
         Components = 4,
-        Users = 5
+        Users = 5,
+        Seats = 6
     }
 }
