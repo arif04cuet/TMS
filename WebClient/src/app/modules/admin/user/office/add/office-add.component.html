@@ -23,7 +23,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'name'|translate}}</label>
+                                    <label class="required">{{'name'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="text" nz-input formControlName="officeName"
@@ -43,7 +43,7 @@
                             </nz-form-item>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control #districtSelect label="district" [formControl]="form.controls.district">
+                            <app-select-control required="true" #districtSelect label="district" [formControl]="form.controls.district">
                             </app-select-control>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'address.line.x0'|translate:{x0: 1} }}</label>
+                                    <label class="required">{{'address.line.x0'|translate:{x0: 1} }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="text" nz-input formControlName="addressLine1"
@@ -60,11 +60,11 @@
                             </nz-form-item>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control #divisionSelect label="division" [formControl]="form.controls.division">
+                            <app-select-control required="true" #divisionSelect label="division" [formControl]="form.controls.division">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control #upazilaSelect label="upazila" [formControl]="form.controls.upazila">
+                            <app-select-control required="true" #upazilaSelect label="upazila" [formControl]="form.controls.upazila">
                             </app-select-control>
                         </div>
                     </div>

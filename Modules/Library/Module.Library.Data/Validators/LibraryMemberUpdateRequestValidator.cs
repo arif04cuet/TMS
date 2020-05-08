@@ -12,7 +12,7 @@ namespace Module.Library.Data.Validators
         {
             _unitOfWork = unitOfWork;
 
-            RuleFor(x => x).SetValidator(r => new LibraryMemberCreateRequestValidator(_unitOfWork, r.Id));
+            RuleFor(x => x).SetValidator(r => new LibraryMemberCreateRequestValidator(_unitOfWork, r.UserId));
 
         }
 

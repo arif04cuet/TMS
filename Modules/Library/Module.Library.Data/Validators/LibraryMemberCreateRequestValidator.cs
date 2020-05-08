@@ -14,7 +14,10 @@ namespace Module.Library.Data.Validators
         {
             _unitOfWork = unitOfWork;
 
-            RuleFor(x => x.Email).Email(_unitOfWork, ignoreUserId);
+            if(!ignoreUserId.HasValue)
+            {
+                RuleFor(x => x.Email).Email(_unitOfWork, ignoreUserId);
+            }
             RuleFor(x => x.Mobile).Mobile(_unitOfWork, ignoreUserId);
 
         }

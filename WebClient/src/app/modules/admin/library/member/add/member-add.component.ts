@@ -21,6 +21,8 @@ export class MemberAddComponent extends FormComponent {
   statuses = [];
   cards = [];
 
+  private data: any = {}
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private commonHttpService: CommonHttpService,
@@ -51,6 +53,9 @@ export class MemberAddComponent extends FormComponent {
 
   submit(): void {
     const body: any = this.constructObject(this.form.controls);
+    if (this.isEditMode()) {
+      body.userId = Number(this.data.userId);
+    }
     this.submitForm(
       {
         request: this.libraryMemberHttpService.add(body),
@@ -75,13 +80,14 @@ export class MemberAddComponent extends FormComponent {
       this.form.controls.email.disable();
       this.subscribe(this.libraryMemberHttpService.get(id),
         (res: any) => {
+          this.data = res.data;
           this.setValues(this.form.controls, res.data);
           const card = res.data.card;
-          if(card) {
-            this.cards.push({id: card.id, name: card.barcode});
+          if (card) {
+            this.cards.push({ id: card.id, name: card.barcode });
             this.setValue('cardId', card.id);
             this.setValue('cardExpireDate', card.expireDate);
-            if(this.form.controls.cardId) {
+            if (this.form.controls.cardId) {
               this.form.controls.cardId.disable();
             }
           }

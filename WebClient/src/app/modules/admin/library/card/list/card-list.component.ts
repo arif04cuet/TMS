@@ -39,7 +39,7 @@ export class CardListComponent extends TableComponent {
   }
 
   search() {
-    this.load()
+    this.load();
   }
 
 }
