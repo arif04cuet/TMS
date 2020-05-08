@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
 using Infrastructure.Data;
-using Module.Core.Entities;
 using Module.Core.Shared;
-using System.Threading.Tasks;
 
 using static Module.Core.Shared.MessageConstants;
 
@@ -21,11 +19,12 @@ namespace Module.Core.Data.Validators
 
             if (options == null || !options.IgnoreEmailValidation)
             {
-                RuleFor(x => x.Email).Email(_unitOfWork);
+                RuleFor(x => x.Email).Null().Email(_unitOfWork, null);
             }
 
-            RuleFor(x => x.EmployeeId).EmployeeId(_unitOfWork);
-            RuleFor(x => x.Mobile).Mobile(_unitOfWork);
+            RuleFor(x => x.EmployeeId).EmployeeId(_unitOfWork, options.IgnoreUserId);
+
+            RuleFor(x => x.Mobile).Mobile(_unitOfWork, options.IgnoreUserId);
 
             RuleFor(x => x.Password)
                 .NotEmpty().NotNull().When(x => string.IsNullOrEmpty(x.Password) && options != null && !options.IgnoreEmailValidation)
@@ -42,6 +41,6 @@ namespace Module.Core.Data.Validators
     {
         public bool AllowEmptyPassword { get; set; }
         public bool IgnoreEmailValidation { get; set; }
-        public bool IsUpdateMode { get; set; }
+        public long? IgnoreUserId { get; set; }
     }
 }

@@ -58,16 +58,19 @@ export class UserAddComponent extends FormComponent {
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
-    if(this.mode == 'add') {
-      this.addEditTitle = await this.t('create.a.x0', {x0: 'user'});
+    if (this.mode == 'add') {
+      this.addEditTitle = await this.t('create.a.x0', { x0: 'user' });
     }
     else if (this.mode == 'edit') {
-      this.addEditTitle = await this.t('update.a.x0', {x0: 'user'});
+      this.addEditTitle = await this.t('update.a.x0', { x0: 'user' });
     }
   }
 
   submit(): void {
     const body: any = this.constructObject(this.form.controls);
+    if (this.id) {
+      body.id = Number(this.id);
+    }
     const permissions = this.getPermissions();
     if (permissions && permissions.length > 0) {
       body.permissions = permissions;

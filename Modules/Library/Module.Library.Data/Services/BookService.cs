@@ -371,7 +371,7 @@ namespace Module.Library.Data
             if (card.CardStatusId != LibraryCardStatusConstants.Active)
                 throw new ValidationException($"Card is {card.CardStatus.Name}");
 
-            if (card.Member.StatusId != StatusConstants.Active || card.Member.StatusId != StatusConstants.Approved)
+            if (!(card.Member.StatusId == StatusConstants.Active || card.Member.StatusId == StatusConstants.Approved))
                 throw new ValidationException($"Member is {card.Member.Status.Name}");
 
             // check if already issued to this user
@@ -567,7 +567,8 @@ namespace Module.Library.Data
             var query = _bookIssueRepository
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions);
+                .ApplySearch(searchOptions)
+                .OrderByDescending(x => x.IssueDate);
 
             var result = await query
                 .Select(x => new BookIssueListViewModel

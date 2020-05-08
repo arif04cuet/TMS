@@ -34,18 +34,17 @@ export class IssueListComponent extends TableComponent {
     this.gets();
   }
 
-  gets(pagination = null, search = null) {
+  gets() {
+    this.load();
     this.loading = true;
     const request = [
-      this.bookHttpService.listIssues(pagination, search),
       this.authorHttpService.list(),
       this.libraryMemberHttpService.list(),
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
-        this.fill(res[0]);
-        this.authors = res[1].data.items;
-        this.members = res[2].data.items;
+        this.authors = res[0].data.items;
+        this.members = res[1].data.items;
       },
       err => {
         console.log(err);
@@ -55,11 +54,17 @@ export class IssueListComponent extends TableComponent {
   }
 
   refresh() {
-    this.gets(null, this.getSearchTerms());
+    this.load();
   }
 
   search() {
-    this.gets(null, this.getSearchTerms())
+    this.load();
+  }
+
+  load() {
+    super.load((p, s) => {
+      return this.bookHttpService.listIssues(p, s);
+    });
   }
 
 }

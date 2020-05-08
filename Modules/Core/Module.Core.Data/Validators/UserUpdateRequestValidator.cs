@@ -8,13 +8,15 @@ namespace Module.Core.Data.Validators
     {
         public UserUpdateRequestValidator(IUnitOfWork unitOfWork)
         {
-            var validator = new UserCreateRequestValidator(unitOfWork, new UserCreateRequestValidatorOptions
+            RuleFor(x => x).SetValidator(request =>
             {
-                AllowEmptyPassword = true,
-                IgnoreEmailValidation = true
+                return new UserCreateRequestValidator(unitOfWork, new UserCreateRequestValidatorOptions
+                {
+                    AllowEmptyPassword = true,
+                    IgnoreEmailValidation = true,
+                    IgnoreUserId = request.Id
+                });
             });
-
-            RuleFor(x => x).SetValidator(validator);
 
         }
 
