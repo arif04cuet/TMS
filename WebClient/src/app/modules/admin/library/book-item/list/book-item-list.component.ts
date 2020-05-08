@@ -46,32 +46,34 @@ export class BookItemListComponent extends TableComponent {
     }
   }
 
-  gets(pagination = null, search = null) {
+  gets() {
+    this.load();
     this.loading = true;
     const request = [
-      this.bookHttpService.listBookItems(pagination, search),
       this.authorHttpService.list(),
       this.publisherHttpService.list(),
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
-        this.fill(res[0]);
-        this.authors = res[1].data.items;
-        this.publishers = res[2].data.items;
+        this.authors = res[0].data.items;
+        this.publishers = res[1].data.items;
       },
       err => {
-        console.log(err);
         this.loading = false;
       }
     );
   }
 
   refresh() {
-    this.gets(null, this.getSearchTerms());
+    this.load();
   }
 
   search() {
-    this.gets(null, this.getSearchTerms())
+    this.load();
+  }
+
+  load() {
+    super.load((p, s) => this.bookHttpService.listBookItems(p, s))
   }
 
   issue(item) {

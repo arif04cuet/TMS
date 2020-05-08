@@ -212,5 +212,6 @@
     "available": "Available",
     "consumable": "Consumable",
     "component": "Component",
-    "in.english": "(in english)"
+    "in.english": "(in english)",
+    "division": "Division"
 }

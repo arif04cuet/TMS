@@ -6,10 +6,10 @@
             <div class="header-container">
                 <span class="header">
                     <span *ngIf="mode=='add'">
-                        {{ 'create.a.x0'|translate:{x0: 'designation'|translate|lowercase} }}
+                        {{ 'create.a.x0'|translate:{x0: 'department'|translate|lowercase} }}
                     </span>
                     <span *ngIf="mode=='edit'">
-                        {{ 'update.a.x0'|translate:{x0: 'designation'|translate|lowercase} }}
+                        {{ 'update.a.x0'|translate:{x0: 'department'|translate|lowercase} }}
                     </span>
                 </span>
             </div>
@@ -23,7 +23,7 @@
                     <div nz-col [nzSpan]="12">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'name'|translate}}</label>
+                                <label class="required">{{'name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="name"

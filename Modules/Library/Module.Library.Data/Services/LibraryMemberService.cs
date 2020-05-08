@@ -263,7 +263,19 @@ namespace Module.Library.Data
                 user.Password = request.Password.HashPassword();
             }
 
-            if (member.CurrentCard != null)
+            if(member.CurrentCardId == null)
+            {
+                var card = await _libraryCardRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.CardId && !x.IsDeleted && x.MemberId == null);
+
+                if (card == null)
+                    throw new ValidationException(LIBRARY_CARD_NOT_FOUND);
+
+                card.MemberId = user.Id;
+                card.ExpireDate = request.CardExpireDate;
+                member.CurrentCardId = card.Id;
+            }
+            else
             {
                 member.CurrentCard.ExpireDate = request.CardExpireDate;
             }

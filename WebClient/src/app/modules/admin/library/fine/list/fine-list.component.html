@@ -58,7 +58,7 @@
                         <td>{{ data.dueAmount > 0 ? data.dueAmount : '-' }}</td>
                         <td>{{ data.paidAmount > 0 ? data.paidAmount : '-' }}</td>
                         <td>{{ data.totalAmount }}</td>
-                        <td>{{ data.paymentDate|date }}</td>
+                        <td>{{ data.paymentDate|date:'medium':'+0000' }}</td>
                     </tr>
                 </tbody>
             </nz-table>

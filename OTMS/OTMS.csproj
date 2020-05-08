@@ -40,6 +40,9 @@
     <ProjectReference Include="..\Modules\Library\Module.Library.Data\Module.Library.Data.csproj" />
     <ProjectReference Include="..\Modules\Library\Module.Library.Entities\Module.Library.Entities.csproj" />
     <ProjectReference Include="..\Modules\Library\Module.Library\Module.Library.csproj" />
+    <ProjectReference Include="..\Modules\Training\Module.Training.Data\Module.Training.Data.csproj" />
+    <ProjectReference Include="..\Modules\Training\Module.Training.Entities\Module.Training.Entities.csproj" />
+    <ProjectReference Include="..\Modules\Training\Module.Training\Module.Training.csproj" />
     <ProjectReference Include="..\Msi.UtilityKit\Msi.UtilityKit.csproj" />
   </ItemGroup>
 
