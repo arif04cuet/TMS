@@ -25,6 +25,6 @@ namespace Module.Core.Data
 
         string GetFullUrl(string fileName);
 
-        Task<bool> UseAsync(long mediaId, bool value = true);
+        Task<bool> UseAsync(long? mediaId, bool value = true);
     }
 }

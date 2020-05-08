@@ -2,9 +2,11 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Msi.UtilityKit;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,38 +19,37 @@ namespace Infrastructure.Data.EFCore
         private readonly Dictionary<Type, object> _repositories;
         private readonly IDbContextTransaction _transaction;
         private readonly IDbConnection _dbConnection;
+        private readonly DbContext _dbContext;
 
-        public UnitOfWork(IDataContext dataContext)
+        public UnitOfWork(
+            IDataContext dataContext)
         {
             if (!(dataContext is DbContext))
                 throw new ArgumentException($"The {nameof(dataContext)} object must be an instance of the Microsoft.EntityFrameworkCore.DbContext class.");
 
             _transaction = (dataContext as DbContext).Database.BeginTransaction();
             _dataContext = dataContext;
+            _dbContext = _dataContext as DbContext;
             _repositories = new Dictionary<Type, object>();
-            _dbConnection = (_dataContext as DbContext).Database.GetDbConnection();
+            _dbConnection = _dbContext.Database.GetDbConnection();
         }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-
-            //var entries = _dataContext.GetChangeTrackerEntities<BaseEntity>().ToArray();
-
-            //foreach (var entry in entries)
-            //{
-            //if (entry.State == EntityState.Modified)
-            //{
-            //    entry.Entity.SetValue(DateTime.UtcNow, "UpdatedAt");
-            //}
-            //if (entry.State == EntityState.Added)
-            //{
-            //    entry.Entity.SetValue(DateTime.UtcNow, "CreatedAt");
-            //    entry.Entity.SetValue(DateTime.UtcNow, "UpdatedAt");
-            //}
-            //}
-
-            var result = (_dataContext as DbContext).SaveChangesAsync(cancellationToken);
-
+            var entries = _dbContext.ChangeTracker.Entries<BaseEntity>().ToArray();
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                }
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedAt = DateTime.UtcNow;
+                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                }
+            }
+            var result = _dbContext.SaveChangesAsync(cancellationToken);
             return result;
         }
 
@@ -76,6 +77,11 @@ namespace Infrastructure.Data.EFCore
             }
         }
 
+        public Task RollBackAsync(CancellationToken cancellationToken = default)
+        {
+            return _transaction.RollbackAsync(cancellationToken);
+        }
+
         public IDbConnection GetConnection()
         {
             return new SqlConnection(_dbConnection.ConnectionString);
@@ -84,7 +90,7 @@ namespace Infrastructure.Data.EFCore
         public void Dispose()
         {
             //_dbConnection.Dispose();
-            (_dataContext as DbContext).Dispose();
+            _dbContext.Dispose();
             _transaction.Dispose();
         }
     }

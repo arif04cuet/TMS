@@ -196,6 +196,39 @@ const routes: Routes = [
         }
       },
       {
+        path: 'asset/accessories',
+        loadChildren: () => import('../asset/accessory/list/accessory-list.module').then(x => x.AccessoryListModule),
+        data: {
+          name: 'accessory_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'accessory'
+          }
+        }
+      },
+      {
+        path: 'asset/consumables',
+        loadChildren: () => import('../asset/consumable/list/consumable-list.module').then(x => x.ConsumableListModule),
+        data: {
+          name: 'consumable_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'consumable'
+          }
+        }
+      },
+      {
+        path: 'asset/components',
+        loadChildren: () => import('../asset/component/list/component-list.module').then(x => x.ComponentListModule),
+        data: {
+          name: 'component_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'component'
+          }
+        }
+      },
+      {
         path: 'asset/suppliers',
         loadChildren: () => import('../asset/supplier/list/supplier-list.module').then(x => x.SupplierListModule),
         data: {

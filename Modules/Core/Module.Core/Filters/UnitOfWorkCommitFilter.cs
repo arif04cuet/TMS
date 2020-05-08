@@ -11,7 +11,7 @@ namespace Module.Core.Filters
         {
             var result = await next();
 
-            if(context.HttpContext.Request.Method != "GET")
+            if(result.Exception == null && context.HttpContext.Request.Method != "GET")
             {
                 var unitOfWork = result.HttpContext.RequestServices.GetService(typeof   (IUnitOfWork)) as IUnitOfWork;
                 await unitOfWork.CommitAsync();

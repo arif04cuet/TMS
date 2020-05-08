@@ -32,7 +32,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'library'|translate}}</label>
+                                    <label class="required">{{'library'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="library" nzShowSearch nzAllowClear
@@ -48,7 +48,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'user'|translate}}</label>
+                                    <label class="required">{{'user'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="user" nzShowSearch nzAllowClear
@@ -67,7 +67,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'member.since'|translate }}</label>
+                                    <label class="required">{{'member.since'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-date-picker formControlName="memberSince"></nz-date-picker>
@@ -90,7 +90,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'card'|translate }}</label>
+                                    <label class="required">{{'card'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="cardId" nzShowSearch nzAllowClear
@@ -107,7 +107,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'expire.date'|translate }}</label>
+                                    <label class="required">{{'expire.date'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-date-picker formControlName="cardExpireDate"></nz-date-picker>

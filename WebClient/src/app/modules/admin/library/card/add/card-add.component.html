@@ -24,7 +24,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'card.type'|translate }}</label>
+                                    <label class="required">{{'card.type'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="cardType" nzShowSearch nzAllowClear
@@ -41,7 +41,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'fees'|translate }}</label>
+                                    <label class="required">{{'fees'|translate }}</label>
                                 </div>
                                 <nz-form-control>
                                     <input type="number" nz-input formControlName="fees"
@@ -57,7 +57,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'max.issue.count'|translate }}</label>
+                                    <label class="required">{{'max.issue.count'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="number" nz-input formControlName="maxIssueCount"
@@ -68,7 +68,7 @@
                     </div>
                     <div nz-col [nzSpan]="12">
                         <div nz-row [nzGutter]="24">
-                            <app-select-control #statusSelect label="status" [formControl]="form.controls.statusId">
+                            <app-select-control required="true" #statusSelect label="status" [formControl]="form.controls.statusId">
                             </app-select-control>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'number.of.copy'|translate}}</label>
+                                    <label class="required">{{'number.of.copy'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="number" nz-input formControlName="numberOfCopy"

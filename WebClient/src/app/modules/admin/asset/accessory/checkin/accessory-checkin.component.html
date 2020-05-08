@@ -1,0 +1,46 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div class="box" [style.display]="loading ? 'none' : ''">
+    <div class="block pad-v-12 pad-h-20 box-divider">
+        <div class="content">
+            <div class="header-container">
+                <span class="header">
+                    {{ 'checkin.a.x0'|translate:{x0: 'accessory'|translate|lowercase} }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
+        <div class="content">
+            <form nz-form [formGroup]="form">
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
+                        <app-view [data]="data.name" label="name"></app-view>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label>{{'note'|translate}}</label>
+                            </div>
+                            <nz-form-control>
+                                <textarea nz-input formControlName="note"
+                                    placeholder="{{'note'|translate}}"></textarea>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="block footer pad-v-12 pad-h-20 box-divider">
+        <div class="column">
+            <button (click)="cancel()" nz-button class="btn-custom">
+                {{'cancel'|translate}}
+            </button>
+            <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
+                {{'checkin'|translate}}
+            </button>
+        </div>
+    </div>
+</div>

@@ -22,7 +22,7 @@ namespace Module.Core.Data.Criteria
         {
             var userExists = await query
                 .AsNoTracking()
-                .Where(x => x.Email.ToLower().Equals(_email.ToLower()) && x.Password == _password.HashPassword())
+                .Where(x => x.Email.ToLower().Equals(_email.ToLower()) && x.Password == _password.HashPassword() && !x.IsDeleted)
                 .Select(x => x.Id)
                 .CountAsync() > 0;
             return userExists;

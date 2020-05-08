@@ -61,7 +61,7 @@ export class CommonHttpService {
     }
 
     public getAllUpazila(search?: string) {
-        return this.httpService.get('upazilas');
+        return this.httpService.get('upazilas?offset=0&limit=500');
     }
 
 }

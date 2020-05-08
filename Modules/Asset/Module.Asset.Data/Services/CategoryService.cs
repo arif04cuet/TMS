@@ -61,7 +61,6 @@ namespace Module.Asset.Data
             return newEntity.Id;
         }
 
-
         public async Task<bool> UpdateAsync(CategoryUpdateRequest request, CancellationToken cancellationToken = default)
         {
             Category entity = await _repository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
@@ -80,8 +79,6 @@ namespace Module.Asset.Data
             return result > 0;
         }
 
-
-
         public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
             Category entity = await _repository.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, true);
@@ -96,7 +93,6 @@ namespace Module.Asset.Data
 
         public async Task<CategoryViewModel> Get(long id, CancellationToken cancellationToken = default)
         {
-
             var result = await _repository
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)

@@ -32,7 +32,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'title'|translate}}</label>
+                                    <label class="required">{{'title'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="text" nz-input formControlName="title"
@@ -44,7 +44,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'isbn'|translate}}</label>
+                                    <label class="required">{{'isbn'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="text" nz-input formControlName="isbn"
@@ -57,7 +57,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'publisher'|translate }}</label>
+                                    <label class="required">{{'publisher'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="publisher" nzShowSearch nzAllowClear
@@ -71,7 +71,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'language'|translate }}</label>
+                                    <label class="required">{{'language'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="language" nzShowSearch nzAllowClear
@@ -87,7 +87,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'author'|translate }}</label>
+                                    <label class="required">{{'author'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="author" nzShowSearch nzAllowClear
@@ -103,7 +103,7 @@
                                 <div>
                                     <label>{{'categories'|translate }}</label>
                                 </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <nz-form-control>
                                     <nz-select class="btn-custom" nzMode="multiple" formControlName="subjects"
                                         nzShowSearch nzAllowClear
                                         [nzPlaceHolder]="'select.x0'|translate:{x0: 'categories'|translate|lowercase}">

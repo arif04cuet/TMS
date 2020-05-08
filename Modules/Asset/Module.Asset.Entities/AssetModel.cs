@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Infrastructure.Entities;
 using Module.Core.Entities;
@@ -27,7 +26,7 @@ namespace Module.Asset.Entities
         public long ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
 
-        public long DepreciationId { get; set; }
+        public long? DepreciationId { get; set; }
         public Depreciation Depreciation { get; set; }
 
         public bool IsRequestable { get; set; }

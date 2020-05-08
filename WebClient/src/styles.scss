@@ -658,3 +658,12 @@ nz-header .ant-badge-count {
 .capitalize {
   text-transform: capitalize;
 }
+
+label {
+  &.required {
+    &::after {
+      content: '*';
+      color: #cd3d64;
+    }
+  }
+}

@@ -69,7 +69,7 @@
                         <td>{{ data.author?.name }}</td>
                         <td>{{ data.issuedTo?.name }}</td>
                         <td>{{ data.issueDate|date }}</td>
-                        <td>{{ data.returnDate|date }}</td>
+                        <td>{{ data.returnDate|date:'medium' }}</td>
                         <td>{{ data.actualReturnDate|date }}</td>
                     </tr>
                 </tbody>

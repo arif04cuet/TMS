@@ -2,10 +2,11 @@ namespace Module.Asset.Entities
 {
     public enum AssetType : byte
     {
-        Assets = 1,
-        Accessories = 2,
-        Consumables = 3,
-        Components = 4,
-        Users = 5
+        Asset = 1,
+        Accessory = 2,
+        Consumable = 3,
+        Component = 4,
+        User = 5,
+        License = 6
     }
 }

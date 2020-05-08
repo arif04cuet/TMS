@@ -53,7 +53,7 @@ namespace Module.Library.Data
             await _bookRepository.AddAsync(newBook, ct);
             var result = await _unitOfWork.SaveChangesAsync(ct);
 
-            await _mediaService.UseAsync(request.MediaId.Value);
+            await _mediaService.UseAsync(request.MediaId);
 
             // Subjects
             if (request.Subjects != null)
@@ -316,7 +316,8 @@ namespace Module.Library.Data
             var items = _bookItemRepository
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions);
+                .ApplySearch(searchOptions)
+                .OrderBy(x => x.Book.Title);
 
             //var result = from item in items
             //             join issue in issues on item.Id equals issue.BookItemId into data
@@ -359,12 +360,19 @@ namespace Module.Library.Data
 
             var card = await _unitOfWork.GetRepository<LibraryCard>()
                 .AsReadOnly()
-                .Include(x => x.Member)
+                .Include(x => x.Member).ThenInclude(x => x.Status)
+                .Include(x => x.CardStatus)
                 .Where(x => x.Id == request.Card && !x.IsDeleted)
                 .FirstOrDefaultAsync(ct);
 
             if (card == null)
                 throw new ValidationException(LIBRARY_CARD_NOT_FOUND);
+
+            if (card.CardStatusId != LibraryCardStatusConstants.Active)
+                throw new ValidationException($"Card is {card.CardStatus.Name}");
+
+            if (card.Member.StatusId != StatusConstants.Active || card.Member.StatusId != StatusConstants.Approved)
+                throw new ValidationException($"Member is {card.Member.Status.Name}");
 
             // check if already issued to this user
             var issue = await _bookIssueRepository
@@ -410,7 +418,7 @@ namespace Module.Library.Data
             if (bookItem == null || bookItem.CurrentIssue == null)
                 throw new ValidationException(ITEM_NOT_FOUND);
 
-            DateTime date = request.ActualReturnDate ?? DateTime.Now;
+            DateTime date = request.ActualReturnDate ?? DateTime.UtcNow;
             Fine fine = null;
             int result = 0;
             var checkFine = CheckFineAndCaculateAmount(bookItem.CurrentIssue.ReturnDate, date);
@@ -479,7 +487,7 @@ namespace Module.Library.Data
             if (bookItem == null || bookItem.CurrentIssue == null)
                 throw new ValidationException(ISSUE_NOT_FOUND);
 
-            DateTime date = request.ActualReturnDate ?? DateTime.Now;
+            DateTime date = request.ActualReturnDate ?? DateTime.UtcNow;
             var fine = CheckFineAndCaculateAmount(bookItem.CurrentIssue.ReturnDate, date);
             if (fine.IsFined)
             {

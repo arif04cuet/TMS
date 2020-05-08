@@ -6,8 +6,10 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-view',
   template:  `
-    <div nz-row [nzGutter]="24">
-        <nz-form-item class="field-container">
+    <!-- <div nz-row [nzGutter]="24">
+        
+    </div> -->
+    <nz-form-item class="field-container">
             <div>
                 <label>{{label|translate}}</label>
             </div>
@@ -15,7 +17,6 @@ import { CommonModule } from '@angular/common';
                 {{ data }}
             </span>
         </nz-form-item>
-    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -102,12 +102,14 @@ namespace Module.Core.Data.Services
             return _storageService.DeleteMediaAsync(fileName);
         }
 
-        public async Task<bool> UseAsync(long mediaId, bool value = true)
+        public async Task<bool> UseAsync(long? mediaId, bool value = true)
         {
-            var media = await _mediaRepository.FirstOrDefaultAsync(x => x.Id == mediaId);
-            if (media != null)
-                media.IsInUse = value;
-
+            if(mediaId.HasValue)
+            {
+                var media = await _mediaRepository.FirstOrDefaultAsync(x => x.Id == mediaId.Value);
+                if (media != null)
+                    media.IsInUse = value;
+            }
             return false;
         }
     }

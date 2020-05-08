@@ -1,24 +1,30 @@
 ﻿using Infrastructure;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Module.Core.Filters
 {
-    public class ExceptionFilter : IExceptionFilter
+    public class ExceptionFilter : IAsyncExceptionFilter
     {
         private readonly IWebHostEnvironment _env;
-        public ExceptionFilter(IWebHostEnvironment env)
+        private readonly IUnitOfWork _unitOfWork;
+        public ExceptionFilter(
+            IWebHostEnvironment env,
+            IUnitOfWork unitOfWork)
         {
             _env = env;
+            _unitOfWork = unitOfWork;
         }
 
-        public void OnException(ExceptionContext context)
+        public Task OnExceptionAsync(ExceptionContext context)
         {
-            System.Console.WriteLine(context.Exception.Message);
+            _unitOfWork.RollBackAsync();
             if (context.Exception is BusinessExceptionBase)
             {
                 var exception = (BusinessExceptionBase)context.Exception;
@@ -45,6 +51,7 @@ namespace Module.Core.Filters
                 }
                 context.Result = result;
             }
+            return Task.CompletedTask;
         }
 
         private ObjectResult GetDevelopmentErrorResult(ExceptionContext context)

@@ -73,7 +73,6 @@ export class MemberAddComponent extends FormComponent {
     this.loading = true;
     if (id != null) {
       this.form.controls.email.disable();
-      this.form.controls.cardId.disable();
       this.subscribe(this.libraryMemberHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
@@ -82,6 +81,9 @@ export class MemberAddComponent extends FormComponent {
             this.cards.push({id: card.id, name: card.barcode});
             this.setValue('cardId', card.id);
             this.setValue('cardExpireDate', card.expireDate);
+            if(this.form.controls.cardId) {
+              this.form.controls.cardId.disable();
+            }
           }
           this.loading = false;
         }

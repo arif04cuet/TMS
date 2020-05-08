@@ -195,5 +195,22 @@
     "offices": "Offices",
     "location": "Location",
     "history": "History",
-    "checkin": "Checkin"
+    "checkin": "Checkin",
+    "accessory": "Accessory",
+    "quantity": "Quantity",
+    "min.quantity": "Minimum Quantity",
+    "model.no": "Model no",
+    "view": "View",
+    "purchase.cost": "Purchase cost",
+    "min.qty": "Min Qty",
+    "checkout": "Checkout",
+    "checkouts": "Checkouts",
+    "checkout.a.x0": "Checkout a {{x0}}",
+    "checkin.a.x0": "Checkin a {{x0}}",
+    "checkout.successful": "Checkout successful",
+    "checkin.successful": "Checkin successful",
+    "available": "Available",
+    "consumable": "Consumable",
+    "component": "Component",
+    "in.english": "(in english)"
 }

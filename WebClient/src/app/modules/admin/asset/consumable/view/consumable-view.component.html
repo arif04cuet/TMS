@@ -1,0 +1,19 @@
+<div class="box">
+    <nz-tabset class="form-tabset">
+        <nz-tab nzTitle="{{'details'|translate}}">
+            <ng-template nz-tab>
+                <app-consumable-details></app-consumable-details>
+            </ng-template>
+        </nz-tab>
+        <nz-tab nzTitle="{{ 'checkouts'|translate }}">
+            <ng-template nz-tab>
+                <app-consumable-checkout-list></app-consumable-checkout-list>
+            </ng-template>
+        </nz-tab>
+        <nz-tab nzTitle="{{ 'history'|translate }}">
+            <ng-template nz-tab>
+                <app-consumable-checkout-history></app-consumable-checkout-history>
+            </ng-template>
+        </nz-tab>
+    </nz-tabset>
+</div>

@@ -35,7 +35,7 @@ namespace Module.Library.Data
             {
                 var card = new LibraryCard
                 {
-                    Barcode = DateTime.Now.Ticks.ToString(),
+                    Barcode = DateTime.UtcNow.Ticks.ToString(),
                     CardTypeId = request.CardType,
                     //ExpireDate = request.ExpireDate,
                     Fees = request.Fees,

@@ -67,7 +67,7 @@ namespace Module.Library.Data
             {
                 UserId = user.Id,
                 LibraryId = request.Library,
-                MemberSince = request.MemberSince ?? DateTime.Now
+                MemberSince = request.MemberSince ?? DateTime.UtcNow
             };
             await _libraryMemberRepository.AddAsync(member, ct);
 
@@ -118,7 +118,7 @@ namespace Module.Library.Data
             {
                 UserId = user.Id,
                 LibraryId = request.Library,
-                MemberSince = request.MemberSince.HasValue ? request.MemberSince.Value : DateTime.Now
+                MemberSince = request.MemberSince.HasValue ? request.MemberSince.Value : DateTime.UtcNow
             };
             await _libraryMemberRepository.AddAsync(member, ct);
 

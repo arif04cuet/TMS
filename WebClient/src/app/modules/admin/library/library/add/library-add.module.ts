@@ -10,6 +10,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
+import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 
 @NgModule({
   declarations: [

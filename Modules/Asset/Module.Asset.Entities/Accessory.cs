@@ -15,15 +15,16 @@ namespace Module.Asset.Entities
         public string Name { get; set; }
 
         public long CategoryId { get; set; }
+        [Searchable]
         public Category Category { get; set; }
 
-        public long ManufacturerId { get; set; }
+        public long? ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
 
-        public long SupplierId { get; set; }
+        public long? SupplierId { get; set; }
         public Supplier Supplier { get; set; }
 
-        public long LocationId { get; set; }
+        public long? LocationId { get; set; }
         public Office Location { get; set; }
 
         [Searchable]
@@ -32,8 +33,8 @@ namespace Module.Asset.Entities
         [Searchable]
         public string OrderNumber { get; set; }
 
-        public DateTime PurchaseDate { get; set; }
-        public Double PurchaseCost { get; set; }
+        public DateTime? PurchaseDate { get; set; }
+        public double? PurchaseCost { get; set; }
 
         public int Quantity { get; set; }
         public int? Available { get; set; }

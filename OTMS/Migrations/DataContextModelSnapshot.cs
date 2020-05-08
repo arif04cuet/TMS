@@ -44,10 +44,10 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long>("LocationId")
+                    b.Property<long?>("LocationId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("ManufacturerId")
+                    b.Property<long?>("ManufacturerId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("MediaId")
@@ -68,16 +68,16 @@ namespace OTMS.Migrations
                     b.Property<string>("OrderNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("PurchaseCost")
+                    b.Property<double?>("PurchaseCost")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("PurchaseDate")
+                    b.Property<DateTime?>("PurchaseDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<long>("SupplierId")
+                    b.Property<long?>("SupplierId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -184,7 +184,7 @@ namespace OTMS.Migrations
                     b.Property<string>("ItemNo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("LocationId")
+                    b.Property<long?>("LocationId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("MediaId")
@@ -208,7 +208,7 @@ namespace OTMS.Migrations
                     b.Property<long>("StatusId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("SupplierId")
+                    b.Property<long?>("SupplierId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -220,7 +220,7 @@ namespace OTMS.Migrations
                     b.Property<long>("Version")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Warrantly")
+                    b.Property<int>("Warranty")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -368,7 +368,7 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("DepreciationId")
+                    b.Property<long?>("DepreciationId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Eol")
@@ -538,10 +538,10 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long>("LocationId")
+                    b.Property<long?>("LocationId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("ManufacturerId")
+                    b.Property<long?>("ManufacturerId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("MediaId")
@@ -565,13 +565,13 @@ namespace OTMS.Migrations
                     b.Property<double>("PurchaseCost")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("PurchaseDate")
+                    b.Property<DateTime?>("PurchaseDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<long>("SupplierId")
+                    b.Property<long?>("SupplierId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -657,6 +657,9 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("Available")
+                        .HasColumnType("int");
+
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
 
@@ -672,10 +675,10 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long>("LocationId")
+                    b.Property<long?>("LocationId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("ManufacturerId")
+                    b.Property<long?>("ManufacturerId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("MediaId")
@@ -705,7 +708,7 @@ namespace OTMS.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<long>("SupplierId")
+                    b.Property<long?>("SupplierId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -10017,15 +10020,11 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Core.Entities.Office", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LocationId");
 
                     b.HasOne("Module.Asset.Entities.Manufacturer", "Manufacturer")
                         .WithMany()
-                        .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ManufacturerId");
 
                     b.HasOne("Module.Core.Entities.Media", "Media")
                         .WithMany()
@@ -10033,9 +10032,7 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Asset.Entities.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SupplierId");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AccessoryUser", b =>
@@ -10061,9 +10058,7 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Core.Entities.Office", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LocationId");
 
                     b.HasOne("Module.Core.Entities.Media", "Media")
                         .WithMany()
@@ -10077,9 +10072,7 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Asset.Entities.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SupplierId");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AssetAudit", b =>
@@ -10116,9 +10109,7 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Asset.Entities.Depreciation", "Depreciation")
                         .WithMany()
-                        .HasForeignKey("DepreciationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DepreciationId");
 
                     b.HasOne("Module.Asset.Entities.Manufacturer", "Manufacturer")
                         .WithMany()
@@ -10155,15 +10146,11 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Core.Entities.Office", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LocationId");
 
                     b.HasOne("Module.Asset.Entities.Manufacturer", "Manufacturer")
                         .WithMany()
-                        .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ManufacturerId");
 
                     b.HasOne("Module.Core.Entities.Media", "Media")
                         .WithMany()
@@ -10171,9 +10158,7 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Asset.Entities.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SupplierId");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.ComponentAsset", b =>
@@ -10199,15 +10184,11 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Core.Entities.Office", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LocationId");
 
                     b.HasOne("Module.Asset.Entities.Manufacturer", "Manufacturer")
                         .WithMany()
-                        .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ManufacturerId");
 
                     b.HasOne("Module.Core.Entities.Media", "Media")
                         .WithMany()
@@ -10215,9 +10196,7 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Asset.Entities.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SupplierId");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.ConsumableUser", b =>

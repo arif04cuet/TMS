@@ -17,20 +17,10 @@ namespace Module.Library.Data.Validators
         {
             _unitOfWork = unitOfWork;
 
-            RuleFor(x => x.Email)
-                .Required()
-                .EmailAddress()
-                .WithMessage(INVALID_EMAIL)
-                .MustAsync((x, ct) => IsValidEmailAsync(x, ct))
-                .WithMessage(EMAIL_IS_NOT_AVAILABLE);
-        }
+            RuleFor(x => x.Email).Email(_unitOfWork);
 
-        private async Task<bool> IsValidEmailAsync(string email, CancellationToken ct = default)
-        {
-            var user = await _unitOfWork.GetRepository<User>()
-                .FirstOrDefaultAsync(x => !x.IsDeleted && x.Email.ToLower() == email.ToLower(), true, ct);
+            RuleFor(x => x.Mobile).Mobile(_unitOfWork);
 
-            return user == null;
         }
 
     }

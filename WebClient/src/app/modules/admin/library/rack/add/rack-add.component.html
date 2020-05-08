@@ -24,7 +24,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'library'|translate}}</label>
+                                    <label class="required">{{'library'|translate}}</label>
                                 </div>
                                 <nz-select class="btn-custom" formControlName="library" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'library'|translate|lowercase}">
@@ -38,7 +38,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'name'|translate}}</label>
+                                    <label class="required">{{'name'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="text" nz-input formControlName="name"
@@ -54,7 +54,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'floor.no'|translate}}</label>
+                                    <label class="required">{{'floor.no'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="number" nz-input formControlName="floorNo"
@@ -67,7 +67,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'building.name'|translate }}</label>
+                                    <label class="required">{{'building.name'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="text" nz-input formControlName="buildingName"

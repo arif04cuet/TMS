@@ -1,0 +1,57 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div *ngIf="!loading">
+    <div class="pad-l-10 block">
+        <nz-table [nzData]="[{}]" nzShowPagination="false">
+            <tbody>
+                <tr>
+                    <td>{{ 'name'|translate}}</td>
+                    <td>{{item.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'model.no'|translate}}</td>
+                    <td>{{item.modelNo}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'order_number'|translate}}</td>
+                    <td>{{item.orderNumber}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'total'|translate}}</td>
+                    <td>{{item.quantity}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'min.qty'|translate}}</td>
+                    <td>{{item.minQuantity}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'available'|translate}}</td>
+                    <td>{{item.available}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'category'|translate}}</td>
+                    <td>{{item.category.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'manufacturer'|translate}}</td>
+                    <td>{{item.manufacturer?.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'supplier'|translate}}</td>
+                    <td>{{item.supplier?.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'purchase_cost'|translate}}</td>
+                    <td>{{item.purchaseCost}} {{'tk'|translate}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'purchase_date'|translate}}</td>
+                    <td>{{item.purchaseDate|date}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'note'|translate}}</td>
+                    <td>{{item.note}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

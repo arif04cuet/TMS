@@ -11,7 +11,6 @@ namespace Module.Asset.Entities
     public class Asset : BaseEntity
     {
 
-
         [Searchable]
         public string Barcode { get; set; }
 
@@ -28,20 +27,20 @@ namespace Module.Asset.Entities
 
         public DateTime? PurchaseDate { get; set; }
 
-        public long SupplierId { get; set; }
+        public long? SupplierId { get; set; }
         public Supplier Supplier { get; set; }
 
         public string OrderNo { get; set; }
 
         public double PurchaseCost { get; set; }
 
-        public int Warrantly { get; set; }
+        public int Warranty { get; set; }
 
         public string Note { get; set; }
 
         public bool IsRequestable { get; set; }
 
-        public long LocationId { get; set; }
+        public long? LocationId { get; set; }
         public Office Location { get; set; }
 
         public long? MediaId { get; set; }

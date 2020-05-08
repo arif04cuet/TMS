@@ -166,6 +166,24 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
+            title: 'accessory',
+            route: '/admin/asset/accessories',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'consumable',
+            route: '/admin/asset/consumables',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'component',
+            route: '/admin/asset/components',
+            icon: 'user'
+          },
+          {
+            level: 2,
             title: 'settings',
             icon: 'setting',
             nav: [
@@ -205,7 +223,7 @@ export class HomeComponent extends BaseComponent {
       }
     ]
 
-    this.checkPermissions();
+    //this.checkPermissions();
   }
 
   logout() {

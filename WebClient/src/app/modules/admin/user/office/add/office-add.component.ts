@@ -63,7 +63,7 @@ export class OfficeAddComponent extends FormComponent {
 
   ngAfterViewInit() {
     this.divisionSelect.register((pagination, search) => {
-      return this.commonHttpService.getAllDistrict();
+      return this.commonHttpService.getAllDivision();
     }).fetch();
 
     this.districtSelect.register((pagination, search) => {
@@ -71,8 +71,16 @@ export class OfficeAddComponent extends FormComponent {
     }).fetch();
 
     this.upazilaSelect.register((pagination, search) => {
-      return this.commonHttpService.getAllDistrict();
+      return this.commonHttpService.getAllUpazila();
     }).fetch();
+  }
+
+  onChangeDivision(e) {
+
+  }
+
+  onChangeDistrict(e) {
+
   }
 
   get(id) {
