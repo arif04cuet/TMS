@@ -46,8 +46,19 @@ const routes: Routes = [
     data: {
       name: 'license_checkout',
       breadcrumb: {
-        icon: 'plus',
+        icon: 'eye',
         title: 'checkout'
+      }
+    }
+  },
+  {
+    path: ':id/checkin',
+    loadChildren: () => import('../checkin/license-checkin.module').then(x => x.LicenseCheckinModule),
+    data: {
+      name: 'license_checkin',
+      breadcrumb: {
+        icon: 'eye',
+        title: 'checkin'
       }
     }
   }

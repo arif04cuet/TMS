@@ -13,11 +13,11 @@
             <tbody>
                 <tr *ngFor="let data of item.seatList">
                     <td>{{ data.name }}</td>
-                    <td>{{ data.issuedToUser ? data.issuedToUser.name:''}}</td>
-                    <td>{{ data.issueDate}}</td>
+                    <td>{{ data.issuedToUser ? data.issuedToUser.fullName:''}}</td>
+                    <td>{{ data.issueDate | date }}</td>
                     <td>
-                        <button *ngIf="data.issuedToUserId" nz-button nzType="primary">Checkin</button>
-                        <button *ngIf="!data.issuedToUserId" nz-button nzType="default">Checkout</button>
+                        <button *ngIf="data.issuedToUserId" (click)="checkin(data.id)" nz-button nzType="primary">Checkin</button>
+                        <button *ngIf="!data.issuedToUserId" (click)="checkout(data.id)"  nz-button nzType="default">Checkout</button>
                     </td>
 
                 </tr>

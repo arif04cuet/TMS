@@ -15,10 +15,9 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
 export class LicenseCheckoutComponent extends FormComponent {
 
   loading: boolean = true;
-  statuses = [];
-  name : string = '';
-  productKey: string = '';
-
+  data: any = {};
+  private checkoutId: number;
+  
   @ViewChild('userSelect') userSelect: SelectControlComponent;
 
   constructor(
@@ -33,11 +32,14 @@ export class LicenseCheckoutComponent extends FormComponent {
   ngOnInit(): void {
     this.getData();
     this.onCheckMode = id => this.get(id);
+    super.ngOnInit(this.activatedRoute.snapshot);
+    this.checkoutId = this._activatedRouteSnapshot.queryParams.checkout;
     this.createForm({
+      licenseSeatId: [this.checkoutId? +this.checkoutId : 0],
       issuedToUserId: [null, [], this.v.required.bind(this)],
       note: [null, [], this.v.required.bind(this)]
     });
-    super.ngOnInit(this.activatedRoute.snapshot);
+    
   }
 
   ngAfterViewInit() {
@@ -49,23 +51,17 @@ export class LicenseCheckoutComponent extends FormComponent {
 
   submit(): void {
     const body = this.constructObject(this.form.controls);
-    console.log(body);
-    this.submitForm(
-      {
-        request: this.licenseHttpService.add(body),
-        succeed: res => {
+    this.validateForm(() => {
+      this.subscribe(this.licenseHttpService.checkout(this.id, body),
+        (res: any) => {
           this.cancel();
-          this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
-        }
-      },
-      {
-        request: this.licenseHttpService.checkout(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
-        }
-      }
-    );
+          this.success(MESSAGE_KEY.CHECKOUT_SUCCESSFUL);
+          this.loading = false;
+        },
+        err => {
+          this.loading = false;
+        });
+    });
   }
 
   get(id) {
@@ -73,9 +69,7 @@ export class LicenseCheckoutComponent extends FormComponent {
     if (id != null) {
       this.subscribe(this.licenseHttpService.get(id),
         (res: any) => {
-          debugger;
-          this.name = res.data.name;
-          this.productKey = res.data.productKey;
+          this.data = res.data;
           this.loading = false;
         }
       );
@@ -88,7 +82,7 @@ export class LicenseCheckoutComponent extends FormComponent {
   getData() {
 
   }
-
+  
   cancel() {
     this.goTo('/admin/asset/licenses');
   }

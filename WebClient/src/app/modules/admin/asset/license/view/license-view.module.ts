@@ -12,6 +12,7 @@ import { LicenseHttpService } from 'src/services/http/asset/license-http.service
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { LicenseDetailsModule } from './details/license-details.module';
 import { LicenseSeatsModule } from './seats/license-seats.module';
+import { LicenseCheckoutHistoryModule } from './history/license-checkout-history.module';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { LicenseSeatsModule } from './seats/license-seats.module';
     SharedModule,
     SelectControlModule,
     LicenseDetailsModule,
-    LicenseSeatsModule
+    LicenseSeatsModule,
+    LicenseCheckoutHistoryModule
   ],
   exports: [LicenseViewComponent],
   providers: [

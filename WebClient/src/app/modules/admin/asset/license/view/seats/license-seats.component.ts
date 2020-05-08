@@ -13,6 +13,7 @@ export class LicenseSeatsComponent extends BaseComponent {
 
   loading: boolean = true;
   item;
+  licenseId: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,14 +39,23 @@ export class LicenseSeatsComponent extends BaseComponent {
 
     this.subscribe(this.licenseHttpService.getDetails(id),
       (res: any) => {
-
+        debugger;
         this.item = res.data;
+        this.licenseId = res.data.id;
         console.log(this.item.seatList);
         this.loading = false;
       }
     );
 
 
+  }
+
+  checkout(licenseSeatId) {
+    this.goTo(`/admin/asset/licenses/${this.licenseId}/checkout?checkout=${licenseSeatId}`);
+  }
+
+  checkin(licenseSeatId) {
+    this.goTo(`/admin/asset/licenses/${this.licenseId}/checkin?checkin=${licenseSeatId}`);
   }
 
   cancel() {

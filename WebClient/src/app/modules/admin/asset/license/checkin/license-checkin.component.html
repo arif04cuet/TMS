@@ -1,14 +1,10 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
-
 <div class="box" [style.display]="loading ? 'none' : ''">
-
     <div class="block pad-v-12 pad-h-20 box-divider">
         <div class="content">
             <div class="header-container">
                 <span class="header">
-                    <span>
-                        {{ 'checkout.a.x0'|translate:{x0: 'license'|translate|lowercase} }}
-                    </span>
+                    {{ 'checkin.a.x0'|translate:{x0: 'accessory'|translate|lowercase} }}
                 </span>
             </div>
         </div>
@@ -16,35 +12,20 @@
     <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
         <div class="content">
             <form nz-form [formGroup]="form">
-
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <app-view [data]="data.name" label="name"></app-view>
                     </div>
-                    <div nz-col [nzSpan]="8">
-                        <app-view [data]="data.productKey" label="product_key"></app-view>
-                    </div>
-                    <div nz-col [nzSpan]="8">
-                        <app-view [data]="data.available" label="available"></app-view>
-                    </div>
                 </div>
-
-                <div nz-row [nzGutter]="24">
-                    <div nz-col [nzSpan]="8">
-                        <app-select-control #userSelect label="user" labelKey="fullName" [formControl]="form.controls.issuedToUserId">
-                        </app-select-control>
-                    </div>
-                </div>
-
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
                                 <label>{{'note'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <textarea nz-input formControlName="note" placeholder="{{'note'|translate}}">
-                                </textarea>
+                            <nz-form-control>
+                                <textarea nz-input formControlName="note"
+                                    placeholder="{{'note'|translate}}"></textarea>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -58,13 +39,8 @@
                 {{'cancel'|translate}}
             </button>
             <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
-                <span>
-                    {{'checkout'|translate}}
-                </span>
+                {{'checkin'|translate}}
             </button>
         </div>
     </div>
-    <ng-template #errorTemplate let-control>
-        {{control?.errors?.message}}
-    </ng-template>
 </div>

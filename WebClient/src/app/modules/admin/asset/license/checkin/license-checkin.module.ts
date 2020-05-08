@@ -1,23 +1,21 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LicenseCheckoutComponent } from './license-checkout.component';
-import { LicenseCheckoutRoutingModule } from './license-checkout-routing.module';
+import { LicenseCheckinRoutingModule } from './license-checkin-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CommonValidator } from 'src/validators/common.validator';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
+import { LicenseCheckinComponent } from './license-checkin.component';
 import { ViewModule } from 'src/app/shared/view.component';
 
 @NgModule({
   declarations: [
-    LicenseCheckoutComponent
+    LicenseCheckinComponent
   ],
   imports: [
-    LicenseCheckoutRoutingModule,
+    LicenseCheckinRoutingModule,
     CommonModule,
-    NzTableModule,
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
@@ -26,9 +24,6 @@ import { ViewModule } from 'src/app/shared/view.component';
     SelectControlModule,
     ViewModule
   ],
-  exports: [LicenseCheckoutComponent],
-  providers: [
-    CommonValidator
-  ]
+  exports: [LicenseCheckinComponent]
 })
-export class LicenseCheckoutModule { }
+export class LicenseCheckinModule { }

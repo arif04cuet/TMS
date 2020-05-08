@@ -4,6 +4,7 @@ using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using Module.Asset.Data;
 using Module.Core.Shared;
+using Module.Asset.Entities;
 
 namespace Module.Asset.Controllers
 {
@@ -14,10 +15,12 @@ namespace Module.Asset.Controllers
     {
 
         private readonly ILicenseService _service;
+        private readonly ICheckoutHistoryService _checkoutHistoryService;
 
-        public LicenseController(ILicenseService service)
+        public LicenseController(ILicenseService service, ICheckoutHistoryService checkoutHistoryService)
         {
             _service = service;
+            _checkoutHistoryService = checkoutHistoryService;
         }
 
         [HttpGet]
@@ -57,11 +60,26 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
-        [HttpPut("{id}/checkout")]
+        [HttpPost("{id}/checkouts")]
         public async Task<IActionResult> Checkout(long id, [FromBody] LicenseCheckoutRequest request)
         {
             request.Id = id;
             var result = await _service.CheckoutAsync(request);
+            return result.ToOkResult();
+        }
+
+        [HttpPost("{id}/checkins")]
+        public async Task<IActionResult> Checkin(long id, [FromBody] LicenseCheckinRequest request)
+        {
+            request.Id = id;
+            var result = await _service.CheckinAsync(request);
+            return result.ToCreatedResult();
+        }
+
+        [HttpGet("{id}/histories")]
+        public async Task<ActionResult> ListHistories(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _checkoutHistoryService.ListAsync(id, AssetType.License, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

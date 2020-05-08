@@ -128,6 +128,7 @@ namespace Module.Asset.Data
                     Name = x.Name,
                     ProductKey = x.ProductKey,
                     Seats = x.Seats,
+                    Available = x.Available ?? 0,
                     OrderNumber = x.OrderNumber,
                     LicenseToName = x.LicenseToName,
                     LicenseToEmail = x.LicenseToEmail,
@@ -254,12 +255,18 @@ namespace Module.Asset.Data
 
             if (entity == null)
                 throw new NotFoundException($"License not found");
+            
+            LicenseSeat availableLicenceSeat = null ;
 
-            var availableLicenceSeat = entity.LicenseSeats.FirstOrDefault(ls => ls.IssuedToUserId == null && ls.IssuedToAssetId == null && !ls.IsDeleted);
+            if(request.LicenseSeatId > 0)
+                availableLicenceSeat = await _seatRepository.FirstOrDefaultAsync(ls => ls.Id == request.LicenseSeatId && !ls.IsDeleted);
+            else
+                availableLicenceSeat = entity.LicenseSeats.FirstOrDefault(ls => ls.IssuedToUserId == null && ls.IssuedToAssetId == null && !ls.IsDeleted);
             
             if(availableLicenceSeat != null)
             {
                 availableLicenceSeat.IssuedToUserId = request.IssuedToUserId;
+                availableLicenceSeat.IssueDate = DateTime.Now;
                 entity.Available = entity.Available - 1;
 
                 //create history
@@ -279,6 +286,35 @@ namespace Module.Asset.Data
                 throw new NotFoundException($"License Seat not found");
             }
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return result > 0;
+        }
+
+        public async Task<bool> CheckinAsync(LicenseCheckinRequest request, CancellationToken cancellationToken = default)
+        {
+            var entity = await _repository.Where(x => x.Id == request.Id && !x.IsDeleted).FirstOrDefaultAsync();
+            var checkin = await _seatRepository
+                .AsQueryable()
+                .FirstOrDefaultAsync(x => x.Id == request.LicenseSeatId && x.IssuedToUserId != null && !x.IsDeleted);
+
+            if (checkin == null)
+                throw new NotFoundException("Checkout not found");
+
+            checkin.IssuedToUser = null;
+            checkin.IssuedToUserId = null;
+            entity.Available = entity.Available + 1;
+
+            var result = await _unitOfWork.SaveChangesAsync();
+
+            await _checkoutHistoryService.CreateAsync(new CheckoutHistoryCreateRequest
+            {
+                Action = AssetAction.Checkin,
+                ItemId = checkin.Id,
+                ItemType = AssetType.License,
+                Note = request.Note,
+                TargetId = checkin.IssuedToUserId,
+                TargetType = AssetType.User
+            });
 
             return result > 0;
         }
