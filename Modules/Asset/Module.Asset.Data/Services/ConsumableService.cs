@@ -27,6 +27,7 @@ namespace Module.Asset.Data
             ICheckoutHistoryService checkoutHistoryService)
         {
             _unitOfWork = unitOfWork;
+            _checkoutHistoryService = checkoutHistoryService;
             _consumableRepository = _unitOfWork.GetRepository<Consumable>();
             _consumableUserRepository = _unitOfWork.GetRepository<ConsumableUser>();
             _userRepository = _unitOfWork.GetRepository<User>();

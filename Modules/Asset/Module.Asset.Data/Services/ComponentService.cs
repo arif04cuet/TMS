@@ -21,11 +21,14 @@ namespace Module.Asset.Data
         private readonly ICheckoutHistoryService _checkoutHistoryService;
 
         public ComponentService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            ICheckoutHistoryService checkoutHistoryService)
         {
             _unitOfWork = unitOfWork;
+            _checkoutHistoryService = checkoutHistoryService;
             _componentRepository = _unitOfWork.GetRepository<Component>();
-
+            _componentAssetRepository = _unitOfWork.GetRepository<ComponentAsset>();
+            _assetRepository = _unitOfWork.GetRepository<Entities.Asset>();
         }
 
         public async Task<long> CreateAsync(ComponentCreateRequest request, CancellationToken cancellationToken = default)

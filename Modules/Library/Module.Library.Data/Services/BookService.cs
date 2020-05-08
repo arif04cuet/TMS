@@ -163,7 +163,7 @@ namespace Module.Library.Data
                 long? oldMediaId = book.MediaId;
                 book.MediaId = request.MediaId;
                 await _mediaService.UseAsync(request.MediaId.Value);
-                _mediaService.DeleteMediaAsync(oldMediaId);
+                _ = _mediaService.DeleteMediaAsync(oldMediaId);
             }
 
             foreach (var edition in request.Editions)

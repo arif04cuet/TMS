@@ -152,7 +152,7 @@ namespace Module.Core.Data
             if (oldMedia != null && result > 0)
             {
                 // successfully updated
-                _mediaService.DeleteMediaAsync(oldMedia.Id);
+                _ = _mediaService.DeleteMediaAsync(oldMedia.Id);
             }
             return result > 0;
         }

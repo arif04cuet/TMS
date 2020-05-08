@@ -2,7 +2,6 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
-using Module.Core.Shared;
 using Msi.UtilityKit;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
@@ -20,16 +19,16 @@ namespace Module.Asset.Data
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<License> _repository;
         private readonly IRepository<LicenseSeat> _seatRepository;
-        private readonly IRepository<CheckoutHistory> _checkoutHistoryRepository;
+        private readonly ICheckoutHistoryService _checkoutHistoryService;
 
         public LicenseService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            ICheckoutHistoryService checkoutHistoryService)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetRepository<License>();
             _seatRepository = _unitOfWork.GetRepository<LicenseSeat>();
-            _checkoutHistoryRepository = _unitOfWork.GetRepository<CheckoutHistory>();
-
+            _checkoutHistoryService = checkoutHistoryService;
         }
 
         public async Task<long> CreateAsync(LicenseCreateRequest request, CancellationToken cancellationToken = default)
@@ -264,11 +263,16 @@ namespace Module.Asset.Data
                 entity.Available = entity.Available - 1;
 
                 //create history
-                var newEntity = request.ToMap();
-                newEntity.TargetType = AssetType.Users;
-                newEntity.ItemType = AssetType.Seats;
-                newEntity.ItemId = availableLicenceSeat.Id;
-                await _checkoutHistoryRepository.AddAsync(newEntity, cancellationToken);
+                await _checkoutHistoryService.CreateAsync(new CheckoutHistoryCreateRequest
+                {
+                    Action = AssetAction.Checkout,
+                    ItemId = entity.Id,
+                    ItemType = AssetType.License,
+                    Note = request.Note,
+                    // TODO: Target can be User or Asset, handle it
+                    // TargetType = AssetType.User,
+                    // TargetId = user.Id
+                });
             }
             else
             {
