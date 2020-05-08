@@ -40,6 +40,17 @@ const routes: Routes = [
       }
     }
   },
+  {
+    path: ':id/checkout',
+    loadChildren: () => import('../checkout/license-checkout.module').then(x => x.LicenseCheckoutModule),
+    data: {
+      name: 'license_checkout',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'checkout'
+      }
+    }
+  }
 ];
 
 @NgModule({
