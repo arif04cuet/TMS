@@ -76,7 +76,7 @@ export class ConsumableCheckoutComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/asset/accessories');
+    this.goTo('/admin/asset/consumables');
   }
 
 }

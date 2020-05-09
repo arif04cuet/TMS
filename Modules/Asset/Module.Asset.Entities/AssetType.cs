@@ -7,6 +7,7 @@ namespace Module.Asset.Entities
         Consumable = 3,
         Component = 4,
         User = 5,
-        License = 6
+        License = 6,
+        Location = 7
     }
 }

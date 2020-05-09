@@ -196,6 +196,28 @@ const routes: Routes = [
         }
       },
       {
+        path: 'asset',
+        loadChildren: () => import('../asset/asset/list/asset-list.module').then(x => x.AssetListModule),
+        data: {
+          name: 'asset_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'assets'
+          }
+        }
+      },
+      {
+        path: 'asset/models',
+        loadChildren: () => import('../asset/asset-model/list/asset-model-list.module').then(x => x.AssetModelListModule),
+        data: {
+          name: 'asset_model_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'asset.models'
+          }
+        }
+      },
+      {
         path: 'asset/accessories',
         loadChildren: () => import('../asset/accessory/list/accessory-list.module').then(x => x.AccessoryListModule),
         data: {

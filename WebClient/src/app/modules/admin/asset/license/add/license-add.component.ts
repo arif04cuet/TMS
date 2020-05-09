@@ -70,7 +70,7 @@ export class LicenseAddComponent extends FormComponent {
     }).fetch();
 
     this.depreciationSelect.register((pagination, search) => {
-      return this.licenseHttpService.dereciations(pagination, search);
+      return this.licenseHttpService.depreciations(pagination, search);
     }).fetch();
 
     this.locationSelect.register((pagination, search) => {

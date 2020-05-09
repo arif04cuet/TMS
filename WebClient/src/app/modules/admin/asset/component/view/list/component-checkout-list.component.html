@@ -26,14 +26,16 @@
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>
-                            {{'user'|translate}}
+                            {{'asset'|translate}}
                         </th>
+                        <th>{{'quantity'|translate}}</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.user?.name }}</td>
+                        <td>{{ data.asset?.name }}</td>
+                        <td>{{ data.quantity }}</td>
                         <td class="action-column fit-cell ta-right">
                             <button (click)="checkin(data.id)" class="btn-custom" nz-button nzType="primary">{{'checkin'|translate}}</button>
                         </td>

@@ -160,6 +160,12 @@ export class HomeComponent extends BaseComponent {
         nav: [
           {
             level: 2,
+            title: 'assets',
+            route: '/admin/asset',
+            icon: 'user'
+          },
+          {
+            level: 2,
             title: 'license',
             route: '/admin/asset/licenses',
             icon: 'user'
@@ -187,6 +193,12 @@ export class HomeComponent extends BaseComponent {
             title: 'settings',
             icon: 'setting',
             nav: [
+              {
+                level: 3,
+                title: 'asset.models',
+                route: '/admin/asset/models',
+                icon: 'user'
+              },
               {
                 level: 3,
                 title: 'supplier',

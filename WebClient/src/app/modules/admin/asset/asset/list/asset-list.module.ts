@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
 import { AssetListComponent } from './asset-list.component';
 import { AssetListRoutingModule } from './asset-list-routing.module';
+import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
 
 
 @NgModule({
@@ -25,7 +25,7 @@ import { AssetListRoutingModule } from './asset-list-routing.module';
   ],
   exports: [AssetListComponent],
   providers: [
-    AssetModelHttpService
+    AssetBaseHttpService
   ]
 })
 export class AssetListModule { }

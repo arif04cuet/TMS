@@ -9,6 +9,9 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { MediaHttpService } from 'src/services/http/media-http.service';
 import { AssetAddComponent } from './asset-add.component';
 import { AssetAddRoutingModule } from './asset-add-routing.module';
+import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
+import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
+import { StatusHttpService } from 'src/services/http/asset/status-http.service';
 
 @NgModule({
   declarations: [
@@ -22,13 +25,16 @@ import { AssetAddRoutingModule } from './asset-add-routing.module';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    SelectControlModule
   ],
   exports: [AssetAddComponent],
   providers: [
     RoleHttpService,
     CommonValidator,
-    MediaHttpService
+    MediaHttpService,
+    AssetModelHttpService,
+    StatusHttpService
   ]
 })
 export class AssetAddModule { }

@@ -2,7 +2,7 @@
 
 namespace Module.Asset.Data
 {
-    public class AccessoryCheckoutListModel : IViewModel
+    public class AccessoryCheckoutListViewModel : IViewModel
     {
         public long Id { get; set; }
         public long AccessoryId { get; set; }

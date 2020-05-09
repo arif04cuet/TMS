@@ -43,7 +43,7 @@ export class ConsumableAddComponent extends FormComponent {
       purchaseCost: [],
       note: [],
       quantity: [null, [], this.v.required.bind(this)],
-      minQuantity: []
+      minQuantity: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
@@ -57,7 +57,7 @@ export class ConsumableAddComponent extends FormComponent {
 
     this.categorySelect.register((pagination, search) => {
       let s = search || ""
-      s += `&Search=Type eq 2`;
+      s += `&Search=Type eq 3`;
       return this.consumableHttpService.categories(pagination, s);
     }).fetch();
 

@@ -17,6 +17,20 @@
                         <app-view [data]="data.name" label="name"></app-view>
                     </div>
                 </div>
+
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'quantity'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="number" nz-input formControlName="quantity" placeholder="{{'quantity'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
@@ -24,8 +38,7 @@
                                 <label>{{'note'|translate}}</label>
                             </div>
                             <nz-form-control>
-                                <textarea nz-input formControlName="note"
-                                    placeholder="{{'note'|translate}}"></textarea>
+                                <textarea nz-input formControlName="note" placeholder="{{'note'|translate}}"></textarea>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -44,3 +57,7 @@
         </div>
     </div>
 </div>
+
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>

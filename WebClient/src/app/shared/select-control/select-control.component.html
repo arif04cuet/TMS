@@ -1,6 +1,6 @@
 <nz-form-item class="field-container">
     <div>
-        <label [class.required]="required">{{label|translate }}</label>
+        <label [class.required]="mandatory">{{label|translate }}</label>
     </div>
     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
         <nz-select [formControl]="formControl" class="btn-custom" [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)"

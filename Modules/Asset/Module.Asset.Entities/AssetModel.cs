@@ -21,6 +21,7 @@ namespace Module.Asset.Entities
         public string Note { get; set; }
 
         public long CategoryId { get; set; }
+        [Searchable]
         public Category Category { get; set; }
 
         public long ManufacturerId { get; set; }

@@ -95,7 +95,12 @@ namespace Module.Asset.Data
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
-                    Category = new IdNameViewModel { Id = x.Category.Id, Name = x.Category.Name },
+                    Category = new AssetCategoryViewModel { 
+                        Id = x.Category.Id,
+                        Name = x.Category.Name,
+                        IsSendEmailToUser = x.Category.IsSendEmail,
+                        IsRequireUserConfirmation = x.Category.IsRequireUserConfirmation
+                    },
                     Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name } : null,
                     Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
                     Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
@@ -129,7 +134,13 @@ namespace Module.Asset.Data
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
-                    Category = new IdNameViewModel { Id = x.Category.Id, Name = x.Category.Name },
+                    Category = new AssetCategoryViewModel
+                    {
+                        Id = x.Category.Id,
+                        Name = x.Category.Name,
+                        IsSendEmailToUser = x.Category.IsSendEmail,
+                        IsRequireUserConfirmation = x.Category.IsRequireUserConfirmation
+                    },
                     Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name } : null,
                     Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
                     Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
@@ -146,7 +157,7 @@ namespace Module.Asset.Data
             return result;
         }
 
-        public async Task<PagedCollection<AccessoryCheckoutListModel>> ListCheckoutAsync(long accessoryId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public async Task<PagedCollection<AccessoryCheckoutListViewModel>> ListCheckoutAsync(long accessoryId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var query = _accessoryUserRepository
                 .AsReadOnly()
@@ -155,7 +166,7 @@ namespace Module.Asset.Data
 
             var items = await query
                 .ApplyPagination(pagingOptions)
-                .Select(x => new AccessoryCheckoutListModel
+                .Select(x => new AccessoryCheckoutListViewModel
                 {
                     Id = x.Id,
                     AccessoryId = x.AccessoryId,
@@ -169,7 +180,7 @@ namespace Module.Asset.Data
 
             var total = await query.Select(x => x.Id).CountAsync(cancellationToken);
 
-            var result = new PagedCollection<AccessoryCheckoutListModel>(items, total, pagingOptions);
+            var result = new PagedCollection<AccessoryCheckoutListViewModel>(items, total, pagingOptions);
             return result;
 
         }

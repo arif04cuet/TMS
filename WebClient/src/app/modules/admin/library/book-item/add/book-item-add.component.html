@@ -22,11 +22,11 @@
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
-                            <app-select-control required="true" [formControl]="form.controls.library" (onChange)="onLibraryChange($event)" #librarySelect label="library">
+                            <app-select-control mandatory="true" [formControl]="form.controls.library" (onChange)="onLibraryChange($event)" #librarySelect label="library">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control required="true" [formControl]="form.controls.book" (onChange)="onBookChange($event)" labelKey="title" #bookSelect label="book">
+                            <app-select-control mandatory="true" [formControl]="form.controls.book" (onChange)="onBookChange($event)" labelKey="title" #bookSelect label="book">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
@@ -43,11 +43,11 @@
                     </div>
                     <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
-                            <app-select-control required="true" [formControl]="form.controls.rack" #rackSelect label="rack">
+                            <app-select-control mandatory="true" [formControl]="form.controls.rack" #rackSelect label="rack">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control required="true" [formControl]="form.controls.edition" #editionSelect label="edition">
+                            <app-select-control mandatory="true" [formControl]="form.controls.edition" #editionSelect label="edition">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
@@ -74,11 +74,11 @@
                             </nz-form-item>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control required="true" [formControl]="form.controls.format" #formatSelect label="format">
+                            <app-select-control mandatory="true" [formControl]="form.controls.format" #formatSelect label="format">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control required="true" [formControl]="form.controls.status" #statusSelect label="status">
+                            <app-select-control mandatory="true" [formControl]="form.controls.status" #statusSelect label="status">
                             </app-select-control>
                         </div>
                     </div>

@@ -23,7 +23,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'name'|translate}}</label>
+                                <label class="required">{{'name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="name" placeholder="{{'name'|translate}}" />
@@ -33,14 +33,13 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'type'|translate }}</label>
+                                <label class="required">{{'type'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <nz-select class="btn-custom" formControlName="type" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'type'|translate|lowercase}">
                                     <nz-option *ngFor="let p of masterstatuses" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
-
                                 </nz-select>
                             </nz-form-control>
                         </nz-form-item>
@@ -51,7 +50,7 @@
                             <div>
                                 <label>{{'color'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-form-control>
                                 <input type="text" nz-input formControlName="color"
                                     placeholder="{{'color'|translate}}" />
                             </nz-form-control>
@@ -66,7 +65,7 @@
                             <div>
                                 <label>{{'note'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-form-control>
                                 <textarea nz-input formControlName="note" placeholder="{{'note'|translate}}">
                                 </textarea>
                             </nz-form-control>
@@ -91,12 +90,7 @@
                 {{'cancel'|translate}}
             </button>
             <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
-                <span *ngIf="mode=='add'">
-                    {{'create'|translate}}
-                </span>
-                <span *ngIf="mode=='edit'">
-                    {{'update'|translate}}
-                </span>
+                {{submitButtonText|translate}}
             </button>
         </div>
     </div>

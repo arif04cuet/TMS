@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
-import { MediaHttpService } from 'src/services/http/media-http.service';
-import { environment } from 'src/environments/environment';
 import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
+import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 
 @Component({
   selector: 'app-asset-model-add',
@@ -14,15 +13,16 @@ import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.
 export class AssetModelAddComponent extends FormComponent {
 
   loading: boolean = true;
+  statuses = [];
 
-  photoUrl;
-  photoLoading = false;
+  @ViewChild('categorySelect') categorySelect: SelectControlComponent;
+  @ViewChild('manufacturerSelect') manufacturerSelect: SelectControlComponent;
+  @ViewChild('depreciationSelect') depreciationSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private assetModelHttpService: AssetModelHttpService,
-    private v: CommonValidator,
-    private mediaHttpService: MediaHttpService
+    private v: CommonValidator
   ) {
     super();
   }
@@ -31,14 +31,33 @@ export class AssetModelAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
-      type: [null, [], this.v.required.bind(this)],
-      eula: [null, []],
-      isRequireUserConfirmation: [null, []],
-      isSendEmail: [null, []],
-      isActive: [null, []],
-      media: [],
+      category: [null, [], this.v.required.bind(this)],
+      manufacturer: [null, [], this.v.required.bind(this)],
+      depreciation: [null, [], this.v.required.bind(this)],
+      modelNo: [],
+      note: [],
+      eol: [],
+      isRequestable: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
+
+  }
+
+  ngAfterViewInit() {
+
+    this.manufacturerSelect.register((pagination, search) => {
+      return this.assetModelHttpService.manufacturers(pagination, search);
+    }).fetch();
+
+    this.categorySelect.register((pagination, search) => {
+      let s = search || ""
+      s += `&Search=Type eq 1`;
+      return this.assetModelHttpService.categories(pagination, s);
+    }).fetch();
+
+    this.depreciationSelect.register((pagination, search) => {
+      return this.assetModelHttpService.depreciations(pagination, search);
+    }).fetch();
 
   }
 
@@ -70,16 +89,13 @@ export class AssetModelAddComponent extends FormComponent {
         (res: any) => {
           this.setValues(this.form.controls, res.data);
           this.loading = false;
-          console.log(`${environment}`);
-          if (res.data.photo) {
-            this.photoUrl = `${environment.serverUri}/${res.data.photo}`;
-          }
         }
       );
     }
     else {
-      this.form.controls.isActive.setValue(true);
+      //this.form.controls.isActive.setValue(true);
       this.loading = false;
+
     }
   }
 

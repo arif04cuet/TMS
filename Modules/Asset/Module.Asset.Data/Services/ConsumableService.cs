@@ -36,6 +36,7 @@ namespace Module.Asset.Data
         public async Task<long> CreateAsync(ConsumableCreateRequest request, CancellationToken cancellationToken = default)
         {
             var newEntity = request.ToMap();
+            newEntity.Available = request.Quantity;
 
             await _consumableRepository.AddAsync(newEntity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -95,7 +96,13 @@ namespace Module.Asset.Data
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
-                    Category = new IdNameViewModel { Id = x.Category.Id, Name = x.Category.Name },
+                    Category = new AssetCategoryViewModel
+                    {
+                        Id = x.Category.Id,
+                        Name = x.Category.Name,
+                        IsSendEmailToUser = x.Category.IsSendEmail,
+                        IsRequireUserConfirmation = x.Category.IsRequireUserConfirmation
+                    },
                     Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name} : null,
                     Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
                     Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
@@ -129,7 +136,13 @@ namespace Module.Asset.Data
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
-                    Category = new IdNameViewModel { Id = x.Category.Id, Name = x.Category.Name },
+                    Category = new AssetCategoryViewModel
+                    {
+                        Id = x.Category.Id,
+                        Name = x.Category.Name,
+                        IsSendEmailToUser = x.Category.IsSendEmail,
+                        IsRequireUserConfirmation = x.Category.IsRequireUserConfirmation
+                    },
                     Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name } : null,
                     Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
                     Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
@@ -146,7 +159,7 @@ namespace Module.Asset.Data
             return result;
         }
 
-        public async Task<PagedCollection<ConsumableCheckoutListModel>> ListCheckoutAsync(long consumableId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public async Task<PagedCollection<ConsumableCheckoutListViewModel>> ListCheckoutAsync(long consumableId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var query = _consumableUserRepository
                 .AsReadOnly()
@@ -155,7 +168,7 @@ namespace Module.Asset.Data
 
             var items = await query
                 .ApplyPagination(pagingOptions)
-                .Select(x => new ConsumableCheckoutListModel
+                .Select(x => new ConsumableCheckoutListViewModel
                 {
                     Id = x.Id,
                     ConsumableId = x.ConsumableId,
@@ -169,7 +182,7 @@ namespace Module.Asset.Data
 
             var total = await query.Select(x => x.Id).CountAsync(cancellationToken);
 
-            var result = new PagedCollection<ConsumableCheckoutListModel>(items, total, pagingOptions);
+            var result = new PagedCollection<ConsumableCheckoutListViewModel>(items, total, pagingOptions);
             return result;
 
         }

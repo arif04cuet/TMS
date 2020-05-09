@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
-import { MediaHttpService } from 'src/services/http/media-http.service';
-import { environment } from 'src/environments/environment';
 import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
+import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
+import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
+import { StatusHttpService } from 'src/services/http/asset/status-http.service';
 
 @Component({
   selector: 'app-asset-add',
@@ -14,15 +15,19 @@ import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service
 export class AssetAddComponent extends FormComponent {
 
   loading: boolean = true;
+  statuses = [];
 
-  photoUrl;
-  photoLoading = false;
+  @ViewChild('statusSelect') statusSelect: SelectControlComponent;
+  @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
+  @ViewChild('locationSelect') locationSelect: SelectControlComponent;
+  @ViewChild('modelSelect') modelSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private assetHttpService: AssetBaseHttpService,
-    private v: CommonValidator,
-    private mediaHttpService: MediaHttpService
+    private assetModelHttpService: AssetModelHttpService,
+    private statusHttpService: StatusHttpService,
+    private v: CommonValidator
   ) {
     super();
   }
@@ -31,14 +36,39 @@ export class AssetAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
-      type: [null, [], this.v.required.bind(this)],
-      eula: [null, []],
-      isRequireUserConfirmation: [null, []],
-      isSendEmail: [null, []],
-      isActive: [null, []],
-      media: [],
+      status: [null, [], this.v.required.bind(this)],
+      supplier: [],
+      location: [],
+      itemNo: [],
+      assetModel: [null, [], this.v.required.bind(this)],
+      note: [],
+      isRequestable: [],
+      orderNo: [],
+      purchaseCost: [],
+      purchaseDate: [],
+      warranty: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
+
+  }
+
+  ngAfterViewInit() {
+
+    this.locationSelect.register((pagination, search) => {
+      return this.assetHttpService.locations(pagination, search);
+    }).fetch();
+
+    this.statusSelect.register((pagination, search) => {
+      return this.statusHttpService.list(pagination, search);
+    }).fetch();
+
+    this.supplierSelect.register((pagination, search) => {
+      return this.assetHttpService.suppliers(pagination, search);
+    }).fetch();
+
+    this.modelSelect.register((pagination, search) => {
+      return this.assetModelHttpService.list(pagination, search);
+    }).fetch();
 
   }
 
@@ -70,16 +100,13 @@ export class AssetAddComponent extends FormComponent {
         (res: any) => {
           this.setValues(this.form.controls, res.data);
           this.loading = false;
-          console.log(`${environment}`);
-          if (res.data.photo) {
-            this.photoUrl = `${environment.serverUri}/${res.data.photo}`;
-          }
         }
       );
     }
     else {
-      this.form.controls.isActive.setValue(true);
+      //this.form.controls.isActive.setValue(true);
       this.loading = false;
+
     }
   }
 

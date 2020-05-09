@@ -43,7 +43,7 @@ export class AccessoryAddComponent extends FormComponent {
       purchaseCost: [],
       note: [],
       quantity: [null, [], this.v.required.bind(this)],
-      minQuantity: []
+      minQuantity: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 

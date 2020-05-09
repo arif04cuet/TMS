@@ -18,12 +18,11 @@
     <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
         <div class="content">
             <form nz-form [formGroup]="form">
-
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'name'|translate}}</label>
+                                <label class="required">{{'name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="name" placeholder="{{'name'|translate}}" />
@@ -35,7 +34,7 @@
                             <div>
                                 <label>{{'url'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-form-control>
                                 <input type="text" nz-input formControlName="url" placeholder="{{'url'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
@@ -43,27 +42,25 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'support_email'|translate}}</label>
+                                <label class="required">{{'support.email'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="supportEmail"
-                                    placeholder="{{'email'|translate}}" />
+                                    placeholder="{{'support.email'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-
                 </div>
 
                 <div nz-row [nzGutter]="24">
-
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'support_phone'|translate}}</label>
+                                <label class="required">{{'support.phone'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="supportPhone"
-                                    placeholder="{{'mobile'|translate}}" />
+                                    placeholder="{{'support.phone'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -71,15 +68,14 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'support_url'|translate}}</label>
+                                <label>{{'support.url'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-form-control>
                                 <input type="text" nz-input formControlName="supportUrl"
-                                    placeholder="{{'url'|translate}}" />
+                                    placeholder="{{'support.url'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-
                     <div nz-col [nzSpan]="8">
                         <nz-form-control>
                             <span nz-checkbox formControlName="isActive">
@@ -87,11 +83,7 @@
                             </span>
                         </nz-form-control>
                     </div>
-
                 </div>
-
-
-
             </form>
         </div>
     </div>

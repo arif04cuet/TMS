@@ -24,7 +24,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'name'|translate}}</label>
+                                <label class="required">{{'name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="name" placeholder="{{'name'|translate}}" />
@@ -36,7 +36,7 @@
                             <div>
                                 <label>{{'model.no'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-form-control>
                                 <input type="text" nz-input formControlName="modelNo"
                                     placeholder="{{'model.no'|translate}}" />
                             </nz-form-control>
@@ -47,7 +47,7 @@
                             <div>
                                 <label>{{'order_number'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-form-control>
                                 <input type="text" nz-input formControlName="orderNumber"
                                     placeholder="{{'order_number'|translate}}" />
                             </nz-form-control>
@@ -57,7 +57,7 @@
 
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #categorySelect label="category" [formControl]="form.controls.category">
+                        <app-select-control mandatory="true" #categorySelect label="category" [formControl]="form.controls.category">
                         </app-select-control>
                     </div>
 
@@ -77,7 +77,7 @@
                             <div>
                                 <label>{{'purchase_cost'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-form-control>
                                 <nz-input-group nzSuffix="{{'tk'|translate}}">
                                     <input size="small" type="number" nz-input formControlName="purchaseCost"
                                         placeholder="{{'purchase_cost'|translate}}" />
@@ -90,7 +90,7 @@
                             <div>
                                 <label>{{'purchase_date'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-form-control>
                                 <nz-date-picker formControlName="purchaseDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
@@ -101,7 +101,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'quantity'|translate}}</label>
+                                <label class="required">{{'quantity'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="number" nz-input formControlName="quantity"
@@ -112,7 +112,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'min.quantity'|translate}}</label>
+                                <label class="required">{{'min.quantity'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="number" nz-input formControlName="minQuantity"
@@ -133,7 +133,7 @@
                             <div>
                                 <label>{{'note'|translate}}</label>
                             </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-form-control>
                                 <textarea nz-input formControlName="note" placeholder="{{'note'|translate}}">
                                 </textarea>
                             </nz-form-control>

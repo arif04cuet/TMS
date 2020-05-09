@@ -1,5 +1,4 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
-
 <div *ngIf="!loading" class="box">
     <div class="block pad-v-12 pad-h-20 box-divider">
         <div class="content">
@@ -18,12 +17,11 @@
     <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
         <div class="content">
             <form nz-form [formGroup]="form">
-
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="12">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'name'|translate}}</label>
+                                <label class="required">{{'name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="name" placeholder="{{'name'|translate}}" />
@@ -33,7 +31,7 @@
                     <div nz-col [nzSpan]="12">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'address'|translate }}</label>
+                                <label class="required">{{'address'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <textarea nz-input formControlName="address" placeholder="{{'address'|translate}}">
@@ -43,12 +41,11 @@
                         </nz-form-item>
                     </div>
                 </div>
-
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="12">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'contact_name'|translate}}</label>
+                                <label class="required">{{'contact_name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="contactName"
@@ -59,7 +56,7 @@
                     <div nz-col [nzSpan]="12">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'contact_email'|translate }}</label>
+                                <label class="required">{{'contact_email'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input nz-input formControlName="contactEmail" placeholder="{{'email'|translate}}" />
@@ -67,13 +64,11 @@
                         </nz-form-item>
                     </div>
                 </div>
-
-
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="12">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'contact_phone'|translate }}</label>
+                                <label class="required">{{'contact_phone'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input nz-input formControlName="contactPhone" placeholder="{{'mobile'|translate}}" />
@@ -88,8 +83,6 @@
                         </nz-form-control>
                     </div>
                 </div>
-
-
             </form>
         </div>
     </div>
@@ -99,12 +92,7 @@
                 {{'cancel'|translate}}
             </button>
             <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
-                <span *ngIf="mode=='add'">
-                    {{'create'|translate}}
-                </span>
-                <span *ngIf="mode=='edit'">
-                    {{'update'|translate}}
-                </span>
+                {{submitButtonText|translate}}
             </button>
         </div>
     </div>

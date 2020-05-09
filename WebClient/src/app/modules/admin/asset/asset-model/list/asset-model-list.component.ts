@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
-import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
@@ -8,8 +7,7 @@ import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.
 
 @Component({
   selector: 'app-asset-model-list',
-  templateUrl: './asset-model-list.component.html',
-  styleUrls: ['./asset-model-list.component.scss']
+  templateUrl: './asset-model-list.component.html'
 })
 export class AssetModelListComponent extends TableComponent {
 
@@ -18,10 +16,8 @@ export class AssetModelListComponent extends TableComponent {
     { id: false, name: 'In Active' }
   ];
 
-  @Searchable("Name", "like") Name;
-  @Searchable("Type", "eq") Type;
-  @Searchable("IsActive", "eq") IsActive;
-
+  @Searchable("Name", "like") name;
+  @Searchable("Category.Name", "like") category;
 
   constructor(
     private assetModelHttpService: AssetModelHttpService,
@@ -32,10 +28,10 @@ export class AssetModelListComponent extends TableComponent {
 
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
-    this.gets();
+    this.load();
 
     this.onDeleted = (res: any) => {
-      this.gets();
+      this.load();
     }
   }
 
@@ -48,34 +44,12 @@ export class AssetModelListComponent extends TableComponent {
     }
   }
 
-  gets(pagination = null, search = null) {
-    this.loading = true;
-    const request = [
-      this.assetModelHttpService.list(pagination, search)
-    ]
-    this.subscribe(forkJoin(request),
-      (res: any) => {
-        this.fill(res[0]);
-      },
-      err => {
-        console.log(err);
-        this.loading = false;
-      }
-    );
-
-  }
-
   search() {
-    this.gets(null, this.getSearchTerms())
+    this.load();
   }
 
   refresh() {
-    this.resetFilters();
-    this.gets(null, null);
-  }
-
-  resetFilters() {
-    this.Name = this.Type = this.IsActive = '';
+    this.load();
   }
 
 }

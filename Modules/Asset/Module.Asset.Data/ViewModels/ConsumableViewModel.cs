@@ -7,7 +7,7 @@ namespace Module.Asset.Data
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public IdNameViewModel Category { get; set; }
+        public AssetCategoryViewModel Category { get; set; }
         public IdNameViewModel Manufacturer { get; set; }
         public IdNameViewModel Supplier { get; set; }
         public IdNameViewModel Location { get; set; }

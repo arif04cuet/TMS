@@ -9,85 +9,85 @@ using Module.Asset.Entities;
 namespace Module.Asset.Controllers
 {
 
-    [Route("api/asset/components")]
+    [Route("api/asset/consumables")]
     [ApiController]
-    public class ComponentController : ControllerBase
+    public class ConsumableController : ControllerBase
     {
 
-        private readonly IComponentService _componentService;
+        private readonly IConsumableService _consumableService;
         private readonly ICheckoutHistoryService _checkoutHistoryService;
 
-        public ComponentController(
-            IComponentService componentService,
+        public ConsumableController(
+            IConsumableService consumableService,
             ICheckoutHistoryService checkoutHistoryService)
         {
             _checkoutHistoryService = checkoutHistoryService;
-            _componentService = componentService;
+            _consumableService = consumableService;
         }
 
         [HttpGet]
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _componentService.ListAsync(pagingOptions, searchOptions);
+            var result = await _consumableService.ListAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(long id)
         {
-            var result = await _componentService.Get(id);
+            var result = await _consumableService.Get(id);
             return result.ToOkResult();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ComponentCreateRequest request)
+        public async Task<IActionResult> Post([FromBody] ConsumableCreateRequest request)
         {
-            var result = await _componentService.CreateAsync(request);
+            var result = await _consumableService.CreateAsync(request);
             return result.ToCreatedResult();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(long id, [FromBody] ComponentUpdateRequest request)
+        public async Task<IActionResult> Put(long id, [FromBody] ConsumableUpdateRequest request)
         {
             request.Id = id;
-            var result = await _componentService.UpdateAsync(request);
+            var result = await _consumableService.UpdateAsync(request);
             return result.ToOkResult();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            await _componentService.DeleteAsync(id);
+            await _consumableService.DeleteAsync(id);
             return NoContent();
         }
 
         [HttpGet("{id}/checkouts")]
         public async Task<ActionResult> ListCheckouts(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _componentService.ListCheckoutAsync(id, pagingOptions, searchOptions);
+            var result = await _consumableService.ListCheckoutAsync(id, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 
         [HttpGet("{id}/histories")]
         public async Task<ActionResult> ListHistories(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _checkoutHistoryService.ListAsync(id, AssetType.Accessory, pagingOptions, searchOptions);
+            var result = await _checkoutHistoryService.ListAsync(id, AssetType.Consumable, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 
         [HttpPost("{id}/checkouts")]
-        public async Task<IActionResult> Checkout(long id, [FromBody] ComponentCheckoutRequest request)
+        public async Task<IActionResult> Checkout(long id, [FromBody] ConsumableCheckoutRequest request)
         {
-            request.ComponentId = id;
-            var result = await _componentService.CheckoutAsync(request);
+            request.ConsumableId = id;
+            var result = await _consumableService.CheckoutAsync(request);
             return result.ToCreatedResult();
         }
 
         [HttpPost("{id}/checkins")]
-        public async Task<IActionResult> Checkin(long id, [FromBody] ComponentCheckinRequest request)
+        public async Task<IActionResult> Checkin(long id, [FromBody] ConsumableCheckinRequest request)
         {
             request.Id = id;
-            var result = await _componentService.CheckinAsync(request);
+            var result = await _consumableService.CheckinAsync(request);
             return result.ToCreatedResult();
         }
 

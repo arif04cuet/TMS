@@ -19,7 +19,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   @Input() formControl: FormControl;
   @Output() onChange = new EventEmitter();
   @Input() labelKey = 'name';
-  @Input() required = false;
+  @Input() mandatory: boolean = false;
 
   loading: boolean = false;
   items = [];

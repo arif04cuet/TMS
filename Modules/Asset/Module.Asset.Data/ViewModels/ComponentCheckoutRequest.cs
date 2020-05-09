@@ -5,6 +5,7 @@ namespace Module.Asset.Data
     {
         public long ComponentId { get; set; }
         public long AssetId { get; set; }
+        public int Quantity { get; set; }
         public string Note { get; set; }
     }
 }

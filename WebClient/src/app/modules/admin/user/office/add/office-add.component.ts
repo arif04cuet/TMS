@@ -34,9 +34,9 @@ export class OfficeAddComponent extends FormComponent {
       officeName: [null, [], this.v.required.bind(this)],
       addressLine1: [null, [], this.v.required.bind(this)],
       addressLine2: [],
-      division: [],
-      district: [],
-      upazila: [],
+      division: [null, [], this.v.required.bind(this)],
+      district: [null, [], this.v.required.bind(this)],
+      upazila: [null, [], this.v.required.bind(this)],
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }

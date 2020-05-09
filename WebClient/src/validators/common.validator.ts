@@ -11,7 +11,7 @@ export class CommonValidator extends BaseComponent {
     if (!control.value) {
       return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
     }
-    return of(true);
+    return of(false);
   }
 
   mobile(control: FormControl) {

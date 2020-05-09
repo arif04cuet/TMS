@@ -14,7 +14,7 @@ namespace Module.Asset.Entities
         public Component Component { get; set; }
 
         public long? IssuedToAssetId { get; set; }
-        public virtual AssetModel IssuedToAsset { get; set; }
+        public virtual Asset IssuedToAsset { get; set; }
 
         public int Quantity { get; set; }
 

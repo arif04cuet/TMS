@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { ComponentHttpService } from 'src/services/http/asset/component-http.service';
+import { FormControl } from '@angular/forms';
+import { of, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-component-checkin',
@@ -12,7 +14,8 @@ import { ComponentHttpService } from 'src/services/http/asset/component-http.ser
 export class ComponentCheckinComponent extends FormComponent {
 
   loading: boolean = true;
-  data: any = {}
+  data: any = {};
+  checkoutData: any = {};
 
   private checkoutId;
 
@@ -24,12 +27,14 @@ export class ComponentCheckinComponent extends FormComponent {
   }
 
   ngOnInit(): void {
+    const snapshot = this.activatedRoute.snapshot;
+    this.checkoutId = snapshot.queryParams.checkout;
     this.onCheckMode = id => this.get(id);
     this.createForm({
+      quantity: [null, [], this.quantityValidation.bind(this)],
       note: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
-    this.checkoutId = this._activatedRouteSnapshot.queryParams.checkout;
   }
 
   submit(): void {
@@ -50,9 +55,14 @@ export class ComponentCheckinComponent extends FormComponent {
   get(id) {
     this.loading = true;
     if (id != null) {
-      this.subscribe(this.componentHttpService.get(id),
+      const requests = [
+        this.componentHttpService.get(id),
+        this.componentHttpService.getCheckout(id, this.checkoutId)
+      ]
+      this.subscribe(forkJoin(requests),
         (res: any) => {
-          this.data = res.data;
+          this.data = res[0].data;
+          this.checkoutData = res[1].data;
           this.loading = false;
         }
       );
@@ -64,6 +74,22 @@ export class ComponentCheckinComponent extends FormComponent {
 
   cancel() {
     this.goTo('/admin/asset/components');
+  }
+
+  quantityValidation(control: FormControl) {
+    if (!control.value) {
+      return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+    }
+    else if (isNaN(control.value)) {
+      return this.error(MESSAGE_KEY.MUST_BE_NUMERIC);
+    }
+    else if (Number(control.value) <= 0) {
+      return this.error(MESSAGE_KEY.MUST_BE_GREATER_THAN_ZERO);
+    }
+    else if (Number(control.value) > this.checkoutData.quantity) {
+      return this.error('quantity.exceeds');
+    }
+    return of(false);
   }
 
 }

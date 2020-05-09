@@ -18,7 +18,7 @@ namespace Module.Asset.Data
 
         Task<PagedCollection<ConsumableViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
-        Task<PagedCollection<ConsumableCheckoutListModel>> ListCheckoutAsync(long accessoryId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+        Task<PagedCollection<ConsumableCheckoutListViewModel>> ListCheckoutAsync(long accessoryId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<bool> CheckoutAsync(ConsumableCheckoutRequest request, CancellationToken cancellationToken = default);
 

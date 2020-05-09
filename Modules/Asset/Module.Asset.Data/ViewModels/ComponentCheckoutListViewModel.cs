@@ -2,10 +2,11 @@
 
 namespace Module.Asset.Data
 {
-    public class ComponentCheckoutListModel : IViewModel
+    public class ComponentCheckoutListViewModel : IViewModel
     {
         public long Id { get; set; }
         public long ComponentId { get; set; }
-        public IdNameViewModel User { get; set; }
+        public int Quantity { get; set; }
+        public IdNameViewModel Asset { get; set; }
     }
 }

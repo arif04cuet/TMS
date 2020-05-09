@@ -2,7 +2,7 @@
 
 namespace Module.Asset.Data
 {
-    public class ConsumableCheckoutListModel : IViewModel
+    public class ConsumableCheckoutListViewModel : IViewModel
     {
         public long Id { get; set; }
         public long ConsumableId { get; set; }

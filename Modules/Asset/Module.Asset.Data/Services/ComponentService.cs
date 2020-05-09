@@ -35,7 +35,8 @@ namespace Module.Asset.Data
         {
             var newEntity = request.ToMap();
             await _componentRepository.AddAsync(newEntity, cancellationToken);
-            
+            newEntity.Available = request.Quantity;
+
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return newEntity.Id;
         }
@@ -47,7 +48,10 @@ namespace Module.Asset.Data
             if (entity == null)
                 throw new NotFoundException($"Component not found");
 
-            var totalCheckout = await _componentAssetRepository.MatchAsync(new ComponentCountByIdCriteria(entity.Id));
+            var totalCheckout = await _componentAssetRepository
+                .Where(x => x.ComponentId == entity.Id && !x.IsDeleted)
+                .Select(x => x.Quantity)
+                .SumAsync();
 
             if (request.Quantity < totalCheckout)
                 throw new ValidationException("Assigned components can not be deleted.");
@@ -92,8 +96,14 @@ namespace Module.Asset.Data
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
-                    Category = new IdNameViewModel { Id = x.Category.Id, Name = x.Category.Name },
-                    Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name} : null,
+                    Category = new AssetCategoryViewModel
+                    {
+                        Id = x.Category.Id,
+                        Name = x.Category.Name,
+                        IsSendEmailToUser = x.Category.IsSendEmail,
+                        IsRequireUserConfirmation = x.Category.IsRequireUserConfirmation
+                    },
+                    Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name } : null,
                     Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
                     Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
                     MinQuantity = x.MinQuantity,
@@ -108,7 +118,7 @@ namespace Module.Asset.Data
 
             return result;
         }
-        
+
         public async Task<PagedCollection<ComponentViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var itemsQuery = _componentRepository
@@ -126,7 +136,13 @@ namespace Module.Asset.Data
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
-                    Category = new IdNameViewModel { Id = x.Category.Id, Name = x.Category.Name },
+                    Category = new AssetCategoryViewModel
+                    {
+                        Id = x.Category.Id,
+                        Name = x.Category.Name,
+                        IsSendEmailToUser = x.Category.IsSendEmail,
+                        IsRequireUserConfirmation = x.Category.IsRequireUserConfirmation
+                    },
                     Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name } : null,
                     Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
                     Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
@@ -143,7 +159,7 @@ namespace Module.Asset.Data
             return result;
         }
 
-        public async Task<PagedCollection<ComponentCheckoutListModel>> ListCheckoutAsync(long componentId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public async Task<PagedCollection<ComponentCheckoutListViewModel>> ListCheckoutAsync(long componentId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var query = _componentAssetRepository
                 .AsReadOnly()
@@ -152,23 +168,43 @@ namespace Module.Asset.Data
 
             var items = await query
                 .ApplyPagination(pagingOptions)
-                .Select(x => new ComponentCheckoutListModel
+                .Select(x => new ComponentCheckoutListViewModel
                 {
                     Id = x.Id,
                     ComponentId = x.ComponentId,
-                    User = new IdNameViewModel
+                    Asset = new IdNameViewModel
                     {
                         Id = x.IssuedToAsset.Id,
                         Name = x.IssuedToAsset.Name
-                    }
+                    },
+                    Quantity = x.Quantity
                 })
                 .ToListAsync(cancellationToken);
 
             var total = await query.Select(x => x.Id).CountAsync(cancellationToken);
 
-            var result = new PagedCollection<ComponentCheckoutListModel>(items, total, pagingOptions);
+            var result = new PagedCollection<ComponentCheckoutListViewModel>(items, total, pagingOptions);
             return result;
 
+        }
+
+        public async Task<ComponentCheckoutListViewModel> GetCheckoutAsync(long checkoutId, CancellationToken cancellationToken = default)
+        {
+            var checkout = await _componentAssetRepository
+                .Where(x => x.Id == checkoutId && !x.IsDeleted, true)
+                .Select(x => new ComponentCheckoutListViewModel
+                {
+                    Id = x.Id,
+                    ComponentId = x.ComponentId,
+                    Asset = new IdNameViewModel
+                    {
+                        Id = x.IssuedToAsset.Id,
+                        Name = x.IssuedToAsset.Name
+                    },
+                    Quantity = x.Quantity
+                })
+                .FirstOrDefaultAsync(cancellationToken);
+            return checkout;
         }
 
         public async Task<bool> CheckoutAsync(ComponentCheckoutRequest request, CancellationToken cancellationToken = default)
@@ -182,6 +218,9 @@ namespace Module.Asset.Data
             if (entity.Available <= 0)
                 throw new NotFoundException("No available component to checkout");
 
+            if (entity.Available < request.Quantity)
+                throw new NotFoundException("Qantity exceeds.");
+
             var assetExist = await _assetRepository.MatchAsync(new ExistAssetByIdCriteria(request.AssetId));
 
             if (!assetExist)
@@ -190,11 +229,12 @@ namespace Module.Asset.Data
             var checkout = new ComponentAsset
             {
                 ComponentId = request.ComponentId,
-                IssuedToAssetId = request.AssetId
+                IssuedToAssetId = request.AssetId,
+                Quantity = request.Quantity
             };
 
             await _componentAssetRepository.AddAsync(checkout);
-            entity.Available = entity.Available - 1;
+            entity.Available = entity.Available - request.Quantity;
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -221,8 +261,19 @@ namespace Module.Asset.Data
             if (checkin == null)
                 throw new NotFoundException("Checkout not found");
 
-            _componentAssetRepository.Remove(checkin);
-            checkin.Component.Available = checkin.Component.Available + 1;
+            if (checkin.Quantity < request.Quantity)
+                throw new NotFoundException("Qantity exceeds.");
+
+            if (checkin.Quantity == request.Quantity)
+            {
+                _componentAssetRepository.Remove(checkin);
+            }
+            else if (checkin.Quantity > request.Quantity)
+            {
+                checkin.Quantity = checkin.Quantity - request.Quantity;
+            }
+
+            checkin.Component.Available = checkin.Component.Available + request.Quantity;
 
             var result = await _unitOfWork.SaveChangesAsync();
 

@@ -5,8 +5,10 @@ import { CommonValidator } from 'src/validators/common.validator';
 
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { ComponentHttpService } from 'src/services/http/asset/component-http.service';
-import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
+import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
+import { FormControl } from '@angular/forms';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-component-checkout',
@@ -17,12 +19,12 @@ export class ComponentCheckoutComponent extends FormComponent {
   loading: boolean = true;
   data: any = {};
 
-  @ViewChild('userSelect') userSelect: SelectControlComponent;
+  @ViewChild('assetSelect') assetSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private componentHttpService: ComponentHttpService,
-    private userHttpService: UserHttpService,
+    private assetHttpService: AssetBaseHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -32,15 +34,16 @@ export class ComponentCheckoutComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       componentId: [],
-      userId: [null, [], this.v.required.bind(this)],
+      assetId: [null, [], this.v.required.bind(this)],
+      quantity: [null, [], this.quantityValidation.bind(this)],
       note: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
 
   ngAfterViewInit() {
-    this.userSelect.register((pagination, search) => {
-      return this.userHttpService.list(pagination, search);
+    this.assetSelect.register((pagination, search) => {
+      return this.assetHttpService.list(pagination, search);
     }).fetch();
   }
 
@@ -77,6 +80,22 @@ export class ComponentCheckoutComponent extends FormComponent {
 
   cancel() {
     this.goTo('/admin/asset/components');
+  }
+
+  quantityValidation(control: FormControl) {
+    if (!control.value) {
+      return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+    }
+    else if (isNaN(control.value)) {
+      return this.error(MESSAGE_KEY.MUST_BE_NUMERIC);
+    }
+    else if (Number(control.value) <= 0) {
+      return this.error(MESSAGE_KEY.MUST_BE_GREATER_THAN_ZERO);
+    }
+    else if (Number(control.value) > this.data.available) {
+      return this.error('quantity.exceeds');
+    }
+    return of(false);
   }
 
 }
