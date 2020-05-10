@@ -233,5 +233,6 @@
     "histories": "Histories",
     "quantity.exceeds": "Quantity exceeds",
     "must.be.greater.than.zero": "Must be greater than zero",
-    "asset": "Asset"
+    "asset": "Asset",
+    "checkout.to": "Checkout To"
 }

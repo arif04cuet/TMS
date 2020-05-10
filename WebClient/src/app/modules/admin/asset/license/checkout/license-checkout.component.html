@@ -24,14 +24,38 @@
                     <div nz-col [nzSpan]="8">
                         <app-view [data]="data.productKey" label="product_key"></app-view>
                     </div>
-                    <div nz-col [nzSpan]="8">
-                        <app-view [data]="data.available" label="available"></app-view>
-                    </div>
                 </div>
 
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
+                            <nz-form-item class="field-container">
+                                <div>
+                                    <label>{{'checkout.to'|translate}}</label>
+                                </div>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <button (click)="isUserSelected = true" class="btn-custom" nz-button nzType="{{isUserSelected ? 'primary' : ''}}">
+                                        <span>
+                                            {{'user'|translate}}
+                                        </span>
+                                    </button>
+                                
+                                    <button (click)="isUserSelected = false" class="btn-custom"nz-button nzType="{{!isUserSelected ? 'primary' : ''}}">
+                                        <span>
+                                            {{'asset'|translate}}
+                                        </span>
+                                    </button>
+                                </nz-form-control>
+                            </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8" [hidden]="isUserSelected==false">
                         <app-select-control #userSelect label="user" labelKey="fullName" [formControl]="form.controls.issuedToUserId">
+                        </app-select-control>
+                    </div>
+                    <div nz-col [nzSpan]="8" [hidden]="isUserSelected==true">
+                        <app-select-control #assetSelect label="asset" [formControl]="form.controls.issuedToAssetId">
                         </app-select-control>
                     </div>
                 </div>

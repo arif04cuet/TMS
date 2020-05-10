@@ -7,6 +7,9 @@ import { LicenseHttpService } from 'src/services/http/asset/license-http.service
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { FormControl } from '@angular/forms';
+import { of } from 'rxjs';
+import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
 
 @Component({
   selector: 'app-license-checkout',
@@ -16,13 +19,16 @@ export class LicenseCheckoutComponent extends FormComponent {
 
   loading: boolean = true;
   data: any = {};
+  isUserSelected : boolean = true;
   private checkoutId: number;
   
   @ViewChild('userSelect') userSelect: SelectControlComponent;
+  @ViewChild('assetSelect') assetSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private licenseHttpService: LicenseHttpService,
+    private assetHttpService: AssetBaseHttpService,
     private userHttpService: UserHttpService,
     private v: CommonValidator
   ) {
@@ -36,7 +42,8 @@ export class LicenseCheckoutComponent extends FormComponent {
     this.checkoutId = this._activatedRouteSnapshot.queryParams.checkout;
     this.createForm({
       licenseSeatId: [this.checkoutId? +this.checkoutId : 0],
-      issuedToUserId: [null, [], this.v.required.bind(this)],
+      issuedToAssetId: [null, [], this.assetRequiredValidation.bind(this)],
+      issuedToUserId: [null, [], this.userRequiredValidation.bind(this)],
       note: [null, [], this.v.required.bind(this)]
     });
     
@@ -46,7 +53,9 @@ export class LicenseCheckoutComponent extends FormComponent {
     this.userSelect.register((pagination, search) => {
       return this.userHttpService.list(pagination, search);
     }).fetch();
-
+    this.assetSelect.register((pagination, search) => {
+      return this.assetHttpService.list(pagination, search);
+    }).fetch();
   }
 
   submit(): void {
@@ -85,6 +94,22 @@ export class LicenseCheckoutComponent extends FormComponent {
   
   cancel() {
     this.goTo('/admin/asset/licenses');
+  }
+
+  private userRequiredValidation(control: FormControl) {
+    const v = control.value;
+    if ((v === undefined || v === null) && this.isUserSelected) {
+      return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+    }
+    return of(true);
+  }
+
+  private assetRequiredValidation(control: FormControl) {
+    const v = control.value;
+    if ((v === undefined || v === null) && !this.isUserSelected) {
+      return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+    }
+    return of(true);
   }
 
 }

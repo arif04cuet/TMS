@@ -8,6 +8,7 @@ import { LicenseListRoutingModule } from './license-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LicenseHttpService } from 'src/services/http/asset/license-http.service';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
   exports: [LicenseListComponent],
   providers: [
     LicenseHttpService,
-    UserHttpService
+    UserHttpService,
+    AssetBaseHttpService
   ]
 })
 export class LicenseListModule { }
