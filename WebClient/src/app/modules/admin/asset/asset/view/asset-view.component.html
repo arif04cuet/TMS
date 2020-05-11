@@ -1,0 +1,19 @@
+<div class="box">
+    <nz-tabset class="form-tabset">
+        <nz-tab nzTitle="{{'details'|translate}}">
+            <ng-template nz-tab>
+                <app-asset-details></app-asset-details>
+            </ng-template>
+        </nz-tab>
+        <nz-tab nzTitle="{{ 'components'|translate }}">
+            <ng-template nz-tab>
+                <app-asset-component-list></app-asset-component-list>
+            </ng-template>
+        </nz-tab>
+        <nz-tab nzTitle="{{ 'maintenances'|translate }}">
+            <ng-template nz-tab>
+                <app-asset-maintenance-list></app-asset-maintenance-list>
+            </ng-template>
+        </nz-tab>
+    </nz-tabset>
+</div>

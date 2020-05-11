@@ -21,5 +21,7 @@ namespace Module.Asset.Data
         Task<bool> CheckoutAsync(AssetCheckoutRequest request, CancellationToken cancellationToken = default);
 
         Task<bool> CheckinAsync(AssetCheckinRequest request, CancellationToken cancellationToken = default);
+
+        Task<PagedCollection<AssetComponentListViewModel>> ListComponentsAsync(long assetId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
     }
 }

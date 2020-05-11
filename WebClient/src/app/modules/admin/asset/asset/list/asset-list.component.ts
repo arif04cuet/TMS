@@ -54,7 +54,9 @@ export class AssetListComponent extends TableComponent {
   }
 
   view(model) {
-
+    if(model) {
+      this.goTo(`/admin/asset/${model.id}/view`);
+    }
   }
 
   checkout(model) {

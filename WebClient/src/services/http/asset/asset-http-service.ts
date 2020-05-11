@@ -110,4 +110,9 @@ export class AssetBaseHttpService {
     public getCheckout(id: number, checkoutId: number) {
         return this.httpService.get(`${this.AssetBaseUri}/${this.EndPoint}/${id}/checkouts/${checkoutId}`);
     }
+
+    public getComponents(assetId: number, pagination = null, search = null) {
+        let url = `${this.buildBaseEndpoint()}/${assetId}/components?`;
+        return this.httpService.get(this.buildUrl(url, pagination, search));
+    }
 }

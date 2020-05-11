@@ -233,5 +233,10 @@
     "histories": "Histories",
     "quantity.exceeds": "Quantity exceeds",
     "must.be.greater.than.zero": "Must be greater than zero",
-    "asset": "Asset"
+    "asset": "Asset",
+    "model": "Model",
+    "yes": "Yes",
+    "no": "No",
+    "components": "Components",
+    "maintenances": "Maintenances"
 }

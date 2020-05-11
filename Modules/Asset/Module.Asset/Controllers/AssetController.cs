@@ -84,5 +84,12 @@ namespace Module.Asset.Controllers
             return result.ToCreatedResult();
         }
 
+        [HttpGet("{id}/components")]
+        public async Task<ActionResult> ListComponents(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _assetService.ListComponentsAsync(id, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
     }
 }

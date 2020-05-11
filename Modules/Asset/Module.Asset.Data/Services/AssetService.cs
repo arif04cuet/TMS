@@ -19,6 +19,7 @@ namespace Module.Asset.Data
         private readonly IRepository<AssetCheckout> _assetCheckoutRepository;
         private readonly ICheckoutHistoryService _checkoutHistoryService;
         private readonly IBarcodeService _barcodeService;
+        private readonly IRepository<ComponentAsset> _componentAssetRepository;
 
         public AssetService(
             IUnitOfWork unitOfWork,
@@ -30,6 +31,7 @@ namespace Module.Asset.Data
             _unitOfWork = unitOfWork;
             _assetRepository = _unitOfWork.GetRepository<Entities.Asset>();
             _assetCheckoutRepository = _unitOfWork.GetRepository<AssetCheckout>();
+            _componentAssetRepository = _unitOfWork.GetRepository<ComponentAsset>();
         }
 
         public async Task<long> CreateAsync(AssetCreateRequest request, CancellationToken cancellationToken = default)
@@ -49,8 +51,8 @@ namespace Module.Asset.Data
                 throw new NotFoundException($"Asset not found");
 
             entity = request.ToMap(entity);
-            
-            if(string.IsNullOrEmpty(entity.Barcode))
+
+            if (string.IsNullOrEmpty(entity.Barcode))
             {
                 entity.Barcode = _barcodeService.Generate();
             }
@@ -73,25 +75,38 @@ namespace Module.Asset.Data
 
         public async Task<AssetViewModel> Get(long id, CancellationToken cancellationToken = default)
         {
-            var result = await _assetRepository
+            var query = _assetRepository
                 .AsReadOnly()
-                .Where(x => !x.IsDeleted)
-                .Select(x => new AssetViewModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    PurchaseDate = x.PurchaseDate,
-                    PurchaseCost = x.PurchaseCost,
-                    Note = x.Note,
-                    Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
-                    Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
-                    AssetModel = new IdNameViewModel { Id = x.AssetModel.Id, Name = x.AssetModel.Name },
-                    IsRequestable = x.IsRequestable,
-                    ItemNo = x.ItemNo,
-                    OrderNo = x.OrderNo,
-                    Status = new IdNameViewModel { Id = x.Status.Id, Name = x.Status.Name },
-                    Warranty = x.Warranty
-                })
+                .Where(x => !x.IsDeleted);
+
+            var assetCheckouts = _assetCheckoutRepository.AsQueryable();
+
+            var result = await (from x in query
+                                join assetCheckout in assetCheckouts on x.Id equals assetCheckout.AssetId into checkouts
+                                from checkout in checkouts.DefaultIfEmpty()
+                                select new AssetViewModel
+                                {
+                                    Id = x.Id,
+                                    Name = x.Name,
+                                    PurchaseDate = x.PurchaseDate,
+                                    PurchaseCost = x.PurchaseCost,
+                                    Note = x.Note,
+                                    Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
+                                    Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
+                                    AssetModel = new IdNameViewModel { Id = x.AssetModel.Id, Name = x.AssetModel.Name },
+                                    IsRequestable = x.IsRequestable,
+                                    ItemNo = x.ItemNo,
+                                    OrderNo = x.OrderNo,
+                                    Status = new IdNameViewModel { Id = x.Status.Id, Name = x.Status.Name },
+                                    Warranty = x.Warranty,
+                                    Barcode = x.Barcode,
+                                    Category = new IdNameViewModel { Id = x.AssetModel.Category.Id, Name = x.AssetModel.Category.Name },
+
+                                    CheckoutToUser = checkout != null && checkout.ChekoutToUserId != null ? new IdNameViewModel { Id = checkout.ChekoutToUser.Id, Name = checkout.ChekoutToUser.FullName } : null,
+
+                                    CheckoutToLocation = checkout != null && checkout.ChekoutToLocationId != null ? new IdNameViewModel { Id = checkout.ChekoutToLocation.Id, Name = checkout.ChekoutToLocation.OfficeName } : null,
+
+                                })
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (result == null)
@@ -111,28 +126,28 @@ namespace Module.Asset.Data
             var assetCheckouts = _assetCheckoutRepository.AsQueryable();
 
             var results = from asset in assets
-                    join assetCheckout in assetCheckouts on asset.Id equals assetCheckout.AssetId into checkouts
-                    from checkout in checkouts.DefaultIfEmpty()
-                    select new AssetViewModel
-                    {
-                        Id = asset.Id,
-                        Barcode = asset.Barcode,
-                        AssetModel = new IdNameViewModel { Id = asset.AssetModelId, Name = asset.AssetModel.Name },
-                        ItemNo = asset.ItemNo,
-                        Name = asset.Name,
-                        IsRequestable = asset.IsRequestable,
-                        Location = asset.LocationId != null ? new IdNameViewModel { Id = asset.Location.Id, Name = asset.Location.OfficeName } : null,
-                        Note = asset.Note,
-                        OrderNo = asset.OrderNo,
-                        PurchaseCost = asset.PurchaseCost,
-                        PurchaseDate = asset.PurchaseDate,
-                        Status = new IdNameViewModel { Id = asset.Status.Id, Name = asset.Status.Name },
-                        Supplier = asset.SupplierId != null ? new IdNameViewModel { Id = asset.Supplier.Id, Name = asset.Supplier.Name } : null,
-                        Warranty = asset.Warranty,
-                        CheckoutToUser = checkout != null && checkout.ChekoutToUserId != null ? new IdNameViewModel { Id = checkout.ChekoutToUser.Id, Name = checkout.ChekoutToUser.FullName } : null,
-                        CheckoutToLocation = checkout != null && checkout.ChekoutToLocationId != null ? new IdNameViewModel { Id = checkout.ChekoutToLocation.Id, Name = checkout.ChekoutToLocation.OfficeName } : null,
-                        Category = new IdNameViewModel { Id = asset.AssetModel.Category.Id, Name = asset.AssetModel.Category.Name }
-                    };
+                          join assetCheckout in assetCheckouts on asset.Id equals assetCheckout.AssetId into checkouts
+                          from checkout in checkouts.DefaultIfEmpty()
+                          select new AssetViewModel
+                          {
+                              Id = asset.Id,
+                              Barcode = asset.Barcode,
+                              AssetModel = new IdNameViewModel { Id = asset.AssetModelId, Name = asset.AssetModel.Name },
+                              ItemNo = asset.ItemNo,
+                              Name = asset.Name,
+                              IsRequestable = asset.IsRequestable,
+                              Location = asset.LocationId != null ? new IdNameViewModel { Id = asset.Location.Id, Name = asset.Location.OfficeName } : null,
+                              Note = asset.Note,
+                              OrderNo = asset.OrderNo,
+                              PurchaseCost = asset.PurchaseCost,
+                              PurchaseDate = asset.PurchaseDate,
+                              Status = new IdNameViewModel { Id = asset.Status.Id, Name = asset.Status.Name },
+                              Supplier = asset.SupplierId != null ? new IdNameViewModel { Id = asset.Supplier.Id, Name = asset.Supplier.Name } : null,
+                              Warranty = asset.Warranty,
+                              CheckoutToUser = checkout != null && checkout.ChekoutToUserId != null ? new IdNameViewModel { Id = checkout.ChekoutToUser.Id, Name = checkout.ChekoutToUser.FullName } : null,
+                              CheckoutToLocation = checkout != null && checkout.ChekoutToLocationId != null ? new IdNameViewModel { Id = checkout.ChekoutToLocation.Id, Name = checkout.ChekoutToLocation.OfficeName } : null,
+                              Category = new IdNameViewModel { Id = asset.AssetModel.Category.Id, Name = asset.AssetModel.Category.Name }
+                          };
 
             var total = await assets.Select(x => x.Id).CountAsync(cancellationToken);
             var items = await results.ToListAsync(cancellationToken);
@@ -210,6 +225,29 @@ namespace Module.Asset.Data
             });
 
             return result > 0;
+        }
+
+        public async Task<PagedCollection<AssetComponentListViewModel>> ListComponentsAsync(long assetId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var query = _componentAssetRepository
+                .AsReadOnly()
+                .Where(x => x.IssuedToAssetId == assetId && !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
+            var items = await query
+                .ApplyPagination(pagingOptions)
+                .Select(x => new AssetComponentListViewModel
+                {
+                    Id = x.Id,
+                    Component = new IdNameViewModel { Id = x.Component.Id, Name = x.Component.Name },
+                    Quantity = x.Quantity
+                })
+                .ToListAsync(cancellationToken);
+
+            var total = await query.Select(x => x.Id).CountAsync(cancellationToken);
+
+            var result = new PagedCollection<AssetComponentListViewModel>(items, total, pagingOptions);
+            return result;
         }
 
     }

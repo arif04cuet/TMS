@@ -1,0 +1,65 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div *ngIf="!loading">
+    <div class="pad-l-10 block">
+        <nz-table [nzData]="[{}]" nzShowPagination="false">
+            <tbody>
+                <tr>
+                    <td>{{ 'name'|translate}}</td>
+                    <td>{{item.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'model'|translate}}</td>
+                    <td>{{item.assetModel?.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'model.no'|translate}}</td>
+                    <td>{{item.itemNo}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'status'|translate}}</td>
+                    <td>{{item.status?.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'serial'|translate}}</td>
+                    <td>{{item.serial}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'supplier'|translate}}</td>
+                    <td>{{item.supplier?.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'location'|translate}}</td>
+                    <td>{{item.location?.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'order.no'|translate}}</td>
+                    <td>{{item.orderNo}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'category'|translate}}</td>
+                    <td>{{item.category.name}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'purchase_cost'|translate}}</td>
+                    <td>{{item.purchaseCost}} {{'tk'|translate}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'purchase_date'|translate}}</td>
+                    <td>{{item.purchaseDate|date}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'warranty'|translate}}</td>
+                    <td>{{item.warranty}} {{'months'|translate}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'requestable'|translate}}</td>
+                    <td>{{(item.isRequestable ? 'yes' : 'no')|translate}}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'note'|translate}}</td>
+                    <td>{{item.note}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

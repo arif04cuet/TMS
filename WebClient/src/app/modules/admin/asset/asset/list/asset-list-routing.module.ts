@@ -5,6 +5,17 @@ import { AssetListComponent } from './asset-list.component';
 const routes: Routes = [
   { path: '', component: AssetListComponent },
   {
+    path: ':id/view',
+    loadChildren: () => import('../view/asset-view.module').then(x => x.AssetViewModule),
+    data: {
+      name: 'asset_view',
+      breadcrumb: {
+        icon: 'eye',
+        title: 'View'
+      }
+    }
+  },
+  {
     path: ':id/edit',
     loadChildren: () => import('../add/asset-add.module').then(x => x.AssetAddModule),
     data: {
