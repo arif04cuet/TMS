@@ -122,6 +122,7 @@ namespace Module.Asset.Data
                 .Include(x => x.Location)
                 .Include(x => x.Depreciation)
                 .Include(x => x.LicenseSeats).ThenInclude(x => x.IssuedToUser)
+                .Include(x => x.LicenseSeats).ThenInclude(x => x.IssuedToAsset)
                 .Select(x => new LicenseViewModel
                 {
                     Id = x.Id,
@@ -264,7 +265,11 @@ namespace Module.Asset.Data
                 availableLicenceSeat = entity.LicenseSeats.FirstOrDefault(ls => ls.IssuedToUserId == null && ls.IssuedToAssetId == null && !ls.IsDeleted);
             
             if(availableLicenceSeat != null)
-            {
+            { 
+                bool isAssetSelected = request.IssuedToUserId == null;
+                if (isAssetSelected)
+                    availableLicenceSeat.IssuedToAssetId = request.IssuedToAssetId;
+                else
                 availableLicenceSeat.IssuedToUserId = request.IssuedToUserId;
                 availableLicenceSeat.IssueDate = DateTime.Now;
                 entity.Available = entity.Available - 1;
@@ -276,9 +281,8 @@ namespace Module.Asset.Data
                     ItemId = entity.Id,
                     ItemType = AssetType.License,
                     Note = request.Note,
-                    // TODO: Target can be User or Asset, handle it
-                    // TargetType = AssetType.User,
-                    // TargetId = user.Id
+                    TargetType = isAssetSelected ? AssetType.Asset : AssetType.User,
+                    TargetId = isAssetSelected ? request.IssuedToAssetId : request.IssuedToUserId
                 });
             }
             else
@@ -300,21 +304,25 @@ namespace Module.Asset.Data
             if (checkin == null)
                 throw new NotFoundException("Checkout not found");
 
-            checkin.IssuedToUser = null;
-            checkin.IssuedToUserId = null;
-            entity.Available = entity.Available + 1;
-
-            var result = await _unitOfWork.SaveChangesAsync();
-
-            await _checkoutHistoryService.CreateAsync(new CheckoutHistoryCreateRequest
+            var history = new CheckoutHistoryCreateRequest
             {
                 Action = AssetAction.Checkin,
                 ItemId = checkin.Id,
                 ItemType = AssetType.License,
                 Note = request.Note,
-                TargetId = checkin.IssuedToUserId,
-                TargetType = AssetType.User
-            });
+                TargetId = checkin.IssuedToUserId ?? checkin.IssuedToAssetId,
+                TargetType = checkin.IssuedToUserId == null ? AssetType.Asset : AssetType.User
+            };
+
+            checkin.IssuedToUser = null;
+            checkin.IssuedToUserId = null;
+            checkin.IssuedToAsset = null;
+            checkin.IssuedToAssetId = null;
+            entity.Available = entity.Available + 1;
+
+            var result = await _unitOfWork.SaveChangesAsync();
+
+            await _checkoutHistoryService.CreateAsync(history);
 
             return result > 0;
         }

@@ -20,7 +20,8 @@ namespace Module.Asset.Entities
         public virtual User IssuedToUser { get; set; }
 
         public long? IssuedToAssetId { get; set; }
-        public virtual AssetModel IssuedToAsset { get; set; }
+
+        public virtual Asset IssuedToAsset { get; set; }
 
         public DateTime? IssueDate { get; set; }
 
