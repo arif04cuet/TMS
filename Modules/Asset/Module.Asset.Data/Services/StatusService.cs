@@ -17,20 +17,20 @@ namespace Module.Asset.Data
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Status> _repository;
+        private readonly IRepository<AssetStatus> _repository;
 
 
         public StatusService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _repository = _unitOfWork.GetRepository<Status>();
+            _repository = _unitOfWork.GetRepository<AssetStatus>();
 
         }
 
         public async Task<long> CreateAsync(StatusCreateRequest request, CancellationToken cancellationToken = default)
         {
-            var newEntity = new Status
+            var newEntity = new AssetStatus
             {
                 Name = request.Name,
                 Type = request.Type,
@@ -49,7 +49,7 @@ namespace Module.Asset.Data
 
         public async Task<bool> UpdateAsync(StatusUpdateRequest request, CancellationToken cancellationToken = default)
         {
-            Status entity = await _repository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
+            AssetStatus entity = await _repository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
 
             if (entity == null)
                 throw new NotFoundException($"Status not found");
@@ -68,7 +68,7 @@ namespace Module.Asset.Data
 
         public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
-            Status entity = await _repository.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, true);
+            AssetStatus entity = await _repository.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, true);
 
             if (entity == null)
                 throw new NotFoundException("Status not found");

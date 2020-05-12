@@ -7,10 +7,10 @@
             <div class="header-container">
                 <span class="header">
                     <span *ngIf="mode=='add'">
-                        {{ 'create.a.x0'|translate:{x0: 'accessory'|translate|lowercase} }}
+                        {{ 'create.a.x0'|translate:{x0: 'maintenance'|translate|lowercase} }}
                     </span>
                     <span *ngIf="mode=='edit'">
-                        {{ 'update.a.x0'|translate:{x0: 'accessory'|translate|lowercase} }}
+                        {{ 'update.a.x0'|translate:{x0: 'maintenance'|translate|lowercase} }}
                     </span>
                 </span>
             </div>
@@ -22,34 +22,49 @@
 
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #assetSelect label="asset" [formControl]="form.controls.asset">
+                        </app-select-control>
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #supplierSelect label="supplier" [formControl]="form.controls.supplier">
+                        </app-select-control>
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #typeSelect label="type" [formControl]="form.controls.type">
+                        </app-select-control>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label class="required">{{'name'|translate}}</label>
+                                <label class="required">{{'title'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="text" nz-input formControlName="name" placeholder="{{'name'|translate}}" />
+                                <input type="text" nz-input formControlName="title" placeholder="{{'title'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
+
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'model.no'|translate}}</label>
+                                <label>{{'start.date'|translate}}</label>
                             </div>
-                            <nz-form-control>
-                                <input type="text" nz-input formControlName="modelNo"
-                                    placeholder="{{'model.no'|translate}}" />
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <nz-date-picker formControlName="startDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
+
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'order_number'|translate}}</label>
+                                <label>{{'completion.date'|translate}}</label>
                             </div>
                             <nz-form-control>
-                                <input type="text" nz-input formControlName="orderNumber"
-                                    placeholder="{{'order_number'|translate}}" />
+                                <nz-date-picker formControlName="completionDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -57,30 +72,14 @@
 
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #categorySelect label="category" [formControl]="form.controls.category">
-                        </app-select-control>
-                    </div>
-
-                    <div nz-col [nzSpan]="8">
-                        <app-select-control #supplierSelect label="supplier" [formControl]="form.controls.supplier">
-                        </app-select-control>
-                    </div>
-                    <div nz-col [nzSpan]="8">
-                        <app-select-control #manufacturerSelect label="manufacturer" [formControl]="form.controls.manufacturer">
-                        </app-select-control>
-                    </div>
-                </div>
-
-                <div nz-row [nzGutter]="24">
-                    <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'purchase_cost'|translate}}</label>
+                                <label>{{'cost'|translate}}</label>
                             </div>
                             <nz-form-control>
-                                <nz-input-group nzSuffix="{{'tk'|translate}}">
-                                    <input size="small" type="number" nz-input formControlName="purchaseCost"
-                                        placeholder="{{'purchase_cost'|translate}}" />
+                                <nz-input-group nzAddOnAfter="{{'tk'|translate}}">
+                                    <input size="small" type="number" nz-input formControlName="cost"
+                                        placeholder="{{'cost'|translate}}" />
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
@@ -88,45 +87,13 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'purchase_date'|translate}}</label>
+                                <label>{{'warranty.improvement'|translate}}</label>
                             </div>
                             <nz-form-control>
-                                <nz-date-picker formControlName="purchaseDate"></nz-date-picker>
+                                <span nz-checkbox
+                                    formControlName="warrantyImprovement">{{'is.warranty.improvement'|translate}}</span>
                             </nz-form-control>
                         </nz-form-item>
-                    </div>
-                </div>
-
-                <div nz-row [nzGutter]="24">
-                    <div nz-col [nzSpan]="8">
-                        <nz-form-item class="field-container">
-                            <div>
-                                <label class="required">{{'quantity'|translate}}</label>
-                            </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="number" nz-input formControlName="quantity"
-                                    placeholder="{{'quantity'|translate}}" />
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                    <div nz-col [nzSpan]="8">
-                        <nz-form-item class="field-container">
-                            <div>
-                                <label class="required">{{'min.quantity'|translate}}</label>
-                            </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="number" nz-input formControlName="minQuantity"
-                                    placeholder="{{'min.quantity'|translate}}" />
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                </div>
-
-                <div nz-row [nzGutter]="24">
-                    <div nz-col [nzSpan]="8">
-                        <app-select-control #locationSelect labelKey="officeName" label="location"
-                            [formControl]="form.controls.location">
-                        </app-select-control>
                     </div>
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">

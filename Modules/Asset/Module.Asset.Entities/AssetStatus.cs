@@ -13,8 +13,8 @@ namespace Module.Asset.Entities
         Archived = 4
     }
 
-    [Table(nameof(Status), Schema = SchemaConstants.Asset)]
-    public class Status : BaseEntity
+    [Table(nameof(AssetStatus), Schema = SchemaConstants.Asset)]
+    public class AssetStatus : BaseEntity
     {
         [Searchable]
         public string Name { get; set; }

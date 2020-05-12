@@ -207,6 +207,17 @@ const routes: Routes = [
         }
       },
       {
+        path: 'asset/maintenances',
+        loadChildren: () => import('../asset/asset/view/maintenance/list/asset-maintenance-list.module').then(x => x.AssetMaintenanceListModule),
+        data: {
+          name: 'maintenance_list',
+          breadcrumb: {
+            icon: 'plus',
+            title: 'Add'
+          }
+        }
+      },
+      {
         path: 'asset/models',
         loadChildren: () => import('../asset/asset-model/list/asset-model-list.module').then(x => x.AssetModelListModule),
         data: {

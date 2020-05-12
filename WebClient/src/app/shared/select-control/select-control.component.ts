@@ -33,7 +33,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   private fetchFn: (pagination: string, search?: string) => Observable<Object>;
   private subscriptions = [];
   private _selectFirstOption = false;
-
+  private _onLoadCompleted;
 
   get value() {
     return this._value;
@@ -79,6 +79,9 @@ export class SelectControlComponent implements ControlValueAccessor {
             this._value = this.items[0].id;
             this.formControl.setValue(this._value);
           }
+          if (this._onLoadCompleted) {
+            this._onLoadCompleted();
+          }
         },
         err => {
           this.busy(false);
@@ -105,6 +108,16 @@ export class SelectControlComponent implements ControlValueAccessor {
     if (this.onChange) {
       this.onChange.emit(e);
     }
+  }
+
+  onLoadCompleted(fn: () => void) {
+    this._onLoadCompleted = fn;
+    return this;
+  }
+
+  setValue(value) {
+    this._value = value;
+    this.formControl.setValue(this._value);
   }
 
   ngOnDestroy() {

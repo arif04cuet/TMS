@@ -19,12 +19,12 @@ namespace Module.Core.Data.Validators
 
             if (options == null || !options.IgnoreEmailValidation)
             {
-                RuleFor(x => x.Email).Null().Email(_unitOfWork, null);
+                RuleFor(x => x.Email).Email(_unitOfWork, null);
             }
 
-            RuleFor(x => x.EmployeeId).EmployeeId(_unitOfWork, options.IgnoreUserId);
+            RuleFor(x => x.EmployeeId).EmployeeId(_unitOfWork, options?.IgnoreUserId);
 
-            RuleFor(x => x.Mobile).Mobile(_unitOfWork, options.IgnoreUserId);
+            RuleFor(x => x.Mobile).Mobile(_unitOfWork, options?.IgnoreUserId);
 
             RuleFor(x => x.Password)
                 .NotEmpty().NotNull().When(x => string.IsNullOrEmpty(x.Password) && options != null && !options.IgnoreEmailValidation)

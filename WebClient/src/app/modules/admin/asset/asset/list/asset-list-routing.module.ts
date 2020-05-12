@@ -37,6 +37,28 @@ const routes: Routes = [
       }
     }
   },
+  {
+    path: ':id/checkout',
+    loadChildren: () => import('../checkout/asset-checkout.module').then(x => x.AssetCheckoutModule),
+    data: {
+      name: 'asset_checkout',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'Add'
+      }
+    }
+  },
+  {
+    path: ':id/checkin',
+    loadChildren: () => import('../checkin/asset-checkin.module').then(x => x.AssetCheckinModule),
+    data: {
+      name: 'asset_checkin',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'Add'
+      }
+    }
+  }
 ];
 
 @NgModule({

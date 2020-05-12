@@ -60,7 +60,15 @@ export class AssetListComponent extends TableComponent {
   }
 
   checkout(model) {
-    
+    if(model) {
+      this.goTo(`/admin/asset/${model.id}/checkout`);
+    }
+  }
+
+  checkin(model) {
+    if(model) {
+      this.goTo(`/admin/asset/${model.id}/checkin`);
+    }
   }
 
 }

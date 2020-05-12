@@ -239,5 +239,14 @@
   "no": "No",
   "components": "Components",
   "maintenances": "Maintenances",
-  "checkout.to": "Checkout To"
+  "checkout.to": "Checkout to",
+  "cost": "Cost",
+  "start.date": "Start date",
+  "completion.date": "Completion date",
+  "warranty.improvement": "Warranty improvement",
+  "is.warranty.improvement": "Is warranty improvement",
+  "asset.maintenances": "Asset maintenances",
+  "expected.checkin.date": "Expected checkin date",
+  "checkout.date": "Checkout date",
+  "checkin.date": "Checkin date"
 }

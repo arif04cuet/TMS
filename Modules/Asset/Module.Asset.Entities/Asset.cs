@@ -18,7 +18,7 @@ namespace Module.Asset.Entities
         public AssetModel AssetModel { get; set; }
 
         public long StatusId { get; set; }
-        public Status Status { get; set; }
+        public AssetStatus Status { get; set; }
 
         public string ItemNo { get; set; }
 

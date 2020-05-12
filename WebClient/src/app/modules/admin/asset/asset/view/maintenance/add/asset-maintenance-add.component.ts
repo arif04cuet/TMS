@@ -17,6 +17,8 @@ export class AssetMaintenanceAddComponent extends FormComponent {
   loading: boolean = true;
   statuses = [];
 
+  @ViewChild('typeSelect') typeSelect: SelectControlComponent;
+  @ViewChild('assetSelect') assetSelect: SelectControlComponent;
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
 
   private assetId;
@@ -33,21 +35,19 @@ export class AssetMaintenanceAddComponent extends FormComponent {
   ngOnInit(): void {
     this.onCheckMode = id => this.get(id);
     this.createForm({
-      name: [null, [], this.v.required.bind(this)],
-      category: [null, [], this.v.required.bind(this)],
-      manufacturer: [],
-      supplier: [],
-      location: [],
-      modelNo: [],
-      orderNumber: [],
-      purchaseDate: [],
-      purchaseCost: [],
+      asset: [null, [], this.v.required.bind(this)],
+      supplier: [null, [], this.v.required.bind(this)],
+      type: [null, [], this.v.required.bind(this)],
+      title: [null, [], this.v.required.bind(this)],
+      startDate: [null, [], this.v.required.bind(this)],
+      completionDate: [],
+      cost: [],
       note: [],
-      quantity: [null, [], this.v.required.bind(this)],
-      minQuantity: [null, [], this.v.required.bind(this)]
+      warrantyImprovement: []
     });
-    super.ngOnInit(this.activatedRoute.snapshot);
-
+    const snapshot = this.activatedRoute.snapshot;
+    super.ngOnInit(snapshot);
+    this.assetId = snapshot.queryParams.assetId;
   }
 
   ngAfterViewInit() {
@@ -56,14 +56,27 @@ export class AssetMaintenanceAddComponent extends FormComponent {
       return this.assetHttpService.suppliers(pagination, search);
     }).fetch();
 
+    this.assetSelect.register((pagination, search) => {
+      return this.assetHttpService.list(pagination, search);
+    })
+      .onLoadCompleted(() => {
+        if (this.assetId) {
+          this.assetSelect.setValue(Number(this.assetId));
+        }
+      })
+      .fetch();
+
+    this.typeSelect.register((pagination, search) => {
+      return this.assetMaintenanceHttpService.types();
+    }).fetch();
+
   }
 
   submit(): void {
     const body = this.constructObject(this.form.controls);
-    console.log(body);
     this.submitForm(
       {
-        request: this.assetMaintenanceHttpService.add(this.id, body),
+        request: this.assetMaintenanceHttpService.add(body),
         succeed: res => {
           this.cancel();
           this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
@@ -96,7 +109,7 @@ export class AssetMaintenanceAddComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/asset');
+    this.goTo('/admin/asset/maintenances');
   }
 
 }

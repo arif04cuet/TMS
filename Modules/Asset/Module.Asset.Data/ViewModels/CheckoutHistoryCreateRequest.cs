@@ -14,12 +14,13 @@ namespace Module.Asset.Data
         public AssetType ItemType { get; set; }
         public AssetAction Action { get; set; }
         public string Note { get; set; }
+        public DateTime? IssueDate { get; set; }
 
         public CheckoutHistory Map()
         {
             var history = new CheckoutHistory
             {
-                IssueDate = DateTime.UtcNow,
+                IssueDate = IssueDate ?? DateTime.UtcNow,
                 ItemId = ItemId,
                 ItemType = ItemType,
                 TargetId = TargetId,

@@ -20,15 +20,18 @@ namespace Module.Asset.Data
         private readonly IRepository<License> _repository;
         private readonly IRepository<LicenseSeat> _seatRepository;
         private readonly ICheckoutHistoryService _checkoutHistoryService;
+        private readonly IAssetEmailService _assetEmailService;
 
         public LicenseService(
             IUnitOfWork unitOfWork,
-            ICheckoutHistoryService checkoutHistoryService)
+            ICheckoutHistoryService checkoutHistoryService,
+            IAssetEmailService assetEmailService)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetRepository<License>();
             _seatRepository = _unitOfWork.GetRepository<LicenseSeat>();
             _checkoutHistoryService = checkoutHistoryService;
+            _assetEmailService = assetEmailService;
         }
 
         public async Task<long> CreateAsync(LicenseCreateRequest request, CancellationToken cancellationToken = default)
@@ -284,6 +287,11 @@ namespace Module.Asset.Data
                     TargetType = isAssetSelected ? AssetType.Asset : AssetType.User,
                     TargetId = isAssetSelected ? request.IssuedToAssetId : request.IssuedToUserId
                 });
+
+                if(request.IssuedToUserId.HasValue)
+                {
+                    await _assetEmailService.SendEULAEmailAsync(request.IssuedToUserId.Value, entity.CategoryId);
+                }
             }
             else
             {

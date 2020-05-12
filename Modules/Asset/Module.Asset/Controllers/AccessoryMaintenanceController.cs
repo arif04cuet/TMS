@@ -28,6 +28,13 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("maintenances")]
+        public async Task<ActionResult> ListAll([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _accessoryMaintenanceService.ListAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet("maintenances/{id}")]
         public async Task<ActionResult> Get(long id)
         {
@@ -35,10 +42,9 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
-        [HttpPost("{assetId}/maintenances")]
-        public async Task<IActionResult> Post(long assetId, [FromBody] AssetMaintenanceCreateRequest request)
+        [HttpPost("maintenances")]
+        public async Task<IActionResult> Post([FromBody] AssetMaintenanceCreateRequest request)
         {
-            request.Asset = assetId;
             var result = await _accessoryMaintenanceService.CreateAsync(request);
             return result.ToCreatedResult();
         }
@@ -56,6 +62,13 @@ namespace Module.Asset.Controllers
         {
             await _accessoryMaintenanceService.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("maintenances/types")]
+        public ActionResult GetTypes([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = _accessoryMaintenanceService.ListTypes(pagingOptions, searchOptions);
+            return result.ToOkResult();
         }
 
     }

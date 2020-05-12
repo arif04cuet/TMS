@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
 using Module.Core.Data.Criteria;
@@ -21,16 +22,19 @@ namespace Module.Asset.Data
         private readonly IRepository<AccessoryUser> _accessoryUserRepository;
         private readonly IRepository<User> _userRepository;
         private readonly ICheckoutHistoryService _checkoutHistoryService;
+        private readonly IAssetEmailService _assetEmailService;
 
         public AccessoryService(
             IUnitOfWork unitOfWork,
-            ICheckoutHistoryService checkoutHistoryService)
+            ICheckoutHistoryService checkoutHistoryService,
+            IAssetEmailService assetEmailService)
         {
             _unitOfWork = unitOfWork;
             _accessoryRepository = _unitOfWork.GetRepository<Accessory>();
             _accessoryUserRepository = _unitOfWork.GetRepository<AccessoryUser>();
             _userRepository = _unitOfWork.GetRepository<User>();
             _checkoutHistoryService = checkoutHistoryService;
+            _assetEmailService = assetEmailService;
         }
 
         public async Task<long> CreateAsync(AccessoryCreateRequest request, CancellationToken cancellationToken = default)
@@ -95,7 +99,8 @@ namespace Module.Asset.Data
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
-                    Category = new AssetCategoryViewModel { 
+                    Category = new AssetCategoryViewModel
+                    {
                         Id = x.Category.Id,
                         Name = x.Category.Name,
                         IsSendEmailToUser = x.Category.IsSendEmail,
@@ -221,6 +226,8 @@ namespace Module.Asset.Data
                 TargetId = request.UserId,
                 TargetType = AssetType.User
             });
+
+            await _assetEmailService.SendEULAEmailAsync(request.UserId, entity.CategoryId);
 
             return result > 0;
         }

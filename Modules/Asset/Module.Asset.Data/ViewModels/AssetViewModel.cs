@@ -22,6 +22,7 @@ namespace Module.Asset.Data
         public string Photo { get; set; }
         public IdNameViewModel CheckoutToUser { get; set; }
         public IdNameViewModel CheckoutToLocation { get; set; }
-        public IdNameViewModel Category { get; set; }
+        public AssetCategoryViewModel Category { get; set; }
+        public long? CheckoutId { get; set; }
     }
 }

@@ -21,16 +21,19 @@ namespace Module.Asset.Data
         private readonly IRepository<ConsumableUser> _consumableUserRepository;
         private readonly IRepository<User> _userRepository;
         private readonly ICheckoutHistoryService _checkoutHistoryService;
+        private readonly IAssetEmailService _assetEmailService;
 
         public ConsumableService(
             IUnitOfWork unitOfWork,
-            ICheckoutHistoryService checkoutHistoryService)
+            ICheckoutHistoryService checkoutHistoryService,
+            IAssetEmailService assetEmailService)
         {
             _unitOfWork = unitOfWork;
             _checkoutHistoryService = checkoutHistoryService;
             _consumableRepository = _unitOfWork.GetRepository<Consumable>();
             _consumableUserRepository = _unitOfWork.GetRepository<ConsumableUser>();
             _userRepository = _unitOfWork.GetRepository<User>();
+            _assetEmailService = assetEmailService;
         }
 
         public async Task<long> CreateAsync(ConsumableCreateRequest request, CancellationToken cancellationToken = default)
@@ -223,6 +226,8 @@ namespace Module.Asset.Data
                 TargetId = request.UserId,
                 TargetType = AssetType.User
             });
+
+            await _assetEmailService.SendEULAEmailAsync(request.UserId, entity.CategoryId);
 
             return result > 0;
         }

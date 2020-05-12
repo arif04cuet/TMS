@@ -64,7 +64,8 @@
                         <td>{{ data.location?.name }}</td>
                         <td>{{ data.purchaseCost }}</td>
                         <td class="action-column fit-cell">
-                            <button (click)="checkout(data)" class="btn-custom" nz-button nzType="primary">{{'checkout'|translate}}</button>
+                            <button *ngIf="!data.checkoutId" (click)="checkout(data)" class="btn-custom" nz-button nzType="primary">{{'checkout'|translate}}</button>
+                            <button *ngIf="data.checkoutId" (click)="checkin(data)" class="btn-custom" nz-button nzType="primary">{{'checkin'|translate}}</button>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
                                 <i nz-icon nzType="ellipsis"></i>

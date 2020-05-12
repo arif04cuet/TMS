@@ -31,7 +31,8 @@ import { AssetMaintenanceListModule } from './maintenance/list/asset-maintenance
     AssetDetailsModule,
     AssetCheckoutHistoryModule,
     AssetComponentListModule,
-    AssetMaintenanceListModule
+    AssetMaintenanceListModule,
+    AssetCheckoutHistoryModule
   ],
   exports: [AssetViewComponent]
 })

@@ -75,8 +75,8 @@ export class AssetBaseHttpService {
         return this.httpService.post(`${this.buildBaseEndpoint()}/${id}/checkouts`, body);
     }
 
-    public checkin(id: number, body) {
-        return this.httpService.post(`${this.buildBaseEndpoint()}/${id}/checkins`, body);
+    public checkin(id, body) {
+        return this.httpService.post(`${this.buildBaseEndpoint()}/${id}/checkins/`, body);
     }
 
     public listCheckouts(id, pagination = null, search = null) {

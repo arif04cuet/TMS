@@ -64,7 +64,7 @@ namespace Module.Asset.Controllers
         [HttpGet("{id}/histories")]
         public async Task<ActionResult> ListHistories(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _checkoutHistoryService.ListAsync(id, AssetType.Accessory, pagingOptions, searchOptions);
+            var result = await _checkoutHistoryService.ListAsync(id, AssetType.Asset, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 
@@ -80,6 +80,7 @@ namespace Module.Asset.Controllers
         public async Task<IActionResult> Checkin(long id, [FromBody] AssetCheckinRequest request)
         {
             request.Id = id;
+            //request.AssetId = assetId;
             var result = await _assetService.CheckinAsync(request);
             return result.ToCreatedResult();
         }

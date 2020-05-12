@@ -5,6 +5,8 @@ using Module.Asset.Entities;
 using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -91,6 +93,38 @@ namespace Module.Asset.Data
                 .Where(x => x.AssetId == assetId && !x.IsDeleted)
                 .ApplySearch(searchOptions);
 
+            return await ListAsync(itemsQuery, pagingOptions, searchOptions, cancellationToken); ;
+        }
+
+        public async Task<PagedCollection<AssetMaintenanceViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var itemsQuery = _assetMaintenanceRepository
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
+            return await ListAsync(itemsQuery, pagingOptions, searchOptions, cancellationToken);
+        }
+
+        public PagedCollection<IdNameViewModel> ListTypes(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+            var items = new List<IdNameViewModel>();
+            foreach (var item in Enum.GetValues(typeof(MaintenanceType)))
+            {
+
+                items.Add(new IdNameViewModel
+                {
+                    Id = (int)item,
+                    Name = item.ToString()
+                });
+            }
+            var total = items.Count;
+            var result = new PagedCollection<IdNameViewModel>(items, total, pagingOptions);
+            return result;
+        }
+
+        private async Task<PagedCollection<AssetMaintenanceViewModel>> ListAsync(IQueryable<AssetMaintenance> itemsQuery, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
             var items = await itemsQuery
                 .ApplyPagination(pagingOptions)
                 .Select(x => new AssetMaintenanceViewModel

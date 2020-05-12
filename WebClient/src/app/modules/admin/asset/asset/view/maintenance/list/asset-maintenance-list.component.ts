@@ -12,8 +12,7 @@ import { AssetMaintenanceHttpService } from 'src/services/http/asset/asset-maint
 export class AssetMaintenanceListComponent extends TableComponent {
 
   @Searchable("Name", "like") Name;
-
-  private id;
+  id;
 
   constructor(
     private assetMaintenanceHttpService: AssetMaintenanceHttpService,
@@ -24,7 +23,7 @@ export class AssetMaintenanceListComponent extends TableComponent {
 
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
-    this.id = this._activatedRouteSnapshot.params.id;
+    this.id = Number(this._activatedRouteSnapshot.params.id);
     this.load();
   }
 
@@ -38,12 +37,26 @@ export class AssetMaintenanceListComponent extends TableComponent {
 
   load() {
     super.load((p, s) => {
-      return this.assetMaintenanceHttpService.list(this.id, p, s);
+      if (this.id) {
+        return this.assetMaintenanceHttpService.list(this.id, p, s);
+      }
+      else {
+        return this.assetMaintenanceHttpService.listAll(p, s);
+      }
     })
   }
 
-  add() {
-    
+  add(model = null) {
+    if (model) {
+      this.goTo(`/admin/asset/maintenances/${this.id}/edit`);
+    }
+    else {
+      let url = `/admin/asset/maintenances/add`;
+      if(this.id) {
+        url += `?assetId=${this.id}`
+      }
+      this.goTo(url);
+    }
   }
 
 }

@@ -1,4 +1,5 @@
 ﻿using Infrastructure;
+using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System.Threading;
@@ -17,5 +18,9 @@ namespace Module.Asset.Data
         Task<AssetMaintenanceViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<AssetMaintenanceViewModel>> ListAsync(long assetId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
+        Task<PagedCollection<AssetMaintenanceViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
+        PagedCollection<IdNameViewModel> ListTypes(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
     }
 }

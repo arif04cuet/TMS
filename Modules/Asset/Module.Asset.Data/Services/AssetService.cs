@@ -20,11 +20,13 @@ namespace Module.Asset.Data
         private readonly ICheckoutHistoryService _checkoutHistoryService;
         private readonly IBarcodeService _barcodeService;
         private readonly IRepository<ComponentAsset> _componentAssetRepository;
+        private readonly IAssetEmailService _assetEmailService;
 
         public AssetService(
             IUnitOfWork unitOfWork,
             ICheckoutHistoryService checkoutHistoryService,
-            IBarcodeService barcodeService)
+            IBarcodeService barcodeService,
+            IAssetEmailService assetEmailService)
         {
             _barcodeService = barcodeService;
             _checkoutHistoryService = checkoutHistoryService;
@@ -32,6 +34,7 @@ namespace Module.Asset.Data
             _assetRepository = _unitOfWork.GetRepository<Entities.Asset>();
             _assetCheckoutRepository = _unitOfWork.GetRepository<AssetCheckout>();
             _componentAssetRepository = _unitOfWork.GetRepository<ComponentAsset>();
+            _assetEmailService = assetEmailService;
         }
 
         public async Task<long> CreateAsync(AssetCreateRequest request, CancellationToken cancellationToken = default)
@@ -100,12 +103,12 @@ namespace Module.Asset.Data
                                     Status = new IdNameViewModel { Id = x.Status.Id, Name = x.Status.Name },
                                     Warranty = x.Warranty,
                                     Barcode = x.Barcode,
-                                    Category = new IdNameViewModel { Id = x.AssetModel.Category.Id, Name = x.AssetModel.Category.Name },
+                                    Category = new AssetCategoryViewModel { Id = x.AssetModel.Category.Id, Name = x.AssetModel.Category.Name, IsRequireUserConfirmation = x.AssetModel.Category.IsRequireUserConfirmation, IsSendEmailToUser = x.AssetModel.Category.IsSendEmail },
 
                                     CheckoutToUser = checkout != null && checkout.ChekoutToUserId != null ? new IdNameViewModel { Id = checkout.ChekoutToUser.Id, Name = checkout.ChekoutToUser.FullName } : null,
 
                                     CheckoutToLocation = checkout != null && checkout.ChekoutToLocationId != null ? new IdNameViewModel { Id = checkout.ChekoutToLocation.Id, Name = checkout.ChekoutToLocation.OfficeName } : null,
-
+                                    CheckoutId = checkout.Id
                                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -146,7 +149,8 @@ namespace Module.Asset.Data
                               Warranty = asset.Warranty,
                               CheckoutToUser = checkout != null && checkout.ChekoutToUserId != null ? new IdNameViewModel { Id = checkout.ChekoutToUser.Id, Name = checkout.ChekoutToUser.FullName } : null,
                               CheckoutToLocation = checkout != null && checkout.ChekoutToLocationId != null ? new IdNameViewModel { Id = checkout.ChekoutToLocation.Id, Name = checkout.ChekoutToLocation.OfficeName } : null,
-                              Category = new IdNameViewModel { Id = asset.AssetModel.Category.Id, Name = asset.AssetModel.Category.Name }
+                              Category = new AssetCategoryViewModel { Id = asset.AssetModel.Category.Id, Name = asset.AssetModel.Category.Name, IsSendEmailToUser = asset.AssetModel.Category.IsSendEmail, IsRequireUserConfirmation = asset.AssetModel.Category.IsRequireUserConfirmation },
+                              CheckoutId = checkout.Id
                           };
 
             var total = await assets.Select(x => x.Id).CountAsync(cancellationToken);
@@ -164,15 +168,7 @@ namespace Module.Asset.Data
             if (entity == null)
                 throw new NotFoundException("Asset not found");
 
-            AssetCheckout oldCheckout = null;
-            if (request.CheckoutToLocationId != null)
-            {
-                oldCheckout = await _assetCheckoutRepository.FirstOrDefaultAsync(x => x.ChekoutToLocationId == request.CheckoutToLocationId && !x.IsDeleted, true);
-            }
-            else if (request.CheckoutToUserId != null)
-            {
-                oldCheckout = await _assetCheckoutRepository.FirstOrDefaultAsync(x => x.ChekoutToUserId == request.CheckoutToUserId && !x.IsDeleted, true);
-            }
+            AssetCheckout oldCheckout = oldCheckout = await _assetCheckoutRepository.FirstOrDefaultAsync(x => x.AssetId == request.AssetId && !x.IsDeleted, true);
 
             if (oldCheckout != null)
                 throw new ValidationException("Asset is already assigned.");
@@ -181,8 +177,8 @@ namespace Module.Asset.Data
             {
                 AssetId = request.AssetId,
                 CheckoutDate = request.CheckoutDate,
-                ChekoutToLocationId = request.CheckoutToLocationId,
-                ChekoutToUserId = request.CheckoutToUserId,
+                ChekoutToLocationId = request.ChekoutToLocationId,
+                ChekoutToUserId = request.ChekoutToUserId,
                 ExpectedChekinDate = request.ExpectedChekinDate
             };
 
@@ -195,9 +191,14 @@ namespace Module.Asset.Data
                 ItemId = entity.Id,
                 ItemType = AssetType.Asset,
                 Note = request.Note,
-                TargetId = request.CheckoutToUserId.HasValue ? request.CheckoutToUserId : request.CheckoutToLocationId,
-                TargetType = request.CheckoutToUserId.HasValue ? AssetType.User : AssetType.Location
+                TargetId = request.ChekoutToUserId.HasValue ? request.ChekoutToUserId : request.ChekoutToLocationId,
+                TargetType = request.ChekoutToUserId.HasValue ? AssetType.User : AssetType.Location
             });
+
+            if(request.ChekoutToUserId.HasValue)
+            {
+                await _assetEmailService.SendEULAEmailAsync(request.ChekoutToUserId.Value, entity.AssetModel.CategoryId);
+            }
 
             return result > 0;
         }
@@ -211,19 +212,30 @@ namespace Module.Asset.Data
             if (checkin == null)
                 throw new NotFoundException("Checkout not found");
 
+            var asset = await _assetRepository.
+                FirstOrDefaultAsync(x => x.Id == checkin.AssetId && !x.IsDeleted);
+
+            if (asset == null)
+                throw new NotFoundException("Asset not found");
+
             _assetCheckoutRepository.Remove(checkin);
-            var result = await _unitOfWork.SaveChangesAsync();
+            
+            if(request.Status.HasValue)
+            {
+                asset.StatusId = request.Status.Value;
+            }
 
             await _checkoutHistoryService.CreateAsync(new CheckoutHistoryCreateRequest
             {
                 Action = AssetAction.Checkin,
                 ItemId = checkin.AssetId,
-                ItemType = AssetType.Accessory,
+                ItemType = AssetType.Asset,
                 Note = request.Note,
                 TargetId = checkin.ChekoutToUserId.HasValue ? checkin.ChekoutToUserId : checkin.ChekoutToLocationId,
                 TargetType = checkin.ChekoutToUserId.HasValue ? AssetType.User : AssetType.Location
             });
 
+            var result = await _unitOfWork.SaveChangesAsync();
             return result > 0;
         }
 

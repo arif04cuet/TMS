@@ -166,6 +166,12 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
+            title: 'asset.maintenances',
+            route: '/admin/asset/maintenances',
+            icon: 'user'
+          },
+          {
+            level: 2,
             title: 'license',
             route: '/admin/asset/licenses',
             icon: 'user'

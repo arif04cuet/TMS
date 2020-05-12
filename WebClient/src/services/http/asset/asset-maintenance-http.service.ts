@@ -7,7 +7,7 @@ export class AssetMaintenanceHttpService {
     constructor(private httpService: HttpService) {
 
     }
-    
+
     public get(id) {
         return this.httpService.get(`asset/maintenances/${id}`);
     }
@@ -17,8 +17,13 @@ export class AssetMaintenanceHttpService {
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
 
-    public add(assetId, body) {
-        return this.httpService.post(`asset/${assetId}/maintenances`, body);
+    public listAll(pagination = null, search = null) {
+        let url = `asset/maintenances?`;
+        return this.httpService.get(this.buildUrl(url, pagination, search));
+    }
+
+    public add(body) {
+        return this.httpService.post(`asset/maintenances`, body);
     }
 
     public delete(id: number) {
@@ -29,6 +34,10 @@ export class AssetMaintenanceHttpService {
         return this.httpService.put(`asset/maintenances/${id}`, body);
     }
 
+    public types() {
+        return this.httpService.get(`asset/maintenances/types`);
+    }
+
     public buildUrl(url, pagination, search) {
         if (search) {
             url += `${search}&`
@@ -37,6 +46,6 @@ export class AssetMaintenanceHttpService {
             url += pagination
         }
         return url;
-    } 
+    }
 
 }
