@@ -20,6 +20,9 @@ namespace Module.Asset.Entities
         public long CategoryId { get; set; }
         public Category Category { get; set; }
 
+        public int? TotalQuantity { get; set; }
+        public int? Available { get; set; }
+        
         public int MinQuantity { get; set; }
 
     }

@@ -14,8 +14,8 @@ namespace Module.Asset.Entities
         [Searchable]
         public string Name { get; set; }
 
-        public long CategoryId { get; set; }
-        public Category Category { get; set; }
+        public long ItemCodeId { get; set; }
+        public ItemCode ItemCode { get; set; }
 
         public long? ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
