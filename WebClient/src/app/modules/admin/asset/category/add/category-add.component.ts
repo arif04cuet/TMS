@@ -49,7 +49,7 @@ export class CategoryAddComponent extends FormComponent {
 
   submit(): void {
     const body = this.constructObject(this.form.controls);
-    console.log(body);
+
     this.submitForm(
       {
         request: this.categoryHttpService.add(body),

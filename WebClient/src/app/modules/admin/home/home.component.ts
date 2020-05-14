@@ -207,6 +207,12 @@ export class HomeComponent extends BaseComponent {
               },
               {
                 level: 3,
+                title: 'asset.itemcode',
+                route: '/admin/asset/itemcodes',
+                icon: 'user'
+              },
+              {
+                level: 3,
                 title: 'supplier',
                 route: '/admin/asset/suppliers',
                 icon: 'user'

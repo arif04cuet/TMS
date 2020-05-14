@@ -228,6 +228,18 @@ const routes: Routes = [
           }
         }
       },
+
+      {
+        path: 'asset/itemcodes',
+        loadChildren: () => import('../asset/itemcode/list/itemcode-list.module').then(x => x.ItemCodeListModule),
+        data: {
+          name: 'asset_itemcode_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'asset.itemcode'
+          }
+        }
+      },
       {
         path: 'asset/accessories',
         loadChildren: () => import('../asset/accessory/list/accessory-list.module').then(x => x.AccessoryListModule),
