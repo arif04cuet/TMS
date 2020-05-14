@@ -79,8 +79,7 @@ namespace Module.Asset.Controllers
         [HttpPost("{id}/checkins")]
         public async Task<IActionResult> Checkin(long id, [FromBody] AssetCheckinRequest request)
         {
-            request.Id = id;
-            //request.AssetId = assetId;
+            request.AssetId = id;
             var result = await _assetService.CheckinAsync(request);
             return result.ToCreatedResult();
         }
@@ -89,6 +88,13 @@ namespace Module.Asset.Controllers
         public async Task<ActionResult> ListComponents(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
             var result = await _assetService.ListComponentsAsync(id, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("{id}/licenses")]
+        public async Task<ActionResult> ListLicenses(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _assetService.ListLicensesAsync(id, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

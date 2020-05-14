@@ -30,35 +30,20 @@
                             {{'name'|translate}}
                             <input [(ngModel)]="Name" nz-input />
                         </th>
-
                         <th>
-                            {{'type'|translate}}
-
-                            <div>
-                                <nz-select [(ngModel)]="Type" class="btn-custom" nzShowSearch nzAllowClear
-                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'Type'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of mastercategories" [nzLabel]="p.name" [nzValue]="p.id">
-                                    </nz-option>
-                                </nz-select>
-
-                            </div>
-
+                            {{'parent'|translate}}
+                            <input [(ngModel)]="Parent" nz-input />
                         </th>
-
-
 
                         <th>
                             {{'status'|translate}}
-
                             <div>
                                 <nz-select [(ngModel)]="IsActive" class="btn-custom" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'isActive'|translate|lowercase}">
                                     <nz-option *ngFor="let p of status" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
                                 </nz-select>
-
                             </div>
-
                         </th>
                         <th>
                             <div class="ta-right">
@@ -76,9 +61,8 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.name }}</td>
-                        <td>{{ getTypeName(data.type).name}}
+                        <td>{{ data.parent }}</td>
                         <td>{{ data.isActive ? 'Active':'In Active' }}</td>
-
                         <td class="action-column fit-cell">
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">

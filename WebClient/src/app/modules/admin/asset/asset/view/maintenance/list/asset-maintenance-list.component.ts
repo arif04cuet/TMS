@@ -48,7 +48,7 @@ export class AssetMaintenanceListComponent extends TableComponent {
 
   add(model = null) {
     if (model) {
-      this.goTo(`/admin/asset/maintenances/${this.id}/edit`);
+      this.goTo(`/admin/asset/maintenances/${model.id}/edit`);
     }
     else {
       let url = `/admin/asset/maintenances/add`;

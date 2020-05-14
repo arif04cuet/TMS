@@ -35,6 +35,7 @@ export class AssetAddComponent extends FormComponent {
   ngOnInit(): void {
     this.onCheckMode = id => this.get(id);
     this.createForm({
+      assetTag: [null, [], this.v.required.bind(this)],
       name: [null, [], this.v.required.bind(this)],
       status: [null, [], this.v.required.bind(this)],
       supplier: [],
@@ -44,8 +45,8 @@ export class AssetAddComponent extends FormComponent {
       note: [],
       isRequestable: [],
       orderNo: [],
-      purchaseCost: [],
-      purchaseDate: [],
+      purchaseCost: [null, [], this.v.required.bind(this)],
+      purchaseDate: [null, [], this.v.required.bind(this)],
       warranty: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
@@ -73,8 +74,10 @@ export class AssetAddComponent extends FormComponent {
   }
 
   submit(): void {
-    const body = this.constructObject(this.form.controls);
-    console.log(body);
+    const body: any = this.constructObject(this.form.controls);
+    if (this.id) {
+      body.id = Number(this.id);
+    }
     this.submitForm(
       {
         request: this.assetHttpService.add(body),

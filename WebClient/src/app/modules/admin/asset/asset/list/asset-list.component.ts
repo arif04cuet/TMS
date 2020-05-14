@@ -16,7 +16,7 @@ export class AssetListComponent extends TableComponent {
     { id: false, name: 'In Active' }
   ];
 
-  @Searchable("Barcode", "like") barcode;
+  @Searchable("AssetTag", "like") assetTag;
   @Searchable("Name", "like") name;
   @Searchable("Category.Name", "like") category;
 

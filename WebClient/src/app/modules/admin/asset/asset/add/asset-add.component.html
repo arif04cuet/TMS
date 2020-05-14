@@ -24,6 +24,16 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
+                                <label class="required">{{'asset.tag'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="text" nz-input formControlName="assetTag" placeholder="{{'asset.tag'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
                                 <label class="required">{{'name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
@@ -34,11 +44,6 @@
                     <div nz-col [nzSpan]="8">
                         <app-select-control mandatory="true" #modelSelect label="asset.model"
                             [formControl]="form.controls.assetModel">
-                        </app-select-control>
-                    </div>
-                    <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #statusSelect label="status"
-                            [formControl]="form.controls.status">
                         </app-select-control>
                     </div>
                 </div>
@@ -80,9 +85,9 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'purchase.cost'|translate}}</label>
+                                <label class="required">{{'purchase.cost'|translate}}</label>
                             </div>
-                            <nz-form-control>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="number" nz-input formControlName="purchaseCost"
                                     placeholder="{{'purchase.cost'|translate}}" />
                             </nz-form-control>
@@ -91,9 +96,9 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'purchase_date'|translate}}</label>
+                                <label class="required">{{'purchase_date'|translate}}</label>
                             </div>
-                            <nz-form-control>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <nz-date-picker formControlName="purchaseDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
@@ -101,6 +106,11 @@
                 </div>
 
                 <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #statusSelect label="status"
+                            [formControl]="form.controls.status">
+                        </app-select-control>
+                    </div>
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
@@ -113,6 +123,9 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>

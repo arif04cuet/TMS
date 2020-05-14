@@ -7,23 +7,11 @@ using System.Collections.Generic;
 
 namespace Module.Asset.Entities
 {
-    public enum MasterCategory
-    {
-        Asset = 1,
-        //Accessory = 2,
-        Consumable = 2,
-        //Component = 4,
-        License = 3
-    }
-
     [Table(nameof(Category), Schema = SchemaConstants.Asset)]
     public class Category : BaseEntity
     {
         [Searchable]
         public string Name { get; set; }
-
-        [Searchable]
-        public MasterCategory Type { get; set; }
 
         public string EULA { get; set; }
         public bool IsRequireUserConfirmation { get; set; }
@@ -32,11 +20,22 @@ namespace Module.Asset.Entities
         public long? MediaId { get; set; }
         public Media Media { get; set; }
 
-        /*
-        public int? ParentId { get; set; }
+        [Searchable]
+        public long? ParentId { get; set; }
+        [ForeignKey(nameof(ParentId))]
+        [Searchable]
         public virtual Category Parent { get; set; }
-        public List<Category> Children { get; set; }
-        */
+        public ICollection<Category> Children { get; private set; }
 
+        public Category()
+        {
+            Children = new List<Category>();
+        }
+
+        public Category(long id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }

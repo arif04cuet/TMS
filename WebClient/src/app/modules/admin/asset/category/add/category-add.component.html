@@ -33,14 +33,13 @@
                     <div nz-col [nzSpan]="12">
                         <nz-form-item class="field-container">
                             <div>
-                                <label class="required">{{'type'|translate }}</label>
+                                <label class="required">{{'parent'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <nz-select class="btn-custom" formControlName="type" nzShowSearch nzAllowClear
+                                <nz-select class="btn-custom" formControlName="parentId" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'type'|translate|lowercase}">
                                     <nz-option *ngFor="let p of mastercategories" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
-
                                 </nz-select>
                             </nz-form-control>
                         </nz-form-item>

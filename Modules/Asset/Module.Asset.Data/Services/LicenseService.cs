@@ -48,7 +48,6 @@ namespace Module.Asset.Data
             return newEntity.Id;
         }
 
-
         public async Task<bool> UpdateAsync(LicenseUpdateRequest request, CancellationToken cancellationToken = default)
         {
             var entity = await _repository.Where(x => x.Id == request.Id && !x.IsDeleted).Include(x=>x.LicenseSeats).FirstOrDefaultAsync();
@@ -64,8 +63,6 @@ namespace Module.Asset.Data
 
             return result > 0;
         }
-
-
 
         public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
@@ -160,7 +157,6 @@ namespace Module.Asset.Data
 
             return result;
         }
-
 
         public async Task<PagedCollection<LicenseViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {

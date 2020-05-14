@@ -1,0 +1,66 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div *ngIf="!loading">
+    <div class="box">
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class="column content">
+                <div class="header-container">
+                    <span class="header">
+                        {{'depreciation.report'|translate}} ({{total}})
+                    </span>
+                </div>
+            </div>
+            <div class="column">
+                <button (click)="refresh()" nz-button class="btn-custom">
+                    <i nz-icon nzType="sync" nzTheme="outline"></i>
+                    {{'refresh'|translate}}
+                </button>
+            </div>
+        </div>
+        <div class="block">
+            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false" (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
+                [nzTotal]="total" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items">
+                <thead>
+                    <tr class="v-align-top advanced-table-filter">
+                        <th>{{'asset'|translate}}</th>
+                        <th>{{'depreciation.name'|translate}}</th>
+                        <th>{{'number.of.months'|translate}}</th>
+                        <th>{{'checked.out'|translate}}</th>
+                        <th>{{'location'|translate}}</th>
+                        <th>{{'purchased'|translate}}</th>
+                        <th>{{'eol'|translate}}</th>
+                        <th>{{'cost'|translate}}</th>
+                        <th>{{'value'|translate}}</th>
+                        <th>{{'diff'|translate}}</th>
+                        <!-- <th>
+                            <div class="ta-right">
+                                {{'action'|translate}}
+                            </div>
+                            <div>
+                                <button (click)="search()" nz-button class="btn-custom">
+                                    <i nz-icon nzType="search"></i>
+                                    {{'search'|translate}}
+                                </button>
+                            </div>
+                        </th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of basicTable.data">
+                        <td>{{ data.asset }}</td>
+                        <td>{{ data.depreciationName }}</td>
+                        <td>{{ data.numberOfMonths }}</td>
+                        <td>{{ data.checkedOut?.chekoutToUser?.name || data.checkedOut?.chekoutToLocation?.name || data.checkedOut?.chekoutToAsset?.name }}</td>
+                        <td>{{ data.location }}</td>
+                        <td>{{ data.purchased|date:'medium':'+0000' }}</td>
+                        <td>{{ data.eol }}</td>
+                        <td>{{ data.cost }}</td>
+                        <td>{{ data.value }}</td>
+                        <td>{{ data.diff }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }} {{'items'|translate}} </ng-template>
+</div>

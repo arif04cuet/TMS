@@ -317,12 +317,8 @@ namespace Module.Library.Data
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)
                 .ApplySearch(searchOptions)
-                .OrderBy(x => x.Book.Title);
+                .OrderBy(x => x.Book.Title).ThenBy(x => x.CurrentIssue);
 
-            //var result = from item in items
-            //             join issue in issues on item.Id equals issue.BookItemId into data
-            //             from d in data.DefaultIfEmpty()
-            // where d.ActualReturnDate == null // currently issued book has no actual return date
             var result = items.Select(x => new BookItemListViewModel
             {
                 Id = x.Id,

@@ -18,6 +18,6 @@ namespace Module.Asset.Data
 
         Task<PagedCollection<CategoryViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
-        PagedCollection<object> MasterCategories(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
+        Task<PagedCollection<CategoryViewModel>> ListRootAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
     }
 }

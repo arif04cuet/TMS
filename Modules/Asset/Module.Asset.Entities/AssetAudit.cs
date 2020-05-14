@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using Infrastructure.Entities;
-using Module.Core.Entities;
-using Msi.UtilityKit.Search;
 using System.ComponentModel.DataAnnotations.Schema;
 using Module.Core.Entities.Constants;
 
@@ -14,7 +11,7 @@ namespace Module.Asset.Entities
     {
 
         public long? AssetId { get; set; }
-        public virtual AssetModel Asset { get; set; }
+        public Asset Asset { get; set; }
 
         public DateTime AuditDate { get; set; }
         public DateTime NextAuditDate { get; set; }

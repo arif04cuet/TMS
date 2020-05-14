@@ -161,14 +161,27 @@ export class HomeComponent extends BaseComponent {
           {
             level: 2,
             title: 'assets',
-            route: '/admin/asset',
-            icon: 'user'
-          },
-          {
-            level: 2,
-            title: 'asset.maintenances',
-            route: '/admin/asset/maintenances',
-            icon: 'user'
+            icon: 'user',
+            nav: [
+              {
+                level: 3,
+                title: 'list',
+                route: '/admin/asset',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'maintenances',
+                route: '/admin/asset/maintenances',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'audit',
+                route: '/admin/asset/audit/add',
+                icon: 'user'
+              },
+            ]
           },
           {
             level: 2,
@@ -241,6 +254,49 @@ export class HomeComponent extends BaseComponent {
                 route: '/admin/asset/categories',
                 icon: 'user'
               }
+            ]
+          },
+          {
+            level: 2,
+            title: 'reports',
+            icon: 'setting',
+            nav: [
+              {
+                level: 3,
+                title: 'activity.log',
+                route: '/admin/asset/reports/activity-log',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'audit.log',
+                route: '/admin/asset/reports/audit-log',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'depreciation.report',
+                route: '/admin/asset/reports/depreciation',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'license.report',
+                route: '/admin/asset/reports/license',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'maintenance.report',
+                route: '/admin/asset/reports/maintenance',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'asset.report',
+                route: '/admin/asset/reports/asset',
+                icon: 'user'
+              },
             ]
           }
         ]

@@ -20,17 +20,17 @@ namespace Module.Asset.Controllers
             _service = service;
         }
 
-        [HttpGet("masterCategories")]
-        public ActionResult ListMasterCategoryes([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
-        {
-            var result = _service.MasterCategories(pagingOptions, searchOptions);
-            return result.ToOkResult();
-        }
-
         [HttpGet]
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
             var result = await _service.ListAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("root")]
+        public async Task<ActionResult> ListRoot([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _service.ListRootAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

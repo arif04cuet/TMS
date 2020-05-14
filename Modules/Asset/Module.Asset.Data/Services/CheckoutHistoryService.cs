@@ -33,7 +33,7 @@ namespace Module.Asset.Data
             return result;
         }
 
-        public async Task<PagedCollection<CheckoutHistoryListViewModel>> ListAsync(long itemId, AssetType itemType, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public async Task<PagedCollection<CheckoutHistoryListViewModel>> ListAsync(long? itemId, AssetType? itemType, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var item = itemType.ToString();
             var itemName = itemType == AssetType.User ? "FullName" : "Name";
@@ -54,11 +54,12 @@ namespace Module.Asset.Data
                         left join [asset].[Consumable] t3 on t3.Id = h.TargetId
                         left join [asset].[Component] t4 on t4.Id = h.TargetId
                         left join [core].[User] t5 on t5.Id = h.TargetId
-                        left join [asset].[License] t6 on t6.Id = h.TargetId
-                        where h.ItemId={itemId} and h.ItemType={(int)itemType}
-                        order by h.IssueDate desc";
+                        left join [asset].[License] t6 on t6.Id = h.TargetId";
 
-            if(pagingOptions != null)
+            sql += BuildWhere(itemId, itemType);
+            sql += $" order by h.IssueDate desc";
+
+            if (pagingOptions != null)
             {
                 var offset = pagingOptions.Offset ?? 0;
                 var limit = pagingOptions.Limit ?? 20;
@@ -67,14 +68,39 @@ namespace Module.Asset.Data
 
             var items = await _dbConnection.QueryAsync<CheckoutHistoryListViewModel>(sql);
 
-            var countSql = $@"select count(h.Id) as Total
-                            from [asset].[CheckoutHistory] h
-                            where h.ItemId={itemId} and h.ItemType={(int)itemType}";
+            var totalSql = $@"select count(h.Id) as Total
+                            from [asset].[CheckoutHistory] h";
 
-            var total = await _dbConnection.ExecuteScalarAsync<int>(countSql);
+            totalSql += BuildWhere(itemId, itemType);
+
+            var total = await _dbConnection.ExecuteScalarAsync<int>(totalSql);
 
             var result = new PagedCollection<CheckoutHistoryListViewModel>(items, total, pagingOptions);
             return result;
+        }
+
+        private string BuildWhere(long? itemId, AssetType? itemType)
+        {
+            string where = string.Empty;
+            if (itemId.HasValue || itemType.HasValue)
+            {
+                where += " where";
+                var condition = string.Empty;
+                if (itemId.HasValue)
+                {
+                    condition += $" h.ItemId={itemId.Value}";
+                }
+                if (itemType.HasValue)
+                {
+                    if (!string.IsNullOrEmpty(condition))
+                    {
+                        condition += " and";
+                    }
+                    condition += $" h.ItemType={(int)itemType}";
+                }
+                where += condition;
+            }
+            return where;
         }
 
     }

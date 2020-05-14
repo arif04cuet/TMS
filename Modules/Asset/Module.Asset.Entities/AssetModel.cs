@@ -35,7 +35,7 @@ namespace Module.Asset.Entities
         public long? MediaId { get; set; }
         public Media Media { get; set; }
 
-        public List<AssetModel> AssetModels { get; set; }
+        public List<Asset> Assets { get; set; }
 
     }
 }

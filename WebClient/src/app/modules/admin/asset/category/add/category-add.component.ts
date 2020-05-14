@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
 import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { MediaHttpService } from 'src/services/http/media-http.service';
 import { environment } from 'src/environments/environment';
@@ -36,7 +34,7 @@ export class CategoryAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
-      type: [null, [], this.v.required.bind(this)],
+      parentId: [null, [], this.v.required.bind(this)],
       eula: [null, []],
       isRequireUserConfirmation: [null, []],
       isSendEmail: [null, []],
@@ -122,7 +120,7 @@ export class CategoryAddComponent extends FormComponent {
   }
 
   getData() {
-    this.subscribe(this.categoryHttpService.mastercategories(),
+    this.subscribe(this.categoryHttpService.rootCategories(),
       (res: any) => {
         this.mastercategories = res.data.items;
       }

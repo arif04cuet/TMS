@@ -5,6 +5,7 @@ namespace Module.Asset.Data
     public class AssetCreateRequest
     {
 
+        public string AssetTag { get; set; }
         public long AssetModel { get; set; }
         public long Status { get; set; }
         public string ItemNo { get; set; }
@@ -23,6 +24,7 @@ namespace Module.Asset.Data
         {
             var entity = asset ?? new Entities.Asset();
             entity.AssetModelId = AssetModel;
+            entity.AssetTag = AssetTag;
             entity.IsRequestable = IsRequestable;
             entity.ItemNo = ItemNo;
             entity.LocationId = Location;

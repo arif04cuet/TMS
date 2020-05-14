@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Infrastructure.Data;
-using Module.Asset.Entities;
-using System.Threading.Tasks;
+using Module.Core.Shared;
 
 
 namespace Module.Asset.Data.Validators
@@ -15,11 +14,7 @@ namespace Module.Asset.Data.Validators
         {
             _unitOfWork = unitOfWork;
 
-            RuleFor(x => x.Name).NotEmpty().NotNull()
-                .WithMessage("Category name is required");
-            RuleFor(x => x.Type).NotEmpty().NotNull()
-           .WithMessage("Category Type is required")
-           .IsInEnum();
+            RuleFor(x => x.Name).Required();
 
         }
 

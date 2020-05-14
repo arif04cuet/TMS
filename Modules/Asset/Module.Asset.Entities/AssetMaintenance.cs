@@ -28,15 +28,15 @@ namespace Module.Asset.Entities
         public MaintenanceType Type { get; set; }
 
         public long? AssetId { get; set; }
-        public virtual AssetModel Asset { get; set; }
+        public Asset Asset { get; set; }
 
         public long SupplierId { get; set; }
         public Supplier Supplier { get; set; }
 
         public bool IsWarrantyImprovement { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime CompletionDate { get; set; }
-        public Double Cost { get; set; }
+        public DateTime? CompletionDate { get; set; }
+        public double Cost { get; set; }
         public string Note { get; set; }
 
 

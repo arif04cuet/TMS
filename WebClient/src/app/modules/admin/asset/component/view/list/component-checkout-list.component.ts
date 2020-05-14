@@ -50,4 +50,8 @@ export class ComponentCheckoutListComponent extends TableComponent {
     })
   }
 
+  viewAsset(assetId) {
+    this.goTo(`/admin/asset/${assetId}/view`);
+  }
+
 }

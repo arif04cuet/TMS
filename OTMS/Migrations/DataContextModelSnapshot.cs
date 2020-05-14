@@ -163,8 +163,14 @@ namespace OTMS.Migrations
                     b.Property<long>("AssetModelId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("AssetTag")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Barcode")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("CheckoutId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -226,6 +232,10 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AssetModelId");
+
+                    b.HasIndex("CheckoutId")
+                        .IsUnique()
+                        .HasFilter("[CheckoutId] IS NOT NULL");
 
                     b.HasIndex("LocationId");
 
@@ -292,11 +302,11 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("AssetId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime?>("CheckoutDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<long?>("ChekoutToAssetId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("ChekoutToLocationId")
                         .HasColumnType("bigint");
@@ -330,8 +340,6 @@ namespace OTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssetId");
-
                     b.HasIndex("ChekoutToLocationId");
 
                     b.HasIndex("ChekoutToUserId");
@@ -349,7 +357,7 @@ namespace OTMS.Migrations
                     b.Property<long?>("AssetId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("CompletionDate")
+                    b.Property<DateTime?>("CompletionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<double>("Cost")
@@ -410,9 +418,6 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("AssetModelId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("CategoryId")
                         .HasColumnType("bigint");
 
@@ -462,8 +467,6 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssetModelId");
 
                     b.HasIndex("CategoryId");
 
@@ -555,8 +558,8 @@ namespace OTMS.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -571,7 +574,41 @@ namespace OTMS.Migrations
 
                     b.HasIndex("MediaId");
 
+                    b.HasIndex("ParentId");
+
                     b.ToTable("Category","asset");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            IsRequireUserConfirmation = false,
+                            IsSendEmail = false,
+                            Name = "Asset",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            IsRequireUserConfirmation = false,
+                            IsSendEmail = false,
+                            Name = "Consumable",
+                            Version = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsActive = true,
+                            IsDeleted = false,
+                            IsRequireUserConfirmation = false,
+                            IsSendEmail = false,
+                            Name = "License",
+                            Version = 0L
+                        });
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.CheckoutHistory", b =>
@@ -947,7 +984,7 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MinQuantity")
+                    b.Property<int>("MinQuantity")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -10152,10 +10189,14 @@ namespace OTMS.Migrations
             modelBuilder.Entity("Module.Asset.Entities.Asset", b =>
                 {
                     b.HasOne("Module.Asset.Entities.AssetModel", "AssetModel")
-                        .WithMany()
+                        .WithMany("Assets")
                         .HasForeignKey("AssetModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Module.Asset.Entities.AssetCheckout", "Checkout")
+                        .WithOne("ChekoutToAsset")
+                        .HasForeignKey("Module.Asset.Entities.Asset", "CheckoutId");
 
                     b.HasOne("Module.Core.Entities.Office", "Location")
                         .WithMany()
@@ -10178,19 +10219,13 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Asset.Entities.AssetAudit", b =>
                 {
-                    b.HasOne("Module.Asset.Entities.AssetModel", "Asset")
+                    b.HasOne("Module.Asset.Entities.Asset", "Asset")
                         .WithMany()
                         .HasForeignKey("AssetId");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AssetCheckout", b =>
                 {
-                    b.HasOne("Module.Asset.Entities.Asset", "Asset")
-                        .WithMany()
-                        .HasForeignKey("AssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Module.Core.Entities.Office", "ChekoutToLocation")
                         .WithMany()
                         .HasForeignKey("ChekoutToLocationId");
@@ -10202,7 +10237,7 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Asset.Entities.AssetMaintenance", b =>
                 {
-                    b.HasOne("Module.Asset.Entities.AssetModel", "Asset")
+                    b.HasOne("Module.Asset.Entities.Asset", "Asset")
                         .WithMany()
                         .HasForeignKey("AssetId");
 
@@ -10215,10 +10250,6 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Asset.Entities.AssetModel", b =>
                 {
-                    b.HasOne("Module.Asset.Entities.AssetModel", null)
-                        .WithMany("AssetModels")
-                        .HasForeignKey("AssetModelId");
-
                     b.HasOne("Module.Asset.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
@@ -10245,6 +10276,10 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Core.Entities.Media", "Media")
                         .WithMany()
                         .HasForeignKey("MediaId");
+
+                    b.HasOne("Module.Asset.Entities.Category", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.CheckoutHistory", b =>

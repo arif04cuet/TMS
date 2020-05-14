@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
-import { ComponentHttpService } from 'src/services/http/asset/component-http.service';
 import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
 
 

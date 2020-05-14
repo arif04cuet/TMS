@@ -7,9 +7,9 @@ using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,7 +36,7 @@ namespace Module.Asset.Data
             var newEntity = new Category
             {
                 Name = request.Name,
-                Type = request.Type,
+                ParentId = request.ParentId,
                 EULA = request.Eula,
                 IsRequireUserConfirmation = request.IsRequireUserConfirmation,
                 IsSendEmail = request.IsSendEmail,
@@ -69,7 +69,7 @@ namespace Module.Asset.Data
                 throw new NotFoundException($"Category not found");
 
             entity.Name = request.Name;
-            entity.Type = request.Type;
+            entity.ParentId = request.ParentId;
             entity.EULA = request.Eula;
             entity.IsRequireUserConfirmation = request.IsRequireUserConfirmation;
             entity.IsSendEmail = request.IsSendEmail;
@@ -99,7 +99,8 @@ namespace Module.Asset.Data
                 .Select(x => new CategoryViewModel
                 {
                     Id = x.Id,
-                    Type = x.Type,
+                    ParentId = x.ParentId,
+                    Parent = x.ParentId != null ? x.Parent.Name : "",
                     Eula = x.EULA,
                     Name = x.Name,
                     IsRequireUserConfirmation = x.IsRequireUserConfirmation,
@@ -117,17 +118,33 @@ namespace Module.Asset.Data
 
         public async Task<PagedCollection<CategoryViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
+            var result = await ListAsync(null, pagingOptions, searchOptions, cancellationToken);
+            return result;
+        }
+
+        public async Task<PagedCollection<CategoryViewModel>> ListRootAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var result = await ListAsync(x => x.ParentId == null, pagingOptions, searchOptions, cancellationToken);
+            return result;
+        }
+
+        private async Task<PagedCollection<CategoryViewModel>> ListAsync(Expression<Func<Category, bool>> predicate, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
             var itemsQuery = _repository
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)
                 .ApplySearch(searchOptions);
+
+            if (predicate != null)
+                itemsQuery = itemsQuery.Where(predicate);
 
             var items = await itemsQuery
                 .ApplyPagination(pagingOptions)
                 .Select(x => new CategoryViewModel
                 {
                     Id = x.Id,
-                    Type = x.Type,
+                    ParentId = x.ParentId,
+                    Parent = x.ParentId != null ? x.Parent.Name : "",
                     Eula = x.EULA,
                     Name = x.Name,
                     IsRequireUserConfirmation = x.IsRequireUserConfirmation,
@@ -139,24 +156,6 @@ namespace Module.Asset.Data
             var total = await itemsQuery.Select(x => x.Id).CountAsync();
 
             var result = new PagedCollection<CategoryViewModel>(items, total, pagingOptions);
-            return result;
-        }
-
-        public PagedCollection<object> MasterCategories(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
-        {
-            var list = new List<object>();
-
-            foreach (var item in Enum.GetValues(typeof(MasterCategory)))
-            {
-
-                list.Add(new
-                {
-                    id = (int)item,
-                    name = item.ToString()
-                });
-            }
-
-            var result = new PagedCollection<object>(list, list.Count, pagingOptions);
             return result;
         }
 

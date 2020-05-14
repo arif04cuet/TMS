@@ -22,6 +22,7 @@ export class AssetCheckoutComponent extends FormComponent {
 
   @ViewChild('userSelect') userSelect: SelectControlComponent;
   @ViewChild('locationSelect') locationSelect: SelectControlComponent;
+  @ViewChild('assetSelect') assetSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,6 +39,7 @@ export class AssetCheckoutComponent extends FormComponent {
       assetId: [],
       chekoutToUserId: [null, [], this.checkoutToUserValidation.bind(this)],
       chekoutToLocationId: [null, [], this.checkoutToLocationValidation.bind(this)],
+      chekoutToAssetId: [null, [], this.checkoutToAssetValidation.bind(this)],
       checkoutDate: [],
       expectedChekinDate: [],
       note: [],
@@ -53,6 +55,10 @@ export class AssetCheckoutComponent extends FormComponent {
 
     this.locationSelect.register((pagination, search) => {
       return this.officeHttpService.list(pagination, search);
+    }).fetch();
+
+    this.assetSelect.register((pagination, search) => {
+      return this.assetHttpService.list(pagination, search);
     }).fetch();
   }
 
@@ -100,6 +106,13 @@ export class AssetCheckoutComponent extends FormComponent {
 
   checkoutToLocationValidation(control: FormControl) {
     if (this.checkoutTo == 'location' && !control.value) {
+      return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+    }
+    return of(false);
+  }
+
+  checkoutToAssetValidation(control: FormControl) {
+    if (this.checkoutTo == 'asset' && !control.value) {
       return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
     }
     return of(false);

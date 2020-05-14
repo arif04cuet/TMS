@@ -12,7 +12,7 @@ namespace Module.Asset.Data
         public IdNameViewModel Supplier { get; set; }
         public bool IsWarrantyImprovement { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime CompletionDate { get; set; }
+        public DateTime? CompletionDate { get; set; }
         public double Cost { get; set; }
         public string Note { get; set; }
     }

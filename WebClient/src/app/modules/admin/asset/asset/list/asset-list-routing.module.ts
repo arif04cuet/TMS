@@ -58,6 +58,17 @@ const routes: Routes = [
         title: 'Add'
       }
     }
+  },
+  {
+    path: 'audit/add',
+    loadChildren: () => import('../audit/add/asset-audit-add-routing.module').then(x => x.AssetAuditAddRoutingModule),
+    data: {
+      name: 'asset_audit',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'Add'
+      }
+    }
   }
 ];
 

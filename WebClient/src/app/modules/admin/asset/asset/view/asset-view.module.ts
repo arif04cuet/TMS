@@ -12,6 +12,7 @@ import { AssetCheckoutHistoryModule } from './history/asset-checkout-history.mod
 import { AssetComponentListModule } from './components/asset-component-list.module';
 import { AssetMaintenanceAddModule } from './maintenance/add/asset-maintenance-add.module';
 import { AssetMaintenanceListModule } from './maintenance/list/asset-maintenance-list.module';
+import { AssetLicenseListModule } from './license/asset-license-list.module';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AssetMaintenanceListModule } from './maintenance/list/asset-maintenance
     AssetCheckoutHistoryModule,
     AssetComponentListModule,
     AssetMaintenanceListModule,
-    AssetCheckoutHistoryModule
+    AssetCheckoutHistoryModule,
+    AssetLicenseListModule
   ],
   exports: [AssetViewComponent]
 })

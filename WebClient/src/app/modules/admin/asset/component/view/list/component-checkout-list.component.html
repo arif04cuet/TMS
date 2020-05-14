@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.asset?.name }}</td>
+                        <td><a (click)="viewAsset(data.asset.id)">{{ data.asset?.name }}</a></td>
                         <td>{{ data.quantity }}</td>
                         <td class="action-column fit-cell ta-right">
                             <button (click)="checkin(data.id)" class="btn-custom" nz-button nzType="primary">{{'checkin'|translate}}</button>

@@ -30,6 +30,7 @@
                             <nz-form-control>
                                 <nz-radio-group (ngModelChange)="optionChange($event)" formControlName="checkoutTo">
                                     <label nz-radio-button nzValue="user">{{'user'|translate}}</label>
+                                    <label nz-radio-button nzValue="asset">{{'asset'|translate}}</label>
                                     <label nz-radio-button nzValue="location">{{'location'|translate}}</label>
                                 </nz-radio-group>
                             </nz-form-control>
@@ -45,6 +46,11 @@
                     <div [style.display]="checkoutTo == 'location' ? '' : 'none'" nz-col [nzSpan]="8">
                         <app-select-control mandatory="true" labelKey="officeName" #locationSelect label="location"
                             [formControl]="form.controls.chekoutToLocationId">
+                        </app-select-control>
+                    </div>
+                    <div [style.display]="checkoutTo == 'asset' ? '' : 'none'" nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #assetSelect label="asset"
+                            [formControl]="form.controls.chekoutToAssetId">
                         </app-select-control>
                     </div>
                 </div>

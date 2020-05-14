@@ -39,7 +39,6 @@ export class LicenseSeatsComponent extends BaseComponent {
 
     this.subscribe(this.licenseHttpService.getDetails(id),
       (res: any) => {
-        debugger;
         this.item = res.data;
         this.licenseId = res.data.id;
         console.log(this.item.seatList);

@@ -9,7 +9,7 @@
                         <th>{{'user'|translate}}</th>
                         <th>{{'asset'|translate}}</th>
                         <th>{{'date'|translate}}</th>
-                        <th>{{'action'|translate}}</th>
+                        <th class="ta-right">{{'action'|translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,9 +18,9 @@
                         <td>{{ data.issuedToUser ? data.issuedToUser.fullName:''}}</td>
                         <td>{{ data.issuedToAsset?.name}}</td>
                         <td>{{ data.issueDate | date }}</td>
-                        <td>
-                            <button *ngIf="(data.issuedToUserId || data.issuedToAsset)" (click)="checkin(data.id)" nz-button nzType="primary">Checkin</button>
-                            <button *ngIf="!(data.issuedToUserId || data.issuedToAsset)" (click)="checkout(data.id)"  nz-button nzType="default">Checkout</button>
+                        <td class="ta-right">
+                            <button class="btn-custom" *ngIf="(data.issuedToUserId || data.issuedToAsset)" (click)="checkin(data.id)" nz-button nzType="primary">{{'checkin'|translate}}</button>
+                            <button class="btn-custom" *ngIf="!(data.issuedToUserId || data.issuedToAsset)" (click)="checkout(data.id)"  nz-button nzType="default">{{'checkout'|translate}}</button>
                         </td>
                     </tr>
                 </tbody>

@@ -13,6 +13,8 @@ namespace Module.Asset.Entities
 
         [Searchable]
         public string Barcode { get; set; }
+        [Searchable]
+        public string AssetTag { get; set; }
 
         public long AssetModelId { get; set; }
         public AssetModel AssetModel { get; set; }
@@ -45,6 +47,10 @@ namespace Module.Asset.Entities
 
         public long? MediaId { get; set; }
         public Media Media { get; set; }
+
+        public long? CheckoutId { get; set; }
+        [ForeignKey(nameof(CheckoutId))]
+        public AssetCheckout Checkout { get; set; }
 
     }
 }

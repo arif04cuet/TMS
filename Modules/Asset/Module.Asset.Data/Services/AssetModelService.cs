@@ -27,14 +27,9 @@ namespace Module.Asset.Data
 
         public async Task<long> CreateAsync(AssetModelCreateRequest request, CancellationToken cancellationToken = default)
         {
-            //create accessory
             var newEntity = request.ToMap();
-
             await _assetModelRepository.AddAsync(newEntity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            //create seats
-            //await CreateSeats(newEntity);
             return newEntity.Id;
         }
 
@@ -87,49 +82,7 @@ namespace Module.Asset.Data
 
             return result;
         }
-        //public async Task<LicenseViewModel> GetDetails(long id, CancellationToken cancellationToken = default)
-        //{
-
-        //    var result = await _accessoryRepository
-        //        .AsReadOnly()
-        //        .Where(x => !x.IsDeleted)
-        //        .Where(x => x.IsActive == true)
-        //        .Include(x => x.Manufacturer)
-        //        .Include(x => x.Supplier)
-        //        .Include(x => x.Location)
-        //        .Select(x => new LicenseViewModel
-        //        {
-        //            Id = x.Id,
-        //            Name = x.Name,
-        //            ProductKey = x.ProductKey,
-        //            Seats = x.Seats,
-        //            OrderNumber = x.OrderNumber,
-        //            LicenseToName = x.LicenseToName,
-        //            LicenseToEmail = x.LicenseToEmail,
-        //            PurchaseDate = x.PurchaseDate,
-        //            PurchaseCost = x.PurchaseCost,
-        //            ExpireDate = x.ExpireDate,
-        //            Note = x.Note,
-        //            CategoryId = x.CategoryId,
-        //            Category = x.Category,
-        //            ManufacturerId = x.ManufacturerId,
-        //            Manufacturer = x.Manufacturer,
-        //            IsActive = x.IsActive,
-        //            SupplierId = x.SupplierId,
-        //            Supplier = x.Supplier,
-        //            LocationId = x.LocationId,
-        //            DepreciationId = x.DepreciationId,
-        //            Depreciation = x.Depreciation,
-        //            SeatList = x.LicenseSeats
-
-        //        })
-        //        .FirstOrDefaultAsync(x => x.Id == id);
-
-        //    if (result == null)
-        //        throw new NotFoundException("License not found");
-
-        //    return result;
-        //}
+        
         public async Task<PagedCollection<AssetModelViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var itemsQuery = _assetModelRepository
@@ -158,20 +111,5 @@ namespace Module.Asset.Data
             var result = new PagedCollection<AssetModelViewModel>(items, total, pagingOptions);
             return result;
         }
-        //public async Task<long> CreateSeats(License license, CancellationToken ct = default)
-        //{
-        //    List<LicenseSeat> items = new List<LicenseSeat>();
-        //    for (int i = 0; i < license.Seats; i++)
-        //    {
-        //        items.Add(new LicenseSeat
-        //        {
-        //            Name = "Seat " + i,
-        //            LicenseId = license.Id
-        //        });
-        //    }
-        //    await _seatRepository.AddRangeAsync(items, ct);
-        //    var result = await _unitOfWork.SaveChangesAsync(ct);
-        //    return result;
-        //}
     }
 }

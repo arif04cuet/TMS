@@ -115,4 +115,9 @@ export class AssetBaseHttpService {
         let url = `${this.buildBaseEndpoint()}/${assetId}/components?`;
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
+
+    public getLicenses(assetId: number, pagination = null, search = null) {
+        let url = `${this.buildBaseEndpoint()}/${assetId}/licenses?`;
+        return this.httpService.get(this.buildUrl(url, pagination, search));
+    }
 }

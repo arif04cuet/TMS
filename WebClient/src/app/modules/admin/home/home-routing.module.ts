@@ -228,7 +228,17 @@ const routes: Routes = [
           }
         }
       },
-
+      {
+        path: 'asset/audit',
+        loadChildren: () => import('../asset/asset/audit/list/asset-audit-list.module').then(x => x.AssetMaintenanceListModule),
+        data: {
+          name: 'asset_audit_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'audit'
+          }
+        }
+      },
       {
         path: 'asset/itemcodes',
         loadChildren: () => import('../asset/itemcode/list/itemcode-list.module').then(x => x.ItemCodeListModule),
@@ -337,6 +347,72 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'license'
+          }
+        }
+      },
+      {
+        path: 'asset/reports/activity-log',
+        loadChildren: () => import('../asset/reports/activity-log/asset-activity-log.module').then(x => x.AssetActivityLogModule),
+        data: {
+          name: 'asset_activity_log',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'activity.log'
+          }
+        }
+      },
+      {
+        path: 'asset/reports/audit-log',
+        loadChildren: () => import('../asset/reports/audit-log/asset-audit-log.module').then(x => x.AssetAuditLogModule),
+        data: {
+          name: 'asset_audit_log',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'audit.log'
+          }
+        }
+      },
+      {
+        path: 'asset/reports/depreciation',
+        loadChildren: () => import('../asset/reports/depreciation/depreciation-report.module').then(x => x.DepreciationReportModule),
+        data: {
+          name: 'asset_depreciation_report',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'depreciation.report'
+          }
+        }
+      },
+      {
+        path: 'asset/reports/license',
+        loadChildren: () => import('../asset/reports/license/license-report.module').then(x => x.LicenseReportModule),
+        data: {
+          name: 'asset_license_report',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'license.report'
+          }
+        }
+      },
+      {
+        path: 'asset/reports/maintenance',
+        loadChildren: () => import('../asset/reports/maintenance/maintenance-report.module').then(x => x.MaintenanceReportModule),
+        data: {
+          name: 'asset_maintenance_report',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'maintenance.report'
+          }
+        }
+      },
+      {
+        path: 'asset/reports/asset',
+        loadChildren: () => import('../asset/reports/asset/asset-report.module').then(x => x.AssetReportModule),
+        data: {
+          name: 'asset_asset_report',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'asset.report'
           }
         }
       }

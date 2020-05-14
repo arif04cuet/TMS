@@ -2,13 +2,8 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
-using Module.Core.Entities;
-using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,14 +16,11 @@ namespace Module.Asset.Data
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<ItemCode> _repository;
 
-
         public ItemCodeService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetRepository<ItemCode>();
-
-
         }
 
         public async Task<long> CreateAsync(ItemCodeCreateRequest request, CancellationToken cancellationToken = default)

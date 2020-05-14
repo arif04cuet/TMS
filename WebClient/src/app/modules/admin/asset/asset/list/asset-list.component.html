@@ -26,8 +26,8 @@
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>
-                            {{'barcode'|translate}}
-                            <input [(ngModel)]="barcode" nz-input />
+                            {{'asset.tag'|translate}}
+                            <input [(ngModel)]="assetTag" nz-input />
                         </th>
                         <th>
                             {{'name'|translate}}
@@ -56,7 +56,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.barcode }}</td>
+                        <td>{{ data.assetTag }}</td>
                         <td><a (click)="view(data)">{{ data.name }}</a></td>
                         <td>{{ data.category.name }}</td>
                         <td>{{ data.modelNo }}</td>

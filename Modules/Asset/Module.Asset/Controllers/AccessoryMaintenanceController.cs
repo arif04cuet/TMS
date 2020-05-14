@@ -13,39 +13,39 @@ namespace Module.Asset.Controllers
     public class AccessoryMaintenanceController : ControllerBase
     {
 
-        private readonly IAssetMaintenanceService _accessoryMaintenanceService;
+        private readonly IAssetMaintenanceService _assetMaintenanceService;
 
         public AccessoryMaintenanceController(
             IAssetMaintenanceService accessoryMaintenanceService)
         {
-            _accessoryMaintenanceService = accessoryMaintenanceService;
+            _assetMaintenanceService = accessoryMaintenanceService;
         }
 
         [HttpGet("{id}/maintenances")]
         public async Task<ActionResult> List(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _accessoryMaintenanceService.ListAsync(id, pagingOptions, searchOptions);
+            var result = await _assetMaintenanceService.ListAsync(id, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 
         [HttpGet("maintenances")]
         public async Task<ActionResult> ListAll([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _accessoryMaintenanceService.ListAsync(pagingOptions, searchOptions);
+            var result = await _assetMaintenanceService.ListAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 
         [HttpGet("maintenances/{id}")]
         public async Task<ActionResult> Get(long id)
         {
-            var result = await _accessoryMaintenanceService.Get(id);
+            var result = await _assetMaintenanceService.Get(id);
             return result.ToOkResult();
         }
 
         [HttpPost("maintenances")]
         public async Task<IActionResult> Post([FromBody] AssetMaintenanceCreateRequest request)
         {
-            var result = await _accessoryMaintenanceService.CreateAsync(request);
+            var result = await _assetMaintenanceService.CreateAsync(request);
             return result.ToCreatedResult();
         }
 
@@ -53,21 +53,21 @@ namespace Module.Asset.Controllers
         public async Task<IActionResult> Put(long id, [FromBody] AssetMaintenanceUpdateRequest request)
         {
             request.Id = id;
-            var result = await _accessoryMaintenanceService.UpdateAsync(request);
+            var result = await _assetMaintenanceService.UpdateAsync(request);
             return result.ToOkResult();
         }
 
         [HttpDelete("maintenances/{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            await _accessoryMaintenanceService.DeleteAsync(id);
+            await _assetMaintenanceService.DeleteAsync(id);
             return NoContent();
         }
 
         [HttpGet("maintenances/types")]
         public ActionResult GetTypes([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = _accessoryMaintenanceService.ListTypes(pagingOptions, searchOptions);
+            var result = _assetMaintenanceService.ListTypes(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

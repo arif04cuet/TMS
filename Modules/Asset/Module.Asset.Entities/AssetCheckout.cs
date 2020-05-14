@@ -9,8 +9,8 @@ namespace Module.Asset.Entities
     [Table(nameof(AssetCheckout), Schema = SchemaConstants.Asset)]
     public class AssetCheckout : BaseEntity
     {
-        public long AssetId { get; set; }
-        public Asset Asset { get; set; }
+        public long? ChekoutToAssetId { get; set; }
+        public Asset ChekoutToAsset { get; set; }
 
         public long? ChekoutToUserId { get; set; }
         public User ChekoutToUser { get; set; }

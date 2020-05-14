@@ -6,7 +6,7 @@ export class CategoryHttpService extends AssetBaseHttpService {
 
     EndPoint = 'categories';
 
-    public mastercategories() {
-        return this.httpService.get(this.AssetBaseUri + '/' + this.EndPoint + '/mastercategories');
+    public rootCategories() {
+        return this.httpService.get(`${this.AssetBaseUri}/${this.EndPoint}/root`);
     }
 }
