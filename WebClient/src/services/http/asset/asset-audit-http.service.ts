@@ -4,7 +4,7 @@ import { HttpService } from '../http.service';
 @Injectable()
 export class AssetAuditHttpService {
 
-    constructor(private httpService: HttpService) {
+    constructor(public httpService: HttpService) {
 
     }
 

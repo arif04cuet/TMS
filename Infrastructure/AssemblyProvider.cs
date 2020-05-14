@@ -64,6 +64,7 @@ namespace Infrastructure
 
                     catch (Exception e)
                     {
+                        _ = e;
                         //logger.LogWarning("Error loading assembly '{0}'", compilationLibrary.Name);
                         //logger.LogWarning(e.ToString());
                     }

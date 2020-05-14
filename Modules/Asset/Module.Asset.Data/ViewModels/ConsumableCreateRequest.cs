@@ -7,7 +7,7 @@ namespace Module.Asset.Data
     public class ConsumableCreateRequest
     {
         public string Name { get; set; }
-        public long Category { get; set; }
+        public long ItemCode { get; set; }
         public long? Manufacturer { get; set; }
         public long? Supplier { get; set; }
         public long? Location { get; set; }
@@ -23,7 +23,7 @@ namespace Module.Asset.Data
         public Consumable ToMap(Consumable consumable = null)
         {
             var entity = consumable ?? new Consumable();
-            entity.CategoryId = Category;
+            entity.ItemCodeId = ItemCode;
             entity.LocationId = Location;
             entity.ManufacturerId = Manufacturer;
             entity.MediaId = Media;

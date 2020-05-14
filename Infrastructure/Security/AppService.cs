@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Security;
 using Microsoft.AspNetCore.Http;
 
-namespace Module.Core.Shared
+namespace Infrastructure.Security
 {
     public class AppService : IAppService
     {

@@ -10,12 +10,12 @@ namespace Module.Asset.Controllers
 
     [Route("api/asset")]
     [ApiController]
-    public class AccessoryAuditController : ControllerBase
+    public class AssetAuditController : ControllerBase
     {
 
         private readonly IAssetAuditService _assetAuditService;
 
-        public AccessoryAuditController(
+        public AssetAuditController(
             IAssetAuditService assetAuditService)
         {
             _assetAuditService = assetAuditService;

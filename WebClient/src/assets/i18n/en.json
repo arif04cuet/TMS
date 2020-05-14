@@ -269,5 +269,8 @@
   "remaining.seats": "Remaining seats",
   "expiration.date": "Expiration date",
   "purchase.date": "Purchase date",
-  "parent": "Parent"
+  "parent": "Parent",
+  "audit": "Audit",
+  "next.audit.date": "Next audit date",
+  "asset.audit.successfully.logged": "Asset audit successfully logged"
 }

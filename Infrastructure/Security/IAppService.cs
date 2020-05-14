@@ -1,7 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Security;
 
-namespace Module.Core.Shared
+namespace Infrastructure.Security
 {
     public interface IAppService : IScopedService
     {

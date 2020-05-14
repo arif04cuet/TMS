@@ -29,8 +29,8 @@ import { AssetAuditHttpService } from 'src/services/http/asset/asset-audit-http.
   exports: [AssetAuditAddComponent],
   providers: [
     CommonValidator,
-    AssetAuditHttpService,
-    AssetBaseHttpService
+    AssetBaseHttpService,
+    AssetAuditHttpService
   ]
 })
 export class AssetAuditAddModule { }

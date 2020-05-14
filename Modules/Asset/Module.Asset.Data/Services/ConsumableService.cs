@@ -101,10 +101,10 @@ namespace Module.Asset.Data
                     Note = x.Note,
                     Category = new AssetCategoryViewModel
                     {
-                        Id = x.Category.Id,
-                        Name = x.Category.Name,
-                        IsSendEmailToUser = x.Category.IsSendEmail,
-                        IsRequireUserConfirmation = x.Category.IsRequireUserConfirmation
+                        Id = x.ItemCode.Category.Id,
+                        Name = x.ItemCode.Category.Name,
+                        IsSendEmailToUser = x.ItemCode.Category.IsSendEmail,
+                        IsRequireUserConfirmation = x.ItemCode.Category.IsRequireUserConfirmation
                     },
                     Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name} : null,
                     Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
@@ -141,10 +141,10 @@ namespace Module.Asset.Data
                     Note = x.Note,
                     Category = new AssetCategoryViewModel
                     {
-                        Id = x.Category.Id,
-                        Name = x.Category.Name,
-                        IsSendEmailToUser = x.Category.IsSendEmail,
-                        IsRequireUserConfirmation = x.Category.IsRequireUserConfirmation
+                        Id = x.ItemCode.Category.Id,
+                        Name = x.ItemCode.Category.Name,
+                        IsSendEmailToUser = x.ItemCode.Category.IsSendEmail,
+                        IsRequireUserConfirmation = x.ItemCode.Category.IsRequireUserConfirmation
                     },
                     Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name } : null,
                     Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
@@ -227,7 +227,7 @@ namespace Module.Asset.Data
                 TargetType = AssetType.User
             });
 
-            await _assetEmailService.SendEULAEmailAsync(request.UserId, entity.CategoryId);
+            await _assetEmailService.SendEULAEmailAsync(request.UserId, entity.ItemCode.CategoryId);
 
             return result > 0;
         }

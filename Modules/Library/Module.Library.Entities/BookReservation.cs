@@ -22,8 +22,5 @@ namespace Module.Library.Entities
         public long? ReservationById { get; set; }
         public User ReservationBy { get; set; }
 
-        public long? LibraryId { get; set; }
-        public Library Library { get; set; }
-
     }
 }

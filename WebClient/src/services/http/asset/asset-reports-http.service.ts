@@ -15,6 +15,11 @@ export class AssetReportsHttpService {
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
 
+    public auditLog(pagination = null, search = null) {
+        let url = `asset/audit?`;
+        return this.httpService.get(this.buildUrl(url, pagination, search));
+    }
+
     public depreciation(pagination = null, search = null) {
         let url = `${this.EndPoint}/depreciation?`;
         return this.httpService.get(this.buildUrl(url, pagination, search));

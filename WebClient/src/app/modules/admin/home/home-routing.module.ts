@@ -230,9 +230,9 @@ const routes: Routes = [
       },
       {
         path: 'asset/audit',
-        loadChildren: () => import('../asset/asset/audit/list/asset-audit-list.module').then(x => x.AssetMaintenanceListModule),
+        loadChildren: () => import('../asset/asset/audit/add/asset-audit-add.module').then(x => x.AssetAuditAddModule),
         data: {
-          name: 'asset_audit_list',
+          name: 'asset_audit_add',
           breadcrumb: {
             icon: 'safety',
             title: 'audit'
@@ -250,17 +250,17 @@ const routes: Routes = [
           }
         }
       },
-      {
-        path: 'asset/accessories',
-        loadChildren: () => import('../asset/accessory/list/accessory-list.module').then(x => x.AccessoryListModule),
-        data: {
-          name: 'accessory_list',
-          breadcrumb: {
-            icon: 'safety',
-            title: 'accessory'
-          }
-        }
-      },
+      // {
+      //   path: 'asset/accessories',
+      //   loadChildren: () => import('../asset/accessory/list/accessory-list.module').then(x => x.AccessoryListModule),
+      //   data: {
+      //     name: 'accessory_list',
+      //     breadcrumb: {
+      //       icon: 'safety',
+      //       title: 'accessory'
+      //     }
+      //   }
+      // },
       {
         path: 'asset/consumables',
         loadChildren: () => import('../asset/consumable/list/consumable-list.module').then(x => x.ConsumableListModule),

@@ -1,8 +1,8 @@
 ﻿using Infrastructure.Entities;
+using Infrastructure.Security;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Msi.UtilityKit;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,9 +20,11 @@ namespace Infrastructure.Data.EFCore
         private readonly IDbContextTransaction _transaction;
         private readonly IDbConnection _dbConnection;
         private readonly DbContext _dbContext;
+        private readonly IAuthenticatedUser _authenticatedUser;
 
         public UnitOfWork(
-            IDataContext dataContext)
+            IDataContext dataContext,
+            IAuthenticatedUser authenticatedUser)
         {
             if (!(dataContext is DbContext))
                 throw new ArgumentException($"The {nameof(dataContext)} object must be an instance of the Microsoft.EntityFrameworkCore.DbContext class.");
@@ -32,6 +34,7 @@ namespace Infrastructure.Data.EFCore
             _dbContext = _dataContext as DbContext;
             _repositories = new Dictionary<Type, object>();
             _dbConnection = _dbContext.Database.GetDbConnection();
+            _authenticatedUser = authenticatedUser;
         }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -39,14 +42,17 @@ namespace Infrastructure.Data.EFCore
             var entries = _dbContext.ChangeTracker.Entries<BaseEntity>().ToArray();
             foreach (var entry in entries)
             {
+                var entity = entry.Entity;
                 if (entry.State == EntityState.Modified)
                 {
-                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                    entity.UpdatedBy = _authenticatedUser?.Id;
+                    entity.UpdatedAt = DateTime.UtcNow;
                 }
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedAt = DateTime.UtcNow;
-                    entry.Entity.UpdatedAt = DateTime.UtcNow;
+                    entity.CreatedBy = _authenticatedUser?.Id;
+                    entity.CreatedAt = DateTime.UtcNow;
+                    entity.UpdatedAt = DateTime.UtcNow;
                 }
             }
             var result = _dbContext.SaveChangesAsync(cancellationToken);

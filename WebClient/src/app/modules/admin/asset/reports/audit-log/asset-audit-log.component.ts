@@ -13,8 +13,6 @@ export class AssetAuditLogComponent extends TableComponent {
 
   @Searchable("Name", "like") Name;
 
-  private id;
-
   constructor(
     private assetReportHttpService: AssetReportsHttpService,
     private activatedRoute: ActivatedRoute
@@ -24,7 +22,6 @@ export class AssetAuditLogComponent extends TableComponent {
 
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
-    this.id = this._activatedRouteSnapshot.params.id;
     this.load();
   }
 
@@ -37,9 +34,9 @@ export class AssetAuditLogComponent extends TableComponent {
   }
 
   load() {
-    // super.load((p, s) => {
-    //   return this.assetReportHttpService.listCheckoutHistory(this.id, p, s);
-    // })
+    super.load((p, s) => {
+      return this.assetReportHttpService.auditLog(p, s);
+    });
   }
 
 }

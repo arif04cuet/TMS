@@ -5,7 +5,7 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'activity.log'|translate}} ({{total}})
+                        {{'audit.log'|translate}} ({{total}})
                     </span>
                 </div>
             </div>
@@ -21,32 +21,17 @@
                 [nzTotal]="total" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>{{'date'|translate}}</th>
-                        <!-- <th>{{'admin'|translate}}</th> -->
-                        <th>{{'action'|translate}}</th>
+                        <th>{{'audit'|translate}}</th>
                         <th>{{'item'|translate}}</th>
-                        <th>{{'target'|translate}}</th>
+                        <th>{{'next.audit.date'|translate}}</th>
                         <th>{{'note'|translate}}</th>
-                        <!-- <th>
-                            <div class="ta-right">
-                                {{'action'|translate}}
-                            </div>
-                            <div>
-                                <button (click)="search()" nz-button class="btn-custom">
-                                    <i nz-icon nzType="search"></i>
-                                    {{'search'|translate}}
-                                </button>
-                            </div>
-                        </th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.issueDate|date:'medium':'+0000' }}</td>
-                        <!-- <td></td> -->
-                        <td>{{ (data.action == 2 ? 'checkout' : 'checkin')|translate }}</td>
-                        <td>{{ data.itemName }}</td>
-                        <td>{{ data.targetName }}</td>
+                        <td>{{ data.auditDate|date:'medium':'+0000' }}</td>
+                        <td>{{ data.asset?.name|translate }}</td>
+                        <td>{{ data.nextAuditDate|date:'medium':'+0000' }}</td>
                         <td>{{ data.note }}</td>
                     </tr>
                 </tbody>

@@ -1,5 +1,5 @@
-﻿using Infrastructure;
-using Infrastructure.Data;
+﻿using Infrastructure.Data;
+using Infrastructure.Security;
 using Infrastructure.Services;
 using Module.Core.Entities;
 using Module.Core.Shared;

@@ -16,18 +16,26 @@ namespace Module.Asset.Data
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<AssetAudit> _assetAuditRepository;
+        private readonly IRepository<Entities.Asset> _assetRepository;
 
         public AssetAuditService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _assetAuditRepository = _unitOfWork.GetRepository<AssetAudit>();
-
+            _assetRepository = _unitOfWork.GetRepository<Entities.Asset>();
         }
 
         public async Task<long> CreateAsync(AssetAuditCreateRequest request, CancellationToken cancellationToken = default)
         {
+            var asset = await _assetRepository
+                .FirstOrDefaultAsync(x => x.AssetTag == request.AssetTag && !x.IsDeleted, true);
+
+            if (asset == null)
+                throw new NotFoundException("Asset not found");
+
             var newEntity = request.ToMap();
+            newEntity.AssetId = asset.Id;
             await _assetAuditRepository.AddAsync(newEntity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return newEntity.Id;
