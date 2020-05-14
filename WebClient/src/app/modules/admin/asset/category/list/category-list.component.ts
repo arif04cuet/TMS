@@ -18,7 +18,7 @@ export class CategoryListComponent extends TableComponent {
   ];
 
   @Searchable("Name", "like") Name;
-  @Searchable("Parent.Name", "eq") Parent;
+  @Searchable("Parent.Name", "like") Parent;
   @Searchable("IsActive", "eq") IsActive;
 
   constructor(
