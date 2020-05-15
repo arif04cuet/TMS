@@ -22,13 +22,15 @@ function registerProperty(target: object, key: string): void {
 export function getSearchableProperties(origin: object): object {
     const keys: string[] = Reflect.getMetadata(metadataKey, origin);
     const result = [];
-    keys.forEach(key => {
-        const arr = key.split(":");
-        const property = arr[0];
-        const value = origin[property];
-        if (value !== undefined && value !== null && value !== "") {
-            result.push(`Search=${arr[1]} ${arr[2]} ${value}`);
-        }
-    });
+    if(keys && keys.length) {
+        keys.forEach(key => {
+            const arr = key.split(":");
+            const property = arr[0];
+            const value = origin[property];
+            if (value !== undefined && value !== null && value !== "") {
+                result.push(`Search=${arr[1]} ${arr[2]} ${value}`);
+            }
+        });
+    }
     return result;
 }

@@ -6,6 +6,8 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
+import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-consumable-add',
@@ -16,7 +18,7 @@ export class ConsumableAddComponent extends FormComponent {
   loading: boolean = true;
   statuses = [];
 
-  @ViewChild('categorySelect') categorySelect: SelectControlComponent;
+  @ViewChild('itemCodeSelect') itemCodeSelect: SelectControlComponent;
   @ViewChild('manufacturerSelect') manufacturerSelect: SelectControlComponent;
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
   @ViewChild('locationSelect') locationSelect: SelectControlComponent;
@@ -24,6 +26,7 @@ export class ConsumableAddComponent extends FormComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private consumableHttpService: ConsumableHttpService,
+    private itemCodeHttpService: ItemCodeHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -32,18 +35,15 @@ export class ConsumableAddComponent extends FormComponent {
   ngOnInit(): void {
     this.onCheckMode = id => this.get(id);
     this.createForm({
-      name: [null, [], this.v.required.bind(this)],
-      category: [null, [], this.v.required.bind(this)],
+      itemCode: [null, [], this.v.required.bind(this)],
       manufacturer: [],
       supplier: [],
       location: [],
-      modelNo: [],
       orderNumber: [],
       purchaseDate: [],
       purchaseCost: [],
       note: [],
-      quantity: [null, [], this.v.required.bind(this)],
-      minQuantity: [null, [], this.v.required.bind(this)]
+      quantity: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
@@ -55,10 +55,15 @@ export class ConsumableAddComponent extends FormComponent {
       return this.consumableHttpService.manufacturers(pagination, search);
     }).fetch();
 
-    this.categorySelect.register((pagination, search) => {
-      let s = search || ""
-      s += `&Search=Type eq 3`;
-      return this.consumableHttpService.categories(pagination, s);
+    this.itemCodeSelect.register((pagination, search) => {
+      return this.itemCodeHttpService.listByCategory(2, pagination, search).pipe(
+        map((x: any) => {
+          x.data.items.forEach(o => {
+            o.label = `${o.code} - ${o.name} - ${o.categoryName}`
+          });
+          return x;
+        })
+      );
     }).fetch();
 
     this.supplierSelect.register((pagination, search) => {

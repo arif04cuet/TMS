@@ -17,5 +17,7 @@ namespace Module.Asset.Data
         Task<ItemCodeViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<ItemCodeViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
+        Task<PagedCollection<ItemCodeByCategoryViewModel>> ListByCategoryAsync(long categoryId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
     }
 }

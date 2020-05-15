@@ -9,6 +9,7 @@ namespace Module.Asset.Data
         public string Name { get; set; }
         public AssetCategoryViewModel Category { get; set; }
         public IdNameViewModel Manufacturer { get; set; }
+        public AssetItemCodeViewModel ItemCode { get; set; }
         public IdNameViewModel Supplier { get; set; }
         public IdNameViewModel Location { get; set; }
         public string ModelNo { get; set; }

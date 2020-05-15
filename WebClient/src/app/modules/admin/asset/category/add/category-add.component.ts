@@ -120,7 +120,7 @@ export class CategoryAddComponent extends FormComponent {
   }
 
   getData() {
-    this.subscribe(this.categoryHttpService.rootCategories(),
+    this.subscribe(this.categoryHttpService.list(),
       (res: any) => {
         this.mastercategories = res.data.items;
       }

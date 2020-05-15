@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Dapper;
+using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
@@ -7,6 +8,7 @@ using Module.Core.Entities;
 using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +24,7 @@ namespace Module.Asset.Data
         private readonly IRepository<User> _userRepository;
         private readonly ICheckoutHistoryService _checkoutHistoryService;
         private readonly IAssetEmailService _assetEmailService;
+        private readonly IDbConnection _dbConnection;
 
         public ConsumableService(
             IUnitOfWork unitOfWork,
@@ -34,25 +37,43 @@ namespace Module.Asset.Data
             _consumableUserRepository = _unitOfWork.GetRepository<ConsumableUser>();
             _userRepository = _unitOfWork.GetRepository<User>();
             _assetEmailService = assetEmailService;
+            _dbConnection = _unitOfWork.GetConnection();
         }
 
         public async Task<long> CreateAsync(ConsumableCreateRequest request, CancellationToken cancellationToken = default)
         {
+            var itemCode = await _unitOfWork.GetRepository<ItemCode>()
+                .FirstOrDefaultAsync(x => x.Id == request.ItemCode && !x.IsDeleted);
+
+            if (itemCode == null)
+                throw new NotFoundException("Item code not found.");
+
             var newEntity = request.ToMap();
             newEntity.Available = request.Quantity;
 
+            // calculate total
+            itemCode.TotalQuantity = GetTotalQuantity(itemCode.Id) + request.Quantity;
+
+            // calculate available
+            itemCode.Available = GetTotalAvailables(itemCode.Id) + request.Quantity;
+
             await _consumableRepository.AddAsync(newEntity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             return newEntity.Id;
         }
 
         public async Task<bool> UpdateAsync(ConsumableUpdateRequest request, CancellationToken cancellationToken = default)
         {
-            var entity = await _consumableRepository.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
+            var entity = await _consumableRepository
+                .AsQueryable()
+                .Include(x => x.ItemCode)
+                .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
 
             if (entity == null)
                 throw new NotFoundException($"Consumable not found");
+
+            if (entity.ItemCodeId != request.ItemCode)
+                throw new ValidationException("Item code can not be updated.");
 
             var totalCheckout = await _consumableUserRepository.MatchAsync(new ConsumableCountByIdCriteria(entity.Id));
 
@@ -70,7 +91,8 @@ namespace Module.Asset.Data
 
         public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
-            var entity = await _consumableRepository.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, true);
+            var entity = await _consumableRepository
+                .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
 
             if (entity == null)
                 throw new NotFoundException("Consumable not found");
@@ -82,6 +104,20 @@ namespace Module.Asset.Data
 
             entity.IsDeleted = true;
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var itemCode = await _unitOfWork.GetRepository<ItemCode>()
+                .FirstOrDefaultAsync(x => x.Id == entity.ItemCodeId && !x.IsDeleted);
+
+            if (itemCode != null)
+            {
+                // calculate total
+                itemCode.TotalQuantity = GetTotalQuantity(itemCode.Id);
+
+                // calculate available
+                itemCode.Available = GetTotalAvailables(itemCode.Id);
+                result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+            }
+
             return result > 0;
         }
 
@@ -99,6 +135,7 @@ namespace Module.Asset.Data
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
+                    ItemCode = new AssetItemCodeViewModel { Id = x.ItemCode.Id, Code = x.ItemCode.Code, Name = x.ItemCode.Name },
                     Category = new AssetCategoryViewModel
                     {
                         Id = x.ItemCode.Category.Id,
@@ -106,7 +143,7 @@ namespace Module.Asset.Data
                         IsSendEmailToUser = x.ItemCode.Category.IsSendEmail,
                         IsRequireUserConfirmation = x.ItemCode.Category.IsRequireUserConfirmation
                     },
-                    Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name} : null,
+                    Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name } : null,
                     Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
                     Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
                     MinQuantity = x.MinQuantity,
@@ -122,12 +159,17 @@ namespace Module.Asset.Data
             return result;
         }
 
-        public async Task<PagedCollection<ConsumableViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public async Task<PagedCollection<ConsumableViewModel>> ListAsync(long? itemCodeId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var itemsQuery = _consumableRepository
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)
                 .ApplySearch(searchOptions);
+
+            if (itemCodeId.HasValue)
+            {
+                itemsQuery = itemsQuery.Where(x => x.ItemCodeId == itemCodeId.Value);
+            }
 
             var items = await itemsQuery
                 .ApplyPagination(pagingOptions)
@@ -139,6 +181,7 @@ namespace Module.Asset.Data
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
+                    ItemCode = new AssetItemCodeViewModel { Id = x.ItemCode.Id, Code = x.ItemCode.Code, Name = x.ItemCode.Name },
                     Category = new AssetCategoryViewModel
                     {
                         Id = x.ItemCode.Category.Id,
@@ -159,6 +202,40 @@ namespace Module.Asset.Data
             var total = await itemsQuery.Select(x => x.Id).CountAsync();
 
             var result = new PagedCollection<ConsumableViewModel>(items, total, pagingOptions);
+            return result;
+        }
+
+        public async Task<PagedCollection<ConsumableListGroupByItemCodeViewModel>> ListGroupByItemCodeAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+
+            var sql = @"with cte 
+                        as (select c.ItemCodeId,
+                        sum(c.Available) Available, sum(c.Quantity) Quantity
+                        from [asset].[Consumable] c
+                        where c.IsDeleted = 0 
+                        group by c.ItemCodeId
+                        )
+                        select cte.ItemCodeId Id, cte.Available, cte.Quantity,
+                        concat(i.Code, ' - ', i.Name) Item,
+                        c.Name Category, c.Id CategoryId, i.MinQuantity,
+                        i.TotalQuantity ItemQuantity, i.Available as ItemAvailable from cte
+                        left join [asset].[ItemCode] i on i.Id = cte.ItemCodeId
+                        left join [asset].[Category] c on c.Id = i.CategoryId";
+
+            var itemSql = sql + $" order by i.Code ";
+            itemSql += pagingOptions.BuildSql();
+
+            var totalSql = @"with cte 
+                            as (select c.ItemCodeId
+                            from [asset].[Consumable] c
+                            group by c.ItemCodeId
+                            )
+                            select count(cte.ItemCodeId) from cte";
+
+            var items = await _dbConnection.QueryAsync<ConsumableListGroupByItemCodeViewModel>(itemSql);
+            var total = await _dbConnection.ExecuteScalarAsync<int>(totalSql);
+
+            var result = new PagedCollection<ConsumableListGroupByItemCodeViewModel>(items, total, pagingOptions);
             return result;
         }
 
@@ -193,12 +270,15 @@ namespace Module.Asset.Data
         public async Task<bool> CheckoutAsync(ConsumableCheckoutRequest request, CancellationToken cancellationToken = default)
         {
             var entity = await _consumableRepository
-                .FirstOrDefaultAsync(x => x.Id == request.ConsumableId && !x.IsDeleted, true);
+                .AsQueryable()
+                .Include(x => x.ItemCode)
+                .FirstOrDefaultAsync(x => x.Id == request.ConsumableId && !x.IsDeleted);
 
             if (entity == null)
                 throw new NotFoundException("Consumable not found");
 
-            if (entity.Available <= 0)
+            int? totalAvailables = GetTotalAvailables(entity.ItemCodeId);
+            if (entity.Available <= 0 || entity.ItemCode.Available <= 0 || totalAvailables <= 0)
                 throw new NotFoundException("No available consumable to checkout");
 
             var userExist = await _userRepository.MatchAsync(new ExistUserByIdCriteria(request.UserId));
@@ -214,9 +294,9 @@ namespace Module.Asset.Data
 
             await _consumableUserRepository.AddAsync(checkout);
             entity.Available = entity.Available - 1;
+            entity.ItemCode.Available = totalAvailables - 1;
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             await _checkoutHistoryService.CreateAsync(new CheckoutHistoryCreateRequest
             {
                 Action = AssetAction.Checkout,
@@ -236,14 +316,18 @@ namespace Module.Asset.Data
         {
             var checkin = await _consumableUserRepository
                 .AsQueryable()
-                .Include(x => x.Consumable)
+                .Include(x => x.Consumable).ThenInclude(x => x.ItemCode)
                 .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
 
             if (checkin == null)
                 throw new NotFoundException("Checkout not found");
 
+            if (checkin.Consumable.ItemCode == null)
+                throw new NotFoundException("Item code not found");
+
             _consumableUserRepository.Remove(checkin);
             checkin.Consumable.Available = checkin.Consumable.Available + 1;
+            checkin.Consumable.ItemCode.Available = checkin.Consumable.ItemCode.Available + 1;
 
             var result = await _unitOfWork.SaveChangesAsync();
 
@@ -258,6 +342,24 @@ namespace Module.Asset.Data
             });
 
             return result > 0;
+        }
+
+        private int? GetTotalAvailables(long itemCodeId)
+        {
+            var consumableAvailables = _consumableRepository
+                .Where(x => x.ItemCodeId == itemCodeId && !x.IsDeleted)
+                .Select(x => x.Available)
+                .Sum();
+            return consumableAvailables;
+        }
+
+        private int GetTotalQuantity(long itemCodeId)
+        {
+            var consumableTotal = _consumableRepository
+                .Where(x => x.ItemCodeId == itemCodeId && !x.IsDeleted)
+                .Select(x => x.Quantity)
+                .Sum();
+            return consumableTotal;
         }
     }
 }

@@ -86,7 +86,12 @@ export class BaseComponent {
                 this._messageService.error(error.error);
                 this._router.navigateByUrl('/login');
             } else if (error.error.message) {
-                this._messageService.error(error.error.message);
+                if (error.error.message == "form_error") {
+                    
+                }
+                else {
+                    this._messageService.error(error.error.message);
+                }
             } else {
                 this._messageService.error(error.message);
             }

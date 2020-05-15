@@ -14,7 +14,7 @@
             <form nz-form [formGroup]="form">
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
-                        <app-view [data]="data.name" label="name"></app-view>
+                        <app-view [data]="data.item" label="item"></app-view>
                     </div>
                     <div nz-col [nzSpan]="8">
                         <app-view [data]="data.category?.name" label="category"></app-view>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                <div *ngIf="data.category.isSendEmailToUser" nz-row [nzGutter]="24">
+                <div *ngIf="data?.category?.isSendEmailToUser" nz-row [nzGutter]="24">
                     <div nz-col [nzMd]="8" [nzSm]="24">
                         <nz-alert class="field-container" nzType="info"
                             nzMessage="{{'this.user.will.be.emailed.a.copy.of.the.eula'|translate }}" nzShowIcon>

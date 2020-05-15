@@ -19,6 +19,9 @@ export class ConsumableCheckoutComponent extends FormComponent {
 
   @ViewChild('userSelect') userSelect: SelectControlComponent;
 
+  private itemId;
+  private itemCodeId;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private consumableHttpService: ConsumableHttpService,
@@ -29,13 +32,16 @@ export class ConsumableCheckoutComponent extends FormComponent {
   }
 
   ngOnInit(): void {
-    this.onCheckMode = id => this.get(id);
     this.createForm({
       consumableId: [],
       userId: [null, [], this.v.required.bind(this)],
       note: []
     });
-    super.ngOnInit(this.activatedRoute.snapshot);
+    const snapshot = this.activatedRoute.snapshot;
+    super.ngOnInit(snapshot);
+    this.itemId = snapshot.params.itemId;
+    this.get(this.itemId);
+    this.itemCodeId = snapshot.params.id;
   }
 
   ngAfterViewInit() {
@@ -47,7 +53,7 @@ export class ConsumableCheckoutComponent extends FormComponent {
   submit(): void {
     const body = this.constructObject(this.form.controls);
     this.validateForm(() => {
-      this.subscribe(this.consumableHttpService.checkout(this.id, body),
+      this.subscribe(this.consumableHttpService.checkout(this.itemId, body),
         (res: any) => {
           this.cancel();
           this.success(MESSAGE_KEY.CHECKOUT_SUCCESSFUL);
@@ -65,6 +71,7 @@ export class ConsumableCheckoutComponent extends FormComponent {
       this.subscribe(this.consumableHttpService.get(id),
         (res: any) => {
           this.data = res.data;
+          this.data.item = `${this.data.itemCode.code} - ${this.data.itemCode.name}`
           this.setValue('consumableId', res.data.id);
           this.loading = false;
         }
@@ -76,7 +83,7 @@ export class ConsumableCheckoutComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/asset/consumables');
+    this.goTo(`/admin/asset/consumables/${this.itemCodeId}/items`);
   }
 
 }

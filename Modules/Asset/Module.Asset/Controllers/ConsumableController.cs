@@ -28,7 +28,21 @@ namespace Module.Asset.Controllers
         [HttpGet]
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _consumableService.ListAsync(pagingOptions, searchOptions);
+            var result = await _consumableService.ListAsync(null, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("group")]
+        public async Task<ActionResult> ListGroupByItemCode([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _consumableService.ListGroupByItemCodeAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("{itemCodeId}/items")]
+        public async Task<ActionResult> ListItemsByItemCode(long itemCodeId, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _consumableService.ListAsync(itemCodeId, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

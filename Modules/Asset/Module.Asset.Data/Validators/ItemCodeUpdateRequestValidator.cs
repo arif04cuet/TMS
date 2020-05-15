@@ -8,10 +8,7 @@ namespace Module.Asset.Data.Validators
     {
         public ItemCodeUpdateRequestValidator(IUnitOfWork unitOfWork)
         {
-            var validator = new ItemCodeCreateRequestValidator(unitOfWork);
-
-            RuleFor(x => x).SetValidator(validator);
-
+            RuleFor(x => x).SetValidator(x => new ItemCodeCreateRequestValidator(unitOfWork, x.Id));
         }
 
     }

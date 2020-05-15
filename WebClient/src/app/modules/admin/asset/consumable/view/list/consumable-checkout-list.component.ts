@@ -13,7 +13,8 @@ export class ConsumableCheckoutListComponent extends TableComponent {
 
   @Searchable("Name", "like") Name;
 
-  private id;
+  private itemCodeId;
+  private itemId;
 
   constructor(
     private consumableHttpService: ConsumableHttpService,
@@ -23,17 +24,19 @@ export class ConsumableCheckoutListComponent extends TableComponent {
   }
 
   ngOnInit() {
-    this.snapshot(this.activatedRoute.snapshot);
-    this.id = this._activatedRouteSnapshot.params.id;
+    const snapshot = this.activatedRoute.snapshot;
+    this.snapshot(snapshot);
+    this.itemCodeId = snapshot.params.id;
+    this.itemId = snapshot.params.itemId;
     this.load();
   }
 
   checkout() {
-    this.goTo(`/admin/asset/consumables/${this.id}/checkout`);
+    this.goTo(`/admin/asset/consumables/${this.itemCodeId}/items/${this.itemId}/checkout`);
   }
 
   checkin(id) {
-    this.goTo(`/admin/asset/consumables/${this.id}/checkin?checkout=${id}`);
+    this.goTo(`/admin/asset/consumables/${this.itemCodeId}/items/${this.itemId}checkin`);
   }
 
   search() {
@@ -46,7 +49,7 @@ export class ConsumableCheckoutListComponent extends TableComponent {
 
   load() {
     super.load((p, s) => {
-      return this.consumableHttpService.listCheckouts(this.id, p, s);
+      return this.consumableHttpService.listCheckouts(this.itemId, p, s);
     })
   }
 

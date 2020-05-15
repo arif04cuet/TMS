@@ -13,7 +13,8 @@ export class ConsumableCheckoutHistoryComponent extends TableComponent {
 
   @Searchable("Name", "like") Name;
 
-  private id;
+  private itemCodeId;
+  private itemId;
 
   constructor(
     private consumableHttpService: ConsumableHttpService,
@@ -23,8 +24,10 @@ export class ConsumableCheckoutHistoryComponent extends TableComponent {
   }
 
   ngOnInit() {
-    this.snapshot(this.activatedRoute.snapshot);
-    this.id = this._activatedRouteSnapshot.params.id;
+    const snapshot = this.activatedRoute.snapshot;
+    this.snapshot(snapshot);
+    this.itemCodeId = snapshot.params.id;
+    this.itemId = snapshot.params.itemId;
     this.load();
   }
 
@@ -38,7 +41,7 @@ export class ConsumableCheckoutHistoryComponent extends TableComponent {
 
   load() {
     super.load((p, s) => {
-      return this.consumableHttpService.listCheckoutHistory(this.id, p, s);
+      return this.consumableHttpService.listCheckoutHistory(this.itemId, p, s);
     })
   }
 

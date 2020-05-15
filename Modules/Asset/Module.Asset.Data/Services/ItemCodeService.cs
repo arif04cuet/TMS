@@ -1,9 +1,11 @@
-﻿using Infrastructure;
+﻿using Dapper;
+using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,12 +17,14 @@ namespace Module.Asset.Data
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<ItemCode> _repository;
+        private readonly IDbConnection _dbConnection;
 
         public ItemCodeService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _repository = _unitOfWork.GetRepository<ItemCode>();
+            _dbConnection = _unitOfWork.GetConnection();
         }
 
         public async Task<long> CreateAsync(ItemCodeCreateRequest request, CancellationToken cancellationToken = default)
@@ -69,6 +73,9 @@ namespace Module.Asset.Data
                     Name = x.Name,
                     Code = x.Code,
                     CategoryId = x.CategoryId,
+                    Available = x.Available,
+                    TotalQuantity = x.TotalQuantity,
+                    Category = x.Category,
                     MinQuantity = x.MinQuantity,
                     IsActive = x.IsActive
                 })
@@ -95,6 +102,8 @@ namespace Module.Asset.Data
                     Name = x.Name,
                     Code = x.Code,
                     CategoryId = x.CategoryId,
+                    Available = x.Available,
+                    TotalQuantity = x.TotalQuantity,
                     MinQuantity = x.MinQuantity,
                     IsActive = x.IsActive,
                     Category = x.Category
@@ -104,6 +113,35 @@ namespace Module.Asset.Data
             var total = await itemsQuery.Select(x => x.Id).CountAsync();
 
             var result = new PagedCollection<ItemCodeViewModel>(items, total, pagingOptions);
+            return result;
+        }
+
+        public async Task<PagedCollection<ItemCodeByCategoryViewModel>> ListByCategoryAsync(long categoryId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var sql = $@"with cte
+                            as (
+                            select c.Id, c.Name, c.ParentId from [asset].[Category] c
+                            where c.IsDeleted = 0 and c.ParentId = {categoryId}
+                            union all
+                            select c1.Id, c1.Name, c1.ParentId
+                            from [asset].[Category] c1
+                            join cte on cte.Id = c1.ParentId
+                            where c1.IsDeleted = 0
+                            ) ";
+
+            var itemSql = sql + @"select i.Id, i.Code, i.Name, i.Available, i.MinQuantity,      i.TotalQuantity, cte.Id CategoryId, cte.Name CategoryName from cte
+                            join[asset].[ItemCode] i on i.CategoryId = cte.Id ";
+
+            var totalSql = sql + @"select count(i.Id) from cte
+                            join [asset].[ItemCode] i on i.CategoryId = cte.Id";
+
+            itemSql += $" order by i.Code ";
+            itemSql += pagingOptions.BuildSql();
+
+            var items = await _dbConnection.QueryAsync<ItemCodeByCategoryViewModel>(itemSql);
+            var total = await _dbConnection.ExecuteScalarAsync<int>(totalSql);
+
+            var result = new PagedCollection<ItemCodeByCategoryViewModel>(items, total, pagingOptions);
             return result;
         }
 

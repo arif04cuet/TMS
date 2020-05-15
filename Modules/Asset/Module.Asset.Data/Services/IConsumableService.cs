@@ -16,12 +16,14 @@ namespace Module.Asset.Data
 
         Task<ConsumableViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
-        Task<PagedCollection<ConsumableViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+        Task<PagedCollection<ConsumableViewModel>> ListAsync(long? itemCodeId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<ConsumableCheckoutListViewModel>> ListCheckoutAsync(long accessoryId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<bool> CheckoutAsync(ConsumableCheckoutRequest request, CancellationToken cancellationToken = default);
 
         Task<bool> CheckinAsync(ConsumableCheckinRequest request, CancellationToken cancellationToken = default);
+
+        Task<PagedCollection<ConsumableListGroupByItemCodeViewModel>> ListGroupByItemCodeAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
     }
 }

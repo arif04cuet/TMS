@@ -27,6 +27,13 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("categories/{categoryId}")]
+        public async Task<ActionResult> ListByCategory(long categoryId, [FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
+        {
+            var result = await _service.ListByCategoryAsync(categoryId, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(long id)
         {

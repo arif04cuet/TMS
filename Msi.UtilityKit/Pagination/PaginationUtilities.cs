@@ -15,7 +15,7 @@ namespace Msi.UtilityKit.Pagination
             options = options ?? _utilitiesOptions.PagingOptions;
 
             options.Offset = options.Offset ?? _utilitiesOptions.PagingOptions.Offset;
-            options.Limit = options.Limit ?? _utilitiesOptions.PagingOptions.Limit;          
+            options.Limit = options.Limit ?? _utilitiesOptions.PagingOptions.Limit;
 
             query = query.Skip(options.Offset.Value).Take(options.Limit.Value);
 
@@ -26,6 +26,17 @@ namespace Msi.UtilityKit.Pagination
         {
             _utilitiesOptions = new PaginationUtilitiesOptions();
             options.Invoke(_utilitiesOptions);
+        }
+
+        public static string BuildSql(this IPagingOptions pagingOptions)
+        {
+            if (pagingOptions != null)
+            {
+                var offset = pagingOptions.Offset ?? 0;
+                var limit = pagingOptions.Limit ?? 20;
+                return $"offset {offset} rows fetch next {limit} rows only";
+            }
+            return string.Empty;
         }
 
 

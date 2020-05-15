@@ -272,17 +272,17 @@ const routes: Routes = [
           }
         }
       },
-      {
-        path: 'asset/components',
-        loadChildren: () => import('../asset/component/list/component-list.module').then(x => x.ComponentListModule),
-        data: {
-          name: 'component_list',
-          breadcrumb: {
-            icon: 'safety',
-            title: 'component'
-          }
-        }
-      },
+      // {
+      //   path: 'asset/components',
+      //   loadChildren: () => import('../asset/component/list/component-list.module').then(x => x.ComponentListModule),
+      //   data: {
+      //     name: 'component_list',
+      //     breadcrumb: {
+      //       icon: 'safety',
+      //       title: 'component'
+      //     }
+      //   }
+      // },
       {
         path: 'asset/suppliers',
         loadChildren: () => import('../asset/supplier/list/supplier-list.module').then(x => x.SupplierListModule),

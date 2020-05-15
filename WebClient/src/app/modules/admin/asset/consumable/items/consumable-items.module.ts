@@ -3,32 +3,31 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ConsumableAddComponent } from './consumable-add.component';
-import { ConsumableAddRoutingModule } from './consumable-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CommonValidator } from 'src/validators/common.validator';
-import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
+import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
+import { ConsumableItemsComponent } from './consumable-items.component';
+import { ConsumableItemsRoutingModule } from './consumable-items-routing.module';
 import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
+
 
 @NgModule({
   declarations: [
-    ConsumableAddComponent
+    ConsumableItemsComponent
   ],
   imports: [
-    ConsumableAddRoutingModule,
     CommonModule,
+    ConsumableItemsRoutingModule,
     NzTableModule,
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule,
-    SelectControlModule
+    SharedModule
   ],
-  exports: [ConsumableAddComponent],
+  exports: [ConsumableItemsComponent],
   providers: [
-    CommonValidator,
+    ConsumableHttpService,
     ItemCodeHttpService
   ]
 })
-export class ConsumableAddModule { }
+export class ConsumableItemsModule { }

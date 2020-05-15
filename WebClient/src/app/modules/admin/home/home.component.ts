@@ -201,12 +201,12 @@ export class HomeComponent extends BaseComponent {
             route: '/admin/asset/consumables',
             icon: 'user'
           },
-          {
-            level: 2,
-            title: 'component',
-            route: '/admin/asset/components',
-            icon: 'user'
-          },
+          // {
+          //   level: 2,
+          //   title: 'component',
+          //   route: '/admin/asset/components',
+          //   icon: 'user'
+          // },
           {
             level: 2,
             title: 'audit',
@@ -226,7 +226,7 @@ export class HomeComponent extends BaseComponent {
               },
               {
                 level: 3,
-                title: 'asset.itemcode',
+                title: 'item.code',
                 route: '/admin/asset/itemcodes',
                 icon: 'user'
               },

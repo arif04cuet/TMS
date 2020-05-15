@@ -4,7 +4,6 @@ using Module.Asset.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System.Data;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -57,14 +56,8 @@ namespace Module.Asset.Data
                         left join [asset].[License] t6 on t6.Id = h.TargetId";
 
             sql += BuildWhere(itemId, itemType);
-            sql += $" order by h.IssueDate desc";
-
-            if (pagingOptions != null)
-            {
-                var offset = pagingOptions.Offset ?? 0;
-                var limit = pagingOptions.Limit ?? 20;
-                sql += $" offset {offset} rows fetch next {limit} rows only";
-            }
+            sql += $" order by h.IssueDate desc ";
+            sql += pagingOptions.BuildSql();
 
             var items = await _dbConnection.QueryAsync<CheckoutHistoryListViewModel>(sql);
 

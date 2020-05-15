@@ -28,15 +28,15 @@
                         <th>
                             {{'user'|translate}}
                         </th>
-                        <th></th>
+                        <!-- <th></th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.user?.name }}</td>
-                        <td class="action-column fit-cell ta-right">
+                        <!-- <td class="action-column fit-cell ta-right">
                             <button (click)="checkin(data.id)" class="btn-custom" nz-button nzType="primary">{{'checkin'|translate}}</button>
-                        </td>
+                        </td> -->
                     </tr>
                 </tbody>
             </nz-table>

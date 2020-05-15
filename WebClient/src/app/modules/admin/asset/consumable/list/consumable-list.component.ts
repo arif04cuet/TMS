@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
-import { Searchable } from 'src/decorators/searchable.decorator';
 import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
 
 
@@ -11,11 +10,6 @@ import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.s
 })
 export class ConsumableListComponent extends TableComponent {
 
-  statuses = [];
-
-  @Searchable("Name", "like") name;
-  @Searchable("Category.Name", "like") category;
-
   constructor(
     private consumableHttpService: ConsumableHttpService,
     private activatedRoute: ActivatedRoute
@@ -24,12 +18,8 @@ export class ConsumableListComponent extends TableComponent {
   }
 
   ngOnInit() {
-    this.statuses = this.consumableHttpService.getStatus();
     this.snapshot(this.activatedRoute.snapshot);
     this.load();
-    this.onDeleted = (res: any) => {
-      this.load();
-    }
   }
 
   add(model = null) {
@@ -47,9 +37,9 @@ export class ConsumableListComponent extends TableComponent {
     }
   }
 
-  view(model = null) {
+  item(model = null) {
     if (model) {
-      this.goTo(`/admin/asset/consumables/${model.id}/view`);
+      this.goTo(`/admin/asset/consumables/${model.id}/items`);
     }
   }
 
@@ -59,6 +49,12 @@ export class ConsumableListComponent extends TableComponent {
 
   refresh() {
     this.load();
+  }
+
+  load() {
+    super.load((p, s) => {
+      return this.consumableHttpService.listGroupByItemCode(p, s);
+    });
   }
 
 }

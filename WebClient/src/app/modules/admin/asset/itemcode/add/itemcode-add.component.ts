@@ -42,16 +42,17 @@ export class ItemCodeAddComponent extends FormComponent {
   }
 
   ngAfterViewInit() {
-
     this.categorySelect.register((pagination, search) => {
       return this.itemcodeHttpService.categories(pagination, search);
     }).fetch();
-
-
   }
 
   submit(): void {
-    const body = this.constructObject(this.form.controls);
+    const body: any = this.constructObject(this.form.controls);
+
+    if (this.isEditMode()) {
+      body.id = this.id;
+    }
 
     this.submitForm(
       {

@@ -272,5 +272,9 @@
   "parent": "Parent",
   "audit": "Audit",
   "next.audit.date": "Next audit date",
-  "asset.audit.successfully.logged": "Asset audit successfully logged"
+  "asset.audit.successfully.logged": "Asset audit successfully logged",
+  "item.code": "Item code",
+  "item.codes": "Item codes",
+  "code": "Code",
+  "item": "Item"
 }
