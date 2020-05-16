@@ -135,7 +135,7 @@ namespace Module.Asset.Data
         {
             var sql = @"with cte
                         as (
-                        select c.Id, c.Name, c.ParentId from [asset].[Category] c
+                        select c.Id, c.Name, c.ParentId, c.EULA Eula, c.IsSendEmail, c.IsRequireUserConfirmation, c.MediaId, c.IsActive from [asset].[Category] c
                         where c.IsDeleted = 0 and c.ParentId ";
 
             if (parentId.HasValue)
@@ -148,7 +148,7 @@ namespace Module.Asset.Data
             }
 
             sql += @"union all
-                        select c1.Id, c1.Name, c1.ParentId
+                        select c1.Id, c1.Name, c1.ParentId, c1.EULA Eula, c1.IsSendEmail, c1.IsRequireUserConfirmation, c1.MediaId, c1.IsActive
                         from [asset].[Category] c1
                         join cte on cte.Id = c1.ParentId
                         where c1.IsDeleted = 0
