@@ -13,7 +13,7 @@ export class AppComponent {
 
   ngOnInit() {
     if (environment.production) {
-      localStorage.setItem('otms_lang', 'bn');
+      localStorage.setItem('otms_lang', 'en');
     }
   }
 

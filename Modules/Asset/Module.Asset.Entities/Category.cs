@@ -32,11 +32,11 @@ namespace Module.Asset.Entities
             Children = new List<Category>();
         }
 
-        public Category(long id, string name)
+        public Category(long id, string name, bool active = true)
         {
             Id = id;
             Name = name;
-            IsActive = true;
+            IsActive = active;
         }
     }
 }
