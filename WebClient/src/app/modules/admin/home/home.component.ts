@@ -134,7 +134,7 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
-            title: 'categories',
+            title: 'book.categories',
             route: '/admin/library/categories',
             icon: 'user'
           },

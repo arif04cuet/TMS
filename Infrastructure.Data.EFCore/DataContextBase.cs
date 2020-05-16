@@ -9,10 +9,15 @@ namespace Infrastructure.Data.EFCore
         public string ConnectionString { get; private set; }
         public string MigrationsAssembly { get; private set; }
 
-        public DataContextBase(IOptions<DataContextOptions> options)
+        public DataContextBase(IOptions<DataContextOptions> options) : this(options.Value)
         {
-            ConnectionString = options.Value.ConnectionString;
-            MigrationsAssembly = options.Value.MigrationsAssembly;
+            
+        }
+
+        public DataContextBase(DataContextOptions options)
+        {
+            ConnectionString = options.ConnectionString;
+            MigrationsAssembly = options.MigrationsAssembly;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -11,6 +11,11 @@ namespace Infrastructure.Data.EFCore
             
         }
 
+        public DataContext(DataContextOptions options) : base(options)
+        {
+
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

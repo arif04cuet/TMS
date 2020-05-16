@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace Infrastructure.Data.EFCore
@@ -20,10 +18,11 @@ namespace Infrastructure.Data.EFCore
 
         public TContext Create(string connectionString)
         {
-            var builder = new DbContextOptionsBuilder<TContext>()
-                .UseSqlServer(connectionString);
-
-            var context = Activator.CreateInstance(typeof(TContext), new object[] { builder.Options }) as TContext;
+            var options = new DataContextOptions
+            {
+                ConnectionString = connectionString
+            };
+            var context = Activator.CreateInstance(typeof(TContext), new object[] { options }) as TContext;
             return context;
         }
     }

@@ -21,7 +21,7 @@ namespace Migrator
             Console.WriteLine("Migrator Environment: ", environmentName);
 
             var builder = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory().Replace("\\bin\\Debug\\netcoreapp3.0", ""))
+             .SetBasePath(Directory.GetCurrentDirectory().Replace("\\bin\\Debug\\netcoreapp3.1", ""))
                 //.SetBasePath("/Previous Content/Souce/webapp-clubeez/CM.Migrator/")
 
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

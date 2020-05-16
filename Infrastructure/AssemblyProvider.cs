@@ -17,7 +17,7 @@ namespace Infrastructure
         public Func<Assembly, bool> IsCandidateAssembly { get; set; }
         public Func<Library, bool> IsCandidateCompilationLibrary { get; set; }
 
-        public AssemblyProvider(IServiceProvider serviceProvider)
+        public AssemblyProvider(IServiceProvider serviceProvider = default)
         {
             logger = serviceProvider.GetService<ILoggerFactory>().CreateLogger("OTMS.Infrastructure.Web");
             IsCandidateAssembly = assembly =>
