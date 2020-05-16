@@ -67,7 +67,8 @@ namespace Module.Asset.Data
                     } : null,
                     Cost = x.PurchaseCost.ToString(),
                     Purchased = x.PurchaseDate,
-                    DepreciationName = x.AssetModel.Depreciation.Name
+                    DepreciationName = x.AssetModel.Depreciation.Name,
+                    NumberOfMonths = x.AssetModel.Depreciation.Term,
                 });
 
             var total = await assets.Select(x => x.Id).CountAsync(cancellationToken);

@@ -11,6 +11,7 @@ import { ConsumableCheckoutComponent } from './consumable-checkout.component';
 import { ViewModule } from 'src/app/shared/view.component';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
+import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.s
   providers: [
     CommonValidator,
     ConsumableHttpService,
+    ItemCodeHttpService,
     UserHttpService
   ]
 })

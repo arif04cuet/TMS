@@ -75,6 +75,13 @@ export class AssetBaseHttpService {
         return this.httpService.post(`${this.buildBaseEndpoint()}/${id}/checkouts`, body);
     }
 
+    public checkoutByItemCode(itemCodeId: number, body) {
+        if (itemCodeId) {
+            body.itemCodeId = Number(itemCodeId);
+        }
+        return this.httpService.post(`${this.buildBaseEndpoint()}/checkouts`, body);
+    }
+
     public checkin(id, body) {
         return this.httpService.post(`${this.buildBaseEndpoint()}/${id}/checkins/`, body);
     }
@@ -84,8 +91,24 @@ export class AssetBaseHttpService {
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
 
+    public listCheckoutsByItemCode(itemCodeId, pagination = null, search = null) {
+        let url = `${this.buildBaseEndpoint()}/checkouts?`;
+        if (itemCodeId) {
+            url += `itemCodeId=${itemCodeId}&`
+        }
+        return this.httpService.get(this.buildUrl(url, pagination, search));
+    }
+
     public listCheckoutHistory(id, pagination = null, search = null) {
         let url = `${this.buildBaseEndpoint()}/${id}/histories?`;
+        return this.httpService.get(this.buildUrl(url, pagination, search));
+    }
+
+    public listCheckoutHistoryByItemCode(itemCodeId, pagination = null, search = null) {
+        let url = `${this.buildBaseEndpoint()}/histories?`;
+        if (itemCodeId) {
+            url += `itemCodeId=${itemCodeId}&`
+        }
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
 
@@ -97,11 +120,11 @@ export class AssetBaseHttpService {
             url += pagination
         }
         return url;
-    } 
+    }
 
     public buildBaseEndpoint() {
         let endpoint = this.AssetBaseUri;
-        if(this.EndPoint) {
+        if (this.EndPoint) {
             endpoint = endpoint + '/' + this.EndPoint
         }
         return endpoint;

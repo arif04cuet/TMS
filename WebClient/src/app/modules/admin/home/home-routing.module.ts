@@ -240,10 +240,23 @@ const routes: Routes = [
         }
       },
       {
-        path: 'asset/itemcodes',
+        path: 'asset/itemcodes/consumable',
         loadChildren: () => import('../asset/itemcode/list/itemcode-list.module').then(x => x.ItemCodeListModule),
         data: {
           name: 'asset_itemcode_list',
+          parentId: 2,
+          breadcrumb: {
+            icon: 'safety',
+            title: 'asset.itemcode'
+          }
+        }
+      },
+      {
+        path: 'asset/itemcodes/license',
+        loadChildren: () => import('../asset/itemcode/list/itemcode-list.module').then(x => x.ItemCodeListModule),
+        data: {
+          name: 'asset_itemcode_list',
+          parentId: 3,
           breadcrumb: {
             icon: 'safety',
             title: 'asset.itemcode'

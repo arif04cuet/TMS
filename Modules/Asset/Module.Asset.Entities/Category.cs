@@ -36,6 +36,7 @@ namespace Module.Asset.Entities
         {
             Id = id;
             Name = name;
+            IsActive = true;
         }
     }
 }

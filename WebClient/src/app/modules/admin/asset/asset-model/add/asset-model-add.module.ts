@@ -10,6 +10,7 @@ import { MediaHttpService } from 'src/services/http/media-http.service';
 import { AssetModelAddComponent } from './asset-model-add.component';
 import { AssetModelAddRoutingModule } from './asset-model-add-routing.module';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
+import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
   providers: [
     RoleHttpService,
     CommonValidator,
-    MediaHttpService
+    MediaHttpService,
+    CategoryHttpService
   ]
 })
 export class AssetModelAddModule { }

@@ -7,6 +7,7 @@ import { SelectControlComponent } from 'src/app/shared/select-control/select-con
 import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
+import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
 
 @Component({
   selector: 'app-consumable-checkout',
@@ -19,12 +20,12 @@ export class ConsumableCheckoutComponent extends FormComponent {
 
   @ViewChild('userSelect') userSelect: SelectControlComponent;
 
-  private itemId;
   private itemCodeId;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private consumableHttpService: ConsumableHttpService,
+    private itemCodeHttpService: ItemCodeHttpService,
     private userHttpService: UserHttpService,
     private v: CommonValidator
   ) {
@@ -33,15 +34,13 @@ export class ConsumableCheckoutComponent extends FormComponent {
 
   ngOnInit(): void {
     this.createForm({
-      consumableId: [],
       userId: [null, [], this.v.required.bind(this)],
       note: []
     });
     const snapshot = this.activatedRoute.snapshot;
     super.ngOnInit(snapshot);
-    this.itemId = snapshot.params.itemId;
-    this.get(this.itemId);
     this.itemCodeId = snapshot.params.id;
+    this.get(this.itemCodeId);
   }
 
   ngAfterViewInit() {
@@ -51,9 +50,9 @@ export class ConsumableCheckoutComponent extends FormComponent {
   }
 
   submit(): void {
-    const body = this.constructObject(this.form.controls);
+    const body: any = this.constructObject(this.form.controls);
     this.validateForm(() => {
-      this.subscribe(this.consumableHttpService.checkout(this.itemId, body),
+      this.subscribe(this.consumableHttpService.checkoutByItemCode(this.itemCodeId, body),
         (res: any) => {
           this.cancel();
           this.success(MESSAGE_KEY.CHECKOUT_SUCCESSFUL);
@@ -67,23 +66,17 @@ export class ConsumableCheckoutComponent extends FormComponent {
 
   get(id) {
     this.loading = true;
-    if (id != null) {
-      this.subscribe(this.consumableHttpService.get(id),
-        (res: any) => {
-          this.data = res.data;
-          this.data.item = `${this.data.itemCode.code} - ${this.data.itemCode.name}`
-          this.setValue('consumableId', res.data.id);
-          this.loading = false;
-        }
-      );
-    }
-    else {
-      this.loading = false;
-    }
+    this.subscribe(this.itemCodeHttpService.get(id),
+      (res: any) => {
+        this.data = res.data;
+        this.data.item = `${this.data.code} - ${this.data.name}`
+        this.loading = false;
+      }
+    );
   }
 
   cancel() {
-    this.goTo(`/admin/asset/consumables/${this.itemCodeId}/items`);
+    this.goTo(`/admin/asset/consumables`);
   }
 
 }

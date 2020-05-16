@@ -21,9 +21,9 @@ namespace Module.Asset.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> List([FromQuery] long? parentId, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _service.ListAsync(pagingOptions, searchOptions);
+            var result = await _service.ListAsync(parentId, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

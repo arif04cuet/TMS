@@ -30,7 +30,7 @@
                         <th>{{'total'|translate}}</th>
                         <th>{{'available'|translate}}</th>
                         <th>{{'min.qty'|translate}}</th>
-                        <!-- <th class="ta-right">
+                        <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
                             </div>
@@ -40,7 +40,7 @@
                                     {{'search'|translate}}
                                 </button>
                             </div>
-                        </th> -->
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,7 +52,7 @@
                         <td>{{ data.quantity }}</td>
                         <td>{{ data.available }}</td>
                         <td>{{ data.minQuantity }}</td>
-                        <!-- <td class="action-column fit-cell">
+                        <td class="action-column fit-cell">
                             <button *ngIf="data.available > 0" (click)="checkout(data)" class="btn-custom" nz-button nzType="primary">{{'checkout'|translate}}</button>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
@@ -63,15 +63,15 @@
                                     <li nz-menu-item (click)="view(data)">
                                         <i nz-icon nzType="eye"></i>{{'view'|translate}}
                                     </li>
-                                    <li nz-menu-item (click)="add(data)">
+                                    <!-- <li nz-menu-item (click)="add(data)">
                                         <i nz-icon nzType="edit"></i>{{'edit'|translate}}
                                     </li>
                                     <li nz-menu-item (click)="delete(data)">
                                         <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </nz-dropdown-menu>
-                        </td> -->
+                        </td>
                     </tr>
                 </tbody>
             </nz-table>

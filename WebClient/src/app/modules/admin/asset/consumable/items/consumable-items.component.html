@@ -32,7 +32,7 @@
                         <th>{{'min.qty'|translate}}</th>
                         <th>{{'available'|translate}}</th>
                         <th>{{'purchase.cost'|translate}}</th>
-                        <th class="ta-right">
+                        <!-- <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
                             </div>
@@ -42,7 +42,7 @@
                                     {{'search'|translate}}
                                 </button>
                             </div>
-                        </th>
+                        </th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,7 @@
                         <td>{{ data.minQuantity }}</td>
                         <td>{{ data.available || '-' }}</td>
                         <td>{{ data.purchaseCost }}</td>
-                        <td class="action-column fit-cell">
+                        <!-- <td class="action-column fit-cell">
                             <button *ngIf="data.available > 0" (click)="checkout(data)" class="btn-custom" nz-button nzType="primary">{{'checkout'|translate}}</button>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
@@ -73,7 +73,7 @@
                                     </li>
                                 </ul>
                             </nz-dropdown-menu>
-                        </td>
+                        </td> -->
                     </tr>
                 </tbody>
             </nz-table>

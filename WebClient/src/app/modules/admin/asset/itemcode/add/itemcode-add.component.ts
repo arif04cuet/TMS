@@ -7,6 +7,7 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
+import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
 
 @Component({
   selector: 'app-itemcode-add',
@@ -19,9 +20,12 @@ export class ItemCodeAddComponent extends FormComponent {
 
   @ViewChild('categorySelect') categorySelect: SelectControlComponent;
 
+  private parentId;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private itemcodeHttpService: ItemCodeHttpService,
+    private categoryHttpService: CategoryHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -37,13 +41,19 @@ export class ItemCodeAddComponent extends FormComponent {
       minQuantity: [null, [], this.v.required.bind(this)],
       isActive: [null, []]
     });
-    super.ngOnInit(this.activatedRoute.snapshot);
-
+    const snapshot = this.activatedRoute.snapshot;
+    this.parentId = snapshot.data.parentId;
+    super.ngOnInit(snapshot);
   }
 
   ngAfterViewInit() {
     this.categorySelect.register((pagination, search) => {
-      return this.itemcodeHttpService.categories(pagination, search);
+      if (this.parentId) {
+        return this.categoryHttpService.listByParent(this.parentId, pagination, search);
+      }
+      else {
+        return this.categoryHttpService.list(pagination, search);
+      }
     }).fetch();
   }
 
@@ -101,13 +111,20 @@ export class ItemCodeAddComponent extends FormComponent {
   }
 
   cancel() {
+    let item = ''
+    if (this.parentId == 2) {
+      item = 'consumable';
+    }
+    else if (this.parentId == 3) {
+      item = 'license';
+    }
     if (this.savenew) {
       this.form.reset();
       this.savenew = false;
-      this.goTo('/admin/asset/itemcodes/add');
+      this.goTo(`/admin/asset/itemcodes/${item}/add`);
     }
     else
-      this.goTo('/admin/asset/itemcodes');
+      this.goTo(`/admin/asset/itemcodes/${item}`);
   }
 
 }

@@ -5,6 +5,7 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
+import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
 
 @Component({
   selector: 'app-asset-model-add',
@@ -22,6 +23,7 @@ export class AssetModelAddComponent extends FormComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private assetModelHttpService: AssetModelHttpService,
+    private categoryHttpService: CategoryHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -50,9 +52,7 @@ export class AssetModelAddComponent extends FormComponent {
     }).fetch();
 
     this.categorySelect.register((pagination, search) => {
-      let s = search || ""
-      s += `&Search=Type eq 1`;
-      return this.assetModelHttpService.categories(pagination, s);
+      return this.categoryHttpService.listByParent(1, pagination, search);
     }).fetch();
 
     this.depreciationSelect.register((pagination, search) => {

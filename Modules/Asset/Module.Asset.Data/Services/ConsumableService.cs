@@ -8,8 +8,10 @@ using Module.Core.Entities;
 using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -207,7 +209,6 @@ namespace Module.Asset.Data
 
         public async Task<PagedCollection<ConsumableListGroupByItemCodeViewModel>> ListGroupByItemCodeAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-
             var sql = @"with cte 
                         as (select c.ItemCodeId,
                         sum(c.Available) Available, sum(c.Quantity) Quantity
@@ -241,30 +242,14 @@ namespace Module.Asset.Data
 
         public async Task<PagedCollection<ConsumableCheckoutListViewModel>> ListCheckoutAsync(long consumableId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var query = _consumableUserRepository
-                .AsReadOnly()
-                .Where(x => x.ConsumableId == consumableId && !x.IsDeleted)
-                .ApplySearch(searchOptions);
-
-            var items = await query
-                .ApplyPagination(pagingOptions)
-                .Select(x => new ConsumableCheckoutListViewModel
-                {
-                    Id = x.Id,
-                    ConsumableId = x.ConsumableId,
-                    User = new IdNameViewModel
-                    {
-                        Id = x.IssuedToUser.Id,
-                        Name = x.IssuedToUser.FullName
-                    }
-                })
-                .ToListAsync(cancellationToken);
-
-            var total = await query.Select(x => x.Id).CountAsync(cancellationToken);
-
-            var result = new PagedCollection<ConsumableCheckoutListViewModel>(items, total, pagingOptions);
+            var result = await ListCheckoutInternalAsync(x => x.ConsumableId == consumableId, pagingOptions, searchOptions, cancellationToken);
             return result;
+        }
 
+        public async Task<PagedCollection<ConsumableCheckoutListViewModel>> ListCheckoutByItemCodeAsync(long itemCodeId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var result = await ListCheckoutInternalAsync(x => x.Consumable.ItemCodeId == itemCodeId, pagingOptions, searchOptions, cancellationToken);
+            return result;
         }
 
         public async Task<bool> CheckoutAsync(ConsumableCheckoutRequest request, CancellationToken cancellationToken = default)
@@ -274,42 +259,21 @@ namespace Module.Asset.Data
                 .Include(x => x.ItemCode)
                 .FirstOrDefaultAsync(x => x.Id == request.ConsumableId && !x.IsDeleted);
 
-            if (entity == null)
-                throw new NotFoundException("Consumable not found");
+            var result = await CheckoutInternalAsync(entity, request.UserId, request.Note, cancellationToken);
 
-            int? totalAvailables = GetTotalAvailables(entity.ItemCodeId);
-            if (entity.Available <= 0 || entity.ItemCode.Available <= 0 || totalAvailables <= 0)
-                throw new NotFoundException("No available consumable to checkout");
+            return result;
+        }
 
-            var userExist = await _userRepository.MatchAsync(new ExistUserByIdCriteria(request.UserId));
+        public async Task<bool> CheckoutByItemCodeAsync(ConsumableCheckoutByItemCodeRequest request, CancellationToken cancellationToken = default)
+        {
+            var entity = await _consumableRepository
+                .Where(x => x.ItemCodeId == request.ItemCodeId && x.Available > 0 && !x.IsDeleted)
+                .Include(x => x.ItemCode)
+                .FirstOrDefaultAsync();
 
-            if (!userExist)
-                throw new NotFoundException("User not found");
+            var result = await CheckoutInternalAsync(entity, request.UserId, request.Note, cancellationToken);
 
-            var checkout = new ConsumableUser
-            {
-                ConsumableId = request.ConsumableId,
-                IssuedToUserId = request.UserId
-            };
-
-            await _consumableUserRepository.AddAsync(checkout);
-            entity.Available = entity.Available - 1;
-            entity.ItemCode.Available = totalAvailables - 1;
-
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            await _checkoutHistoryService.CreateAsync(new CheckoutHistoryCreateRequest
-            {
-                Action = AssetAction.Checkout,
-                ItemId = entity.Id,
-                ItemType = AssetType.Consumable,
-                Note = request.Note,
-                TargetId = request.UserId,
-                TargetType = AssetType.User
-            });
-
-            await _assetEmailService.SendEULAEmailAsync(request.UserId, entity.ItemCode.CategoryId);
-
-            return result > 0;
+            return result;
         }
 
         public async Task<bool> CheckinAsync(ConsumableCheckinRequest request, CancellationToken cancellationToken = default)
@@ -342,6 +306,78 @@ namespace Module.Asset.Data
             });
 
             return result > 0;
+        }
+
+        private async Task<bool> CheckoutInternalAsync(Consumable entity, long userId, string note, CancellationToken cancellationToken = default)
+        {
+            if (entity == null)
+                throw new NotFoundException("Consumable not found");
+
+            int? totalAvailables = GetTotalAvailables(entity.ItemCodeId);
+            if (entity.Available <= 0 || entity.ItemCode.Available <= 0 || totalAvailables <= 0)
+                throw new NotFoundException("No available consumable to checkout");
+
+            var userExist = await _userRepository.MatchAsync(new ExistUserByIdCriteria(userId));
+
+            if (!userExist)
+                throw new NotFoundException("User not found");
+
+            var checkout = new ConsumableUser
+            {
+                ConsumableId = entity.Id,
+                IssuedToUserId = userId
+            };
+
+            await _consumableUserRepository.AddAsync(checkout);
+            entity.Available = entity.Available - 1;
+            entity.ItemCode.Available = totalAvailables - 1;
+
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _checkoutHistoryService.CreateAsync(new CheckoutHistoryCreateRequest
+            {
+                Action = AssetAction.Checkout,
+                ItemId = entity.Id,
+                ItemType = AssetType.Consumable,
+                Note = note,
+                TargetId = userId,
+                TargetType = AssetType.User
+            });
+
+            await _assetEmailService.SendEULAEmailAsync(userId, entity.ItemCode.CategoryId);
+
+            return result > 0;
+        }
+
+        private async Task<PagedCollection<ConsumableCheckoutListViewModel>> ListCheckoutInternalAsync(Expression<Func<ConsumableUser, bool>> predicate, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var query = _consumableUserRepository
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            var items = await query
+                .ApplyPagination(pagingOptions)
+                .Select(x => new ConsumableCheckoutListViewModel
+                {
+                    Id = x.Id,
+                    ConsumableId = x.ConsumableId,
+                    User = new IdNameViewModel
+                    {
+                        Id = x.IssuedToUser.Id,
+                        Name = x.IssuedToUser.FullName
+                    }
+                })
+                .ToListAsync(cancellationToken);
+
+            var total = await query.Select(x => x.Id).CountAsync(cancellationToken);
+
+            var result = new PagedCollection<ConsumableCheckoutListViewModel>(items, total, pagingOptions);
+            return result;
         }
 
         private int? GetTotalAvailables(long itemCodeId)

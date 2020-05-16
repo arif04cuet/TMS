@@ -82,8 +82,22 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("checkouts")]
+        public async Task<ActionResult> ListCheckoutsByItemCode([FromQuery] long itemCodeId, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _consumableService.ListCheckoutByItemCodeAsync(itemCodeId, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet("{id}/histories")]
         public async Task<ActionResult> ListHistories(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _checkoutHistoryService.ListAsync(id, AssetType.Consumable, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("histories")]
+        public async Task<ActionResult> ListHistoriesByItemCode(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
             var result = await _checkoutHistoryService.ListAsync(id, AssetType.Consumable, pagingOptions, searchOptions);
             return result.ToOkResult();
@@ -94,6 +108,13 @@ namespace Module.Asset.Controllers
         {
             request.ConsumableId = id;
             var result = await _consumableService.CheckoutAsync(request);
+            return result.ToCreatedResult();
+        }
+
+        [HttpPost("checkouts")]
+        public async Task<IActionResult> CheckoutByItemCode([FromBody] ConsumableCheckoutByItemCodeRequest request)
+        {
+            var result = await _consumableService.CheckoutByItemCodeAsync(request);
             return result.ToCreatedResult();
         }
 

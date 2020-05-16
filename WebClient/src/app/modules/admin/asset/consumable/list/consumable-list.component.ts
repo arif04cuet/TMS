@@ -10,6 +10,8 @@ import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.s
 })
 export class ConsumableListComponent extends TableComponent {
 
+  private itemCodeId;
+
   constructor(
     private consumableHttpService: ConsumableHttpService,
     private activatedRoute: ActivatedRoute
@@ -18,7 +20,9 @@ export class ConsumableListComponent extends TableComponent {
   }
 
   ngOnInit() {
-    this.snapshot(this.activatedRoute.snapshot);
+    const snapshot = this.activatedRoute.snapshot;
+    this.itemCodeId = snapshot.params.id;
+    this.snapshot(snapshot);
     this.load();
   }
 
@@ -40,6 +44,12 @@ export class ConsumableListComponent extends TableComponent {
   item(model = null) {
     if (model) {
       this.goTo(`/admin/asset/consumables/${model.id}/items`);
+    }
+  }
+
+  view(model = null) {
+    if (model) {
+      this.goTo(`/admin/asset/consumables/${model.id}/view`);
     }
   }
 

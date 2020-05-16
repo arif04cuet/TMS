@@ -27,7 +27,7 @@
         </div>
     </nz-header>
     <nz-layout class="left-layout">
-        <nz-sider>
+        <nz-sider [nzWidth]="250">
             <!-- <div class="logo"></div> -->
             <ul nz-menu nzMode="inline">
                 <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: nav }"></ng-container>

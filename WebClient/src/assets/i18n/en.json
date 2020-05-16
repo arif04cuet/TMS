@@ -276,5 +276,7 @@
   "item.code": "Item code",
   "item.codes": "Item codes",
   "code": "Code",
-  "item": "Item"
+  "item": "Item",
+  "consumable.item.code": "Consumable item code",
+  "license.item.code": "License item code"
 }

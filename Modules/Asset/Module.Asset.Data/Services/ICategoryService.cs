@@ -16,7 +16,7 @@ namespace Module.Asset.Data
 
         Task<CategoryViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
-        Task<PagedCollection<CategoryViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+        Task<PagedCollection<CategoryViewModel>> ListAsync(long? parentId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<CategoryViewModel>> ListRootAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
     }

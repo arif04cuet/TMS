@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
-import { forkJoin } from 'rxjs';
 import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
@@ -8,18 +7,17 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 
 @Component({
   selector: 'app-itemcode-list',
-  templateUrl: './itemcode-list.component.html',
-  styleUrls: ['./itemcode-list.component.scss']
+  templateUrl: './itemcode-list.component.html'
 })
 export class ItemCodeListComponent extends TableComponent {
 
   status = [];
 
-
   @Searchable("Name", "like") Name;
   @Searchable("Code", "eq") Code;
   @Searchable("IsActive", "eq") IsActive;
 
+  private parentId;
 
   constructor(
     private itemcodeHttpService: ItemCodeHttpService,
@@ -29,7 +27,9 @@ export class ItemCodeListComponent extends TableComponent {
   }
 
   ngOnInit() {
-    this.snapshot(this.activatedRoute.snapshot);
+    const snapshot = this.activatedRoute.snapshot;
+    this.snapshot(snapshot);
+    this.parentId = snapshot.data.parentId;
     this.gets();
 
     this.onDeleted = (res: any) => {
@@ -38,31 +38,36 @@ export class ItemCodeListComponent extends TableComponent {
   }
 
   add(model = null) {
+    let item = '';
+    if (this.parentId == 2) {
+      item = 'consumable';
+    }
+    else if (this.parentId == 3) {
+      item = 'license';
+    }
     if (model) {
-      this.goTo(`/admin/asset/itemcodes/${model.id}/edit`);
+      this.goTo(`/admin/asset/itemcodes/${item}/${model.id}/edit`);
     }
     else {
-      this.goTo('/admin/asset/itemcodes/add');
+      this.goTo(`/admin/asset/itemcodes/${item}/add`);
     }
   }
 
   gets(pagination = null, search = null) {
     this.status = this.itemcodeHttpService.getStatus();
     this.loading = true;
-    const request = [
-      this.itemcodeHttpService.list(pagination, search)
-    ]
-    this.subscribe(forkJoin(request),
+    let request = this.itemcodeHttpService.list(pagination, search);
+    if (this.parentId) {
+      request = this.itemcodeHttpService.listByCategory(this.parentId, pagination, search);
+    }
+    this.subscribe(request,
       (res: any) => {
-        this.fill(res[0]);
-        console.log(res);
+        this.fill(res);
       },
       err => {
-        console.log(err);
         this.loading = false;
       }
     );
-
   }
 
   search() {

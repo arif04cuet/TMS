@@ -14,7 +14,6 @@ export class ConsumableCheckoutListComponent extends TableComponent {
   @Searchable("Name", "like") Name;
 
   private itemCodeId;
-  private itemId;
 
   constructor(
     private consumableHttpService: ConsumableHttpService,
@@ -27,17 +26,16 @@ export class ConsumableCheckoutListComponent extends TableComponent {
     const snapshot = this.activatedRoute.snapshot;
     this.snapshot(snapshot);
     this.itemCodeId = snapshot.params.id;
-    this.itemId = snapshot.params.itemId;
     this.load();
   }
 
   checkout() {
-    this.goTo(`/admin/asset/consumables/${this.itemCodeId}/items/${this.itemId}/checkout`);
+    this.goTo(`/admin/asset/consumables/checkouts/?itemCodeId=${this.itemCodeId}`);
   }
 
-  checkin(id) {
-    this.goTo(`/admin/asset/consumables/${this.itemCodeId}/items/${this.itemId}checkin`);
-  }
+  // checkin(id) {
+  //   this.goTo(`/admin/asset/consumables/${this.itemCodeId}/items/${this.itemId}checkin`);
+  // }
 
   search() {
     this.load();
@@ -49,7 +47,7 @@ export class ConsumableCheckoutListComponent extends TableComponent {
 
   load() {
     super.load((p, s) => {
-      return this.consumableHttpService.listCheckouts(this.itemId, p, s);
+      return this.consumableHttpService.listCheckoutsByItemCode(this.itemCodeId, p, s);
     })
   }
 

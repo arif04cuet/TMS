@@ -15,28 +15,28 @@ const routes: Routes = [
       }
     }
   },
-  // {
-  //   path: ':id/view',
-  //   loadChildren: () => import('../view/consumable-view.module').then(x => x.ConsumableViewModule),
-  //   data: {
-  //     name: 'consumable_view',
-  //     breadcrumb: {
-  //       icon: 'eye',
-  //       title: 'View'
-  //     }
-  //   }
-  // },
-  // {
-  //   path: ':id/checkout',
-  //   loadChildren: () => import('../checkout/consumable-checkout.module').then(x => x.ConsumableCheckoutModule),
-  //   data: {
-  //     name: 'consumable_checkout',
-  //     breadcrumb: {
-  //       icon: 'eye',
-  //       title: 'Checkout'
-  //     }
-  //   }
-  // },
+  {
+    path: ':id/view',
+    loadChildren: () => import('../view/consumable-view.module').then(x => x.ConsumableViewModule),
+    data: {
+      name: 'consumable_view',
+      breadcrumb: {
+        icon: 'eye',
+        title: 'View'
+      }
+    }
+  },
+  {
+    path: ':id/checkout',
+    loadChildren: () => import('../checkout/consumable-checkout.module').then(x => x.ConsumableCheckoutModule),
+    data: {
+      name: 'consumable_checkout',
+      breadcrumb: {
+        icon: 'eye',
+        title: 'Checkout'
+      }
+    }
+  },
 
   // {
   //   path: ':id/checkin',
