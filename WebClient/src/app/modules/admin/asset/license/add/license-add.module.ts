@@ -8,6 +8,7 @@ import { LicenseAddRoutingModule } from './license-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
+import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
   ],
   exports: [LicenseAddComponent],
   providers: [
-    CommonValidator
+    CommonValidator,
+    CategoryHttpService
   ]
 })
 export class LicenseAddModule { }

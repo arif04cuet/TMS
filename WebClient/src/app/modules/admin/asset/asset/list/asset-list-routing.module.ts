@@ -11,7 +11,7 @@ const routes: Routes = [
       name: 'asset_view',
       breadcrumb: {
         icon: 'eye',
-        title: 'View'
+        title: 'view'
       }
     }
   },
@@ -22,7 +22,7 @@ const routes: Routes = [
       name: 'asset_edit',
       breadcrumb: {
         icon: 'edit',
-        title: 'Edit'
+        title: 'edit'
       }
     }
   },
@@ -33,7 +33,7 @@ const routes: Routes = [
       name: 'asset_add',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       }
     }
   },
@@ -44,7 +44,18 @@ const routes: Routes = [
       name: 'asset_checkout',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'checkout'
+      }
+    }
+  },
+  {
+    path: 'checkout/bulk',
+    loadChildren: () => import('../bulk-checkout/asset-bulk-checkout.module').then(x => x.AssetBulkCheckoutModule),
+    data: {
+      name: 'asset_bulk_checkout',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'checkout'
       }
     }
   },

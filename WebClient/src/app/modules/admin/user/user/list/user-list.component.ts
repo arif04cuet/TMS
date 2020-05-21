@@ -10,8 +10,7 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 
 @Component({
   selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss']
+  templateUrl: './user-list.component.html'
 })
 export class UserListComponent extends TableComponent {
 
@@ -48,34 +47,33 @@ export class UserListComponent extends TableComponent {
     }
   }
 
-  gets(pagination = null, search = null) {
+  gets() {
     this.loading = true;
+    this.load();
     const request = [
-      this.userHttpService.list(pagination, search),
       this.designationHttpService.list(),
       this.roleHttpService.list(),
       this.commonHttpService.getStatusList()
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
-        this.fill(res[0]);
-        this.designations = res[1].data.items;
-        this.roles = res[2].data.items;
-        this.statuses = res[3].data.items;
+        this.loading = false;
+        this.designations = res[0].data.items;
+        this.roles = res[1].data.items;
+        this.statuses = res[2].data.items;
       },
       err => {
-        console.log(err);
         this.loading = false;
       }
     );
   }
 
   refresh() {
-    this.gets(null, this.getSearchTerms());
+    this.load();
   }
 
   search() {
-    this.gets(null, this.getSearchTerms())
+    this.load();
   }
 
 }

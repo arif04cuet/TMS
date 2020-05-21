@@ -35,14 +35,7 @@ export class BookHttpService extends BaseHttpService {
     }
 
     public listBookItems(pagination = null, search = null) {
-        let url = 'books/items?'
-        if(pagination){
-            url += pagination
-        }
-        if(search) {
-            url += search
-        }
-        return this.httpService.get(url);
+        return this.httpService.get(this.buildUrl('books/items', pagination, search));
     }
 
     public listBookStatus(pagination = null, search = null) {

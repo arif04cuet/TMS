@@ -47,7 +47,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td><a (click)="view(data)">{{ itemCode?.name }}</a></td>
+                        <td>{{ itemCode?.name }}</td>
                         <td>{{ data.manufacturer?.name }}</td>
                         <td>{{ data.location?.name }}</td>
                         <td>{{ data.quantity }}</td>

@@ -30,12 +30,12 @@ export class ConsumableCheckoutListComponent extends TableComponent {
   }
 
   checkout() {
-    this.goTo(`/admin/asset/consumables/checkouts/?itemCodeId=${this.itemCodeId}`);
+    this.goTo(`/admin/asset/consumables/${this.itemCodeId}/checkout`);
   }
 
-  // checkin(id) {
-  //   this.goTo(`/admin/asset/consumables/${this.itemCodeId}/items/${this.itemId}checkin`);
-  // }
+  checkin(id) {
+    this.goTo(`/admin/asset/consumables/${id}/checkin`);
+  }
 
   search() {
     this.load();

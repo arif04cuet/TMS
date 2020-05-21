@@ -8,6 +8,8 @@ import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.s
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
+import { FormControl } from '@angular/forms';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-consumable-checkout',
@@ -35,7 +37,8 @@ export class ConsumableCheckoutComponent extends FormComponent {
   ngOnInit(): void {
     this.createForm({
       userId: [null, [], this.v.required.bind(this)],
-      note: []
+      note: [],
+      quantity: [null, [], this.quantityValidation.bind(this)]
     });
     const snapshot = this.activatedRoute.snapshot;
     super.ngOnInit(snapshot);
@@ -77,6 +80,13 @@ export class ConsumableCheckoutComponent extends FormComponent {
 
   cancel() {
     this.goTo(`/admin/asset/consumables`);
+  }
+
+  quantityValidation(control: FormControl) {
+    if (!control.value || isNaN(control.value) || Number(control.value) > Number(this.data.available)) {
+      return this.error('allowed.value.is.x0.x1', {x0: 1, x1: this.data.available});
+    }
+    return of(false);
   }
 
 }

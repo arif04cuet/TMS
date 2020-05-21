@@ -29,5 +29,7 @@ namespace Module.Asset.Data
         Task<bool> CheckinAsync(ConsumableCheckinRequest request, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<ConsumableListGroupByItemCodeViewModel>> ListGroupByItemCodeAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
+        Task<ConsumableCheckoutViewModel> GetCheckoutAsync(long checkoutId, CancellationToken cancellationToken = default);
     }
 }

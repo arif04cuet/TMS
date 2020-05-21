@@ -17,10 +17,16 @@ namespace Module.Library.Data
 
         Task<PagedCollection<LibraryMemberListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
-        Task<PagedCollection<IdNameViewModel>> ListMemberCardsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
+        Task<PagedCollection<LibraryMemberCardListViewModel>> ListMemberCardsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
         Task<LibraryMemberViewModel> GetAsync(long id);
 
         Task<bool> UpdateAsync(LibraryMemberUpdateRequest request, CancellationToken ct = default);
+
+        Task<PagedCollection<LibraryMemberListViewModel>> ListMemberRequestAsync(bool? isApproved, IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
+
+        Task<long> CreateRequestAsync(LibraryMemberRequestCreateRequest request, CancellationToken ct = default);
+
+        Task<long> ApproveMemberAsync(LibraryMemberApproveCreateRequest request, CancellationToken ct = default);
     }
 }

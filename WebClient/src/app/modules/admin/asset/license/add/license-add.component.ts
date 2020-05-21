@@ -6,6 +6,7 @@ import { LicenseHttpService } from 'src/services/http/asset/license-http.service
 
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
+import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
 
 @Component({
   selector: 'app-license-add',
@@ -25,6 +26,7 @@ export class LicenseAddComponent extends FormComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private licenseHttpService: LicenseHttpService,
+    private categoryHttpService: CategoryHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -62,7 +64,7 @@ export class LicenseAddComponent extends FormComponent {
     }).fetch();
 
     this.categorySelect.register((pagination, search) => {
-      return this.licenseHttpService.categories(pagination, search);
+      return this.categoryHttpService.listByParent(3, pagination, search);
     }).fetch();
 
     this.supplierSelect.register((pagination, search) => {

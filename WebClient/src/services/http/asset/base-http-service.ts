@@ -43,4 +43,10 @@ export class BaseHttpService {
     public edit(id: number, body) {
         return this.httpService.put(this.END_POINT + '/' + `${id}`, body);
     }
+
+    public buildUrl(url: string, ...args) {
+        const _args = args.filter(x => x);
+        const _url = `${url}?${_args.join('&')}`;
+        return _url;
+    }
 }

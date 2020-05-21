@@ -30,7 +30,7 @@ namespace Module.Core.Shared
         public static IRuleBuilderOptions<T, TProperty> EmployeeId<T, TProperty>(this IRuleBuilder<T, TProperty> ruleBuilder, IUnitOfWork unitOfWork, long? ignoreUserId)
         {
             return ruleBuilder
-                .Required()
+                //.Required()
                 .SetValidator(new UniqueEmployeeIdValidator(unitOfWork, ignoreUserId))
                 .WithMessage("Employee ID is not available");
         }

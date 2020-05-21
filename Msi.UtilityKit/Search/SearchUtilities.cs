@@ -86,7 +86,10 @@ namespace Msi.UtilityKit.Search
                                 }
                                 else
                                 {
-                                    constantValue = Convert.ChangeType(value, propertyType);
+                                    if(!value.Equals("NULL"))
+                                    {
+                                        constantValue = Convert.ChangeType(value, propertyType);
+                                    }
                                 }
 
                                 var right = Expression.Constant(constantValue, property.PropertyType);

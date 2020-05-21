@@ -389,7 +389,7 @@ namespace Module.Library.Data
                 throw new ValidationException(ISSUE_QOUTA_EXCEEDS);
 
             // add book issue
-            issue = request.ToBookIssue((long)card.MemberId);
+            issue = request.ToBookIssue(item.BookId, (long)card.MemberId);
             await _bookIssueRepository.AddAsync(issue, ct);
 
             // mark book item as loaned

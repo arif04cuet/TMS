@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
+import { of } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-consumable-checkin',
@@ -13,8 +15,6 @@ export class ConsumableCheckinComponent extends FormComponent {
 
   loading: boolean = true;
   data: any = {}
-
-  private checkoutId;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,16 +26,16 @@ export class ConsumableCheckinComponent extends FormComponent {
   ngOnInit(): void {
     this.onCheckMode = id => this.get(id);
     this.createForm({
-      note: []
+      note: [],
+      quantity: [null, [], this.quantityValidation.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
-    this.checkoutId = this._activatedRouteSnapshot.queryParams.checkout;
   }
 
   submit(): void {
     const body = this.constructObject(this.form.controls);
     this.validateForm(() => {
-      this.subscribe(this.consumableHttpService.checkin(this.checkoutId, body),
+      this.subscribe(this.consumableHttpService.checkin(this.id, body),
         (res: any) => {
           this.cancel();
           this.success(MESSAGE_KEY.CHECKIN_SUCCESSFUL);
@@ -50,9 +50,10 @@ export class ConsumableCheckinComponent extends FormComponent {
   get(id) {
     this.loading = true;
     if (id != null) {
-      this.subscribe(this.consumableHttpService.get(id),
+      this.subscribe(this.consumableHttpService.getCheckout(id),
         (res: any) => {
           this.data = res.data;
+          this.data.title = `${res.data.item.code} - ${res.data.item.name} - ${res.data.category.name}`
           this.loading = false;
         }
       );
@@ -64,6 +65,13 @@ export class ConsumableCheckinComponent extends FormComponent {
 
   cancel() {
     this.goTo('/admin/asset/consumables');
+  }
+
+  quantityValidation(control: FormControl) {
+    if (!control.value || isNaN(control.value) || Number(control.value) > Number(this.data.quantity)) {
+      return this.error('allowed.value.is.x0.x1', {x0: 1, x1: this.data.quantity});
+    }
+    return of(false);
   }
 
 }

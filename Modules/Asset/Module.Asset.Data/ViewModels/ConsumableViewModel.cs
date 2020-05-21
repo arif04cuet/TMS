@@ -14,6 +14,7 @@ namespace Module.Asset.Data
         public IdNameViewModel Location { get; set; }
         public string ModelNo { get; set; }
         public string OrderNumber { get; set; }
+        public string InvoiceNumber { get; set; }
         public DateTime? PurchaseDate { get; set; }
         public double? PurchaseCost { get; set; }
         public int Quantity { get; set; }

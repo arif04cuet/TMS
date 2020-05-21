@@ -15,6 +15,7 @@ namespace Module.Asset.Data
         public AssetAction Action { get; set; }
         public string Note { get; set; }
         public DateTime? IssueDate { get; set; }
+        public int Quantity { get; set; }
 
         public CheckoutHistory Map()
         {
@@ -26,7 +27,8 @@ namespace Module.Asset.Data
                 TargetId = TargetId,
                 TargetType = TargetType,
                 Action = Action,
-                Note = Note
+                Note = Note,
+                Quantity = Quantity
             };
             return history;
         }

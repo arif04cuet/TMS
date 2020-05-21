@@ -25,18 +25,20 @@
                 [nzTotal]="total" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>
-                            {{'user'|translate}}
-                        </th>
-                        <!-- <th></th> -->
+                        <th>{{'user'|translate}}</th>
+                        <th>{{'quantity'|translate}}</th>
+                        <th>{{'date'|translate}}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.user?.name }}</td>
-                        <!-- <td class="action-column fit-cell ta-right">
-                            <button (click)="checkin(data.id)" class="btn-custom" nz-button nzType="primary">{{'checkin'|translate}}</button>
-                        </td> -->
+                        <td>{{ data.quantity }}</td>
+                        <td>{{ data.issueDate|date:'medium':'+0000' }}</td>
+                        <td class="action-column fit-cell ta-right">
+                            <button (click)="checkin(data.id)" class="btn-custom" nz-button nzType="primary">{{'return'|translate}}</button>
+                        </td>
                     </tr>
                 </tbody>
             </nz-table>

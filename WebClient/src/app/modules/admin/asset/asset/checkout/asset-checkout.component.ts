@@ -56,16 +56,16 @@ export class AssetCheckoutComponent extends FormComponent {
     this.locationSelect.register((pagination, search) => {
       return this.officeHttpService.list(pagination, search);
     }).fetch();
-
-    this.assetSelect.register((pagination, search) => {
-      return this.assetHttpService.list(pagination, search);
-    }).fetch();
   }
 
   submit(): void {
-    const body = this.constructObject(this.form.controls);
+    const body: any = this.constructObject(this.form.controls);
+    if (body.assetId) {
+      body.assetIds = [body.assetId];
+      delete (body.assetId);
+    }
     this.validateForm(() => {
-      this.subscribe(this.assetHttpService.checkout(this.id, body),
+      this.subscribe(this.assetHttpService.bulkCheckouts(body),
         (res: any) => {
           this.cancel();
           this.success(MESSAGE_KEY.CHECKOUT_SUCCESSFUL);
@@ -83,8 +83,22 @@ export class AssetCheckoutComponent extends FormComponent {
       this.subscribe(this.assetHttpService.get(id),
         (res: any) => {
           this.data = res.data;
-          this.setValue('accessoryId', res.data.id);
-          this.loading = false;
+          this.setValue('assetId', res.data.id);
+
+          this.assetSelect.register((pagination, search) => {
+            search = search || '';
+            // search += `&Search=CheckoutId eq NULL`;
+            if (res.data.id) {
+              search += `&Search=Id ne ${Number(res.data.id)}`
+              // &Search=CheckoutId eq NULL
+            }
+            return this.assetHttpService.list(pagination, search);
+          })
+            .onLoadCompleted(() => {
+              this.loading = false;
+            })
+            .fetch();
+
         }
       );
     }

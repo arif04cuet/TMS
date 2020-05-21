@@ -18,8 +18,9 @@ namespace Module.Asset.Entities
 
         public long AssetModelId { get; set; }
         public AssetModel AssetModel { get; set; }
-
+        [Searchable]
         public long StatusId { get; set; }
+        [Searchable]
         public AssetStatus Status { get; set; }
 
         public string ItemNo { get; set; }
@@ -28,8 +29,9 @@ namespace Module.Asset.Entities
         public string Name { get; set; }
 
         public DateTime? PurchaseDate { get; set; }
-
+        [Searchable]
         public long? SupplierId { get; set; }
+        [Searchable]
         public Supplier Supplier { get; set; }
 
         public string OrderNo { get; set; }
@@ -48,8 +50,10 @@ namespace Module.Asset.Entities
         public long? MediaId { get; set; }
         public Media Media { get; set; }
 
+        [Searchable]
         public long? CheckoutId { get; set; }
         [ForeignKey(nameof(CheckoutId))]
+        [Searchable]
         public AssetCheckout Checkout { get; set; }
 
     }

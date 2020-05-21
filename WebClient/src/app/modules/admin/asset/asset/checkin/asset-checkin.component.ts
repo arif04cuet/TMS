@@ -19,8 +19,6 @@ export class AssetCheckinComponent extends FormComponent {
   loading: boolean = true;
   data: any = {}
 
-  private checkoutId;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private assetHttpService: AssetBaseHttpService,
@@ -43,7 +41,7 @@ export class AssetCheckinComponent extends FormComponent {
   submit(): void {
     const body = this.constructObject(this.form.controls);
     this.validateForm(() => {
-      this.subscribe(this.assetHttpService.checkin(this.checkoutId, body),
+      this.subscribe(this.assetHttpService.checkin(this.id, body),
         (res: any) => {
           this.cancel();
           this.success(MESSAGE_KEY.CHECKIN_SUCCESSFUL);
@@ -61,7 +59,6 @@ export class AssetCheckinComponent extends FormComponent {
       this.subscribe(this.assetHttpService.get(id),
         (res: any) => {
           this.data = res.data;
-          this.checkoutId = res.data.checkoutId;
           this.loading = false;
         }
       );

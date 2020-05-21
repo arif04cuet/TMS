@@ -14,4 +14,8 @@ export class ConsumableHttpService extends AssetBaseHttpService {
         let url = `${this.buildBaseEndpoint()}/${itemCodeId}/items?`;
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
+
+    public getCheckout(checkoutId: number) {
+        return this.httpService.get(`${this.buildBaseEndpoint()}/checkouts/${checkoutId}`);
+    }
 }

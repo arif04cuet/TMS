@@ -23,7 +23,11 @@ const routes: Routes = [
   {
     path: 'access-denied',
     loadChildren: () => import('./modules/public/access-denied/access-denied.module').then(x => x.AccessDeniedModule)
-  }
+  },
+  {
+    path: 'library/member.request',
+    loadChildren: () => import('./modules/public/login/login.module').then(x => x.LoginModule)
+  },
 ];
 
 @NgModule({

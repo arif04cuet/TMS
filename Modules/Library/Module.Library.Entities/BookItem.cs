@@ -20,7 +20,9 @@ namespace Module.Library.Entities
         public long? FormatId { get; set; }
         public BookFormat Format { get; set; }
 
+        [Searchable]
         public long? StatusId { get; set; }
+        [Searchable]
         public BookStatus Status { get; set; }
 
         public long? RackId { get; set; }

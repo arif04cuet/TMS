@@ -47,7 +47,7 @@ export class UserAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       fullName: [null, [], this.v.required.bind(this)],
-      employeeId: [null, [], this.v.required.bind(this)],
+      employeeId: [],
       designation: [null, [], this.v.required.bind(this)],
       department: [],
       mobile: [null, [], this.v.mobile.bind(this)],

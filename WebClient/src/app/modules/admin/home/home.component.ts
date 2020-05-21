@@ -111,7 +111,7 @@ export class HomeComponent extends BaseComponent {
           {
             level: 2,
             title: 'book.issue',
-            route: '/admin/library/books/items/add',
+            route: '/admin/library/books/items/issues',
             icon: 'user'
           },
           {
@@ -180,7 +180,19 @@ export class HomeComponent extends BaseComponent {
                 title: 'maintenances',
                 route: '/admin/asset/maintenances',
                 icon: 'user'
-              }
+              },
+              {
+                level: 3,
+                title: 'audit',
+                route: '/admin/asset/audit/add',
+                icon: 'user'
+              },
+              {
+                level: 3,
+                title: 'bulk.checkout',
+                route: '/admin/asset/checkout/bulk',
+                icon: 'user'
+              },
             ]
           },
           {
@@ -209,12 +221,6 @@ export class HomeComponent extends BaseComponent {
           // },
           {
             level: 2,
-            title: 'audit',
-            route: '/admin/asset/audit/add',
-            icon: 'user'
-          },
-          {
-            level: 2,
             title: 'settings',
             icon: 'setting',
             nav: [
@@ -230,12 +236,12 @@ export class HomeComponent extends BaseComponent {
                 route: '/admin/asset/itemcodes/consumable',
                 icon: 'user'
               },
-              {
-                level: 3,
-                title: 'license.item.code',
-                route: '/admin/asset/itemcodes/license',
-                icon: 'user'
-              },
+              // {
+              //   level: 3,
+              //   title: 'license.item.code',
+              //   route: '/admin/asset/itemcodes/license',
+              //   icon: 'user'
+              // },
               {
                 level: 3,
                 title: 'supplier',

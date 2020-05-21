@@ -13,7 +13,7 @@ namespace Module.Library.Entities
         [Searchable]
         public User User { get; set; }
 
-        public DateTime MemberSince { get; set; }
+        public DateTime? MemberSince { get; set; }
 
         public long TotalBooksCheckout { get; set; }
         public bool Blocked { get; set; }

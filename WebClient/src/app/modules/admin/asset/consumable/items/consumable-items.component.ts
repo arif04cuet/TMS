@@ -46,7 +46,7 @@ export class ConsumableItemsComponent extends TableComponent {
       this.goTo(`/admin/asset/consumables/${model.id}/edit`);
     }
     else {
-      this.goTo('/admin/asset/consumables/add');
+      this.goTo(`/admin/asset/consumables/add?itemCodeId=${this.itemCodeId}`);
     }
   }
 

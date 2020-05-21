@@ -20,6 +20,10 @@ export class SelectControlComponent implements ControlValueAccessor {
   @Output() onChange = new EventEmitter();
   @Input() labelKey = 'name';
   @Input() mandatory: boolean = false;
+  @Input() info: (item: any) => string | Promise<string>;
+  @Input() mode: string = 'default';
+
+  infoText: string = '';
 
   loading: boolean = false;
   items = [];
@@ -73,7 +77,9 @@ export class SelectControlComponent implements ControlValueAccessor {
       const pagination = `offset=${this.offset}&limit=${this.limit}`;
       const subscription = this.fetchFn(pagination, search).subscribe(
         (res: any) => {
-          this.items = res.data.items || [];
+          this.loading = false;
+          const items = res.data.items || [];
+          this.items = [...this.items, ...items];
           this.busy(false);
           if (this._selectFirstOption && this.items.length > 0) {
             this._value = this.items[0].id;
@@ -97,6 +103,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   fetchNext(search?: string) {
     this.offset = this.offset + this.limit;
     this.fetch(search);
+    return this;
   }
 
   selectFirstOption() {
@@ -108,6 +115,12 @@ export class SelectControlComponent implements ControlValueAccessor {
     if (this.onChange) {
       this.onChange.emit(e);
     }
+    if (this.info) {
+      const item = this.items.find(x => x.id == e);
+      Promise.resolve(this.info(item)).then(x => {
+        this.infoText = x || '';
+      })
+    }
   }
 
   onLoadCompleted(fn: () => void) {
@@ -118,6 +131,12 @@ export class SelectControlComponent implements ControlValueAccessor {
   setValue(value) {
     this._value = value;
     this.formControl.setValue(this._value);
+    return this;
+  }
+
+  loadMore() {
+    this.loading = true;
+    this.fetchNext()
   }
 
   ngOnDestroy() {

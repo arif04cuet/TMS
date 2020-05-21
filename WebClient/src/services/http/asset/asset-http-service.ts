@@ -75,6 +75,10 @@ export class AssetBaseHttpService {
         return this.httpService.post(`${this.buildBaseEndpoint()}/${id}/checkouts`, body);
     }
 
+    public bulkCheckouts(body) {
+        return this.httpService.post(`${this.buildBaseEndpoint()}/checkouts`, body);
+    }
+
     public checkoutByItemCode(itemCodeId: number, body) {
         if (itemCodeId) {
             body.itemCodeId = Number(itemCodeId);

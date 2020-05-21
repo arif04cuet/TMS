@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
+import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 
 @Component({
   selector: 'app-book-item-issue',
@@ -13,8 +13,10 @@ import { LibraryMemberHttpService } from 'src/services/http/library-member-http.
 })
 export class BookItemIssueComponent extends FormComponent {
 
-  loading: boolean = true;
-  cards = [];
+  loading: boolean = false;
+
+  @ViewChild('cardSelect') cardSelect: SelectControlComponent;
+  @ViewChild('bookItemSelect') bookItemSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,56 +28,53 @@ export class BookItemIssueComponent extends FormComponent {
   }
 
   ngOnInit() {
-    this.getData();
     this.onCheckMode = id => this.get(id);
     this.createForm({
-      title: [null, [], this.v.required.bind(this)],
       book: [],
       bookItem: [],
       issueDate: [null, [], this.v.required.bind(this)],
       returnDate: [null, [], this.v.required.bind(this)],
       card: [null, [], this.v.required.bind(this)],
       note: [],
-      sendEmail: []
+      sendEmail: [true]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
     this.setValue('issueDate', new Date());
   }
 
+  ngAfterViewInit() {
+
+    this.cardSelect.register((pagination, search) => {
+      return this.libraryMemberHttpService.cards(pagination, search);
+    }).fetch();
+
+    this.bookItemSelect.register((pagination, search) => {
+      return this.bookHttpService.listBookItems(pagination, search);
+    })
+      .onLoadCompleted(() => {
+        if(this.id) {
+          this.bookItemSelect.setValue(Number(this.id));
+        }
+      })
+      .fetch();
+
+  }
+
   submit(): void {
     const body = this.constructObject(this.form.controls);
-    this.submitForm(
-      {
-        request: this.bookHttpService.issueBookItem(this.id, body),
-        succeed: res => {
+    this.loading = this.validateForm(() => {
+      this.subscribe(this.bookHttpService.issueBookItem(this.id, body),
+        (res: any) => {
           this.cancel();
           this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
-      },
-      {
-        request: this.bookHttpService.issueBookItem(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
-        }
-      }
-    );
+      );
+    });
   }
 
   get(id) {
-    this.loading = true;
-    if (id != null) {
-      this.subscribe(this.bookHttpService.getBookItem(id),
-        (res: any) => {
-          this.setValue('title', res.data.title);
-          this.setValue('bookItem', res.data.id);
-          this.setValue('book', res.data.book?.id);
-          this.loading = false;
-        }
-      );
-    }
-    else {
-      this.loading = false;
+    if (id) {
+      this.setValue('bookItem', Number(id));
     }
   }
 
@@ -83,15 +82,18 @@ export class BookItemIssueComponent extends FormComponent {
     this.goTo('/admin/library/books/items');
   }
 
-  getData() {
-    const requests = [
-      this.libraryMemberHttpService.cards()
-    ]
-    this.subscribe(forkJoin(requests),
-      (res: any[]) => {
-        this.cards = res[0].data.items;
-      }
-    );
+  getValidReturnDate = (d: Date) => {
+    const r = d.getTime() < this.form.controls.issueDate.value.getTime();
+    return r;
   }
+
+  bookInfo = (e) => {
+    return `${e.title} by ${e.author.name}`;
+  };
+
+  cardInfo = (e) => {
+    const info = this.t('this.card.is.assigned.to.x0', { x0: e.member });
+    return info;
+  };
 
 }

@@ -68,10 +68,9 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
-        [HttpPost("{id}/checkouts")]
-        public async Task<IActionResult> Checkout(long id, [FromBody] AssetCheckoutRequest request)
+        [HttpPost("checkouts")]
+        public async Task<IActionResult> Checkout([FromBody] AssetCheckoutRequest request)
         {
-            request.AssetId = id;
             var result = await _assetService.CheckoutAsync(request);
             return result.ToCreatedResult();
         }

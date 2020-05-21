@@ -80,5 +80,29 @@ namespace Module.Library.Controllers
             return NoContent();
         }
 
+        [HttpPost("approved")]
+        [RequirePermission(LibraryCreate, LibraryManage)]
+        public async Task<IActionResult> ApproveAsync([FromBody] LibraryMemberApproveCreateRequest request)
+        {
+            var result = await _libraryMemberService.ApproveMemberAsync(request);
+            return result.ToOkResult();
+        }
+
+        [HttpPost("request")]
+        [RequirePermission(LibraryCreate, LibraryManage)]
+        public async Task<IActionResult> RequestAsync([FromBody] LibraryMemberRequestCreateRequest request)
+        {
+            var result = await _libraryMemberService.CreateRequestAsync(request);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("request")]
+        [RequirePermission(LibraryCreate, LibraryManage)]
+        public async Task<IActionResult> ListRequestsUser([FromQuery]bool? isApproved, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions = default)
+        {
+            var result = await _libraryMemberService.ListMemberRequestAsync(isApproved, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
     }
 }

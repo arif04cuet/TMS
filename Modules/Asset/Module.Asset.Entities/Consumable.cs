@@ -32,6 +32,9 @@ namespace Module.Asset.Entities
         [Searchable]
         public string OrderNumber { get; set; }
 
+        [Searchable]
+        public string InvoiceNumber { get; set; }
+
         public DateTime PurchaseDate { get; set; }
         public double PurchaseCost { get; set; }
 

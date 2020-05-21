@@ -6,6 +6,7 @@ namespace Infrastructure.Entities
     [IgnoredEntity]
     public class BaseEntityWithTypeId<TKey> : IEntity
     {
+        [Searchable]
         public TKey Id { get; set; }
         public long? CreatedBy { get; set; }
         public long? UpdatedBy { get; set; }

@@ -28,6 +28,17 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
+                                <label>{{'invoice.number'|translate}}</label>
+                            </div>
+                            <nz-form-control>
+                                <input type="text" nz-input formControlName="invoiceNumber"
+                                    placeholder="{{'invoice.number'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
                                 <label>{{'order_number'|translate}}</label>
                             </div>
                             <nz-form-control>
@@ -36,13 +47,13 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <app-select-control #supplierSelect label="supplier" [formControl]="form.controls.supplier">
                         </app-select-control>
                     </div>
-                </div>
-
-                <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <app-select-control #manufacturerSelect label="manufacturer" [formControl]="form.controls.manufacturer">
                         </app-select-control>
@@ -60,6 +71,9 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
@@ -70,9 +84,6 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-                </div>
-
-                <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
@@ -89,6 +100,9 @@
                             [formControl]="form.controls.location">
                         </app-select-control>
                     </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>

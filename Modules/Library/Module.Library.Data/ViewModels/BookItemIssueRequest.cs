@@ -5,7 +5,6 @@ namespace Module.Library.Data
 {
     public class BookItemIssueRequest
     {
-        public long Book { get; set; }
         public long BookItem { get; set; }
         public long Card { get; set; }
         public DateTime IssueDate { get; set; }
@@ -13,11 +12,11 @@ namespace Module.Library.Data
         public string Note { get; set; }
         public bool SendEmail { get; set; }
 
-        public BookIssue ToBookIssue(long memberId)
+        public BookIssue ToBookIssue(long bookId, long memberId)
         {
             return new BookIssue
             {
-                BookId = Book,
+                BookId = bookId,
                 BookItemId = BookItem,
                 IssueDate = IssueDate,
                 MemberId = memberId,

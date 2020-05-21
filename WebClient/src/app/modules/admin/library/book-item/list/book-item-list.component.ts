@@ -21,6 +21,7 @@ export class BookItemListComponent extends TableComponent {
   @Searchable("Barcode", "like") barcode;
   @Searchable("Book.PublisherId", "eq") publisher;
   @Searchable("Book.AuthorId", "eq") author;
+  @Searchable("Status.Name", "like") status;
 
   constructor(
     private bookHttpService: BookHttpService,

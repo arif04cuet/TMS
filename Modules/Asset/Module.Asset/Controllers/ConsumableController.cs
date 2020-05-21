@@ -82,6 +82,13 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("checkouts/{checkoutId}")]
+        public async Task<ActionResult> GetCheckout(long checkoutId)
+        {
+            var result = await _consumableService.GetCheckoutAsync(checkoutId);
+            return result.ToOkResult();
+        }
+
         [HttpGet("checkouts")]
         public async Task<ActionResult> ListCheckoutsByItemCode([FromQuery] long itemCodeId, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {

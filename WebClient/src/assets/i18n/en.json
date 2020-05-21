@@ -279,5 +279,13 @@
   "code": "Code",
   "item": "Item",
   "consumable.item.code": "Consumable item code",
-  "license.item.code": "License item code"
+  "license.item.code": "License item code",
+  "this.card.is.assigned.to.x0": "This card is assigned to {{x0}}",
+  "book.issue": "Book issue",
+  "allowed.value.is.x0.x1": "Allowed value is {{x0}} - {{x1}}",
+  "book.categories": "Categories",
+  "invoice.number": "Invoice number",
+  "return.a.x0": "Return a {{x0}}",
+  "return.quantity": "Return quantity",
+  "bulk.checkout": "Bulk checkout"
 }

@@ -636,6 +636,9 @@ namespace OTMS.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<long?>("TargetId")
                         .HasColumnType("bigint");
 
@@ -802,6 +805,9 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -901,6 +907,9 @@ namespace OTMS.Migrations
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -9850,7 +9859,7 @@ namespace OTMS.Migrations
                     b.Property<long?>("LibraryId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("MemberSince")
+                    b.Property<DateTime?>("MemberSince")
                         .HasColumnType("datetime2");
 
                     b.Property<long>("TotalBooksCheckout")
@@ -9877,6 +9886,55 @@ namespace OTMS.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("LibraryMember","library");
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.LibraryMemberRequest", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("LibraryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LibraryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LibraryMemberRequest","library");
                 });
 
             modelBuilder.Entity("Module.Library.Entities.MemberStatus", b =>
@@ -10843,6 +10901,19 @@ namespace OTMS.Migrations
                         .WithMany()
                         .HasForeignKey("CurrentCardId");
 
+                    b.HasOne("Module.Library.Entities.Library", "Library")
+                        .WithMany()
+                        .HasForeignKey("LibraryId");
+
+                    b.HasOne("Module.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Module.Library.Entities.LibraryMemberRequest", b =>
+                {
                     b.HasOne("Module.Library.Entities.Library", "Library")
                         .WithMany()
                         .HasForeignKey("LibraryId");

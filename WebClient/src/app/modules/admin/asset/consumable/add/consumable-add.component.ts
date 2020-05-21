@@ -23,6 +23,8 @@ export class ConsumableAddComponent extends FormComponent {
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
   @ViewChild('locationSelect') locationSelect: SelectControlComponent;
 
+  private itemCodeId;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private consumableHttpService: ConsumableHttpService,
@@ -40,13 +42,15 @@ export class ConsumableAddComponent extends FormComponent {
       supplier: [],
       location: [],
       orderNumber: [],
+      invoiceNumber: [],
       purchaseDate: [],
       purchaseCost: [],
       note: [],
       quantity: [null, [], this.v.required.bind(this)]
     });
-    super.ngOnInit(this.activatedRoute.snapshot);
-
+    const snapshot = this.activatedRoute.snapshot
+    super.ngOnInit(snapshot);
+    this.itemCodeId = snapshot.queryParams.itemCodeId;
   }
 
   ngAfterViewInit() {
@@ -64,7 +68,13 @@ export class ConsumableAddComponent extends FormComponent {
           return x;
         })
       );
-    }).fetch();
+    })
+      .onLoadCompleted(() => {
+        if (this.itemCodeId) {
+          this.itemCodeSelect.setValue(Number(this.itemCodeId));
+        }
+      })
+      .fetch();
 
     this.supplierSelect.register((pagination, search) => {
       return this.consumableHttpService.suppliers(pagination, search);

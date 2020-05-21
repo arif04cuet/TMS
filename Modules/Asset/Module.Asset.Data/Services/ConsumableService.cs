@@ -9,6 +9,7 @@ using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
@@ -27,6 +28,8 @@ namespace Module.Asset.Data
         private readonly ICheckoutHistoryService _checkoutHistoryService;
         private readonly IAssetEmailService _assetEmailService;
         private readonly IDbConnection _dbConnection;
+
+        private static object lockObject = new object();
 
         public ConsumableService(
             IUnitOfWork unitOfWork,
@@ -134,6 +137,7 @@ namespace Module.Asset.Data
                     Id = x.Id,
                     Name = x.Name,
                     OrderNumber = x.OrderNumber,
+                    InvoiceNumber = x.InvoiceNumber,
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
@@ -180,6 +184,7 @@ namespace Module.Asset.Data
                     Id = x.Id,
                     Name = x.Name,
                     OrderNumber = x.OrderNumber,
+                    InvoiceNumber = x.InvoiceNumber,
                     PurchaseDate = x.PurchaseDate,
                     PurchaseCost = x.PurchaseCost,
                     Note = x.Note,
@@ -246,6 +251,41 @@ namespace Module.Asset.Data
             return result;
         }
 
+        public async Task<ConsumableCheckoutViewModel> GetCheckoutAsync(long checkoutId, CancellationToken cancellationToken = default)
+        {
+            var checkout = await _consumableUserRepository
+                .Where(x => x.Id == checkoutId && !x.IsDeleted, true)
+                .Select(x => new ConsumableCheckoutViewModel
+                {
+                    Id = x.Id,
+                    ConsumableId = x.ConsumableId,
+                    User = new IdNameViewModel
+                    {
+                        Id = x.IssuedToUser.Id,
+                        Name = x.IssuedToUser.FullName
+                    },
+                    IssueDate = x.IssueDate,
+                    Quantity = x.Quantity,
+                    Item = new AssetItemCodeViewModel
+                    {
+                        Id = x.Consumable.ItemCode.Id,
+                        Name = x.Consumable.ItemCode.Name,
+                        Code = x.Consumable.ItemCode.Code
+                    },
+                    Category = new AssetCategoryViewModel
+                    {
+                        Id = x.Consumable.ItemCode.Category.Id,
+                        Name = x.Consumable.ItemCode.Category.Name
+                    }
+                })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (checkout == null)
+                throw new ValidationException("Checkout not found");
+
+            return checkout;
+        }
+
         public async Task<PagedCollection<ConsumableCheckoutListViewModel>> ListCheckoutByItemCodeAsync(long itemCodeId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var result = await ListCheckoutInternalAsync(x => x.Consumable.ItemCodeId == itemCodeId, pagingOptions, searchOptions, cancellationToken);
@@ -259,19 +299,62 @@ namespace Module.Asset.Data
                 .Include(x => x.ItemCode)
                 .FirstOrDefaultAsync(x => x.Id == request.ConsumableId && !x.IsDeleted);
 
-            var result = await CheckoutInternalAsync(entity, request.UserId, request.Note, cancellationToken);
+            var result = await CheckoutInternalAsync(entity, request.UserId, request.Quantity, request.Note, true, cancellationToken);
 
             return result;
         }
 
         public async Task<bool> CheckoutByItemCodeAsync(ConsumableCheckoutByItemCodeRequest request, CancellationToken cancellationToken = default)
         {
-            var entity = await _consumableRepository
-                .Where(x => x.ItemCodeId == request.ItemCodeId && x.Available > 0 && !x.IsDeleted)
-                .Include(x => x.ItemCode)
-                .FirstOrDefaultAsync();
+            int quantity = 0;
+            List<Consumable> consumables = new List<Consumable>();
+            int iteration = 0;
+            int skip = 0;
+            int take = 1;
 
-            var result = await CheckoutInternalAsync(entity, request.UserId, request.Note, cancellationToken);
+            while (quantity <= request.Quantity)
+            {
+                var entities = await _consumableRepository
+                    .Where(x => x.ItemCodeId == request.ItemCodeId && x.Available > 0 && !x.IsDeleted)
+                    .Include(x => x.ItemCode)
+                    .OrderByDescending(x => x.Available)
+                    .Skip(skip)
+                    .Take(take)
+                    .ToListAsync(cancellationToken);
+
+                if (entities == null || entities.Count <= 0)
+                    break;
+
+                var entity = entities[0];
+                quantity += entity.Available.Value;
+                consumables.Add(entity);
+
+                ++skip;
+                ++iteration;
+            }
+
+            if (quantity < request.Quantity)
+                throw new ValidationException("Insufficient quantity.");
+
+            int available = request.Quantity;
+            var result = false;
+            foreach (var item in consumables)
+            {
+                if (available > 0)
+                {
+                    int qty = 0;
+                    if (item.Available.Value < available)
+                    {
+                        qty = item.Available.Value;
+                    }
+                    else if (item.Available.Value >= available)
+                    {
+                        qty = available;
+                    }
+                    available = available - qty;
+                    result &= await CheckoutInternalAsync(item, request.UserId, qty, request.Note, false, cancellationToken);
+                }
+            }
 
             return result;
         }
@@ -289,11 +372,22 @@ namespace Module.Asset.Data
             if (checkin.Consumable.ItemCode == null)
                 throw new NotFoundException("Item code not found");
 
-            _consumableUserRepository.Remove(checkin);
-            checkin.Consumable.Available = checkin.Consumable.Available + 1;
-            checkin.Consumable.ItemCode.Available = checkin.Consumable.ItemCode.Available + 1;
+            if (request.Quantity > checkin.Quantity)
+                throw new ValidationException("Return quantity can not be greater than checkout qantity");
+
+            lock (lockObject)
+            {
+                checkin.Quantity = checkin.Quantity - request.Quantity;
+                checkin.Consumable.Available = checkin.Consumable.Available + request.Quantity;
+                checkin.Consumable.ItemCode.Available = checkin.Consumable.ItemCode.Available + request.Quantity;
+            }
 
             var result = await _unitOfWork.SaveChangesAsync();
+
+            if (request.Quantity == checkin.Quantity)
+                _consumableUserRepository.Remove(checkin);
+
+            result += await _unitOfWork.SaveChangesAsync();
 
             await _checkoutHistoryService.CreateAsync(new CheckoutHistoryCreateRequest
             {
@@ -302,13 +396,14 @@ namespace Module.Asset.Data
                 ItemType = AssetType.Consumable,
                 Note = request.Note,
                 TargetId = checkin.IssuedToUserId,
-                TargetType = AssetType.User
+                TargetType = AssetType.User,
+                Quantity = request.Quantity
             });
 
             return result > 0;
         }
 
-        private async Task<bool> CheckoutInternalAsync(Consumable entity, long userId, string note, CancellationToken cancellationToken = default)
+        private async Task<bool> CheckoutInternalAsync(Consumable entity, long userId, int quantity, string note, bool sendEULA = true, CancellationToken cancellationToken = default)
         {
             if (entity == null)
                 throw new NotFoundException("Consumable not found");
@@ -325,12 +420,14 @@ namespace Module.Asset.Data
             var checkout = new ConsumableUser
             {
                 ConsumableId = entity.Id,
-                IssuedToUserId = userId
+                IssuedToUserId = userId,
+                Quantity = quantity,
+                IssueDate = DateTime.UtcNow
             };
 
             await _consumableUserRepository.AddAsync(checkout);
-            entity.Available = entity.Available - 1;
-            entity.ItemCode.Available = totalAvailables - 1;
+            entity.Available = entity.Available - quantity;
+            entity.ItemCode.Available = totalAvailables - quantity;
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             await _checkoutHistoryService.CreateAsync(new CheckoutHistoryCreateRequest
@@ -340,10 +437,14 @@ namespace Module.Asset.Data
                 ItemType = AssetType.Consumable,
                 Note = note,
                 TargetId = userId,
-                TargetType = AssetType.User
+                TargetType = AssetType.User,
+                Quantity = quantity
             });
 
-            await _assetEmailService.SendEULAEmailAsync(userId, entity.ItemCode.CategoryId);
+            if (sendEULA)
+            {
+                await _assetEmailService.SendEULAEmailAsync(userId, entity.ItemCode.CategoryId);
+            }
 
             return result > 0;
         }
@@ -370,7 +471,9 @@ namespace Module.Asset.Data
                     {
                         Id = x.IssuedToUser.Id,
                         Name = x.IssuedToUser.FullName
-                    }
+                    },
+                    IssueDate = x.IssueDate,
+                    Quantity = x.Quantity
                 })
                 .ToListAsync(cancellationToken);
 

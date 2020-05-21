@@ -1,6 +1,6 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 
-<div *ngIf="!loading" class="box">
+<div class="box" [style.display]="loading ? 'none' : ''">
     <div class="block pad-v-12 pad-h-20 box-divider">
         <div class="content">
             <div class="header-container">
@@ -19,28 +19,13 @@
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzMd]="12" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'book'|translate}}</label>
-                                </div>
-                                <nz-form-control>
-                                    <input readonly="true" type="text" nz-input formControlName="title" />
-                                </nz-form-control>
-                            </nz-form-item>
+                            <app-select-control #bookItemSelect label="book" labelKey="barcode" [info]="bookInfo"
+                            [formControl]="form.controls.bookItem">
+                            </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label class="required">{{'card'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-select class="btn-custom" formControlName="card" nzShowSearch nzAllowClear
-                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'card'|translate|lowercase}">
-                                        <nz-option *ngFor="let p of cards" [nzLabel]="p.name" [nzValue]="p.id">
-                                        </nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
+                            <app-select-control mandatory="true" [info]="cardInfo" #cardSelect label="card" [formControl]="form.controls.card">
+                            </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
@@ -71,7 +56,8 @@
                                     <label class="required">{{'return.date'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-date-picker formControlName="returnDate"></nz-date-picker>
+                                    <nz-date-picker [nzDisabledDate]="getValidReturnDate" formControlName="returnDate">
+                                    </nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -79,7 +65,8 @@
                             <nz-form-item class="field-container">
                                 <label>{{'notification'|translate}}</label>
                                 <div>
-                                    <span nz-checkbox formControlName="sendEmail">{{'notify.user.via.email.about.this.issue'|translate}}</span>
+                                    <span nz-checkbox
+                                        formControlName="sendEmail">{{'notify.user.via.email.about.this.issue'|translate}}</span>
                                 </div>
                             </nz-form-item>
                         </div>

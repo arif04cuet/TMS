@@ -20,10 +20,14 @@ namespace Module.Core.Shared
         protected override bool IsValid(PropertyValidatorContext context)
         {
             string employeeId = (string)context.PropertyValue;
+
+            if (string.IsNullOrEmpty(employeeId))
+                return true;
+
             var query = _unitOfWork.GetRepository<User>()
                         .AsReadOnly()
                         .Where(x => x.EmployeeId == employeeId && !x.IsDeleted);
-            if(_ignoreUserId.HasValue)
+            if (_ignoreUserId.HasValue)
             {
                 query = query.Where(x => x.Id != _ignoreUserId.Value);
             }

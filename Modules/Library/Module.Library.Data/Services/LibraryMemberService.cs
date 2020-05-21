@@ -22,6 +22,7 @@ namespace Module.Library.Data
     {
         public readonly IUnitOfWork _unitOfWork;
         public readonly IRepository<LibraryMember> _libraryMemberRepository;
+        public readonly IRepository<LibraryMemberRequest> _libraryMemberRequestRepository;
         public readonly IRepository<User> _userRepository;
         public readonly IRepository<UserRole> _userRoleRepository;
         public readonly IUserService _userService;
@@ -40,6 +41,7 @@ namespace Module.Library.Data
             _userRepository = _unitOfWork.GetRepository<User>();
             _userRoleRepository = _unitOfWork.GetRepository<UserRole>();
             _libraryCardRepository = _unitOfWork.GetRepository<LibraryCard>();
+            _libraryMemberRequestRepository = _unitOfWork.GetRepository<LibraryMemberRequest>();
         }
 
         public async Task<long> CreateFromUserAsync(LibraryMemberCreateFromUserRequest request, CancellationToken ct = default)
@@ -138,6 +140,63 @@ namespace Module.Library.Data
             return user.Id;
         }
 
+        public async Task<long> ApproveMemberAsync(LibraryMemberApproveCreateRequest request, CancellationToken ct = default)
+        {
+
+            var memberRequest = await _libraryMemberRequestRepository
+                .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
+
+            if (memberRequest == null)
+                throw new ValidationException("Member request not found");
+
+            if (memberRequest.IsApproved)
+                throw new ValidationException("Member already approved");
+
+            var member = new LibraryMember
+            {
+                UserId = memberRequest.UserId,
+                LibraryId = memberRequest.LibraryId,
+                MemberSince = DateTime.UtcNow
+            };
+            await _libraryMemberRepository.AddAsync(member, ct);
+            memberRequest.IsApproved = true;
+
+            var result = await _unitOfWork.SaveChangesAsync(ct);
+            return memberRequest.Id;
+        }
+
+        public async Task<long> CreateRequestAsync(LibraryMemberRequestCreateRequest request, CancellationToken ct = default)
+        {
+            var user = new User
+            {
+                FullName = request.FullName,
+                Email = request.Email,
+                Mobile = request.Mobile,
+                StatusId = StatusConstants.Pending,
+                Password = request.Password.HashPassword()
+            };
+
+            await _userRepository.AddAsync(user, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+
+            var memberRequest = new LibraryMemberRequest
+            {
+                UserId = user.Id,
+                LibraryId = request.Library,
+                RequestDate = DateTime.UtcNow
+            };
+            await _libraryMemberRequestRepository.AddAsync(memberRequest, ct);
+
+            var role = new UserRole
+            {
+                UserId = user.Id,
+                RoleId = RoleConstants.LibraryMember
+            };
+            await _userRoleRepository.AddAsync(role, ct);
+            var result = await _unitOfWork.SaveChangesAsync(ct);
+            return user.Id;
+        }
+
         public async Task<bool> DeleteAsync(long id, CancellationToken ct = default)
         {
             var item = await _libraryMemberRepository
@@ -148,7 +207,7 @@ namespace Module.Library.Data
 
             if (item == null || user == null)
                 throw new NotFoundException(LIBRARY_MEMBER_NOT_FOUND);
-            
+
             item.IsDeleted = true;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
@@ -184,18 +243,53 @@ namespace Module.Library.Data
             return new PagedCollection<LibraryMemberListViewModel>(items, total, pagingOptions);
         }
 
-        public async Task<PagedCollection<IdNameViewModel>> ListMemberCardsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        public async Task<PagedCollection<LibraryMemberListViewModel>> ListMemberRequestAsync(bool? isApproved, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+            var query = _libraryMemberRequestRepository
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .ApplySearch(searchOptions);
+
+            if (isApproved.HasValue)
+            {
+                query = query.Where(x => x.IsApproved == isApproved.Value);
+            }
+
+            var items = await query
+                .ApplyPagination(pagingOptions)
+                .Select(x => new LibraryMemberListViewModel
+                {
+                    Id = x.Id,
+                    UserId = x.UserId,
+                    Email = x.User.Email,
+                    FullName = x.User.FullName,
+                    Mobile = x.User.Mobile,
+                    Library = new IdNameViewModel
+                    {
+                        Id = x.Library.Id,
+                        Name = x.Library.Name
+                    },
+                    Photo = _mediaService.GetFullUrl(x.User.Profile.Media)
+                })
+                .ToListAsync();
+
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<LibraryMemberListViewModel>(items, total, pagingOptions);
+        }
+
+        public async Task<PagedCollection<LibraryMemberCardListViewModel>> ListMemberCardsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
         {
 
-            var sql = @"select  c.Id, c.Barcode as Name from [library].[LibraryMember] m
+            var sql = @"select u.FullName Member, c.Id, c.Barcode as Name from [library].[LibraryMember] m
                         left join [library].[LibraryCard] c on c.Id = m.CurrentCardId
+                        left join [core].[User] u on u.Id = m.UserId
                         where m.CurrentCardId IS NOT NULL";
 
             var items = await _unitOfWork.GetConnection()
-                .QueryAsync<IdNameViewModel>(sql);
+                .QueryAsync<LibraryMemberCardListViewModel>(sql);
 
             var total = items.Count();
-            return new PagedCollection<IdNameViewModel>(items.ToList(), total, pagingOptions);
+            return new PagedCollection<LibraryMemberCardListViewModel>(items.ToList(), total, pagingOptions);
         }
 
 
@@ -263,7 +357,7 @@ namespace Module.Library.Data
                 user.Password = request.Password.HashPassword();
             }
 
-            if(member.CurrentCardId == null)
+            if (member.CurrentCardId == null)
             {
                 var card = await _libraryCardRepository
                     .FirstOrDefaultAsync(x => x.Id == request.CardId && !x.IsDeleted && x.MemberId == null);

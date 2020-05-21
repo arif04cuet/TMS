@@ -18,7 +18,7 @@ export class UserHttpService {
             url += search
         }
         if (pagination) {
-            url += pagination
+            url += '&' + pagination
         }
         return this.httpService.get(url);
     }

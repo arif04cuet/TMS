@@ -47,7 +47,6 @@ export class IssueListComponent extends TableComponent {
         this.members = res[1].data.items;
       },
       err => {
-        console.log(err);
         this.loading = false;
       }
     );

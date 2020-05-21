@@ -9,6 +9,7 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { BookItemIssueComponent } from './book-item-issue.component';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
+import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { LibraryMemberHttpService } from 'src/services/http/library-member-http.
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    SelectControlModule
   ],
   exports: [BookItemIssueComponent],
   providers: [

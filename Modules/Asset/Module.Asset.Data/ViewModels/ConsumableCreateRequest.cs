@@ -11,6 +11,7 @@ namespace Module.Asset.Data
         public long? Supplier { get; set; }
         public long? Location { get; set; }
         public string OrderNumber { get; set; }
+        public string InvoiceNumber { get; set; }
         public DateTime PurchaseDate { get; set; }
         public double PurchaseCost { get; set; }
         public int Quantity { get; set; }
@@ -26,6 +27,7 @@ namespace Module.Asset.Data
             entity.MediaId = Media;
             entity.Note = Note;
             entity.OrderNumber = OrderNumber;
+            entity.InvoiceNumber = InvoiceNumber;
             entity.PurchaseCost = PurchaseCost;
             entity.PurchaseDate = PurchaseDate;
             entity.Quantity = Quantity;

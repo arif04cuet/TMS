@@ -38,17 +38,17 @@ const routes: Routes = [
     }
   },
 
-  // {
-  //   path: ':id/checkin',
-  //   loadChildren: () => import('../checkin/consumable-checkin.module').then(x => x.ConsumableCheckinModule),
-  //   data: {
-  //     name: 'consumable_checkin',
-  //     breadcrumb: {
-  //       icon: 'eye',
-  //       title: 'Checkin'
-  //     }
-  //   }
-  // },
+  {
+    path: ':id/checkin',
+    loadChildren: () => import('../checkin/consumable-checkin.module').then(x => x.ConsumableCheckinModule),
+    data: {
+      name: 'consumable_checkin',
+      breadcrumb: {
+        icon: 'eye',
+        title: 'Checkin'
+      }
+    }
+  },
   // {
   //   path: ':id/edit',
   //   loadChildren: () => import('../add/consumable-add.module').then(x => x.ConsumableAddModule),

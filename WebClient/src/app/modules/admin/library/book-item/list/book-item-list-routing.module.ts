@@ -38,6 +38,17 @@ const routes: Routes = [
     }
   },
   {
+    path: 'issues',
+    loadChildren: () => import('../issue/book-item-issue.module').then(x => x.BookItemIssueModule),
+    data: {
+      name: 'book_item_issue',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'issue'
+      }
+    }
+  },
+  {
     path: ':id/returns',
     loadChildren: () => import('../return/book-item-return.module').then(x => x.BookItemReturnModule),
     data: {
