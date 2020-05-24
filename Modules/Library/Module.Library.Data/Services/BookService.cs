@@ -91,7 +91,7 @@ namespace Module.Library.Data
                     Description = x.Description,
                     Author = IdNameViewModel.Map(x.Author),
                     Publisher = IdNameViewModel.Map(x.Publisher),
-                    Photo = _mediaService.GetFullUrl(x.Media)
+                    Photo = _mediaService.GetPhotoUrl(x.Media)
                 })
                 .ToListAsync();
 
@@ -113,7 +113,7 @@ namespace Module.Library.Data
                     Language = IdNameViewModel.Map(x.Language),
                     Title = x.Title,
                     Publisher = IdNameViewModel.Map(x.Publisher),
-                    Photo = _mediaService.GetFullUrl(x.Media)
+                    Photo = _mediaService.GetPhotoUrl(x.Media)
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
 

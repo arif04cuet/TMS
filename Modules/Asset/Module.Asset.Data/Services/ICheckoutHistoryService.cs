@@ -12,5 +12,7 @@ namespace Module.Asset.Data
         Task<long> CreateAsync(CheckoutHistoryCreateRequest request, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<CheckoutHistoryListViewModel>> ListAsync(long? itemId, AssetType? itemType, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
+        Task<PagedCollection<CheckoutHistoryListViewModel>> ListByItemCodeAsync(long? itemCodeId, AssetType? itemType, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
     }
 }

@@ -12,6 +12,7 @@ import { AssetAddRoutingModule } from './asset-add-routing.module';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
 import { StatusHttpService } from 'src/services/http/asset/status-http.service';
+import { PhotoUploadModule } from 'src/app/shared/photo.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { StatusHttpService } from 'src/services/http/asset/status-http.service';
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectControlModule
+    SelectControlModule,
+    PhotoUploadModule
   ],
   exports: [AssetAddComponent],
   providers: [

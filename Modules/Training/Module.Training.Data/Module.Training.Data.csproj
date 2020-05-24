@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\..\Core\Module.Core.Data\Module.Core.Data.csproj" />
     <ProjectReference Include="..\..\Core\Module.Core.Shared\Module.Core.Shared.csproj" />
+    <ProjectReference Include="..\Module.Training.Entities\Module.Training.Entities.csproj" />
   </ItemGroup>
 
 </Project>

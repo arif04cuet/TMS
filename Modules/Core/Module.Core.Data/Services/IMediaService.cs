@@ -25,6 +25,10 @@ namespace Module.Core.Data
 
         string GetFullUrl(string fileName);
 
+        string GetPhotoUrl(string fileName);
+
+        string GetPhotoUrl(Media media);
+
         Task<bool> UseAsync(long? mediaId, bool value = true);
     }
 }

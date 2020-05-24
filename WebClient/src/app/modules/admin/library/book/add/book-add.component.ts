@@ -11,7 +11,7 @@ import { CommonHttpService } from 'src/services/http/common-http.service';
 import { forEachObj } from 'src/services/utilities.service';
 import { AbstractControl, FormArray } from '@angular/forms';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
-import { MediaHttpService } from 'src/services/http/media-http.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-book-add',
@@ -82,7 +82,7 @@ export class BookAddComponent extends FormComponent {
       this.subscribe(this.bookHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data, ['editions']);
-          this.photoUrl = res.data.photo;
+          this.photoUrl = environment.serverUri + '/' + res.data.photo;
           this.form.controls.editions = this.fb.array([]);
           this.prepareForm(res);
           this.loading = false;

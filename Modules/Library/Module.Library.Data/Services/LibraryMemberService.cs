@@ -235,7 +235,7 @@ namespace Module.Library.Data
                         Id = x.Library.Id,
                         Name = x.Library.Name
                     },
-                    Photo = _mediaService.GetFullUrl(x.User.Profile.Media)
+                    Photo = _mediaService.GetPhotoUrl(x.User.Profile.Media)
                 })
                 .ToListAsync();
 
@@ -269,7 +269,7 @@ namespace Module.Library.Data
                         Id = x.Library.Id,
                         Name = x.Library.Name
                     },
-                    Photo = _mediaService.GetFullUrl(x.User.Profile.Media)
+                    Photo = _mediaService.GetPhotoUrl(x.User.Profile.Media)
                 })
                 .ToListAsync();
 

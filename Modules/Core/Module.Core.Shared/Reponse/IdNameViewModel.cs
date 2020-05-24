@@ -1,4 +1,6 @@
 ﻿using Infrastructure.Entities;
+using System;
+using System.Linq.Expressions;
 
 namespace Module.Core.Shared
 {
@@ -18,6 +20,16 @@ namespace Module.Core.Shared
                 };
             }
             return default;
+        }
+
+        public static Expression<Func<TEntity, IdNameViewModel>> Select<TEntity>()
+            where TEntity : IdNameEntity
+        {
+            return (TEntity x) => new IdNameViewModel
+            {
+                Id = x.Id,
+                Name = x.Name
+            };
         }
     }
 }

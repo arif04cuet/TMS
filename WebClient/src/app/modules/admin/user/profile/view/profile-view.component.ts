@@ -5,6 +5,7 @@ import { AuthService } from 'src/services/auth.service';
 import { DatePipe } from '@angular/common';
 import { TimeAgoPipe } from 'src/pipes/time-ago.pipe';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile-view',
@@ -15,6 +16,7 @@ export class ProfileViewComponent extends BaseComponent {
 
   loading: boolean = false;
   data: any = {}
+  serverUrl = environment.serverUri;
 
   private userId;
 

@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Entities;
 using Module.Core.Entities.Constants;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Training.Entities
@@ -7,6 +8,11 @@ namespace Module.Training.Entities
     [Table(nameof(Room), Schema = SchemaConstants.Training)]
     public class Room : IdNameEntity
     {
+        public Room()
+        {
+            Beds = new HashSet<Bed>();
+        }
+
         public long TypeId { get; set; }
         public RoomType Type { get; set; }
 
@@ -20,5 +26,7 @@ namespace Module.Training.Entities
         public Hostel Hostel { get; set; }
 
         public bool IsBooked { get; set; }
+
+        public virtual ICollection<Bed> Beds { get; set; }
     }
 }

@@ -146,7 +146,7 @@
                                         <div nz-row [nzGutter]="24">
                                             <nz-form-item class="field-container">
                                                 <div>
-                                                    <label>{{'edition'|translate}}</label>
+                                                    <label class="required">{{'edition'|translate}}</label>
                                                 </div>
                                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                                     <input type="text" nz-input formControlName="edition"
@@ -159,7 +159,7 @@
                                         <div nz-row [nzGutter]="24">
                                             <nz-form-item class="field-container">
                                                 <div>
-                                                    <label>{{'publication.date'|translate}}</label>
+                                                    <label class="required">{{'publication.date'|translate}}</label>
                                                 </div>
                                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                                     <nz-date-picker formControlName="publicationDate"></nz-date-picker>
@@ -171,7 +171,7 @@
                                         <div nz-row [nzGutter]="24">
                                             <nz-form-item class="field-container">
                                                 <div>
-                                                    <label>{{'number.of.page'|translate}}</label>
+                                                    <label class="required">{{'number.of.page'|translate}}</label>
                                                 </div>
                                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                                     <input type="number" nz-input formControlName="numberOfPage"

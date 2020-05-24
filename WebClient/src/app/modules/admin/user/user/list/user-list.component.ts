@@ -7,6 +7,7 @@ import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-list',
@@ -22,6 +23,8 @@ export class UserListComponent extends TableComponent {
   @Searchable("DesignationId", "eq") designation;
   @Searchable("Mobile", "like") mobile;
   @Searchable("Email", "like") email;
+
+  serverUrl = environment.serverUri;
 
   constructor(
     private userHttpService: UserHttpService,

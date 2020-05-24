@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities;
 using Module.Core.Entities.Constants;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,6 +31,8 @@ namespace Module.Training.Entities
 
         public int Days { get; set; }
         public double Amount { get; set; }
-        public bool IsRoom { get; set; }
+
+        public long UserId { get; set; }
+        public User User { get; set; }
     }
 }

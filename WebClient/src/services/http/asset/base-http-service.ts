@@ -22,14 +22,7 @@ export class BaseHttpService {
     }
 
     public list(pagination = null, search = null) {
-        let url = this.END_POINT + '?';
-        if (search) {
-            url += `${search}&`
-        }
-        if (pagination) {
-            url += pagination
-        }
-        return this.httpService.get(url);
+        return this.httpService.get(this.buildUrl(this.END_POINT, pagination, search));
     }
 
     public add(body) {

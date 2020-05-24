@@ -71,7 +71,7 @@ export class SelectControlComponent implements ControlValueAccessor {
     return this;
   }
 
-  fetch(search?: string) {
+  fetch(search?: string, clearOnFetch = false) {
     if (this.fetchFn) {
       this.busy(true);
       const pagination = `offset=${this.offset}&limit=${this.limit}`;
@@ -79,6 +79,9 @@ export class SelectControlComponent implements ControlValueAccessor {
         (res: any) => {
           this.loading = false;
           const items = res.data.items || [];
+          if (clearOnFetch) {
+            this.items = [];
+          }
           this.items = [...this.items, ...items];
           this.busy(false);
           if (this._selectFirstOption && this.items.length > 0) {

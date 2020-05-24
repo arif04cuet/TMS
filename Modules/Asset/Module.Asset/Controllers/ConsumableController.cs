@@ -104,9 +104,9 @@ namespace Module.Asset.Controllers
         }
 
         [HttpGet("histories")]
-        public async Task<ActionResult> ListHistoriesByItemCode(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> ListHistoriesByItemCode([FromQuery]long itemCodeId, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _checkoutHistoryService.ListAsync(id, AssetType.Consumable, pagingOptions, searchOptions);
+            var result = await _checkoutHistoryService.ListByItemCodeAsync(itemCodeId, AssetType.Consumable, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

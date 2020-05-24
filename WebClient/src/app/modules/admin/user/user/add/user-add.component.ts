@@ -52,7 +52,7 @@ export class UserAddComponent extends FormComponent {
       department: [],
       mobile: [null, [], this.v.mobile.bind(this)],
       email: [null, [], this.v.required.bind(this)],
-      password: [null, [], this.password.bind(this)],
+      password: ['1234', [], this.password.bind(this)],
       roles: [null, [], this.v.required.bind(this)],
       status: [null, [], this.v.required.bind(this)]
     });

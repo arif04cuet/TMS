@@ -2,6 +2,7 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
+using Module.Core.Data;
 using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
@@ -23,13 +24,16 @@ namespace Module.Asset.Data
         private readonly IRepository<ComponentAsset> _componentAssetRepository;
         private readonly IRepository<LicenseSeat> _licenseSeatRepository;
         private readonly IAssetEmailService _assetEmailService;
+        private readonly IMediaService _mediaService;
 
         public AssetService(
             IUnitOfWork unitOfWork,
+            IMediaService mediaService,
             ICheckoutHistoryService checkoutHistoryService,
             IBarcodeService barcodeService,
             IAssetEmailService assetEmailService)
         {
+            _mediaService = mediaService;
             _barcodeService = barcodeService;
             _checkoutHistoryService = checkoutHistoryService;
             _unitOfWork = unitOfWork;
@@ -109,7 +113,8 @@ namespace Module.Asset.Data
 
                     CheckoutToAsset = x.CheckoutId != null && x.Checkout.ChekoutToAsset != null ? new IdNameViewModel { Id = x.Checkout.ChekoutToAsset.Id, Name = x.Checkout.ChekoutToAsset.Name } : null,
 
-                    CheckoutId = x.CheckoutId
+                    CheckoutId = x.CheckoutId,
+                    Photo = _mediaService.GetPhotoUrl(x.Media)
                 })
                 .FirstOrDefaultAsync();
 
@@ -154,7 +159,8 @@ namespace Module.Asset.Data
 
                 CheckoutToAsset = x.CheckoutId != null && x.Checkout.ChekoutToAsset != null ? new IdNameViewModel { Id = x.Checkout.ChekoutToAsset.Id, Name = x.Checkout.ChekoutToAsset.Name } : null,
 
-                CheckoutId = x.CheckoutId
+                CheckoutId = x.CheckoutId,
+                Photo = _mediaService.GetPhotoUrl(x.Media)
             });
 
             var total = await assets.Select(x => x.Id).CountAsync(cancellationToken);

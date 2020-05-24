@@ -87,7 +87,7 @@ namespace Module.Asset.Data
             string itemInString = string.Empty;
             if (itemType == AssetType.Consumable)
             {
-                //itemInString = await GetConsumablesByItemCode(itemCodeId).Join(",");
+                itemInString = (await GetConsumablesByItemCode(itemCodeId)).Join(",");
             }
 
             var sql = $@"select h.*, item.{itemName} as ItemName,
@@ -108,7 +108,7 @@ namespace Module.Asset.Data
                         left join [core].[User] t5 on t5.Id = h.TargetId
                         left join [asset].[License] t6 on t6.Id = h.TargetId";
 
-            sql += BuildWhere(itemCodeId, itemType);
+            sql += BuildWhereIn(itemInString, itemType);
             sql += $" order by h.IssueDate desc ";
             sql += pagingOptions.BuildSql();
 
@@ -117,7 +117,7 @@ namespace Module.Asset.Data
             var totalSql = $@"select count(h.Id) as Total
                             from [asset].[CheckoutHistory] h";
 
-            totalSql += BuildWhere(itemCodeId, itemType);
+            totalSql += BuildWhereIn(itemInString, itemType);
 
             var total = await _dbConnection.ExecuteScalarAsync<int>(totalSql);
 
@@ -145,6 +145,30 @@ namespace Module.Asset.Data
                 if (itemId.HasValue)
                 {
                     condition += $" h.ItemId={itemId.Value}";
+                }
+                if (itemType.HasValue)
+                {
+                    if (!string.IsNullOrEmpty(condition))
+                    {
+                        condition += " and";
+                    }
+                    condition += $" h.ItemType={(int)itemType}";
+                }
+                where += condition;
+            }
+            return where;
+        }
+
+        private string BuildWhereIn(string itemIds, AssetType? itemType)
+        {
+            string where = string.Empty;
+            if (!string.IsNullOrEmpty(itemIds) || itemType.HasValue)
+            {
+                where += " where";
+                var condition = string.Empty;
+                if (!string.IsNullOrEmpty(itemIds))
+                {
+                    condition += $" h.ItemId in ({itemIds})";
                 }
                 if (itemType.HasValue)
                 {

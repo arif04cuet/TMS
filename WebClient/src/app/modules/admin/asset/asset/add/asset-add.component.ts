@@ -7,6 +7,7 @@ import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
 import { StatusHttpService } from 'src/services/http/asset/status-http.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-asset-add',
@@ -21,6 +22,8 @@ export class AssetAddComponent extends FormComponent {
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
   @ViewChild('locationSelect') locationSelect: SelectControlComponent;
   @ViewChild('modelSelect') modelSelect: SelectControlComponent;
+
+  photoUrl;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,7 +50,8 @@ export class AssetAddComponent extends FormComponent {
       orderNo: [],
       purchaseCost: [null, [], this.v.required.bind(this)],
       purchaseDate: [null, [], this.v.required.bind(this)],
-      warranty: []
+      warranty: [],
+      media: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
@@ -102,6 +106,7 @@ export class AssetAddComponent extends FormComponent {
       this.subscribe(this.assetHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
+          this.photoUrl = environment.serverUri + '/' + res.data.photo;
           this.loading = false;
         }
       );

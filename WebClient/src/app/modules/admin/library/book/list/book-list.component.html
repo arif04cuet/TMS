@@ -74,7 +74,7 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td class="fit-cell">
-                            <nz-avatar [nzSrc]="data.photo" *ngIf="data.photo" nzSize="large"></nz-avatar>
+                            <nz-avatar nzSrc="{{serverUrl + '/' + data.photo }}" *ngIf="data.photo" nzSize="large"></nz-avatar>
                             <nz-avatar *ngIf="!data.photo" nzSize="large" nzIcon="user"></nz-avatar>
                         </td>
                         <td>{{ data.isbn }}</td>

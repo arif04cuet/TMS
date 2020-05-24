@@ -7,6 +7,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Module.Core.Shared\Module.Core.Shared.csproj" />
     <ProjectReference Include="..\..\Core\Module.Core\Module.Core.csproj" />
+    <ProjectReference Include="..\Module.Training.Data\Module.Training.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Course\" />
   </ItemGroup>
 
 </Project>

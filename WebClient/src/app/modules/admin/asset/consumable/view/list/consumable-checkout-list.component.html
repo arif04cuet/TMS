@@ -34,10 +34,10 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.user?.name }}</td>
-                        <td>{{ data.quantity }}</td>
+                        <td>{{ data.quantity || '-' }}</td>
                         <td>{{ data.issueDate|date:'medium':'+0000' }}</td>
                         <td class="action-column fit-cell ta-right">
-                            <button (click)="checkin(data.id)" class="btn-custom" nz-button nzType="primary">{{'return'|translate}}</button>
+                            <button *ngIf="data.quantity > 0" (click)="checkin(data.id)" class="btn-custom" nz-button nzType="primary">{{'return'|translate}}</button>
                         </td>
                     </tr>
                 </tbody>

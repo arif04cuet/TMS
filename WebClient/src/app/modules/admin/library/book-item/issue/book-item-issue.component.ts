@@ -92,7 +92,7 @@ export class BookItemIssueComponent extends FormComponent {
   };
 
   cardInfo = (e) => {
-    const info = this.t('this.card.is.assigned.to.x0', { x0: e.member });
+    const info = this.t('card.holder.name.is.x0', { x0: e.member });
     return info;
   };
 

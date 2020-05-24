@@ -291,6 +291,11 @@ app-layout-default .menu-sidebar {
           }
 
       }
+
+      .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+        background: #5469d4;
+        color: #fff !important;
+      }
   }
 }
 
@@ -568,6 +573,11 @@ nz-header .ant-badge-count {
   padding: 0;
 }
 
+.ant-modal-wrap,
+.ant-modal-mask {
+  z-index: 999 !important;
+}
+
 .status-badge {
   .ant-tag {
       padding-left: 8px;
@@ -666,4 +676,14 @@ label {
       color: #cd3d64;
     }
   }
+}
+
+.dynamic-delete-button {
+  cursor: pointer;
+  position: absolute;
+  top: -1px;
+  font-size: 24px;
+  color: #999;
+  transition: all 0.3s;
+  margin-left: 5px;
 }

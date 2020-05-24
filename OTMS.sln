@@ -49,11 +49,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrator", "Migrator\Migrat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Training", "Training", "{B886F995-1790-479A-A36E-FBFABA0C8F63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Training", "Modules\Training\Module.Training\Module.Training.csproj", "{2FF35CD3-DD31-4212-8AB1-2D70480B8123}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Training", "Modules\Training\Module.Training\Module.Training.csproj", "{2FF35CD3-DD31-4212-8AB1-2D70480B8123}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Training.Data", "Modules\Training\Module.Training.Data\Module.Training.Data.csproj", "{EE52CCB0-145C-4CBD-ACF7-5139FECA6B18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Training.Data", "Modules\Training\Module.Training.Data\Module.Training.Data.csproj", "{EE52CCB0-145C-4CBD-ACF7-5139FECA6B18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Training.Entities", "Modules\Training\Module.Training.Entities\Module.Training.Entities.csproj", "{CB89C1E8-04B8-4653-A40E-9FB8462ED13A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Training.Entities", "Modules\Training\Module.Training.Entities\Module.Training.Entities.csproj", "{CB89C1E8-04B8-4653-A40E-9FB8462ED13A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

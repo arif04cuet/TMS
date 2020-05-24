@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Module.Core.Controllers
 {
@@ -8,7 +7,6 @@ namespace Module.Core.Controllers
     public class TestController : ControllerBase
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly HttpRequest _request;
 
         public TestController(IHttpContextAccessor httpContextAccessor)
         {

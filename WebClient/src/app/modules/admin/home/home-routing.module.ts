@@ -428,6 +428,72 @@ const routes: Routes = [
             title: 'asset.report'
           }
         }
+      },
+      {
+        path: 'hostels/allocations',
+        loadChildren: () => import('../hostel/allocation/list/allocation-list.module').then(x => x.AllocationListModule),
+        data: {
+          name: 'allocation_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'allocations'
+          }
+        }
+      },
+      {
+        path: 'hostels',
+        loadChildren: () => import('../hostel/hostel/list/hostel-list.module').then(x => x.HostelListModule),
+        data: {
+          name: 'hostel_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'hostels'
+          }
+        }
+      },
+      {
+        path: 'hostels/buildings',
+        loadChildren: () => import('../hostel/building/list/building-list.module').then(x => x.BuildingListModule),
+        data: {
+          name: 'building_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'buildings'
+          }
+        }
+      },
+      {
+        path: 'hostels/facilities',
+        loadChildren: () => import('../hostel/facilities/list/facilities-list.module').then(x => x.FacilitiesListModule),
+        data: {
+          name: 'facilities_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'facilities'
+          }
+        }
+      },
+      {
+        path: 'hostels/rooms',
+        loadChildren: () => import('../hostel/room/list/room-list.module').then(x => x.RoomListModule),
+        data: {
+          name: 'room_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'rooms'
+          }
+        }
+      },
+      {
+        path: 'hostels/beds',
+        loadChildren: () => import('../hostel/bed/list/bed-list.module').then(x => x.BedListModule),
+        data: {
+          name: 'bed_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'beds'
+          }
+        }
       }
     ]
   },

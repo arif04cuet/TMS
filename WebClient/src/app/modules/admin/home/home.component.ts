@@ -318,6 +318,55 @@ export class HomeComponent extends BaseComponent {
             ]
           }
         ]
+      },
+      {
+        level: 1,
+        title: 'hostel',
+        icon: 'team',
+        nav: [
+          {
+            level: 2,
+            title: 'allocations',
+            icon: 'team',
+            route: '/admin/hostels/allocations',
+          },
+          {
+            level: 2,
+            title: 'hostels',
+            icon: 'team',
+            route: '/admin/hostels',
+          },
+          {
+            level: 2,
+            title: 'buildings',
+            icon: 'team',
+            route: '/admin/hostels/buildings',
+          },
+          {
+            level: 2,
+            title: 'rooms',
+            icon: 'team',
+            route: '/admin/hostels/rooms',
+          },
+          {
+            level: 2,
+            title: 'beds',
+            icon: 'team',
+            route: '/admin/hostels/beds',
+          },
+          {
+            level: 2,
+            title: 'room.types',
+            icon: 'team',
+            route: '/admin/hostels/rooms/types',
+          },
+          {
+            level: 2,
+            title: 'facilities',
+            icon: 'team',
+            route: '/admin/hostels/facilities',
+          }
+        ]
       }
     ]
 

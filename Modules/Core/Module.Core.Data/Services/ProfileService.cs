@@ -76,7 +76,7 @@ namespace Module.Core.Data
                         Degree = x.Profile.Education.Degree,
                         Result = x.Profile.Education.Result
                     } : null,
-                    Photo = _mediaService.GetFullUrl(x.Profile.Media)
+                    Photo = _mediaService.GetPhotoUrl(x.Profile.Media)
                 })
                 .FirstOrDefaultAsync();
 

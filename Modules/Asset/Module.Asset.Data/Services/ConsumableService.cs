@@ -375,6 +375,7 @@ namespace Module.Asset.Data
             if (request.Quantity > checkin.Quantity)
                 throw new ValidationException("Return quantity can not be greater than checkout qantity");
 
+            int checkingQty = checkin.Quantity;
             lock (lockObject)
             {
                 checkin.Quantity = checkin.Quantity - request.Quantity;
@@ -384,7 +385,7 @@ namespace Module.Asset.Data
 
             var result = await _unitOfWork.SaveChangesAsync();
 
-            if (request.Quantity == checkin.Quantity)
+            if (request.Quantity == checkingQty)
                 _consumableUserRepository.Remove(checkin);
 
             result += await _unitOfWork.SaveChangesAsync();

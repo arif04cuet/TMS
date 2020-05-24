@@ -3,7 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
-
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-asset-list',
@@ -19,6 +19,8 @@ export class AssetListComponent extends TableComponent {
   @Searchable("AssetTag", "like") assetTag;
   @Searchable("Name", "like") name;
   @Searchable("Category.Name", "like") category;
+
+  serverUrl = environment.serverUri;
 
   constructor(
     private assetHttpService: AssetBaseHttpService,

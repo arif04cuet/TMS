@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class SelectComponent {
 
-  @Input() label;
+  @Input() label = '';
   @Output() onChange = new EventEmitter();
   @Input() labelKey = 'name';
 
@@ -22,6 +22,7 @@ export class SelectComponent {
   private fetchFn: (pagination: string, search?: string) => Observable<Object>;
   private subscriptions = [];
   private _selectFirstOption = false;
+  private _onLoadCompleted;
 
   get value() {
     return this._value;
@@ -48,11 +49,15 @@ export class SelectComponent {
       const pagination = `offset=${this.offset}&limit=${this.limit}`;
       const subscription = this.fetchFn(pagination, search).subscribe(
         (res: any) => {
-          this.items = res.data.items || [];
+          const items = res.data.items || [];
+          this.items = [...this.items, ...items];
           this.busy(false);
           if (this._selectFirstOption && this.items[0].length > 0) {
             this._value = this.items[0].id;
-            this.propagateChange(this._value);
+            // this.propagateChange(this._value);
+          }
+          if (this._onLoadCompleted) {
+            this._onLoadCompleted();
           }
         },
         err => {
@@ -82,10 +87,20 @@ export class SelectComponent {
     }
   }
 
+  onLoadCompleted(fn: () => void) {
+    this._onLoadCompleted = fn;
+    return this;
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(item => {
       item.unsubscribe();
     });
+  }
+
+  loadMore() {
+    this.loading = true;
+    this.fetchNext()
   }
 
   private busy(value) {

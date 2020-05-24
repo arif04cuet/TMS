@@ -6,6 +6,7 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-book-list',
@@ -15,6 +16,7 @@ export class BookListComponent extends TableComponent {
 
   publishers = [];
   authors = [];
+  serverUrl = environment.serverUri;
 
   @Searchable("Title", "like") title;
   @Searchable("Isbn", "like") isbn;

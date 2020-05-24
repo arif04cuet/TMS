@@ -25,12 +25,15 @@ namespace Module.Core.Data
         private readonly IRepository<UserRole> _userRoleRepository;
         private readonly IPermissionService _permissionService;
         private readonly IAppService _appService;
+        private readonly IMediaService _mediaService;
 
         public UserService(
             IUnitOfWork unitOfWork,
             IPermissionService permissionService,
-            IAppService appService)
+            IAppService appService,
+            IMediaService mediaService)
         {
+            _mediaService = mediaService;
             _unitOfWork = unitOfWork;
             _appService = appService;
             _permissionService = permissionService;
@@ -133,7 +136,7 @@ namespace Module.Core.Data
                     Mobile = x.Mobile,
                     FullName = x.FullName,
                     Email = x.Email,
-                    Photo = x.Profile.Media != null ? Path.Combine(_appService.GetServerUrl(), MediaConstants.Path, x.Profile.Media.FileName) : string.Empty
+                    Photo = _mediaService.GetPhotoUrl(x.Profile.Media)
                 })
                 .ToListAsync();
 

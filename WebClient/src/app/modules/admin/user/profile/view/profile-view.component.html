@@ -103,7 +103,7 @@
                         <div nz-row [nzGutter]="24">
                             <div class="photo-uploader">
                                 <div class="container">
-                                    <img *ngIf="data.photo" [src]="data.photo" class="photo" />
+                                    <img *ngIf="data.photo" src="{{serverUrl + '/' + data.photo}}" class="photo" />
                                 </div>
                             </div>
                         </div>

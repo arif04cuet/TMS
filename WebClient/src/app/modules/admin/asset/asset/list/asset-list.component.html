@@ -21,10 +21,13 @@
             </div>
         </div>
         <div class="block">
-            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false" (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items">
+            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
+                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
+                nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
+                [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
+                        <th></th>
                         <th>
                             {{'asset.tag'|translate}}
                             <input [(ngModel)]="assetTag" nz-input />
@@ -56,6 +59,11 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
+                        <td class="fit-cell">
+                            <nz-avatar nzSrc="{{serverUrl + '/' + data.photo }}" *ngIf="data.photo" nzSize="large">
+                            </nz-avatar>
+                            <nz-avatar *ngIf="!data.photo" nzSize="large" nzIcon="user"></nz-avatar>
+                        </td>
                         <td>{{ data.assetTag }}</td>
                         <td><a (click)="view(data)">{{ data.name }}</a></td>
                         <td>{{ data.category.name }}</td>
@@ -64,8 +72,10 @@
                         <td>{{ data.location?.name }}</td>
                         <td>{{ data.purchaseCost }}</td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="!data.checkoutId" (click)="checkout(data)" class="btn-custom" nz-button nzType="primary">{{'checkout'|translate}}</button>
-                            <button *ngIf="data.checkoutId" (click)="checkin(data)" class="btn-custom" nz-button nzType="primary">{{'checkin'|translate}}</button>
+                            <button *ngIf="!data.checkoutId" (click)="checkout(data)" class="btn-custom" nz-button
+                                nzType="primary">{{'checkout'|translate}}</button>
+                            <button *ngIf="data.checkoutId" (click)="checkin(data)" class="btn-custom" nz-button
+                                nzType="primary">{{'checkin'|translate}}</button>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
                                 <i nz-icon nzType="ellipsis"></i>
@@ -90,5 +100,6 @@
         </div>
     </div>
     <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
-    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }} {{'items'|translate}} </ng-template>
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }}
+        {{'items'|translate}} </ng-template>
 </div>

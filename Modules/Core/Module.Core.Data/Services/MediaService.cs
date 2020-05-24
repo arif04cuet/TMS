@@ -62,6 +62,21 @@ namespace Module.Core.Data.Services
             return GetMediaUrl(media);
         }
 
+        public string GetPhotoUrl(Media media)
+        {
+            if (media == null)
+                return string.Empty;
+
+            string fullUrl = GetPhotoUrl(media.FileName);
+            return fullUrl;
+        }
+
+        public string GetPhotoUrl(string fileName)
+        {
+            string fullUrl = Path.Combine(MediaConstants.Path, fileName);
+            return fullUrl;
+        }
+
         public async Task<long> SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null)
         {
             await _storageService.SaveMediaAsync(mediaBinaryStream, fileName, mimeType);

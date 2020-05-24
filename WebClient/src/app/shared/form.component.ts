@@ -114,10 +114,11 @@ export class FormComponent extends BaseComponent {
 
     validateForm(fn?: () => void) {
         this.busy();
-        for (const i in this.form.controls) {
-            this.form.controls[i].markAsDirty();
-            this.form.controls[i].updateValueAndValidity();
-        }
+        // for (const i in this.form.controls) {
+        //     this.form.controls[i].markAsDirty();
+        //     this.form.controls[i].updateValueAndValidity();
+        // }
+        this.markDirtyAndCheckValidity(this.form.controls);
         if (this.form.valid) {
             this.invoke(fn);
         }
@@ -151,6 +152,20 @@ export class FormComponent extends BaseComponent {
                     v.setErrors(err);
                 }
             });
+        }
+    }
+
+    markDirtyAndCheckValidity(controls) {
+        for (const i in controls) {
+            controls[i].markAsDirty();
+            controls[i].updateValueAndValidity();
+            const ctr = controls[i].constructor.name;
+            if (ctr == "FormArray") {
+                for (let a = 0; a < controls[i].length; a++) {
+                    const _controls = controls[i].controls[a].controls;
+                    this.markDirtyAndCheckValidity(_controls);
+                }
+            }
         }
     }
 
