@@ -6,6 +6,9 @@ using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -54,6 +57,9 @@ namespace Module.Core.Data
         public static Task<PagedCollection<IdNameViewModel>> ListAsync<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
             where T : IdNameEntity
         {
+            var selector = DynamicSelect<T>(new HashSet<string> { "Id", "Name", "IsDeleted" });
+            var x = repository.AsReadOnly().Select(selector).ToList();
+
             return repository.ListAsync(predicate,
                 IdNameViewModel.Select<T>(),
                 pagingOptions,
@@ -162,6 +168,24 @@ namespace Module.Core.Data
 
             var result = await unitOfWork.SaveChangesAsync(cancellationToken);
             return entity.Id;
+        }
+
+        public static Expression<Func<TEntity, dynamic>> DynamicSelect<TEntity>(ISet<string> fields)
+        {
+            var x = Expression.Parameter(typeof(TEntity), "x");
+
+            var members = fields.Select(p => Expression.PropertyOrField(x, p));
+
+            var addMethod = typeof(IDictionary<string, object>).GetMethod(
+                        "Add", new Type[] { typeof(string), typeof(object) });
+
+            var elements = members.Select(e => Expression.ElementInit(addMethod, Expression.Constant(e.Member.Name), Expression.Convert(e, typeof(object))));
+
+            var n = Expression.New(typeof(ExpandoObject));
+            var list = Expression.ListInit(n, elements);
+
+            var lambda = Expression.Lambda<Func<TEntity, dynamic>>(list, x);
+            return lambda;
         }
 
     }

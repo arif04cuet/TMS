@@ -159,8 +159,8 @@ namespace Module.Library.Data
                 {
                     Id = (long)x.FineId,
                     DueAmount = x.Fine.DueAmount,
-                    PaidAmount = x.Fine.Amount - x.Fine.DueAmount,
-                    TotalAmount = x.Fine.Amount,
+                    PaidAmount = x.Fine.TotalAmount - x.Fine.DueAmount,
+                    TotalAmount = x.Fine.TotalAmount,
                     PaymentDate = (DateTime)x.Fine.PaymentDate,
                     Member = new IdNameViewModel
                     {

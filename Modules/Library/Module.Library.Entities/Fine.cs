@@ -8,7 +8,9 @@ namespace Module.Library.Entities
     public class Fine : LibraryEntity
     {
         public float DueAmount { get; set; }
-        public float Amount { get; set; }
+        public float TotalAmount { get; set; }
+        public float LostFineAmount { get; set; }
+        public float LateFineAmount { get; set; }
         public DateTime? PaymentDate { get; set; }
 
     }

@@ -22,9 +22,9 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'checkin'|translate}}</label>
+                                <label class="required">{{'checkin'|translate}}</label>
                             </div>
-                            <nz-form-control>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <nz-date-picker formControlName="checkinDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
@@ -40,7 +40,8 @@
                         </nz-form-item>
                     </div> -->
                     <div nz-col [nzSpan]="12">
-                        <app-select-control mandatory="true" #userSelect label="user" labelKey="fullName" [formControl]="form.controls.participant">
+                        <app-select-control mandatory="true" #userSelect label="user" labelKey="fullName"
+                            [formControl]="form.controls.participant">
                         </app-select-control>
                     </div>
                 </div>
@@ -71,6 +72,32 @@
                         </div>
                     </div>
                 </div>
+                <div *ngIf="additionalInfo">
+                    <div nz-row [nzGutter]="24" class="field-container">
+                        <div nz-col [nzSpan]="24" style="margin: 10px 0">
+                            <span class="title-text">
+                                {{'x0.information'|translate:{x0: roomOrBed}|uppercase }}
+                            </span>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="24">
+                        <div nz-col [nzSpan]="6">
+                            <app-view [data]="additionalInfo.name" label="name"></app-view>
+                        </div>
+                        <div nz-col [nzSpan]="6">
+                            <app-view [data]="additionalInfo.building.name" label="building"></app-view>
+                        </div>
+                        <div nz-col [nzSpan]="6">
+                            <app-view [data]="additionalInfo.floor.name" label="floor"></app-view>
+                        </div>
+                        <div *ngIf="roomOrBed == 'bed'" nz-col [nzSpan]="6">
+                            <app-view [data]="additionalInfo.room?.name" label="room"></app-view>
+                        </div>
+                        <div *ngIf="roomOrBed == 'room'" nz-col [nzSpan]="6">
+                            <app-view [data]="additionalInfo.type?.name" label="type"></app-view>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -93,4 +120,4 @@
     <div class="pad-v-12 pad-h-20">
         <button nz-button class="btn-custom">Cancel</button>
     </div>
-  </ng-template>
+</ng-template>

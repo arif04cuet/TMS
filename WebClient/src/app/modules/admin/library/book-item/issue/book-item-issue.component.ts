@@ -62,11 +62,16 @@ export class BookItemIssueComponent extends FormComponent {
 
   submit(): void {
     const body = this.constructObject(this.form.controls);
-    this.loading = this.validateForm(() => {
+    this.submitting = true;
+    this.validateForm(() => {
       this.subscribe(this.bookHttpService.issueBookItem(this.id, body),
         (res: any) => {
+          this.submitting = false;
           this.cancel();
           this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
+        },
+        err => {
+          this.submitting = false;
         }
       );
     });

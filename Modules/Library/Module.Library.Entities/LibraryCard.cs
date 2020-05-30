@@ -17,7 +17,8 @@ namespace Module.Library.Entities
         [Searchable]
         public LibraryCardType CardType { get; set; }
 
-        public float Fees { get; set; }
+        public float CardFee { get; set; }
+        public float LateFee { get; set; }
         public int MaxIssueCount { get; set; }
         public DateTime? ExpireDate { get; set; }
 

@@ -25,6 +25,7 @@ namespace Module.Library.Data
         public readonly IRepository<BookItem> _bookItemRepository;
         public readonly IRepository<BookSubject> _bookSubjecRepository;
         public readonly IRepository<BookIssue> _bookIssueRepository;
+        public readonly IRepository<EBook> _eBookIssueRepository;
         public readonly IBarcodeService _barcodeService;
         public readonly IAppService _appService;
         public readonly IMediaService _mediaService;
@@ -44,7 +45,8 @@ namespace Module.Library.Data
             _bookItemRepository = _unitOfWork.GetRepository<BookItem>();
             _bookSubjecRepository = _unitOfWork.GetRepository<BookSubject>();
             _bookIssueRepository = _unitOfWork.GetRepository<BookIssue>();
-        }
+            _eBookIssueRepository = _unitOfWork.GetRepository<EBook>();
+        } 
 
         #region Book
         public async Task<long> CreateAsync(BookCreateRequest request, CancellationToken ct = default)
@@ -121,16 +123,10 @@ namespace Module.Library.Data
             {
                 // Editions
                 var editions = await _bookEditionRepository
+                    .AsReadOnly()
+                    .Include(x => x.EBook)
                     .Where(x => x.BookId == result.Id)
-                    .Select(x => new BookEditionViewModel
-                    {
-                        Id = x.Id,
-                        EBookId = x.EBookId,
-                        Edition = x.Edition,
-                        NumberOfCopy = x.NumberOfCopy,
-                        NumberOfPage = x.NumberOfPage,
-                        PublicationDate = x.PublicationDate
-                    })
+                    .Select(BookEditionViewModel.Select(_mediaService))
                     .ToListAsync();
                 result.Editions = editions;
 
@@ -158,7 +154,7 @@ namespace Module.Library.Data
             book.LanguageId = request.Language;
             book.PublisherId = request.Publisher;
 
-            if(request.MediaId.HasValue && book.MediaId != request.MediaId)
+            if (request.MediaId.HasValue && book.MediaId != request.MediaId)
             {
                 // photo changed
                 long? oldMediaId = book.MediaId;
@@ -173,16 +169,20 @@ namespace Module.Library.Data
                 {
                     // update
                     var dbEdition = await _bookEditionRepository
+                        .AsQueryable()
+                        .Include(x => x.EBook)
                         .FirstOrDefaultAsync(x => x.Id == edition.Id && !x.IsDeleted);
                     if (dbEdition != null)
                     {
-                        edition.MapTo(dbEdition);
+                        edition.Map(dbEdition);
+                        edition.Map(dbEdition.EBook);
                     }
                 }
                 else
                 {
                     // new
                     var newEdition = edition.ToBookBookEdition(book.Id);
+                    newEdition.EBook = edition.Map();
                     await _bookEditionRepository.AddAsync(newEdition);
                 }
             }
@@ -192,6 +192,8 @@ namespace Module.Library.Data
             var editionToBeDelete = await _bookEditionRepository
                 .Where(x => x.BookId == book.Id && !requestBookEditions.Contains(x.Id))
                 .ToListAsync();
+
+            // TODO: have to delete ebook and ebook's physical file
 
             _bookEditionRepository.RemoveRange(editionToBeDelete);
 
@@ -280,7 +282,6 @@ namespace Module.Library.Data
                     {
                         Id = x.Edition.Id,
                         Edition = x.Edition.Edition,
-                        EBookId = x.Edition.EBookId,
                         NumberOfCopy = x.Edition.NumberOfCopy,
                         NumberOfPage = x.Edition.NumberOfPage,
                         PublicationDate = x.Edition.PublicationDate
@@ -415,18 +416,20 @@ namespace Module.Library.Data
             if (bookItem == null || bookItem.CurrentIssue == null)
                 throw new ValidationException(ITEM_NOT_FOUND);
 
-            DateTime date = request.ActualReturnDate ?? DateTime.UtcNow;
             Fine fine = null;
             int result = 0;
-            var checkFine = CheckFineAndCaculateAmount(bookItem.CurrentIssue.ReturnDate, date);
+            var checkFine = await CheckFineAndCaculateAmount(request, bookItem);
             if (checkFine.IsFined)
             {
                 fine = new Fine();
                 if (request.Fine != null)
                 {
-                    var dueAmount = checkFine.FineAmount - request.Fine.Amount;
+                    var totalFine = checkFine.LateFineAmount + checkFine.LostFineAmount;
+                    var dueAmount = totalFine - request.Fine.Amount;
                     fine.DueAmount = (float)dueAmount;
-                    fine.Amount = (float)checkFine.FineAmount;
+                    fine.TotalAmount = (float)totalFine;
+                    fine.LostFineAmount = (float)checkFine.LostFineAmount;
+                    fine.LateFineAmount = (float)checkFine.LateFineAmount;
                     fine.PaymentDate = DateTime.Now;
                     fine.LibraryId = bookItem.LibraryId;
                 }
@@ -437,14 +440,13 @@ namespace Module.Library.Data
             // TODO: check this book has reservation request
             // if reservation request, then reserver it
 
-            bookItem.CurrentIssue.ActualReturnDate = date;
-            bookItem.StatusId = BookStatusConstants.Available;
             if (fine != null)
             {
                 bookItem.CurrentIssue.FineId = fine.Id;
             }
             result += await _unitOfWork.SaveChangesAsync(ct);
 
+            DateTime date = request.ActualReturnDate ?? DateTime.UtcNow;
             if (request.IsRenew)
             {
                 // new issue
@@ -461,11 +463,22 @@ namespace Module.Library.Data
                 await _bookIssueRepository.AddAsync(renew);
                 result += await _unitOfWork.SaveChangesAsync(ct);
 
+                bookItem.CurrentIssue.ActualReturnDate = date;
+                bookItem.StatusId = BookStatusConstants.Loned;
                 bookItem.CurrentIssueId = renew.Id;
                 bookItem.IssuedToId = renew.MemberId;
             }
-            else
+            else if (request.IsReturn)
             {
+                bookItem.CurrentIssue.ActualReturnDate = date;
+                bookItem.StatusId = BookStatusConstants.Available;
+                bookItem.IssuedToId = null;
+                bookItem.CurrentIssueId = null;
+            }
+            else if (request.IsLost)
+            {
+                bookItem.CurrentIssue.ActualReturnDate = date;
+                bookItem.StatusId = BookStatusConstants.Lost;
                 bookItem.IssuedToId = null;
                 bookItem.CurrentIssueId = null;
             }
@@ -484,15 +497,15 @@ namespace Module.Library.Data
             if (bookItem == null || bookItem.CurrentIssue == null)
                 throw new ValidationException(ISSUE_NOT_FOUND);
 
-            DateTime date = request.ActualReturnDate ?? DateTime.UtcNow;
-            var fine = CheckFineAndCaculateAmount(bookItem.CurrentIssue.ReturnDate, date);
+            var fine = await CheckFineAndCaculateAmount(request, bookItem);
             if (fine.IsFined)
             {
                 return new BookItemCheckFineViewModel
                 {
                     IsFined = true,
                     FineDays = fine.FineDays,
-                    FineAmount = fine.FineAmount
+                    LateFineAmount = fine.LateFineAmount,
+                    LostFineAmount = fine.LostFineAmount
                 };
             }
             return default;
@@ -591,19 +604,37 @@ namespace Module.Library.Data
         }
 
 
-        private (bool IsFined, double FineDays, double FineAmount) CheckFineAndCaculateAmount(DateTime? issueReturnDate, DateTime? actualReturnDate)
+        private async Task<(bool IsFined, double FineDays, double LateFineAmount, double LostFineAmount)> CheckFineAndCaculateAmount(BookItemReturnRequest request, BookItem bookItem)
         {
+
+            LibraryCard card = await _unitOfWork.GetRepository<LibraryCard>()
+                .FirstOrDefaultAsync(x => x.Id == bookItem.CurrentIssue.LibraryCardId && !x.IsDeleted, true);
+
+            if (card == null)
+                throw new ValidationException("Card not found");
+
+            DateTime? issueReturnDate = bookItem.CurrentIssue.ReturnDate;
+            DateTime? actualReturnDate = request.ActualReturnDate ?? DateTime.UtcNow;
             if (actualReturnDate.HasValue && issueReturnDate.HasValue && actualReturnDate > issueReturnDate)
             {
                 var days = (actualReturnDate.Value.Date - issueReturnDate.Value.Date).TotalDays;
-                if(days > 0)
+                double lateFineAmount = 0;
+                double lostFineAmount = 0;
+                bool isFine = false;
+                if (days > 0)
                 {
                     // fined
-                    var fineAmount = days * 10;
-                    return (true, days, fineAmount);
+                    lateFineAmount = days * card.LateFee;
+                    isFine = isFine || true;
                 }
+                if(request.IsLost)
+                {
+                    lostFineAmount = bookItem.PurchagePrice * 2;
+                    isFine = isFine || true;
+                }
+                return (isFine, days, lateFineAmount, lostFineAmount);
             }
-            return (false, 0, 0);
+            return (false, 0, 0, 0);
         }
     }
 }

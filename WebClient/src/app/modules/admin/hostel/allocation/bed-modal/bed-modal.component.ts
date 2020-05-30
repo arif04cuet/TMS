@@ -1,8 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TableComponent } from 'src/app/shared/table.component';
-import { Searchable } from 'src/decorators/searchable.decorator';
-import { environment } from 'src/environments/environment';
 import { BedHttpService } from 'src/services/http/hostel/bed-http.service';
 import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service';
 import { SelectComponent } from 'src/app/shared/select/select.component';
@@ -14,16 +12,12 @@ import { NzModalService } from 'ng-zorro-antd';
 })
 export class BedModalComponent extends TableComponent {
 
-  @Searchable("Name", "like") name;
-
   @ViewChild('hostelSelect') hostelSelect: SelectComponent;
   @ViewChild('buildingSelect') buildingSelect: SelectComponent;
   @ViewChild('floorSelect') floorSelect: SelectComponent;
   @ViewChild('roomSelect') roomSelect: SelectComponent;
 
   selectedBed;
-
-  serverUrl = environment.serverUri;
 
   constructor(
     private bedHttpService: BedHttpService,
@@ -48,25 +42,25 @@ export class BedModalComponent extends TableComponent {
   onHostelChanged(e) {
     this.buildingSelect.register((pagination, search) => {
       return this.hostelHttpService.listBuildings(e, pagination, search);
-    }).fetch();
+    }).fetch(null, true);
   }
 
   onBuildingChanged(e) {
     const hostel = this.hostelSelect.value;
-    if(hostel) {
+    if (hostel) {
       this.floorSelect.register((pagination, search) => {
         return this.hostelHttpService.listFloors(hostel, e, pagination, search);
-      }).fetch();
+      }).fetch(null, true);
     }
   }
 
   onFloorChanged(e) {
     const hostel = this.hostelSelect.value;
     const building = this.buildingSelect.value;
-    if(hostel && building) {
+    if (hostel && building) {
       this.roomSelect.register((pagination, search) => {
         return this.hostelHttpService.listRooms(hostel, building, e, pagination, search);
-      }).fetch();
+      }).fetch(null, true);
     }
   }
 
@@ -82,10 +76,32 @@ export class BedModalComponent extends TableComponent {
     this.load();
   }
 
+  load() {
+    super.load((p, s) => {
+      let search = this.getSearchTerm('hostel');
+      search += this.getSearchTerm('building');
+      search += this.getSearchTerm('floor');
+      search += this.getSearchTerm('room');
+      return this.bedHttpService.list(p, search);
+    });
+  }
+
   select(e) {
     this.selectedBed = e;
     this.log('selected bed', e);
     this.modal.closeAll();
+  }
+
+  getSearchTerm(selectName: string) {
+    const select = this[`${selectName}Select`];
+    if (select) {
+      const value = select.value;
+      const prop = selectName.charAt(0).toUpperCase() + selectName.slice(1)
+      if (value) {
+        return `&Search=${prop}Id eq ${value}`;
+      }
+    }
+    return '';
   }
 
 }

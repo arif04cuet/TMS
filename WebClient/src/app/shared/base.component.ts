@@ -6,7 +6,7 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { HttpService } from 'src/services/http/http.service';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
-import { invoke, getLang } from 'src/services/utilities.service';
+import { invoke, getLang, forEachObj } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
 
 export class BaseComponent {
@@ -87,7 +87,7 @@ export class BaseComponent {
                 this._router.navigateByUrl('/login');
             } else if (error.error.message) {
                 if (error.error.message == "form_error") {
-                    
+
                 }
                 else {
                     this._messageService.error(error.error.message);
@@ -110,8 +110,21 @@ export class BaseComponent {
             if (controls.hasOwnProperty(key)) {
                 const control = controls[key];
                 const value = control.value;
-                if (value !== null && value !== undefined) {
-                    obj[key] = control.value;
+                if (Array.isArray(value)) {
+                    obj[key] = value.map(x => {
+                        const o = {}
+                        forEachObj(x, (k, v) => {
+                            if (v !== null && v !== undefined) {
+                                o[k] = v;
+                            }
+                        });
+                        return o;
+                    });
+                }
+                else {
+                    if (value !== null && value !== undefined) {
+                        obj[key] = control.value;
+                    }
                 }
             }
         }

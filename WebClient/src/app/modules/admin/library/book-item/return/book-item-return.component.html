@@ -54,6 +54,7 @@
                                     formControlName="returnOrRenew">
                                     <label nz-radio nzValue="return">{{'return'|translate}}</label>
                                     <label nz-radio nzValue="renew">{{'renew'|translate}}</label>
+                                    <label nz-radio nzValue="lost">{{'lost'|translate}}</label>
                                 </nz-radio-group>
                             </nz-form-item>
                         </div>
@@ -91,14 +92,14 @@
                     <div nz-col [nzMd]="24" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
                             <nz-alert class="field-container" nzType="info"
-                                nzMessage="{{'you.are.fined.tk.x0.for.x1.day'|translate:{x0: fine.fineAmount, x1: fine.fineDays} }}"
+                                nzMessage="{{'you.are.fined.tk.x0.for.x1.day'|translate:{x0: fine.lateFineAmount + fine.lostFineAmount, x1: fine.fineDays} }}"
                                 nzShowIcon>
                             </nz-alert>
                         </div>
                     </div>
                 </div>
 
-                <div [style.display]="fine == null ? 'none' : ''" nz-row [nzGutter]="24">
+                <div [style.display]="fine ? '' : 'none'" nz-row [nzGutter]="24">
                     <div nz-col [nzMd]="24" [nzSm]="24">
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">

@@ -321,7 +321,8 @@ namespace Module.Library.Data
                         Barcode = x.CurrentCard.Barcode,
                         Status = IdNameViewModel.Map(x.CurrentCard.CardStatus),
                         CardType = IdNameViewModel.Map(x.CurrentCard.CardType),
-                        Fees = x.CurrentCard.Fees,
+                        CardFee = x.CurrentCard.CardFee,
+                        LateFee = x.CurrentCard.LateFee,
                         MaxIssueCount = x.CurrentCard.MaxIssueCount
                     } : null
                 })

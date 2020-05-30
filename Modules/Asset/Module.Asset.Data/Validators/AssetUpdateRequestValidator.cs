@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Infrastructure.Data;
-
+using Module.Core.Shared;
+using System.Linq;
 
 namespace Module.Asset.Data.Validators
 {
@@ -13,8 +14,21 @@ namespace Module.Asset.Data.Validators
         {
             _unitOfWork = unitOfWork;
 
-            RuleFor(x => x).SetValidator(x => new AssetCreateRequestValidator(_unitOfWork, x.Id));
+            RuleFor(x => x.AssetTag)
+                .Required()
+                .Must(IsUniqueAssetTag)
+                .WithMessage("Asset tag must be unique.");
 
+        }
+
+        bool IsUniqueAssetTag(AssetUpdateRequest request, string tag)
+        {
+            var query = _unitOfWork.GetRepository<Entities.Asset>()
+                .AsReadOnly()
+                .Where(x => tag == x.AssetTag && x.Id != request.Id && !x.IsDeleted);
+
+            var exist = query.Select(x => x.Id).Count() > 0;
+            return !exist;
         }
 
     }

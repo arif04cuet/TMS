@@ -96,7 +96,7 @@
                         <td>{{ data.issueDate|date:'medium':'+0000' }}</td>
                         <td>{{ data.returnDate|date:'medium':'+0000' }}</td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="!data.issuedTo" nzType="primary" (click)="issue(data)" nz-button
+                            <button *ngIf="!data.issuedTo && data.status.id == 1" nzType="primary" (click)="issue(data)" nz-button
                                 class="btn-custom">
                                 {{'issue'|translate}}
                             </button>

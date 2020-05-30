@@ -4,6 +4,7 @@
     {
         public bool IsFined { get; set; }
         public double FineDays { get; set; }
-        public double FineAmount { get; set; }
+        public double LateFineAmount { get; set; }
+        public double LostFineAmount { get; set; }
     }
 }

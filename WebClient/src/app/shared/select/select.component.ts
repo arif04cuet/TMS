@@ -43,13 +43,16 @@ export class SelectComponent {
     return this;
   }
 
-  fetch(search?: string) {
+  fetch(search?: string, clearOnFetch = false) {
     if (this.fetchFn) {
       this.busy(true);
       const pagination = `offset=${this.offset}&limit=${this.limit}`;
       const subscription = this.fetchFn(pagination, search).subscribe(
         (res: any) => {
           const items = res.data.items || [];
+          if (clearOnFetch) {
+            this.items = [];
+          }
           this.items = [...this.items, ...items];
           this.busy(false);
           if (this._selectFirstOption && this.items[0].length > 0) {

@@ -178,6 +178,12 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("DepreciationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("InvoiceNo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -192,6 +198,9 @@ namespace OTMS.Migrations
 
                     b.Property<long?>("LocationId")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("Maintenance")
+                        .HasColumnType("int");
 
                     b.Property<long?>("MediaId")
                         .HasColumnType("bigint");
@@ -236,6 +245,8 @@ namespace OTMS.Migrations
                     b.HasIndex("CheckoutId")
                         .IsUnique()
                         .HasFilter("[CheckoutId] IS NOT NULL");
+
+                    b.HasIndex("DepreciationId");
 
                     b.HasIndex("LocationId");
 
@@ -9564,9 +9575,6 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -9582,11 +9590,20 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<float>("LateFineAmount")
+                        .HasColumnType("real");
+
                     b.Property<long?>("LibraryId")
                         .HasColumnType("bigint");
 
+                    b.Property<float>("LostFineAmount")
+                        .HasColumnType("real");
+
                     b.Property<DateTime?>("PaymentDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<float>("TotalAmount")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -9660,6 +9677,9 @@ namespace OTMS.Migrations
                     b.Property<string>("Barcode")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("CardFee")
+                        .HasColumnType("real");
+
                     b.Property<long?>("CardStatusId")
                         .HasColumnType("bigint");
 
@@ -9675,14 +9695,14 @@ namespace OTMS.Migrations
                     b.Property<DateTime?>("ExpireDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("Fees")
-                        .HasColumnType("real");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<float>("LateFee")
+                        .HasColumnType("real");
 
                     b.Property<long?>("LibraryId")
                         .HasColumnType("bigint");
@@ -11080,6 +11100,10 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Asset.Entities.AssetCheckout", "Checkout")
                         .WithOne("ChekoutToAsset")
                         .HasForeignKey("Module.Asset.Entities.Asset", "CheckoutId");
+
+                    b.HasOne("Module.Asset.Entities.Depreciation", "Depreciation")
+                        .WithMany()
+                        .HasForeignKey("DepreciationId");
 
                     b.HasOne("Module.Core.Entities.Office", "Location")
                         .WithMany()

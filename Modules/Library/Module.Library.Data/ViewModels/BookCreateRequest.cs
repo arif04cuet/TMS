@@ -49,7 +49,11 @@ namespace Module.Library.Data
 
         public IEnumerable<BookEdition> ToBookEditions(long bookId)
         {
-            return Editions.Select(x => ToBookEdition(x, bookId));
+            return Editions.Select(x => {
+                var edition = ToBookEdition(x, bookId);
+                edition.EBook = x.Map();
+                return edition;
+            });
         }
 
         public BookEdition ToBookEdition(BookEditionRequest x, long bookId)

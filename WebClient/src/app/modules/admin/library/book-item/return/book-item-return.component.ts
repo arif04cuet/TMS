@@ -120,6 +120,10 @@ export class BookItemReturnComponent extends FormComponent {
     return this.form.controls.returnOrRenew.value === "renew";
   }
 
+  isLost() {
+    return this.form.controls.returnOrRenew.value === "lost";
+  }
+
   dateChange(e) {
     this.checkFine = true;
     this.checkFineRequest();
@@ -138,20 +142,25 @@ export class BookItemReturnComponent extends FormComponent {
 
   async returnOrRenewChange(e) {
     await this.updateTitle();
+    this.checkFineRequest();
   }
 
   private checkFineRequest(onNoFine?: () => void) {
-    const fineBody = {
+    const fineBody: any = {
       actualReturnDate: this.form.controls.actualReturnDate.value
     }
+    fineBody.isReturn = this.isReturn();
+    fineBody.isRenew = this.isRenew();
+    fineBody.isLost = this.isLost();
+
     this.subscribe(this.bookHttpService.checkFine(this.id, fineBody),
       (res: any) => {
+        this.fine = res.data;
+        this.checkFine = false;
+        this.loading = false;
         if (res.data !== null && res.data !== undefined) {
           // fined
-          this.fine = res.data;
-          this.checkFine = false;
-          this.loading = false;
-          this.form.controls.fineAmount.setValue(this.fine.fineAmount);
+          this.form.controls.fineAmount.setValue(this.fine.lateFineAmount + this.fine.lostFineAmount);
         }
         else {
           this.invoke(onNoFine);
@@ -174,7 +183,9 @@ export class BookItemReturnComponent extends FormComponent {
     }
     body.actualReturnDate = this.form.controls.actualReturnDate.value;
     body.nextReturnDate = this.form.controls.nextReturnDate.value;
+    body.isReturn = this.isReturn();
     body.isRenew = this.isRenew();
+    body.isLost = this.isLost();
     this.submitForm(
       {
         request: this.bookHttpService.returnBookItem(this.id, body),

@@ -46,11 +46,10 @@ namespace Module.Asset.Data
 
         public async Task<long> CreateAsync(AssetCreateRequest request, CancellationToken cancellationToken = default)
         {
-            var newEntity = request.ToMap();
-            newEntity.Barcode = _barcodeService.Generate();
-            await _assetRepository.AddAsync(newEntity, cancellationToken);
+            var assets = request.ToMap(_barcodeService);
+            await _assetRepository.AddRangeAsync(assets, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return newEntity.Id;
+            return result;
         }
 
         public async Task<bool> UpdateAsync(AssetUpdateRequest request, CancellationToken cancellationToken = default)
@@ -88,34 +87,7 @@ namespace Module.Asset.Data
             var item = await _assetRepository
                 .AsReadOnly()
                 .Where(x => x.Id == id && !x.IsDeleted)
-                .Select(x => new AssetViewModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    PurchaseDate = x.PurchaseDate,
-                    PurchaseCost = x.PurchaseCost,
-                    Note = x.Note,
-                    Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
-                    Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
-                    AssetModel = new IdNameViewModel { Id = x.AssetModel.Id, Name = x.AssetModel.Name },
-                    IsRequestable = x.IsRequestable,
-                    ItemNo = x.ItemNo,
-                    OrderNo = x.OrderNo,
-                    Status = new IdNameViewModel { Id = x.Status.Id, Name = x.Status.Name },
-                    Warranty = x.Warranty,
-                    AssetTag = x.AssetTag,
-                    Barcode = x.Barcode,
-                    Category = new AssetCategoryViewModel { Id = x.AssetModel.Category.Id, Name = x.AssetModel.Category.Name, IsRequireUserConfirmation = x.AssetModel.Category.IsRequireUserConfirmation, IsSendEmailToUser = x.AssetModel.Category.IsSendEmail },
-
-                    CheckoutToUser = x.CheckoutId != null && x.Checkout.ChekoutToUserId != null ? new IdNameViewModel { Id = x.Checkout.ChekoutToUser.Id, Name = x.Checkout.ChekoutToUser.FullName } : null,
-
-                    CheckoutToLocation = x.CheckoutId != null && x.Checkout.ChekoutToLocationId != null ? new IdNameViewModel { Id = x.Checkout.ChekoutToLocation.Id, Name = x.Checkout.ChekoutToLocation.OfficeName } : null,
-
-                    CheckoutToAsset = x.CheckoutId != null && x.Checkout.ChekoutToAsset != null ? new IdNameViewModel { Id = x.Checkout.ChekoutToAsset.Id, Name = x.Checkout.ChekoutToAsset.Name } : null,
-
-                    CheckoutId = x.CheckoutId,
-                    Photo = _mediaService.GetPhotoUrl(x.Media)
-                })
+                .Select(AssetViewModel.Select(_mediaService))
                 .FirstOrDefaultAsync();
 
             if (item == null)
@@ -126,48 +98,7 @@ namespace Module.Asset.Data
 
         public async Task<PagedCollection<AssetViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var assets = _assetRepository
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions)
-                .ApplyPagination(pagingOptions);
-
-            var assetCheckouts = _assetCheckoutRepository.AsQueryable();
-
-            var results = assets.Select(x => new AssetViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                PurchaseDate = x.PurchaseDate,
-                PurchaseCost = x.PurchaseCost,
-                Note = x.Note,
-                Supplier = x.SupplierId != null ? new IdNameViewModel { Id = x.Supplier.Id, Name = x.Supplier.Name } : null,
-                Location = x.LocationId != null ? new IdNameViewModel { Id = x.Location.Id, Name = x.Location.OfficeName } : null,
-                AssetModel = new IdNameViewModel { Id = x.AssetModel.Id, Name = x.AssetModel.Name },
-                IsRequestable = x.IsRequestable,
-                ItemNo = x.ItemNo,
-                OrderNo = x.OrderNo,
-                Status = new IdNameViewModel { Id = x.Status.Id, Name = x.Status.Name },
-                Warranty = x.Warranty,
-                AssetTag = x.AssetTag,
-                Barcode = x.Barcode,
-                Category = new AssetCategoryViewModel { Id = x.AssetModel.Category.Id, Name = x.AssetModel.Category.Name, IsRequireUserConfirmation = x.AssetModel.Category.IsRequireUserConfirmation, IsSendEmailToUser = x.AssetModel.Category.IsSendEmail },
-
-                CheckoutToUser = x.CheckoutId != null && x.Checkout.ChekoutToUserId != null ? new IdNameViewModel { Id = x.Checkout.ChekoutToUser.Id, Name = x.Checkout.ChekoutToUser.FullName } : null,
-
-                CheckoutToLocation = x.CheckoutId != null && x.Checkout.ChekoutToLocationId != null ? new IdNameViewModel { Id = x.Checkout.ChekoutToLocation.Id, Name = x.Checkout.ChekoutToLocation.OfficeName } : null,
-
-                CheckoutToAsset = x.CheckoutId != null && x.Checkout.ChekoutToAsset != null ? new IdNameViewModel { Id = x.Checkout.ChekoutToAsset.Id, Name = x.Checkout.ChekoutToAsset.Name } : null,
-
-                CheckoutId = x.CheckoutId,
-                Photo = _mediaService.GetPhotoUrl(x.Media)
-            });
-
-            var total = await assets.Select(x => x.Id).CountAsync(cancellationToken);
-            var items = await results.ToListAsync(cancellationToken);
-
-            var result = new PagedCollection<AssetViewModel>(items, total, pagingOptions);
-            return result;
+            return await _assetRepository.ListAsync(null, AssetViewModel.Select(_mediaService), pagingOptions, searchOptions, cancellationToken);
         }
 
         public async Task<bool> CheckoutAsync(AssetCheckoutRequest request, CancellationToken cancellationToken = default)

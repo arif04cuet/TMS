@@ -38,7 +38,8 @@ namespace Module.Library.Data
                     Barcode = DateTime.UtcNow.Ticks.ToString(),
                     CardTypeId = request.CardType,
                     //ExpireDate = request.ExpireDate,
-                    Fees = request.Fees,
+                    CardFee = request.CardFee,
+                    LateFee = request.LateFee,
                     MaxIssueCount = request.MaxIssueCount,
                     CardStatusId = LibraryCardStatusConstants.Active,
                     LibraryId = request.LibraryId
@@ -104,7 +105,8 @@ namespace Module.Library.Data
                     Barcode = x.Barcode,
                     CardType = IdNameViewModel.Map(x.CardType),
                     ExpireDate = x.ExpireDate,
-                    Fees = x.Fees,
+                    CardFee = x.CardFee,
+                    LateFee = x.LateFee,
                     MaxIssueCount = x.MaxIssueCount,
                     Status = IdNameViewModel.Map(x.CardStatus),
                     Member = x.MemberId != null ? new IdNameViewModel
@@ -128,7 +130,8 @@ namespace Module.Library.Data
                 throw new NotFoundException(LIBRARY_CARD_NOT_FOUND);
 
             item.MaxIssueCount = request.MaxIssueCount;
-            item.Fees = request.Fees;
+            item.CardFee = request.CardFee;
+            item.LateFee = request.LateFee;
             //item.ExpireDate = request.ExpireDate;
             item.CardTypeId = request.CardType;
             item.CardStatusId = request.CardType;
@@ -149,7 +152,8 @@ namespace Module.Library.Data
                     Barcode = x.Barcode,
                     CardType = IdNameViewModel.Map(x.CardType),
                     ExpireDate = x.ExpireDate,
-                    Fees = x.Fees,
+                    CardFee = x.CardFee,
+                    LateFee = x.LateFee,
                     MaxIssueCount = x.MaxIssueCount,
                     Member = x.MemberId != null ? new IdNameViewModel
                     {

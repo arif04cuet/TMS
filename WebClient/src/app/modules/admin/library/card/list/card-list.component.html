@@ -37,7 +37,10 @@
                             {{'member'|translate}}
                         </th>
                         <th>
-                            {{'fees'|translate}}
+                            {{'card.fee'|translate}}
+                        </th>
+                        <th>
+                            {{'late.fee'|translate}}
                         </th>
                         <th>
                             {{'max.issue.count'|translate}}
@@ -66,7 +69,8 @@
                         <td>{{ data.barcode }}</td>
                         <td>{{ data.cardType?.name }}</td>
                         <td>{{ data.member?.name }}</td>
-                        <td>{{ data.fees }}</td>
+                        <td>{{ data.cardFee }}</td>
+                        <td>{{ data.lateFee }}</td>
                         <td>{{ data.maxIssueCount }}</td>
                         <td>{{ data.expireDate|date:'medium':'+0000' }}</td>
                         <td>{{ data.status?.name }}</td>

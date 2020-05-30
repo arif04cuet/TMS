@@ -12,6 +12,7 @@ import { forEachObj } from 'src/services/utilities.service';
 import { AbstractControl, FormArray } from '@angular/forms';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
 import { environment } from 'src/environments/environment';
+import { MediaHttpService } from 'src/services/http/media-http.service';
 
 @Component({
   selector: 'app-book-add',
@@ -35,6 +36,7 @@ export class BookAddComponent extends FormComponent {
     private publisherHttpService: PublisherHttpService,
     private commonHttpService: CommonHttpService,
     private subjectHttpService: SubjectHttpService,
+    private mediaHttpService: MediaHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -115,6 +117,34 @@ export class BookAddComponent extends FormComponent {
     );
   }
 
+  async fileChanged(e, control: any) {
+    this.log('edition file changed', e, control);
+    const file = e.target.files[0];
+    let messageId
+    if (file) {
+      const txt = await this.t('file.uploading');
+      messageId = this._messageService.loading(txt).messageId;
+      var fr = new FileReader();
+      fr.onload = () => {
+        this.photoUrl = fr.result;
+      }
+      fr.readAsDataURL(file);
+      this.mediaHttpService.upload(file, true,
+        progress => {
+          console.log('progress', progress);
+        },
+        success => {
+          control.controls.eBook.setValue(success.data);
+          this._messageService.remove(messageId);
+          
+        },
+        error => {
+          this._messageService.remove(messageId);
+        }
+      );
+    }
+  }
+
   addEdition() {
     this.createEditionFormGroup({});
   }
@@ -139,7 +169,11 @@ export class BookAddComponent extends FormComponent {
       id: [],
       publicationDate: [null, [], this.v.required.bind(this)],
       numberOfPage: [null, [], this.v.required.bind(this)],
-      edition: [null, [], this.v.required.bind(this)]
+      edition: [null, [], this.v.required.bind(this)],
+      hasEbook: [],
+      eBook: [],
+      isEbookDownloadable: [],
+      ebookFormat: []
     });
     forEachObj(formGroup.controls, (k, v) => {
       const dataValue = data[k];
@@ -149,6 +183,10 @@ export class BookAddComponent extends FormComponent {
     });
     const editionFormArray = this.getEditionFormArray();
     editionFormArray.push(formGroup);
+    if(data.eBook) {
+      formGroup.controls.hasEbook.setValue(true);
+      formGroup.controls.isEbookDownloadable.setValue(data.eBook.isDownloadable);
+    }
   }
 
   private getEditionFormArray(): FormArray {

@@ -21,4 +21,9 @@ export class HostelHttpService extends BaseHttpService {
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
 
+    listBeds(hostelId, buildingId, floorId, roomId, pagination = null, search = null) {
+        const url = `${this.END_POINT}/${hostelId}/buildings/${buildingId}/floors/${floorId}/rooms/${roomId}/beds`
+        return this.httpService.get(this.buildUrl(url, pagination, search));
+    }
+
 }

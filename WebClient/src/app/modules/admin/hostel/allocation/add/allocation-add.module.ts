@@ -14,6 +14,8 @@ import { AllocationHttpService } from 'src/services/http/hostel/allocation-http.
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { BedModalModule } from '../bed-modal/bed-modal.module';
 import { BedHttpService } from 'src/services/http/hostel/bed-http.service';
+import { RoomModalModule } from '../room-modal/room-modal.module';
+import { ViewModule } from 'src/app/shared/view.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { BedHttpService } from 'src/services/http/hostel/bed-http.service';
     SharedModule,
     SelectControlModule,
     NzModalModule,
-    BedModalModule
+    BedModalModule,
+    RoomModalModule,
+    ViewModule
   ],
   exports: [AllocationAddComponent],
   providers: [

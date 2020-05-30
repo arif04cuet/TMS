@@ -32,7 +32,8 @@ export class CardAddComponent extends FormComponent {
     this.createForm({
       numberOfCopy: [null, [], this.numberOfCopyValidation.bind(this)],
       cardType: [null, [], this.v.required.bind(this)],
-      fees: [null, [], this.v.required.bind(this)],
+      cardFee: [null, [], this.v.required.bind(this)],
+      lateFee: [null, [], this.v.required.bind(this)],
       maxIssueCount: [null, [], this.v.required.bind(this)],
       statusId: [null, [], this.v.required.bind(this)],
     });

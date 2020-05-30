@@ -13,6 +13,7 @@ import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
 import { PhotoUploadModule } from 'src/app/shared/photo.component';
+import { MediaHttpService } from 'src/services/http/media-http.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { PhotoUploadModule } from 'src/app/shared/photo.component';
     CommonHttpService,
     AuthorHttpService,
     PublisherHttpService,
-    SubjectHttpService
+    SubjectHttpService,
+    MediaHttpService
   ]
 })
 export class BookAddModule { }

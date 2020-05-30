@@ -9,6 +9,7 @@ import { AllocationHttpService } from 'src/services/http/hostel/allocation-http.
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { BedModalComponent } from '../bed-modal/bed-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { RoomModalComponent } from '../room-modal/room-modal.component';
 
 @Component({
   selector: 'app-allocation-add',
@@ -18,6 +19,7 @@ export class AllocationAddComponent extends FormComponent {
 
   loading: boolean = true;
   roomOrBed = 'bed';
+  additionalInfo: any;
 
   @ViewChild('userSelect') userSelect: SelectControlComponent;
   @ViewChild("modalFooter") modalFooter: TemplateRef<any>;
@@ -38,7 +40,9 @@ export class AllocationAddComponent extends FormComponent {
     this.createForm({
       checkinDate: [null, [], this.v.required.bind(this)],
       roomOrBed: [this.roomOrBed],
-      participant: [null, [], this.v.required.bind(this)]
+      participant: [null, [], this.v.required.bind(this)],
+      room: [],
+      bed: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -93,13 +97,24 @@ export class AllocationAddComponent extends FormComponent {
   }
 
   selectRoom() {
-
+    const modal = this.createModal(RoomModalComponent);
+    this.subscribe(modal.afterClose, res => {
+      this.additionalInfo = modal.getContentComponent().selectedRoom;
+      if(this.additionalInfo) {
+        this.form.controls.bed.setValue(null);
+        this.form.controls.room.setValue(this.additionalInfo.id);
+      }
+    });
   }
 
   selectBed() {
     const modal = this.createModal(BedModalComponent);
     this.subscribe(modal.afterClose, res => {
-      console.log('modal close', res);
+      this.additionalInfo = modal.getContentComponent().selectedBed;
+      if(this.additionalInfo) {
+        this.form.controls.bed.setValue(this.additionalInfo.id);
+        this.form.controls.room.setValue(null);
+      }
     });
   }
 

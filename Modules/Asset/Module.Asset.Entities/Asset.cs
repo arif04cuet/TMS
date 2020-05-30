@@ -35,10 +35,12 @@ namespace Module.Asset.Entities
         public Supplier Supplier { get; set; }
 
         public string OrderNo { get; set; }
+        public string InvoiceNo { get; set; }
 
         public double PurchaseCost { get; set; }
 
         public int Warranty { get; set; }
+        public int Maintenance { get; set; }
 
         public string Note { get; set; }
 
@@ -46,6 +48,9 @@ namespace Module.Asset.Entities
 
         public long? LocationId { get; set; }
         public Office Location { get; set; }
+
+        public long? DepreciationId { get; set; }
+        public Depreciation Depreciation { get; set; }
 
         public long? MediaId { get; set; }
         public Media Media { get; set; }

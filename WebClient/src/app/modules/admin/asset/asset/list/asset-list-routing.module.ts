@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: ':id/edit',
-    loadChildren: () => import('../add/asset-add.module').then(x => x.AssetAddModule),
+    loadChildren: () => import('../edit/asset-edit.module').then(x => x.AssetEditModule),
     data: {
       name: 'asset_edit',
       breadcrumb: {

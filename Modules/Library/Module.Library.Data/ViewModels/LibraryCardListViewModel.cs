@@ -10,7 +10,8 @@ namespace Module.Library.Data
         public IdNameViewModel CardType { get; set; }
         public IdNameViewModel Member { get; set; }
         public IdNameViewModel Status { get; set; }
-        public float Fees { get; set; }
+        public float CardFee { get; set; }
+        public float LateFee { get; set; }
         public int MaxIssueCount { get; set; }
         public DateTime? ExpireDate { get; set; }
 

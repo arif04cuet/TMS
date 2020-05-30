@@ -218,7 +218,7 @@
   "asset.models": "Asset models",
   "asset.model": "Asset model",
   "eol": "EOL",
-  "users.may.request.this.model": "Users may request this model",
+  "users.may.request": "Users may request",
   "requestable": "Requestable",
   "months": "Months",
   "assets": "Assets",
@@ -265,7 +265,8 @@
   "value": "Value",
   "diff": "Diff",
   "asset.tag": "Asset tag",
-  "card.fees": "Card fees",
+  "card.fee": "Card fee",
+  "late.fee": "Late fee",
   "asset.name": "Asset name",
   "remaining.seats": "Remaining seats",
   "expiration.date": "Expiration date",
@@ -306,5 +307,13 @@
   "beds": "Beds",
   "bed": "Bed",
   "room.or.bed": "Room or bed",
-  "room": "Room"
+  "room": "Room",
+  "lost": "Lost",
+  "add.new.item": "Add new item",
+  "maintenance": "Maintenance",
+  "invoice.no": "Invoice no",
+  "please.add.at.least.one.item": "Please add at least one item",
+  "is.downloadable": "Is downloadable",
+  "has.ebook": "Has ebook",
+  "file.uploading": "File uploading"
 }

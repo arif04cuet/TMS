@@ -6,7 +6,8 @@ namespace Module.Library.Data
     {
         public long NumberOfCopy { get; set; }
         public long CardType { get; set; }
-        public float Fees { get; set; }
+        public float CardFee { get; set; }
+        public float LateFee { get; set; }
         public int MaxIssueCount { get; set; }
         public DateTime ExpireDate { get; set; }
         public long StatusId { get; set; }
