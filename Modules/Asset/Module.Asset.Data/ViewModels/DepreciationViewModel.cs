@@ -1,7 +1,4 @@
-﻿
-using Module.Core.Shared;
-
-namespace Module.Asset.Data
+﻿namespace Module.Asset.Data
 {
     public class DepreciationViewModel : DepreciationResource
     {

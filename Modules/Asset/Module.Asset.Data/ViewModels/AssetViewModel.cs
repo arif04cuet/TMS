@@ -20,6 +20,7 @@ namespace Module.Asset.Data
         public string InvoiceNo { get; set; }
         public double PurchaseCost { get; set; }
         public int Warranty { get; set; }
+        public int Maintenance { get; set; }
         public string Note { get; set; }
         public bool IsRequestable { get; set; }
         public IdNameViewModel Location { get; set; }
@@ -28,6 +29,7 @@ namespace Module.Asset.Data
         public IdNameViewModel CheckoutToLocation { get; set; }
         public IdNameViewModel CheckoutToAsset { get; set; }
         public AssetCategoryViewModel Category { get; set; }
+        public DepreciationViewModel Depreciation { get; set; }
         public long? CheckoutId { get; set; }
 
         public static Expression<Func<Entities.Asset, AssetViewModel>> Select(IMediaService mediaService)
@@ -48,6 +50,7 @@ namespace Module.Asset.Data
                 InvoiceNo = x.InvoiceNo,
                 Status = new IdNameViewModel { Id = x.Status.Id, Name = x.Status.Name },
                 Warranty = x.Warranty,
+                Maintenance = x.Maintenance,
                 AssetTag = x.AssetTag,
                 Barcode = x.Barcode,
                 Category = new AssetCategoryViewModel { Id = x.AssetModel.Category.Id, Name = x.AssetModel.Category.Name, IsRequireUserConfirmation = x.AssetModel.Category.IsRequireUserConfirmation, IsSendEmailToUser = x.AssetModel.Category.IsSendEmail },
@@ -59,7 +62,9 @@ namespace Module.Asset.Data
                 CheckoutToAsset = x.CheckoutId != null && x.Checkout.ChekoutToAsset != null ? new IdNameViewModel { Id = x.Checkout.ChekoutToAsset.Id, Name = x.Checkout.ChekoutToAsset.Name } : null,
 
                 CheckoutId = x.CheckoutId,
-                Photo = mediaService.GetPhotoUrl(x.Media)
+                Photo = mediaService.GetPhotoUrl(x.Media),
+
+                Depreciation = x.DepreciationId != null ? new DepreciationViewModel { Id = x.Depreciation.Id, Name = x.Depreciation.Name, Term = x.Depreciation.Term, IsActive = x.Depreciation.IsActive } : null,
             };
         }
     }

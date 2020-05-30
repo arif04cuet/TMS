@@ -31,7 +31,6 @@ namespace Module.Asset.Data
             asset.IsRequestable = IsRequestable;
             asset.ItemNo = ItemNo;
             asset.LocationId = Location;
-            asset.MediaId = Media;
             asset.Name = Name;
             asset.Note = Note;
             asset.OrderNo = OrderNo;
@@ -43,6 +42,11 @@ namespace Module.Asset.Data
             asset.Warranty = Warranty;
             asset.Maintenance = Maintenance;
             asset.DepreciationId = Depreciation;
+            if(asset != null && Media.HasValue)
+            {
+                // update
+                asset.MediaId = Media;
+            }
             return entity;
         }
     }

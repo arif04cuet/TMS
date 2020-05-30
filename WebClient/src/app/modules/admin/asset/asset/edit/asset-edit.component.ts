@@ -26,6 +26,7 @@ export class AssetEditComponent extends FormComponent {
   @ViewChild('modelSelect') modelSelect: SelectControlComponent;
 
   photoUrl;
+  eol;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -116,6 +117,9 @@ export class AssetEditComponent extends FormComponent {
         (res: any) => {
           this.setValues(this.form.controls, res.data);
           this.photoUrl = environment.serverUri + '/' + res.data.photo;
+          const date = new Date(res.data.purchaseDate);
+          const depreciationTerm = res.data.depreciation ? res.data.depreciation.term : 0;
+          this.eol = new Date(date.setMonth(date.getMonth()+depreciationTerm));
           this.loading = false;
         }
       );
