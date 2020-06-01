@@ -16,6 +16,7 @@ import { BedModalModule } from '../bed-modal/bed-modal.module';
 import { BedHttpService } from 'src/services/http/hostel/bed-http.service';
 import { RoomModalModule } from '../room-modal/room-modal.module';
 import { ViewModule } from 'src/app/shared/view.component';
+import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ViewModule } from 'src/app/shared/view.component';
     CommonValidator,
     UserHttpService,
     BedHttpService,
+    RoomHttpService,
     NzModalService
   ]
 })

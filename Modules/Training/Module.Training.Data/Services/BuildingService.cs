@@ -43,7 +43,7 @@ namespace Module.Training.Data
                 {
                     HostelId = request.Hostel,
                     Name = item.Name,
-                    BuildingId = building.Id
+                    BuildingId = building.Id,
                 };
                 await _floorRepository.AddAsync(floor);
             }
@@ -62,6 +62,39 @@ namespace Module.Training.Data
 
             entity.Name = request.Name;
             entity.HostelId = request.Hostel;
+
+            foreach (var floor in request.Floors)
+            {
+                if (floor.Id.HasValue)
+                {
+                    // update
+                    var dbFloor = await _floorRepository
+                        .AsQueryable()
+                        .FirstOrDefaultAsync(x => x.Id == floor.Id && !x.IsDeleted);
+                    if (dbFloor != null)
+                    {
+                        dbFloor.Name = floor.Name;
+                    }
+                }
+                else
+                {
+                    // new
+                    var newFloor = new Floor
+                    {
+                        HostelId = request.Hostel,
+                        Name = floor.Name,
+                        BuildingId = request.Id,
+                    };
+                    await _floorRepository.AddAsync(newFloor);
+                }
+            }
+
+            // delete floors
+            var requestFloors = request.Floors.Where(x => x.Id.HasValue).Select(x => (long)x.Id);
+            var floorsToBeDelete = await _floorRepository
+                .Where(x => x.BuildingId == request.Id && x.HostelId == request.Hostel && !requestFloors.Contains(x.Id) && !x.IsDeleted)
+                .ToListAsync();
+            _floorRepository.RemoveRange(floorsToBeDelete);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;

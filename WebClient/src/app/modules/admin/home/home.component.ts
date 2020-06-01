@@ -367,6 +367,43 @@ export class HomeComponent extends BaseComponent {
             route: '/admin/hostels/facilities',
           }
         ]
+      },
+      {
+        level: 1,
+        title: 'course',
+        icon: 'team',
+        nav: [
+          {
+            level: 2,
+            title: 'topics',
+            icon: 'team',
+            route: '/admin/courses/topics'
+          },
+          {
+            level: 2,
+            title: 'categories',
+            icon: 'team',
+            route: '/admin/courses/categories'
+          },
+          {
+            level: 2,
+            title: 'course.methods',
+            icon: 'team',
+            route: '/admin/courses/methods'
+          },
+          {
+            level: 2,
+            title: 'evaluation.methods',
+            icon: 'team',
+            route: '/admin/courses/evaluation-methods'
+          },
+          {
+            level: 2,
+            title: 'grades',
+            icon: 'team',
+            route: '/admin/courses/grades'
+          },
+        ]
       }
     ]
 

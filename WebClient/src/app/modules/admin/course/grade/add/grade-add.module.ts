@@ -7,7 +7,7 @@ import { GradeAddComponent } from './grade-add.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
 import { GradeAddRoutingModule } from './grade-add-routing.module';
-import { GradeHttpService } from 'src/services/http/course/facilities-http.service';
+import { GradeHttpService } from 'src/services/http/course/grades-http.service';
 
 @NgModule({
   declarations: [

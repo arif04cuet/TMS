@@ -10,6 +10,8 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { BedModalComponent } from '../bed-modal/bed-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
 import { RoomModalComponent } from '../room-modal/room-modal.component';
+import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
+import { BedHttpService } from 'src/services/http/hostel/bed-http.service';
 
 @Component({
   selector: 'app-allocation-add',
@@ -29,6 +31,8 @@ export class AllocationAddComponent extends FormComponent {
     private allocationHttpService: AllocationHttpService,
     private userHttpService: UserHttpService,
     private hostelHttpService: HostelHttpService,
+    private roomHttpService: RoomHttpService,
+    private bedHttpService: BedHttpService,
     private v: CommonValidator,
     private modal: NzModalService
   ) {
@@ -54,6 +58,10 @@ export class AllocationAddComponent extends FormComponent {
   }
 
   submit(): void {
+    if (!this.additionalInfo) {
+      this.failed('please.select.room.or.bed');
+      return;
+    }
     const body = this.constructObject(this.form.controls);
     this.submitForm(
       {
@@ -79,6 +87,29 @@ export class AllocationAddComponent extends FormComponent {
       this.subscribe(this.allocationHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
+          this.setValue('participant', res.data.user?.id);
+
+          if (res.data.bed) {
+            this.subscribe(this.bedHttpService.get(res.data.bed.id),
+              (res: any) => {
+                this.additionalInfo = res.data;
+                this.loading = false;
+              },
+              err => {
+                this.loading = false;
+              });
+          }
+          else if (res.data.room) {
+            this.subscribe(this.roomHttpService.get(res.data.room.id),
+              (res: any) => {
+                this.additionalInfo = res.data;
+                this.loading = false;
+              },
+              err => {
+                this.loading = false;
+              });
+          }
+
           this.loading = false;
         }
       );
@@ -94,13 +125,16 @@ export class AllocationAddComponent extends FormComponent {
 
   optionChange(e) {
     this.roomOrBed = e;
+    this.additionalInfo = null;
+    this.form.controls.bed.setValue(null);
+    this.form.controls.room.setValue(null);
   }
 
   selectRoom() {
     const modal = this.createModal(RoomModalComponent);
     this.subscribe(modal.afterClose, res => {
       this.additionalInfo = modal.getContentComponent().selectedRoom;
-      if(this.additionalInfo) {
+      if (this.additionalInfo) {
         this.form.controls.bed.setValue(null);
         this.form.controls.room.setValue(this.additionalInfo.id);
       }
@@ -111,7 +145,7 @@ export class AllocationAddComponent extends FormComponent {
     const modal = this.createModal(BedModalComponent);
     this.subscribe(modal.afterClose, res => {
       this.additionalInfo = modal.getContentComponent().selectedBed;
-      if(this.additionalInfo) {
+      if (this.additionalInfo) {
         this.form.controls.bed.setValue(this.additionalInfo.id);
         this.form.controls.room.setValue(null);
       }

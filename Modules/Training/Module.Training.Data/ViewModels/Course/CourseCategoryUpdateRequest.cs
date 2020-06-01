@@ -1,6 +1,6 @@
 ﻿namespace Module.Training.Data
 {
-    public class CategoryUpdateRequest : CategoryCreateRequest
+    public class CourseCategoryUpdateRequest : CourseCategoryCreateRequest
     {
         public long Id { get; set; }
     }

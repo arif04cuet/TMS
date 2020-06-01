@@ -3,7 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
-import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.service';
+import { GradeHttpService } from 'src/services/http/course/grades-http.service';
 
 @Component({
   selector: 'app-grade-list',
@@ -16,10 +16,10 @@ export class GradeListComponent extends TableComponent {
   serverUrl = environment.serverUri;
 
   constructor(
-    private facilitiesHttpService: FacilitiesHttpService,
+    private gradeHttpService: GradeHttpService,
     private activatedRoute: ActivatedRoute
   ) {
-    super(facilitiesHttpService);
+    super(gradeHttpService);
   }
 
   ngOnInit() {

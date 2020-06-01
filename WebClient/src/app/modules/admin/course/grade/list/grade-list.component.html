@@ -6,7 +6,7 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'facilities'|translate}} ({{total}})
+                        {{'grades'|translate}} ({{total}})
                     </span>
                 </div>
             </div>
@@ -29,6 +29,8 @@
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>{{'name'|translate}}</th>
+                        <th>{{'from'|translate}}</th>
+                        <th>{{'to'|translate}}</th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
@@ -39,6 +41,8 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.name }}</td>
+                        <td>{{ data.from }}</td>
+                        <td>{{ data.to }}</td>
                         <td class="action-column fit-cell">
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">

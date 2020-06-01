@@ -82,6 +82,7 @@ export class BedModalComponent extends TableComponent {
       search += this.getSearchTerm('building');
       search += this.getSearchTerm('floor');
       search += this.getSearchTerm('room');
+      search += `&Search=IsBooked eq false`;
       return this.bedHttpService.list(p, search);
     });
   }

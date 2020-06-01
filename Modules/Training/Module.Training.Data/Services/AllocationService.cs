@@ -27,8 +27,11 @@ namespace Module.Training.Data
         public async Task<long> CreateAsync(AllocationCreateRequest request, CancellationToken cancellationToken = default)
         {
 
-            if(request.Bed.HasValue && request.Room.HasValue)
-                throw new ValidationException("Choose bed or room at a time.");
+            if(!request.Bed.HasValue && !request.Room.HasValue)
+                throw new ValidationException("Room or bed required.");
+
+            if (request.Bed.HasValue && request.Room.HasValue)
+                throw new ValidationException("Room and bed can be choose at the same time.");
 
             long? bedId = null;
             long? roomId = null;
@@ -46,6 +49,8 @@ namespace Module.Training.Data
                 hostelId = bed.HostelId;
                 buildingId = bed.BuildingId;
                 floorId = bed.FloorId;
+
+                bed.IsBooked = true;
             }
 
             if(request.Room.HasValue)
@@ -59,6 +64,8 @@ namespace Module.Training.Data
                 hostelId = room.HostelId;
                 buildingId = room.BuildingId;
                 floorId = room.FloorId;
+
+                room.IsBooked = true;
             }
 
             var allocation = new Allocation
@@ -67,7 +74,9 @@ namespace Module.Training.Data
                 RoomId = roomId,
                 BuildingId = buildingId,
                 HostelId = hostelId,
-                FloorId = floorId
+                FloorId = floorId,
+                UserId = request.Participant,
+                CheckinDate = request.CheckinDate
             };
             await _allocationRepository.AddAsync(allocation, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

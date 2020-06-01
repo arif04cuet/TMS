@@ -494,6 +494,61 @@ const routes: Routes = [
             title: 'beds'
           }
         }
+      },
+      {
+        path: 'courses/grades',
+        loadChildren: () => import('../course/grade/list/grade-list.module').then(x => x.GradeListModule),
+        data: {
+          name: 'grade_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'grades'
+          }
+        }
+      },
+      {
+        path: 'courses/evaluation-methods',
+        loadChildren: () => import('../course/evaluation-method/list/evaluation-method-list.module').then(x => x.EvaluationMethodListModule),
+        data: {
+          name: 'evaluation_method_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'evaluation.methods'
+          }
+        }
+      },
+      {
+        path: 'courses/methods',
+        loadChildren: () => import('../course/method/list/method-list.module').then(x => x.MethodListModule),
+        data: {
+          name: 'course_method_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'course.methods'
+          }
+        }
+      },
+      {
+        path: 'courses/categories',
+        loadChildren: () => import('../course/category/list/category-list.module').then(x => x.CategoryListModule),
+        data: {
+          name: 'course_category_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'course.categories'
+          }
+        }
+      },
+      {
+        path: 'courses/topics',
+        loadChildren: () => import('../course/topic/list/topic-list.module').then(x => x.TopicListModule),
+        data: {
+          name: 'course_topic_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'topics'
+          }
+        }
       }
     ]
   },

@@ -89,6 +89,41 @@ namespace Module.Training.Data
             entity.HostelId = request.Hostel;
             entity.TypeId = request.RoomType;
 
+            foreach (var bed in request.Beds)
+            {
+                if (bed.Id.HasValue)
+                {
+                    // update
+                    var dbBed = await _bedRepository
+                        .AsQueryable()
+                        .FirstOrDefaultAsync(x => x.Id == bed.Id && !x.IsDeleted);
+                    if (dbBed != null)
+                    {
+                        dbBed.Name = bed.Name;
+                    }
+                }
+                else
+                {
+                    // new
+                    var newBed = new Bed
+                    {
+                        BuildingId = request.Building,
+                        FloorId = request.Floor,
+                        HostelId = request.Hostel,
+                        RoomId = entity.Id,
+                        Name = bed.Name
+                    };
+                    await _bedRepository.AddAsync(newBed);
+                }
+            }
+
+            // delete floors
+            var requestBeds = request.Beds.Where(x => x.Id.HasValue).Select(x => (long)x.Id);
+            var bedsToBeDelete = await _bedRepository
+                .Where(x => x.BuildingId == request.Building && x.HostelId == request.Hostel && x.FloorId == request.Floor && !requestBeds.Contains(x.Id) && !x.IsDeleted)
+                .ToListAsync();
+            _bedRepository.RemoveRange(bedsToBeDelete);
+
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
         }

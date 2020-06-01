@@ -10,8 +10,4 @@
     <ProjectReference Include="..\Module.Training.Data\Module.Training.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Course\" />
-  </ItemGroup>
-
 </Project>

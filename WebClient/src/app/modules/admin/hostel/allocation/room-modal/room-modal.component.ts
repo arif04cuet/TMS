@@ -79,6 +79,7 @@ export class RoomModalComponent extends TableComponent {
       search += this.getSearchTerm('building');
       search += this.getSearchTerm('floor');
       search += this.getSearchTerm('roomType');
+      search += `&Search IsBooked eq false`;
       return this.roomHttpService.list(p, search);
     });
   }

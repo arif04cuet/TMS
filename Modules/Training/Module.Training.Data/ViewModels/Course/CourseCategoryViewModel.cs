@@ -3,14 +3,14 @@ using Module.Training.Entities;
 
 namespace Module.Training.Data
 {
-    public class CategoryViewModel : IViewModel
+    public class CourseCategoryViewModel : IViewModel
     {
         public long Id { get; set; }
         public string Name { get; set; }
 
-        public static CategoryViewModel Map(Category category)
+        public static CourseCategoryViewModel Map(Category category)
         {
-            return new CategoryViewModel
+            return new CourseCategoryViewModel
             {
                 Id = category.Id,
                 Name = category.Name

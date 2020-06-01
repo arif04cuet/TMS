@@ -2,7 +2,7 @@
 
 namespace Module.Training.Data
 {
-    public class CategoryCreateRequest
+    public class CourseCategoryCreateRequest
     {
         public string Name { get; set; }
 

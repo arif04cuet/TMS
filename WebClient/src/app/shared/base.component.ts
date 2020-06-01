@@ -110,7 +110,7 @@ export class BaseComponent {
             if (controls.hasOwnProperty(key)) {
                 const control = controls[key];
                 const value = control.value;
-                if (Array.isArray(value)) {
+                if (control.constructor.name == "FormArray" &&  Array.isArray(value)) {
                     obj[key] = value.map(x => {
                         const o = {}
                         forEachObj(x, (k, v) => {

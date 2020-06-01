@@ -3,7 +3,7 @@ import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
-import { GradeHttpService } from 'src/services/http/course/facilities-http.service';
+import { GradeHttpService } from 'src/services/http/course/grades-http.service';
 
 @Component({
   selector: 'app-grade-add',
@@ -25,6 +25,8 @@ export class GradeAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
+      from: [null, [], this.v.required.bind(this)],
+      to: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
