@@ -33,14 +33,27 @@
                         </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #modelSelect label="asset.model"
-                            [formControl]="form.controls.assetModel">
-                        </app-select-control>
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label>{{'invoice.no'|translate}}</label>
+                            </div>
+                            <nz-form-control>
+                                <input type="text" nz-input formControlName="invoiceNo"
+                                    placeholder="{{'invoice.no'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #supplierSelect label="supplier" [formControl]="form.controls.supplier">
-                        </app-select-control>
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'invoice.date'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <nz-date-picker formControlName="invoiceDate"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
                     </div>
+
                 </div>
 
                 <div nz-row [nzGutter]="24">
@@ -56,15 +69,8 @@
                         </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <nz-form-item class="field-container">
-                            <div>
-                                <label>{{'invoice.no'|translate}}</label>
-                            </div>
-                            <nz-form-control>
-                                <input type="text" nz-input formControlName="invoiceNo"
-                                    placeholder="{{'invoice.no'|translate}}" />
-                            </nz-form-control>
-                        </nz-form-item>
+                        <app-select-control #supplierSelect label="supplier" [formControl]="form.controls.supplier">
+                        </app-select-control>
                     </div>
                     <div nz-col [nzSpan]="8">
                         <app-select-control #locationSelect label="location" labelKey="officeName"
@@ -81,6 +87,16 @@
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <nz-date-picker formControlName="purchaseDate"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'inventory.entry.date'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <nz-date-picker formControlName="inventoryEntryDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -116,6 +132,11 @@
                                     </div>
                                     <div nz-row>
                                         <div nz-col [nzSpan]="6">
+                                            <app-select-control mandatory="true" #modelSelect label="asset.model"
+                                                [formControl]="item.controls.assetModel">
+                                            </app-select-control>
+                                        </div>
+                                        <div nz-col [nzSpan]="6">
                                             <nz-form-item class="field-container">
                                                 <div>
                                                     <label class="required">{{'asset.tag'|translate}}</label>
@@ -145,17 +166,6 @@
                                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                                     <input type="number" nz-input formControlName="purchaseCost"
                                                         placeholder="{{'purchase.cost'|translate}}" />
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'requestable'|translate}}</label>
-                                                </div>
-                                                <nz-form-control>
-                                                    <span nz-checkbox
-                                                        formControlName="isRequestable">{{'users.may.request'|translate}}</span>
                                                 </nz-form-control>
                                             </nz-form-item>
                                         </div>
@@ -193,7 +203,8 @@
                                             </app-select-control>
                                         </div>
                                         <div nz-col [nzSpan]="6">
-                                            <app-select-control mandatory="true" #depreciationSelect label="depreciation" [formControl]="item.controls.depreciation">
+                                            <app-select-control mandatory="true" #depreciationSelect
+                                                label="depreciation" [formControl]="item.controls.depreciation">
                                             </app-select-control>
                                         </div>
                                     </div>
@@ -204,6 +215,17 @@
                                                     [photoUrl]="photoUrl">
                                                 </app-photo-upload>
                                             </div>
+                                        </div>
+                                        <div nz-col [nzSpan]="6">
+                                            <nz-form-item class="field-container">
+                                                <div>
+                                                    <label>{{'requestable'|translate}}</label>
+                                                </div>
+                                                <nz-form-control>
+                                                    <span nz-checkbox
+                                                        formControlName="isRequestable">{{'users.may.request'|translate}}</span>
+                                                </nz-form-control>
+                                            </nz-form-item>
                                         </div>
                                         <div nz-col [nzSpan]="6">
                                             <app-view label="eol"></app-view>

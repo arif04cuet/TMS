@@ -1,5 +1,7 @@
 ﻿using Module.Core.Shared;
 using Module.Training.Entities;
+using System;
+using System.Linq.Expressions;
 
 namespace Module.Training.Data
 {
@@ -8,12 +10,12 @@ namespace Module.Training.Data
         public long Id { get; set; }
         public string Name { get; set; }
 
-        public static ExpertiseViewModel Map(Expertise expertise)
+        public static Expression<Func<Expertise, ExpertiseViewModel>> Select()
         {
-            return new ExpertiseViewModel
+            return x => new ExpertiseViewModel
             {
-                Id = expertise.Id,
-                Name = expertise.Name
+                Id = x.Id,
+                Name = x.Name
             };
         }
     }

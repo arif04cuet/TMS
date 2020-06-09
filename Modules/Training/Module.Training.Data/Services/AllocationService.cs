@@ -27,7 +27,7 @@ namespace Module.Training.Data
         public async Task<long> CreateAsync(AllocationCreateRequest request, CancellationToken cancellationToken = default)
         {
 
-            if(!request.Bed.HasValue && !request.Room.HasValue)
+            if (!request.Bed.HasValue && !request.Room.HasValue)
                 throw new ValidationException("Room or bed required.");
 
             if (request.Bed.HasValue && request.Room.HasValue)
@@ -53,7 +53,7 @@ namespace Module.Training.Data
                 bed.IsBooked = true;
             }
 
-            if(request.Room.HasValue)
+            if (request.Room.HasValue)
             {
                 var room = await _unitOfWork.GetRepository<Room>().FirstOrDefaultAsync(x => x.Id == request.Room && !x.IsBooked && !x.IsDeleted);
 
@@ -79,6 +79,34 @@ namespace Module.Training.Data
                 CheckinDate = request.CheckinDate
             };
             await _allocationRepository.AddAsync(allocation, cancellationToken);
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return allocation.Id;
+        }
+
+        public async Task<long> UpdateAsync(AllocationUpdateRequest request, CancellationToken cancellationToken = default)
+        {
+            var allocation = await _allocationRepository
+                .AsQueryable()
+                .Include(x => x.Bed)
+                .Include(x => x.Room)
+                .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
+
+            if (allocation == null)
+                throw new ValidationException("Allocation not found");
+
+            if(allocation.BedId != null && allocation.RoomId != null)
+                throw new ValidationException("Allocation can not have both bed and room");
+
+            if(allocation.BedId != null)
+            {
+                allocation.Bed.IsBooked = false;
+            }
+
+            if (allocation.RoomId != null)
+            {
+                allocation.Room.IsBooked = false;
+            }
+
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return allocation.Id;
         }

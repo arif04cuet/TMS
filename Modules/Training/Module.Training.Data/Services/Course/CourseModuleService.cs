@@ -7,6 +7,8 @@ using Msi.UtilityKit.Search;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Module.Core.Data;
+using Module.Core.Shared;
 
 namespace Module.Training.Data
 {
@@ -15,12 +17,14 @@ namespace Module.Training.Data
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<CourseModule> _courseModuleRepository;
-    
+        private readonly IRepository<CourseModuleTopic> _courseModuleTopicRepository;
+
         public CourseModuleService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _courseModuleRepository = _unitOfWork.GetRepository<CourseModule>();
+            _courseModuleTopicRepository = _unitOfWork.GetRepository<CourseModuleTopic>();
         }
 
         public async Task<long> CreateAsync(CourseModuleCreateRequest request, CancellationToken cancellationToken = default)
@@ -28,6 +32,16 @@ namespace Module.Training.Data
             var entity = request.Map();
             await _courseModuleRepository.AddAsync(entity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var topics = request.Topics.Select(x => new CourseModuleTopic
+            {
+                CourseModuleId = entity.Id,
+                TopicId = x
+            });
+
+            await _courseModuleTopicRepository.AddRangeAsync(topics);
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
             return entity.Id;
         }
 
@@ -41,6 +55,18 @@ namespace Module.Training.Data
                 throw new NotFoundException($"Course module not found");
 
             request.Map(entity);
+
+            // topics
+            await _courseModuleTopicRepository.UpdateAsync(
+                request.Topics,
+                x => x.CourseModuleId == request.Id,
+                x => x.TopicId,
+                x => new CourseModuleTopic
+                {
+                    TopicId = x,
+                    CourseModuleId = request.Id
+                },
+                ids => x => ids.Contains(x.TopicId) && x.CourseModuleId == request.Id);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
@@ -63,29 +89,24 @@ namespace Module.Training.Data
             var item = await _courseModuleRepository
                 .AsReadOnly()
                 .Where(x => x.Id == id && !x.IsDeleted)
-                .Select(x => CourseModuleViewModel.Map(x))
+                .Select(CourseModuleViewModel.Select())
                 .FirstOrDefaultAsync();
 
             if (item == null)
                 throw new NotFoundException("Course module not found");
+
+            item.Topics = await _courseModuleTopicRepository
+                .AsReadOnly()
+                .Where(x => x.CourseModuleId == id && !x.IsDeleted)
+                .Select(x => new IdNameViewModel { Id = x.TopicId, Name = x.Topic.Name })
+                .ToListAsync();
 
             return item;
         }
 
         public async Task<PagedCollection<CourseModuleViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var hostels = _courseModuleRepository
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions)
-                .ApplyPagination(pagingOptions);
-
-            var results = hostels.Select(x => CourseModuleViewModel.Map(x));
-
-            var total = await hostels.Select(x => x.Id).CountAsync(cancellationToken);
-            var items = await results.ToListAsync(cancellationToken);
-
-            var result = new PagedCollection<CourseModuleViewModel>(items, total, pagingOptions);
+            var result = await _courseModuleRepository.ListAsync(null, CourseModuleViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
             return result;
         }
 

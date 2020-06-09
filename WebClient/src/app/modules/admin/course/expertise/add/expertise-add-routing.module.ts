@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MemberRequestListComponent } from './member-list.component';
+import { ExpertiseAddComponent } from './expertise-add.component';
 
 const routes: Routes = [
-  { path: '', component: MemberRequestListComponent }
+  { path: '', component: ExpertiseAddComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MemberRequestListRoutingModule { }
+export class ExpertiseAddRoutingModule { }

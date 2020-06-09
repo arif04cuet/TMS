@@ -185,7 +185,7 @@ export class BaseComponent {
         this.translate(key, x => this._messageService.warning(x));
     }
 
-    info(key: string) {
+    info(key: string, interpolateParams?: Object) {
         this.translate(key, x => this._messageService.info(x));
     }
 

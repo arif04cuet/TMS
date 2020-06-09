@@ -32,4 +32,9 @@ export class LibraryMemberHttpService extends BaseHttpService {
         return this.httpService.post(`${this.END_POINT}/register-from-users`, body);
     }
 
+    public listRequests(pagination = null, search = null) {
+        let url = this.buildUrl(`${this.END_POINT}/request?`, pagination, search)
+        return this.httpService.get(url);
+    }
+
 }

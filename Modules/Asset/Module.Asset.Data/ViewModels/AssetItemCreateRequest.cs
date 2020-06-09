@@ -2,6 +2,7 @@
 {
     public class AssetItemCreateRequest
     {
+        public long AssetModel { get; set; }
         public string AssetTag { get; set; }
         public long Status { get; set; }
         public string ItemNo { get; set; }

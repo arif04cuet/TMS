@@ -16,8 +16,6 @@ namespace Module.Asset.Entities
         [Searchable]
         public string ModelNo { get; set; }
 
-        public int Eol { get; set; }
-
         public string Note { get; set; }
 
         public long CategoryId { get; set; }
@@ -26,9 +24,6 @@ namespace Module.Asset.Entities
 
         public long ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
-
-        public long? DepreciationId { get; set; }
-        public Depreciation Depreciation { get; set; }
 
         public bool IsRequestable { get; set; }
 

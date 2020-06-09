@@ -18,8 +18,6 @@ namespace Module.Asset.Data
         {
             var entity = asset ?? new AssetModel();
             entity.CategoryId = Category;
-            entity.DepreciationId = Depreciation;
-            entity.Eol = Eol;
             entity.IsRequestable = IsRequestable;
             entity.ManufacturerId = Manufacturer;
             entity.ModelNo = ModelNo;

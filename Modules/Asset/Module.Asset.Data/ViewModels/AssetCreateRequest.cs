@@ -7,11 +7,12 @@ namespace Module.Asset.Data
 {
     public class AssetCreateRequest
     {
-        public long AssetModel { get; set; }
         public string Name { get; set; }
         public string OrderNo { get; set; }
         public string InvoiceNo { get; set; }
         public DateTime? PurchaseDate { get; set; }
+        public DateTime? InvoiceDate { get; set; }
+        public DateTime? InventoryEntryDate { get; set; }
         public long? Supplier { get; set; }
         public string Note { get; set; }
         public long? Location { get; set; }
@@ -21,7 +22,7 @@ namespace Module.Asset.Data
         {
             return Items.Select(x => new Entities.Asset
             {
-                AssetModelId = AssetModel,
+                AssetModelId = x.AssetModel,
                 AssetTag = x.AssetTag,
                 IsRequestable = x.IsRequestable,
                 ItemNo = x.ItemNo,
@@ -38,7 +39,9 @@ namespace Module.Asset.Data
                 Warranty = x.Warranty,
                 Maintenance = x.Maintenance,
                 DepreciationId = x.Depreciation,
-                Barcode = barcodeService.Generate()
+                Barcode = barcodeService.Generate(),
+                InventoryEntryDate = InventoryEntryDate,
+                InvoiceDate = InvoiceDate
             });
         }
     }

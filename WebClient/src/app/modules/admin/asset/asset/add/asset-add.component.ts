@@ -24,8 +24,8 @@ export class AssetAddComponent extends FormComponent {
 
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
   @ViewChild('locationSelect') locationSelect: SelectControlComponent;
-  @ViewChild('modelSelect') modelSelect: SelectControlComponent;
-
+  
+  @ViewChildren('modelSelect') modelSelects: QueryList<SelectControlComponent>;
   @ViewChildren('statusSelect') statusSelects: QueryList<SelectControlComponent>;
   @ViewChildren('depreciationSelect') depreciationSelects: QueryList<SelectControlComponent>;
 
@@ -48,10 +48,11 @@ export class AssetAddComponent extends FormComponent {
       name: [null, [], this.v.required.bind(this)],
       supplier: [],
       location: [],
-      assetModel: [null, [], this.v.required.bind(this)],
       note: [],
       orderNo: [],
       invoiceNo: [],
+      invoiceDate: [null, [], this.v.required.bind(this)],
+      inventoryEntryDate: [null, [], this.v.required.bind(this)],
       purchaseDate: [null, [], this.v.required.bind(this)],
       items: this.fb.array([])
     });
@@ -69,9 +70,11 @@ export class AssetAddComponent extends FormComponent {
       return this.assetHttpService.suppliers(pagination, search);
     }).fetch();
 
-    this.modelSelect.register((pagination, search) => {
-      return this.assetModelHttpService.list(pagination, search);
-    }).fetch();
+    this.subscribe(this.modelSelects.changes, (selects: QueryList<SelectControlComponent>) => {
+      selects.last.register((pagination, search) => {
+        return this.assetModelHttpService.list(pagination, search);
+      }).fetch();
+    });
 
     this.subscribe(this.statusSelects.changes, (selects: QueryList<SelectControlComponent>) => {
       selects.last.register((pagination, search) => {
@@ -176,7 +179,8 @@ export class AssetAddComponent extends FormComponent {
       maintenance: [],
       depreciation: [null, [], this.v.required.bind(this)],
       media: [],
-      status: [null, [], this.v.required.bind(this)]
+      status: [null, [], this.v.required.bind(this)],
+      assetModel: [null, [], this.v.required.bind(this)]
     });
     forEachObj(formGroup.controls, (k, v) => {
       const dataValue = data[k];

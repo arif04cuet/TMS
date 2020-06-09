@@ -1,4 +1,5 @@
-﻿using Module.Training.Entities;
+﻿using Module.Core.Entities;
+using Module.Training.Entities;
 
 namespace Module.Training.Data
 {
@@ -13,17 +14,25 @@ namespace Module.Training.Data
         public string NID { get; set; }
         public string TIN { get; set; }
 
-        public ResourcePerson Map(ResourcePerson person = null)
+        public long[] Expertises { get; set; }
+
+        public ResourcePerson MapResourcePerson(ResourcePerson person = null)
         {
             var entity = person ?? new ResourcePerson();
-            entity.Name = Name;
-            entity.DesignationId = Designation;
-            entity.Email = Email;
-            entity.Mobile = Mobile;
             entity.NID = NID;
             entity.OfficeId = Office;
             entity.ShortName = ShortName;
             entity.TIN = TIN;
+            return entity;
+        }
+
+        public User MapUser(User user = null)
+        {
+            var entity = user ?? new User();
+            entity.FullName = Name;
+            entity.DesignationId = Designation;
+            entity.Email = Email;
+            entity.Mobile = Mobile;
             return entity;
         }
     }

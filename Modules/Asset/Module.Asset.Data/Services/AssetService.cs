@@ -23,6 +23,7 @@ namespace Module.Asset.Data
         private readonly IBarcodeService _barcodeService;
         private readonly IRepository<ComponentAsset> _componentAssetRepository;
         private readonly IRepository<LicenseSeat> _licenseSeatRepository;
+        private readonly IRepository<Depreciation> _depreciationRepository;
         private readonly IAssetEmailService _assetEmailService;
         private readonly IMediaService _mediaService;
 
@@ -42,6 +43,7 @@ namespace Module.Asset.Data
             _componentAssetRepository = _unitOfWork.GetRepository<ComponentAsset>();
             _assetEmailService = assetEmailService;
             _licenseSeatRepository = _unitOfWork.GetRepository<LicenseSeat>();
+            _depreciationRepository = _unitOfWork.GetRepository<Depreciation>();
         }
 
         public async Task<long> CreateAsync(AssetCreateRequest request, CancellationToken cancellationToken = default)
@@ -49,6 +51,32 @@ namespace Module.Asset.Data
             var assets = request.ToMap(_barcodeService);
             await _assetRepository.AddRangeAsync(assets, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            foreach (var asset in assets)
+            {
+                var depreciation = await _depreciationRepository
+                    .AsReadOnly()
+                    .FirstOrDefaultAsync(x => x.Id == asset.DepreciationId && !x.IsDeleted);
+
+                if (depreciation == null)
+                    throw new NotFoundException("Depreciation not found.");
+
+
+                var term = depreciation.Term * 12; // months
+                var frequency = term / depreciation.Frequency;
+                var depreciationRatePerFrequency = 100 / frequency; // %
+                var depreciationValuePerFrequency = asset.PurchaseCost / frequency;
+
+                var assetDepreciation = new AssetDepreciation
+                {
+                    AssetId = asset.Id,
+                    Term = depreciation.Term,
+                    Frequency = depreciation.Frequency
+                };
+
+
+            }
+
             return result;
         }
 
@@ -177,7 +205,7 @@ namespace Module.Asset.Data
             if (asset == null)
                 throw new NotFoundException("Asset not found");
 
-            if(asset.Checkout == null)
+            if (asset.Checkout == null)
                 throw new NotFoundException("Checkout not found");
 
             if (request.Status.HasValue)

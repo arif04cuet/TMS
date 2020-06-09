@@ -13,5 +13,6 @@ namespace Module.Asset.Entities
 
         [Searchable]
         public int Term { get; set; }
+        public int Frequency { get; set; }
     }
 }

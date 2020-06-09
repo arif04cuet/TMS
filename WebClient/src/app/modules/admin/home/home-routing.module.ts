@@ -96,6 +96,17 @@ const routes: Routes = [
         }
       },
       {
+        path: 'library/members/requests',
+        loadChildren: () => import('../library/member/request-list/request-list.module').then(x => x.MemberRequestListModule),
+        data: {
+          name: 'library_members_requests_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'members'
+          }
+        }
+      },
+      {
         path: 'library/cards',
         loadChildren: () => import('../library/card/list/card-list.module').then(x => x.CardListModule),
         data: {
@@ -547,6 +558,50 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'topics'
+          }
+        }
+      },
+      {
+        path: 'courses/modules',
+        loadChildren: () => import('../course/module/list/module-list.module').then(x => x.ModuleListModule),
+        data: {
+          name: 'course_module_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'modules'
+          }
+        }
+      },
+      {
+        path: 'courses',
+        loadChildren: () => import('../course/course/list/course-list.module').then(x => x.CourseListModule),
+        data: {
+          name: 'course_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'courses'
+          }
+        }
+      },
+      {
+        path: 'courses/resource-persons',
+        loadChildren: () => import('../course/resource-person/list/resource-person-list.module').then(x => x.ResourcePersonListModule),
+        data: {
+          name: 'resource_persons_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'resource.persons'
+          }
+        }
+      },
+      {
+        path: 'courses/expertise',
+        loadChildren: () => import('../course/expertise/list/expertise-list.module').then(x => x.ExpertiseListModule),
+        data: {
+          name: 'expertise_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'expertise'
           }
         }
       }

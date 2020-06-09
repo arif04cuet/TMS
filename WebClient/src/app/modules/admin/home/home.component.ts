@@ -38,7 +38,7 @@ export class HomeComponent extends BaseComponent {
       },
       {
         level: 1,
-        title: 'user.management',
+        title: 'user',
         icon: 'team',
         nav: [
           {
@@ -75,7 +75,7 @@ export class HomeComponent extends BaseComponent {
       },
       {
         level: 1,
-        title: 'library.management',
+        title: 'library',
         icon: 'team',
         nav: [
           {
@@ -88,6 +88,12 @@ export class HomeComponent extends BaseComponent {
             level: 2,
             title: 'members',
             route: '/admin/library/members',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'member.requests',
+            route: '/admin/library/members/requests',
             icon: 'user'
           },
           {
@@ -161,7 +167,7 @@ export class HomeComponent extends BaseComponent {
       },
       {
         level: 1,
-        title: 'asset.management',
+        title: 'asset',
         icon: 'team',
         nav: [
           {
@@ -375,6 +381,18 @@ export class HomeComponent extends BaseComponent {
         nav: [
           {
             level: 2,
+            title: 'courses',
+            icon: 'team',
+            route: '/admin/courses'
+          },
+          {
+            level: 2,
+            title: 'modules',
+            icon: 'team',
+            route: '/admin/courses/modules'
+          },
+          {
+            level: 2,
             title: 'topics',
             icon: 'team',
             route: '/admin/courses/topics'
@@ -402,6 +420,18 @@ export class HomeComponent extends BaseComponent {
             title: 'grades',
             icon: 'team',
             route: '/admin/courses/grades'
+          },
+          {
+            level: 2,
+            title: 'expertise',
+            icon: 'team',
+            route: '/admin/courses/expertise'
+          },
+          {
+            level: 2,
+            title: 'resource.persons',
+            icon: 'team',
+            route: '/admin/courses/resource-persons'
           },
         ]
       }

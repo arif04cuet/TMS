@@ -20,10 +20,15 @@ namespace Module.Core.Shared
         protected override bool IsValid(PropertyValidatorContext context)
         {
             string email = (string)context.PropertyValue;
+            return IsValid(email);
+        }
+
+        public bool IsValid(string email)
+        {
             var query = _unitOfWork.GetRepository<User>()
                         .AsReadOnly()
                         .Where(x => !x.IsDeleted && x.Email.ToLower() == email.ToLower());
-            if(_ignoreUserId.HasValue)
+            if (_ignoreUserId.HasValue)
             {
                 query = query.Where(x => x.Id != _ignoreUserId.Value);
             }

@@ -6,7 +6,6 @@ using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -38,6 +37,19 @@ namespace Module.Core.Data
             var items = await results.ToListAsync(cancellationToken);
 
             var result = new PagedCollection<TViewModel>(items, total, pagingOptions);
+            return result;
+        }
+
+        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IRepository<TEntity> repository, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+            where TEntity : BaseEntity
+            where TViewModel : class
+        {
+            var result = repository.AsReadOnly().ListAsync(null,
+                selector,
+                pagingOptions,
+                searchOptions,
+                cancellationToken);
+
             return result;
         }
 
@@ -186,6 +198,39 @@ namespace Module.Core.Data
 
             var lambda = Expression.Lambda<Func<TEntity, dynamic>>(list, x);
             return lambda;
+        }
+
+        public static async Task UpdateAsync<TEntity>(this IRepository<TEntity> repository, IEnumerable<long> inputs, Expression<Func<TEntity, bool>> searchAllIdPredicate, Expression<Func<TEntity, long>> allIdSelector, Func<long, TEntity> newEntitySelector, Func<IEnumerable<long>, Expression<Func<TEntity, bool>>> deletedEntityPredicate) where TEntity : BaseEntity
+        {
+            var allQuery = repository
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted);
+
+            if (searchAllIdPredicate != null)
+                allQuery = allQuery.Where(searchAllIdPredicate);
+
+            var allIds = await allQuery.Select(allIdSelector).ToListAsync();
+
+            // new
+            var newItems = inputs.Except(allIds).Select(newEntitySelector);
+            await repository.AddRangeAsync(newItems);
+
+            // deleted
+            var deletedIds = allIds.Except(inputs);
+            var deletedQuery = repository
+                .AsQueryable()
+                .Where(x => !x.IsDeleted);
+
+            if (deletedEntityPredicate != null)
+            {
+                var deletedEntityPredicateExpression = deletedEntityPredicate(deletedIds);
+                deletedQuery = deletedQuery.Where(deletedEntityPredicateExpression);
+            }
+
+            var deletedItems = await deletedQuery.ToListAsync();
+            repository.RemoveRange(deletedItems);
+
+            // deletedIds.Contains(x.MethodId) && x.CourseId == request.Id
         }
 
     }

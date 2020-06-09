@@ -12,6 +12,8 @@ import { NzModalService } from 'ng-zorro-antd';
 import { RoomModalComponent } from '../room-modal/room-modal.component';
 import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
 import { BedHttpService } from 'src/services/http/hostel/bed-http.service';
+import { of } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-allocation-add',
@@ -46,7 +48,10 @@ export class AllocationAddComponent extends FormComponent {
       roomOrBed: [this.roomOrBed],
       participant: [null, [], this.v.required.bind(this)],
       room: [],
-      bed: []
+      bed: [],
+      checkoutDate: [null, [], this.checkoutValidation.bind(this)],
+      days: [null, [], this.numberValidation.bind(this)],
+      amount: [null, [], this.numberValidation.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -157,12 +162,28 @@ export class AllocationAddComponent extends FormComponent {
       nzWidth: '80%',
       nzContent: component,
       nzGetContainer: () => document.body,
-      nzComponentParams: {
-        // title: 'title in component',
-        // subtitle: 'component sub title，will be changed after 2 sec'
-      },
+      nzComponentParams: {},
       nzFooter: this.modalFooter
     });
+  }
+
+  checkoutValidation(control: FormControl) {
+    if(this.isEditMode()) {
+      return this.v.required(control);
+    }
+    return of(true);
+  }
+
+  numberValidation(control: FormControl) {
+    if(this.isEditMode()) {
+      if (!control.value) {
+        return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+      }
+      else if (Number(control.value) <= 0) {
+        return this.error(MESSAGE_KEY.MUST_BE_GREATER_THAN_ZERO);
+      }
+    }
+    return of(true);
   }
 
 }

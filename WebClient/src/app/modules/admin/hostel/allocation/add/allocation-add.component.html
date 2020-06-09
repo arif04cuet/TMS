@@ -29,20 +29,44 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-                    <!-- <div nz-col [nzSpan]="8">
-                        <nz-form-item class="field-container">
-                            <div>
-                                <label>{{'checkout'|translate}}</label>
-                            </div>
-                            <nz-form-control>
-                                <nz-date-picker formControlName="checkoutDate"></nz-date-picker>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div> -->
                     <div nz-col [nzSpan]="12">
                         <app-select-control mandatory="true" #userSelect label="user" labelKey="fullName"
                             [formControl]="form.controls.participant">
                         </app-select-control>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label>{{'checkout'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <nz-date-picker formControlName="checkoutDate"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'total.days'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="number" nz-input formControlName="days"
+                                    placeholder="{{'name'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'amount'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="number" nz-input formControlName="amount"
+                                    placeholder="{{'amount'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
                     </div>
                 </div>
                 <div nz-row [nzGutter]="24">

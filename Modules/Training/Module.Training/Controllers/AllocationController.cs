@@ -42,6 +42,13 @@ namespace Module.Training.Controllers
             return result.ToCreatedResult();
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] AllocationUpdateRequest request)
+        {
+            var result = await _allocationService.UpdateAsync(request);
+            return result.ToCreatedResult();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {

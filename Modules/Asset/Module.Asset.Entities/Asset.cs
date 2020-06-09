@@ -28,7 +28,11 @@ namespace Module.Asset.Entities
         [Searchable]
         public string Name { get; set; }
 
+        public DateTime? InventoryEntryDate { get; set; }
+
+        public double PurchaseCost { get; set; }
         public DateTime? PurchaseDate { get; set; }
+
         [Searchable]
         public long? SupplierId { get; set; }
         [Searchable]
@@ -36,8 +40,7 @@ namespace Module.Asset.Entities
 
         public string OrderNo { get; set; }
         public string InvoiceNo { get; set; }
-
-        public double PurchaseCost { get; set; }
+        public DateTime? InvoiceDate { get; set; }
 
         public int Warranty { get; set; }
         public int Maintenance { get; set; }

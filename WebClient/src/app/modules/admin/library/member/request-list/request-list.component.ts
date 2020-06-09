@@ -8,15 +8,13 @@ import { LibraryMemberHttpService } from 'src/services/http/library-member-http.
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 
 @Component({
-  selector: 'app-member-request-list',
-  templateUrl: './member-request-list.component.html'
+  selector: 'app-request-list',
+  templateUrl: './request-list.component.html'
 })
 export class MemberRequestListComponent extends TableComponent {
 
-  libraries = [];
-
   @Searchable("User.FullName", "like") name;
-  @Searchable("LibraryId", "eq") library;
+  @Searchable("Library.Name", "like") library;
   @Searchable("User.Mobile", "like") mobile;
   @Searchable("User.Email", "like") email;
 
@@ -34,30 +32,14 @@ export class MemberRequestListComponent extends TableComponent {
     this.gets();
   }
 
-  add(model = null) {
-    if (model) {
-      this.goTo(`/admin/library/members/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/library/members/add');
-    }
-  }
-
-  addFromExisting() {
-    this.goTo('/admin/library/members/existing/add');
-  }
-
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.libraryMemberHttpService.list(pagination, search),
-      this.libraryHttpService.list(),
-      this.commonHttpService.getStatusList()
+      this.libraryMemberHttpService.listRequests(pagination, search)
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
         this.fill(res[0]);
-        this.libraries = res[1].data.items;
       },
       err => {
         console.log(err);

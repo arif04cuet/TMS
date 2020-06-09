@@ -7,6 +7,7 @@ using Msi.UtilityKit.Search;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Module.Core.Data;
 
 namespace Module.Training.Data
 {
@@ -63,7 +64,7 @@ namespace Module.Training.Data
             var item = await _expertiseRepository
                 .AsReadOnly()
                 .Where(x => x.Id == id && !x.IsDeleted)
-                .Select(x => ExpertiseViewModel.Map(x))
+                .Select(ExpertiseViewModel.Select())
                 .FirstOrDefaultAsync();
 
             if (item == null)
@@ -74,18 +75,7 @@ namespace Module.Training.Data
 
         public async Task<PagedCollection<ExpertiseViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var hostels = _expertiseRepository
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions)
-                .ApplyPagination(pagingOptions);
-
-            var results = hostels.Select(x => ExpertiseViewModel.Map(x));
-
-            var total = await hostels.Select(x => x.Id).CountAsync(cancellationToken);
-            var items = await results.ToListAsync(cancellationToken);
-
-            var result = new PagedCollection<ExpertiseViewModel>(items, total, pagingOptions);
+            var result = await _expertiseRepository.ListAsync(ExpertiseViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
             return result;
         }
 

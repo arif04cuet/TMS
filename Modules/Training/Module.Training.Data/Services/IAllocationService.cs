@@ -10,6 +10,8 @@ namespace Module.Training.Data
     {
         Task<long> CreateAsync(AllocationCreateRequest request, CancellationToken cancellationToken = default);
 
+        Task<long> UpdateAsync(AllocationUpdateRequest request, CancellationToken cancellationToken = default);
+
         Task<bool> DeleteAsync(long Id, CancellationToken cancellationToken = default);
 
         Task<AllocationViewModel> Get(long Id, CancellationToken cancellationToken = default);

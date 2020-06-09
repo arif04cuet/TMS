@@ -8,6 +8,8 @@ namespace Module.Asset.Data
         public string OrderNo { get; set; }
         public string InvoiceNo { get; set; }
         public DateTime? PurchaseDate { get; set; }
+        public DateTime? InventoryEntryDate { get; set; }
+        public DateTime? InvoiceDate { get; set; }
         public long? Supplier { get; set; }
         public string Note { get; set; }
         public long? Location { get; set; }
@@ -42,7 +44,9 @@ namespace Module.Asset.Data
             asset.Warranty = Warranty;
             asset.Maintenance = Maintenance;
             asset.DepreciationId = Depreciation;
-            if(asset != null && Media.HasValue)
+            asset.InventoryEntryDate = InventoryEntryDate;
+            asset.InvoiceDate = InvoiceDate;
+            if (asset != null && Media.HasValue)
             {
                 // update
                 asset.MediaId = Media;

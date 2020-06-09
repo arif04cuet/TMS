@@ -15,6 +15,8 @@ namespace Module.Asset.Data
         public string ItemNo { get; set; }
         public string Name { get; set; }
         public DateTime? PurchaseDate { get; set; }
+        public DateTime? InventoryEntryDate { get; set; }
+        public DateTime? InvoiceDate { get; set; }
         public IdNameViewModel Supplier { get; set; }
         public string OrderNo { get; set; }
         public string InvoiceNo { get; set; }
@@ -52,6 +54,8 @@ namespace Module.Asset.Data
                 Warranty = x.Warranty,
                 Maintenance = x.Maintenance,
                 AssetTag = x.AssetTag,
+                InvoiceDate = x.InvoiceDate,
+                InventoryEntryDate = x.InventoryEntryDate,
                 Barcode = x.Barcode,
                 Category = new AssetCategoryViewModel { Id = x.AssetModel.Category.Id, Name = x.AssetModel.Category.Name, IsRequireUserConfirmation = x.AssetModel.Category.IsRequireUserConfirmation, IsSendEmailToUser = x.AssetModel.Category.IsSendEmail },
 

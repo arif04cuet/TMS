@@ -6,16 +6,20 @@ namespace Module.Training.Data
     {
         public string Name { get; set; }
         public string Duration { get; set; }
-        public string Marks { get; set; }
+        public int Marks { get; set; }
         public string Objectives { get; set; }
+        public long Director { get; set; }
 
-        public CourseModule Map(CourseModule grade = null)
+        public long[] Topics { get; set; }
+
+        public CourseModule Map(CourseModule courseModel = null)
         {
-            var entity = grade ?? new CourseModule();
+            var entity = courseModel ?? new CourseModule();
             entity.Name = Name;
             entity.Duration = Duration;
             entity.Marks = Marks;
             entity.Objectives = Objectives;
+            entity.DirectorId = Director;
             return entity;
         }
     }
