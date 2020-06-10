@@ -200,6 +200,7 @@ namespace Module.Library.Data
                 RequestDate = DateTime.UtcNow,
                 FullName = request.FullName,
                 Mobile = request.Mobile,
+                Email = request.Email,
                 Password = request.Password.HashPassword()
             };
             await _libraryMemberRequestRepository.AddAsync(memberRequest, ct);

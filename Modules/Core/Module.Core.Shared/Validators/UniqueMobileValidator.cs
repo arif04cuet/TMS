@@ -2,6 +2,7 @@
 using FluentValidation.Validators;
 using Infrastructure.Data;
 using Module.Core.Entities;
+using Module.Library.Entities;
 using System.Linq;
 
 namespace Module.Core.Shared
@@ -32,10 +33,15 @@ namespace Module.Core.Shared
             {
                 query = query.Where(x => x.Id != _ignoreUserId.Value);
             }
-            var exist = query
-                        .Select(x => x.Id)
-                        .Count() > 0;
-            return !exist;
+            var exist = query.Select(x => x.Id).Count() > 0;
+
+            var query2 = _unitOfWork.GetRepository<LibraryMemberRequest>()
+                       .AsReadOnly()
+                       .Where(x => x.Mobile == mobile && !x.IsDeleted);
+
+            var exist2 = query.Select(x => x.Id).Count() > 0;
+
+            return !exist && !exist2;
         }
     }
 }

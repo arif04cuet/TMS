@@ -15,6 +15,7 @@
     <ProjectReference Include="..\..\..\Infrastructure.Data\Infrastructure.Data.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\Msi.UtilityKit\Msi.UtilityKit.csproj" />
+    <ProjectReference Include="..\..\Library\Module.Library.Entities\Module.Library.Entities.csproj" />
     <ProjectReference Include="..\Module.Core.Entities\Module.Core.Entities.csproj" />
   </ItemGroup>
 
