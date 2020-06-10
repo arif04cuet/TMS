@@ -38,7 +38,7 @@ namespace Module.Core.Shared
             var query2 = _unitOfWork.GetRepository<LibraryMemberRequest>()
                         .AsReadOnly()
                         .Where(x => !x.IsDeleted && x.Email.ToLower() == email.ToLower());
-            var exist2 = query.Select(x => x.Id).Count() > 0;
+            var exist2 = query2.Select(x => x.Id).Count() > 0;
 
             return !exist && !exist2;
         }

@@ -39,7 +39,7 @@ namespace Module.Core.Shared
                        .AsReadOnly()
                        .Where(x => x.Mobile == mobile && !x.IsDeleted);
 
-            var exist2 = query.Select(x => x.Id).Count() > 0;
+            var exist2 = query2.Select(x => x.Id).Count() > 0;
 
             return !exist && !exist2;
         }
