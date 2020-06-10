@@ -152,40 +152,34 @@ namespace Module.Library.Data
             if (memberRequest.IsApproved)
                 throw new ValidationException("Member already approved");
 
+            var isUserExist = (await _userRepository
+                .AsReadOnly()
+                .Where(x => (x.Email == memberRequest.Email || x.Mobile == memberRequest.Mobile) && !x.IsDeleted)
+                .Select(x => x.Id)
+                .CountAsync()) > 0;
+
+            if(isUserExist)
+                throw new ValidationException("Email or mobile not available");
+
+            var user = new User
+            {
+                FullName = memberRequest.FullName,
+                Email = memberRequest.Email,
+                Mobile = memberRequest.Mobile,
+                StatusId = StatusConstants.Pending,
+                Password = memberRequest.Password
+            };
+            await _userRepository.AddAsync(user, ct);
+            var result = await _unitOfWork.SaveChangesAsync(ct);
+
             var member = new LibraryMember
             {
-                UserId = memberRequest.UserId,
+                UserId = user.Id,
                 LibraryId = memberRequest.LibraryId,
                 MemberSince = DateTime.UtcNow
             };
             await _libraryMemberRepository.AddAsync(member, ct);
             memberRequest.IsApproved = true;
-
-            var result = await _unitOfWork.SaveChangesAsync(ct);
-            return memberRequest.Id;
-        }
-
-        public async Task<long> CreateRequestAsync(LibraryMemberRequestCreateRequest request, CancellationToken ct = default)
-        {
-            var user = new User
-            {
-                FullName = request.FullName,
-                Email = request.Email,
-                Mobile = request.Mobile,
-                StatusId = StatusConstants.Pending,
-                Password = request.Password.HashPassword()
-            };
-
-            await _userRepository.AddAsync(user, ct);
-            await _unitOfWork.SaveChangesAsync(ct);
-
-            var memberRequest = new LibraryMemberRequest
-            {
-                UserId = user.Id,
-                LibraryId = request.Library,
-                RequestDate = DateTime.UtcNow
-            };
-            await _libraryMemberRequestRepository.AddAsync(memberRequest, ct);
 
             var role = new UserRole
             {
@@ -193,8 +187,24 @@ namespace Module.Library.Data
                 RoleId = RoleConstants.LibraryMember
             };
             await _userRoleRepository.AddAsync(role, ct);
+
+            result += await _unitOfWork.SaveChangesAsync(ct);
+            return memberRequest.Id;
+        }
+
+        public async Task<long> CreateRequestAsync(LibraryMemberRequestCreateRequest request, CancellationToken ct = default)
+        {
+            var memberRequest = new LibraryMemberRequest
+            {
+                LibraryId = request.Library,
+                RequestDate = DateTime.UtcNow,
+                FullName = request.FullName,
+                Mobile = request.Mobile,
+                Password = request.Password.HashPassword()
+            };
+            await _libraryMemberRequestRepository.AddAsync(memberRequest, ct);
             var result = await _unitOfWork.SaveChangesAsync(ct);
-            return user.Id;
+            return memberRequest.Id;
         }
 
         public async Task<bool> DeleteAsync(long id, CancellationToken ct = default)
@@ -260,10 +270,9 @@ namespace Module.Library.Data
                 .Select(x => new LibraryMemberListViewModel
                 {
                     Id = x.Id,
-                    UserId = x.UserId,
-                    Email = x.User.Email,
-                    FullName = x.User.FullName,
-                    Mobile = x.User.Mobile,
+                    Email = x.Email,
+                    FullName = x.FullName,
+                    Mobile = x.Mobile,
                     Library = new IdNameViewModel
                     {
                         Id = x.Library.Id,
@@ -291,7 +300,6 @@ namespace Module.Library.Data
             var total = items.Count();
             return new PagedCollection<LibraryMemberCardListViewModel>(items.ToList(), total, pagingOptions);
         }
-
 
         public async Task<LibraryMemberViewModel> GetAsync(long id)
         {
