@@ -15,6 +15,7 @@ namespace OTMS.Extensions
                     .AllowAnyMethod()
                     .WithOrigins("http://localhost:4200")
                     .WithOrigins("http://localhost:4300")
+                    .WithOrigins("http://localhost:4400")
                     .WithOrigins("http://180.148.214.178")
                     .AllowCredentials();
                 });

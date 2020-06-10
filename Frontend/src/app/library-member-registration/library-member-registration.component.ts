@@ -34,7 +34,7 @@ export class LibraryMemberRegistrationComponent extends FormComponent {
     const body: any = this.constructObject(this.form.controls);
     this.submitForm(
       {
-        request: this.libraryHttpService.add(body),
+        request: this.libraryHttpService.registration(body),
         succeed: res => {
           this.success('Success');
         },
