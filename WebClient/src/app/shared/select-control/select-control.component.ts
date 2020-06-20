@@ -27,6 +27,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   infoText: string = '';
 
   loading: boolean = false;
+  loadingMore: boolean = false;
   items = [];
 
   private _value;
@@ -40,6 +41,9 @@ export class SelectControlComponent implements ControlValueAccessor {
   private _selectFirstOption = false;
   private _onLoadCompleted;
 
+  private loadingMoreCallCount = 0;
+  private lastLoadingMoreFetchItems = [];
+
   get value() {
     return this._value;
   }
@@ -47,13 +51,14 @@ export class SelectControlComponent implements ControlValueAccessor {
   set value(value) {
     this._value = value;
     this.propagateChange(this._value);
-    console.log('select', value);
   }
 
   constructor() {
   }
 
   ngOnInit() {
+    this.lastLoadingMoreFetchItems = [];
+    this.loadingMoreCallCount = 0;
   }
 
   writeValue(value: any) {
@@ -80,7 +85,9 @@ export class SelectControlComponent implements ControlValueAccessor {
       const subscription = this.fetchFn(pagination, search).subscribe(
         (res: any) => {
           this.loading = false;
+          this.loadingMore = false;
           const items = res.data.items || [];
+          this.lastLoadingMoreFetchItems = items;
           if (clearOnFetch) {
             this.items = [];
           }
@@ -143,13 +150,19 @@ export class SelectControlComponent implements ControlValueAccessor {
   }
 
   loadMore() {
-    this.loading = true;
-    this.fetchNext()
+    const canLoadMore = (this.loadingMoreCallCount == 0
+    || (this.loadingMoreCallCount > 0 && this.lastLoadingMoreFetchItems.length > 0))
+    && !this.loadingMore;
+    if(canLoadMore) {
+      this.loadingMore = true;
+      this.fetchNext()
+      this.loadingMoreCallCount++;
+    }
   }
 
   getLabel(data: any, key: string) {
     let d = JSON.parse(JSON.stringify(data));
-    if(key) {
+    if (key) {
       key.split('.').forEach(k => {
         d = d[k];
       });
@@ -165,7 +178,9 @@ export class SelectControlComponent implements ControlValueAccessor {
   }
 
   private busy(value) {
-    setTimeout(() => this.loading = value, 0);
+    setTimeout(() => {
+      this.loading = value
+    }, 0);
   }
 
 

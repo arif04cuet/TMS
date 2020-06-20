@@ -49,6 +49,13 @@ namespace Module.Training.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("{id}/evaluation-methods")]
+        public async Task<ActionResult> ListEvaluationMethod(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _batchScheduleService.EvaluationMethodListAsync(id, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]BatchScheduleCreateRequest request)
         {

@@ -10832,6 +10832,9 @@ namespace OTMS.Migrations
                     b.Property<long>("ClassRoutineId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("CourseModuleId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -10856,6 +10859,8 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClassRoutineId");
+
+                    b.HasIndex("CourseModuleId");
 
                     b.ToTable("ClassRoutineModule","training");
                 });
@@ -11266,6 +11271,150 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EvaluationMethod","training");
+                });
+
+            modelBuilder.Entity("Module.Training.Entities.Exam", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("BatchScheduleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("EvaluationMethodId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ExamDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Mark")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int>("TotalMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BatchScheduleId");
+
+                    b.HasIndex("EvaluationMethodId");
+
+                    b.ToTable("Exam","training");
+                });
+
+            modelBuilder.Entity("Module.Training.Entities.ExamParticipant", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ExamId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("ParticipantId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.ToTable("ExamParticipant","training");
+                });
+
+            modelBuilder.Entity("Module.Training.Entities.ExamQuestion", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ExamId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("QuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("ExamQuestion","training");
                 });
 
             modelBuilder.Entity("Module.Training.Entities.Expertise", b =>
@@ -12927,6 +13076,10 @@ namespace OTMS.Migrations
                         .HasForeignKey("ClassRoutineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Module.Training.Entities.CourseModule", "CourseModule")
+                        .WithMany()
+                        .HasForeignKey("CourseModuleId");
                 });
 
             modelBuilder.Entity("Module.Training.Entities.Course", b =>
@@ -13033,6 +13186,51 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Training.Entities.CourseModule", "CourseModule")
                         .WithMany()
                         .HasForeignKey("CourseModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Module.Training.Entities.Exam", b =>
+                {
+                    b.HasOne("Module.Training.Entities.BatchSchedule", "BatchSchedule")
+                        .WithMany()
+                        .HasForeignKey("BatchScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Training.Entities.EvaluationMethod", "EvaluationMethod")
+                        .WithMany()
+                        .HasForeignKey("EvaluationMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Module.Training.Entities.ExamParticipant", b =>
+                {
+                    b.HasOne("Module.Training.Entities.Exam", "Exam")
+                        .WithMany()
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Core.Entities.User", "Participant")
+                        .WithMany()
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Module.Training.Entities.ExamQuestion", b =>
+                {
+                    b.HasOne("Module.Training.Entities.Exam", "Exam")
+                        .WithMany()
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Training.Entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -13183,7 +13381,7 @@ namespace OTMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Module.Training.Entities.CourseModuleTopic", "Topic")
+                    b.HasOne("Module.Training.Entities.Topic", "Topic")
                         .WithMany()
                         .HasForeignKey("TopicId");
                 });

@@ -10,6 +10,7 @@ using Infrastructure;
 using Module.Core.Extensions;
 using System.IO;
 using Module.Core.Shared;
+using System.Runtime.Loader;
 
 namespace OTMS
 {

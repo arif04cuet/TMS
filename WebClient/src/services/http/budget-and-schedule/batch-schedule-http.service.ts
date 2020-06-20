@@ -18,5 +18,11 @@ export class BatchScheduleHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
+    listEvaluationMethods(batchScheduleId, pagination, search) {
+        let url = `${this.END_POINT}/${batchScheduleId}/evaluation-methods`;
+        url = this.buildUrl(url, pagination, search);
+        return this.httpService.get(url);
+    }
+
 
 }

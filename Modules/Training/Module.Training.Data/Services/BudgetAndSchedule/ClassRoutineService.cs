@@ -34,6 +34,16 @@ namespace Module.Training.Data
 
         public async Task<long> CreateAsync(ClassRoutineCreateRequest request, CancellationToken cancellationToken = default)
         {
+
+            // check if multiple class routine
+            var classRoutineExist = await _classRoutineRepository
+                .Where(x => x.BatchScheduleId == request.BatchSchedule && !x.IsDeleted)
+                .Select(x => x.Id)
+                .CountAsync() > 0;
+
+            if (classRoutineExist)
+                throw new ValidationException("Already class routine exists");
+
             var entity = request.Map();
             await _classRoutineRepository.AddAsync(entity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -41,10 +51,8 @@ namespace Module.Training.Data
             // module routines
             foreach (var module in request.Modules)
             {
-                var newModule = new ClassRoutineModule
-                {
-                    ClassRoutineId = entity.Id
-                };
+                var newModule = module.Map();
+                newModule.ClassRoutineId = entity.Id;
                 await _classRoutineModuleRepository.AddAsync(newModule, cancellationToken);
                 result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -88,6 +96,19 @@ namespace Module.Training.Data
                     if (dbModule == null)
                         throw new ValidationException("Class routine module not found");
 
+                    module.Map(dbModule);
+
+                    // delete module routines
+                    // if add new module routines ignore them from deleting
+                    var requestModuleRoutineIds = module.Routines
+                        .Where(x => x.Id.HasValue)
+                        .Select(x => x.Id.Value);
+
+                    var moduleRoutineToBeDeleted = await _moduleRoutineRepository
+                        .Where(x => x.ModuleId == module.Id.Value && !requestModuleRoutineIds.Contains(x.Id) && !x.IsDeleted)
+                        .ToListAsync();
+                    _moduleRoutineRepository.RemoveRange(moduleRoutineToBeDeleted);
+
                     foreach (var routine in module.Routines)
                     {
                         if (routine.Id.HasValue)
@@ -100,6 +121,16 @@ namespace Module.Training.Data
                                 throw new ValidationException("Class module routine not found");
 
                             routine.Map(dbModuleRoutine);
+
+                            // delete periods
+                            var requestPeriodIds = routine.Periods
+                                .Where(x => x.Id.HasValue)
+                                .Select(x => x.Id.Value);
+
+                            var periodToBeDeleted = await _routinePeriodRepository
+                                .Where(x => x.RoutineId == routine.Id.Value && !requestPeriodIds.Contains(x.Id) && !x.IsDeleted)
+                                .ToListAsync();
+                            _routinePeriodRepository.RemoveRange(periodToBeDeleted);
 
                             foreach (var period in routine.Periods)
                             {
@@ -120,18 +151,10 @@ namespace Module.Training.Data
                                     var newPeriod = period.Map();
                                     newPeriod.RoutineId = routine.Id.Value;
                                     await _routinePeriodRepository.AddAsync(newPeriod);
+                                    result += await _unitOfWork.SaveChangesAsync();
                                 }
                             }
 
-                            // delete periods
-                            var requestPeriodIds = routine.Periods
-                                .Where(x => x.Id.HasValue)
-                                .Select(x => x.Id.Value);
-
-                            var periodToBeDeleted = await _routinePeriodRepository
-                                .Where(x => x.RoutineId == routine.Id.Value && !requestPeriodIds.Contains(x.Id) && !x.IsDeleted)
-                                .ToListAsync();
-                            _routinePeriodRepository.RemoveRange(periodToBeDeleted);
                         }
                         else
                         {
@@ -139,18 +162,14 @@ namespace Module.Training.Data
                             var newModuleRoutine = routine.Map();
                             newModuleRoutine.ModuleId = module.Id.Value;
                             await _moduleRoutineRepository.AddAsync(newModuleRoutine);
+                            result += await _unitOfWork.SaveChangesAsync();
+
+                            // periods
+                            await AddRoutinePeriods(newModuleRoutine.Id, routine.Periods);
+                            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
                         }
                     }
 
-                    // delete module routines
-                    var requestModuleRoutineIds = module.Routines
-                        .Where(x => x.Id.HasValue)
-                        .Select(x => x.Id.Value);
-
-                    var moduleRoutineToBeDeleted = await _moduleRoutineRepository
-                        .Where(x => x.ModuleId == module.Id.Value && !requestModuleRoutineIds.Contains(x.Id) && !x.IsDeleted)
-                        .ToListAsync();
-                    _moduleRoutineRepository.RemoveRange(moduleRoutineToBeDeleted);
                 }
                 else
                 {
@@ -175,14 +194,14 @@ namespace Module.Training.Data
             }
 
             // delete class routine modules
-            var requestRoutineModuleIds = request.Modules
-                .Where(x => x.Id.HasValue)
-                .Select(x => x.Id.Value);
+            //var requestRoutineModuleIds = request.Modules
+            //    .Where(x => x.Id.HasValue)
+            //    .Select(x => x.Id.Value);
 
-            var routineModuleToBeDeleted = await _classRoutineModuleRepository
-                .Where(x => x.ClassRoutineId == request.Id && !requestRoutineModuleIds.Contains(x.Id) && !x.IsDeleted)
-                .ToListAsync();
-            _classRoutineModuleRepository.RemoveRange(routineModuleToBeDeleted);
+            //var routineModuleToBeDeleted = await _classRoutineModuleRepository
+            //    .Where(x => x.ClassRoutineId == request.Id && !requestRoutineModuleIds.Contains(x.Id) && !x.IsDeleted)
+            //    .ToListAsync();
+            //_classRoutineModuleRepository.RemoveRange(routineModuleToBeDeleted);
 
             result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
@@ -208,7 +227,7 @@ namespace Module.Training.Data
 
         public async Task<PagedCollection<ClassRoutineViewModel>> ListAsync(long batchScheduleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var result = await _classRoutineRepository.ListAsync(ClassRoutineViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
+            var result = await _classRoutineRepository.ListAsync(x => x.BatchScheduleId == batchScheduleId, ClassRoutineViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
             return result;
         }
 

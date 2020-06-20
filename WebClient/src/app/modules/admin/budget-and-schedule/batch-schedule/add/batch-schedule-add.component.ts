@@ -21,7 +21,8 @@ export class BatchScheduleAddComponent extends FormComponent {
   @ViewChild('coCoordinatorSelect') coCoordinatorSelect: SelectControlComponent;
 
   batchScheduleAddEditTitle;
-  private currentSelectedTab;
+  currentSelectedTab;
+  hideFooterIndexes = [2, 3]
 
   constructor(
     private activatedRoute: ActivatedRoute,

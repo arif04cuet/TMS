@@ -23,5 +23,7 @@ namespace Module.Training.Data
 
         Task<PagedCollection<IdNameViewModel>> ListModuleAsync(long batchScheduleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
+        Task<PagedCollection<IdNameViewModel>> EvaluationMethodListAsync(long batchScheduleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
     }
 }

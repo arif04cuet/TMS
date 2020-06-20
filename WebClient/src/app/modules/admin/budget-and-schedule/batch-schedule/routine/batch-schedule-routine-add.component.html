@@ -3,7 +3,14 @@
 <div [style.display]="loading ? 'none' : ''">
     <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
         <div class="content">
-            <form nz-form [formGroup]="form">
+            <div *ngIf="courseModuleCount <= 0">
+                <nz-empty [nzNotFoundContent]="emptyTemplate">
+                    <ng-template #emptyTemplate>
+                        <span>{{'no.module.found'|translate}}</span>
+                    </ng-template>
+                </nz-empty>
+            </div>
+            <form nz-form [formGroup]="form" [style.display]="courseModuleCount > 0 ? '' : 'none'">
                 <ng-container formArrayName="modules">
                     <ng-container *ngFor="let module of form.get('modules')?.controls; let i = index">
                         <div class="form-repeat-item2" [formGroupName]="i">

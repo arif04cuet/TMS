@@ -84,6 +84,17 @@ namespace Module.Training.Data
                 },
                 ids => x => ids.Contains(x.DesignationId) && x.CourseScheduleId == request.Id);
 
+            // delete budgets
+            var requestBudgetIds = request.Budgets
+                .Where(x => x.Id.HasValue)
+                .Select(x => x.Id.Value);
+
+            var budgetsToBeDeleted = await _budgetRepository
+                .Where(x => x.CourseScheduleId == request.Id && !requestBudgetIds.Contains(x.Id) && !x.IsDeleted)
+                .ToListAsync();
+
+            _budgetRepository.RemoveRange(budgetsToBeDeleted);
+
             foreach (var budget in request.Budgets)
             {
                 budget.CourseSchedule = request.Id;
@@ -142,16 +153,6 @@ namespace Module.Training.Data
                     await AddBudgetItems(budget, newBudget.Id);
                 }
 
-                // delete budgets
-                var requestBudgetIds = request.Budgets
-                    .Where(x => x.Id.HasValue)
-                    .Select(x => x.Id.Value);
-
-                var budgetsToBeDeleted = await _budgetRepository
-                    .Where(x => x.CourseScheduleId == request.Id && !requestBudgetIds.Contains(x.Id) && !x.IsDeleted)
-                    .ToListAsync();
-
-                _budgetRepository.RemoveRange(budgetsToBeDeleted);
             }
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

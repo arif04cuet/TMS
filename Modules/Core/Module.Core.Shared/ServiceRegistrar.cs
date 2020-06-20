@@ -1,6 +1,7 @@
 ﻿using DinkToPdf;
 using DinkToPdf.Contracts;
 using Infrastructure;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,8 +22,11 @@ namespace Module.Core.Shared
             var emailOptions = config.GetSection(nameof(EmailOptions));
             services.Configure<EmailOptions>(option => emailOptions.Bind(option));
 
+            // new CustomAssemblyLoadContext().LoadUnmanagedLibrary()
+
             //DinkToPdf
-            //services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddTransient<IPdfConverter, DinkToPdfConverter>();
 
             // Name Services
             services.AddScoped(typeof(INameService<>), typeof(NameService<>));

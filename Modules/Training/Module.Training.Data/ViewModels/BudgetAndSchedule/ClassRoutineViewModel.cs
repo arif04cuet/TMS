@@ -8,15 +8,18 @@ namespace Module.Training.Data
 {
     public class ClassRoutineViewModel
     {
+        public long Id { get; set; }
         public IEnumerable<ClassRoutineModuleRequest> Modules { get; set; }
 
         public static Expression<Func<ClassRoutine, ClassRoutineViewModel>> Select()
         {
             return a => new ClassRoutineViewModel
             {
+                Id = a.Id,
                 Modules = a.RoutineModules.Select(b => new ClassRoutineModuleRequest
                 {
                     Id = b.Id,
+                    Module = b.CourseModuleId,
                     Routines = b.ModuleRoutines.Select(c => new ModuleRoutineRequest
                     {
                         Id = c.Id,

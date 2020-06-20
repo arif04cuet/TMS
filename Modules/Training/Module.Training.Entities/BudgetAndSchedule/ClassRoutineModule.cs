@@ -17,6 +17,9 @@ namespace Module.Training.Entities
         public long ClassRoutineId { get; set; }
         public ClassRoutine ClassRoutine { get; set; }
 
+        public long? CourseModuleId { get; set; }
+        public CourseModule CourseModule { get; set; }
+
         public ICollection<ModuleRoutine> ModuleRoutines { get; set; }
     }
 }

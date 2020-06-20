@@ -13,6 +13,7 @@ import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/
 import { BatchScheduleAddRoutingModule } from './batch-schedule-add-routing.module'
 import { ParticipantsModule } from '../participants/participants.module';
 import { BatchScheduleRoutineAddModule } from '../routine/batch-schedule-routine-add.module';
+import { ExamHomeModule } from '../exam/home/exam-home.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BatchScheduleRoutineAddModule } from '../routine/batch-schedule-routine
     SharedModule,
     SelectControlModule,
     ParticipantsModule,
-    BatchScheduleRoutineAddModule
+    BatchScheduleRoutineAddModule,
+    ExamHomeModule
   ],
   exports: [BatchScheduleAddComponent],
   providers: [

@@ -96,9 +96,14 @@
                     <app-participants></app-participants>
                 </ng-template>
             </nz-tab>
+            <nz-tab nzTitle="{{ 'exams'|translate }}">
+                <ng-template nz-tab>
+                    <app-exam-home></app-exam-home>
+                </ng-template>
+            </nz-tab>
         </nz-tabset>
     </form>
-    <div class="block footer pad-v-12 pad-h-20 box-divider">
+    <div [style.display]="hideFooterIndexes.includes(currentSelectedTab?.index || 0)  ? 'none' : ''" class="block footer pad-v-12 pad-h-20 box-divider">
         <div class="column">
             <button (click)="cancel()" nz-button class="btn-custom">
                 {{'cancel'|translate}}

@@ -393,5 +393,10 @@
   "class.routines": "Class routines",
   "add.routine": "Add routine",
   "add.period": "Add period",
-  "training.date": "Training date"
+  "training.date": "Training date",
+  "no.module.found": "No module found",
+  "exams": "Exams",
+  "total.minutes": "Total minutes",
+  "exam.date": "Exam date",
+  "loading.data": "Loading data..."
 }

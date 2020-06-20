@@ -27,6 +27,7 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
 
   batchScheduleId;
   classRoutineId;
+  courseModuleCount;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -137,12 +138,12 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
       ])
       this.subscribe(requests,
         (res: any) => {
-          const courseModule = res[0]?.data.modules?.length;
+          this.courseModuleCount = res[0]?.data.modules?.length;
           if (res[1].data.items && res[1].data.items.length) {
             this.classRoutineId = res[1].data.items[0].id;
             this.markModeAsEdit();
           }
-          this.prepareForm(courseModule, res[1]?.data?.items);
+          this.prepareForm(this.courseModuleCount, res[1]?.data?.items);
           this.loading = false;
         },
         err => {
@@ -174,8 +175,11 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
 
   prepareForm(moduleCount, data) {
     for (let i = 0; i < moduleCount; i++) {
-      const d = data.length > 0 && data.length > i ? data[i] : {};
-      this.createModuleFormGroup(d);
+      let module = {};
+      if(data.length && data[0]?.modules.length && data[0]?.modules.length > i) {
+        module = data[0].modules[i];
+      }
+      this.createModuleFormGroup(module);
     }
   }
 
@@ -216,7 +220,7 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
     });
     forEachObj(formGroup.controls, (k, v) => {
       const dataValue = data[k];
-      if (k == "routines") {
+      if (k == "periods") {
         if (dataValue && dataValue.length) {
           dataValue.forEach(item => {
             this.createPeriodFormGroup(formGroup, item)
