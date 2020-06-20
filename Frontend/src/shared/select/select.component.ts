@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-select',
-  templateUrl: './select.component.html'
+  templateUrl: './select.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class SelectComponent {
 
@@ -53,7 +54,9 @@ export class SelectComponent {
           if (clearOnFetch) {
             this.items = [];
           }
-          this.items = [...this.items, ...items];
+          setTimeout(() => {
+            this.items = [...this.items, ...items];
+          }, 0);
           this.busy(false);
           if (this._selectFirstOption && this.items[0].length > 0) {
             this._value = this.items[0].id;

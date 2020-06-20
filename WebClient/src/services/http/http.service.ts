@@ -46,11 +46,12 @@ export class HttpService {
 
     download(url: string, body: any) {
         const httpHeaders = this.getHttpHeaders();
-        return new HttpRequest('POST', `${environment.baseUrl}/${url}`, body, {
+        const req = new HttpRequest('POST', `${environment.baseUrl}/${url}`, body, {
             reportProgress: true,
             responseType: 'blob',
             headers: httpHeaders
         });
+        return req;
     }
 
     public getHttpHeaders(): HttpHeaders {

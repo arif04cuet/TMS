@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Module.Training.Entities\Module.Training.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\BudgetAndSchedule\" />
-  </ItemGroup>
-
 </Project>

@@ -11,6 +11,7 @@ import { ResourcePersonAddComponent } from './resource-person-add.component';
 import { ResourcePersonAddRoutingModule } from './resource-person-add-routing.module';
 import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.service';
+import { HonorariumHeadHttpService } from 'src/services/http/budget-and-schedule/honorarium-head-http.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.se
     CommonValidator,
     ResourcePersonHttpService,
     DesignationHttpService,
-    ExpertiseHttpService
+    ExpertiseHttpService,
+    HonorariumHeadHttpService
   ]
 })
 export class ResourcePersonAddModule { }

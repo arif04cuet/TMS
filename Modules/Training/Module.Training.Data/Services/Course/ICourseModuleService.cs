@@ -1,4 +1,5 @@
 ﻿using Infrastructure;
+using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System.Threading;
@@ -17,6 +18,8 @@ namespace Module.Training.Data
         Task<CourseModuleViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<CourseModuleViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
+        Task<PagedCollection<IdNameViewModel>> ListTopicAsync(long courseModuleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
     }
 }

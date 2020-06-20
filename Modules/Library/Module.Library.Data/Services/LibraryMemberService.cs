@@ -142,54 +142,59 @@ namespace Module.Library.Data
 
         public async Task<long> ApproveMemberAsync(LibraryMemberApproveCreateRequest request, CancellationToken ct = default)
         {
-
-            var memberRequest = await _libraryMemberRequestRepository
-                .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
-
-            if (memberRequest == null)
-                throw new ValidationException("Member request not found");
-
-            if (memberRequest.IsApproved)
-                throw new ValidationException("Member already approved");
-
-            var isUserExist = (await _userRepository
-                .AsReadOnly()
-                .Where(x => (x.Email == memberRequest.Email || x.Mobile == memberRequest.Mobile) && !x.IsDeleted)
-                .Select(x => x.Id)
-                .CountAsync()) > 0;
-
-            if(isUserExist)
-                throw new ValidationException("Email or mobile not available");
-
-            var user = new User
+            long count = 0;
+            foreach (var id in request.Ids)
             {
-                FullName = memberRequest.FullName,
-                Email = memberRequest.Email,
-                Mobile = memberRequest.Mobile,
-                StatusId = StatusConstants.Pending,
-                Password = memberRequest.Password
-            };
-            await _userRepository.AddAsync(user, ct);
-            var result = await _unitOfWork.SaveChangesAsync(ct);
+                var memberRequest = await _libraryMemberRequestRepository
+                .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
 
-            var member = new LibraryMember
-            {
-                UserId = user.Id,
-                LibraryId = memberRequest.LibraryId,
-                MemberSince = DateTime.UtcNow
-            };
-            await _libraryMemberRepository.AddAsync(member, ct);
-            memberRequest.IsApproved = true;
+                if (memberRequest == null)
+                    throw new ValidationException("Member request not found");
 
-            var role = new UserRole
-            {
-                UserId = user.Id,
-                RoleId = RoleConstants.LibraryMember
-            };
-            await _userRoleRepository.AddAsync(role, ct);
+                if (memberRequest.IsApproved)
+                    throw new ValidationException("Member already approved");
 
-            result += await _unitOfWork.SaveChangesAsync(ct);
-            return memberRequest.Id;
+                var isUserExist = (await _userRepository
+                    .AsReadOnly()
+                    .Where(x => (x.Email == memberRequest.Email || x.Mobile == memberRequest.Mobile) && !x.IsDeleted)
+                    .Select(x => x.Id)
+                    .CountAsync()) > 0;
+
+                if (isUserExist)
+                    throw new ValidationException("Email or mobile not available");
+
+                var user = new User
+                {
+                    FullName = memberRequest.FullName,
+                    Email = memberRequest.Email,
+                    Mobile = memberRequest.Mobile,
+                    StatusId = StatusConstants.Pending,
+                    Password = memberRequest.Password
+                };
+                await _userRepository.AddAsync(user, ct);
+                var result = await _unitOfWork.SaveChangesAsync(ct);
+
+                var member = new LibraryMember
+                {
+                    UserId = user.Id,
+                    LibraryId = memberRequest.LibraryId,
+                    MemberSince = DateTime.UtcNow
+                };
+                await _libraryMemberRepository.AddAsync(member, ct);
+                memberRequest.IsApproved = true;
+
+                var role = new UserRole
+                {
+                    UserId = user.Id,
+                    RoleId = RoleConstants.LibraryMember
+                };
+                await _userRoleRepository.AddAsync(role, ct);
+
+                result += await _unitOfWork.SaveChangesAsync(ct);
+                count++;
+            }
+
+            return count;
         }
 
         public async Task<long> CreateRequestAsync(LibraryMemberRequestCreateRequest request, CancellationToken ct = default)
@@ -254,7 +259,7 @@ namespace Module.Library.Data
             return new PagedCollection<LibraryMemberListViewModel>(items, total, pagingOptions);
         }
 
-        public async Task<PagedCollection<LibraryMemberListViewModel>> ListMemberRequestAsync(bool? isApproved, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        public async Task<PagedCollection<LibraryMemberRequestListViewModel>> ListMemberRequestAsync(bool? isApproved, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
         {
             var query = _libraryMemberRequestRepository
                 .AsReadOnly()
@@ -268,23 +273,11 @@ namespace Module.Library.Data
 
             var items = await query
                 .ApplyPagination(pagingOptions)
-                .Select(x => new LibraryMemberListViewModel
-                {
-                    Id = x.Id,
-                    Email = x.Email,
-                    FullName = x.FullName,
-                    Mobile = x.Mobile,
-                    Library = new IdNameViewModel
-                    {
-                        Id = x.Library.Id,
-                        Name = x.Library.Name
-                    },
-                    Photo = _mediaService.GetPhotoUrl(x.User.Profile.Media)
-                })
+                .Select(LibraryMemberRequestListViewModel.SelectRequest(_mediaService))
                 .ToListAsync();
 
             var total = await query.Select(x => x.Id).CountAsync();
-            return new PagedCollection<LibraryMemberListViewModel>(items, total, pagingOptions);
+            return new PagedCollection<LibraryMemberRequestListViewModel>(items, total, pagingOptions);
         }
 
         public async Task<PagedCollection<LibraryMemberCardListViewModel>> ListMemberCardsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)

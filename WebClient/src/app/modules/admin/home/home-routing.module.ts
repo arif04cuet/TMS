@@ -604,6 +604,62 @@ const routes: Routes = [
             title: 'expertise'
           }
         }
+      },
+      // Budget and schedule
+      {
+        path: 'trainings/honorarium-heads',
+        loadChildren: () => import('../budget-and-schedule/honorarium-head/list/honorarium-head-list.module').then(x => x.HonorariumHeadListModule),
+        data: {
+          name: 'honorarium_head_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'honorarium.heads'
+          }
+        }
+      },
+      {
+        path: 'trainings/course-schedules',
+        loadChildren: () => import('../budget-and-schedule/course-schedule/list/course-schedule-list.module').then(x => x.CourseScheduleListModule),
+        data: {
+          name: 'course_schedule_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'course.schedules'
+          }
+        }
+      },
+      {
+        path: 'trainings/batch-schedules',
+        loadChildren: () => import('../budget-and-schedule/batch-schedule/list/batch-schedule-list.module').then(x => x.BatchScheduleListModule),
+        data: {
+          name: 'batch_schedule_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'batch.schedules'
+          }
+        }
+      },
+      {
+        path: 'trainings/batch-schedules/allocations',
+        loadChildren: () => import('../budget-and-schedule/batch-schedule/allocation/list/batch-schedule-allocation-list.module').then(x => x.BatchScheduleAllocationListModule),
+        data: {
+          name: 'batch_schedule_allocation_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'allocations'
+          }
+        }
+      },
+      {
+        path: 'trainings/questions',
+        loadChildren: () => import('../budget-and-schedule/question/list/question-list.module').then(x => x.QuestionListModule),
+        data: {
+          name: 'question_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'questions'
+          }
+        }
       }
     ]
   },

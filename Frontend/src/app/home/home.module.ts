@@ -4,6 +4,7 @@ import { HeaderModule } from '../header/header.module';
 import { FooterModule } from '../footer/footer.module';
 import { RouterModule } from '@angular/router';
 import { LibraryMemberRegistrationModule } from '../library-member-registration/library-member-registration.module';
+import { TrainingCourseModule } from '../training-course/training-course.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { LibraryMemberRegistrationModule } from '../library-member-registration/
     RouterModule,
     HeaderModule,
     FooterModule,
-    LibraryMemberRegistrationModule
+    LibraryMemberRegistrationModule,
+    TrainingCourseModule
   ],
   exports: [HomeComponent]
 })

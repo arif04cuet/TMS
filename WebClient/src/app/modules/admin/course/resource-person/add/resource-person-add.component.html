@@ -36,7 +36,8 @@
                                 <label class="required">{{'short.name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="text" nz-input formControlName="shortName" placeholder="{{'short.name'|translate}}" />
+                                <input type="text" nz-input formControlName="shortName"
+                                    placeholder="{{'short.name'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -54,7 +55,8 @@
                                 <label class="required">{{'email'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="text" nz-input formControlName="email" placeholder="{{'email'|translate}}" />
+                                <input type="text" nz-input formControlName="email"
+                                    placeholder="{{'email'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -64,19 +66,15 @@
                                 <label class="required">{{'mobile'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="text" nz-input formControlName="mobile" placeholder="{{'mobile'|translate}}" />
+                                <input type="text" nz-input formControlName="mobile"
+                                    placeholder="{{'mobile'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <nz-form-item class="field-container">
-                            <div>
-                                <label class="required">{{'nid'|translate}}</label>
-                            </div>
-                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="text" nz-input formControlName="nid" placeholder="{{'nid'|translate}}" />
-                            </nz-form-control>
-                        </nz-form-item>
+                        <app-select-control mandatory="true" #honorariumHeadSelect label="honorarium.head" labelKey="head"
+                            [formControl]="form.controls.honorariumHead">
+                        </app-select-control>
                     </div>
                 </div>
 
@@ -95,6 +93,16 @@
                         <app-select-control mode='multiple' #expertiseSelect label="expertise"
                             [formControl]="form.controls.expertises">
                         </app-select-control>
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'nid'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="text" nz-input formControlName="nid" placeholder="{{'nid'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
                     </div>
                 </div>
 

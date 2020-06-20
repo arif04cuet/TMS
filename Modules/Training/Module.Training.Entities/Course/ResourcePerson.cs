@@ -16,6 +16,9 @@ namespace Module.Training.Entities
         public long? OfficeId { get; set; }
         public Office Office { get; set; }
 
+        public long? HonorariumHeadId { get; set; }
+        public HonorariumHead HonorariumHead { get; set; }
+
         public string NID { get; set; }
         public string TIN { get; set; }
     }

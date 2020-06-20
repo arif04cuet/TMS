@@ -37,4 +37,9 @@ export class LibraryMemberHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
+    public approveRequests(body) {
+        let url = this.buildUrl(`${this.END_POINT}/approved?`)
+        return this.httpService.post(url, body);
+    }
+
 }

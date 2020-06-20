@@ -14,6 +14,7 @@ namespace Module.Training.Data
         public string ShortName { get; set; }
         public IdNameViewModel Designation { get; set; }
         public IdNameViewModel Office { get; set; }
+        public IdNameViewModel HonorariumHead { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
         public string NID { get; set; }
@@ -33,6 +34,7 @@ namespace Module.Training.Data
                 Name = x.User.FullName,
                 NID = x.NID,
                 Office = x.OfficeId != null ? new IdNameViewModel { Id = x.Office.Id, Name = x.Office.OfficeName } : null,
+                HonorariumHead = x.HonorariumHeadId != null ? new IdNameViewModel { Id = x.HonorariumHead.Id, Name = x.HonorariumHead.Head } : null,
                 ShortName = x.ShortName,
                 TIN = x.TIN
             };

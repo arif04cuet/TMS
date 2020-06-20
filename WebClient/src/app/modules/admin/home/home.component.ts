@@ -434,6 +434,43 @@ export class HomeComponent extends BaseComponent {
             route: '/admin/courses/resource-persons'
           },
         ]
+      },
+      {
+        level: 1,
+        title: 'budget.and.schedule',
+        icon: 'team',
+        nav: [
+          {
+            level: 2,
+            title: 'course.schedules',
+            icon: 'team',
+            route: '/admin/trainings/course-schedules'
+          },
+          {
+            level: 2,
+            title: 'batch.schedules',
+            icon: 'team',
+            route: '/admin/trainings/batch-schedules'
+          },
+          {
+            level: 2,
+            title: 'allocations',
+            icon: 'team',
+            route: '/admin/trainings/batch-schedules/allocations'
+          },
+          {
+            level: 2,
+            title: 'questions',
+            icon: 'team',
+            route: '/admin/trainings/questions'
+          },
+          {
+            level: 2,
+            title: 'honorarium.heads',
+            icon: 'team',
+            route: '/admin/trainings/honorarium-heads'
+          }
+        ]
       }
     ]
 

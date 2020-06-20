@@ -23,7 +23,7 @@ namespace Module.Library.Data
 
         Task<bool> UpdateAsync(LibraryMemberUpdateRequest request, CancellationToken ct = default);
 
-        Task<PagedCollection<LibraryMemberListViewModel>> ListMemberRequestAsync(bool? isApproved, IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
+        Task<PagedCollection<LibraryMemberRequestListViewModel>> ListMemberRequestAsync(bool? isApproved, IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
         Task<long> CreateRequestAsync(LibraryMemberRequestCreateRequest request, CancellationToken ct = default);
 

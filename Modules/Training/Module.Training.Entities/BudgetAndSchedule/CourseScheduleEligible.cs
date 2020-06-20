@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Module.Training.Entities
 {
     [Table(nameof(CourseScheduleEligible), Schema = SchemaConstants.Training)]
-    public class CourseScheduleEligible : IEntity
+    public class CourseScheduleEligible : BaseEntity
     {
         public long Id { get; set; }
         public long CourseScheduleId { get; set; }

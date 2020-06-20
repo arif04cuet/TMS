@@ -53,7 +53,9 @@ export class SelectComponent {
           if (clearOnFetch) {
             this.items = [];
           }
-          this.items = [...this.items, ...items];
+          setTimeout(() => {
+            this.items = [...this.items, ...items];
+          }, 0)
           this.busy(false);
           if (this._selectFirstOption && this.items[0].length > 0) {
             this._value = this.items[0].id;

@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Entities;
 using Module.Core.Entities.Constants;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Training.Entities
@@ -10,6 +11,8 @@ namespace Module.Training.Entities
         public string Title { get; set; }
         public int Mark { get; set; }
         public QuestionType Type { get; set; }
+
+        public virtual IEnumerable<QuestionOption> Options { get; set; }
     }
 
     public enum QuestionType

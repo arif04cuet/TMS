@@ -7,6 +7,7 @@ import { SelectControlComponent } from 'src/app/shared/select-control/select-con
 import { ResourcePersonHttpService } from 'src/services/http/course/resource-person-http.service';
 import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.service';
+import { HonorariumHeadHttpService } from 'src/services/http/budget-and-schedule/honorarium-head-http.service';
 
 @Component({
   selector: 'app-resource-person-add',
@@ -19,12 +20,14 @@ export class ResourcePersonAddComponent extends FormComponent {
 
   @ViewChild('designationSelect') designationSelect: SelectControlComponent;
   @ViewChild('expertiseSelect') expertiseSelect: SelectControlComponent;
+  @ViewChild('honorariumHeadSelect') honorariumHeadSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private resourcePersonHttpService: ResourcePersonHttpService,
     private designationHttpService: DesignationHttpService,
     private expertiseHttpService: ExpertiseHttpService,
+    private honorariumHeadHttpService: HonorariumHeadHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -41,6 +44,7 @@ export class ResourcePersonAddComponent extends FormComponent {
       nid: [null, [], this.v.required.bind(this)],
       tin: [null, [], this.v.required.bind(this)],
       expertises: [],
+      honorariumHead: [null, [], this.v.required.bind(this)],
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -52,6 +56,10 @@ export class ResourcePersonAddComponent extends FormComponent {
 
     this.expertiseSelect.register((pagination, search) => {
       return this.expertiseHttpService.list(pagination, search);
+    }).fetch();
+
+    this.honorariumHeadSelect.register((pagination, search) => {
+      return this.honorariumHeadHttpService.latestYearHonorariumHeads(pagination, search);
     }).fetch();
   }
 

@@ -22,6 +22,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   @Input() mandatory: boolean = false;
   @Input() info: (item: any) => string | Promise<string>;
   @Input() mode: string = 'default';
+  @Input() name: string = '';
 
   infoText: string = '';
 
@@ -46,6 +47,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   set value(value) {
     this._value = value;
     this.propagateChange(this._value);
+    console.log('select', value);
   }
 
   constructor() {
@@ -82,7 +84,9 @@ export class SelectControlComponent implements ControlValueAccessor {
           if (clearOnFetch) {
             this.items = [];
           }
-          this.items = [...this.items, ...items];
+          setTimeout(() => {
+            this.items = [...this.items, ...items];
+          }, 0);
           this.busy(false);
           if (this._selectFirstOption && this.items.length > 0) {
             this._value = this.items[0].id;
@@ -115,6 +119,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   }
 
   onValueChange(e) {
+    this._value = e;
     if (this.onChange) {
       this.onChange.emit(e);
     }
@@ -140,6 +145,17 @@ export class SelectControlComponent implements ControlValueAccessor {
   loadMore() {
     this.loading = true;
     this.fetchNext()
+  }
+
+  getLabel(data: any, key: string) {
+    let d = JSON.parse(JSON.stringify(data));
+    if(key) {
+      key.split('.').forEach(k => {
+        d = d[k];
+      });
+      return d;
+    }
+    return data.name;
   }
 
   ngOnDestroy() {

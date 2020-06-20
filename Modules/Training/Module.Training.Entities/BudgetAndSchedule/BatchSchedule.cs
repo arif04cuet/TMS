@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Entities;
 using Module.Core.Entities;
 using Module.Core.Entities.Constants;
+using Msi.UtilityKit.Search;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +11,7 @@ namespace Module.Training.Entities
     public class BatchSchedule : BaseEntity
     {
         public long CourseScheduleId { get; set; }
+        [Searchable]
         public CourseSchedule CourseSchedule { get; set; }
 
         public long? CoordinatorId { get; set; }

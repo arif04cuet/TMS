@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class BaseHttpService {
@@ -21,7 +22,7 @@ export class BaseHttpService {
         return this.httpService.get(this.END_POINT + '/' + `${id}`);
     }
 
-    public list(pagination = null, search = null) {
+    public list(pagination = null, search = null): Observable<Object> {
         return this.httpService.get(this.buildUrl(this.END_POINT, pagination, search));
     }
 

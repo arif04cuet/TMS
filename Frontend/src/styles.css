@@ -31,3 +31,11 @@
     padding: 24px;
     min-height: 280px;
   }
+
+  .filter .ant-select {
+    min-width: 200px !important;
+  }
+  
+  .filter .ant-select:first-child {
+    margin-right: 15px;
+  }

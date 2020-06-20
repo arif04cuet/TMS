@@ -1,5 +1,5 @@
 import { BaseComponent } from './base.component';
-import { getSearchableProperties } from 'src/decorators/searchable.decorator';
+// import { getSearchableProperties } from 'src/decorators/searchable.decorator';
 import { Observable } from 'rxjs';
 
 export class TableComponent extends BaseComponent {
@@ -30,40 +30,40 @@ export class TableComponent extends BaseComponent {
         this.loading = false;
     }
 
-    async delete(e) {
-        const deletedText = await this.t('successfully.deleted')
-        const deleteModal = this._modalService.confirm({
-            nzTitle: await this.t('confirm'),
-            nzContent: await this.t('do.you.want.to.delete'),
-            nzOkText: await this.t('delete'),
-            nzCancelText: await this.t('cancel'),
-            nzOkLoading: false,
-            nzClosable: false,
-            nzOnOk: () => {
-                deleteModal.getInstance().nzOkLoading = true;
-                this.subscribe(this.service.delete(e.id),
-                    res => {
-                        deleteModal.getInstance().nzOkLoading = false;
-                        this._messageService.create('success', deletedText);
-                        this.invoke(this.onDeleted, res);
-                    },
-                    err => {
-                        deleteModal.getInstance().nzOkLoading = false;
-                        this.invoke(this.onDeleteFailed, err);
-                        this.log('err', err)
-                    }
-                );
-            }
-        });
-    }
+    // async delete(e) {
+    //     const deletedText = await this.t('successfully.deleted')
+    //     const deleteModal = this._modalService.confirm({
+    //         nzTitle: await this.t('confirm'),
+    //         nzContent: await this.t('do.you.want.to.delete'),
+    //         nzOkText: await this.t('delete'),
+    //         nzCancelText: await this.t('cancel'),
+    //         nzOkLoading: false,
+    //         nzClosable: false,
+    //         nzOnOk: () => {
+    //             deleteModal.getInstance().nzOkLoading = true;
+    //             this.subscribe(this.service.delete(e.id),
+    //                 res => {
+    //                     deleteModal.getInstance().nzOkLoading = false;
+    //                     this._messageService.create('success', deletedText);
+    //                     this.invoke(this.onDeleted, res);
+    //                 },
+    //                 err => {
+    //                     deleteModal.getInstance().nzOkLoading = false;
+    //                     this.invoke(this.onDeleteFailed, err);
+    //                     this.log('err', err)
+    //                 }
+    //             );
+    //         }
+    //     });
+    // }
 
-    getSearchTerms() {
-        const searchableProperties: any = getSearchableProperties(this);
-        if (searchableProperties) {
-            return searchableProperties.join("&");
-        }
-        return "";
-    }
+    // getSearchTerms() {
+    //     const searchableProperties: any = getSearchableProperties(this);
+    //     if (searchableProperties) {
+    //         return searchableProperties.join("&");
+    //     }
+    //     return "";
+    // }
 
     load(fn?: (pagination: string, search: string) => Observable<Object>) {
         let offset = 0;
@@ -71,7 +71,7 @@ export class TableComponent extends BaseComponent {
             offset = (this.pageSize * this.pageIndex) - this.pageSize;
         }
         const pagination = `offset=${offset}&limit=${this.pageSize}`;
-        let search = this.getSearchTerms();
+        let search = '' //this.getSearchTerms();
         this.loading = true;
         let listFn;
         if (fn) {

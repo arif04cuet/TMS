@@ -30,6 +30,11 @@ namespace Msi.UtilityKit.Pagination
         {
         }
 
+        public static PagedCollection<T> Empty(IPagingOptions options = default, ISortOptions sortOptions = default)
+        {
+            return new PagedCollection<T>(Enumerable.Empty<T>(), 0, options, sortOptions);
+        }
+
         //public T First { get; set; }
         //public T Last { get; set; }
         //public T Next { get; set; }

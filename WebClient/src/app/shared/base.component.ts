@@ -105,12 +105,13 @@ export class BaseComponent {
     }
 
     constructObject(controls) {
+        // form.value return form object
         const obj = {}
         for (const key in controls) {
             if (controls.hasOwnProperty(key)) {
                 const control = controls[key];
                 const value = control.value;
-                if (control.constructor.name == "FormArray" &&  Array.isArray(value)) {
+                if (control.constructor.name == "FormArray" && Array.isArray(value)) {
                     obj[key] = value.map(x => {
                         const o = {}
                         forEachObj(x, (k, v) => {
@@ -135,18 +136,21 @@ export class BaseComponent {
         for (const key in res) {
             if (!ignoreControls.includes(key) && res.hasOwnProperty(key)) {
                 const control = controls[key];
-                if (control) {
-                    const value = res[key];
-                    if (Array.isArray(value)) {
-                        control.setValue(value.map(x => x.id));
-                    }
-                    else if (typeof (value) === 'object') {
-                        control.setValue(value?.id);
-                    }
-                    else {
-                        control.setValue(value);
-                    }
-                }
+                this.setControlValue(control, res[key]);
+            }
+        }
+    }
+
+    setControlValue(control, value) {
+        if (control) {
+            if (Array.isArray(value)) {
+                control.setValue(value.map(x => x.id));
+            }
+            else if (typeof (value) === 'object') {
+                control.setValue(value?.id);
+            }
+            else {
+                control.setValue(value);
             }
         }
     }

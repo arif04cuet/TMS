@@ -18,6 +18,8 @@ export class MemberRequestListComponent extends TableComponent {
   @Searchable("User.Mobile", "like") mobile;
   @Searchable("User.Email", "like") email;
 
+  rowItemDisabledFilterKey = 'isApproved';
+
   constructor(
     private libraryMemberHttpService: LibraryMemberHttpService,
     private libraryHttpService: LibraryHttpService,
@@ -42,7 +44,6 @@ export class MemberRequestListComponent extends TableComponent {
         this.fill(res[0]);
       },
       err => {
-        console.log(err);
         this.loading = false;
       }
     );
@@ -50,10 +51,25 @@ export class MemberRequestListComponent extends TableComponent {
 
   refresh() {
     this.gets(null, this.getSearchTerms());
+    this.listOfCurrentPageItems.filter(x => x[this.rowItemDisabledFilterKey]).forEach(({ id }) => this.updateCheckedSet(id, false));
+    this.refreshCheckedStatus();
   }
 
   search() {
     this.gets(null, this.getSearchTerms())
+  }
+
+  approve() {
+    const body = { ids: Array.from(this.setOfCheckedId) };
+    this.loading = true;
+    this.subscribe(this.libraryMemberHttpService.approveRequests(body),
+      res => {
+        this.refresh();
+      },
+      err => {
+        this.loading = false;
+      }
+    );
   }
 
 }

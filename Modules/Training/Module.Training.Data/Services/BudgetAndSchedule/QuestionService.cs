@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Module.Core.Data;
 using Module.Training.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Module.Training.Data
 {
-    public class QuestionService /*: IQuestionService*/
+    public class QuestionService : IQuestionService
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -56,8 +57,33 @@ namespace Module.Training.Data
 
             foreach (var option in request.Options)
             {
-                // var dbOptions
+                if (option.Id.HasValue)
+                {
+                    // update
+                    var dbOption = await _questionOptionRepository
+                        .Where(x => x.Id == option.Id.Value && !x.IsDeleted)
+                        .FirstOrDefaultAsync(cancellationToken);
+                    if (dbOption != null)
+                    {
+                        option.Map(dbOption);
+                    }
+                }
+                else
+                {
+                    // new
+                    var newOption = option.Map();
+                    newOption.QuestionId = entity.Id;
+                    await _questionOptionRepository.AddAsync(newOption);
+                }
             }
+
+            var requestOptionIds = request.Options.Where(x => x.Id.HasValue).Select(x => x.Id.Value);
+
+            var optionToBeDeleted = await _questionOptionRepository
+                .Where(x => x.QuestionId == entity.Id && !requestOptionIds.Contains(x.Id) && !x.IsDeleted)
+                .ToListAsync();
+
+            _questionOptionRepository.RemoveRange(optionToBeDeleted);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
@@ -68,43 +94,35 @@ namespace Module.Training.Data
             var entity = await _questionRepository.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, true);
 
             if (entity == null)
-                throw new NotFoundException("Grade not found");
+                throw new NotFoundException("Question not found");
 
             entity.IsDeleted = true;
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
         }
 
-        //public async Task<GradeViewModel> Get(long id, CancellationToken cancellationToken = default)
-        //{
-        //    var item = await _questionRepository
-        //        .AsReadOnly()
-        //        .Where(x => x.Id == id && !x.IsDeleted)
-        //        .Select(x => GradeViewModel.Map(x))
-        //        .FirstOrDefaultAsync();
+        public async Task<QuestionViewModel> Get(long id, CancellationToken cancellationToken = default)
+        {
+            var item = await _questionRepository.GetAsync(x => x.Id == id, QuestionViewModel.Select(), cancellationToken);
 
-        //    if (item == null)
-        //        throw new NotFoundException("Grade not found");
+            item.Options = await _questionOptionRepository
+                .Where(x => x.QuestionId == item.Id && !x.IsDeleted)
+                .Select(x => new QuestionOptionViewModel
+                {
+                    Id = x.Id,
+                    IsCorrect = x.IsCorrect,
+                    Option = x.Option
+                })
+                .ToListAsync(cancellationToken);
 
-        //    return item;
-        //}
+            return item;
+        }
 
-        //public async Task<PagedCollection<GradeViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
-        //{
-        //    var hostels = _questionRepository
-        //        .AsReadOnly()
-        //        .Where(x => !x.IsDeleted)
-        //        .ApplySearch(searchOptions)
-        //        .ApplyPagination(pagingOptions);
-
-        //    var results = hostels.Select(x => GradeViewModel.Map(x));
-
-        //    var total = await hostels.Select(x => x.Id).CountAsync(cancellationToken);
-        //    var items = await results.ToListAsync(cancellationToken);
-
-        //    var result = new PagedCollection<GradeViewModel>(items, total, pagingOptions);
-        //    return result;
-        //}
+        public async Task<PagedCollection<QuestionViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var result = await _questionRepository.ListAsync(QuestionViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
+            return result;
+        }
 
     }
 }

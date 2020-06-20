@@ -2,6 +2,6 @@
 {
     public class LibraryMemberApproveCreateRequest
     {
-        public long Id { get; set; }
+        public long[] Ids { get; set; }
     }
 }

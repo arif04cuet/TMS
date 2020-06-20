@@ -11,6 +11,10 @@
                 </div>
             </div>
             <div class="column">
+                <button *ngIf="setOfCheckedId.size > 0" (click)="approve()" nz-button class="btn-custom">
+                    <i nz-icon nzType="sync" nzTheme="outline"></i>
+                    {{'approve'|translate}}
+                </button>
                 <button (click)="refresh()" nz-button class="btn-custom">
                     <i nz-icon nzType="sync" nzTheme="outline"></i>
                     {{'refresh'|translate}}
@@ -18,11 +22,14 @@
             </div>
         </div>
         <div class="block">
-            <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items">
+            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
+                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)"
+                (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable nzShowSizeChanger
+                [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <!-- <th></th> -->
+                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
                         <th>
                             {{'name'|translate}}
                             <input [(ngModel)]="name" nz-input />
@@ -40,6 +47,9 @@
                             <input [(ngModel)]="email" nz-input />
                         </th>
                         <th>
+                            {{'approved'|translate}}
+                        </th>
+                        <th>
                             <div class="ta-right">
                                 {{'action'|translate}}
                             </div>
@@ -54,10 +64,12 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
+                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.isApproved" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                         <td>{{ data.fullName }}</td>
                         <td>{{ data.mobile }}</td>
                         <td>{{ data.email }}</td>
                         <td>{{ data.library?.name }}</td>
+                        <td>{{ (data.isApproved ? 'yes' : 'no')|translate }}</td>
                         <td class="action-column fit-cell">
                             <!-- <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
@@ -80,5 +92,6 @@
         </div>
     </div>
     <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
-
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }}
+        {{'items'|translate}} </ng-template>
 </div>

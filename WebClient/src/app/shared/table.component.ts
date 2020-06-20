@@ -15,6 +15,12 @@ export class TableComponent extends BaseComponent {
     onDeleted: (res: any) => void;
     onDeleteFailed: (res: any) => void;
 
+    allChecked = false;
+    setOfCheckedId = new Set<number>();
+    indeterminate = false;
+    listOfCurrentPageItems = [];
+    rowItemDisabledFilterKey = "disabled";
+
     constructor(service) {
         super();
         this.service = service;
@@ -102,6 +108,35 @@ export class TableComponent extends BaseComponent {
     pageSizeChanged(pageSize) {
         this.pageSize = pageSize;
         this.load();
+    }
+
+    onAllChecked(checked: boolean): void {
+        this.listOfCurrentPageItems.filter(x => !x[this.rowItemDisabledFilterKey]).forEach(({ id }) => this.updateCheckedSet(id, checked));
+        this.refreshCheckedStatus();
+    }
+
+    onCurrentPageDataChange(listOfCurrentPageItems: []): void {
+        this.listOfCurrentPageItems = listOfCurrentPageItems;
+        this.refreshCheckedStatus();
+    }
+
+    refreshCheckedStatus(): void {
+        const listOfEnabledData = this.listOfCurrentPageItems.filter(x => !x[this.rowItemDisabledFilterKey]);
+        this.allChecked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
+        this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.allChecked;
+    }
+
+    updateCheckedSet(id: number, checked: boolean): void {
+        if (checked) {
+            this.setOfCheckedId.add(id);
+        } else {
+            this.setOfCheckedId.delete(id);
+        }
+    }
+
+    onItemChecked(id: number, checked: boolean): void {
+        this.updateCheckedSet(id, checked);
+        this.refreshCheckedStatus();
     }
 
 }

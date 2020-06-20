@@ -1,0 +1,33 @@
+<div class="course">
+
+  <div class="title">
+    <h2>Training Courses</h2>
+  </div>
+
+  <div class="filter">
+    <div>
+      Status:
+      <app-select (onChange)="statusChanged($event)" #statusSelect></app-select>
+    </div>
+    <div>
+      Category:
+      <app-select (onChange)="categoryChanged($event)" #categorySelect></app-select>
+    </div>
+  </div>
+
+  <div *ngIf="items">
+    <div *ngFor="let item of items" class="course-item">
+      <div class="course-title">
+        <h3>
+          <span>{{item?.courseSchedule?.name}}</span>
+        </h3>
+        <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag>
+      </div>
+      <div>
+        <p>Category: {{item?.category?.name}}</p>
+      </div>
+      <button nz-button nzType="primary">View details</button>
+    </div>
+
+  </div>
+</div>

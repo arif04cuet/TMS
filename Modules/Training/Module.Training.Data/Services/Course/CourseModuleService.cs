@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Module.Core.Data;
 using Module.Core.Shared;
+using System.Linq.Expressions;
+using System;
 
 namespace Module.Training.Data
 {
@@ -107,6 +109,22 @@ namespace Module.Training.Data
         public async Task<PagedCollection<CourseModuleViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var result = await _courseModuleRepository.ListAsync(null, CourseModuleViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
+            return result;
+        }
+
+        public async Task<PagedCollection<IdNameViewModel>> ListTopicAsync(long courseModuleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            Expression<Func<CourseModuleTopic, bool>> predicate = x => x.CourseModuleId == courseModuleId;
+            var result = await _courseModuleTopicRepository.ListAsync(
+                predicate,
+                x => new IdNameViewModel
+                {
+                    Id = x.TopicId,
+                    Name = x.Topic.Name
+                },
+                pagingOptions,
+                searchOptions,
+                cancellationToken);
             return result;
         }
 

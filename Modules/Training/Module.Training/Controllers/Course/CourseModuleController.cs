@@ -35,6 +35,13 @@ namespace Module.Training.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("{id}/topics")]
+        public async Task<ActionResult> ListTopics(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _courseModuleService.ListTopicAsync(id, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CourseModuleCreateRequest request)
         {
