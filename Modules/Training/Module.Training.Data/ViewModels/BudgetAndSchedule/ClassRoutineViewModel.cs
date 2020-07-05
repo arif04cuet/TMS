@@ -27,9 +27,9 @@ namespace Module.Training.Data
                         Periods = c.Periods.Select(d => new RoutinePeriodRequest
                         {
                             Id = d.Id,
-                            EndDate = d.EndDate,
+                            EndTime = d.EndTime,
                             ResourcePerson = d.ResourcePersonId,
-                            StartDate = d.StartDate,
+                            StartTime = d.StartTime,
                             Topic = d.TopicId
                         })
                     })

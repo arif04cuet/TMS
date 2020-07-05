@@ -1,2 +1,3 @@
 <app-exam-list (onAction)="onAction($event)" *ngIf="component == 'list'"></app-exam-list>
 <app-exam-add [model]="model" (onAction)="onAction($event)" *ngIf="component == 'add'"></app-exam-add>
+<app-result-add [model]="model" (onAction)="onAction($event)" *ngIf="component == 'result'"></app-result-add>

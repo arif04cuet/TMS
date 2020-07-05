@@ -14,6 +14,10 @@ import { BatchScheduleAddRoutingModule } from './batch-schedule-add-routing.modu
 import { ParticipantsModule } from '../participants/participants.module';
 import { BatchScheduleRoutineAddModule } from '../routine/batch-schedule-routine-add.module';
 import { ExamHomeModule } from '../exam/home/exam-home.module';
+import { SessionProgressModule } from '../session-progress/session-progress.module';
+import { HonorariumModule } from '../honorarium/honorarium.module';
+import { CertificatesModule } from '../certificates/certificates.module';
+import { TotalMarkModule } from '../total-mark/total-mark.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import { ExamHomeModule } from '../exam/home/exam-home.module';
     SelectControlModule,
     ParticipantsModule,
     BatchScheduleRoutineAddModule,
-    ExamHomeModule
+    ExamHomeModule,
+    SessionProgressModule,
+    HonorariumModule,
+    CertificatesModule,
+    TotalMarkModule
   ],
   exports: [BatchScheduleAddComponent],
   providers: [

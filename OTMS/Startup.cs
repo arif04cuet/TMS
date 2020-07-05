@@ -11,6 +11,7 @@ using Module.Core.Extensions;
 using System.IO;
 using Module.Core.Shared;
 using System.Runtime.Loader;
+using OTMS.Converter;
 
 namespace OTMS
 {
@@ -28,7 +29,7 @@ namespace OTMS
         {
             services.AddDataContextOptions(Configuration, GetType().Assembly);
             services.AddDependencies(Configuration);
-            services.AddControllers(options =>
+            services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(typeof(ExceptionFilter));
                 //options.Filters.Add(typeof(AuthorizationFilter));
@@ -41,7 +42,13 @@ namespace OTMS
             .AddFluentValidation(opt =>
             {
                 opt.RegisterValidatorsFromAssemblies(ProjectManager.Assemblies);
+            })
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new TimeSpanSerializerConverter());
             });
+
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

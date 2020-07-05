@@ -245,14 +245,23 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
     const formGroup = this.fb.group({
       id: [],
       topic: [null, [], this.v.required.bind(this)],
-      startDate: [null, [], this.v.required.bind(this)],
-      endDate: [null, [], this.v.required.bind(this)],
+      startTime: [null, [], this.v.required.bind(this)],
+      endTime: [null, [], this.v.required.bind(this)],
       resourcePerson: [null, [], this.v.required.bind(this)]
     });
     forEachObj(formGroup.controls, (k, v) => {
-      const dataValue = data[k];
+      const dataValue = data[k];      
       if (dataValue) {
-        (v as AbstractControl).setValue(dataValue);
+        if(k == "endTime" || k == "startTime") {
+          const arr = dataValue.split(":");
+          const h = Number(arr[0]);
+          const m = Number(arr[1]);
+          const s = Number(arr[2]);
+          (v as AbstractControl).setValue(new Date(0, 0, 0, h, m, s));
+        }
+        else {
+          (v as AbstractControl).setValue(dataValue);
+        }
       }
     });
     const periodFormArray = this.getPeriodFormArray(routineFormGroup);

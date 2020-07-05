@@ -117,7 +117,7 @@ export class BatchScheduleAllocationListComponent extends TableComponent {
         progress(res, null, (data: Blob) => {
           this.success('success');
           createAnchorAndFireForDownload(data, "batch-schedule-allocation.csv");
-        })
+        });
       },
       err => {
         //

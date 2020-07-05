@@ -1,4 +1,5 @@
 ﻿using Module.Training.Entities;
+using System.Collections.Generic;
 
 namespace Module.Training.Data
 {
@@ -12,7 +13,7 @@ namespace Module.Training.Data
         public int TotalMark { get; set; }
         public long[] Methods { get; set; }
         public long[] Modules { get; set; }
-        public long[] EvaluationMethods { get; set; }
+        public IEnumerable<CourseEvaluationMethodRequest> EvaluationMethods { get; set; }
 
         public Course Map(Course course = null)
         {

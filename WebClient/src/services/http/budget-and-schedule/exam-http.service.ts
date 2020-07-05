@@ -26,4 +26,14 @@ export class ExamHttpService extends BaseHttpService {
         return of(data);
     }
 
+    result(batchScheduleId, examId) {
+        const url = `trainings/batch-schedules/${batchScheduleId}/exams/${examId}/result`;
+        return this.httpService.get(url);
+    }
+
+    updateResult(examId, body) {
+        const url = `${this.END_POINT}/${examId}/result`;
+        return this.httpService.put(url, body);
+    }
+
 }

@@ -188,7 +188,7 @@ namespace Module.Library.Data
             }
 
             // delete edition
-            var requestBookEditions = request.Editions.Where(x => x.Id.HasValue).Select(x => (long)x.Id);
+            var requestBookEditions = request.Editions.Where(x => x.Id.HasValue).Select(x => x.Id.Value);
             var editionToBeDelete = await _bookEditionRepository
                 .Where(x => x.BookId == book.Id && !requestBookEditions.Contains(x.Id))
                 .ToListAsync();

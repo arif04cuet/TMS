@@ -12,5 +12,7 @@ namespace Module.Training.Entities
 
         public long EvaluationMethodId { get; set; }
         public EvaluationMethod EvaluationMethod { get; set; }
+
+        public int Mark { get; set; }
     }
 }

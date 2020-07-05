@@ -68,7 +68,7 @@ export class CourseAddComponent extends FormComponent {
     body.objective = this.objectiveEditorComponent.editorInstance.getData();
     body.description = this.descriptionEditorComponent.editorInstance.getData();
     body.modules = this.data.modules.map(x => x.id);
-    body.evaluationMethods = this.data.evaluationMethods.map(x => x.id);
+    body.evaluationMethods = this.data.evaluationMethods;
 
     if(!body.methods) {
       body.methods = [];
@@ -147,9 +147,12 @@ export class CourseAddComponent extends FormComponent {
     this.subscribe(modal.afterClose, res => {
       const evaluationMethod = modal.getContentComponent().selectedItem;
       if(evaluationMethod) {
-        const exist = this.data.evaluationMethods.find(x => x.id == evaluationMethod.id);
+        const exist = this.data.evaluationMethods.find(x => x.evaluationMethod.id == evaluationMethod.id);
         if (!exist) {
-          this.data.evaluationMethods = [...this.data.evaluationMethods, evaluationMethod];
+          this.data.evaluationMethods = [...this.data.evaluationMethods, {
+            evaluationMethod: evaluationMethod,
+            mark: evaluationMethod.mark
+          }];
         }
         else {
           this.info(m);

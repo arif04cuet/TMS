@@ -33,6 +33,10 @@ export class ExamHomeComponent {
       this.component = 'add';
       this.model = e.data;
     }
+    else if (action == 'result') {
+      this.component = 'result';
+      this.model = e.data;
+    }
     console.log(e)
   }
 

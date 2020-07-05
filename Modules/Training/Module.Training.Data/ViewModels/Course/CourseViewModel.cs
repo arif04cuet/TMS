@@ -18,7 +18,7 @@ namespace Module.Training.Data
         public int TotalMark { get; set; }
         public IEnumerable<IdNameViewModel> Methods { get; set; }
         public IEnumerable<IdNameViewModel> Modules { get; set; }
-        public IEnumerable<IdNameViewModel> EvaluationMethods { get; set; }
+        public IEnumerable<CourseEvaluationMethodViewModel> EvaluationMethods { get; set; }
 
         public static Expression<Func<Course, CourseViewModel>> Select()
         {
@@ -32,7 +32,12 @@ namespace Module.Training.Data
                 TotalMark = x.TotalMark,
                 Modules = x.Modules.Select(y => new IdNameViewModel { Id = y.CourseModuleId, Name = y.CourseModule.Name }),
                 Methods = x.Methods.Select(y => new IdNameViewModel { Id = y.MethodId, Name = y.Method.Name }),
-                EvaluationMethods = x.EvaluationMethods.Select(y => new IdNameViewModel { Id = y.EvaluationMethodId, Name = y.EvaluationMethod.Name })
+                EvaluationMethods = x.EvaluationMethods.Select(y => new CourseEvaluationMethodViewModel
+                {
+                    Id = y.Id,
+                    EvaluationMethod = new IdNameViewModel { Id = y.EvaluationMethodId, Name = y.EvaluationMethod.Name },
+                    Mark = y.Mark
+                })
             };
         }
     }

@@ -39,6 +39,13 @@ export class ExamListComponent extends TableComponent {
     }
   }
 
+  result(e) {
+    this.onAction.emit({
+      action: 'result',
+      data: e
+    });
+  }
+
   gets() {
     this.load();
   }

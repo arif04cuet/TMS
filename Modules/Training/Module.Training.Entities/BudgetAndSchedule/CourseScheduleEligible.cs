@@ -8,7 +8,6 @@ namespace Module.Training.Entities
     [Table(nameof(CourseScheduleEligible), Schema = SchemaConstants.Training)]
     public class CourseScheduleEligible : BaseEntity
     {
-        public long Id { get; set; }
         public long CourseScheduleId { get; set; }
         public CourseSchedule CourseSchedule { get; set; }
 

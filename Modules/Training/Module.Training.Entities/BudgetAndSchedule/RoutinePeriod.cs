@@ -15,10 +15,12 @@ namespace Module.Training.Entities
         public Topic Topic { get; set; }
 
         public DateTime TrainingDate { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
 
         public long ResourcePersonId { get; set; }
         public ResourcePerson ResourcePerson { get; set; }
+
+        public bool SessionCompleted { get; set; }
     }
 }

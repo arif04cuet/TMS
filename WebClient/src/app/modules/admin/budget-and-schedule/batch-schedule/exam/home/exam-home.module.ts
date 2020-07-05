@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ExamAddModule } from '../add/exam-add.module';
 import { ExamListModule } from '../list/exam-list.module';
 import { ExamHomeComponent } from './exam-home.component';
+import { ResultAddModule } from '../result/result-add.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ExamHomeComponent } from './exam-home.component';
     NgZorroAntdModule,
     SharedModule,
     ExamAddModule,
-    ExamListModule
+    ExamListModule,
+    ResultAddModule
   ],
   exports: [ExamHomeComponent]
 })

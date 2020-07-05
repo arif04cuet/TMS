@@ -68,3 +68,9 @@ export function progress(event: any, progress, success) {
         }
     }
 }
+
+export function buildUrl(url: string, ...args) {
+    const _args = args.filter(x => x);
+    const _url = `${url}?${_args.join('&')}`;
+    return _url;
+}

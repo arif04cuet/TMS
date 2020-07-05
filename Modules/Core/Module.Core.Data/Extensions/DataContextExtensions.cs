@@ -229,8 +229,6 @@ namespace Module.Core.Data
 
             var deletedItems = await deletedQuery.ToListAsync();
             repository.RemoveRange(deletedItems);
-
-            // deletedIds.Contains(x.MethodId) && x.CourseId == request.Id
         }
 
     }

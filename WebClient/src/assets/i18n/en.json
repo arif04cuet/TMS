@@ -398,5 +398,17 @@
   "exams": "Exams",
   "total.minutes": "Total minutes",
   "exam.date": "Exam date",
-  "loading.data": "Loading data..."
+  "loading.data": "Loading data...",
+  "start.time": "Start time",
+  "end.time": "End time",
+  "session.progress": "Session progress",
+  "mark.complete.and.generate.honorarium.sheet": "Mark complete & generate honorarium sheet",
+  "completed": "Completed",
+  "no.item.selected": "No item selected",
+  "mark.complete": "Mark complete",
+  "generate.honorarium.sheet": "Generate honorarium sheet",
+  "honorarium": "Honorarium",
+  "certificate": "Certificate",
+  "certificates": "Certificates",
+  "download": "Download"
 }

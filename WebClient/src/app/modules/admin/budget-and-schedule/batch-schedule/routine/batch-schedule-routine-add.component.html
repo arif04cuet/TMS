@@ -69,12 +69,12 @@
                                                                     <nz-form-item class="field-container">
                                                                         <div>
                                                                             <label
-                                                                                class="required">{{'start.date'|translate}}</label>
+                                                                                class="required">{{'start.time'|translate}}</label>
                                                                         </div>
                                                                         <nz-form-control nzHasFeedback
                                                                             [nzErrorTip]="errorTemplate">
-                                                                            <nz-date-picker formControlName="startDate">
-                                                                            </nz-date-picker>
+                                                                            <nz-time-picker [nzUse12Hours]="true" formControlName="startTime">
+                                                                            </nz-time-picker>
                                                                         </nz-form-control>
                                                                     </nz-form-item>
                                                                 </div>
@@ -82,12 +82,12 @@
                                                                     <nz-form-item class="field-container">
                                                                         <div>
                                                                             <label
-                                                                                class="required">{{'end.date'|translate}}</label>
+                                                                                class="required">{{'end.time'|translate}}</label>
                                                                         </div>
                                                                         <nz-form-control nzHasFeedback
                                                                             [nzErrorTip]="errorTemplate">
-                                                                            <nz-date-picker formControlName="endDate">
-                                                                            </nz-date-picker>
+                                                                            <nz-time-picker [nzUse12Hours]="true" formControlName="endTime">
+                                                                            </nz-time-picker>
                                                                         </nz-form-control>
                                                                     </nz-form-item>
                                                                 </div>

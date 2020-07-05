@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>cc56b641-b8ef-47f6-a6e1-968c994a0465</UserSecretsId>
+    <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,14 +39,17 @@
     <Compile Remove="Migrations\20200613112217_M23.Designer.cs" />
     <Compile Remove="Migrations\20200618113045_25.cs" />
     <Compile Remove="Migrations\20200618113045_25.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="appsettings.json" />
+    <Compile Remove="Migrations\20200624133835_M32.cs" />
+    <Compile Remove="Migrations\20200624133835_M32.Designer.cs" />
+    <Compile Remove="Migrations\20200704060608_M34.cs" />
+    <Compile Remove="Migrations\20200704060608_M34.Designer.cs" />
+    <Compile Remove="Migrations\20200704060807_M34.cs" />
+    <Compile Remove="Migrations\20200704060807_M34.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="appsettings.json" />
+    <None Include="Views\honorarium.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

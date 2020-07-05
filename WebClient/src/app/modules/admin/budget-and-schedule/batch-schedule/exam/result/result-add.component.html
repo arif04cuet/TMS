@@ -1,0 +1,45 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+<div *ngIf="!loading">
+    <div>
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class="column content">
+                <div class="header-container">
+                    <span class="header">
+                        {{'result'|translate}} ({{total}})
+                    </span>
+                </div>
+            </div>
+            <div class="column">
+                <button (click)="submit()" nzType="primary" nz-button class="btn-custom">
+                    {{'update'|translate}}
+                </button>
+                <button (click)="refresh()" nz-button class="btn-custom">
+                    {{'refresh'|translate}}
+                </button>
+                <button (click)="cancel()" nz-button class="btn-custom">
+                    {{'cancel'|translate}}
+                </button>
+            </div>
+        </div>
+        <div class="block">
+            <nz-table #basicTable [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total" [nzData]="items" nzShowPagination="false">
+                <thead>
+                    <tr class="v-align-top advanced-table-filter">
+                        <th>{{'name'|translate}}</th>
+                        <th>{{'mark'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of basicTable.data">
+                        <td>{{ data.name }}</td>
+                        <td style="max-width: 150px;">
+                            <input [value]="data.mark" (input)="markChanged(data, $event.target.value)" type="number" nz-input placeholder="{{'mark'|translate}}" />
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
+</div>

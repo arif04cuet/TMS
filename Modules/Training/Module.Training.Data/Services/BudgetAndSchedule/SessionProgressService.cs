@@ -2,10 +2,12 @@
 using Infrastructure.Data;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
-using Module.Core.Data;
+using Module.Core.Shared;
 using Module.Training.Entities;
-using Msi.UtilityKit.Pagination;
-using Msi.UtilityKit.Search;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,70 +17,132 @@ namespace Module.Training.Data
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Exam> _examRepository;
         private readonly IPdfConverter _pdfConverter;
+        private readonly IRazorViewRenderer _viewRenderer;
+        private readonly IRepository<RoutinePeriod> _routinePeriodRepository;
 
         public SessionProgressService(
             IUnitOfWork unitOfWork,
-            IPdfConverter pdfConverter)
+            IPdfConverter pdfConverter,
+            IRazorViewRenderer viewRenderer)
         {
             _unitOfWork = unitOfWork;
-            _examRepository = _unitOfWork.GetRepository<Exam>();
             _pdfConverter = pdfConverter;
+            _viewRenderer = viewRenderer;
+            _routinePeriodRepository = _unitOfWork.GetRepository<RoutinePeriod>();
         }
 
-        public async Task<long> CreateAsync(ExamCreateRequest request, CancellationToken cancellationToken = default)
+        public async Task<long> CompleteMultipleAsync(SessionProgressCompleteRequest request, CancellationToken cancellationToken = default)
         {
-            var entity = request.Map();
-            await _examRepository.AddAsync(entity, cancellationToken);
+            var result = 0L;
+            foreach (var item in request.RoutinePeriods)
+            {
+                result += await CompleteAsync(item, cancellationToken);
+            }
+            return result;
+        }
+
+        public async Task<byte[]> CompleteMultipleAndGenerateSheetAsync(SessionProgressCompleteRequest request, CancellationToken cancellationToken = default)
+        {
+            if (request.RoutinePeriods.Count() <= 0)
+                throw new ValidationException("No session progress to complete.");
+
+            var result = await CompleteMultipleAsync(request, cancellationToken);
+
+            var bytes = await GenerateSheetAsync(x => request.RoutinePeriods.Contains(x.Id), request.BatchScheduleId);
+            return bytes;
+        }
+
+        public async Task<IEnumerable<SessionProgressViewModel>> ListAsync(long batchScheduleId, long? moduleId = null, CancellationToken cancellationToken = default)
+        {
+            var query = _unitOfWork.GetRepository<ClassRoutine>()
+                .AsReadOnly()
+                .Where(x => x.BatchScheduleId == batchScheduleId)
+                .SelectMany(x => x.RoutineModules);
+
+            if (moduleId.HasValue)
+            {
+                query = query.Where(x => x.CourseModuleId == moduleId.Value);
+            }
+
+            var modules = await query
+                .Select(x => new
+                {
+                    CourseModule = new IdNameViewModel { Id = x.CourseModule.Id, Name = x.CourseModule.Name },
+                    ClassRoutineModuleId = x.Id
+                })
+                .ToListAsync();
+
+            List<SessionProgressViewModel> progress = new List<SessionProgressViewModel>();
+            foreach (var module in modules)
+            {
+                var routinePeriods = await _unitOfWork.GetRepository<RoutinePeriod>()
+                    .AsReadOnly()
+                    .Where(x => x.Routine.ModuleId == module.ClassRoutineModuleId && !x.IsDeleted)
+                    .Select(x => new SessionProgressViewModel
+                    {
+                        Topic = new IdNameViewModel { Id = x.Topic.Id, Name = x.Topic.Name },
+                        Completed = x.SessionCompleted,
+                        CourseModule = module.CourseModule,
+                        Id = x.Id
+                    })
+                    .ToListAsync();
+
+                progress.AddRange(routinePeriods);
+            }
+
+            return progress;
+        }
+
+        public async Task<long> CompleteAsync(long routinePeriodId, CancellationToken cancellationToken = default)
+        {
+            var entity = await _unitOfWork.GetRepository<RoutinePeriod>()
+                .FirstOrDefaultAsync(x => x.Id == routinePeriodId && !x.IsDeleted);
+
+            if (entity != null)
+            {
+                entity.SessionCompleted = true;
+            }
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return entity.Id;
         }
 
-        public async Task<bool> UpdateAsync(ExamUpdateRequest request, CancellationToken cancellationToken = default)
+        public async Task<byte[]> CompleteAndGenerateSheetAsync(long batchScheduleId, long routinePeriodId, CancellationToken cancellationToken = default)
         {
-            var entity = await _examRepository
-                .AsQueryable()
-                .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
-
-            if (entity == null)
-                throw new NotFoundException($"Exam not found");
-
-            request.Map(entity);
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return result > 0;
+            await CompleteAsync(routinePeriodId);
+            var pdfBytes = await GenerateSheetAsync(x => x.Id == routinePeriodId, batchScheduleId);
+            return pdfBytes;
         }
 
-        public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
+        private async Task<byte[]> GenerateSheetAsync(Expression<Func<RoutinePeriod, bool>> where, long batchScheduleId)
         {
-            var entity = await _examRepository.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, true);
+            var persons = _routinePeriodRepository
+                .AsReadOnly()
+                .Where(where)
+                .Select(x => new ParticipantHonorariumModel
+                {
+                    Amount = x.ResourcePerson.HonorariumHead.Amount,
+                    Name = x.ResourcePerson.User.FullName,
+                    Designation = x.ResourcePerson.User.DesignationId != null ? x.ResourcePerson.User.Designation.Name : "",
+                    TenPercentReduceAmout = (10.0 / 100.0) * x.ResourcePerson.HonorariumHead.Amount,
+                    NetAmount = x.ResourcePerson.HonorariumHead.Amount - ((10.0 / 100.0) * x.ResourcePerson.HonorariumHead.Amount)
+                });
 
-            if (entity == null)
-                throw new NotFoundException("Exam not found");
+            var course = await _unitOfWork.GetRepository<BatchSchedule>()
+                .AsReadOnly()
+                .Where(x => x.Id == batchScheduleId && !x.IsDeleted)
+                .Select(x => x.CourseSchedule.Course.Name)
+                .FirstOrDefaultAsync();
 
-            entity.IsDeleted = true;
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return result > 0;
-        }
-
-        public async Task<ExamViewModel> Get(long id, CancellationToken cancellationToken = default)
-        {
-            var item = await _examRepository.GetAsync(x => x.Id == id, ExamViewModel.Select(), cancellationToken);
-            return item;
-        }
-
-        public async Task<PagedCollection<ExamViewModel>> ListAsync(long batchScheduleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
-        {
-            var result = await _examRepository.ListAsync(x => x.BatchScheduleId == batchScheduleId, ExamViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
-            return result;
-        }
-
-        public byte[] GenerateHonoriumSheetAsync()
-        {
-            var html = "<h1>Hello <span style='color: red'>World</span></h1>";
-            var pdf = _pdfConverter.Convert(html);
-            return pdf;
+            var model = new HonorariumSheetForParticipantsPdfModel
+            {
+                Date = DateTime.UtcNow,
+                CourseName = course ?? "",
+                ResourcePersons = persons
+            };
+            var htmlContent = await _viewRenderer.RenderViewToStringAsync("/Views/honorarium.cshtml", model);
+            var pdfBytes = _pdfConverter.Convert(htmlContent);
+            return pdfBytes;
         }
 
     }

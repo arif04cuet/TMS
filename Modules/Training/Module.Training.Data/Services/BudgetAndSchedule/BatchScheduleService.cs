@@ -177,5 +177,32 @@ namespace Module.Training.Data
             return result;
         }
 
+        // TODO
+        //public async Task<PagedCollection<IdNameViewModel>> TotalMarksAsync(long batchScheduleId)
+        //{
+        //    var course = await _batchScheduleRepository
+        //        .AsReadOnly()
+        //        .Where(x => x.Id == batchScheduleId && !x.IsDeleted)
+        //        .Select(x => x.CourseSchedule.Course)
+        //        .FirstOrDefaultAsync();
+
+        //    //course.TotalMark
+
+        //    Expression<Func<BatchScheduleAllocation, bool>> predicate = x => x.BatchScheduleId == batchScheduleId && x.Status == BatchScheduleAllocationStatus.Approved;
+
+        //    var result = await _unitOfWork.GetRepository<CourseEvaluationMethod>()
+        //        .ListAsync(
+        //        x => x.CourseId == courseId,
+        //        x => new IdNameViewModel
+        //        {
+        //            Id = x.EvaluationMethodId,
+        //            Name = x.EvaluationMethod.Name
+        //        },
+        //        pagingOptions,
+        //        searchOptions);
+
+        //    return result;
+        //}
+
     }
 }

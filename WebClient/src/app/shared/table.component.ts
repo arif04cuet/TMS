@@ -30,7 +30,13 @@ export class TableComponent extends BaseComponent {
         if (response && response.status == 200) {
             this.total = response.data.size;
             if (items == null) {
-                this.items = response.data.items;
+                if(!response.data.items && Array.isArray(response.data)) {
+                    this.items = response.data;
+                    this.total = response.data.length;
+                }
+                else {
+                    this.items = response.data.items;
+                }
             }
         }
         this.loading = false;

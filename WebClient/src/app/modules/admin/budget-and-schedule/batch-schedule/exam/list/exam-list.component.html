@@ -47,9 +47,12 @@
                         <td>{{ data.evaluationMethod?.name }}</td>
                         <td>{{ data.mark }}</td>
                         <td>{{ data.totalMinutes }}</td>
-                        <td>{{ data.examDate|date:'medium':'+0006' }}</td>
+                        <td>{{ data.examDate|date:'medium':'+006' }}</td>
                         <td>{{ data.status?.name }}</td>
                         <td class="action-column fit-cell">
+                            <button nz-button (click)="result(data)" class="btn-custom">
+                                {{'result'|translate}}
+                            </button>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
                                 <i nz-icon nzType="ellipsis"></i>

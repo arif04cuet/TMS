@@ -1,0 +1,55 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+<div *ngIf="!loading">
+    <div>
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class="column content">
+                <div class="header-container">
+                    <span class="header">
+                        {{'session.progress'|translate}} ({{total}})
+                    </span>
+                </div>
+            </div>
+            <div class="column">
+                <button *ngIf="setOfCheckedId.size > 0" (click)="markCompleteMultiple()" nz-button nzType="primary" class="btn-custom">
+                    {{'mark.complete'|translate}}
+                </button>
+                <button *ngIf="setOfCheckedId.size > 0" (click)="markCompleteMultipleAndGenerateSheet()" nz-button nzType="primary" class="btn-custom">
+                    {{'mark.complete.and.generate.honorarium.sheet'|translate}}
+                </button>
+                <button (click)="refresh()" nz-button class="btn-custom">
+                    <i nz-icon nzType="sync" nzTheme="outline"></i>
+                    {{'refresh'|translate}}
+                </button>
+            </div>
+        </div>
+        <div class="block">
+            <nz-table (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable
+                [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total" [nzData]="items" nzShowPagination="false">
+                <thead>
+                    <tr class="v-align-top advanced-table-filter">
+                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+                        <th>{{'topic'|translate}}</th>
+                        <th>{{'module'|translate}}</th>
+                        <th>{{'status'|translate}}</th>
+                        <th>{{'action'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of basicTable.data">
+                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                        <td>{{ data.topic?.name }}</td>
+                        <td>{{ data.courseModule?.name }}</td>
+                        <td>{{ (data.completed ? 'completed' : '')|translate }}</td>
+                        <td>
+                            <button (click)="markCompleteAndGenerateSheet(data)" nz-button nzType="primary" class="btn-custom">
+                                {{'mark.complete.and.generate.honorarium.sheet'|translate}}
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
+</div>

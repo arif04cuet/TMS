@@ -705,3 +705,14 @@ label {
   margin: 0 20px 20px;
   border-radius: 5px;
 }
+
+.ant-tabs-nav-container {
+  padding-right: 15px;
+  padding-left: 15px;
+  .ant-tabs-tab-prev, .ant-tabs-tab-next  {
+    width: 15px;
+    height: 100%;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

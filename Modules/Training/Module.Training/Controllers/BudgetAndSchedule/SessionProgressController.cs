@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Msi.UtilityKit.Pagination;
-using Msi.UtilityKit.Search;
 using Module.Core.Shared;
 using Module.Training.Data;
 
@@ -21,48 +19,40 @@ namespace Module.Training.Controllers
             _sessionProgressService = sessionProgressService;
         }
 
-        [HttpGet("/api/trainings/batch-schedules/{batchScheduleId}/session-progress")]
-        public async Task<ActionResult> List([FromRoute]long batchScheduleId, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        [HttpGet]
+        public async Task<ActionResult> List([FromQuery]long batchScheduleId, [FromQuery]long? moduleId)
         {
-            var result = await _sessionProgressService.ListAsync(batchScheduleId, pagingOptions, searchOptions);
+            var result = await _sessionProgressService.ListAsync(batchScheduleId, moduleId);
             return result.ToOkResult();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult> Get(long id)
+        [HttpPost("complete")]
+        public async Task<IActionResult> CompleteMultiple([FromBody] SessionProgressCompleteRequest request)
         {
-            var result = await _sessionProgressService.Get(id);
-            return result.ToOkResult();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ExamCreateRequest request)
-        {
-            var result = await _sessionProgressService.CreateAsync(request);
+            var result = await _sessionProgressService.CompleteMultipleAsync(request);
             return result.ToCreatedResult();
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(long id, [FromBody] ExamUpdateRequest request)
+        [HttpPost("/api/trainings/batch-schedules/{batchScheduleId}/session-progress/complete-and-generate-sheet")]
+        public async Task<IActionResult> CompleteAndGenerateSheetMultiple(long batchScheduleId, [FromBody] SessionProgressCompleteRequest request)
         {
-            request.Id = id;
-            var result = await _sessionProgressService.UpdateAsync(request);
-            return result.ToOkResult();
+            request.BatchScheduleId = batchScheduleId;
+            var result = await _sessionProgressService.CompleteMultipleAndGenerateSheetAsync(request);
+            return File(result, "application/pdf", $"honorarium-sheet.pdf");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
+        [HttpPost("{routinePeriodId}/complete")]
+        public async Task<IActionResult> Complete(long routinePeriodId)
         {
-            await _sessionProgressService.DeleteAsync(id);
-            return NoContent();
+            var result = await _sessionProgressService.CompleteAsync(routinePeriodId);
+            return result.ToCreatedResult();
         }
 
-
-        [HttpGet("pdf-test")]
-        public IActionResult PdfTest()
+        [HttpPost("/api/trainings/batch-schedules/{batchScheduleId}/session-progress/{routinePeriodId}/complete-and-generate-sheet")]
+        public async Task<IActionResult> CompleteAndGenerateSheet(long batchScheduleId, long routinePeriodId)
         {
-            var pdf = _sessionProgressService.GenerateHonoriumSheetAsync();
-            return File(pdf, "application/pdf", $"test.pdf");
+            var result = await _sessionProgressService.CompleteAndGenerateSheetAsync(batchScheduleId, routinePeriodId);
+            return File(result, "application/pdf", $"honorarium-sheet.pdf");
         }
 
     }

@@ -57,6 +57,21 @@ namespace Module.Training.Controllers
             return NoContent();
         }
 
+        [HttpGet("/api/trainings/batch-schedules/{batchScheduleId}/exams/{examId}/result")]
+        public async Task<ActionResult> GetResult(long batchScheduleId, long examId)
+        {
+            var result = await _examService.ListParticipantAsync(batchScheduleId, examId);
+            return result.ToOkResult();
+        }
+
+        [HttpPut("{examId}/result")]
+        public async Task<ActionResult> UpdateResult([FromBody] ExamMarkUpdateRequest request, long examId)
+        {
+            request.Exam = examId;
+            var result = await _examService.UpdateMarksAsync(request);
+            return result.ToOkResult();
+        }
+
 
     }
 }

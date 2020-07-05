@@ -55,7 +55,8 @@ namespace Module.Training.Data
 
             var evaluationMethods = request.EvaluationMethods.Select(x => new CourseEvaluationMethod
             {
-                EvaluationMethodId = x,
+                EvaluationMethodId = x.EvaluationMethod.Id,
+                Mark = x.Mark,
                 CourseId = entity.Id
             });
             await _courseEvaluationMethodRepository.AddRangeAsync(evaluationMethods);
@@ -101,16 +102,44 @@ namespace Module.Training.Data
                 ids => x => ids.Contains(x.MethodId) && x.CourseId == request.Id);
 
             // evaluation methods
-            await _courseEvaluationMethodRepository.UpdateAsync(
-                request.EvaluationMethods,
-                x => x.CourseId == request.Id,
-                x => x.EvaluationMethodId,
-                x => new CourseEvaluationMethod
+
+            foreach (var evaluationMethod in request.EvaluationMethods)
+            {
+                if (evaluationMethod.Id.HasValue)
                 {
-                    EvaluationMethodId = x,
-                    CourseId = request.Id
-                },
-                ids => x => ids.Contains(x.EvaluationMethodId) && x.CourseId == request.Id);
+                    // update
+                    var dbEvaluationMethod = await _courseEvaluationMethodRepository
+                        .Where(x => x.Id == evaluationMethod.Id.Value && x.CourseId == request.Id && !x.IsDeleted)
+                        .FirstOrDefaultAsync();
+
+                    if (dbEvaluationMethod != null)
+                    {
+                        dbEvaluationMethod.Mark = evaluationMethod.Mark;
+                    }
+                }
+                else
+                {
+                    // new
+                    var newEvaluationMethod = new CourseEvaluationMethod
+                    {
+                        EvaluationMethodId = evaluationMethod.EvaluationMethod.Id,
+                        Mark = evaluationMethod.Mark,
+                        CourseId = request.Id
+                    };
+                    await _courseEvaluationMethodRepository.AddAsync(newEvaluationMethod);
+                }
+            }
+
+            // delete course evaluation method
+            var requestEvaluationMethodIds = request.EvaluationMethods
+                .Where(x => x.Id.HasValue)
+                .Select(x => x.Id.Value);
+
+            var evaluationMethodToBeDelete = await _courseEvaluationMethodRepository
+                .Where(x => x.CourseId == request.Id && !requestEvaluationMethodIds.Contains(x.Id))
+    .ToListAsync();
+
+            _courseEvaluationMethodRepository.RemoveRange(evaluationMethodToBeDelete);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
@@ -154,7 +183,7 @@ namespace Module.Training.Data
             item.EvaluationMethods = await _courseEvaluationMethodRepository
                 .AsReadOnly()
                 .Where(x => x.CourseId == id && !x.IsDeleted)
-                .Select(x => new IdNameViewModel { Id = x.EvaluationMethodId, Name = x.EvaluationMethod.Name })
+                .Select(CourseEvaluationMethodViewModel.Select())
                 .ToListAsync();
 
             return item;
