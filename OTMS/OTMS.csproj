@@ -68,6 +68,9 @@
     <ProjectReference Include="..\Modules\Asset\Module.Asset.Data\Module.Asset.Data.csproj" />
     <ProjectReference Include="..\Modules\Asset\Module.Asset.Entities\Module.Asset.Entities.csproj" />
     <ProjectReference Include="..\Modules\Asset\Module.Asset\Module.Asset.csproj" />
+    <ProjectReference Include="..\Modules\CMS\Module.CMS.Data\Module.CMS.Data.csproj" />
+    <ProjectReference Include="..\Modules\CMS\Module.CMS.Entities\Module.CMS.Entities.csproj" />
+    <ProjectReference Include="..\Modules\CMS\Module.CMS\Module.CMS.csproj" />
     <ProjectReference Include="..\Modules\Core\Module.Core.Data\Module.Core.Data.csproj" />
     <ProjectReference Include="..\Modules\Core\Module.Core.Entities\Module.Core.Entities.csproj" />
     <ProjectReference Include="..\Modules\Core\Module.Core.Shared\Module.Core.Shared.csproj" />
