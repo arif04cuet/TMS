@@ -8,7 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Module.Core.Shared.Options;
+using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Module.Core.Shared
 {
@@ -35,9 +37,30 @@ namespace Module.Core.Shared
             var context = new CustomAssemblyLoadContext();
             logger.LogInformation("DinkToPdf Setup");
             logger.LogInformation($"Content Root Path: {hostingEnvironment.ContentRootPath}");
-            var path = Path.Combine(hostingEnvironment.ContentRootPath, "libwkhtmltox");
+            var extension = ".dll";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                extension = ".so";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                extension = ".dylib";
+            }
+            var path = Path.Combine(hostingEnvironment.ContentRootPath, "libwkhtmltox", extension);
             logger.LogInformation($"Path: {path}");
-            context.LoadUnmanagedLibrary(path);
+            try
+            {
+                context.LoadUnmanagedLibrary(path);
+            }
+            catch (Exception ex)
+            {
+                Exception _ex = ex;
+                while (_ex != null)
+                {
+                    logger.LogError(ex.Message);
+                    _ex = _ex.InnerException;
+                }
+            }
 
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddTransient<IPdfConverter, DinkToPdfConverter>();
