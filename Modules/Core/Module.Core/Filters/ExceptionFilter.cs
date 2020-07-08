@@ -34,6 +34,8 @@ namespace Module.Core.Filters
                 var exception = (BusinessExceptionBase)context.Exception;
                 context.HttpContext.Response.StatusCode = exception.Status;
                 _logger.LogError(exception.Message);
+                Console.WriteLine("--------------------------------------");
+                Console.WriteLine(exception.Message);
                 context.Result = new ObjectResult(new
                 {
                     Status = exception.Status,
@@ -91,6 +93,8 @@ namespace Module.Core.Filters
             while (ex != null)
             {
                 _logger.LogError(ex.Message);
+                Console.WriteLine("--------------------------------------");
+                Console.WriteLine(ex.Message);
                 errors.Add(ex.Message);
                 ex = ex.InnerException;
             }
