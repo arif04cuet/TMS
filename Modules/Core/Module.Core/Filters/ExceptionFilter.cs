@@ -50,6 +50,7 @@ namespace Module.Core.Filters
                 ObjectResult result;
                 if (_env.IsProduction())
                 {
+                    CollectErrors(context);
                     result = GetProductionErrorResult();
                 }
                 else
