@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,12 +15,15 @@ namespace Module.Core.Filters
     {
         private readonly IWebHostEnvironment _env;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger _logger;
         public ExceptionFilter(
             IWebHostEnvironment env,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            ILogger<ExceptionFilter> logger)
         {
             _env = env;
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public Task OnExceptionAsync(ExceptionContext context)
@@ -29,6 +33,7 @@ namespace Module.Core.Filters
             {
                 var exception = (BusinessExceptionBase)context.Exception;
                 context.HttpContext.Response.StatusCode = exception.Status;
+                _logger.LogError(exception.Message);
                 context.Result = new ObjectResult(new
                 {
                     Status = exception.Status,
@@ -85,6 +90,7 @@ namespace Module.Core.Filters
             Exception ex = context.Exception;
             while (ex != null)
             {
+                _logger.LogError(ex.Message);
                 errors.Add(ex.Message);
                 ex = ex.InnerException;
             }
