@@ -46,7 +46,7 @@ namespace Module.Core.Shared
             {
                 extension = ".dylib";
             }
-            var path = Path.Combine(hostingEnvironment.ContentRootPath, "libwkhtmltox", extension);
+            var path = Path.Combine(hostingEnvironment.ContentRootPath, $"libwkhtmltox{extension}");
             logger.LogInformation($"Path: {path}");
             try
             {
