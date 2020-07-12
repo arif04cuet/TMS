@@ -1,4 +1,5 @@
 ﻿using Module.Training.Entities;
+using System.Collections.Generic;
 
 namespace Module.Training.Data
 {
@@ -10,7 +11,7 @@ namespace Module.Training.Data
         public string Objectives { get; set; }
         public long Director { get; set; }
 
-        public long[] Topics { get; set; }
+        public IEnumerable<CourseModuleTopicRequest> Topics { get; set; }
 
         public CourseModule Map(CourseModule courseModel = null)
         {

@@ -12,5 +12,8 @@ namespace Module.Training.Entities
 
         public long CourseModuleId { get; set; }
         public CourseModule CourseModule { get; set; }
+
+        public int Marks { get; set; }
+        public int Duration { get; set; }
     }
 }

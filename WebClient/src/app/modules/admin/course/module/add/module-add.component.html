@@ -43,7 +43,7 @@
                                 <label class="required">{{'duration'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="text" nz-input formControlName="duration"
+                                <input readonly type="text" nz-input formControlName="duration"
                                     placeholder="{{'duration'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
@@ -54,10 +54,17 @@
                                 <label class="required">{{'marks'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="number" nz-input formControlName="marks"
+                                <input readonly type="number" nz-input formControlName="marks"
                                     placeholder="{{'marks'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #coursesSelect label="courses" [formControl]="form.controls.courses">
+                        </app-select-control>
                     </div>
                 </div>
 
@@ -102,6 +109,8 @@
                     <thead>
                         <tr class="v-align-top advanced-table-filter">
                             <th>{{'name'|translate}}</th>
+                            <th>{{'duration'|translate}}</th>
+                            <th>{{'marks'|translate}}</th>
                             <th class="ta-right">
                                 <div>
                                     {{'action'|translate}}
@@ -111,7 +120,13 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of basicTable.data">
-                            <td>{{ data.name }}</td>
+                            <td>{{ data.courseTopic?.name }}</td>
+                            <td>
+                                <input (input)="durationChanged()" type="number" [(ngModel)]="data.duration" nz-input placeholder="{{'duration'|translate}}" />
+                            </td>
+                            <td>
+                                <input (input)="marksChanged()" type="number" [(ngModel)]="data.marks" nz-input placeholder="{{'marks'|translate}}" />
+                            </td>
                             <td class="action-column fit-cell">
                                 <button nz-button class="btn-custom" (click)="delete(data)">
                                     <i nz-icon nzType="delete"></i>

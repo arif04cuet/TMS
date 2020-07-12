@@ -23,6 +23,7 @@ namespace Module.Training.Entities
         public string Description { get; set; }
 
         public int TotalMark { get; set; }
+        public int Duration { get; set; }
 
         public virtual ICollection<Course_CourseModule> Modules { get; private set; }
         public virtual ICollection<CourseMethod> Methods { get; private set; }

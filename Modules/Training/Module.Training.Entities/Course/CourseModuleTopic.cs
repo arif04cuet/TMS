@@ -12,5 +12,8 @@ namespace Module.Training.Entities
 
         public long TopicId { get; set; }
         public Topic Topic { get; set; }
+
+        public int Duration { get; set; }
+        public int Marks { get; set; }
     }
 }

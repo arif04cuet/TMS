@@ -26,8 +26,50 @@
                                 <label class="required">{{'name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="text" nz-input formControlName="name"
-                                    placeholder="{{'name'|translate}}" />
+                                <input type="text" nz-input formControlName="name" placeholder="{{'name'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mode='multiple' #resourcePersonSelect label="resource.person"
+                            [formControl]="form.controls.resourcePersons">
+                        </app-select-control>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #methodSelect label="training.method" [formControl]="form.controls.method">
+                        </app-select-control>
+                    </div>
+
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #evaluationMethodSelect label="evaluation.method"
+                            [formControl]="form.controls.evaluationMethod">
+                        </app-select-control>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'duration'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="number" nz-input formControlName="duration" placeholder="{{'duration'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'marks'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="number" nz-input formControlName="marks" placeholder="{{'marks'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>

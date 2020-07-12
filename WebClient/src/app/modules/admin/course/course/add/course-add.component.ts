@@ -47,6 +47,7 @@ export class CourseAddComponent extends FormComponent {
       name: [null, [], this.v.required.bind(this)],
       category: [null, [], this.v.required.bind(this)],
       totalMark: [null, [], this.v.required.bind(this)],
+      duration: [null, [], this.v.required.bind(this)],
       methods: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
@@ -132,7 +133,13 @@ export class CourseAddComponent extends FormComponent {
       if(module) {
         const exist = this.data.modules.find(x => x.id == module.id);
         if (!exist && module) {
-          this.data.modules = [...this.data.modules, module];
+          this.data.modules = [...this.data.modules, {
+            courseModule: module,
+            marks: module.marks,
+            duration: module.duration
+          }];
+          this.calculateDuration();
+          this.calculateMarks();
         }
         else {
           this.info(m);
@@ -186,6 +193,24 @@ export class CourseAddComponent extends FormComponent {
     if(!this.data.evaluationMethods) {
       this.data.evaluationMethods = [];
     }
+  }
+
+  durationChanged() {
+    this.calculateDuration();
+  }
+
+  marksChanged() {
+    this.calculateMarks();
+  }
+
+  private calculateDuration() {
+    const durations = this.data.topics.map(x => x.duration).reduce((a, c) => a + c);
+    this.setValue('duration', durations);
+  }
+
+  private calculateMarks() {
+    const marks = this.data.topics.map(x => x.marks).reduce((a, c) => a + c);
+    this.setValue('totalMark', marks);
   }
 
 }

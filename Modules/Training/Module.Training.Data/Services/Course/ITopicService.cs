@@ -16,7 +16,7 @@ namespace Module.Training.Data
 
         Task<TopicViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
-        Task<PagedCollection<TopicViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+        Task<PagedCollection<TopicListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
     }
 }

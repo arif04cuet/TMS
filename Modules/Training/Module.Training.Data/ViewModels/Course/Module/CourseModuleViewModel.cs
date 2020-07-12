@@ -14,7 +14,8 @@ namespace Module.Training.Data
         public int Marks { get; set; }
         public string Objectives { get; set; }
         public IdNameViewModel Director { get; set; }
-        public IEnumerable<IdNameViewModel> Topics { get; set; }
+        public IEnumerable<CourseModuleTopicViewModel> Topics { get; set; }
+        public IEnumerable<IdNameViewModel> Courses { get; set; }
 
         public static Expression<Func<CourseModule, CourseModuleViewModel>> Select()
         {

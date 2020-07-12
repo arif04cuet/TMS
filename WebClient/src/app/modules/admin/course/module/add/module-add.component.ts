@@ -10,6 +10,7 @@ import { NzModalService } from 'ng-zorro-antd';
 import { TopicsModalComponent } from '../topics-modal/topics-modal.component';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { CourseHttpService } from 'src/services/http/course/course-http.service';
 
 @Component({
   selector: 'app-module-add',
@@ -25,10 +26,12 @@ export class ModuleAddComponent extends FormComponent {
   @ViewChild('objectiveEditorComponent') objectiveEditorComponent: CKEditorComponent;
   @ViewChild("modalFooter") modalFooter: TemplateRef<any>;
   @ViewChild('directorSelect') directorSelect: SelectControlComponent;
+  @ViewChild('coursesSelect') coursesSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private moduleHttpService: ModuleHttpService,
+    private courseHttpService: CourseHttpService,
     private userHttpService: UserHttpService,
     private v: CommonValidator,
     private modal: NzModalService
@@ -42,7 +45,8 @@ export class ModuleAddComponent extends FormComponent {
       name: [null, [], this.v.required.bind(this)],
       duration: [null, [], this.v.required.bind(this)],
       marks: [null, [], this.v.required.bind(this)],
-      director: [null, [], this.v.required.bind(this)]
+      director: [null, [], this.v.required.bind(this)],
+      courses: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -50,6 +54,10 @@ export class ModuleAddComponent extends FormComponent {
   ngAfterViewInit() {
     this.directorSelect.register((pagination, search) => {
       return this.userHttpService.list(pagination, search);
+    }).fetch();
+
+    this.coursesSelect.register((pagination, search) => {
+      return this.courseHttpService.list(pagination, search);
     }).fetch();
   }
 
@@ -108,13 +116,20 @@ export class ModuleAddComponent extends FormComponent {
 
   async addTopics() {
     const modal = this.createModal(TopicsModalComponent);
-    const m = await this.t('x0.already.added', {x0: 'topic'});
+    const m = await this.t('x0.already.added', { x0: 'topic' });
     this.subscribe(modal.afterClose, res => {
       const topic = modal.getContentComponent().selectedTopic;
-      if(topic) {
+      if (topic) {
         const exist = this.data.topics.find(x => x.id == topic.id);
-        if (!exist && topic) {
-          this.data.topics = [...this.data.topics, topic];
+        if (!exist) {
+          this.data.topics = [...this.data.topics, {
+            courseTopic: topic.courseTopic,
+            marks: topic.marks,
+            duration: topic.duration
+          }];
+          this.calculateDuration();
+          this.calculateMarks();
+          this.appendObjectives(topic.objectives);
         }
         else {
           this.info(m);
@@ -137,10 +152,36 @@ export class ModuleAddComponent extends FormComponent {
     this.data.topics = this.data.topics.filter(x => x.id != e.id);
   }
 
+  durationChanged() {
+    this.calculateDuration();
+  }
+
+  marksChanged() {
+    this.calculateMarks();
+  }
+
   private initModalData() {
     if (!this.data.topics) {
       this.data.topics = []
     }
+  }
+
+  private appendObjectives(objectives) {
+    if (this.objectiveEditorComponent) {
+      let _objectives = this.objectiveEditorComponent.editorInstance.getData();
+      _objectives += objectives || "";
+      this.objectiveEditorComponent.editorInstance.setData(_objectives);
+    }
+  }
+
+  private calculateDuration() {
+    const durations = this.data.topics.map(x => x.duration).reduce((a, c) => a + c);
+    this.setValue('duration', durations);
+  }
+
+  private calculateMarks() {
+    const marks = this.data.topics.map(x => x.marks).reduce((a, c) => a + c);
+    this.setValue('marks', marks);
   }
 
 }
