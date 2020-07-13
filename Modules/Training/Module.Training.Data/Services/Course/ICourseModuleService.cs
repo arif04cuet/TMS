@@ -21,5 +21,7 @@ namespace Module.Training.Data
 
         Task<PagedCollection<CourseModuleTopicListViewModel>> ListTopicAsync(long courseModuleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
+        Task<PagedCollection<IdNameViewModel>> ListMethodAsync(long courseModuleId);
+
     }
 }

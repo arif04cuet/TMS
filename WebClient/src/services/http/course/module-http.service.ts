@@ -12,4 +12,9 @@ export class ModuleHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
+    listMethods(courseModuleId) {
+        const url = `${this.END_POINT}/${courseModuleId}/methods`
+        return this.httpService.get(url);
+    }
+
 }

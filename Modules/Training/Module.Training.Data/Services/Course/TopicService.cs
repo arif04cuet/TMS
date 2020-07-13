@@ -108,18 +108,22 @@ namespace Module.Training.Data
 
         public async Task<PagedCollection<TopicListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var topics = _topicRepository
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions)
-                .ApplyPagination(pagingOptions);
+            var topics = await _topicRepository.ListAsync(TopicListViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
+            return topics;
+        }
 
-            var results = topics.Select(x => TopicListViewModel.Map(x));
+        public async Task<PagedCollection<IdNameViewModel>> ListMethodAsync(long topicId)
+        {
+            var methods = await _topicRepository
+                .Where(x => x.Id == topicId && !x.IsDeleted)
+                .Select(x => new IdNameViewModel {
+                    Id = x.Method.Id,
+                    Name = x.Method.Name
+                })
+                .ToListAsync();
 
-            var total = await topics.Select(x => x.Id).CountAsync(cancellationToken);
-            var items = await results.ToListAsync(cancellationToken);
-
-            var result = new PagedCollection<TopicListViewModel>(items, total, pagingOptions);
+            int total = methods.Count();
+            var result = new PagedCollection<IdNameViewModel>(methods, total, new PagingOptions { Limit = total, Offset = 0 });
             return result;
         }
 

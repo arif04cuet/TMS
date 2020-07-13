@@ -13,32 +13,39 @@ namespace Module.Training.Controllers
     public class TopicController : ControllerBase
     {
 
-        private readonly ITopicService _categoryService;
+        private readonly ITopicService _topicService;
 
         public TopicController(
-            ITopicService categoryService)
+            ITopicService topicService)
         {
-            _categoryService = categoryService;
+            _topicService = topicService;
         }
 
         [HttpGet]
         public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _categoryService.ListAsync(pagingOptions, searchOptions);
+            var result = await _topicService.ListAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(long id)
         {
-            var result = await _categoryService.Get(id);
+            var result = await _topicService.Get(id);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("{id}/methods")]
+        public async Task<ActionResult> ListMethods(long id)
+        {
+            var result = await _topicService.ListMethodAsync(id);
             return result.ToOkResult();
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TopicCreateRequest request)
         {
-            var result = await _categoryService.CreateAsync(request);
+            var result = await _topicService.CreateAsync(request);
             return result.ToCreatedResult();
         }
 
@@ -46,14 +53,14 @@ namespace Module.Training.Controllers
         public async Task<IActionResult> Put(long id, [FromBody] TopicUpdateRequest request)
         {
             request.Id = id;
-            var result = await _categoryService.UpdateAsync(request);
+            var result = await _topicService.UpdateAsync(request);
             return result.ToOkResult();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            await _categoryService.DeleteAsync(id);
+            await _topicService.DeleteAsync(id);
             return NoContent();
         }
 

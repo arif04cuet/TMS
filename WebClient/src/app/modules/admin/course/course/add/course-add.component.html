@@ -134,13 +134,11 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of basicTable.data">
-                            <td>{{ data.name }}</td>
+                            <td>{{ data.courseModule?.name }}</td>
                             <td>
-                                {{ data.marks }}
                                 <input (input)="marksChanged()" type="number" [(ngModel)]="data.marks" nz-input placeholder="{{'marks'|translate}}" />
                             </td>
                             <td>
-                                {{ data.duration }}
                                 <input (input)="durationChanged()" type="number" [(ngModel)]="data.duration" nz-input placeholder="{{'duration'|translate}}" />
                             </td>
                             <td class="action-column fit-cell">

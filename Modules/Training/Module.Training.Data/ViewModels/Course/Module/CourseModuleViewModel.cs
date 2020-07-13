@@ -10,7 +10,7 @@ namespace Module.Training.Data
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public string Duration { get; set; }
+        public int Duration { get; set; }
         public int Marks { get; set; }
         public string Objectives { get; set; }
         public IdNameViewModel Director { get; set; }

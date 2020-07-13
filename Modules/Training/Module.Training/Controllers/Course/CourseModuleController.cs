@@ -42,6 +42,13 @@ namespace Module.Training.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("{id}/methods")]
+        public async Task<ActionResult> ListMethods(long id)
+        {
+            var result = await _courseModuleService.ListMethodAsync(id);
+            return result.ToOkResult();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CourseModuleCreateRequest request)
         {

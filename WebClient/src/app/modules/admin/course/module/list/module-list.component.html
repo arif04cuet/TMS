@@ -34,11 +34,20 @@
                         </th>
                         <th>{{'marks'|translate}}</th>
                         <th>{{'duration'|translate}}</th>
-                        <th>{{'director'|translate}}</th>
+                        <th>
+                            {{'director'|translate}}
+                            <input [(ngModel)]="director" nz-input />
+                        </th>
                         <th>{{'total.topics'|translate}}</th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
+                            </div>
+                            <div>
+                                <button (click)="search()" nz-button class="btn-custom">
+                                    <i nz-icon nzType="search"></i>
+                                    {{'search'|translate}}
+                                </button>
                             </div>
                         </th>
                     </tr>

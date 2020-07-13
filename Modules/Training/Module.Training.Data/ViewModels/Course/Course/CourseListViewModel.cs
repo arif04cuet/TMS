@@ -26,7 +26,7 @@ namespace Module.Training.Data
                 TotalMark = x.TotalMark,
                 Duration = x.Duration,
                 TotalModule = x.Modules.Select(y => y.Id).Count(),
-                TotalEvaluationMethod =- x.EvaluationMethods.Select(y => y.Id).Count()
+                TotalEvaluationMethod = x.EvaluationMethods.Select(y => y.Id).Count()
             };
         }
     }

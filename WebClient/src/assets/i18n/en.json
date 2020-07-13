@@ -410,5 +410,8 @@
   "honorarium": "Honorarium",
   "certificate": "Certificate",
   "certificates": "Certificates",
-  "download": "Download"
+  "download": "Download",
+  "total.topics": "Total topics",
+  "total.module": "Total module",
+  "total.evaluation.method": "Total evaluation method"
 }

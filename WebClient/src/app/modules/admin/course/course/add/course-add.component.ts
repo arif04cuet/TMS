@@ -12,6 +12,7 @@ import { CategoryHttpService } from 'src/services/http/course/category-http.serv
 import { EvaluationMethodModalComponent } from '../evaluation-method-modal/evaluation-method-modal.component';
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
 import { MethodHttpService } from 'src/services/http/course/method-http.service';
+import { ModuleHttpService } from 'src/services/http/course/module-http.service';
 
 @Component({
   selector: 'app-course-add',
@@ -33,6 +34,7 @@ export class CourseAddComponent extends FormComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private courseHttpService: CourseHttpService,
+    private moduleHttpService: ModuleHttpService,
     private methodHttpService: MethodHttpService,
     private categoryHttpService: CategoryHttpService,
     private v: CommonValidator,
@@ -68,10 +70,10 @@ export class CourseAddComponent extends FormComponent {
     const body: any = this.constructObject(this.form.controls);
     body.objective = this.objectiveEditorComponent.editorInstance.getData();
     body.description = this.descriptionEditorComponent.editorInstance.getData();
-    body.modules = this.data.modules.map(x => x.id);
+    body.modules = this.data.modules;
     body.evaluationMethods = this.data.evaluationMethods;
 
-    if(!body.methods) {
+    if (!body.methods) {
       body.methods = [];
     }
 
@@ -127,11 +129,11 @@ export class CourseAddComponent extends FormComponent {
 
   async addModules() {
     const modal = this.createModal(ModuleModalComponent);
-    const m = await this.t('x0.already.added', {x0: 'module'});
+    const m = await this.t('x0.already.added', { x0: 'module' });
     this.subscribe(modal.afterClose, res => {
       const module = modal.getContentComponent().selectedItem;
-      if(module) {
-        const exist = this.data.modules.find(x => x.id == module.id);
+      if (module) {
+        const exist = this.data.modules.find(x => x.courseModule.id == module.id);
         if (!exist && module) {
           this.data.modules = [...this.data.modules, {
             courseModule: module,
@@ -140,6 +142,19 @@ export class CourseAddComponent extends FormComponent {
           }];
           this.calculateDuration();
           this.calculateMarks();
+          this.appendObjectives(module.objectives);
+
+          this.subscribe(this.moduleHttpService.listMethods(module.id),
+            (res: any) => {
+              if (res.data && res.data.items) {
+                const methods = res.data.items.map(x => x.id);
+                const oldMethods = this.form.controls.methods.value
+                const sets = new Set<number>(methods.concat(oldMethods));
+                this.setValue('methods', Array.from(sets));
+              }
+            },
+            err => { }
+          );
         }
         else {
           this.info(m);
@@ -149,11 +164,11 @@ export class CourseAddComponent extends FormComponent {
   }
 
   async addEvaluationMethods() {
-    const m = await this.t('x0.already.added', {x0: 'evaluation.method'});
+    const m = await this.t('x0.already.added', { x0: 'evaluation.method' });
     const modal = this.createModal(EvaluationMethodModalComponent);
     this.subscribe(modal.afterClose, res => {
       const evaluationMethod = modal.getContentComponent().selectedItem;
-      if(evaluationMethod) {
+      if (evaluationMethod) {
         const exist = this.data.evaluationMethods.find(x => x.evaluationMethod.id == evaluationMethod.id);
         if (!exist) {
           this.data.evaluationMethods = [...this.data.evaluationMethods, {
@@ -180,6 +195,8 @@ export class CourseAddComponent extends FormComponent {
 
   deleteModule(e) {
     this.data.modules = this.data.modules.filter(x => x.id != e.id);
+    this.calculateDuration();
+    this.calculateMarks();
   }
 
   deleteEvaluationMethod(e) {
@@ -187,10 +204,10 @@ export class CourseAddComponent extends FormComponent {
   }
 
   private initModalData() {
-    if(!this.data.modules) {
+    if (!this.data.modules) {
       this.data.modules = [];
     }
-    if(!this.data.evaluationMethods) {
+    if (!this.data.evaluationMethods) {
       this.data.evaluationMethods = [];
     }
   }
@@ -204,13 +221,21 @@ export class CourseAddComponent extends FormComponent {
   }
 
   private calculateDuration() {
-    const durations = this.data.topics.map(x => x.duration).reduce((a, c) => a + c);
+    const durations = this.data.modules.map(x => x.duration).reduce((a, c) => a + c);
     this.setValue('duration', durations);
   }
 
   private calculateMarks() {
-    const marks = this.data.topics.map(x => x.marks).reduce((a, c) => a + c);
+    const marks = this.data.modules.map(x => x.marks).reduce((a, c) => a + c);
     this.setValue('totalMark', marks);
+  }
+
+  private appendObjectives(objectives) {
+    if (this.objectiveEditorComponent) {
+      let _objectives = this.objectiveEditorComponent.editorInstance.getData();
+      _objectives += (objectives || "");
+      this.objectiveEditorComponent.editorInstance.setData(_objectives);
+    }
   }
 
 }

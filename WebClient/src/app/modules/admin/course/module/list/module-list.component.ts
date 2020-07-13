@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
-import { environment } from 'src/environments/environment';
 import { ModuleHttpService } from 'src/services/http/course/module-http.service';
 
 @Component({
@@ -12,8 +11,7 @@ import { ModuleHttpService } from 'src/services/http/course/module-http.service'
 export class ModuleListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
-  serverUrl = environment.serverUri;
+  @Searchable("Director.FullName", "like") director;
 
   constructor(
     private moduleHttpService: ModuleHttpService,

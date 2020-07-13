@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Entities;
 using Module.Core.Entities;
 using Module.Core.Entities.Constants;
+using Msi.UtilityKit.Search;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,11 +16,12 @@ namespace Module.Training.Entities
             Topics = new HashSet<CourseModuleTopic>();
         }
 
-        public string Duration { get; set; }
+        public int Duration { get; set; }
         public int Marks { get; set; }
         public string Objectives { get; set; }
 
         public long? DirectorId { get; set; }
+        [Searchable]
         public User Director { get; set; }
 
         public virtual ICollection<CourseModuleTopic> Topics { get; set; }

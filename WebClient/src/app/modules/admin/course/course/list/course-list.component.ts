@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
-import { environment } from 'src/environments/environment';
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
 
 @Component({
@@ -12,8 +11,6 @@ import { CourseHttpService } from 'src/services/http/course/course-http.service'
 export class CourseListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
-  serverUrl = environment.serverUri;
 
   constructor(
     private courseHttpService: CourseHttpService,

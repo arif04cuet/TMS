@@ -65,7 +65,7 @@ export class ModuleAddComponent extends FormComponent {
 
     const body: any = this.constructObject(this.form.controls);
     body.objectives = this.objectiveEditorComponent.editorInstance.getData();
-    body.topics = this.data.topics.map(x => x.id);
+    body.topics = this.data.topics;
 
     this.submitForm(
       {
@@ -120,10 +120,10 @@ export class ModuleAddComponent extends FormComponent {
     this.subscribe(modal.afterClose, res => {
       const topic = modal.getContentComponent().selectedTopic;
       if (topic) {
-        const exist = this.data.topics.find(x => x.id == topic.id);
+        const exist = this.data.topics.find(x => x.topic.id == topic.id);
         if (!exist) {
           this.data.topics = [...this.data.topics, {
-            courseTopic: topic.courseTopic,
+            topic: topic,
             marks: topic.marks,
             duration: topic.duration
           }];
@@ -150,6 +150,8 @@ export class ModuleAddComponent extends FormComponent {
 
   delete(e) {
     this.data.topics = this.data.topics.filter(x => x.id != e.id);
+    this.calculateDuration();
+    this.calculateMarks();
   }
 
   durationChanged() {
@@ -169,7 +171,7 @@ export class ModuleAddComponent extends FormComponent {
   private appendObjectives(objectives) {
     if (this.objectiveEditorComponent) {
       let _objectives = this.objectiveEditorComponent.editorInstance.getData();
-      _objectives += objectives || "";
+      _objectives += (objectives || "");
       this.objectiveEditorComponent.editorInstance.setData(_objectives);
     }
   }
