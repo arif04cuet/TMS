@@ -3,6 +3,7 @@ using Module.Training.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.IO;
 
 namespace Module.Training.Data
 {
@@ -17,6 +18,18 @@ namespace Module.Training.Data
         public IdNameViewModel HonorariumHead { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
+
+        public string AltMobile { get; set; }
+        public string AltEmail { get; set; }
+
+        public string MailingAddress { get; set; }
+        public string OfficeAddress { get; set; }
+
+        public string Cv { get; set; }
+        public string CvFileName { get; set; }
+        public string Photo { get; set; }
+
+
         public string NID { get; set; }
         public string TIN { get; set; }
 
@@ -31,12 +44,21 @@ namespace Module.Training.Data
                 Designation = x.UserId != null && x.User.DesignationId != null ? new IdNameViewModel { Id = x.User.Designation.Id, Name = x.User.Designation.Name } : null,
                 Email = x.User.Email,
                 Mobile = x.User.Mobile,
+                AltEmail = x.AltEmail,
+                AltMobile = x.AltMobile,
+                MailingAddress = x.MailingAddress,
+                OfficeAddress = x.OfficeAddress,
+
+
                 Name = x.User.FullName,
                 NID = x.NID,
                 Office = x.OfficeId != null ? new IdNameViewModel { Id = x.Office.Id, Name = x.Office.OfficeName } : null,
                 HonorariumHead = x.HonorariumHeadId != null ? new IdNameViewModel { Id = x.HonorariumHead.Id, Name = x.HonorariumHead.Head } : null,
                 ShortName = x.ShortName,
-                TIN = x.TIN
+                TIN = x.TIN,
+                Photo = x.PhotoId.HasValue ? Path.Combine(MediaConstants.Path, x.Photo.FileName) : string.Empty,
+                Cv = x.CvId.HasValue ? Path.Combine(MediaConstants.Path, x.Cv.FileName) : string.Empty,
+                CvFileName = x.CvId.HasValue ? x.Cv.FileName : string.Empty,
             };
         }
     }

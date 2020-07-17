@@ -21,6 +21,21 @@ namespace Module.Training.Entities
 
         public string NID { get; set; }
         public string TIN { get; set; }
+
+        public string AltEmail { get; set; }
+        public string AltMobile { get; set; }
+
+        public string MailingAddress { get; set; }
+        public string OfficeAddress { get; set; }
+
+        public long? CvId { get; set; }
+        public Media Cv { get; set; }
+
+        public long? PhotoId { get; set; }
+        public Media Photo { get; set; }
+
+
+
     }
 
 }

@@ -12,6 +12,8 @@ import { ResourcePersonAddRoutingModule } from './resource-person-add-routing.mo
 import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.service';
 import { HonorariumHeadHttpService } from 'src/services/http/budget-and-schedule/honorarium-head-http.service';
+import { MediaHttpService } from 'src/services/http/media-http.service';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { HonorariumHeadHttpService } from 'src/services/http/budget-and-schedule
     ResourcePersonHttpService,
     DesignationHttpService,
     ExpertiseHttpService,
-    HonorariumHeadHttpService
+    HonorariumHeadHttpService,
+    MediaHttpService
   ]
 })
 export class ResourcePersonAddModule { }

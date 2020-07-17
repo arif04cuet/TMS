@@ -28,15 +28,27 @@
                 [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>{{'name'|translate}}</th>
-                        <th>{{'short.name'|translate}}</th>
-                        <th>{{'designation'|translate}}</th>
-                        <th>{{'mobile'|translate}}</th>
-                        <th>{{'email'|translate}}</th>
+                        <th>
+                            {{'name'|translate}}
+                            <input [(ngModel)]="name" nz-input />
+                        </th>
+                        <th>{{'short.name'|translate}} <input [(ngModel)]="shortName" nz-input /></th>
+                        <th>{{'designation'|translate}} </th>
+                        <th>{{'mobile'|translate}} <input [(ngModel)]="mobile" nz-input /></th>
+                        <th>{{'email'|translate}} <input [(ngModel)]="email" nz-input /></th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
                             </div>
+
+                            <div>
+                                <button (click)="search()" nz-button class="btn-custom">
+                                    <i nz-icon nzType="search"></i>
+                                    {{'search'|translate}}
+                                </button>
+                            </div>
+
+
                         </th>
                     </tr>
                 </thead>

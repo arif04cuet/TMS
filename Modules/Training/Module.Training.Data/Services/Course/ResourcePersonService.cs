@@ -19,6 +19,7 @@ namespace Module.Training.Data
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<ResourcePerson> _resourcePersonRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Media> _mediaRepository;
         private readonly IRepository<ResourcePersonExpertise> _resourcePersonExpertiseRepository;
 
         public ResourcePersonService(
@@ -27,6 +28,7 @@ namespace Module.Training.Data
             _unitOfWork = unitOfWork;
             _resourcePersonRepository = _unitOfWork.GetRepository<ResourcePerson>();
             _userRepository = _unitOfWork.GetRepository<User>();
+            _mediaRepository = _unitOfWork.GetRepository<Media>();
             _resourcePersonExpertiseRepository = _unitOfWork.GetRepository<ResourcePersonExpertise>();
         }
 
@@ -40,6 +42,31 @@ namespace Module.Training.Data
 
             var person = request.MapResourcePerson();
             person.UserId = user.Id;
+
+            //upload cv
+            if (request.Cv.HasValue)
+            {
+                person.CvId = request.Cv;
+                var media = await _mediaRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.Cv.Value);
+                if (media != null)
+                {
+                    media.IsInUse = true;
+                }
+            }
+
+            //upload photo
+            if (request.Photo.HasValue)
+            {
+                person.PhotoId = request.Photo;
+                var media = await _mediaRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.Photo.Value);
+                if (media != null)
+                {
+                    media.IsInUse = true;
+                }
+            }
+
             await _resourcePersonRepository.AddAsync(person);
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -67,7 +94,33 @@ namespace Module.Training.Data
             ValidateResourcePerson(request.Email, request.Mobile, entity.UserId);
 
             request.MapUser(entity.User);
-            request.MapResourcePerson(entity);
+            var person = request.MapResourcePerson(entity);
+
+            //upload cv
+            if (request.Cv.HasValue)
+            {
+                person.CvId = request.Cv;
+                var media = await _mediaRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.Cv.Value);
+                if (media != null)
+                {
+                    media.IsInUse = true;
+                }
+            }
+
+            //upload photo
+            if (request.Photo.HasValue)
+            {
+                person.PhotoId = request.Photo;
+                var media = await _mediaRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.Photo.Value);
+                if (media != null)
+                {
+                    media.IsInUse = true;
+                }
+            }
+
+
 
             await _resourcePersonExpertiseRepository.UpdateAsync(
                 request.Expertises,

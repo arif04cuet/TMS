@@ -12,6 +12,9 @@ import { ResourcePersonHttpService } from 'src/services/http/course/resource-per
 export class ResourcePersonListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
+  @Searchable("ShortName", "like") shortName;
+  @Searchable("Mobile", "like") mobile;
+  @Searchable("Email", "like") email;
 
   serverUrl = environment.serverUri;
 
@@ -47,5 +50,6 @@ export class ResourcePersonListComponent extends TableComponent {
   search() {
     this.load();
   }
+
 
 }

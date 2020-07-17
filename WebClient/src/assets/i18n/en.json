@@ -330,10 +330,10 @@
   "course.method": "Course method",
   "course.categories": "Course categories",
   "course.category": "Course category",
-  "topics": "Topics",
-  "topic": "Topic",
+  "topics": "Sessions",
+  "topic": "Session",
   "objectives": "Objectives",
-  "outcomes" : "Outcomes",
+  "outcomes": "Outcomes",
   "course.materials": "Course materials",
   "course.details": "Course Details",
   "invoice.date": "Invoice date",
@@ -352,7 +352,7 @@
   "resource.person": "Resource person",
   "short.name": "Short name",
   "tin": "TIN",
-  "expertise": "Expertise",
+  "expertise": "Expertise area",
   "member.requests": "Member requests",
   "approved": "Approved",
   "approve": "Approve",
@@ -410,5 +410,7 @@
   "honorarium": "Honorarium",
   "certificate": "Certificate",
   "certificates": "Certificates",
-  "download": "Download"
+  "download": "Download",
+  "primary.email": "Primary Email",
+  "primary.mobile": "Primary Mobile"
 }

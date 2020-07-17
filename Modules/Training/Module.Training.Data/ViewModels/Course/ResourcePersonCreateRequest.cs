@@ -1,4 +1,5 @@
-﻿using Module.Core.Entities;
+﻿using Infrastructure.Data;
+using Module.Core.Entities;
 using Module.Training.Entities;
 
 namespace Module.Training.Data
@@ -12,6 +13,15 @@ namespace Module.Training.Data
         public long? HonorariumHead { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
+
+        public string AltMobile { get; set; }
+        public string AltEmail { get; set; }
+        public string MailingAddress { get; set; }
+        public string OfficeAddress { get; set; }
+
+        public long? Cv { get; set; }
+        public long? Photo { get; set; }
+
         public string NID { get; set; }
         public string TIN { get; set; }
 
@@ -25,6 +35,12 @@ namespace Module.Training.Data
             entity.HonorariumHeadId = HonorariumHead;
             entity.ShortName = ShortName;
             entity.TIN = TIN;
+            entity.AltMobile = AltMobile;
+            entity.AltEmail = AltEmail;
+            entity.MailingAddress = MailingAddress;
+            entity.OfficeAddress = OfficeAddress;
+
+
             return entity;
         }
 
@@ -37,5 +53,7 @@ namespace Module.Training.Data
             entity.Mobile = Mobile;
             return entity;
         }
+
+
     }
 }
