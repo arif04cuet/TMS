@@ -15,6 +15,7 @@ import { EvaluationMethodModalModule } from '../evaluation-method-modal/evaluati
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
 import { MethodHttpService } from 'src/services/http/course/method-http.service';
 import { ModuleHttpService } from 'src/services/http/course/module-http.service';
+import { MediaHttpService } from 'src/services/http/media-http.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ModuleHttpService } from 'src/services/http/course/module-http.service'
     NzModalService,
     CategoryHttpService,
     MethodHttpService,
-    ModuleHttpService
+    ModuleHttpService,
+    MediaHttpService
   ]
 })
 export class CourseAddModule { }

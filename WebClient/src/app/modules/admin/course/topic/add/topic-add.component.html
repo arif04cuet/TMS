@@ -40,7 +40,8 @@
 
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #methodSelect label="training.method" [formControl]="form.controls.method">
+                        <app-select-control mandatory="true" #methodSelect label="training.methods"
+                            [formControl]="form.controls.method">
                         </app-select-control>
                     </div>
 
@@ -58,7 +59,8 @@
                                 <label class="required">{{'duration'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="number" nz-input formControlName="duration" placeholder="{{'duration'|translate}}" />
+                                <input type="number" nz-input formControlName="duration"
+                                    placeholder="{{'duration'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -69,7 +71,8 @@
                                 <label class="required">{{'marks'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="number" nz-input formControlName="marks" placeholder="{{'marks'|translate}}" />
+                                <input type="number" nz-input formControlName="marks"
+                                    placeholder="{{'marks'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -105,7 +108,7 @@
                     <div nz-col [nzSpan]="24">
                         <nz-form-item class="field-container">
                             <div>
-                                <label class="required">{{'course.materials'|translate}}</label>
+                                <label class="required">{{'session.materials'|translate}}</label>
                             </div>
                             <nz-form-control>
                                 <ckeditor #materialEditorComponent [editor]="materialEditor"></ckeditor>
@@ -118,7 +121,7 @@
                     <div nz-col [nzSpan]="24">
                         <nz-form-item class="field-container">
                             <div>
-                                <label class="required">{{'course.details'|translate}}</label>
+                                <label class="required">{{'session.details'|translate}}</label>
                             </div>
                             <nz-form-control>
                                 <ckeditor #detailsEditorComponent [editor]="detailsEditor"></ckeditor>

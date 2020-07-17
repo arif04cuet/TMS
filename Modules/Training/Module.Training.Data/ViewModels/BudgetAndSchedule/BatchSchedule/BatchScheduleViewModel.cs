@@ -9,6 +9,7 @@ namespace Module.Training.Data
 {
     public class BatchScheduleViewModel
     {
+        public string Name { get; set; }
         public long Id { get; set; }
         public IdNameViewModel CourseSchedule { get; set; }
         public IdNameViewModel Coordinator { get; set; }
@@ -35,6 +36,7 @@ namespace Module.Training.Data
             return x => new BatchScheduleViewModel
             {
                 Id = x.Id,
+                Name = x.Name,
                 CoCoordinator = x.CoCoordinatorId.HasValue ? new IdNameViewModel { Id = x.CoCoordinator.Id, Name = x.CoCoordinator.FullName } : null,
                 Coordinator = x.CoordinatorId.HasValue ? new IdNameViewModel { Id = x.Coordinator.Id, Name = x.Coordinator.FullName } : null,
 
@@ -59,6 +61,7 @@ namespace Module.Training.Data
             return x => new BatchScheduleViewModel
             {
                 Id = x.Id,
+                Name = x.Name,
                 CoCoordinator = x.CoCoordinatorId != null ? new IdNameViewModel { Id = x.CoCoordinator.Id, Name = x.CoCoordinator.FullName } : null,
                 Coordinator = x.CoordinatorId != null ? new IdNameViewModel { Id = x.Coordinator.Id, Name = x.Coordinator.FullName } : null,
 
@@ -79,7 +82,7 @@ namespace Module.Training.Data
                     Id = y.CourseModuleId,
                     Name = y.CourseModule.Name
                 })
-        };
+            };
+        }
     }
-}
 }

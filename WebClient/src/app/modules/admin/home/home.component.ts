@@ -454,7 +454,7 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
-            title: 'allocations',
+            title: 'batch.allocation',
             icon: 'team',
             route: '/admin/trainings/batch-schedules/allocations'
           },

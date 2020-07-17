@@ -2,6 +2,7 @@
 using Module.Core.Entities.Constants;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Module.Core.Entities;
 
 namespace Module.Training.Entities
 {
@@ -15,6 +16,9 @@ namespace Module.Training.Entities
             Methods = new HashSet<CourseMethod>();
             EvaluationMethods = new HashSet<CourseEvaluationMethod>();
         }
+
+        public long? ImageId { get; set; }
+        public Media Image { get; set; }
 
         public long CategoryId { get; set; }
         public Category Category { get; set; }

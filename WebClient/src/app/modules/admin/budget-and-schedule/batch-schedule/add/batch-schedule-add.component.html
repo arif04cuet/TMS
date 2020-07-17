@@ -8,10 +8,25 @@
                     <div class="content">
                         <div nz-row [nzGutter]="24">
                             <div nz-col [nzSpan]="8">
-                                <app-select-control (onChange)="courseScheduleChanged($event)" mandatory="true" [formControl]="form.controls.courseSchedule"
-                                    #courseScheduleSelect label="course.schedule">
+                                <app-select-control (onChange)="courseScheduleChanged($event)" mandatory="true"
+                                    [formControl]="form.controls.courseSchedule" #courseScheduleSelect
+                                    label="course.schedule">
                                 </app-select-control>
                             </div>
+
+                            <div nz-col [nzSpan]="8">
+                                <nz-form-item class="field-container">
+                                    <div>
+                                        <label class="required">{{'batch.name'|translate}}</label>
+                                    </div>
+                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                        <input type="text" nz-input formControlName="name"
+                                            placeholder="{{'batch.name'|translate}}" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+
+
                             <div nz-col [nzSpan]="8">
                                 <nz-form-item class="field-container">
                                     <div>
@@ -46,9 +61,7 @@
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
-                        </div>
 
-                        <div nz-row [nzGutter]="24">
                             <div nz-col [nzSpan]="8">
                                 <nz-form-item class="field-container">
                                     <div>
@@ -59,6 +72,11 @@
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
+
+                        </div>
+
+                        <div nz-row [nzGutter]="24">
+
                             <div nz-col [nzSpan]="8">
                                 <nz-form-item class="field-container">
                                     <div>
@@ -69,9 +87,7 @@
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
-                        </div>
 
-                        <div nz-row [nzGutter]="24">
                             <div nz-col [nzSpan]="8">
                                 <app-select-control mandatory="true" [formControl]="form.controls.coordinator"
                                     #coordinatorSelect label="coordinator" labelKey="fullName">
@@ -82,28 +98,29 @@
                                     #coCoordinatorSelect label="co.coordinator" labelKey="fullName">
                                 </app-select-control>
                             </div>
+
+
                         </div>
 
                         <div nz-row [nzGutter]="24">
                             <div nz-col [nzSpan]="8">
-                                <app-select-control [formControl]="form.controls.staff1"
-                                    #staff1Select label="staff1" labelKey="fullName">
+                                <app-select-control [formControl]="form.controls.staff1" #staff1Select label="staff1"
+                                    labelKey="fullName">
                                 </app-select-control>
                             </div>
                             <div nz-col [nzSpan]="8">
-                                <app-select-control [formControl]="form.controls.staff2"
-                                    #staff2Select label="staff2" labelKey="fullName">
+                                <app-select-control [formControl]="form.controls.staff2" #staff2Select label="staff2"
+                                    labelKey="fullName">
+                                </app-select-control>
+                            </div>
+
+                            <div nz-col [nzSpan]="8">
+                                <app-select-control [formControl]="form.controls.staff3" #staff3Select label="staff3"
+                                    labelKey="fullName">
                                 </app-select-control>
                             </div>
                         </div>
 
-                        <div nz-row [nzGutter]="24">
-                            <div nz-col [nzSpan]="8">
-                                <app-select-control [formControl]="form.controls.staff3"
-                                    #staff3Select label="staff3" labelKey="fullName">
-                                </app-select-control>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
@@ -145,7 +162,8 @@
             </nz-tab>
         </nz-tabset>
     </form>
-    <div [style.display]="hideFooterIndexes.includes(currentSelectedTab?.index || 0)  ? 'none' : ''" class="block footer pad-v-12 pad-h-20 box-divider">
+    <div [style.display]="hideFooterIndexes.includes(currentSelectedTab?.index || 0)  ? 'none' : ''"
+        class="block footer pad-v-12 pad-h-20 box-divider">
         <div class="column">
             <button (click)="cancel()" nz-button class="btn-custom">
                 {{'cancel'|translate}}

@@ -41,6 +41,7 @@ export class BatchScheduleAddComponent extends FormComponent {
   async ngOnInit() {
     this.onCheckMode = id => this.get(id);
     this.createForm({
+      name: [null, [], this.v.required.bind(this)],
       courseSchedule: [null, [], this.v.required.bind(this)],
       totalSeat: [null, [], this.v.required.bind(this)],
       startDate: [null, [], this.v.required.bind(this)],
@@ -52,6 +53,7 @@ export class BatchScheduleAddComponent extends FormComponent {
       staff1: [],
       staff2: [],
       staff3: []
+
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
@@ -142,7 +144,7 @@ export class BatchScheduleAddComponent extends FormComponent {
   }
 
   courseScheduleChanged(e) {
-    if(this.isAddMode()) {
+    if (this.isAddMode()) {
       this.subscribe(this.courseScheduleHttpService.get(e),
         (res: any) => {
           [

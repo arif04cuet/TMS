@@ -45,12 +45,16 @@ namespace Module.Training.Data
                 Duration = x.Duration
             });
 
-            var courseModuleCourses = request.Courses.Select(x => new CourseModule_Course
+            if (request.Courses != null)
             {
-                CourseId = x,
-                CourseModuleId = entity.Id
-            });
-            await _courseModuleCourseRepository.AddRangeAsync(courseModuleCourses);
+                var courseModuleCourses = request.Courses.Select(x => new CourseModule_Course
+                {
+                    CourseId = x,
+                    CourseModuleId = entity.Id
+                });
+                await _courseModuleCourseRepository.AddRangeAsync(courseModuleCourses);
+            }
+
             await _courseModuleTopicRepository.AddRangeAsync(topics);
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -190,7 +194,7 @@ namespace Module.Training.Data
             var total = items.Count();
 
             var result = new PagedCollection<IdNameViewModel>(items, total, new PagingOptions { Limit = total, Offset = 0 });
-        
+
             return result;
         }
 

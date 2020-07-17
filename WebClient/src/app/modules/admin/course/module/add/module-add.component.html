@@ -31,7 +31,8 @@
                         </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #directorSelect label="director" labelKey="fullName" [formControl]="form.controls.director">
+                        <app-select-control mandatory="true" #directorSelect label="director" labelKey="fullName"
+                            [formControl]="form.controls.director">
                         </app-select-control>
                     </div>
                 </div>
@@ -63,7 +64,8 @@
 
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mode="multiple" mandatory="true" #coursesSelect label="courses" [formControl]="form.controls.courses">
+                        <app-select-control mode="multiple" #coursesSelect label="courses"
+                            [formControl]="form.controls.courses">
                         </app-select-control>
                     </div>
                 </div>
@@ -122,10 +124,12 @@
                         <tr *ngFor="let data of basicTable.data">
                             <td>{{ data.topic?.name }}</td>
                             <td>
-                                <input (input)="durationChanged()" type="number" [(ngModel)]="data.duration" nz-input placeholder="{{'duration'|translate}}" />
+                                <input (input)="durationChanged()" type="number" [(ngModel)]="data.duration" nz-input
+                                    placeholder="{{'duration'|translate}}" />
                             </td>
                             <td>
-                                <input (input)="marksChanged()" type="number" [(ngModel)]="data.marks" nz-input placeholder="{{'marks'|translate}}" />
+                                <input (input)="marksChanged()" type="number" [(ngModel)]="data.marks" nz-input
+                                    placeholder="{{'marks'|translate}}" />
                             </td>
                             <td class="action-column fit-cell">
                                 <button nz-button class="btn-custom" (click)="delete(data)">

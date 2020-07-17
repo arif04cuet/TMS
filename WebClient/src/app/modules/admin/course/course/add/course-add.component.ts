@@ -13,6 +13,8 @@ import { EvaluationMethodModalComponent } from '../evaluation-method-modal/evalu
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
 import { MethodHttpService } from 'src/services/http/course/method-http.service';
 import { ModuleHttpService } from 'src/services/http/course/module-http.service';
+import { MediaHttpService } from 'src/services/http/media-http.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-course-add',
@@ -24,6 +26,11 @@ export class CourseAddComponent extends FormComponent {
   objectiveEditor = ClassicEditor;
   descriptionEditor = ClassicEditor;
   data: any = {};
+
+  imageUrl;
+  imageLoading = false;
+
+
 
   @ViewChild('objectiveEditorComponent') objectiveEditorComponent: CKEditorComponent;
   @ViewChild('descriptionEditorComponent') descriptionEditorComponent: CKEditorComponent;
@@ -38,7 +45,8 @@ export class CourseAddComponent extends FormComponent {
     private methodHttpService: MethodHttpService,
     private categoryHttpService: CategoryHttpService,
     private v: CommonValidator,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private mediaHttpService: MediaHttpService
   ) {
     super();
   }
@@ -50,7 +58,8 @@ export class CourseAddComponent extends FormComponent {
       category: [null, [], this.v.required.bind(this)],
       totalMark: [null, [], this.v.required.bind(this)],
       duration: [null, [], this.v.required.bind(this)],
-      methods: []
+      methods: [],
+      image: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -63,6 +72,31 @@ export class CourseAddComponent extends FormComponent {
     this.methodSelect.register((pagination, search) => {
       return this.methodHttpService.list(pagination, search);
     }).fetch();
+  }
+
+  handlePhotoChange(e) {
+    const file = e.target.files[0];
+    if (file) {
+      this.imageLoading = true;
+      var fr = new FileReader();
+      fr.onload = () => {
+        this.imageUrl = fr.result;
+      }
+      fr.readAsDataURL(file);
+      this.mediaHttpService.upload(file, true,
+        progress => {
+          this.log('progress', progress);
+        },
+        success => {
+          this.log('success', success);
+          this.form.controls.image.setValue(success.data);
+          this.imageLoading = false;
+        },
+        error => {
+          this.imageLoading = false;
+        }
+      );
+    }
   }
 
   submit(): void {
@@ -103,6 +137,10 @@ export class CourseAddComponent extends FormComponent {
           this.setValues(this.form.controls, res.data);
           this.loading = false;
           this.data = res.data;
+          if (res.data.image) {
+            this.imageUrl = `${environment.serverUri}/${res.data.imageUrl}`;
+
+          }
           this.initModalData();
           this.setEditorData(this.data);
         }
@@ -175,9 +213,9 @@ export class CourseAddComponent extends FormComponent {
           // check total course marks
           const totalEvaluationMark = this.calculateTotalEvaluationMark() + evaluationMethod.mark
           const totalMark = this.form.controls.totalMark.value;
-          if(totalEvaluationMark > totalMark) {
-              const exceed = totalEvaluationMark - totalMark;
-              evaluationMethod.mark = 0;
+          if (totalEvaluationMark > totalMark) {
+            const exceed = totalEvaluationMark - totalMark;
+            evaluationMethod.mark = 0;
           }
 
           this.data.evaluationMethods = [...this.data.evaluationMethods, {
@@ -236,7 +274,7 @@ export class CourseAddComponent extends FormComponent {
 
   private calculateTotalEvaluationMark() {
     let total = 0;
-    if(this.data.evaluationMethods) {
+    if (this.data.evaluationMethods) {
       total = this.data.evaluationMethods.map(x => x.mark).reduce((a, c) => a + c);
     }
     return total;

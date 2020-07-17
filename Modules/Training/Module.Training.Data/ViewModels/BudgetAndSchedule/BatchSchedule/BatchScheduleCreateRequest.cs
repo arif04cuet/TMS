@@ -5,6 +5,7 @@ namespace Module.Training.Data
 {
     public class BatchScheduleCreateRequest
     {
+        public string Name { get; set; }
         public long CourseSchedule { get; set; }
         public long? Coordinator { get; set; }
         public long? CoCoordinator { get; set; }
@@ -22,6 +23,8 @@ namespace Module.Training.Data
         public BatchSchedule Map(BatchSchedule batchSchedule = null)
         {
             var entity = batchSchedule ?? new BatchSchedule();
+
+            entity.Name = Name;
             entity.CourseScheduleId = CourseSchedule;
             entity.CoordinatorId = Coordinator;
             entity.CoCoordinatorId = CoCoordinator;

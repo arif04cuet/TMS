@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Module.Core.Data;
 using System;
 using Module.Core.Shared;
+using Module.Core.Entities;
 
 namespace Module.Training.Data
 {
@@ -21,6 +22,7 @@ namespace Module.Training.Data
         private readonly IRepository<CourseMethod> _courseMethodRepository;
         private readonly IRepository<Course_CourseModule> _courseCourseModuleRepository;
         private readonly IRepository<CourseEvaluationMethod> _courseEvaluationMethodRepository;
+        private readonly IRepository<Media> _mediaRepository;
 
         public CourseService(
             IUnitOfWork unitOfWork)
@@ -30,11 +32,25 @@ namespace Module.Training.Data
             _courseMethodRepository = _unitOfWork.GetRepository<CourseMethod>();
             _courseCourseModuleRepository = _unitOfWork.GetRepository<Course_CourseModule>();
             _courseEvaluationMethodRepository = _unitOfWork.GetRepository<CourseEvaluationMethod>();
+            _mediaRepository = _unitOfWork.GetRepository<Media>();
         }
 
         public async Task<long> CreateAsync(CourseCreateRequest request, CancellationToken cancellationToken = default)
         {
             var entity = request.Map();
+
+            if (request.Image.HasValue)
+            {
+                entity.ImageId = request.Image;
+                var media = await _mediaRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.Image.Value);
+                if (media != null)
+                {
+                    media.IsInUse = true;
+                }
+            }
+
+
             await _courseRepository.AddAsync(entity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -77,7 +93,19 @@ namespace Module.Training.Data
             if (entity == null)
                 throw new NotFoundException($"Course not found");
 
-            request.Map(entity);
+            entity = request.Map(entity);
+
+            //upload image
+            if (request.Image.HasValue)
+            {
+                entity.ImageId = request.Image;
+                var media = await _mediaRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.Image.Value);
+                if (media != null)
+                {
+                    media.IsInUse = true;
+                }
+            }
 
             // modules
             foreach (var module in request.Modules)

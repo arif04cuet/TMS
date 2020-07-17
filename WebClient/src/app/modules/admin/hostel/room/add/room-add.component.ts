@@ -11,6 +11,7 @@ import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service'
 import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.service';
 import { forEachObj } from 'src/services/utilities.service';
 import { AbstractControl, FormArray } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-room-add',
@@ -55,8 +56,16 @@ export class RoomAddComponent extends FormComponent {
       return this.roomTypeHttpService.list(pagination, search);
     }).fetch();
 
+
     this.buildingSelect.register((pagination, search) => {
-      return this.buildingHttpService.list(pagination, search);
+      return this.buildingHttpService.list(pagination, search).pipe(
+        map((x: any) => {
+          x.data.items.forEach(o => {
+            o.name = `${o.name} - ${o.hostel.name}`
+          });
+          return x;
+        })
+      );
     })
       .onLoadCompleted(() => {
         if (this.isEditMode()) {

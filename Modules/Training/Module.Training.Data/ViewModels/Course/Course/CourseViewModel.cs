@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.IO;
 
 namespace Module.Training.Data
 {
@@ -15,6 +16,8 @@ namespace Module.Training.Data
         public string Objective { get; set; }
         public string Description { get; set; }
 
+        public long Image { get; set; }
+        public string ImageUrl { get; set; }
         public int TotalMark { get; set; }
         public int Duration { get; set; }
         public IEnumerable<IdNameViewModel> Methods { get; set; }
@@ -32,7 +35,10 @@ namespace Module.Training.Data
                 Name = x.Name,
                 TotalMark = x.TotalMark,
                 Duration = x.Duration,
-                Modules = x.Modules.Select(y => new CourseCourseModuleViewModel {
+                Image = x.ImageId.HasValue ? x.Image.Id : 0,
+                ImageUrl = x.ImageId.HasValue ? Path.Combine(MediaConstants.Path, x.Image.FileName) : string.Empty,
+                Modules = x.Modules.Select(y => new CourseCourseModuleViewModel
+                {
                     Id = y.Id,
                     CourseModule = new IdNameViewModel { Id = y.CourseModuleId, Name = y.CourseModule.Name },
                     Duration = y.Duration,

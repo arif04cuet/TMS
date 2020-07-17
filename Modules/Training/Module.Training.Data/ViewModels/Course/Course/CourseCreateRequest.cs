@@ -10,6 +10,8 @@ namespace Module.Training.Data
         public string Objective { get; set; }
         public string Description { get; set; }
 
+        public long? Image { get; set; }
+
         public int TotalMark { get; set; }
         public int Duration { get; set; }
         public long[] Methods { get; set; }
