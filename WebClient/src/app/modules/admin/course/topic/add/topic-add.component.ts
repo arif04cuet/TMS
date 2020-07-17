@@ -6,6 +6,10 @@ import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { TopicHttpService } from 'src/services/http/course/topic-http.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
+import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
+import { ResourcePersonHttpService } from 'src/services/http/course/resource-person-http.service';
+import { MethodHttpService } from 'src/services/http/course/method-http.service';
+import { EvaluationMethodHttpService } from 'src/services/http/course/evaluation-method-http.service';
 
 @Component({
   selector: 'app-topic-add',
@@ -25,10 +29,17 @@ export class TopicAddComponent extends FormComponent {
   @ViewChild('materialEditorComponent') materialEditorComponent: CKEditorComponent;
   @ViewChild('detailsEditorComponent') detailsEditorComponent: CKEditorComponent;
 
+  @ViewChild('resourcePersonSelect') resourcePersonSelect: SelectControlComponent;
+  @ViewChild('methodSelect') methodSelect: SelectControlComponent;
+  @ViewChild('evaluationMethodSelect') evaluationMethodSelect: SelectControlComponent;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private topicHttpService: TopicHttpService,
-    private v: CommonValidator
+    private v: CommonValidator,
+    private resourcePersonHttpService: ResourcePersonHttpService,
+    private methodHttpService: MethodHttpService,
+    private evaluationMethodHttpService: EvaluationMethodHttpService
   ) {
     super();
   }
@@ -36,13 +47,29 @@ export class TopicAddComponent extends FormComponent {
   ngOnInit(): void {
     this.onCheckMode = id => this.get(id);
     this.createForm({
-      name: [null, [], this.v.required.bind(this)]
+      name: [null, [], this.v.required.bind(this)],
+      resourcePersons: [],
+      method: [null, [], this.v.required.bind(this)],
+      evaluationMethod: [null, [], this.v.required.bind(this)],
+      duration: [null, [], this.v.required.bind(this)],
+      marks: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
 
   ngAfterViewInit() {
     //this.setEditorData(this.data);
+    this.resourcePersonSelect.register((pagination, search) => {
+      return this.resourcePersonHttpService.list(pagination, search);
+    }).fetch();
+
+    this.methodSelect.register((pagination, search) => {
+      return this.methodHttpService.list(pagination, search);
+    }).fetch();
+
+    this.evaluationMethodSelect.register((pagination, search) => {
+      return this.evaluationMethodHttpService.list(pagination, search);
+    }).fetch();
   }
 
   submit(): void {

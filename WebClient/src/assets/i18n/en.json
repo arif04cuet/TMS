@@ -412,5 +412,13 @@
   "certificates": "Certificates",
   "download": "Download",
   "primary.email": "Primary Email",
-  "primary.mobile": "Primary Mobile"
+  "primary.mobile": "Primary Mobile",
+  "total.topics": "Total topics",
+  "total.module": "Total module",
+  "total.evaluation.method": "Total evaluation method",
+  "staff1": "Staff 1",
+  "staff2": "Staff 2",
+  "staff3": "Staff 3",
+  "existing.budget": "existing budget",
+  "loading.budget": "Loading budget..."
 }

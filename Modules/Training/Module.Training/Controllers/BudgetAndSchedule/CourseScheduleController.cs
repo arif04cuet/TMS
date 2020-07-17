@@ -57,6 +57,12 @@ namespace Module.Training.Controllers
             return NoContent();
         }
 
+        [HttpGet("budgets")]
+        public async Task<ActionResult> BudgetList([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _courseScheduleService.BudgetListAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
 
     }
 }

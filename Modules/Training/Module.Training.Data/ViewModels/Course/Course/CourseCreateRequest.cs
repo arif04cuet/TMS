@@ -11,8 +11,9 @@ namespace Module.Training.Data
         public string Description { get; set; }
 
         public int TotalMark { get; set; }
+        public int Duration { get; set; }
         public long[] Methods { get; set; }
-        public long[] Modules { get; set; }
+        public IEnumerable<CourseCourseModuleRequest> Modules { get; set; }
         public IEnumerable<CourseEvaluationMethodRequest> EvaluationMethods { get; set; }
 
         public Course Map(Course course = null)
@@ -23,6 +24,7 @@ namespace Module.Training.Data
             entity.Objective = Objective;
             entity.Description = Description;
             entity.TotalMark = TotalMark;
+            entity.Duration = Duration;
             return entity;
         }
     }

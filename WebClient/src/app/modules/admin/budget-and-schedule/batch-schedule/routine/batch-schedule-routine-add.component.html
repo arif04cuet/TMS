@@ -60,7 +60,7 @@
                                                         <div nz-col [nzSpan]="24" style="margin: 10px 0">
                                                             <div nz-row class="edition-row" style="display: flex;">
                                                                 <div nz-col [nzMd]="6" [nzSm]="24">
-                                                                    <app-select-control name="{{ 'module_' + i }}" mandatory="true"
+                                                                    <app-select-control (onChange)="topicChanged($event, k)" name="{{ 'module_' + i }}" mandatory="true"
                                                                         [formControl]="period.controls.topic"
                                                                         #topicSelect label="topic">
                                                                     </app-select-control>
@@ -92,7 +92,7 @@
                                                                     </nz-form-item>
                                                                 </div>
                                                                 <div nz-col [nzMd]="6" [nzSm]="24">
-                                                                    <app-select-control name="{{ 'module_' + i }}" mandatory="true"
+                                                                    <app-select-control [name]="{period: k, topic: period.controls.topic, select: resourcePersonSelect}" mandatory="true"
                                                                         [formControl]="period.controls.resourcePerson"
                                                                         #resourcePersonSelect label="resource.person">
                                                                     </app-select-control>

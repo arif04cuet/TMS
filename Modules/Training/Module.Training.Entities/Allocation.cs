@@ -18,7 +18,8 @@ namespace Module.Training.Entities
         public long? RoomId { get; set; }
         public Room Room { get; set; }
 
-        public long? ScheduleId { get; set; }
+        public long? BatchScheduleId { get; set; }
+        public BatchSchedule BatchSchedule { get; set; }
 
         public long BuildingId { get; set; }
         public Building Building { get; set; }

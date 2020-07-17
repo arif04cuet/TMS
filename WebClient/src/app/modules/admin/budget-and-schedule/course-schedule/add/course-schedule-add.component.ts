@@ -10,6 +10,7 @@ import { CourseHttpService } from 'src/services/http/course/course-http.service'
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { forEachObj } from 'src/services/utilities.service';
+import { SelectComponent } from 'src/app/shared/select/select.component';
 
 @Component({
   selector: 'app-course-schedule-add',
@@ -22,6 +23,10 @@ export class CourseScheduleAddComponent extends FormComponent {
   @ViewChild('coordinatorSelect') coordinatorSelect: SelectControlComponent;
   @ViewChild('coCoordinatorSelect') coCoordinatorSelect: SelectControlComponent;
   @ViewChild('eligibleForSelect') eligibleForSelect: SelectControlComponent;
+  @ViewChild('staff1Select') staff1Select: SelectControlComponent;
+  @ViewChild('staff2Select') staff2Select: SelectControlComponent;
+  @ViewChild('staff3Select') staff3Select: SelectControlComponent;
+  @ViewChild('budgetReuseSelect') budgetReuseSelect: SelectComponent;
 
   courseAddEditTitle
   budgetAddEditTitle
@@ -49,7 +54,10 @@ export class CourseScheduleAddComponent extends FormComponent {
       eligibleFor: [null, [], this.v.required.bind(this)],
       totalSeat: [null, [], this.v.required.bind(this)],
       budgets: this.fb.array([]),
-      total: []
+      total: [],
+      staff1: [],
+      staff2: [],
+      staff3: [],
     });
 
     super.ngOnInit(this.activatedRoute.snapshot);
@@ -67,6 +75,10 @@ export class CourseScheduleAddComponent extends FormComponent {
   }
 
   ngAfterViewInit() {
+    this.budgetReuseSelect.register((pagination, search) => {
+      return this.courseScheduleHttpService.listBudget(pagination, search);
+    }).fetch();
+
     this.courseSelect.register((pagination, search) => {
       return this.courseHttpService.list(pagination, search);
     }).fetch();
@@ -81,6 +93,18 @@ export class CourseScheduleAddComponent extends FormComponent {
 
     this.eligibleForSelect.register((pagination, search) => {
       return this.designationHttpService.list(pagination, search);
+    }).fetch();
+
+    this.staff1Select.register((pagination, search) => {
+      return this.userHttpService.list(pagination, search);
+    }).fetch();
+
+    this.staff2Select.register((pagination, search) => {
+      return this.userHttpService.list(pagination, search);
+    }).fetch();
+
+    this.staff3Select.register((pagination, search) => {
+      return this.userHttpService.list(pagination, search);
     }).fetch();
   }
 
@@ -196,6 +220,21 @@ export class CourseScheduleAddComponent extends FormComponent {
       itemFormArray.removeAt(index);
     }
     this.calculateBudgetTotal(formGroup);
+  }
+
+  async onBudgetReuseChanged(e) {
+    const text = await this.t('loading.budget');
+    const loading = this._messageService.loading(text);
+    this.subscribe(this.courseScheduleHttpService.get(e),
+      (res: any) => {
+        this.getBudgetFormArray().clear();
+        this.prepareForm(res);
+        this._messageService.remove(loading.messageId);
+      },
+      err => {
+        this._messageService.remove(loading.messageId);
+      }
+    );
   }
 
   createItemFormGroup(_formGroup: FormGroup, data: any) {

@@ -20,6 +20,7 @@ namespace Module.Training.Data
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<CourseModule> _courseModuleRepository;
         private readonly IRepository<CourseModuleTopic> _courseModuleTopicRepository;
+        private readonly IRepository<CourseModule_Course> _courseModuleCourseRepository;
 
         public CourseModuleService(
             IUnitOfWork unitOfWork)
@@ -27,6 +28,7 @@ namespace Module.Training.Data
             _unitOfWork = unitOfWork;
             _courseModuleRepository = _unitOfWork.GetRepository<CourseModule>();
             _courseModuleTopicRepository = _unitOfWork.GetRepository<CourseModuleTopic>();
+            _courseModuleCourseRepository = _unitOfWork.GetRepository<CourseModule_Course>();
         }
 
         public async Task<long> CreateAsync(CourseModuleCreateRequest request, CancellationToken cancellationToken = default)
@@ -38,10 +40,19 @@ namespace Module.Training.Data
             var topics = request.Topics.Select(x => new CourseModuleTopic
             {
                 CourseModuleId = entity.Id,
-                TopicId = x
+                TopicId = x.Topic.Id,
+                Marks = x.Marks,
+                Duration = x.Duration
             });
 
+            var courseModuleCourses = request.Courses.Select(x => new CourseModule_Course
+            {
+                CourseId = x,
+                CourseModuleId = entity.Id
+            });
+            await _courseModuleCourseRepository.AddRangeAsync(courseModuleCourses);
             await _courseModuleTopicRepository.AddRangeAsync(topics);
+
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return entity.Id;
@@ -58,17 +69,57 @@ namespace Module.Training.Data
 
             request.Map(entity);
 
-            // topics
-            await _courseModuleTopicRepository.UpdateAsync(
-                request.Topics,
+            await _courseModuleCourseRepository.UpdateAsync(
+                request.Courses,
                 x => x.CourseModuleId == request.Id,
-                x => x.TopicId,
-                x => new CourseModuleTopic
+                x => x.CourseId,
+                x => new CourseModule_Course
                 {
-                    TopicId = x,
+                    CourseId = x,
                     CourseModuleId = request.Id
                 },
-                ids => x => ids.Contains(x.TopicId) && x.CourseModuleId == request.Id);
+                ids => x => ids.Contains(x.CourseId) && x.CourseModuleId == request.Id);
+
+            // topics
+            foreach (var topic in request.Topics)
+            {
+                if (topic.Id.HasValue)
+                {
+                    // update
+                    var dbCourseModuleTopic = await _courseModuleTopicRepository
+                        .Where(x => x.Id == topic.Id.Value && x.CourseModuleId == request.Id && !x.IsDeleted)
+                        .FirstOrDefaultAsync();
+
+                    if (dbCourseModuleTopic != null)
+                    {
+                        dbCourseModuleTopic.Marks = topic.Marks;
+                        dbCourseModuleTopic.Duration = topic.Duration;
+                    }
+                }
+                else
+                {
+                    // new
+                    var newCourseModuleTopic = new CourseModuleTopic
+                    {
+                        TopicId = topic.Topic.Id,
+                        CourseModuleId = request.Id,
+                        Marks = topic.Marks,
+                        Duration = topic.Duration
+                    };
+                    await _courseModuleTopicRepository.AddAsync(newCourseModuleTopic);
+                }
+            }
+
+            // delete topics
+            var requestCourseModuleTopicIds = request.Topics
+                .Where(x => x.Id.HasValue)
+                .Select(x => x.Id.Value);
+
+            var courseModuleTopicsToBeDelete = await _courseModuleTopicRepository
+                .Where(x => x.CourseModuleId == request.Id && !requestCourseModuleTopicIds.Contains(x.Id))
+    .ToListAsync();
+
+            _courseModuleTopicRepository.RemoveRange(courseModuleTopicsToBeDelete);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
@@ -100,31 +151,46 @@ namespace Module.Training.Data
             item.Topics = await _courseModuleTopicRepository
                 .AsReadOnly()
                 .Where(x => x.CourseModuleId == id && !x.IsDeleted)
-                .Select(x => new IdNameViewModel { Id = x.TopicId, Name = x.Topic.Name })
+                .Select(CourseModuleTopicViewModel.Select())
+                .ToListAsync();
+
+            item.Courses = await _courseModuleCourseRepository
+                .AsReadOnly()
+                .Where(x => x.CourseModuleId == id && !x.IsDeleted)
+                .Select(x => new IdNameViewModel { Id = x.CourseId, Name = x.Course.Name })
                 .ToListAsync();
 
             return item;
         }
 
-        public async Task<PagedCollection<CourseModuleViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public async Task<PagedCollection<CourseModuleListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var result = await _courseModuleRepository.ListAsync(null, CourseModuleViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
+            var result = await _courseModuleRepository.ListAsync(null, CourseModuleListViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
             return result;
         }
 
-        public async Task<PagedCollection<IdNameViewModel>> ListTopicAsync(long courseModuleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public async Task<PagedCollection<CourseModuleTopicListViewModel>> ListTopicAsync(long courseModuleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             Expression<Func<CourseModuleTopic, bool>> predicate = x => x.CourseModuleId == courseModuleId;
             var result = await _courseModuleTopicRepository.ListAsync(
-                predicate,
-                x => new IdNameViewModel
-                {
-                    Id = x.TopicId,
-                    Name = x.Topic.Name
-                },
+                x => x.CourseModuleId == courseModuleId,
+                CourseModuleTopicListViewModel.Select(),
                 pagingOptions,
                 searchOptions,
                 cancellationToken);
+            return result;
+        }
+
+        public async Task<PagedCollection<IdNameViewModel>> ListMethodAsync(long courseModuleId)
+        {
+            var items = await _courseModuleTopicRepository
+                .Where(x => x.CourseModuleId == courseModuleId && !x.IsDeleted && x.Topic.MethodId != null)
+                .Select(x => new IdNameViewModel { Id = x.Topic.Method.Id, Name = x.Topic.Method.Name })
+                .ToListAsync();
+            var total = items.Count();
+
+            var result = new PagedCollection<IdNameViewModel>(items, total, new PagingOptions { Limit = total, Offset = 0 });
+        
             return result;
         }
 

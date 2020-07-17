@@ -48,8 +48,10 @@ namespace Module.Training.Data
 
             var modules = request.Modules.Select(x => new Course_CourseModule
             {
-                CourseModuleId = x,
-                CourseId = entity.Id
+                CourseId = entity.Id,
+                CourseModuleId = x.CourseModule.Id,
+                Duration = x.Duration,
+                Marks = x.Marks
             });
             await _courseCourseModuleRepository.AddRangeAsync(modules);
 
@@ -78,16 +80,45 @@ namespace Module.Training.Data
             request.Map(entity);
 
             // modules
-            await _courseCourseModuleRepository.UpdateAsync(
-                request.Modules,
-                x => x.CourseId == request.Id,
-                x => x.CourseModuleId,
-                x => new Course_CourseModule
+            foreach (var module in request.Modules)
+            {
+                if (module.Id.HasValue)
                 {
-                    CourseModuleId = x,
-                    CourseId = request.Id
-                },
-                ids => x => ids.Contains(x.CourseModuleId) && x.CourseId == request.Id);
+                    // update
+                    var dbCourseModule = await _courseCourseModuleRepository
+                        .Where(x => x.Id == module.Id.Value && x.CourseId == request.Id && !x.IsDeleted)
+                        .FirstOrDefaultAsync();
+
+                    if (dbCourseModule != null)
+                    {
+                        dbCourseModule.Marks = module.Marks;
+                        dbCourseModule.Duration = module.Duration;
+                    }
+                }
+                else
+                {
+                    // new
+                    var newCourseModule = new Course_CourseModule
+                    {
+                        CourseId = request.Id,
+                        CourseModuleId = module.CourseModule.Id,
+                        Marks = module.Marks,
+                        Duration = module.Duration,
+                    };
+                    await _courseCourseModuleRepository.AddAsync(newCourseModule);
+                }
+            }
+
+            // delete course course module
+            var requestCourseModuleIds = request.Modules
+                .Where(x => x.Id.HasValue)
+                .Select(x => x.Id.Value);
+
+            var courseModuleToBeDelete = await _courseCourseModuleRepository
+                .Where(x => x.CourseId == request.Id && !requestCourseModuleIds.Contains(x.Id))
+    .ToListAsync();
+
+            _courseCourseModuleRepository.RemoveRange(courseModuleToBeDelete);
 
             // methods
             await _courseMethodRepository.UpdateAsync(
@@ -102,7 +133,6 @@ namespace Module.Training.Data
                 ids => x => ids.Contains(x.MethodId) && x.CourseId == request.Id);
 
             // evaluation methods
-
             foreach (var evaluationMethod in request.EvaluationMethods)
             {
                 if (evaluationMethod.Id.HasValue)
@@ -171,7 +201,7 @@ namespace Module.Training.Data
             item.Modules = await _courseCourseModuleRepository
                 .AsReadOnly()
                 .Where(x => x.CourseId == id && !x.IsDeleted)
-                .Select(x => new IdNameViewModel { Id = x.CourseModuleId, Name = x.CourseModule.Name })
+                .Select(CourseCourseModuleViewModel.Select())
                 .ToListAsync();
 
             item.Methods = await _courseMethodRepository

@@ -1,4 +1,5 @@
 ﻿using Module.Training.Entities;
+using System.Collections.Generic;
 
 namespace Module.Training.Data
 {
@@ -9,6 +10,12 @@ namespace Module.Training.Data
         public string Outcomes { get; set; }
         public string CourseMaterials { get; set; }
         public string CourseDetails { get; set; }
+        public long? Method { get; set; }
+        public long? EvaluationMethod { get; set; }
+        public int Duration { get; set; }
+        public int Marks { get; set; }
+
+        public IEnumerable<long> ResourcePersons { get; set; }
 
         public Topic Map(Topic topic = null)
         {
@@ -18,6 +25,10 @@ namespace Module.Training.Data
             entity.CourseMaterials = CourseMaterials;
             entity.Objectives = Objectives;
             entity.Outcomes = Outcomes;
+            entity.MethodId = Method;
+            entity.EvaluationMethodId = EvaluationMethod;
+            entity.Duration = Duration;
+            entity.Marks = Marks;
             return entity;
         }
     }

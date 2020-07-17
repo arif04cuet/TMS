@@ -14,6 +14,7 @@ import { CategoryHttpService } from 'src/services/http/course/category-http.serv
 import { EvaluationMethodModalModule } from '../evaluation-method-modal/evaluation-method-modal.module';
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
 import { MethodHttpService } from 'src/services/http/course/method-http.service';
+import { ModuleHttpService } from 'src/services/http/course/module-http.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MethodHttpService } from 'src/services/http/course/method-http.service'
     CommonValidator,
     NzModalService,
     CategoryHttpService,
-    MethodHttpService
+    MethodHttpService,
+    ModuleHttpService
   ]
 })
 export class CourseAddModule { }

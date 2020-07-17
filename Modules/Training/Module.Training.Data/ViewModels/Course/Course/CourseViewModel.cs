@@ -16,8 +16,9 @@ namespace Module.Training.Data
         public string Description { get; set; }
 
         public int TotalMark { get; set; }
+        public int Duration { get; set; }
         public IEnumerable<IdNameViewModel> Methods { get; set; }
-        public IEnumerable<IdNameViewModel> Modules { get; set; }
+        public IEnumerable<CourseCourseModuleViewModel> Modules { get; set; }
         public IEnumerable<CourseEvaluationMethodViewModel> EvaluationMethods { get; set; }
 
         public static Expression<Func<Course, CourseViewModel>> Select()
@@ -30,7 +31,13 @@ namespace Module.Training.Data
                 Objective = x.Objective,
                 Name = x.Name,
                 TotalMark = x.TotalMark,
-                Modules = x.Modules.Select(y => new IdNameViewModel { Id = y.CourseModuleId, Name = y.CourseModule.Name }),
+                Duration = x.Duration,
+                Modules = x.Modules.Select(y => new CourseCourseModuleViewModel {
+                    Id = y.Id,
+                    CourseModule = new IdNameViewModel { Id = y.CourseModuleId, Name = y.CourseModule.Name },
+                    Duration = y.Duration,
+                    Marks = y.Marks
+                }),
                 Methods = x.Methods.Select(y => new IdNameViewModel { Id = y.MethodId, Name = y.Method.Name }),
                 EvaluationMethods = x.EvaluationMethods.Select(y => new CourseEvaluationMethodViewModel
                 {

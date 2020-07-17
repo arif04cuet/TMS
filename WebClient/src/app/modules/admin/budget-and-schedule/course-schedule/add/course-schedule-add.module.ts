@@ -12,6 +12,7 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
 import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { SelectModule } from 'src/app/shared/select/select.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectControlModule
+    SelectControlModule,
+    SelectModule
   ],
   exports: [CourseScheduleAddComponent],
   providers: [

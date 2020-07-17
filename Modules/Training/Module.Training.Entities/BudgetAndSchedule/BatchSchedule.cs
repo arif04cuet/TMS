@@ -20,6 +20,15 @@ namespace Module.Training.Entities
         public long? CoCoordinatorId { get; set; }
         public User CoCoordinator { get; set; }
 
+        public long? Staff1Id { get; set; }
+        public User Staff1 { get; set; }
+
+        public long? Staff2Id { get; set; }
+        public User Staff2 { get; set; }
+
+        public long? Staff3Id { get; set; }
+        public User Staff3 { get; set; }
+
         public int TotalSeat { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

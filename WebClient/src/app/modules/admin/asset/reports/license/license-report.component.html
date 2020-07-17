@@ -18,7 +18,7 @@
         </div>
         <div class="block">
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false" (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items">
+                [nzTotal]="total" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>{{'license'|translate}}</th>

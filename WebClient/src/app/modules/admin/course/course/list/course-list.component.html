@@ -25,13 +25,26 @@
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
                 (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
                 nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items">
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>{{'name'|translate}}</th>
+                        <th>
+                            {{'name'|translate}}
+                            <input [(ngModel)]="name" nz-input />
+                        </th>
+                        <th>{{'marks'|translate}}</th>
+                        <th>{{'duration'|translate}}</th>
+                        <th>{{'total.module'|translate}}</th>
+                        <th>{{'total.evaluation.method'|translate}}</th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
+                            </div>
+                            <div>
+                                <button (click)="search()" nz-button class="btn-custom">
+                                    <i nz-icon nzType="search"></i>
+                                    {{'search'|translate}}
+                                </button>
                             </div>
                         </th>
                     </tr>
@@ -39,6 +52,10 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.name }}</td>
+                        <td>{{ data.totalMark }}</td>
+                        <td>{{ data.duration }}</td>
+                        <td>{{ data.totalModule }}</td>
+                        <td>{{ data.totalEvaluationMethod }}</td>
                         <td class="action-column fit-cell">
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">

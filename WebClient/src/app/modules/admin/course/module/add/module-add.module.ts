@@ -12,6 +12,7 @@ import { ModuleHttpService } from 'src/services/http/course/module-http.service'
 import { TopicsModalModule } from '../topics-modal/topics-modal.module';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { CourseHttpService } from 'src/services/http/course/course-http.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
     ModuleHttpService,
     CommonValidator,
     NzModalService,
-    UserHttpService
+    UserHttpService,
+    CourseHttpService
   ]
 })
 export class ModuleAddModule { }

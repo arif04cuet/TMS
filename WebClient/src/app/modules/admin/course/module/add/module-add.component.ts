@@ -10,6 +10,7 @@ import { NzModalService } from 'ng-zorro-antd';
 import { TopicsModalComponent } from '../topics-modal/topics-modal.component';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { CourseHttpService } from 'src/services/http/course/course-http.service';
 
 @Component({
   selector: 'app-module-add',
@@ -25,10 +26,12 @@ export class ModuleAddComponent extends FormComponent {
   @ViewChild('objectiveEditorComponent') objectiveEditorComponent: CKEditorComponent;
   @ViewChild("modalFooter") modalFooter: TemplateRef<any>;
   @ViewChild('directorSelect') directorSelect: SelectControlComponent;
+  @ViewChild('coursesSelect') coursesSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private moduleHttpService: ModuleHttpService,
+    private courseHttpService: CourseHttpService,
     private userHttpService: UserHttpService,
     private v: CommonValidator,
     private modal: NzModalService
@@ -42,7 +45,8 @@ export class ModuleAddComponent extends FormComponent {
       name: [null, [], this.v.required.bind(this)],
       duration: [null, [], this.v.required.bind(this)],
       marks: [null, [], this.v.required.bind(this)],
-      director: [null, [], this.v.required.bind(this)]
+      director: [null, [], this.v.required.bind(this)],
+      courses: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -51,13 +55,17 @@ export class ModuleAddComponent extends FormComponent {
     this.directorSelect.register((pagination, search) => {
       return this.userHttpService.list(pagination, search);
     }).fetch();
+
+    this.coursesSelect.register((pagination, search) => {
+      return this.courseHttpService.list(pagination, search);
+    }).fetch();
   }
 
   submit(): void {
 
     const body: any = this.constructObject(this.form.controls);
     body.objectives = this.objectiveEditorComponent.editorInstance.getData();
-    body.topics = this.data.topics.map(x => x.id);
+    body.topics = this.data.topics;
 
     this.submitForm(
       {
@@ -108,13 +116,20 @@ export class ModuleAddComponent extends FormComponent {
 
   async addTopics() {
     const modal = this.createModal(TopicsModalComponent);
-    const m = await this.t('x0.already.added', {x0: 'topic'});
+    const m = await this.t('x0.already.added', { x0: 'topic' });
     this.subscribe(modal.afterClose, res => {
       const topic = modal.getContentComponent().selectedTopic;
-      if(topic) {
-        const exist = this.data.topics.find(x => x.id == topic.id);
-        if (!exist && topic) {
-          this.data.topics = [...this.data.topics, topic];
+      if (topic) {
+        const exist = this.data.topics.find(x => x.topic.id == topic.id);
+        if (!exist) {
+          this.data.topics = [...this.data.topics, {
+            topic: topic,
+            marks: topic.marks,
+            duration: topic.duration
+          }];
+          this.calculateDuration();
+          this.calculateMarks();
+          this.appendObjectives(topic.objectives);
         }
         else {
           this.info(m);
@@ -134,13 +149,52 @@ export class ModuleAddComponent extends FormComponent {
   }
 
   delete(e) {
-    this.data.topics = this.data.topics.filter(x => x.id != e.id);
+    this.data.topics = this.data.topics.filter(x => x.topic.id != e.topic.id);
+    this.calculateDuration();
+    this.calculateMarks();
+  }
+
+  durationChanged() {
+    this.calculateDuration();
+  }
+
+  marksChanged() {
+    this.calculateMarks();
   }
 
   private initModalData() {
     if (!this.data.topics) {
       this.data.topics = []
     }
+  }
+
+  private appendObjectives(objectives) {
+    if (this.objectiveEditorComponent) {
+      let _objectives = this.objectiveEditorComponent.editorInstance.getData();
+      _objectives += (objectives || "");
+      _objectives += '<p><br data-cke-filler="true"></p>';
+      this.objectiveEditorComponent.editorInstance.setData(_objectives);
+    }
+  }
+
+  private calculateDuration() {
+    this.calculate('duration');
+  }
+
+  private calculateMarks() {
+    this.calculate('marks');
+  }
+
+  private calculate(prop) {
+    let value = 0;
+    if(this.hasTopic()) {
+      value = this.data.topics.map(x => x[prop]).reduce((a, c) => a + c)
+    }
+    this.setValue(prop, value);
+  }
+
+  private hasTopic() {
+    return this.data && this.data.topics && this.data.topics.length
   }
 
 }

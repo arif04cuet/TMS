@@ -198,6 +198,27 @@ namespace Module.Training.Data
             return result;
         }
 
+        public async Task<PagedCollection<IdNameViewModel>> BudgetListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var query = _courseScheduleRepository.
+                AsReadOnly()
+                .Where(x => x.Budgets.Select(y => y.Id).Count() > 0)
+                .ApplySearch(searchOptions);
+
+            var total = query.Select(x => x.Id).Count();
+            var items = await query
+                .ApplyPagination(pagingOptions)
+                .Select(x => new IdNameViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                })
+                .ToListAsync(cancellationToken);
+            var result = new PagedCollection<IdNameViewModel>(items, total, pagingOptions);
+
+            return result;
+        }
+
         private Task AddBudgetItems(BudgetRequest budget, long budgetId)
         {
             var budgetItems = budget.Items.Select(x =>

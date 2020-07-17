@@ -25,7 +25,7 @@
         </div>
         <div class="block">
             <nz-table (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable
-                [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total" [nzData]="items" nzShowPagination="false">
+                [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total" [nzData]="items" nzShowPagination="false" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>

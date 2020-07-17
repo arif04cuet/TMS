@@ -6,5 +6,9 @@ export class CourseScheduleHttpService extends BaseHttpService {
 
     END_POINT = 'trainings/course-schedules';
 
-    
+    public listBudget(pagination = null, search = null) {
+        const url = `${this.END_POINT}/budgets`
+        return this.httpService.get(this.buildUrl(url, pagination, search));
+    }
+
 }
