@@ -171,6 +171,15 @@ export class CourseAddComponent extends FormComponent {
       if (evaluationMethod) {
         const exist = this.data.evaluationMethods.find(x => x.evaluationMethod.id == evaluationMethod.id);
         if (!exist) {
+
+          // check total course marks
+          const totalEvaluationMark = this.calculateTotalEvaluationMark() + evaluationMethod.mark
+          const totalMark = this.form.controls.totalMark.value;
+          if(totalEvaluationMark > totalMark) {
+              const exceed = totalEvaluationMark - totalMark;
+              evaluationMethod.mark = 0;
+          }
+
           this.data.evaluationMethods = [...this.data.evaluationMethods, {
             evaluationMethod: evaluationMethod,
             mark: evaluationMethod.mark
@@ -223,6 +232,14 @@ export class CourseAddComponent extends FormComponent {
   private calculateDuration() {
     const durations = this.data.modules.map(x => x.duration).reduce((a, c) => a + c);
     this.setValue('duration', durations);
+  }
+
+  private calculateTotalEvaluationMark() {
+    let total = 0;
+    if(this.data.evaluationMethods) {
+      total = this.data.evaluationMethods.map(x => x.mark).reduce((a, c) => a + c);
+    }
+    return total;
   }
 
   private calculateMarks() {

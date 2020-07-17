@@ -149,7 +149,7 @@ export class ModuleAddComponent extends FormComponent {
   }
 
   delete(e) {
-    this.data.topics = this.data.topics.filter(x => x.id != e.id);
+    this.data.topics = this.data.topics.filter(x => x.topic.id != e.topic.id);
     this.calculateDuration();
     this.calculateMarks();
   }
@@ -172,18 +172,29 @@ export class ModuleAddComponent extends FormComponent {
     if (this.objectiveEditorComponent) {
       let _objectives = this.objectiveEditorComponent.editorInstance.getData();
       _objectives += (objectives || "");
+      _objectives += '<p><br data-cke-filler="true"></p>';
       this.objectiveEditorComponent.editorInstance.setData(_objectives);
     }
   }
 
   private calculateDuration() {
-    const durations = this.data.topics.map(x => x.duration).reduce((a, c) => a + c);
-    this.setValue('duration', durations);
+    this.calculate('duration');
   }
 
   private calculateMarks() {
-    const marks = this.data.topics.map(x => x.marks).reduce((a, c) => a + c);
-    this.setValue('marks', marks);
+    this.calculate('marks');
+  }
+
+  private calculate(prop) {
+    let value = 0;
+    if(this.hasTopic()) {
+      value = this.data.topics.map(x => x[prop]).reduce((a, c) => a + c)
+    }
+    this.setValue(prop, value);
+  }
+
+  private hasTopic() {
+    return this.data && this.data.topics && this.data.topics.length
   }
 
 }

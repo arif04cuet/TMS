@@ -19,6 +19,9 @@ export class BatchScheduleAddComponent extends FormComponent {
   @ViewChild('courseScheduleSelect') courseScheduleSelect: SelectControlComponent;
   @ViewChild('coordinatorSelect') coordinatorSelect: SelectControlComponent;
   @ViewChild('coCoordinatorSelect') coCoordinatorSelect: SelectControlComponent;
+  @ViewChild('staff1Select') staff1Select: SelectControlComponent;
+  @ViewChild('staff2Select') staff2Select: SelectControlComponent;
+  @ViewChild('staff3Select') staff3Select: SelectControlComponent;
 
   batchScheduleAddEditTitle;
   currentSelectedTab;
@@ -46,17 +49,20 @@ export class BatchScheduleAddComponent extends FormComponent {
       registrationEndDate: [null, [], this.v.required.bind(this)],
       coordinator: [null, [], this.v.required.bind(this)],
       coCoordinator: [null, [], this.v.required.bind(this)],
+      staff1: [],
+      staff2: [],
+      staff3: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
     const schedule = await this.t('batch.schedule');
     const createA = 'create.a.x0';
     const updateA = 'update.a.x0';
-    if(this.isAddMode()) {
-      this.batchScheduleAddEditTitle = await this.t(createA, {x0: schedule});
+    if (this.isAddMode()) {
+      this.batchScheduleAddEditTitle = await this.t(createA, { x0: schedule });
     }
     else {
-      this.batchScheduleAddEditTitle = await this.t(updateA, {x0: schedule});
+      this.batchScheduleAddEditTitle = await this.t(updateA, { x0: schedule });
     }
   }
 
@@ -73,10 +79,22 @@ export class BatchScheduleAddComponent extends FormComponent {
       return this.userHttpService.list(pagination, search);
     }).fetch();
 
+    this.staff1Select.register((pagination, search) => {
+      return this.userHttpService.list(pagination, search);
+    }).fetch();
+
+    this.staff2Select.register((pagination, search) => {
+      return this.userHttpService.list(pagination, search);
+    }).fetch();
+
+    this.staff3Select.register((pagination, search) => {
+      return this.userHttpService.list(pagination, search);
+    }).fetch();
+
   }
 
   submit(): void {
-    if(this.currentSelectedTab && this.currentSelectedTab.index != 0) {
+    if (this.currentSelectedTab && this.currentSelectedTab.index != 0) {
       this.broadcastService.broadcast('batch_schedule_update');
       return;
     }
@@ -121,6 +139,30 @@ export class BatchScheduleAddComponent extends FormComponent {
   tabChanged(e) {
     this.currentSelectedTab = e;
     this.log('tab changed', e);
+  }
+
+  courseScheduleChanged(e) {
+    if(this.isAddMode()) {
+      this.subscribe(this.courseScheduleHttpService.get(e),
+        (res: any) => {
+          [
+            "coordinator",
+            "coCoordinator",
+            "staff1",
+            "staff2",
+            "staff3"
+          ].forEach(x => {
+            this.internalSetValue(x, res);
+          });
+        },
+        err => { }
+      );
+    }
+  }
+
+  private internalSetValue(controlName, res) {
+    const v = res.data[controlName] ? res.data[controlName].id : null;
+    this.setValue(controlName, v);
   }
 
 }

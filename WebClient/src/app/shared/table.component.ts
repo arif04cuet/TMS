@@ -20,6 +20,7 @@ export class TableComponent extends BaseComponent {
     indeterminate = false;
     listOfCurrentPageItems = [];
     rowItemDisabledFilterKey = "disabled";
+    pageSizeOptions= [10, 20, 40, 50, 80, 100];
 
     constructor(service) {
         super();

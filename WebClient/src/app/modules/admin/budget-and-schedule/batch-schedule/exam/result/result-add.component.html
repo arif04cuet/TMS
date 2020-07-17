@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="block">
-            <nz-table #basicTable [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total" [nzData]="items" nzShowPagination="false">
+            <nz-table #basicTable [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total" [nzData]="items" nzShowPagination="false" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>{{'name'|translate}}</th>

@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200714150446_M38")]
+    partial class M38
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -10360,9 +10362,6 @@ namespace OTMS.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<long?>("BatchScheduleId")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("BedId")
                         .HasColumnType("bigint");
 
@@ -10402,6 +10401,9 @@ namespace OTMS.Migrations
                     b.Property<long?>("RoomId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("ScheduleId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -10415,8 +10417,6 @@ namespace OTMS.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BatchScheduleId");
 
                     b.HasIndex("BedId");
 
@@ -10571,44 +10571,6 @@ namespace OTMS.Migrations
                     b.HasIndex("TraineeId");
 
                     b.ToTable("BatchScheduleAllocation","training");
-                });
-
-            modelBuilder.Entity("Module.Training.Entities.BatchScheduleGalleryItem", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("MediaId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Version")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MediaId");
-
-                    b.ToTable("BatchScheduleGalleryItem","training");
                 });
 
             modelBuilder.Entity("Module.Training.Entities.Bed", b =>
@@ -13279,10 +13241,6 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Training.Entities.Allocation", b =>
                 {
-                    b.HasOne("Module.Training.Entities.BatchSchedule", "BatchSchedule")
-                        .WithMany()
-                        .HasForeignKey("BatchScheduleId");
-
                     b.HasOne("Module.Training.Entities.Bed", "Bed")
                         .WithMany()
                         .HasForeignKey("BedId");
@@ -13368,15 +13326,6 @@ namespace OTMS.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Module.Training.Entities.BatchScheduleGalleryItem", b =>
-                {
-                    b.HasOne("Module.Core.Entities.Media", "Media")
-                        .WithMany()
-                        .HasForeignKey("MediaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Module.Training.Entities.Bed", b =>
                 {
                     b.HasOne("Module.Training.Entities.Building", "Building")
@@ -13407,7 +13356,7 @@ namespace OTMS.Migrations
             modelBuilder.Entity("Module.Training.Entities.Budget", b =>
                 {
                     b.HasOne("Module.Training.Entities.CourseSchedule", "CourseSchedule")
-                        .WithMany("Budgets")
+                        .WithMany()
                         .HasForeignKey("CourseScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

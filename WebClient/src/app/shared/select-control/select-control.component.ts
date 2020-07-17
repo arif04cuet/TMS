@@ -22,7 +22,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   @Input() mandatory: boolean = false;
   @Input() info: (item: any) => string | Promise<string>;
   @Input() mode: string = 'default';
-  @Input() name: string = '';
+  @Input() name: any = '';
 
   infoText: string = '';
 

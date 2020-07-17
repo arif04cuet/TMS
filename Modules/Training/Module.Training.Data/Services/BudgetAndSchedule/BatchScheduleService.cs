@@ -177,6 +177,21 @@ namespace Module.Training.Data
             return result;
         }
 
+        public async Task<bool> UpdateGalleryAsync(BatchScheduleUpdateRequest request, CancellationToken cancellationToken = default)
+        {
+            var entity = await _batchScheduleRepository
+                .AsQueryable()
+                .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
+
+            if (entity == null)
+                throw new NotFoundException($"Batch schedule not found");
+
+            request.Map(entity);
+
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return result > 0;
+        }
+
         // TODO
         //public async Task<PagedCollection<IdNameViewModel>> TotalMarksAsync(long batchScheduleId)
         //{

@@ -13,6 +13,7 @@ import { ModuleHttpService } from 'src/services/http/course/module-http.service'
 import { BatchScheduleRoutineHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-routine.http.service';
 import { forkJoin } from 'rxjs';
 import { BroadcastService } from 'src/services/broadcast.service';
+import { TopicHttpService } from 'src/services/http/course/topic-http.service';
 
 @Component({
   selector: 'app-batch-schedule-routine-add',
@@ -28,6 +29,7 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
   batchScheduleId;
   classRoutineId;
   courseModuleCount;
+  data;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,6 +38,7 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
     private resourcePersonHttpService: ResourcePersonHttpService,
     private batchScheduleHttpService: BatchScheduleHttpService,
     private batchScheduleRoutineHttpService: BatchScheduleRoutineHttpService,
+    private topicHttpService: TopicHttpService,
     private v: CommonValidator,
     private broadcastService: BroadcastService
   ) {
@@ -51,7 +54,6 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
     this.get(this.batchScheduleId);
 
     this.subscribe(this.broadcastService.on('batch_schedule_update'), d => {
-      console.log('batch_schedule_update clicked');
       this.submit();
     });
   }
@@ -89,11 +91,26 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
 
     this.subscribe(this.resourcePersonSelect.changes, (selects: QueryList<SelectControlComponent>) => {
       selects.forEach(select => {
-        if (!select.items.length) {
-          select.register((pagination, search) => {
-            return this.resourcePersonHttpService.list(pagination, search);
-          }).fetch();
+        let fn;
+        const topicId = select.name.topic.value;
+        const selectControl = select.name.select as SelectControlComponent
+        selectControl.onLoadCompleted(() => {
+          console.log('dddddddddddddd');
+        })
+
+        if (topicId) {
+          // get topic resource persons
+          fn = (pagination, search) => {
+            return this.topicHttpService.listResourcePersons(topicId);
+          }
         }
+        else {
+          // get all resource persons
+          fn = (pagination, search) => {
+            return this.resourcePersonHttpService.list(pagination, search);
+          }
+        }
+        select.register(fn).fetch();
       });
     });
 
@@ -104,7 +121,7 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
     if (body && this.classRoutineId) {
       body.id = Number(this.classRoutineId);
     }
-    if(this.batchScheduleId) {
+    if (this.batchScheduleId) {
       body.batchSchedule = Number(this.batchScheduleId);
     }
     if (!this.classRoutineId) {
@@ -173,10 +190,22 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
     }
   }
 
+  topicChanged(e, periodIndex) {
+    const resourcePersonSelects = this.resourcePersonSelect.toArray().filter(x => x.name.period == periodIndex);
+    if (resourcePersonSelects) {
+      resourcePersonSelects.forEach(select => {
+        select.items = [];
+        select.register((pagination, search) => {
+          return this.resourcePersonHttpService.list(pagination, search);
+        }).fetch();
+      });
+    }
+  }
+
   prepareForm(moduleCount, data) {
     for (let i = 0; i < moduleCount; i++) {
       let module = {};
-      if(data.length && data[0]?.modules.length && data[0]?.modules.length > i) {
+      if (data.length && data[0]?.modules.length && data[0]?.modules.length > i) {
         module = data[0].modules[i];
       }
       this.createModuleFormGroup(module);
@@ -250,9 +279,9 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
       resourcePerson: [null, [], this.v.required.bind(this)]
     });
     forEachObj(formGroup.controls, (k, v) => {
-      const dataValue = data[k];      
+      const dataValue = data[k];
       if (dataValue) {
-        if(k == "endTime" || k == "startTime") {
+        if (k == "endTime" || k == "startTime") {
           const arr = dataValue.split(":");
           const h = Number(arr[0]);
           const m = Number(arr[1]);

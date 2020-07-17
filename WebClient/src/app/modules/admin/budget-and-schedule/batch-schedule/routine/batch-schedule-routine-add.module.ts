@@ -14,6 +14,7 @@ import { BatchScheduleRoutineAddRoutingModule } from './batch-schedule-routine-a
 import { ModuleHttpService } from 'src/services/http/course/module-http.service';
 import { ResourcePersonHttpService } from 'src/services/http/course/resource-person-http.service';
 import { BatchScheduleRoutineHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-routine.http.service';
+import { TopicHttpService } from 'src/services/http/course/topic-http.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { BatchScheduleRoutineHttpService } from 'src/services/http/budget-and-sc
     CommonValidator,
     ModuleHttpService,
     ResourcePersonHttpService,
-    BatchScheduleRoutineHttpService
+    BatchScheduleRoutineHttpService,
+    TopicHttpService
   ]
 })
 export class BatchScheduleRoutineAddModule { }

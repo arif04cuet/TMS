@@ -127,5 +127,21 @@ namespace Module.Training.Data
             return result;
         }
 
+        public async Task<PagedCollection<IdNameViewModel>> ListResourcePersonAsync(long topicId)
+        {
+            var items = await _topicRepository
+                .Where(x => x.Id == topicId && !x.IsDeleted)
+                .SelectMany(x => x.ResoursePersons)
+                .Select(x => new IdNameViewModel {
+                    Id = x.ResourcePersonId,
+                    Name = x.ResourcePerson.User.FullName
+                })
+                .ToListAsync();
+
+            int total = items.Count();
+            var result = new PagedCollection<IdNameViewModel>(items, total, new PagingOptions { Limit = total, Offset = 0 });
+            return result;
+        }
+
     }
 }

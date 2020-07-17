@@ -21,5 +21,7 @@ namespace Module.Training.Data
 
         Task<PagedCollection<IdNameViewModel>> ListMethodAsync(long topicId);
 
+        Task<PagedCollection<IdNameViewModel>> ListResourcePersonAsync(long topicId);
+
     }
 }

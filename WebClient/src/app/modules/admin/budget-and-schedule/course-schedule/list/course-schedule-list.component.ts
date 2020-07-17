@@ -12,7 +12,6 @@ import { CourseScheduleHttpService } from 'src/services/http/budget-and-schedule
 export class CourseScheduleListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
 
   constructor(

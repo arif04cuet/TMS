@@ -19,7 +19,7 @@
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
                 [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
-                nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
+                nzTableLayout="fixed" [nzScroll]="{ x: '100%' }" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th></th>

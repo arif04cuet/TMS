@@ -12,4 +12,9 @@ export class TopicHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
+    public listResourcePersons(topicId): Observable<Object> {
+        const url = `${this.END_POINT}/${topicId}/resource-persons`
+        return this.httpService.get(url);
+    }
+
 }

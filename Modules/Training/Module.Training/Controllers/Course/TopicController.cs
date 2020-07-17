@@ -42,6 +42,13 @@ namespace Module.Training.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("{id}/resource-persons")]
+        public async Task<ActionResult> ListResourcePersons(long id)
+        {
+            var result = await _topicService.ListResourcePersonAsync(id);
+            return result.ToOkResult();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TopicCreateRequest request)
         {
