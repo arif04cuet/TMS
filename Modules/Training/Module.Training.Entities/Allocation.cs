@@ -9,7 +9,7 @@ namespace Module.Training.Entities
     [Table(nameof(Allocation), Schema = SchemaConstants.Training)]
     public class Allocation : IdNameEntity
     {
-        public DateTime CheckinDate { get; set; }
+        public DateTime? CheckinDate { get; set; }
         public DateTime? CheckoutDate { get; set; }
 
         public long? BedId { get; set; }
@@ -35,5 +35,7 @@ namespace Module.Training.Entities
 
         public long UserId { get; set; }
         public User User { get; set; }
+
+        public AllocationStatus? Status { get; set; }
     }
 }

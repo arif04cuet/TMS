@@ -71,6 +71,21 @@ namespace Module.Core.Data.Services
             return fullUrl;
         }
 
+        public string GetPhotoUrl(long mediaId)
+        {
+            string fileName = _mediaRepository
+                .AsReadOnly()
+                .Where(x => x.Id == mediaId && !x.IsDeleted)
+                .Select(x => x.FileName)
+                .FirstOrDefault();
+
+            if (string.IsNullOrEmpty(fileName))
+                return string.Empty;
+
+            string fullUrl = GetPhotoUrl(fileName);
+            return fullUrl;
+        }
+
         public string GetPhotoUrl(string fileName)
         {
             string fullUrl = Path.Combine(MediaConstants.Path, fileName);
@@ -98,12 +113,12 @@ namespace Module.Core.Data.Services
 
         public Task DeleteMediaAsync(long? mediaId)
         {
-            if(mediaId.HasValue)
+            if (mediaId.HasValue)
             {
                 var media = _mediaRepository
                     .Where(x => x.Id == mediaId.Value && !x.IsDeleted)
                     .FirstOrDefault();
-                if(media != null)
+                if (media != null)
                 {
                     _mediaRepository.Remove(media);
                     return DeleteMediaAsync(media.FileName);
@@ -119,7 +134,7 @@ namespace Module.Core.Data.Services
 
         public async Task<bool> UseAsync(long? mediaId, bool value = true)
         {
-            if(mediaId.HasValue)
+            if (mediaId.HasValue)
             {
                 var media = await _mediaRepository.FirstOrDefaultAsync(x => x.Id == mediaId.Value);
                 if (media != null)

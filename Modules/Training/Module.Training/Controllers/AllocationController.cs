@@ -4,6 +4,7 @@ using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using Module.Core.Shared;
 using Module.Training.Data;
+using System;
 
 namespace Module.Training.Controllers
 {
@@ -54,6 +55,13 @@ namespace Module.Training.Controllers
         {
             await _allocationService.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("{id}/rent")]
+        public async Task<ActionResult> GetRent(long id, DateTime checkout)
+        {
+            var result = await _allocationService.Get(id);
+            return result.ToOkResult();
         }
 
 

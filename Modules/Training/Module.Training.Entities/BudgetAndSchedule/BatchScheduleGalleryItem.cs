@@ -10,5 +10,8 @@ namespace Module.Training.Entities
     {
         public long MediaId { get; set; }
         public Media Media { get; set; }
+
+        public long BatchScheduleId { get; set; }
+        public BatchSchedule BatchSchedule { get; set; }
     }
 }

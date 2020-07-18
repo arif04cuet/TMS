@@ -16,6 +16,7 @@ import { CourseHttpService } from 'src/services/http/course/course-http.service'
 import { MethodHttpService } from 'src/services/http/course/method-http.service';
 import { ModuleHttpService } from 'src/services/http/course/module-http.service';
 import { MediaHttpService } from 'src/services/http/media-http.service';
+import { PhotoUploadModule } from 'src/app/shared/photo.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MediaHttpService } from 'src/services/http/media-http.service';
     ModuleModalModule,
     EvaluationMethodModalModule,
     NzModalModule,
-    SelectControlModule
+    SelectControlModule,
+    PhotoUploadModule
   ],
   exports: [CourseAddComponent],
   providers: [

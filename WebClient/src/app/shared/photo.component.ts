@@ -1,25 +1,37 @@
 import { Component, Input, NgModule, ChangeDetectionStrategy } from '@angular/core';
 import { SharedModule } from './shared.module';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzMessageService } from 'ng-zorro-antd';
 import { CommonModule } from '@angular/common';
 import { MediaHttpService } from 'src/services/http/media-http.service';
 import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-photo-upload',
-  template:  `
+  template: `
   <div>
     <label>{{label|translate}}</label>
   </div>
-  <div (click)="photo.click()" class="photo-uploader cursor-pointer">
+  <div class="photo-uploader cursor-pointer">
     <div class="container">
         <input (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
         <div class="placeholder" *ngIf="!photoLoading && !photoUrl">
             <i nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
-            <span>{{'choose.photo'|translate}}</span>
+            <span>{{ 'no.photo'|translate }}</span>
         </div>
         <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i> 
         <img *ngIf="!photoLoading && photoUrl" [src]="photoUrl" class="photo" />
+        <div *ngIf="!photoLoading" class="overlay">
+          <div>
+            <a class="icon" (click)="handleUpload($event); photo.click()">
+              <i nz-icon nzType="upload" nzTheme="outline"></i>
+            </a>
+            <a *ngIf="photoUrl && delete" class="icon" (click)="handleDelete($event)">
+              <i nz-icon nzType="delete" nzTheme="outline"></i>
+            </a>
+          </div>
+        </div>
     </div>
   </div>
   `
@@ -29,11 +41,14 @@ export class PhotoUploadComponent {
   @Input() label;
   @Input() photoUrl;
   @Input() control: FormControl;
+  @Input() delete: (mediaId: any) => Observable<boolean>;
 
   photoLoading: boolean = false;
 
   constructor(
-    private mediaHttpService: MediaHttpService
+    private mediaHttpService: MediaHttpService,
+    private messageService: NzMessageService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -48,18 +63,55 @@ export class PhotoUploadComponent {
       fr.readAsDataURL(file);
       this.mediaHttpService.upload(file, true,
         progress => {
-          console.log('progress', progress);
+          // console.log('progress', progress);
         },
         success => {
-          console.log('success', success);
           this.control.setValue(success.data);
           this.photoLoading = false;
+          this.translateService.get('successfully.uploaded').subscribe(x => {
+            this.messageService.success(x);
+          });
         },
         error => {
           this.photoLoading = false;
+          this.translateService.get('can.not.be.uploaded').subscribe(x => {
+            this.messageService.error(x);
+          });
         }
       );
     }
+  }
+
+  handleDelete(e) {
+    console.log('photo delete', e);
+    this.photoLoading = true;
+    if (this.delete) {
+      this.delete(this.control.value).subscribe(
+        res => {
+          this.photoLoading = false;
+          if (res) {
+            // deleted
+            this.photoUrl = null;
+            this.translateService.get('successfully.deleted').subscribe(x => {
+              this.messageService.success(x);
+            });
+          }
+          else {
+            this.translateService.get('can.not.be.deleted').subscribe(x => {
+              this.messageService.error(x);
+            });
+          }
+        },
+        err => {
+          this.photoLoading = false;
+        }
+      );
+
+    }
+  }
+
+  handleUpload(e) {
+    console.log('photo upload', e);
   }
 
 }
@@ -77,9 +129,11 @@ export class PhotoUploadComponent {
     PhotoUploadComponent
   ],
   providers: [
-    MediaHttpService
+    MediaHttpService,
+    NzMessageService,
+    TranslateService
   ]
 })
 export class PhotoUploadModule {
-  
+
 }

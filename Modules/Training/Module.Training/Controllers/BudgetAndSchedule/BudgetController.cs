@@ -57,6 +57,13 @@ namespace Module.Training.Controllers
             return NoContent();
         }
 
+        [HttpGet("details-autocomplete")]
+        public async Task<ActionResult> Get(string term)
+        {
+            var result = await _budgetService.ListRateAutocompletes(term);
+            return result.ToOkResult();
+        }
+
 
     }
 }

@@ -18,5 +18,7 @@ namespace Module.Training.Data
 
         Task<PagedCollection<CourseListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
+        Task<bool> DeleteImageAsync(long imageId, long? courseId, CancellationToken cancellationToken = default);
+
     }
 }

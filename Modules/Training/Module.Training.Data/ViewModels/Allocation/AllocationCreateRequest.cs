@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Module.Training.Entities;
+using System;
 
 namespace Module.Training.Data
 {
@@ -8,5 +9,6 @@ namespace Module.Training.Data
         public long Participant { get; set; }
         public long? Room { get; set; }
         public long? Bed { get; set; }
+        public AllocationStatus Status { get; set; }
     }
 }

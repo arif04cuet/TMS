@@ -57,6 +57,13 @@ namespace Module.Training.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id?}/images/{imageId}")]
+        public async Task<IActionResult> DeleteImage(long imageId, long? id)
+        {
+            await _courseService.DeleteImageAsync(imageId, id);
+            return NoContent();
+        }
+
 
     }
 }

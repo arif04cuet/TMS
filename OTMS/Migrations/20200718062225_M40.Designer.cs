@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200718062225_M40")]
+    partial class M40
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -10369,7 +10371,7 @@ namespace OTMS.Migrations
                     b.Property<long>("BuildingId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CheckinDate")
+                    b.Property<DateTime>("CheckinDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CheckoutDate")
@@ -10401,9 +10403,6 @@ namespace OTMS.Migrations
 
                     b.Property<long?>("RoomId")
                         .HasColumnType("bigint");
-
-                    b.Property<byte?>("Status")
-                        .HasColumnType("tinyint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");

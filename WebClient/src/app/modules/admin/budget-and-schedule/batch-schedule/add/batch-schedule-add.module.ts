@@ -18,6 +18,7 @@ import { SessionProgressModule } from '../session-progress/session-progress.modu
 import { HonorariumModule } from '../honorarium/honorarium.module';
 import { CertificatesModule } from '../certificates/certificates.module';
 import { TotalMarkModule } from '../total-mark/total-mark.module';
+import { BatchScheduleGalleryModule } from '../gallery/batch-schedule-gallery.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { TotalMarkModule } from '../total-mark/total-mark.module';
     SessionProgressModule,
     HonorariumModule,
     CertificatesModule,
-    TotalMarkModule
+    TotalMarkModule,
+    BatchScheduleGalleryModule
   ],
   exports: [BatchScheduleAddComponent],
   providers: [

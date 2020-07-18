@@ -11,6 +11,7 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { forEachObj } from 'src/services/utilities.service';
 import { SelectComponent } from 'src/app/shared/select/select.component';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-course-schedule-add',
@@ -28,8 +29,9 @@ export class CourseScheduleAddComponent extends FormComponent {
   @ViewChild('staff3Select') staff3Select: SelectControlComponent;
   @ViewChild('budgetReuseSelect') budgetReuseSelect: SelectComponent;
 
-  courseAddEditTitle
-  budgetAddEditTitle
+  courseAddEditTitle;
+  budgetAddEditTitle;
+  detailsOptions = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -43,6 +45,7 @@ export class CourseScheduleAddComponent extends FormComponent {
   }
 
   async ngOnInit() {
+    this.submitButtonText = '';
     this.onCheckMode = id => this.get(id);
 
     // course schedule form
@@ -65,10 +68,12 @@ export class CourseScheduleAddComponent extends FormComponent {
     const schedule = await this.t('course.schedule');
     const budget = await this.t('budget');
     if (this.mode == 'add') {
+      this.submitButtonText = await this.t('checkin');
       this.courseAddEditTitle = await this.t('create.a.x0', { x0: schedule });
       this.budgetAddEditTitle = await this.t('create.a.x0', { x0: budget });
     }
     else if (this.mode == 'edit') {
+      this.submitButtonText = await this.t('checkout');
       this.courseAddEditTitle = await this.t('update.a.x0', { x0: schedule });
       this.budgetAddEditTitle = await this.t('update.a.x0', { x0: budget });
     }
@@ -273,6 +278,21 @@ export class CourseScheduleAddComponent extends FormComponent {
     }
     const total = this.form.controls.budgets.value.map(x => x.total).reduce((a, c) => a + c);
     this.form.controls.total.setValue(total);
+  }
+
+  onDetailsInput(e) {
+    this.detailsOptions = [];
+    this.subscribe(this.courseScheduleHttpService.detailsAutocomplete(e),
+      (res: any) => {
+        this.detailsOptions = res.data;
+      },
+      err => {
+        this.detailsOptions = [];
+      });
+  }
+
+  onSelectDetails(option, item) {
+    item.controls.rate.setValue(option.rate);
   }
 
 }

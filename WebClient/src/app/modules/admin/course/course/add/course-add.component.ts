@@ -15,6 +15,8 @@ import { MethodHttpService } from 'src/services/http/course/method-http.service'
 import { ModuleHttpService } from 'src/services/http/course/module-http.service';
 import { MediaHttpService } from 'src/services/http/media-http.service';
 import { environment } from 'src/environments/environment';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-course-add',
@@ -29,8 +31,6 @@ export class CourseAddComponent extends FormComponent {
 
   imageUrl;
   imageLoading = false;
-
-
 
   @ViewChild('objectiveEditorComponent') objectiveEditorComponent: CKEditorComponent;
   @ViewChild('descriptionEditorComponent') descriptionEditorComponent: CKEditorComponent;
@@ -99,7 +99,17 @@ export class CourseAddComponent extends FormComponent {
     }
   }
 
-  submit(): void {
+  submit() {
+
+    if(this.calculateTotalEvaluationMark() > Number(this.form.controls.totalMark.value || 0)) {
+      this.failed('total.evaluation.marks.must.be.less.than.course.total.marks');
+      return;
+    }
+
+    if(this.evaluationMethodHasZeroValue()) {
+      this.failed('evaluation.marks.can.not.have.zero');
+      return;
+    }
 
     const body: any = this.constructObject(this.form.controls);
     body.objective = this.objectiveEditorComponent.editorInstance.getData();
@@ -215,7 +225,9 @@ export class CourseAddComponent extends FormComponent {
           const totalMark = this.form.controls.totalMark.value;
           if (totalEvaluationMark > totalMark) {
             const exceed = totalEvaluationMark - totalMark;
-            evaluationMethod.mark = 0;
+            const rest = evaluationMethod.mark - exceed;
+            const mark = (this.calculateTotalEvaluationMark() + rest) > totalMark ? 0 : rest;
+            evaluationMethod.mark = mark;
           }
 
           this.data.evaluationMethods = [...this.data.evaluationMethods, {
@@ -241,13 +253,13 @@ export class CourseAddComponent extends FormComponent {
   }
 
   deleteModule(e) {
-    this.data.modules = this.data.modules.filter(x => x.id != e.id);
+    this.data.modules = this.data.modules.filter(x => x.courseModule.id != e.courseModule.id);
     this.calculateDuration();
     this.calculateMarks();
   }
 
   deleteEvaluationMethod(e) {
-    this.data.evaluationMethods = this.data.evaluationMethods.filter(x => x.id != e.id);
+    this.data.evaluationMethods = this.data.evaluationMethods.filter(x => x.evaluationMethod.id != e.evaluationMethod.id);
   }
 
   private initModalData() {
@@ -267,28 +279,54 @@ export class CourseAddComponent extends FormComponent {
     this.calculateMarks();
   }
 
+  imageDeleteHandler = imageId => {
+    return this.courseHttpService
+      .deleteImage(imageId, this.id || null)
+      .pipe(
+        map(x => {
+          console.log('course image delete', x);
+          return true
+        }),
+        catchError(_ => of(false))
+      );
+  }
+
   private calculateDuration() {
-    const durations = this.data.modules.map(x => x.duration).reduce((a, c) => a + c);
-    this.setValue('duration', durations);
+    let total = 0;
+    if (this.data.modules && this.data.modules.length) {
+      total = this.data.modules.map(x => x.duration).reduce((a, c) => a + c);
+    }
+    this.setValue('duration', total);
   }
 
   private calculateTotalEvaluationMark() {
     let total = 0;
-    if (this.data.evaluationMethods) {
+    if (this.data.evaluationMethods && this.data.evaluationMethods.length) {
       total = this.data.evaluationMethods.map(x => x.mark).reduce((a, c) => a + c);
     }
     return total;
   }
 
+  private evaluationMethodHasZeroValue() {
+    if (this.data.evaluationMethods && this.data.evaluationMethods.length) {
+      return this.data.evaluationMethods.some(x => !x.mark);
+    }
+    return false;
+  }
+
   private calculateMarks() {
-    const marks = this.data.modules.map(x => x.marks).reduce((a, c) => a + c);
-    this.setValue('totalMark', marks);
+    let total = 0;
+    if (this.data.modules && this.data.modules.length) {
+      total = this.data.modules.map(x => x.marks).reduce((a, c) => a + c);
+    }
+    this.setValue('totalMark', total);
   }
 
   private appendObjectives(objectives) {
     if (this.objectiveEditorComponent) {
       let _objectives = this.objectiveEditorComponent.editorInstance.getData();
       _objectives += (objectives || "");
+      _objectives += '<p><br data-cke-filler="true"></p>';
       this.objectiveEditorComponent.editorInstance.setData(_objectives);
     }
   }

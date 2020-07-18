@@ -10,13 +10,17 @@ export class MediaHttpService {
     ) { }
 
     upload(file: any, isPublic, onProgress, onSuccess, onError?) {
+        this.uploadWithUrl(`media/upload`, file, isPublic, onProgress, onSuccess, onError)
+    }
+
+    uploadWithUrl(url: string, file: any, isPublic, onProgress, onSuccess, onError?) {
         let q = '';
         if (isPublic) {
             q += `&isPublic=${isPublic}`;
         }
         const data = new FormData();
         data.append('file', file);
-        const req = this.httpService.postFromData(`media/upload?${q}`, data);
+        const req = this.httpService.postFromData(`${url}?${q}`, data);
         this.handleRequest(req, onProgress, onSuccess, onError);
     }
 

@@ -26,6 +26,7 @@ export class AllocationAddComponent extends FormComponent {
   additionalInfo: any;
 
   @ViewChild('userSelect') userSelect: SelectControlComponent;
+  @ViewChild('statusSelect') statusSelect: SelectControlComponent;
   @ViewChild("modalFooter") modalFooter: TemplateRef<any>;
 
   constructor(
@@ -44,14 +45,15 @@ export class AllocationAddComponent extends FormComponent {
   ngOnInit(): void {
     this.onCheckMode = id => this.get(id);
     this.createForm({
-      checkinDate: [null, [], this.v.required.bind(this)],
+      checkinDate: [null, [], this.checkingValidation.bind(this)],
       roomOrBed: [this.roomOrBed],
       participant: [null, [], this.v.required.bind(this)],
       room: [],
       bed: [],
-      checkoutDate: [null, [], this.checkoutValidation.bind(this)],
+      checkoutDate: [null, [], this.numberValidation.bind(this)],
       days: [null, [], this.numberValidation.bind(this)],
-      amount: [null, [], this.numberValidation.bind(this)]
+      amount: [null, [], this.numberValidation.bind(this)],
+      status: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -59,6 +61,12 @@ export class AllocationAddComponent extends FormComponent {
   ngAfterViewInit() {
     this.userSelect.register((pagination, search) => {
       return this.userHttpService.list(pagination, search);
+    }).fetch();
+
+    this.statusSelect.register((pagination, search) => {
+      return of({
+        data: this.getStatus()
+      });
     }).fetch();
   }
 
@@ -120,6 +128,8 @@ export class AllocationAddComponent extends FormComponent {
       );
     }
     else {
+      // add mode
+      this.form.controls.status.setValue(2);
       this.loading = false;
     }
   }
@@ -168,14 +178,14 @@ export class AllocationAddComponent extends FormComponent {
   }
 
   checkoutValidation(control: FormControl) {
-    if(this.isEditMode()) {
+    if (this.isEditMode()) {
       return this.v.required(control);
     }
     return of(true);
   }
 
   numberValidation(control: FormControl) {
-    if(this.isEditMode()) {
+    if (this.isEditMode()) {
       if (!control.value) {
         return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
       }
@@ -184,6 +194,59 @@ export class AllocationAddComponent extends FormComponent {
       }
     }
     return of(true);
+  }
+
+  onEditValidation(control: FormControl) {
+    if (this.isEditMode()) {
+      if (!control.value) {
+        return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+      }
+    }
+    return of(true);
+  }
+
+  checkingValidation(control: FormControl) {
+    const status = this.form?.controls?.status?.value;
+    if (status != 1 && !control.value) {
+      return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+    }
+    return of(true);
+  }
+
+  private getStatus() {
+    const status = this.form.controls.status.value;
+    if (this.isAddMode()) {
+      return {
+        items: [
+          { id: 1, name: 'Temporary Booked' },
+          { id: 2, name: 'Booked' }
+        ],
+        size: 2
+      }
+    }
+    else if (status == 1 || status == 2) {
+      return {
+        items: [
+          { id: 1, name: 'Temporary Booked' },
+          { id: 2, name: 'Booked' },
+          { id: 3, name: 'Cancelled' }
+        ],
+        size: 3
+      }
+    }
+    else if (status == 3) {
+      return {
+        items: [{ id: 3, name: 'Cancelled' }],
+        size: 1
+      }
+    }
+    return {
+      items: [
+        { id: 1, name: 'Temporary Booked' },
+        { id: 2, name: 'Booked' }
+      ],
+      size: 2
+    };
   }
 
 }

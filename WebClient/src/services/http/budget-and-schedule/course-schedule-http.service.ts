@@ -11,4 +11,9 @@ export class CourseScheduleHttpService extends BaseHttpService {
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
 
+    detailsAutocomplete(term: string) {
+        const url = `${this.END_POINT}/budgets/details-autocomplete?term=${term}`;
+        return this.httpService.get(url);
+    }
+
 }

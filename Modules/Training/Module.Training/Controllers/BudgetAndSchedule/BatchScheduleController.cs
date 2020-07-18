@@ -4,6 +4,11 @@ using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using Module.Core.Shared;
 using Module.Training.Data;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System;
+using System.IO;
+using Module.Core.Data;
 
 namespace Module.Training.Controllers
 {
@@ -14,10 +19,13 @@ namespace Module.Training.Controllers
     {
 
         private readonly IBatchScheduleService _batchScheduleService;
+        private readonly IMediaService _mediaService;
 
         public BatchScheduleController(
-            IBatchScheduleService batchScheduleService)
+            IBatchScheduleService batchScheduleService,
+            IMediaService mediaService)
         {
+            _mediaService = mediaService;
             _batchScheduleService = batchScheduleService;
         }
 
@@ -77,7 +85,6 @@ namespace Module.Training.Controllers
             await _batchScheduleService.DeleteAsync(id);
             return NoContent();
         }
-
 
     }
 }

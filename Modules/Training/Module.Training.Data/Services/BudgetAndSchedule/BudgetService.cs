@@ -1,10 +1,12 @@
-﻿using Infrastructure;
+﻿using Dapper;
+using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Core.Data;
 using Module.Training.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -106,6 +108,27 @@ namespace Module.Training.Data
         public async Task<PagedCollection<BudgetViewModel>> ListAsync(long courseScheduleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var result = await _budgetRepository.ListAsync(x => x.CourseScheduleId == courseScheduleId, BudgetViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
+            return result;
+        }
+
+        public async Task<IEnumerable<BudgetRateAutocompleteViewModel>> ListRateAutocompletes(string term)
+        {
+            var sql = @"select top 10 a.* from
+                (select isnull(d.Name, hh.Head) Details, hh.Amount Rate, 2 Type
+                from [training].[Honorarium] h
+                left join [training].[HonorariumHead] hh on hh.HonorariumId = h.Id
+                left join [core].[Designation] d on d.Id = hh.DesignationId
+                where h.IsDeleted = 0 and h.[Year] = year(getdate()) and isnull(d.Name, hh.Head) like @Term
+                union all
+                select concat(i.Code, ' - ', i.Name) Details, c.PurchaseCost Rate, 1 Type from [asset].[Consumable] c
+                left join [asset].[ItemCode] i on i.Id = c.ItemCodeId
+                where c.CreatedAt in (select max(c1.CreatedAt) from [asset].[Consumable]
+                c1 where c1.IsDeleted = 0 and c1.CreatedAt >= concat(year(getdate()), '-', '01', '-', '01')
+                and c.IsDeleted = 0 and concat(i.Code, ' - ', i.Name) like @Term
+                group by c1.ItemCodeId)
+                ) as a";
+            var parameters = new { Term = $"%{term}%" };
+            var result = await _unitOfWork.GetConnection().QueryAsync<BudgetRateAutocompleteViewModel>(sql, parameters);
             return result;
         }
 

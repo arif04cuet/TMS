@@ -7,47 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200423035336_M3.cs" />
-    <Compile Remove="Migrations\20200423035336_M3.Designer.cs" />
-    <Compile Remove="Migrations\20200516060901_M13.cs" />
-    <Compile Remove="Migrations\20200516060901_M13.Designer.cs" />
-    <Compile Remove="Migrations\20200522114954_M16.cs" />
-    <Compile Remove="Migrations\20200522114954_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522120509_M16.cs" />
-    <Compile Remove="Migrations\20200522120509_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522120710_M16.cs" />
-    <Compile Remove="Migrations\20200522120710_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522121118_M16.cs" />
-    <Compile Remove="Migrations\20200522121118_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522121422_M16.cs" />
-    <Compile Remove="Migrations\20200522121422_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522122202_M16.cs" />
-    <Compile Remove="Migrations\20200522122202_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522122535_M16.cs" />
-    <Compile Remove="Migrations\20200522122535_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522122659_M16.cs" />
-    <Compile Remove="Migrations\20200522122659_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522123035_M16.cs" />
-    <Compile Remove="Migrations\20200522123035_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522123219_M16.cs" />
-    <Compile Remove="Migrations\20200522123219_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200522123355_M16.cs" />
-    <Compile Remove="Migrations\20200522123355_M16.Designer.cs" />
-    <Compile Remove="Migrations\20200610144047_21.cs" />
-    <Compile Remove="Migrations\20200610144047_21.Designer.cs" />
-    <Compile Remove="Migrations\20200613112217_M23.cs" />
-    <Compile Remove="Migrations\20200613112217_M23.Designer.cs" />
-    <Compile Remove="Migrations\20200618113045_25.cs" />
-    <Compile Remove="Migrations\20200618113045_25.Designer.cs" />
-    <Compile Remove="Migrations\20200624133835_M32.cs" />
-    <Compile Remove="Migrations\20200624133835_M32.Designer.cs" />
-    <Compile Remove="Migrations\20200704060608_M34.cs" />
-    <Compile Remove="Migrations\20200704060608_M34.Designer.cs" />
-    <Compile Remove="Migrations\20200704060807_M34.cs" />
-    <Compile Remove="Migrations\20200704060807_M34.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="appsettings.json" />
     <None Include="Views\honorarium.cshtml" />
   </ItemGroup>

@@ -656,6 +656,28 @@ nz-header .ant-badge-count {
     height: 150px;
     border-radius: 50%;
   }
+
+  .overlay {
+    position: absolute;
+    height: 152px;
+    width: 152px;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: #fff;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center; 
+  }
+  
+  .container:hover .overlay {
+    opacity: 1;
+  }
+  
+  .icon {
+    color: black;
+    font-size: 22px;
+  }
 }
 
 .ant-result {

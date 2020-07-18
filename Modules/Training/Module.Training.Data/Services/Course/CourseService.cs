@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Module.Core.Data;
 using System;
 using Module.Core.Shared;
-using Module.Core.Entities;
 
 namespace Module.Training.Data
 {
@@ -18,21 +17,22 @@ namespace Module.Training.Data
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediaService _mediaService;
         private readonly IRepository<Course> _courseRepository;
         private readonly IRepository<CourseMethod> _courseMethodRepository;
         private readonly IRepository<Course_CourseModule> _courseCourseModuleRepository;
         private readonly IRepository<CourseEvaluationMethod> _courseEvaluationMethodRepository;
-        private readonly IRepository<Media> _mediaRepository;
 
         public CourseService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IMediaService mediaService)
         {
             _unitOfWork = unitOfWork;
+            _mediaService = mediaService;
             _courseRepository = _unitOfWork.GetRepository<Course>();
             _courseMethodRepository = _unitOfWork.GetRepository<CourseMethod>();
             _courseCourseModuleRepository = _unitOfWork.GetRepository<Course_CourseModule>();
             _courseEvaluationMethodRepository = _unitOfWork.GetRepository<CourseEvaluationMethod>();
-            _mediaRepository = _unitOfWork.GetRepository<Media>();
         }
 
         public async Task<long> CreateAsync(CourseCreateRequest request, CancellationToken cancellationToken = default)
@@ -40,16 +40,7 @@ namespace Module.Training.Data
             var entity = request.Map();
 
             if (request.Image.HasValue)
-            {
                 entity.ImageId = request.Image;
-                var media = await _mediaRepository
-                    .FirstOrDefaultAsync(x => x.Id == request.Image.Value);
-                if (media != null)
-                {
-                    media.IsInUse = true;
-                }
-            }
-
 
             await _courseRepository.AddAsync(entity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -81,6 +72,10 @@ namespace Module.Training.Data
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            if (result > 0 && request.Image.HasValue)
+                await _mediaService.UseAsync(request.Image);
+
+
             return entity.Id;
         }
 
@@ -95,16 +90,20 @@ namespace Module.Training.Data
 
             entity = request.Map(entity);
 
+            long? oldImageId = null;
+            long? newImageId = null;
+
             //upload image
             if (request.Image.HasValue)
             {
+                oldImageId = entity.ImageId;
                 entity.ImageId = request.Image;
-                var media = await _mediaRepository
-                    .FirstOrDefaultAsync(x => x.Id == request.Image.Value);
-                if (media != null)
-                {
-                    media.IsInUse = true;
-                }
+                newImageId = entity.ImageId;
+            }
+            else
+            {
+                oldImageId = entity.ImageId;
+                entity.ImageId = null;
             }
 
             // modules
@@ -200,6 +199,16 @@ namespace Module.Training.Data
             _courseEvaluationMethodRepository.RemoveRange(evaluationMethodToBeDelete);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            if (result > 0)
+            {
+                if (newImageId.HasValue)
+                    await _mediaService.UseAsync(newImageId);
+
+                if (oldImageId.HasValue)
+                    await _mediaService.DeleteMediaAsync(oldImageId);
+            }
+
             return result > 0;
         }
 
@@ -251,6 +260,36 @@ namespace Module.Training.Data
         {
             var result = await _courseRepository.ListAsync(null, CourseListViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
             return result;
+        }
+
+        public async Task<bool> DeleteImageAsync(long imageId, long? courseId, CancellationToken cancellationToken = default)
+        {
+            long result = 0;
+            if (courseId.HasValue)
+            {
+                var entity = await _courseRepository
+                .FirstOrDefaultAsync(x => x.Id == courseId && !x.IsDeleted);
+
+                if (entity == null)
+                    throw new NotFoundException("Image not found");
+
+                if (entity.ImageId.HasValue)
+                {
+                    // delete image association
+                    entity.ImageId = null;
+                    result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+                }
+                else
+                {
+                    courseId = null;
+                }
+            }
+
+            // delete physical file
+            if ((courseId.HasValue && result > 0) || !courseId.HasValue)
+                await _mediaService.DeleteMediaAsync(imageId);
+
+            return result > 0;
         }
 
     }

@@ -1,0 +1,37 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+<div *ngIf="!loading">
+    <div>
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class="column content">
+                <div class="header-container">
+                    <span class="header">
+                        {{'gallery'|translate}} ({{total}})
+                    </span>
+                </div>
+            </div>
+            <div class="column">
+                <button (click)="refresh()" nz-button class="btn-custom">
+                    <i nz-icon nzType="sync" nzTheme="outline"></i>
+                    {{'refresh'|translate}}
+                </button>
+            </div>
+        </div>
+        <div class="block pad-v-12 pad-h-20">
+            <div class="clearfix">
+                <nz-upload [nzAction]="uploadUrl" nzListType="picture-card"
+                    [(nzFileList)]="fileList" [nzShowUploadList]="showUploadList"
+                    [nzPreview]="handlePreview" [nzRemove]="handleRemove" (nzChange)	="handleChange($event)">
+                    <i nz-icon nzType="plus"></i>
+                    <div class="ant-upload-text">{{ 'upload'|translate }}</div>
+                </nz-upload>
+                <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+                    (nzOnCancel)="previewVisible = false">
+                    <ng-template #modalContent>
+                        <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+                    </ng-template>
+                </nz-modal>
+            </div>
+        </div>
+    </div>
+</div>

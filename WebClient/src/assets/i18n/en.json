@@ -429,5 +429,13 @@
   "mailing.address": "Mailing Address",
   "cv.upload": "Upload CV",
   "batch.allocation": "Participant Approval",
-  "batch.name": "Name"
+  "batch.name": "Name",
+  "total.evaluation.marks.must.be.less.than.course.total.marks": "Total evaluation marks must be less than course total marks",
+  "evaluation.marks.can.not.have.zero": "Evaluation marks can not have zero",
+  "total.marks": "Total marks",
+  "gallery": "Gallery",
+  "no.photo": "No photo",
+  "can.not.be.deleted": "Can not be deleted",
+  "can.not.be.uploaded": "Can not be uploaded",
+  "successfully.uploaded": "Successfully uploaded"
 }

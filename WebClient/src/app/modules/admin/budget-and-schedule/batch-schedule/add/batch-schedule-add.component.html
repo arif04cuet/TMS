@@ -125,39 +125,44 @@
                     </div>
                 </div>
             </nz-tab>
-            <nz-tab nzTitle="{{ 'class.routines'|translate }}">
+            <nz-tab *ngIf="mode == 'edit'" nzTitle="{{ 'class.routines'|translate }}">
                 <ng-template nz-tab>
                     <app-batch-schedule-routine-add></app-batch-schedule-routine-add>
                 </ng-template>
             </nz-tab>
-            <nz-tab nzTitle="{{ 'session.progress'|translate }}">
+            <nz-tab *ngIf="mode == 'edit'" nzTitle="{{ 'session.progress'|translate }}">
                 <ng-template nz-tab>
                     <app-session-progress></app-session-progress>
                 </ng-template>
             </nz-tab>
-            <nz-tab nzTitle="{{ 'participants'|translate }}">
+            <nz-tab *ngIf="mode == 'edit'" nzTitle="{{ 'participants'|translate }}">
                 <ng-template nz-tab>
                     <app-participants></app-participants>
                 </ng-template>
             </nz-tab>
-            <nz-tab nzTitle="{{ 'exams'|translate }}">
+            <nz-tab *ngIf="mode == 'edit'" nzTitle="{{ 'exams'|translate }}">
                 <ng-template nz-tab>
                     <app-exam-home></app-exam-home>
                 </ng-template>
             </nz-tab>
-            <nz-tab nzTitle="{{ 'total.marks'|translate }}">
+            <nz-tab *ngIf="mode == 'edit'" nzTitle="{{ 'total.marks'|translate }}">
                 <ng-template nz-tab>
                     <app-total-mark></app-total-mark>
                 </ng-template>
             </nz-tab>
-            <nz-tab nzTitle="{{ 'certificates'|translate }}">
+            <nz-tab *ngIf="mode == 'edit'" nzTitle="{{ 'certificates'|translate }}">
                 <ng-template nz-tab>
                     <app-certificates></app-certificates>
                 </ng-template>
             </nz-tab>
-            <nz-tab nzTitle="{{ 'honorarium'|translate }}">
+            <nz-tab *ngIf="mode == 'edit'" nzTitle="{{ 'honorarium'|translate }}">
                 <ng-template nz-tab>
                     <app-honorarium></app-honorarium>
+                </ng-template>
+            </nz-tab>
+            <nz-tab *ngIf="mode == 'edit'" nzTitle="{{ 'gallery'|translate }}">
+                <ng-template nz-tab>
+                    <app-batch-schedule-gallery></app-batch-schedule-gallery>
                 </ng-template>
             </nz-tab>
         </nz-tabset>
