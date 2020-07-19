@@ -7,6 +7,6 @@ namespace Module.Training.Data
         public long Id { get; set; }
         public int Days { get; set; }
         public double Amount { get; set; }
-        public DateTime? ChekoutDate { get; set; }
+        public DateTime? CheckoutDate { get; set; }
     }
 }

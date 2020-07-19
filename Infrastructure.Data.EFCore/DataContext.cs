@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Data.EFCore
@@ -6,9 +8,11 @@ namespace Infrastructure.Data.EFCore
     public class DataContext : DataContextBase
     {
 
+        private readonly static ILoggerFactory _loggerFacroty = LoggerFactory.Create(builder => builder.AddConsole());
+
         public DataContext(IOptions<DataContextOptions> options) : base(options)
         {
-            
+
         }
 
         public DataContext(DataContextOptions options) : base(options)
@@ -19,7 +23,16 @@ namespace Infrastructure.Data.EFCore
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.EnableSensitiveDataLogging();
+
+            var env = ProjectManager.Env;
+            if (env.Equals("Development"))
+            {
+                optionsBuilder.EnableSensitiveDataLogging();
+                if(_loggerFacroty != null)
+                {
+                    optionsBuilder.UseLoggerFactory(_loggerFacroty);
+                }
+            }
 
             if (string.IsNullOrEmpty(MigrationsAssembly))
             {

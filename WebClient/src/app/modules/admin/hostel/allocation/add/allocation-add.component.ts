@@ -42,7 +42,7 @@ export class AllocationAddComponent extends FormComponent {
     super();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       checkinDate: [null, [], this.checkingValidation.bind(this)],
@@ -50,12 +50,19 @@ export class AllocationAddComponent extends FormComponent {
       participant: [null, [], this.v.required.bind(this)],
       room: [],
       bed: [],
-      checkoutDate: [null, [], this.numberValidation.bind(this)],
-      days: [null, [], this.numberValidation.bind(this)],
-      amount: [null, [], this.numberValidation.bind(this)],
+      checkoutDate: [null, [], this.onEditValidation.bind(this)],
+      days: [null, [], this.onEditValidation.bind(this)],
+      amount: [null, [], this.onEditValidation.bind(this)],
       status: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
+
+    if(this.isAddMode()) {
+      this.submitButtonText = await this.t('checkin');
+    }
+    else if (this.isEditMode()) {
+      this.submitButtonText = await this.t('checkout');
+    }
   }
 
   ngAfterViewInit() {
@@ -75,7 +82,7 @@ export class AllocationAddComponent extends FormComponent {
       this.failed('please.select.room.or.bed');
       return;
     }
-    const body = this.constructObject(this.form.controls);
+    const body: any = this.constructObject(this.form.controls);
     this.submitForm(
       {
         request: this.allocationHttpService.add(body),
@@ -184,25 +191,13 @@ export class AllocationAddComponent extends FormComponent {
     return of(true);
   }
 
-  numberValidation(control: FormControl) {
-    if (this.isEditMode()) {
-      if (!control.value) {
-        return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
-      }
-      else if (Number(control.value) <= 0) {
-        return this.error(MESSAGE_KEY.MUST_BE_GREATER_THAN_ZERO);
-      }
-    }
-    return of(true);
-  }
-
   onEditValidation(control: FormControl) {
     if (this.isEditMode()) {
       if (!control.value) {
         return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
       }
     }
-    return of(true);
+    return of(null);
   }
 
   checkingValidation(control: FormControl) {
@@ -210,7 +205,23 @@ export class AllocationAddComponent extends FormComponent {
     if (status != 1 && !control.value) {
       return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
     }
-    return of(true);
+    return of(null);
+  }
+
+  onCheckoutDate(e) {
+    if(!e)
+      return;
+
+    const checkout = e.toISOString();
+    this.subscribe(this.allocationHttpService.getRent(this.id, checkout),
+      (res: any) => {
+        if(res.data) {
+          this.setValue('days', res.data.days);
+          this.setValue('amount', res.data.amount);
+        }
+      },
+      err => { }
+    );
   }
 
   private getStatus() {

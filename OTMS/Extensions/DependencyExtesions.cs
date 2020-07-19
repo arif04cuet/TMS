@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Extensions;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ namespace OTMS.Extensions
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+            ServiceFactory.Init(services.BuildServiceProvider());
             services.AddAesSecurity(configuration);
             services.AddJwt(configuration);
             services.AddCors();

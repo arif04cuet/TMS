@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Infrastructure;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,8 +19,7 @@ namespace Module.Core.Hangfire
 
         public void Register(IServiceCollection services, IConfiguration config)
         {
-            var sp = services.BuildServiceProvider();
-            var configuration = sp.GetRequiredService<IConfiguration>();
+            var configuration = ServiceFactory.GetService<IConfiguration>();
 
             services.AddHangfireService(option =>
             {

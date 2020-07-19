@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Type } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { AllocationHttpService } from 'src/services/http/hostel/allocation-http.service';
+import { BatchCheckoutModalComponent } from '../batch-checkout-modal/batch-checkout-modal.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-allocation-list',
@@ -15,10 +17,12 @@ export class AllocationListComponent extends TableComponent {
   @Searchable("Hostel.Name", "like") hostel;
 
   serverUrl = environment.serverUri;
+  rowItemDisabledFilterKey = "checkoutDate";
 
   constructor(
     private allocationHttpService: AllocationHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modal: NzModalService
   ) {
     super(allocationHttpService);
   }
@@ -37,6 +41,27 @@ export class AllocationListComponent extends TableComponent {
     }
   }
 
+  batchCheckout() {
+    const modal = this.createModal(BatchCheckoutModalComponent);
+    this.subscribe(modal.afterClose, res => {
+      // this.additionalInfo = modal.getContentComponent().selectedBed;
+      // if (this.additionalInfo) {
+      //   this.form.controls.bed.setValue(this.additionalInfo.id);
+      //   this.form.controls.room.setValue(null);
+      // }
+    });
+  }
+
+  createModal<T>(component: Type<T>) {
+    return this.modal.create({
+      nzWidth: '50%',
+      nzContent: component,
+      nzGetContainer: () => document.body,
+      nzComponentParams: {},
+      nzFooter: null
+    });
+  }
+
   gets() {
     this.load();
   }
@@ -48,5 +73,7 @@ export class AllocationListComponent extends TableComponent {
   search() {
     this.load();
   }
+
+
 
 }

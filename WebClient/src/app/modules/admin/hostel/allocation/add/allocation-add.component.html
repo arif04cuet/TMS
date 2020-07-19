@@ -47,7 +47,7 @@
                                 <label>{{'checkout'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <nz-date-picker formControlName="checkoutDate"></nz-date-picker>
+                                <nz-date-picker (ngModelChange)="onCheckoutDate($event)" formControlName="checkoutDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>

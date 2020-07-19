@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Module.Core.Data;
 using System;
 using System.Linq;
+using Module.Core.Shared;
 
 namespace Module.Training.Data
 {
@@ -102,11 +103,11 @@ namespace Module.Training.Data
             if (allocation.BedId != null && allocation.RoomId != null)
                 throw new ValidationException("Allocation can not have both bed and room");
 
-            if (request.Status == AllocationStatus.Booked && allocation.Status != AllocationStatus.TemporaryBooked)
-                throw new ValidationException($"{AllocationStatus.TemporaryBooked.ToString()} allocation can be changed as {AllocationStatus.Booked.ToString()}.");
+            //if (request.Status == AllocationStatus.Booked && allocation.Status != AllocationStatus.TemporaryBooked)
+            //    throw new ValidationException($"{AllocationStatus.TemporaryBooked.ToString()} allocation can be changed as {AllocationStatus.Booked.ToString()}.");
 
-            if (request.Status == AllocationStatus.TemporaryBooked)
-                throw new ValidationException($"Allocation can not be converted to {AllocationStatus.TemporaryBooked.ToString()}.");
+            //if (request.Status == AllocationStatus.TemporaryBooked)
+            //    throw new ValidationException($"Allocation can not be converted to {request.Status.ToString()}.");
 
             if (allocation.BedId.HasValue)
                 allocation.Bed.IsBooked = false;
@@ -115,6 +116,9 @@ namespace Module.Training.Data
                 allocation.Room.IsBooked = false;
 
             allocation.Status = AllocationStatus.CheckedOut;
+            allocation.Amount = request.Amount;
+            allocation.Days = request.Days;
+            allocation.CheckoutDate = request.CheckoutDate;
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return allocation.Id;
@@ -138,7 +142,7 @@ namespace Module.Training.Data
             return item;
         }
 
-        public async Task<AllocationRentViewModel> GetRent(long id, DateTime checkout, CancellationToken cancellationToken = default)
+        public async Task<AllocationRentViewModel> GetRent(long allocationId, DateTime checkout, CancellationToken cancellationToken = default)
         {
             var item = await _allocationRepository
                 .AsReadOnly()
@@ -153,7 +157,7 @@ namespace Module.Training.Data
                     HostelId = x.HostelId,
                     BuildingId = x.BuildingId
                 })
-                .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == allocationId && !x.IsDeleted, cancellationToken);
 
             if (item == null)
                 throw new ValidationException("Allocation not found.");
@@ -161,7 +165,7 @@ namespace Module.Training.Data
             if (!item.CheckinDate.HasValue || checkout == default)
                 throw new ValidationException("Invalid checkin or checkout date.");
 
-            var days = (checkout - item.CheckinDate).Value.TotalDays;
+            var days = (long)(checkout - item.CheckinDate).Value.TotalDays;
             double amount = 0;
 
             if (item.RoomId.HasValue)
@@ -191,7 +195,7 @@ namespace Module.Training.Data
                 if (bed == null)
                     throw new ValidationException("Bed not not found.");
 
-                amount = (bed.RoomRent / bed.BedCount) * days;
+                amount = Math.Floor((bed.RoomRent / bed.BedCount) * days);
 
             }
 
@@ -205,6 +209,53 @@ namespace Module.Training.Data
         public async Task<PagedCollection<AllocationViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var result = await _allocationRepository.ListAsync(AllocationViewModel.Select(), pagingOptions, searchOptions, cancellationToken);
+            return result;
+        }
+
+        public async Task<PagedCollection<IdNameViewModel>> ListBatchScheduleAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var result = await _allocationRepository
+                .Paginate<Allocation, IdNameViewModel>(pagingOptions, searchOptions)
+                .Where(x => x.BatchScheduleId.HasValue)
+                .Select(x => new IdNameViewModel
+                {
+                    Id = x.BatchSchedule.Id,
+                    Name = x.BatchSchedule.Name
+                })
+                .ToListAsync(cancellationToken);
+
+            return result;
+        }
+
+        public async Task<long> GroupCheckoutByBatchScheduleAsync(AllocationGroupCheckoutByBatchScheduleRequest request, CancellationToken cancellationToken = default)
+        {
+            var allocations = await _allocationRepository
+                .AsQueryable()
+                .Include(x => x.Bed)
+                .Include(x => x.Room)
+                .Where(x => x.BatchScheduleId == request.BatchSchedule
+                && x.Status != AllocationStatus.CheckedOut && !x.IsDeleted)
+                .ToListAsync();
+
+            int result = 0;
+            foreach (var allocation in allocations)
+            {
+                var checkoutDate = DateTime.UtcNow;
+                var rent = await GetRent(allocation.Id, checkoutDate);
+
+                if (allocation.BedId.HasValue)
+                    allocation.Bed.IsBooked = false;
+
+                if (allocation.RoomId.HasValue)
+                    allocation.Room.IsBooked = false;
+
+                allocation.Status = AllocationStatus.CheckedOut;
+                allocation.Amount = rent.Amount;
+                allocation.Days = (int)rent.Days;
+                allocation.CheckoutDate = checkoutDate;
+
+                result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+            }
             return result;
         }
 

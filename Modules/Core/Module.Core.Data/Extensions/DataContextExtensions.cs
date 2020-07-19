@@ -27,9 +27,10 @@ namespace Module.Core.Data
             if (predicate != null)
                 query = query.Where(predicate);
 
-            query = query.ApplySearch(searchOptions);
+            query = query.ApplySearch(searchOptions).OrderByDescending(x => x.UpdatedAt);
 
-            var total = await query.Select(x => x.Id).CountAsync(cancellationToken);
+            var countQuery = query.Select(x => x.Id);
+            var total = await countQuery.CountAsync(cancellationToken);
 
             query = query.ApplyPagination(pagingOptions);
 
@@ -230,6 +231,67 @@ namespace Module.Core.Data
             var deletedItems = await deletedQuery.ToListAsync();
             repository.RemoveRange(deletedItems);
         }
+
+        public static PaginateQueryBuilder<TEntity, TViewModel> Paginate<TEntity, TViewModel>(this IRepository<TEntity> repository, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+            where TEntity : BaseEntity
+            where TViewModel : class
+        {
+            var builder = new PaginateQueryBuilder<TEntity, TViewModel>()
+                .Repository(repository)
+                .PagingOptions(pagingOptions)
+                .SearchOptions(searchOptions);
+            return builder;
+        }
+
+    }
+
+    public class PaginateQueryBuilder<TEntity, TViewModel>
+        where TEntity : BaseEntity
+        where TViewModel : class
+    {
+        private IRepository<TEntity> _repository;
+        private IPagingOptions _pagingOptions;
+        private ISearchOptions _searchOptions;
+        private IQueryable<TEntity> _query;
+        private Expression<Func<TEntity, bool>> _predicate;
+        private Expression<Func<TEntity, TViewModel>> _selector;
+
+        public PaginateQueryBuilder<TEntity, TViewModel> Repository(IRepository<TEntity> repository)
+        {
+            _repository = repository;
+            _query = repository.AsReadOnly();
+            return this;
+        }
+
+        public PaginateQueryBuilder<TEntity, TViewModel> PagingOptions(IPagingOptions pagingOptions)
+        {
+            _pagingOptions = pagingOptions;
+            return this;
+        }
+
+        public PaginateQueryBuilder<TEntity, TViewModel> SearchOptions(ISearchOptions searchOptions)
+        {
+            _searchOptions = searchOptions;
+            return this;
+        }
+
+        public PaginateQueryBuilder<TEntity, TViewModel> Where(Expression<Func<TEntity, bool>> predicate)
+        {
+            _predicate = predicate;
+            return this;
+        }
+
+        public PaginateQueryBuilder<TEntity, TViewModel> Select(Expression<Func<TEntity, TViewModel>> selector)
+        {
+            _selector = selector;
+            return this;
+        }
+
+        public Task<PagedCollection<TViewModel>> ToListAsync(CancellationToken cancellationToken = default)
+        {
+            return _query.ListAsync(_predicate, _selector, _pagingOptions, _searchOptions, cancellationToken);
+        }
+
 
     }
 }

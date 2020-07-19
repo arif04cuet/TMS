@@ -43,9 +43,10 @@ namespace Module.Training.Controllers
             return result.ToCreatedResult();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put([FromBody] AllocationUpdateRequest request)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(long id, [FromBody] AllocationUpdateRequest request)
         {
+            request.Id = id;
             var result = await _allocationService.UpdateAsync(request);
             return result.ToCreatedResult();
         }
@@ -60,10 +61,23 @@ namespace Module.Training.Controllers
         [HttpGet("{id}/rent")]
         public async Task<ActionResult> GetRent(long id, DateTime checkout)
         {
-            var result = await _allocationService.Get(id);
+            var result = await _allocationService.GetRent(id, checkout);
             return result.ToOkResult();
         }
 
+        [HttpGet("batch-schedules")]
+        public async Task<ActionResult> ListBatchSchedules([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _allocationService.ListBatchScheduleAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
+        [HttpPost("batch-schedule-checkout")]
+        public async Task<IActionResult> BatchScheduleCheckout([FromBody] AllocationGroupCheckoutByBatchScheduleRequest request)
+        {
+            var result = await _allocationService.GroupCheckoutByBatchScheduleAsync(request);
+            return result.ToCreatedResult();
+        }
 
     }
 }

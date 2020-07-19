@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Data;
 using Infrastructure.Entities;
+using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Infrastructure.Extensions
 
         public static IServiceCollection AddModules(this IServiceCollection services)
         {
-            var assemblyProvider = new AssemblyProvider(services.BuildServiceProvider());
+            var assemblyProvider = new AssemblyProvider(ServiceFactory.GetProvider());
             ProjectManager.SetAssemblies(assemblyProvider.GetAssemblies(null, false));
 
             var classTypes = ProjectManager.Assemblies

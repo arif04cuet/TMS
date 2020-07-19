@@ -114,15 +114,12 @@ export class FormComponent extends BaseComponent {
 
     validateForm(fn?: () => void) {
         this.busy();
-        // for (const i in this.form.controls) {
-        //     this.form.controls[i].markAsDirty();
-        //     this.form.controls[i].updateValueAndValidity();
-        // }
         this.markDirtyAndCheckValidity(this.form.controls);
         if (this.form.valid) {
             this.invoke(fn);
         }
         else {
+            this.log('INVALID FORM', this.form);
             this.busy(false);
         }
         return this.form.valid;

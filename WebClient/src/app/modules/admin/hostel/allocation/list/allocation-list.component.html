@@ -11,6 +11,9 @@
                 </div>
             </div>
             <div class="column">
+                <button (click)="batchCheckout()" nzType="primary" nz-button class="btn-custom">
+                    {{'batch.checkout'|translate}}
+                </button>
                 <button (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
@@ -23,11 +26,12 @@
         </div>
         <div class="block">
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
-                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
+                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable
                 nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
+                        <!-- <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th> -->
                         <th>{{'checkin'|translate}}</th>
                         <th>{{'checkout'|translate}}</th>
                         <th>{{'user'|translate}}</th>
@@ -35,6 +39,7 @@
                         <th>{{'bed'|translate}}</th>
                         <th>{{'days'|translate}}</th>
                         <th>{{'amount'|translate}}</th>
+                        <th>{{'status'|translate}}</th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
@@ -44,28 +49,25 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.checkinDate|date:'medium':'+0000' }}</td>
-                        <td>{{ data.checkoutDate|date:'medium':'+0000' }}</td>
+                        <!-- <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.checkoutDate" (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
+                        <td>{{ data.checkinDate|momentDate  }}</td>
+                        <td>{{ data.checkoutDate|momentDate  }}</td>
                         <td>{{ data.user?.name }}</td>
                         <td>{{ data.room?.name }}</td>
                         <td>{{ data.bed?.name }}</td>
                         <td>{{ data.days }}</td>
                         <td>{{ data.amount }}</td>
+                        <td>{{ data.status?.name }}</td>
                         <td class="action-column fit-cell">
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
+                            <button *ngIf="data.status?.id == 1 || data.status?.id == 2" nz-button (click)="add(data)" class="btn-custom">
+                                {{'edit'|translate}}
                             </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <button *ngIf="data.status?.id == 1" nz-button class="btn-custom">
+                                {{'cancel'|translate}}
+                            </button>
+                            <button *ngIf="data.status?.id == 2" nz-button class="btn-custom">
+                                {{'checkout'|translate}}
+                            </button>
                         </td>
                     </tr>
                 </tbody>

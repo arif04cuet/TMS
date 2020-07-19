@@ -30,9 +30,8 @@ namespace Module.Core.Shared
             // new CustomAssemblyLoadContext().LoadUnmanagedLibrary()
 
             //DinkToPdf
-            var serviceProviver = services.BuildServiceProvider();
-            ILogger logger = serviceProviver.GetRequiredService<ILogger<ServiceRegistrar>>();
-            IHostingEnvironment hostingEnvironment = serviceProviver.GetRequiredService<IHostingEnvironment>();
+            ILogger logger = ServiceFactory.GetService<ILogger<ServiceRegistrar>>();
+            IHostingEnvironment hostingEnvironment = ServiceFactory.GetService<IHostingEnvironment>();
 
             var context = new CustomAssemblyLoadContext();
             logger.LogInformation("DinkToPdf Setup");

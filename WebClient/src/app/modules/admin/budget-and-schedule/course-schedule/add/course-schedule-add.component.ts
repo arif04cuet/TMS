@@ -68,12 +68,10 @@ export class CourseScheduleAddComponent extends FormComponent {
     const schedule = await this.t('course.schedule');
     const budget = await this.t('budget');
     if (this.mode == 'add') {
-      this.submitButtonText = await this.t('checkin');
       this.courseAddEditTitle = await this.t('create.a.x0', { x0: schedule });
       this.budgetAddEditTitle = await this.t('create.a.x0', { x0: budget });
     }
     else if (this.mode == 'edit') {
-      this.submitButtonText = await this.t('checkout');
       this.courseAddEditTitle = await this.t('update.a.x0', { x0: schedule });
       this.budgetAddEditTitle = await this.t('update.a.x0', { x0: budget });
     }

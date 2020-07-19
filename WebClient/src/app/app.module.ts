@@ -3,7 +3,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgZorroAntdModule, NZ_I18N, NZ_ICONS, en_US } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NZ_I18N, NZ_ICONS, en_US, NZ_DATE_CONFIG, NzDateConfig } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { SecurityService } from 'src/services/security.service';
@@ -37,6 +37,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, environment.langFilePath);
 }
 
+const dateConfig: NzDateConfig = {
+  
+}
+
 @NgModule({
   declarations: [
     AppComponent
@@ -61,6 +65,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },
+    { provide: NZ_DATE_CONFIG, useValue: dateConfig },
     SecurityService,
     HttpService,
     AuthService,

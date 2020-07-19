@@ -437,5 +437,7 @@
   "no.photo": "No photo",
   "can.not.be.deleted": "Can not be deleted",
   "can.not.be.uploaded": "Can not be uploaded",
-  "successfully.uploaded": "Successfully uploaded"
+  "successfully.uploaded": "Successfully uploaded",
+  "batch.checkout": "Batch checkout",
+  "group.checkout.by.batch.schedule": "Group checkout by batch schedule"
 }

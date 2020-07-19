@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AllocationListComponent } from './allocation-list.component';
 import { AllocationListRoutingModule } from './allocation-list-routing.module';
 import { AllocationHttpService } from 'src/services/http/hostel/allocation-http.service';
+import { BatchCheckoutModalModule } from '../batch-checkout-modal/batch-checkout-modal.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AllocationHttpService } from 'src/services/http/hostel/allocation-http.
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    BatchCheckoutModalModule
   ],
   exports: [AllocationListComponent],
   providers: [
