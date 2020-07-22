@@ -64,6 +64,17 @@
                     </div>
                 </div>
 
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control [formControl]="form.controls.bed" #bedSelect label="bed">
+                        </app-select-control>
+                    </div>
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control [formControl]="form.controls.room" #roomSelect label="room">
+                        </app-select-control>
+                    </div>
+                </div>
+
             </form>
         </div>
     </div>

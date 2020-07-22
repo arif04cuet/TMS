@@ -44,11 +44,7 @@ export class AllocationListComponent extends TableComponent {
   batchCheckout() {
     const modal = this.createModal(BatchCheckoutModalComponent);
     this.subscribe(modal.afterClose, res => {
-      // this.additionalInfo = modal.getContentComponent().selectedBed;
-      // if (this.additionalInfo) {
-      //   this.form.controls.bed.setValue(this.additionalInfo.id);
-      //   this.form.controls.room.setValue(null);
-      // }
+      this.refresh();
     });
   }
 

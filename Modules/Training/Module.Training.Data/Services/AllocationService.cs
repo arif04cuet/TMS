@@ -64,12 +64,24 @@ namespace Module.Training.Data
             if (allocation == null)
                 throw new ValidationException("Allocation not found");
 
+            long? oldBed = allocation.BedId;
+
             await UpdateBedOrRoom(allocation, request.Bed, request.Room);
 
             allocation.UserId = request.Participant;
             allocation.CheckinDate = request.CheckinDate;
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            // update batch schedule allocation bed or room
+            var batchScheduleAllocation = await _unitOfWork.GetRepository<BatchScheduleAllocation>().FirstOrDefaultAsync(x => x.Id == allocation.BatchScheduleAllocationId && !x.IsDeleted);
+
+            if (batchScheduleAllocation != null)
+            {
+                batchScheduleAllocation.BedId = request.Bed;
+                result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+            }
+
             return allocation.Id;
         }
 
@@ -280,12 +292,12 @@ namespace Module.Training.Data
             if (bed.HasValue && room.HasValue)
                 throw new ValidationException("Can not have both bed and room at the same time.");
 
-            Bed newBed = await _unitOfWork.GetRepository<Bed>().FirstOrDefaultAsync(x => x.Id == bed && !x.IsBooked && !x.IsDeleted);
+            Bed newBed = await _unitOfWork.GetRepository<Bed>().FirstOrDefaultAsync(x => x.Id == bed && !x.IsDeleted);
 
             if (validation && bed.HasValue && newBed == null)
                 throw new ValidationException("Bed is not allowed for allocaion");
 
-            Room newRoom = await _unitOfWork.GetRepository<Room>().FirstOrDefaultAsync(x => x.Id == room && !x.IsBooked && !x.IsDeleted);
+            Room newRoom = await _unitOfWork.GetRepository<Room>().FirstOrDefaultAsync(x => x.Id == room && !x.IsDeleted);
 
             if (validation && room.HasValue && newRoom == null)
                 throw new ValidationException("Room is not allowed for allocaion");
@@ -296,7 +308,8 @@ namespace Module.Training.Data
             Room oldRoom = await _unitOfWork.GetRepository<Room>()
                             .FirstOrDefaultAsync(x => x.Id == a.RoomId && !x.IsDeleted);
 
-            if (newBed != null)
+            bool bedOrRoomChanged = false;
+            if (newBed != null && (oldBed == null || oldBed?.Id != newBed.Id))
             {
                 a.HostelId = newBed.HostelId;
                 a.BuildingId = newBed.BuildingId;
@@ -304,9 +317,10 @@ namespace Module.Training.Data
                 a.BedId = newBed.Id;
                 a.RoomId = null;
                 newBed.IsBooked = true;
+                bedOrRoomChanged = true;
             }
 
-            if (newRoom != null)
+            if (newRoom != null && (oldRoom == null || oldRoom?.Id != newRoom.Id))
             {
                 a.HostelId = newRoom.HostelId;
                 a.BuildingId = newRoom.BuildingId;
@@ -314,12 +328,13 @@ namespace Module.Training.Data
                 a.RoomId = newRoom.Id;
                 a.BedId = null;
                 newRoom.IsBooked = true;
+                bedOrRoomChanged = true;
             }
 
-            if (oldRoom != null)
+            if (bedOrRoomChanged && oldRoom != null)
                 oldRoom.IsBooked = false;
 
-            if (oldBed != null)
+            if (bedOrRoomChanged && oldBed != null)
                 oldBed.IsBooked = false;
         }
 

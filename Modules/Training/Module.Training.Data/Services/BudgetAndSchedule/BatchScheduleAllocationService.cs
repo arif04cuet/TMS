@@ -1,11 +1,13 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Module.Core.Data;
 using Module.Core.Shared;
 using Module.Training.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,12 +21,15 @@ namespace Module.Training.Data
         private readonly IExcelService _excelService;
         private readonly IAllocationService _allocationService;
         private readonly IRepository<BatchScheduleAllocation> _batchSceduleAllocationRepository;
+        private readonly ILogger<BatchScheduleAllocationService> _logger;
 
         public BatchScheduleAllocationService(
             IUnitOfWork unitOfWork,
             IExcelService excelService,
-            IAllocationService allocationService)
+            IAllocationService allocationService,
+            ILogger<BatchScheduleAllocationService> logger)
         {
+            _logger = logger;
             _unitOfWork = unitOfWork;
             _excelService = excelService;
             _allocationService = allocationService;
@@ -46,11 +51,13 @@ namespace Module.Training.Data
                 // temporary booked hostel allocation
                 var hostelAllocation = new Allocation
                 {
+                    CheckinDate = DateTime.UtcNow,
                     BatchScheduleAllocationId = entity.Id,
                     Status = AllocationStatus.TemporaryBooked,
                     UserId = entity.TraineeId
                 };
                 await _allocationService.UpdateBedOrRoom(hostelAllocation, request.Bed, request.Room);
+                await _unitOfWork.GetRepository<Allocation>().AddAsync(hostelAllocation);
                 result += await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
 
@@ -70,26 +77,23 @@ namespace Module.Training.Data
             if (entity == null)
                 throw new NotFoundException($"Allocation not found");
 
+            Bed oldBed = await _unitOfWork.GetRepository<Bed>()
+                .FirstOrDefaultAsync(x => x.Id == entity.BedId && !x.IsDeleted);
+
             request.Map(entity);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            // update hostel allocation
             var hostelAllocation = await _unitOfWork.GetRepository<Allocation>()
-                .FirstOrDefaultAsync(x => x.BatchScheduleAllocationId == entity.Id);
+                .FirstOrDefaultAsync(x => x.BatchScheduleAllocationId == entity.Id && !x.IsDeleted);
 
             if (hostelAllocation != null)
             {
                 await _allocationService.UpdateBedOrRoom(hostelAllocation, request.Bed, request.Room);
             }
-            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            // update hostel allocation
-            var allocation = await _unitOfWork.GetRepository<Allocation>()
-                    .FirstOrDefaultAsync(x => x.BatchScheduleAllocationId == entity.Id && !x.IsDeleted);
-
-            if (allocation != null)
+            if (oldBed != null && oldBed.Id != request.Bed)
             {
-                allocation.BedId = request.Bed;
-                allocation.RoomId = request.Room;
+                oldBed.IsBooked = false;
             }
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -100,13 +104,42 @@ namespace Module.Training.Data
         {
             if (request.Ids.Length > 0)
             {
-                var batchSchedules = await _batchSceduleAllocationRepository
+                var allocations = await _batchSceduleAllocationRepository
+                    .AsQueryable()
+                    .Include(x => x.BatchSchedule)
                     .Where(x => request.Ids.Contains(x.Id) && !x.IsDeleted)
                     .ToListAsync();
 
-                foreach (var batchSchedule in batchSchedules)
+                foreach (var allocation in allocations)
                 {
-                    batchSchedule.Status = (BatchScheduleAllocationStatus)request.Status;
+                    if (request.Status == (long)BatchScheduleAllocationStatus.Approved)
+                    {
+                        var totalApproved = await _batchSceduleAllocationRepository
+                            .AsReadOnly()
+                            .CountAsync(x => x.BatchScheduleId == allocation.BatchScheduleId
+                            && x.Status == BatchScheduleAllocationStatus.Approved
+                            && !x.IsDeleted);
+                        if (allocation.BatchSchedule.TotalSeat > totalApproved)
+                        {
+                            allocation.Status = (BatchScheduleAllocationStatus)request.Status;
+
+                            // booked hostel allocation
+                            var hostelAllocation = await _unitOfWork.GetRepository<Allocation>()
+                                .FirstOrDefaultAsync(x => x.BatchScheduleAllocationId == allocation.Id && !x.IsDeleted);
+                            if (hostelAllocation != null)
+                            {
+                                hostelAllocation.Status = AllocationStatus.Booked;
+                            }
+                        }
+                        else
+                        {
+                            _logger.LogInformation($"Batch allocation({allocation.Id}) can be approved because batch schedule reached the max seat qouta.");
+                        }
+                    }
+                    else
+                    {
+                        allocation.Status = (BatchScheduleAllocationStatus)request.Status;
+                    }
                 }
                 var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
                 return result > 0;
@@ -119,7 +152,7 @@ namespace Module.Training.Data
             var entity = await _batchSceduleAllocationRepository.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, true);
 
             if (entity == null)
-                throw new NotFoundException("Budget not found");
+                throw new NotFoundException("Batch allocation not found");
 
             entity.IsDeleted = true;
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

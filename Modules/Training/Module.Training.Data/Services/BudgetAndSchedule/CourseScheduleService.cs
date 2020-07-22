@@ -98,7 +98,7 @@ namespace Module.Training.Data
             foreach (var budget in request.Budgets)
             {
                 budget.CourseSchedule = request.Id;
-                if (budget.Id.HasValue)
+                if (budget.Id.HasValue && !budget.ReUsing)
                 {
                     // update
                     var dbBudget = await _budgetRepository

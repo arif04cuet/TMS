@@ -441,5 +441,6 @@
   "batch.checkout": "Batch checkout",
   "group.checkout.by.batch.schedule": "Group checkout by batch schedule",
   "applied.date": "Applied date",
-  "allocation.date": "Allocation date"
+  "allocation.date": "Allocation date",
+  "bed.and.room.both.can.not.be.choose": "Bed and room both can not be choose"
 }

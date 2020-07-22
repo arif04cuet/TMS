@@ -42,36 +42,26 @@
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+                        <th>{{'trainee'|translate}}</th>
                         <th>
-                            {{'trainee'|translate}}
-                        </th>
-                        <th>
+                            <div>{{'course'|translate}} </div>
                             <div>
-                                {{'course'|translate}}
-                            </div>
-                            <div>
-                                <app-select #courseSelect>
-                                </app-select>
+                                <app-select #courseSelect></app-select>
                             </div>
                         </th>
                         <th>
+                            <div>{{'schedule'|translate}}</div>
                             <div>
-                                {{'schedule'|translate}}
-                            </div>
-                            <div>
-                                <app-select #batchScheduleSelect>
-                                </app-select>
+                                <app-select #batchScheduleSelect></app-select>
                             </div>
                         </th>
                         <th>
+                            <div>{{'status'|translate}}</div>
                             <div>
-                                {{'status'|translate}}
-                            </div>
-                            <div>
-                                <app-select #statusSelect>
-                                </app-select>
+                                <app-select #statusSelect></app-select>
                             </div>
                         </th>
+                        <th>{{'bed'|translate}}</th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
@@ -92,6 +82,7 @@
                         <td>{{ data.course?.name }}</td>
                         <td>{{ data.batchSchedule?.name }}</td>
                         <td>{{ data.status?.name }}</td>
+                        <td>{{ data.bed?.name }}</td>
                         <td class="action-column fit-cell">
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">

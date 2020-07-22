@@ -9,6 +9,7 @@ namespace Module.Training.Data
         public string Category { get; set; }
         public long CourseSchedule { get; set; }
         public IEnumerable<BudgetItemRequest> Items { get; set; }
+        public bool ReUsing { get; set; }
 
         public Budget Map(Budget budget = null)
         {

@@ -41,11 +41,12 @@ export class BatchCheckoutModalComponent extends FormComponent {
   }
 
   checkout() {
-    this.log('batch checkout');
     this.validateForm(() => {
       const body = this.form.value;
       this.subscribe(this.allocationHttpService.batchSchedulesCheckout(body),
-        (res: any) => { },
+        (res: any) => {
+          this.close();
+        },
         err => { }
       );
     });

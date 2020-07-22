@@ -33,6 +33,8 @@ export class CourseScheduleAddComponent extends FormComponent {
   budgetAddEditTitle;
   detailsOptions = [];
 
+  private budgetReUsing = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private courseScheduleHttpService: CourseScheduleHttpService,
@@ -47,6 +49,7 @@ export class CourseScheduleAddComponent extends FormComponent {
   async ngOnInit() {
     this.submitButtonText = '';
     this.onCheckMode = id => this.get(id);
+    this.budgetReUsing = false;
 
     // course schedule form
     this.createForm({
@@ -231,6 +234,18 @@ export class CourseScheduleAddComponent extends FormComponent {
     this.subscribe(this.courseScheduleHttpService.get(e),
       (res: any) => {
         this.getBudgetFormArray().clear();
+        if (res && res.data && res.data.budgets?.length) {
+          res.data.budgets = res.data.budgets.map(x => {
+            delete x.id;
+            if (x.items && x.items?.length) {
+              x.items = x.items.map(y => {
+                delete y.id;
+                return y;
+              })
+            }
+            return x;
+          });
+        }
         this.prepareForm(res);
         this._messageService.remove(loading.messageId);
       },

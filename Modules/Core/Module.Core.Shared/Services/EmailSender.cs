@@ -33,19 +33,26 @@ namespace Module.Core.Shared
 
             using (var client = new SmtpClient())
             {
-                // Accept all SSL certificates (in case the server supports STARTTLS)
-                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                await client.ConnectAsync(_emailOptions.SmtpServer, Convert.ToInt32(_emailOptions.SmtpPort), false);
+                try
+                {
+                    // Accept all SSL certificates (in case the server supports STARTTLS)
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    await client.ConnectAsync(_emailOptions.SmtpServer, Convert.ToInt32(_emailOptions.SmtpPort), false);
 
-                // Note: since we don't have an OAuth2 token, disable
-                // the XOAUTH2 authentication mechanism.
-                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    // Note: since we don't have an OAuth2 token, disable
+                    // the XOAUTH2 authentication mechanism.
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
 
-                // Note: only needed if the SMTP server requires authentication
-                await client.AuthenticateAsync(_emailOptions.SenderEmailAddress, _emailOptions.Password);
+                    // Note: only needed if the SMTP server requires authentication
+                    await client.AuthenticateAsync(_emailOptions.SenderEmailAddress, _emailOptions.Password);
 
-                await client.SendAsync(message);
-                await client.DisconnectAsync(true);
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
         }
     }

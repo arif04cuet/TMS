@@ -12,6 +12,8 @@ import { BatchScheduleAllocationAddRoutingModule } from './batch-schedule-alloca
 import { BatchScheduleAllocationAddComponent } from './batch-schedule-allocation-add.component';
 import { BatchScheduleAllocationHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-allocation-http.service';
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
+import { BedHttpService } from 'src/services/http/hostel/bed-http.service';
+import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { CourseHttpService } from 'src/services/http/course/course-http.service'
     BatchScheduleHttpService,
     CourseHttpService,
     UserHttpService,
-    CommonValidator
+    CommonValidator,
+    BedHttpService,
+    RoomHttpService
   ]
 })
 export class BatchScheduleAllocationAddModule { }

@@ -106,14 +106,11 @@ export class AllocationAddComponent extends FormComponent {
     if (id != null) {
       this.subscribe(this.allocationHttpService.get(id),
         (res: any) => {
-          this.setValues(this.form.controls, res.data);
-          this.setValue('participant', res.data.user?.id);
           let roomOrBed = 'bed';
           if (res.data.room) {
             roomOrBed = 'room';
           }
           this.setValue('roomOrBed', roomOrBed);
-
           if (res.data.bed) {
             this.subscribe(this.bedHttpService.get(res.data.bed.id),
               (res: any) => {
@@ -134,7 +131,8 @@ export class AllocationAddComponent extends FormComponent {
                 this.loading = false;
               });
           }
-
+          this.setValues(this.form.controls, res.data);
+          this.setValue('participant', res.data.user?.id);
           this.loading = false;
         }
       );
