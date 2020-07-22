@@ -25,6 +25,17 @@ const routes: Routes = [
         title: 'add'
       }
     }
+  },
+  {
+    path: ':id/checkout',
+    loadChildren: () => import('../checkout/allocation-checkout.module').then(x => x.AllocationCheckoutModule),
+    data: {
+      name: 'allocation_checkout',
+      breadcrumb: {
+        icon: 'plus',
+        title: 'checkout'
+      }
+    }
   }
 ];
 

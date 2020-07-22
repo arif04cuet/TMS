@@ -59,13 +59,13 @@
                         <td>{{ data.amount }}</td>
                         <td>{{ data.status?.name }}</td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="data.status?.id == 1 || data.status?.id == 2" nz-button (click)="add(data)" class="btn-custom">
+                            <button nzType="primary" *ngIf="data.status?.id == 1" nz-button (click)="add(data)" class="btn-custom">
                                 {{'edit'|translate}}
                             </button>
-                            <button *ngIf="data.status?.id == 1" nz-button class="btn-custom">
+                            <button (click)="cancel(data)" *ngIf="data.status?.id == 1" nz-button class="btn-custom">
                                 {{'cancel'|translate}}
                             </button>
-                            <button *ngIf="data.status?.id == 2" nz-button class="btn-custom">
+                            <button nzType="primary" (click)="checkout(data)" *ngIf="data.status?.id == 2" nz-button class="btn-custom">
                                 {{'checkout'|translate}}
                             </button>
                         </td>

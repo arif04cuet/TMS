@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
-import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service';
 import { AllocationHttpService } from 'src/services/http/hostel/allocation-http.service';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { BedModalComponent } from '../bed-modal/bed-modal.component';
@@ -16,10 +15,10 @@ import { of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-allocation-add',
-  templateUrl: './allocation-add.component.html'
+  selector: 'app-allocation-checkout',
+  templateUrl: './allocation-checkout.component.html'
 })
-export class AllocationAddComponent extends FormComponent {
+export class AllocationCheckoutComponent extends FormComponent {
 
   loading: boolean = true;
   roomOrBed = 'bed';
@@ -33,7 +32,6 @@ export class AllocationAddComponent extends FormComponent {
     private activatedRoute: ActivatedRoute,
     private allocationHttpService: AllocationHttpService,
     private userHttpService: UserHttpService,
-    private hostelHttpService: HostelHttpService,
     private roomHttpService: RoomHttpService,
     private bedHttpService: BedHttpService,
     private v: CommonValidator,
@@ -46,22 +44,22 @@ export class AllocationAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       checkinDate: [null, [], this.checkingValidation.bind(this)],
-      roomOrBed: [this.roomOrBed],
+      roomOrBed: [],
       participant: [null, [], this.v.required.bind(this)],
       room: [],
       bed: [],
-      // checkoutDate: [null, [], this.onEditValidation.bind(this)],
-      // days: [null, [], this.onEditValidation.bind(this)],
-      // amount: [null, [], this.onEditValidation.bind(this)],
+      checkoutDate: [null, [], this.onEditValidation.bind(this)],
+      days: [null, [], this.onEditValidation.bind(this)],
+      amount: [null, [], this.onEditValidation.bind(this)],
       status: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
-    if(this.isAddMode()) {
+    if (this.isAddMode()) {
       this.submitButtonText = await this.t('checkin');
     }
     else if (this.isEditMode()) {
-      this.submitButtonText = await this.t('update');
+      this.submitButtonText = await this.t('checkout');
     }
   }
 
@@ -83,22 +81,18 @@ export class AllocationAddComponent extends FormComponent {
       return;
     }
     const body: any = this.constructObject(this.form.controls);
-    this.submitForm(
-      {
-        request: this.allocationHttpService.add(body),
-        succeed: res => {
+    this.validateForm(() => {
+      this.loading = true;
+      this.subscribe(this.allocationHttpService.checkout(this.id, body),
+        (res: any) => {
+          this.loading = false;
           this.cancel();
-          this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
+        },
+        err => {
+          this.loading = false;
         }
-      },
-      {
-        request: this.allocationHttpService.edit(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
-        }
-      }
-    );
+      );
+    });
   }
 
   get(id) {
@@ -134,7 +128,6 @@ export class AllocationAddComponent extends FormComponent {
                 this.loading = false;
               });
           }
-
           this.loading = false;
         }
       );
@@ -215,19 +208,25 @@ export class AllocationAddComponent extends FormComponent {
   }
 
   onCheckoutDate(e) {
-    if(!e)
+    if (!e)
       return;
 
     const checkout = e.toISOString();
     this.subscribe(this.allocationHttpService.getRent(this.id, checkout),
       (res: any) => {
-        if(res.data) {
+        if (res.data) {
           this.setValue('days', res.data.days);
           this.setValue('amount', res.data.amount);
         }
       },
       err => { }
     );
+  }
+
+  getValidCheckoutDate = (d: Date) => {
+    const now = new Date().getTime();
+    const r = d.getTime() <= now && d.getTime() >= new Date(this.form.controls.checkinDate.value).getTime();
+    return !r;
   }
 
   private getStatus() {

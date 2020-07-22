@@ -20,6 +20,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   @Output() onChange = new EventEmitter();
   @Input() labelKey = 'name';
   @Input() mandatory: boolean = false;
+  @Input() disabled: boolean = false;
   @Input() info: (item: any) => string | Promise<string>;
   @Input() mode: string = 'default';
   @Input() name: any = '';

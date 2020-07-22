@@ -62,7 +62,7 @@ namespace Module.Training.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> List([FromQuery] long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> List(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
             var result = await _batchScheduleGalleryService.ListAsync(id, pagingOptions, searchOptions);
             return result.ToOkResult();

@@ -58,7 +58,7 @@ namespace Module.Training.Data
             entity.IsDeleted = true;
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            if(result > 1)
+            if(result > 0)
             {
                 await _mediaService.DeleteMediaAsync(entity.MediaId);
             }

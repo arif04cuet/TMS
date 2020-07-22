@@ -29,6 +29,12 @@ namespace Module.Training.Entities
 
         public long? CertificateId { get; set; }
         public Certificate Certificate { get; set; }
+
+        public long? BedId { get; set; }
+        public Bed Bed { get; set; }
+
+        public long? RoomId { get; set; }
+        public Room Room { get; set; }
     }
 
     public enum BatchScheduleAllocationStatus : byte

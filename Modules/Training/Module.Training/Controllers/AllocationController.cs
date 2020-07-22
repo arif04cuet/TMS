@@ -51,6 +51,21 @@ namespace Module.Training.Controllers
             return result.ToCreatedResult();
         }
 
+        [HttpPut("{id}/checkout")]
+        public async Task<IActionResult> Checkout(long id, [FromBody] AllocationUpdateRequest request)
+        {
+            request.Id = id;
+            var result = await _allocationService.CheckoutAsync(request);
+            return result.ToCreatedResult();
+        }
+
+        [HttpPut("{id}/cancel")]
+        public async Task<IActionResult> Cancel(long id)
+        {
+            var result = await _allocationService.CancelAsync(id);
+            return result.ToCreatedResult();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {

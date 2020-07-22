@@ -7,9 +7,14 @@ namespace Module.Training.Data
     {
         public long BatchSchedule { get; set; }
         public long Course { get; set; }
+
         // UserId
         public long Trainee { get; set; }
+
         public DateTime AppliedDate { get; set; }
+
+        public long? Bed { get; set; }
+        public long? Room { get; set; }
 
         public BatchScheduleAllocationStatus Status { get; set; }
 
@@ -21,6 +26,8 @@ namespace Module.Training.Data
             entity.TraineeId = Trainee;
             entity.AppliedDate = AppliedDate;
             entity.Status = Status;
+            entity.BedId = Bed;
+            entity.RoomId = Room;
             return entity;
         }
     }

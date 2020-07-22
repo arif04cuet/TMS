@@ -18,16 +18,16 @@ namespace Module.Training.Entities
         public long? RoomId { get; set; }
         public Room Room { get; set; }
 
-        public long? BatchScheduleId { get; set; }
-        public BatchSchedule BatchSchedule { get; set; }
+        public long? BatchScheduleAllocationId { get; set; }
+        public BatchScheduleAllocation BatchScheduleAllocation { get; set; }
 
-        public long BuildingId { get; set; }
+        public long? BuildingId { get; set; }
         public Building Building { get; set; }
 
-        public long FloorId { get; set; }
+        public long? FloorId { get; set; }
         public Floor Floor { get; set; }
 
-        public long HostelId { get; set; }
+        public long? HostelId { get; set; }
         public Hostel Hostel { get; set; }
 
         public int Days { get; set; }

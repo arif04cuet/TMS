@@ -10,6 +10,8 @@ using Module.Core.Data;
 using System;
 using System.Linq;
 using Module.Core.Shared;
+using Infrastructure.Services;
+using Module.Core.Entities;
 
 namespace Module.Training.Data
 {
@@ -18,78 +20,60 @@ namespace Module.Training.Data
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Allocation> _allocationRepository;
+        private readonly IEmailSender _emailSender;
 
         public AllocationService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
             _allocationRepository = _unitOfWork.GetRepository<Allocation>();
+            _emailSender = emailSender;
         }
 
         public async Task<long> CreateAsync(AllocationCreateRequest request, CancellationToken cancellationToken = default)
         {
-
             if (!request.Bed.HasValue && !request.Room.HasValue)
                 throw new ValidationException("Room or bed required.");
 
             if (request.Bed.HasValue && request.Room.HasValue)
-                throw new ValidationException("Room and bed can be choose at the same time.");
+                throw new ValidationException("Room and bed can not be choose at the same time.");
 
             if (request.Status == AllocationStatus.Cancelled)
                 throw new ValidationException("Can not allocate for cancel.");
 
-            long? bedId = null;
-            long? roomId = null;
-            long buildingId = 0;
-            long hostelId = 0;
-            long floorId = 0;
-            if (request.Bed.HasValue)
-            {
-                var bed = await _unitOfWork.GetRepository<Bed>().FirstOrDefaultAsync(x => x.Id == request.Bed && !x.IsBooked && !x.IsDeleted);
-
-                if (bed == null)
-                    throw new ValidationException("Bed is allowed to allocaion");
-
-                bedId = bed.Id;
-                hostelId = bed.HostelId;
-                buildingId = bed.BuildingId;
-                floorId = bed.FloorId;
-
-                bed.IsBooked = true;
-            }
-
-            if (request.Room.HasValue)
-            {
-                var room = await _unitOfWork.GetRepository<Room>().FirstOrDefaultAsync(x => x.Id == request.Room && !x.IsBooked && !x.IsDeleted);
-
-                if (room == null)
-                    throw new ValidationException("Room is allowed to allocaion");
-
-                roomId = room.Id;
-                hostelId = room.HostelId;
-                buildingId = room.BuildingId;
-                floorId = room.FloorId;
-
-                room.IsBooked = true;
-            }
-
             var allocation = new Allocation
             {
-                BedId = bedId,
-                RoomId = roomId,
-                BuildingId = buildingId,
-                HostelId = hostelId,
-                FloorId = floorId,
                 UserId = request.Participant,
                 CheckinDate = request.CheckinDate,
                 Status = request.Status
             };
+
+            await UpdateBedOrRoom(allocation, request.Bed, request.Room);
             await _allocationRepository.AddAsync(allocation, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return allocation.Id;
         }
 
         public async Task<long> UpdateAsync(AllocationUpdateRequest request, CancellationToken cancellationToken = default)
+        {
+            var allocation = await _allocationRepository
+                .AsQueryable()
+                .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
+
+            if (allocation == null)
+                throw new ValidationException("Allocation not found");
+
+            await UpdateBedOrRoom(allocation, request.Bed, request.Room);
+
+            allocation.UserId = request.Participant;
+            allocation.CheckinDate = request.CheckinDate;
+
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return allocation.Id;
+        }
+
+        public async Task<long> CheckoutAsync(AllocationUpdateRequest request, CancellationToken cancellationToken = default)
         {
             var allocation = await _allocationRepository
                 .AsQueryable()
@@ -103,12 +87,6 @@ namespace Module.Training.Data
             if (allocation.BedId != null && allocation.RoomId != null)
                 throw new ValidationException("Allocation can not have both bed and room");
 
-            //if (request.Status == AllocationStatus.Booked && allocation.Status != AllocationStatus.TemporaryBooked)
-            //    throw new ValidationException($"{AllocationStatus.TemporaryBooked.ToString()} allocation can be changed as {AllocationStatus.Booked.ToString()}.");
-
-            //if (request.Status == AllocationStatus.TemporaryBooked)
-            //    throw new ValidationException($"Allocation can not be converted to {request.Status.ToString()}.");
-
             if (allocation.BedId.HasValue)
                 allocation.Bed.IsBooked = false;
 
@@ -121,6 +99,44 @@ namespace Module.Training.Data
             allocation.CheckoutDate = request.CheckoutDate;
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return allocation.Id;
+        }
+
+        public async Task<long> CancelAsync(long allocationId, CancellationToken cancellationToken = default)
+        {
+            var allocation = await _allocationRepository.FirstOrDefaultAsync(x => x.Id == allocationId && !x.IsDeleted);
+
+            if (allocation == null)
+                throw new ValidationException("Allocation not found");
+
+            Bed bed = await _unitOfWork.GetRepository<Bed>().FirstOrDefaultAsync(x => x.Id == allocation.BedId && !x.IsDeleted);
+
+            Room room = await _unitOfWork.GetRepository<Room>().FirstOrDefaultAsync(x => x.Id == allocation.RoomId && !x.IsDeleted);
+
+            if (bed != null)
+            {
+                bed.IsBooked = false;
+            }
+
+            if (room != null)
+            {
+                room.IsBooked = false;
+            }
+
+            allocation.Status = AllocationStatus.Cancelled;
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            if (result > 0)
+            {
+                var user = await _unitOfWork.GetRepository<User>().FirstOrDefaultAsync(x => x.Id == allocation.UserId && !x.IsDeleted);
+                if (user != null)
+                {
+                    string subject = $"Allocation({allocation.Id}) has been cancelled.";
+                    string text = $"Dear {user.FullName}\n\nYour allocation has been cancelled.";
+                    _ = _emailSender.SendAsync(user.Email, subject, text);
+                }
+            }
+
             return allocation.Id;
         }
 
@@ -216,11 +232,11 @@ namespace Module.Training.Data
         {
             var result = await _allocationRepository
                 .Paginate<Allocation, IdNameViewModel>(pagingOptions, searchOptions)
-                .Where(x => x.BatchScheduleId.HasValue)
+                .Where(x => x.BatchScheduleAllocationId.HasValue && (x.Status == AllocationStatus.TemporaryBooked || x.Status == AllocationStatus.Booked))
                 .Select(x => new IdNameViewModel
                 {
-                    Id = x.BatchSchedule.Id,
-                    Name = x.BatchSchedule.Name
+                    Id = x.BatchScheduleAllocation.BatchScheduleId,
+                    Name = x.BatchScheduleAllocation.BatchSchedule.Name
                 })
                 .ToListAsync(cancellationToken);
 
@@ -233,7 +249,7 @@ namespace Module.Training.Data
                 .AsQueryable()
                 .Include(x => x.Bed)
                 .Include(x => x.Room)
-                .Where(x => x.BatchScheduleId == request.BatchSchedule
+                .Where(x => x.BatchScheduleAllocation.BatchScheduleId == request.BatchSchedule
                 && x.Status != AllocationStatus.CheckedOut && !x.IsDeleted)
                 .ToListAsync();
 
@@ -257,6 +273,54 @@ namespace Module.Training.Data
                 result += await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
             return result;
+        }
+
+        public async Task UpdateBedOrRoom(Allocation a, long? bed, long? room, bool validation = true)
+        {
+            if (bed.HasValue && room.HasValue)
+                throw new ValidationException("Can not have both bed and room at the same time.");
+
+            Bed newBed = await _unitOfWork.GetRepository<Bed>().FirstOrDefaultAsync(x => x.Id == bed && !x.IsBooked && !x.IsDeleted);
+
+            if (validation && bed.HasValue && newBed == null)
+                throw new ValidationException("Bed is not allowed for allocaion");
+
+            Room newRoom = await _unitOfWork.GetRepository<Room>().FirstOrDefaultAsync(x => x.Id == room && !x.IsBooked && !x.IsDeleted);
+
+            if (validation && room.HasValue && newRoom == null)
+                throw new ValidationException("Room is not allowed for allocaion");
+
+            Bed oldBed = await _unitOfWork.GetRepository<Bed>()
+                    .FirstOrDefaultAsync(x => x.Id == a.BedId && !x.IsDeleted);
+
+            Room oldRoom = await _unitOfWork.GetRepository<Room>()
+                            .FirstOrDefaultAsync(x => x.Id == a.RoomId && !x.IsDeleted);
+
+            if (newBed != null)
+            {
+                a.HostelId = newBed.HostelId;
+                a.BuildingId = newBed.BuildingId;
+                a.FloorId = newBed.FloorId;
+                a.BedId = newBed.Id;
+                a.RoomId = null;
+                newBed.IsBooked = true;
+            }
+
+            if (newRoom != null)
+            {
+                a.HostelId = newRoom.HostelId;
+                a.BuildingId = newRoom.BuildingId;
+                a.FloorId = newRoom.FloorId;
+                a.RoomId = newRoom.Id;
+                a.BedId = null;
+                newRoom.IsBooked = true;
+            }
+
+            if (oldRoom != null)
+                oldRoom.IsBooked = false;
+
+            if (oldBed != null)
+                oldBed.IsBooked = false;
         }
 
     }

@@ -439,5 +439,7 @@
   "can.not.be.uploaded": "Can not be uploaded",
   "successfully.uploaded": "Successfully uploaded",
   "batch.checkout": "Batch checkout",
-  "group.checkout.by.batch.schedule": "Group checkout by batch schedule"
+  "group.checkout.by.batch.schedule": "Group checkout by batch schedule",
+  "applied.date": "Applied date",
+  "allocation.date": "Allocation date"
 }

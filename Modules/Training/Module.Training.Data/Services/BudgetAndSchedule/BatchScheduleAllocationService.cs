@@ -17,27 +17,52 @@ namespace Module.Training.Data
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IExcelService _excelService;
+        private readonly IAllocationService _allocationService;
         private readonly IRepository<BatchScheduleAllocation> _batchSceduleAllocationRepository;
 
         public BatchScheduleAllocationService(
             IUnitOfWork unitOfWork,
-            IExcelService excelService)
+            IExcelService excelService,
+            IAllocationService allocationService)
         {
             _unitOfWork = unitOfWork;
             _excelService = excelService;
+            _allocationService = allocationService;
             _batchSceduleAllocationRepository = _unitOfWork.GetRepository<BatchScheduleAllocation>();
         }
 
         public async Task<long> CreateAsync(BatchScheduleAllocationCreateRequest request, CancellationToken cancellationToken = default)
         {
+
+            if (request.Bed.HasValue && request.Room.HasValue)
+                throw new ValidationException("Allocation can not have both bed and room.");
+
             var entity = request.Map();
             await _batchSceduleAllocationRepository.AddAsync(entity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            if (request.Bed.HasValue || request.Room.HasValue)
+            {
+                // temporary booked hostel allocation
+                var hostelAllocation = new Allocation
+                {
+                    BatchScheduleAllocationId = entity.Id,
+                    Status = AllocationStatus.TemporaryBooked,
+                    UserId = entity.TraineeId
+                };
+                await _allocationService.UpdateBedOrRoom(hostelAllocation, request.Bed, request.Room);
+                result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+            }
+
             return entity.Id;
         }
 
         public async Task<bool> UpdateAsync(BatchScheduleAllocationUpdateRequest request, CancellationToken cancellationToken = default)
         {
+
+            if (request.Bed.HasValue && request.Room.HasValue)
+                throw new ValidationException("Allocation can not have both bed and room.");
+
             var entity = await _batchSceduleAllocationRepository
                 .AsQueryable()
                 .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
@@ -46,8 +71,28 @@ namespace Module.Training.Data
                 throw new NotFoundException($"Allocation not found");
 
             request.Map(entity);
-
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var hostelAllocation = await _unitOfWork.GetRepository<Allocation>()
+                .FirstOrDefaultAsync(x => x.BatchScheduleAllocationId == entity.Id);
+
+            if (hostelAllocation != null)
+            {
+                await _allocationService.UpdateBedOrRoom(hostelAllocation, request.Bed, request.Room);
+            }
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            // update hostel allocation
+            var allocation = await _unitOfWork.GetRepository<Allocation>()
+                    .FirstOrDefaultAsync(x => x.BatchScheduleAllocationId == entity.Id && !x.IsDeleted);
+
+            if (allocation != null)
+            {
+                allocation.BedId = request.Bed;
+                allocation.RoomId = request.Room;
+            }
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
             return result > 0;
         }
 

@@ -74,6 +74,21 @@ export class AllocationListComponent extends TableComponent {
     this.load();
   }
 
+  checkout(model) {
+    if (model) {
+      this.goTo(`/admin/hostels/allocations/${model.id}/checkout`);
+    }
+  }
 
+  cancel(model) {
+    if (model) {
+      this.subscribe(this.allocationHttpService.cancel(model.id),
+        (res: any) => {
+          this.refresh();
+        },
+        err => { }
+      );
+    }
+  }
 
 }

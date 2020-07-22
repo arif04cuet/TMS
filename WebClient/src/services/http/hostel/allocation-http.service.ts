@@ -20,4 +20,13 @@ export class AllocationHttpService extends BaseHttpService {
         return this.httpService.post(url, body);
     }
 
+    checkout(id, body) {
+        const url = `${this.END_POINT}/${id}/checkout`;
+        return this.httpService.put(url, body);
+    }
+
+    cancel(id) {
+        const url = `${this.END_POINT}/${id}/cancel`;
+        return this.httpService.put(url, null);
+    }
 }

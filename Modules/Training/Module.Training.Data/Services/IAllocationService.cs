@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Module.Core.Shared;
+using Module.Training.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System;
@@ -14,6 +15,10 @@ namespace Module.Training.Data
 
         Task<long> UpdateAsync(AllocationUpdateRequest request, CancellationToken cancellationToken = default);
 
+        Task<long> CheckoutAsync(AllocationUpdateRequest request, CancellationToken cancellationToken = default);
+
+        Task<long> CancelAsync(long allocationId, CancellationToken cancellationToken = default);
+
         Task<bool> DeleteAsync(long Id, CancellationToken cancellationToken = default);
 
         Task<AllocationViewModel> Get(long Id, CancellationToken cancellationToken = default);
@@ -25,6 +30,8 @@ namespace Module.Training.Data
         Task<PagedCollection<IdNameViewModel>> ListBatchScheduleAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<long> GroupCheckoutByBatchScheduleAsync(AllocationGroupCheckoutByBatchScheduleRequest request, CancellationToken cancellationToken = default);
+
+        Task UpdateBedOrRoom(Allocation a, long? bed, long? room, bool validate = true);
 
     }
 }

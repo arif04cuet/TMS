@@ -5,12 +5,7 @@
         <div class="content">
             <div class="header-container">
                 <span class="header">
-                    <span *ngIf="mode=='add'">
-                        {{ 'create.a.x0'|translate:{x0: 'allocation'|translate|lowercase} }}
-                    </span>
-                    <span *ngIf="mode=='edit'">
-                        {{ 'update.a.x0'|translate:{x0: 'allocation'|translate|lowercase} }}
-                    </span>
+                    {{ 'checkout'|translate }}
                 </span>
             </div>
         </div>
@@ -20,7 +15,7 @@
             <form nz-form [formGroup]="form">
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="12">
-                        <app-select-control [disabled]="mode == 'edit'" mandatory="true" #statusSelect label="status" labelKey="name"
+                        <app-select-control disabled="true" mandatory="true" #statusSelect label="status" labelKey="name"
                             [formControl]="form.controls.status">
                         </app-select-control>
                     </div>
@@ -32,24 +27,24 @@
                                 <label class="required">{{'checkin'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <nz-date-picker formControlName="checkinDate"></nz-date-picker>
+                                <nz-date-picker nzDisabled="true" formControlName="checkinDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #userSelect label="user" labelKey="fullName"
+                        <app-select-control disabled="true" mandatory="true" #userSelect label="user" labelKey="fullName"
                             [formControl]="form.controls.participant">
                         </app-select-control>
                     </div>
                 </div>
-                <!-- <div nz-row [nzGutter]="24" *ngIf="mode == 'edit'">
+                <div nz-row [nzGutter]="24" *ngIf="mode == 'edit'">
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'checkout'|translate}}</label>
+                                <label class="required">{{'checkout'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <nz-date-picker (ngModelChange)="onCheckoutDate($event)" formControlName="checkoutDate"></nz-date-picker>
+                                <nz-date-picker [nzDisabledDate]="getValidCheckoutDate" (ngModelChange)="onCheckoutDate($event)" formControlName="checkoutDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -75,7 +70,7 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-                </div> -->
+                </div>
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
@@ -83,7 +78,7 @@
                                 <label>{{'room.or.bed'|translate}}</label>
                             </div>
                             <nz-form-control>
-                                <nz-radio-group (ngModelChange)="optionChange($event)" formControlName="roomOrBed">
+                                <nz-radio-group nzDisabled="true" (ngModelChange)="optionChange($event)" formControlName="roomOrBed">
                                     <label nz-radio-button nzValue="bed">{{'bed'|translate}}</label>
                                     <label nz-radio-button nzValue="room">{{'room'|translate}}</label>
                                 </nz-radio-group>
@@ -94,10 +89,10 @@
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
                         <div class="field-container">
-                            <button *ngIf="roomOrBed == 'room'" (click)="selectRoom()" nz-button class="btn-custom">
+                            <button *ngIf="roomOrBed == 'room'" (click)="selectRoom()" nz-button class="btn-custom" disabled="true">
                                 {{'select.x0'|translate:{x0: 'room'} }}
                             </button>
-                            <button *ngIf="roomOrBed == 'bed'" (click)="selectBed()" nz-button class="btn-custom">
+                            <button *ngIf="roomOrBed == 'bed'" (click)="selectBed()" nz-button class="btn-custom" disabled="true">
                                 {{'select.x0'|translate:{x0: 'bed'} }}
                             </button>
                         </div>
@@ -138,7 +133,7 @@
                 {{'cancel'|translate}}
             </button>
             <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
-                {{submitButtonText|translate}}
+                {{'checkout'|translate}}
             </button>
         </div>
     </div>

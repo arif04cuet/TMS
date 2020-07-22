@@ -25,7 +25,7 @@ namespace Infrastructure.Data.EFCore
             base.OnConfiguring(optionsBuilder);
 
             var env = ProjectManager.Env;
-            if (env.Equals("Development"))
+            if (!string.IsNullOrEmpty(env) && env.Equals("Development"))
             {
                 optionsBuilder.EnableSensitiveDataLogging();
                 if(_loggerFacroty != null)
