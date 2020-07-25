@@ -13,6 +13,8 @@ import { RoomTypeHttpService } from 'src/services/http/hostel/room-type-http.ser
 import { BuildingHttpService } from 'src/services/http/hostel/building-http.service';
 import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service';
 import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.service';
+import { MediaHttpService } from 'src/services/http/media-http.service';
+import { PhotoUploadModule } from 'src/app/shared/photo.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectControlModule
+    SelectControlModule,
+    PhotoUploadModule
   ],
   exports: [RoomAddComponent],
   providers: [
@@ -36,7 +39,8 @@ import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.
     BuildingHttpService,
     HostelHttpService,
     FacilitiesHttpService,
-    CommonValidator
+    CommonValidator,
+    MediaHttpService
   ]
 })
 export class RoomAddModule { }

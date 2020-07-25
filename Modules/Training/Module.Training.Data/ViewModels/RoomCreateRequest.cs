@@ -10,6 +10,7 @@ namespace Module.Training.Data
         public long Building { get; set; }
         public long Hostel { get; set; }
         public long Floor { get; set; }
+        public long? Image { get; set; }
         public ICollection<BedRequest> Beds { get; set; }
         public long?[] Facilities { get; set; }
     }

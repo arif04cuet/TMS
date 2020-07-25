@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities;
+using Module.Core.Entities;
 using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
 using System.Collections.Generic;
@@ -36,6 +37,10 @@ namespace Module.Training.Entities
 
         [Searchable]
         public bool IsBooked { get; set; }
+
+        public long? ImageId { get; set; }
+        public Media Image { get; set; }
+
 
         public virtual ICollection<Bed> Beds { get; set; }
     }

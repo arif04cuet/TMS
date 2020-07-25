@@ -13,6 +13,8 @@ namespace Module.Training.Data
         public IdNameViewModel Hostel { get; set; }
         public ICollection<IdNameViewModel> Facilities { get; set; }
         public ICollection<IdNameViewModel> Beds { get; set; }
+        public long Image { get; set; }
+        public string ImageUrl { get; set; }
         public bool IsBooked { get; set; }
     }
 }

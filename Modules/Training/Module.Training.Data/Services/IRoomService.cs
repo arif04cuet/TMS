@@ -17,5 +17,6 @@ namespace Module.Training.Data
         Task<RoomViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<RoomViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+        Task<bool> DeleteImageAsync(long imageId, long? courseId, CancellationToken cancellationToken = default);
     }
 }

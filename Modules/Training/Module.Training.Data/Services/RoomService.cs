@@ -8,6 +8,8 @@ using Msi.UtilityKit.Search;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Module.Core.Data;
+using System.IO;
 
 namespace Module.Training.Data
 {
@@ -18,10 +20,15 @@ namespace Module.Training.Data
         private readonly IRepository<Room> _roomRepository;
         private readonly IRepository<Bed> _bedRepository;
         private readonly IRepository<RoomFacilities> _roomFacilityRepository;
+        private readonly IMediaService _mediaService;
+
 
         public RoomService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IMediaService mediaService
+            )
         {
+            _mediaService = mediaService;
             _unitOfWork = unitOfWork;
             _roomRepository = _unitOfWork.GetRepository<Room>();
             _bedRepository = _unitOfWork.GetRepository<Bed>();
@@ -38,6 +45,10 @@ namespace Module.Training.Data
                 HostelId = request.Hostel,
                 TypeId = request.RoomType
             };
+
+            if (request.Image.HasValue)
+                entity.ImageId = request.Image;
+
             await _roomRepository.AddAsync(entity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -71,6 +82,11 @@ namespace Module.Training.Data
             }
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            if (result > 0 && request.Image.HasValue)
+                await _mediaService.UseAsync(request.Image);
+
+
             return entity.Id;
         }
 
@@ -88,6 +104,24 @@ namespace Module.Training.Data
             entity.FloorId = request.Floor;
             entity.HostelId = request.Hostel;
             entity.TypeId = request.RoomType;
+
+
+            long? oldImageId = null;
+            long? newImageId = null;
+
+            //upload image
+            if (request.Image.HasValue)
+            {
+                oldImageId = entity.ImageId;
+                entity.ImageId = request.Image;
+                newImageId = entity.ImageId;
+            }
+            else
+            {
+                oldImageId = entity.ImageId;
+                entity.ImageId = null;
+            }
+
 
             foreach (var bed in request.Beds)
             {
@@ -125,6 +159,17 @@ namespace Module.Training.Data
             _bedRepository.RemoveRange(bedsToBeDelete);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            if (result > 0)
+            {
+                if (newImageId.HasValue)
+                    await _mediaService.UseAsync(newImageId);
+
+                if (oldImageId.HasValue)
+                    await _mediaService.DeleteMediaAsync(oldImageId);
+            }
+
+
             return result > 0;
         }
 
@@ -154,6 +199,8 @@ namespace Module.Training.Data
                     Hostel = IdNameViewModel.Map(x.Hostel),
                     IsBooked = x.IsBooked,
                     Type = IdNameViewModel.Map(x.Type),
+                    Image = x.ImageId.HasValue ? x.Image.Id : 0,
+                    ImageUrl = x.ImageId.HasValue ? Path.Combine(MediaConstants.Path, x.Image.FileName) : string.Empty,
                 })
                 .FirstOrDefaultAsync();
 
@@ -200,6 +247,37 @@ namespace Module.Training.Data
             var result = new PagedCollection<RoomViewModel>(items, total, pagingOptions);
             return result;
         }
+
+        public async Task<bool> DeleteImageAsync(long imageId, long? entityId, CancellationToken cancellationToken = default)
+        {
+            long result = 0;
+            if (entityId.HasValue)
+            {
+                var entity = await _roomRepository
+                .FirstOrDefaultAsync(x => x.Id == entityId && !x.IsDeleted);
+
+                if (entity == null)
+                    throw new NotFoundException("Image not found");
+
+                if (entity.ImageId.HasValue)
+                {
+                    // delete image association
+                    entity.ImageId = null;
+                    result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+                }
+                else
+                {
+                    entityId = null;
+                }
+            }
+
+            // delete physical file
+            if ((entityId.HasValue && result > 0) || !entityId.HasValue)
+                await _mediaService.DeleteMediaAsync(imageId);
+
+            return result > 0;
+        }
+
 
     }
 }

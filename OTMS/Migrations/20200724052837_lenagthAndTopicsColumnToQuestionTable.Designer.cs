@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200724052837_lenagthAndTopicsColumnToQuestionTable")]
+    partial class lenagthAndTopicsColumnToQuestionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -12217,9 +12219,6 @@ namespace OTMS.Migrations
                     b.Property<long>("HostelId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("ImageId")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -12251,8 +12250,6 @@ namespace OTMS.Migrations
                     b.HasIndex("FloorId");
 
                     b.HasIndex("HostelId");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("TypeId");
 
@@ -13854,10 +13851,6 @@ namespace OTMS.Migrations
                         .HasForeignKey("HostelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Module.Core.Entities.Media", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
 
                     b.HasOne("Module.Training.Entities.RoomType", "Type")
                         .WithMany()

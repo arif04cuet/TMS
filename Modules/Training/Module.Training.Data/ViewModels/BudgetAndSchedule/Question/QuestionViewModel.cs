@@ -11,7 +11,9 @@ namespace Module.Training.Data
         public long Id { get; set; }
         public string Title { get; set; }
         public int Mark { get; set; }
+        public int? AnswerLength { get; set; }
         public IdNameViewModel Type { get; set; }
+        public IEnumerable<IdNameViewModel> Topics { get; set; }
         public IEnumerable<QuestionOptionViewModel> Options { get; set; }
 
         public static Expression<Func<Question, QuestionViewModel>> Select()
@@ -21,6 +23,7 @@ namespace Module.Training.Data
                 Id = x.Id,
                 Mark = x.Mark,
                 Title = x.Title,
+                AnswerLength = x.AnswerLength,
                 Type = new IdNameViewModel { Id = (long)x.Type, Name = x.Type.ToString() },
                 //Options = x.Options.Select(y => new QuestionOptionViewModel
                 //{

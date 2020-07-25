@@ -25,11 +25,13 @@
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
                 (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
                 nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>{{'title'|translate}}</th>
+                        <th>{{'title'|translate}} <input [(ngModel)]="name" nz-input /></th>
                         <th>{{'type'|translate}}</th>
+                        <th>{{'mark'|translate}}</th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
@@ -41,6 +43,7 @@
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.title }}</td>
                         <td>{{ data.type?.name }}</td>
+                        <td>{{ data.mark }}</td>
                         <td class="action-column fit-cell">
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">

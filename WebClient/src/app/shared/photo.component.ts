@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
   <div>
     <label>{{label|translate}}</label>
   </div>
-  <div class="photo-uploader cursor-pointer">
+  <div [class]="uploaderClass + ' cursor-pointer' ">
     <div class="container">
         <input (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
         <div class="placeholder" *ngIf="!photoLoading && !photoUrl">
@@ -38,6 +38,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class PhotoUploadComponent {
 
+  @Input() uploaderClass: string = 'photo-uploader';
   @Input() label;
   @Input() photoUrl;
   @Input() control: FormControl;

@@ -11,7 +11,10 @@ import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service'
 import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.service';
 import { forEachObj } from 'src/services/utilities.service';
 import { AbstractControl, FormArray } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { MediaHttpService } from 'src/services/http/media-http.service';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-room-add',
@@ -20,6 +23,10 @@ import { map } from 'rxjs/operators';
 export class RoomAddComponent extends FormComponent {
 
   loading: boolean = true;
+
+  imageUrl;
+  imageLoading = false;
+
 
   @ViewChild('typeSelect') typeSelect: SelectControlComponent;
   @ViewChild('buildingSelect') buildingSelect: SelectControlComponent;
@@ -33,6 +40,7 @@ export class RoomAddComponent extends FormComponent {
     private buildingHttpService: BuildingHttpService,
     private hostelHttpService: HostelHttpService,
     private facilitiesHttpService: FacilitiesHttpService,
+    private mediaHttpService: MediaHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -46,7 +54,8 @@ export class RoomAddComponent extends FormComponent {
       building: [null, [], this.v.required.bind(this)],
       floor: [null, [], this.v.required.bind(this)],
       facilities: [],
-      beds: this.fb.array([])
+      beds: this.fb.array([]),
+      image: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -114,6 +123,11 @@ export class RoomAddComponent extends FormComponent {
           this.form.controls.beds = this.fb.array([]);
           this.prepareForm(res);
           this.loading = false;
+
+          if (res.data.image) {
+            this.imageUrl = `${environment.serverUri}/${res.data.imageUrl}`;
+
+          }
         }
       );
     }
@@ -175,6 +189,18 @@ export class RoomAddComponent extends FormComponent {
 
   private getBedFormArray(): FormArray {
     return this.form.get("beds") as FormArray;
+  }
+
+  imageDeleteHandler = imageId => {
+    return this.roomHttpService
+      .deleteImage(imageId, this.id || null)
+      .pipe(
+        map(x => {
+          console.log('course image delete', x);
+          return true
+        }),
+        catchError(_ => of(false))
+      );
   }
 
 }

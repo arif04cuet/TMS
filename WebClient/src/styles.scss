@@ -680,6 +680,49 @@ nz-header .ant-badge-count {
   }
 }
 
+.rectangular-uploader {
+  display: flex;
+  justify-content: center;
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+  .container, img {
+    width: 100%;
+    height: 150px;
+  }
+
+  .overlay {
+    position: absolute;
+    height: 152px;
+    width: 152px;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: #fff;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center; 
+  }
+  
+  .container:hover .overlay {
+    opacity: 1;
+  }
+  
+  .icon {
+    color: black;
+    font-size: 22px;
+  }
+}
 .ant-result {
   height: 100%;
   display: flex;

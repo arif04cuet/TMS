@@ -25,6 +25,12 @@
                             [formControl]="form.controls.type" #typeSelect label="type">
                         </app-select-control>
                     </div>
+
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mode='multiple' #topicSelect label="question.topics"
+                            [formControl]="form.controls.topics">
+                        </app-select-control>
+                    </div>
                 </div>
 
                 <div nz-row [nzGutter]="24">
@@ -52,6 +58,20 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
+
+                    <div nz-col [nzSpan]="8" *ngIf="selectedType == 2">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'answer.length'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="number" nz-input formControlName="answerLength"
+                                    placeholder="{{'asnwer.length'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+
                 </div>
 
                 <div *ngIf="selectedType == 1">

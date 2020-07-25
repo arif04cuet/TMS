@@ -69,16 +69,14 @@
                         </nz-form-item>
                     </div>
 
-                </div>
-
-                <div nz-row>
                     <div nz-col [nzSpan]="8">
                         <div class="field-container">
-                            <app-photo-upload [control]="form.controls.image" label="photo"
-                                [photoUrl]="imageUrl" [delete]="imageDeleteHandler">
+                            <app-photo-upload [control]="form.controls.image" label="photo" [photoUrl]="imageUrl"
+                                [delete]="imageDeleteHandler">
                             </app-photo-upload>
                         </div>
                     </div>
+
                 </div>
 
                 <div nz-row [nzGutter]="24">
@@ -152,8 +150,8 @@
                                     placeholder="{{'marks'|translate}}" />
                             </td>
                             <td>
-                                <input readonly (input)="durationChanged()" type="number" [(ngModel)]="data.duration" nz-input
-                                    placeholder="{{'duration'|translate}}" />
+                                <input readonly (input)="durationChanged()" type="number" [(ngModel)]="data.duration"
+                                    nz-input placeholder="{{'duration'|translate}}" />
                             </td>
                             <td class="action-column fit-cell">
                                 <button nz-button class="btn-custom" (click)="deleteModule(data)">

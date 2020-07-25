@@ -11,6 +11,7 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { QuestionAddRoutingModule } from './question-add-routing.module'
 import { QuestionHttpService } from 'src/services/http/budget-and-schedule/question-http.service';
 import { QuestionAddComponent } from './question-add.component';
+import { TopicHttpService } from 'src/services/http/course/topic-http.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { QuestionAddComponent } from './question-add.component';
     CourseScheduleHttpService,
     QuestionHttpService,
     UserHttpService,
-    CommonValidator
+    CommonValidator,
+    TopicHttpService
   ]
 })
 export class QuestionAddModule { }

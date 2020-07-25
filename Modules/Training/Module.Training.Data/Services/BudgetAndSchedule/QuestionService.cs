@@ -8,6 +8,7 @@ using Msi.UtilityKit.Search;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Module.Core.Shared;
 
 namespace Module.Training.Data
 {
@@ -17,6 +18,9 @@ namespace Module.Training.Data
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Question> _questionRepository;
         private readonly IRepository<QuestionOption> _questionOptionRepository;
+        private readonly IRepository<TopicQuestion> _topicQuestionRepository;
+
+
 
         public QuestionService(
             IUnitOfWork unitOfWork)
@@ -24,6 +28,8 @@ namespace Module.Training.Data
             _unitOfWork = unitOfWork;
             _questionRepository = _unitOfWork.GetRepository<Question>();
             _questionOptionRepository = _unitOfWork.GetRepository<QuestionOption>();
+            _topicQuestionRepository = _unitOfWork.GetRepository<TopicQuestion>();
+
         }
 
         public async Task<long> CreateAsync(QuestionCreateRequest request, CancellationToken cancellationToken = default)
@@ -32,6 +38,15 @@ namespace Module.Training.Data
             await _questionRepository.AddAsync(entity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            //save topics
+            var topics = request.Topics.Select(x => new TopicQuestion
+            {
+                QuestionId = entity.Id,
+                TopicId = x
+            });
+            await _topicQuestionRepository.AddRangeAsync(topics);
+
+            //save options
             var options = request.Options.Select(x => new QuestionOption
             {
                 IsCorrect = x.IsCorrect,
@@ -54,6 +69,23 @@ namespace Module.Training.Data
                 throw new NotFoundException($"Question not found");
 
             request.Map(entity);
+
+
+            //update topics
+
+            await _topicQuestionRepository.UpdateAsync(
+                           request.Topics,
+                           x => x.QuestionId == request.Id,
+                           x => x.TopicId,
+                           x => new TopicQuestion
+                           {
+                               QuestionId = request.Id,
+                               TopicId = x
+                           },
+                           ids => x => ids.Contains(x.TopicId) && x.QuestionId == request.Id
+                           );
+
+            //update options
 
             foreach (var option in request.Options)
             {
@@ -114,6 +146,18 @@ namespace Module.Training.Data
                     Option = x.Option
                 })
                 .ToListAsync(cancellationToken);
+
+
+            //get topics
+            item.Topics = await _topicQuestionRepository
+                            .AsReadOnly()
+                            .Where(x => x.QuestionId == id && !x.IsDeleted)
+                            .Select(x => new IdNameViewModel
+                            {
+                                Id = x.TopicId,
+                                Name = x.Topic.Name
+                            })
+                            .ToListAsync();
 
             return item;
         }

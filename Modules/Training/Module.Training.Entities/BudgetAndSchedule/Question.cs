@@ -10,9 +10,12 @@ namespace Module.Training.Entities
     {
         public string Title { get; set; }
         public int Mark { get; set; }
+        public int? AnswerLength { get; set; }
+
         public QuestionType Type { get; set; }
 
         public virtual IEnumerable<QuestionOption> Options { get; set; }
+        public virtual ICollection<TopicQuestion> Topics { get; set; }
     }
 
     public enum QuestionType

@@ -7,6 +7,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RoomListComponent } from './room-list.component';
 import { RoomListRoutingModule } from './room-list-routing.module';
 import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
+import { RoomTypeHttpService } from 'src/services/http/hostel/room-type-http.service';
+import { SelectModule } from 'src/app/shared/select/select.module';
 
 @NgModule({
   declarations: [
@@ -20,11 +22,13 @@ import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    SelectModule
   ],
   exports: [RoomListComponent],
   providers: [
-    RoomHttpService
+    RoomHttpService,
+    RoomTypeHttpService
   ]
 })
 export class RoomListModule { }

@@ -22,7 +22,7 @@ namespace Module.Training.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> List([FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
             var result = await _roomService.ListAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
@@ -54,6 +54,13 @@ namespace Module.Training.Controllers
         public async Task<IActionResult> Delete(long id)
         {
             await _roomService.DeleteAsync(id);
+            return NoContent();
+        }
+
+        [HttpDelete("{id?}/images/{imageId}")]
+        public async Task<IActionResult> DeleteImage(long imageId, long? id)
+        {
+            await _roomService.DeleteImageAsync(imageId, id);
             return NoContent();
         }
 

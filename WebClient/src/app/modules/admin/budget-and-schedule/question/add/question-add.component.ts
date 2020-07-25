@@ -6,6 +6,7 @@ import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { QuestionHttpService } from 'src/services/http/budget-and-schedule/question-http.service';
 import { forEachObj } from 'src/services/utilities.service';
+import { TopicHttpService } from 'src/services/http/course/topic-http.service';
 import { FormArray, AbstractControl } from '@angular/forms';
 
 @Component({
@@ -17,10 +18,12 @@ export class QuestionAddComponent extends FormComponent {
   loading: boolean = true;
   selectedType;
   @ViewChild('typeSelect') typeSelect: SelectControlComponent;
+  @ViewChild('topicSelect') topicSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private questionHttpService: QuestionHttpService,
+    private TopicHttpService: TopicHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -30,6 +33,8 @@ export class QuestionAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       type: [null, [], this.v.required.bind(this)],
+      topics: [null, [], this.v.required.bind(this)],
+      answerLength: [],
       title: [null, [], this.v.required.bind(this)],
       mark: [null, [], this.v.required.bind(this)],
       options: this.fb.array([])
@@ -40,6 +45,10 @@ export class QuestionAddComponent extends FormComponent {
   ngAfterViewInit() {
     this.typeSelect.register((pagination, search) => {
       return this.questionHttpService.listTypes();
+    }).fetch();
+
+    this.topicSelect.register((pagination, search) => {
+      return this.TopicHttpService.list();
     }).fetch();
 
   }
