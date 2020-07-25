@@ -1,4 +1,5 @@
 ﻿using Module.Training.Entities;
+using Msi.UtilityKit.Search;
 using System;
 using System.Collections.Generic;
 
@@ -9,10 +10,14 @@ namespace Module.Training.Data
         public string Name { get; set; }
         public long BatchSchedule { get; set; }
         public long EvaluationMethod { get; set; }
+        public ExamEvaluationType? EvaluationType { get; set; }
+        public ExamQuestionType? QuestionType { get; set; }
         public int Mark { get; set; }
         public int TotalMinutes { get; set; }
+        public int ExtraTime { get; set; }
         public ExamStatus Status { get; set; }
         public DateTime ExamDate { get; set; }
+        public bool IsOnline { get; set; }
 
         public IEnumerable<ExamQuestionRequest> Questions { get; set; }
 
@@ -26,6 +31,10 @@ namespace Module.Training.Data
             entity.TotalMinutes = TotalMinutes;
             entity.Status = Status;
             entity.ExamDate = ExamDate;
+            entity.EvaluationType = EvaluationType;
+            entity.QuestionType = QuestionType;
+            entity.ExtraTime = ExtraTime;
+            entity.IsOnline = IsOnline;
             return entity;
         }
     }

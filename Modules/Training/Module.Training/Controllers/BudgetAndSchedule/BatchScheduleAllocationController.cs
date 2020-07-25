@@ -72,6 +72,13 @@ namespace Module.Training.Controllers
             return result.ToOkResult();
         }
 
+        [HttpPut("migrate")]
+        public async Task<IActionResult> MigrateToNextBatch([FromBody] MigrateToNextBatchRequest request)
+        {
+            var result = await _batchScheduleAllocationService.MigrateToNextBatchAsync(request);
+            return result.ToOkResult();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {

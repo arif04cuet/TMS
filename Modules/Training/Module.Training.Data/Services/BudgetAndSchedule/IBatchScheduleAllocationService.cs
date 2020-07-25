@@ -14,6 +14,8 @@ namespace Module.Training.Data
 
         Task<bool> UpdateStatusAsync(BatchScheduleAllocationUpdateStatusRequest request, CancellationToken cancellationToken = default);
 
+        Task<bool> MigrateToNextBatchAsync(MigrateToNextBatchRequest request, CancellationToken cancellationToken = default);
+
         Task<bool> DeleteAsync(long Id, CancellationToken cancellationToken = default);
 
         Task<BatchScheduleAllocationViewModel> Get(long Id, CancellationToken cancellationToken = default);

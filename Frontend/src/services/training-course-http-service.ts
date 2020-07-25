@@ -18,5 +18,15 @@ export class TrainingCourseHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
+    apply(id, data) {
+        const url = this.buildUrl(`courses/${id}/apply`)
+        return this.httpService.post(url, data);
+    }
+
+    beds(pagination = null, search = null) {
+        const url = `hostels/beds`
+        return this.httpService.get(this.buildUrl(url, pagination, search, 'Search=IsBooked eq false'));
+    }
+
 
 }

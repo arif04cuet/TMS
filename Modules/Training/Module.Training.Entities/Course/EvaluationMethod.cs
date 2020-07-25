@@ -8,5 +8,6 @@ namespace Module.Training.Entities
     public class EvaluationMethod : IdNameEntity
     {
         public int Mark { get; set; }
+        public bool UseInExam { get; set; }
     }
 }

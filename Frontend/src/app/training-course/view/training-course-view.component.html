@@ -1,0 +1,17 @@
+<div class="course">
+  <div class="title">
+    <h2>Training Course Details</h2>
+  </div>
+  <!-- <div *ngIf="item"> -->
+    <div class="course-title">
+      <h3>
+        <span>{{item?.courseSchedule?.name}}</span>
+      </h3>
+      <!-- <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag> -->
+    </div>
+    <div>
+      <p>Category: {{item?.category?.name}}</p>
+    </div>
+    <button (click)="apply(item)" nz-button nzType="primary">Apply</button>
+  <!-- </div> -->
+</div>

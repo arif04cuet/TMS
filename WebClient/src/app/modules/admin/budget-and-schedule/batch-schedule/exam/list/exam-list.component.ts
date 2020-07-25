@@ -2,6 +2,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http.service';
+import { Searchable } from 'src/decorators/searchable.decorator';
+import { progress, createAnchorAndFireForDownload } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-exam-list',
@@ -9,8 +11,10 @@ import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http
 })
 export class ExamListComponent extends TableComponent {
 
-  private batchScheduleId;
+  @Searchable("Name", "like") name;
+  @Searchable("ExamDate", "eq") examDate;
   @Output() onAction = new EventEmitter();
+  private batchScheduleId;
 
   constructor(
     private examHttpService: ExamHttpService,
@@ -62,6 +66,17 @@ export class ExamListComponent extends TableComponent {
     super.load((p, s) => {
       return this.examHttpService.list2(this.batchScheduleId, p, s);
     });
+  }
+
+  download(res) {
+    this.subscribe(this.examHttpService.download(res.id),
+      res => progress(res, null, (data: Blob) => {
+        createAnchorAndFireForDownload(data, "exam-paper.pdf");
+        this.load();
+        this.success('success');
+      }),
+      err => this.loading = false
+    );
   }
 
 }

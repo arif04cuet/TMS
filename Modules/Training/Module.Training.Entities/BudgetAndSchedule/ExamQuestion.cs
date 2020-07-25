@@ -13,6 +13,8 @@ namespace Module.Training.Entities
         public long QuestionId { get; set; }
         public Question Question { get; set; }
 
+        public int Mark { get; set; }
+
     }
 
 }

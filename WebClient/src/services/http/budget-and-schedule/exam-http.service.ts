@@ -17,8 +17,8 @@ export class ExamHttpService extends BaseHttpService {
         const data = {
             data: {
                 items: [
-                    {id: 1, name: 'Completed'},
-                    {id: 2, name: 'Pending'}
+                    { id: 1, name: 'Completed' },
+                    { id: 2, name: 'Pending' }
                 ],
                 size: 2
             }
@@ -34,6 +34,12 @@ export class ExamHttpService extends BaseHttpService {
     updateResult(examId, body) {
         const url = `${this.END_POINT}/${examId}/result`;
         return this.httpService.put(url, body);
+    }
+
+    download(examId) {
+        const url = `trainings/batch-schedules/exams/${examId}/download`;
+        const req = this.httpService.download(url, {});
+        return this.httpService.getClient().request(req);
     }
 
 }

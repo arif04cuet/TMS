@@ -9,6 +9,8 @@ import { HomeModule } from './home/home.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpService } from 'src/services/http.service';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { AuthService } from 'src/services/auth.service';
+import { SecurityService } from 'src/services/security.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
   providers: [
     HttpService,
     NzMessageService,
-    NzModalService
+    NzModalService,
+    AuthService,
+    SecurityService
   ],
   bootstrap: [AppComponent]
 })

@@ -38,6 +38,12 @@ export class HomeComponent extends BaseComponent {
       },
       {
         level: 1,
+        title: 'my.exam',
+        route: '/admin/trainings/my-exam',
+        icon: 'dashboard',
+      },
+      {
+        level: 1,
         title: 'user',
         icon: 'team',
         nav: [

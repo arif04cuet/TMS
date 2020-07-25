@@ -5,6 +5,9 @@ import { FooterModule } from '../footer/footer.module';
 import { RouterModule } from '@angular/router';
 import { LibraryMemberRegistrationModule } from '../library-member-registration/library-member-registration.module';
 import { TrainingCourseModule } from '../training-course/training-course.module';
+import { TrainingCourseViewModule } from '../training-course/view/training-course-view.module';
+import { TrainingCourseApplyModule } from '../training-course/apply/training-course-apply.module';
+import { LoginModule } from '../login/login.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import { TrainingCourseModule } from '../training-course/training-course.module'
     HeaderModule,
     FooterModule,
     LibraryMemberRegistrationModule,
-    TrainingCourseModule
+    TrainingCourseModule,
+    TrainingCourseViewModule,
+    TrainingCourseApplyModule,
+    LoginModule
   ],
   exports: [HomeComponent]
 })

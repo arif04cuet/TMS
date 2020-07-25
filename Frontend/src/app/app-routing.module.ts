@@ -3,6 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LibraryMemberRegistrationComponent } from './library-member-registration/library-member-registration.component';
 import { TrainingCourseComponent } from './training-course/training-course.component';
+import { TrainingCourseViewComponent } from './training-course/view/training-course-view.component';
+import { TrainingCourseApplyComponent } from './training-course/apply/training-course-apply.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
@@ -11,12 +14,24 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
         path: 'member-registration',
         component: LibraryMemberRegistrationComponent
       },
       {
         path: 'course',
         component: TrainingCourseComponent
+      },
+      {
+        path: 'course/:id',
+        component: TrainingCourseViewComponent
+      },
+      {
+        path: 'course/:id/apply',
+        component: TrainingCourseApplyComponent
       }
     ]
   }

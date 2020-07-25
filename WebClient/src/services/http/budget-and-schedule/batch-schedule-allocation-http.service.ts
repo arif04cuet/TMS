@@ -26,6 +26,11 @@ export class BatchScheduleAllocationHttpService extends BaseHttpService {
         return this.httpService.put(url, body);
     }
 
+    migrateToNextBatch(body: any) {
+        const url = `${this.END_POINT}/migrate`;
+        return this.httpService.put(url, body);
+    }
+
     export(search) {
         const url = `${this.buildUrl(this.END_POINT + '/export')}${search}`;
         const req = this.httpService.download(url, {});

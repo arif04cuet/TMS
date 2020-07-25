@@ -19,6 +19,8 @@ namespace Module.Training.Data
 
         Task<PagedCollection<BatchScheduleViewModel>> ListAsync(string scheduleStatus, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
+        Task<PagedCollection<IdNameViewModel>> ListDropdownAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
         Task<PagedCollection<BatchScheduleParticipantViewModel>> ParticipantListAsync(long batchScheduleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<IdNameViewModel>> ListModuleAsync(long batchScheduleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);

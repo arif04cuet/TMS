@@ -24,5 +24,11 @@ export class BatchScheduleHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
+    dropdown(pagination, search) {
+        let url = `${this.END_POINT}/dropdown`;
+        url = this.buildUrl(url, pagination, search);
+        return this.httpService.get(url);
+    }
+
 
 }

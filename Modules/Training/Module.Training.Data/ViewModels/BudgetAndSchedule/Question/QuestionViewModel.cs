@@ -2,6 +2,7 @@
 using Module.Training.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Module.Training.Data
@@ -25,12 +26,12 @@ namespace Module.Training.Data
                 Title = x.Title,
                 AnswerLength = x.AnswerLength,
                 Type = new IdNameViewModel { Id = (long)x.Type, Name = x.Type.ToString() },
-                //Options = x.Options.Select(y => new QuestionOptionViewModel
-                //{
-                //    Id = y.Id,
-                //    IsCorrect = y.IsCorrect,
-                //    Option = y.Option
-                //})
+                Options = x.Options.Select(y => new QuestionOptionViewModel
+                {
+                    Id = y.Id,
+                    IsCorrect = y.IsCorrect,
+                    Option = y.Option
+                })
             };
         }
     }

@@ -100,6 +100,17 @@ namespace Module.Training.Data
             return result;
         }
 
+        public async Task<PagedCollection<IdNameViewModel>> ListDropdownAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var result = await _batchScheduleRepository.ListAsync(x => new IdNameViewModel
+            {
+                Id = x.Id,
+                Name = x.Name
+            },
+            pagingOptions, searchOptions, cancellationToken);
+            return result;
+        }
+
         public async Task<PagedCollection<IdNameViewModel>> ListModuleAsync(long batchScheduleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var repo = _unitOfWork.GetRepository<Course_CourseModule>();

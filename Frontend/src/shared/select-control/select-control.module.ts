@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NzFormModule, NzSelectModule, NzSpinModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectControlComponent } from './select-control.component';
-import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -14,8 +13,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
-    SharedModule
+    NzSelectModule,
+    NzSpinModule
   ],
   exports: [SelectControlComponent]
 })

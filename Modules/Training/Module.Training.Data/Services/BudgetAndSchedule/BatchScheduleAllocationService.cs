@@ -110,6 +110,7 @@ namespace Module.Training.Data
                     .Where(x => request.Ids.Contains(x.Id) && !x.IsDeleted)
                     .ToListAsync();
 
+                int result = 0;
                 foreach (var allocation in allocations)
                 {
                     if (request.Status == (long)BatchScheduleAllocationStatus.Approved)
@@ -133,15 +134,49 @@ namespace Module.Training.Data
                         }
                         else
                         {
-                            _logger.LogInformation($"Batch allocation({allocation.Id}) can be approved because batch schedule reached the max seat qouta.");
+                            throw new ValidationException($"Can not be approved because batch schedule reached the maximum seat qouta.");
                         }
                     }
                     else
                     {
                         allocation.Status = (BatchScheduleAllocationStatus)request.Status;
                     }
+                    result += await _unitOfWork.SaveChangesAsync(cancellationToken);
                 }
-                var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+                return result > 0;
+            }
+            return false;
+        }
+
+        public async Task<bool> MigrateToNextBatchAsync(MigrateToNextBatchRequest request, CancellationToken cancellationToken = default)
+        {
+            if (request.Ids.Length > 0)
+            {
+                var allocations = await _batchSceduleAllocationRepository
+                    .AsQueryable()
+                    .Include(x => x.BatchSchedule)
+                    .Where(x => request.Ids.Contains(x.Id) && !x.IsDeleted)
+                    .ToListAsync();
+
+                int result = 0;
+                foreach (var allocation in allocations)
+                {
+                    // find batch schedule's of course schedule
+                    var nextBatchSchedule = await _unitOfWork.GetRepository<BatchSchedule>()
+                        .Where(x => x.CourseScheduleId == allocation.BatchSchedule.CourseScheduleId
+                        && x.Id != allocation.BatchScheduleId
+                        && x.StartDate > allocation.BatchSchedule.StartDate
+                        && !x.IsDeleted)
+                        .OrderBy(x => x.StartDate)
+                        .FirstOrDefaultAsync(cancellationToken);
+
+                    if (nextBatchSchedule == null)
+                        throw new ValidationException("Next batch not found.");
+
+                    allocation.Status = BatchScheduleAllocationStatus.Waiting;
+                    allocation.BatchScheduleId = nextBatchSchedule.Id;
+                    result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+                }
                 return result > 0;
             }
             return false;

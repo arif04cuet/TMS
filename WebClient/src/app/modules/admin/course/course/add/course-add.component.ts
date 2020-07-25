@@ -248,7 +248,7 @@ export class CourseAddComponent extends FormComponent {
       nzContent: component,
       nzGetContainer: () => document.body,
       nzComponentParams: {},
-      nzFooter: this.modalFooter
+      nzFooter: null
     });
   }
 
@@ -284,7 +284,7 @@ export class CourseAddComponent extends FormComponent {
       .deleteImage(imageId, this.id || null)
       .pipe(
         map(x => {
-          console.log('course image delete', x);
+          this.log('course image delete', x);
           return true
         }),
         catchError(_ => of(false))

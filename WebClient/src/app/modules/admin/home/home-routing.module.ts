@@ -660,6 +660,17 @@ const routes: Routes = [
             title: 'questions'
           }
         }
+      },
+      {
+        path: 'trainings/my-exam',
+        loadChildren: () => import('../budget-and-schedule/batch-schedule/exam/my-exam/my-exam-list.module').then(x => x.MyExamListModule),
+        data: {
+          name: 'my_exam_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'my.exams'
+          }
+        }
       }
     ]
   },

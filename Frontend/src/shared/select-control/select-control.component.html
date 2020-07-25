@@ -1,10 +1,10 @@
-<!-- <nz-form-item class="field-container">
+<nz-form-item class="field-container">
     <div>
-        <label [class.required]="mandatory">{{label|translate }}</label>
+        <label [class.required]="mandatory">{{label}}</label>
     </div>
     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
         <nz-select [nzDropdownRender]="indicatorTemplate" (nzScrollToBottom)="loadMore()" [formControl]="formControl" class="btn-custom" [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)" [nzMode]="mode"
-            nzAllowClear [nzPlaceHolder]="'select.x0'|translate:{x0: label|translate|lowercase}">
+            nzAllowClear nzPlaceHolder="Select {{label}}">
             <nz-option *ngFor="let p of items" [nzLabel]="p[labelKey]" [nzValue]="p.id">
             </nz-option>
         </nz-select>
@@ -26,4 +26,4 @@
     <div style="display: flex; align-items: center; justify-content: center; padding: 0 3px;">
         <i nz-icon nzType="loading" style="font-size: 28px;"></i>
     </div>
-</ng-template> -->
+</ng-template>

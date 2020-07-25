@@ -1,0 +1,26 @@
+<div class="course">
+  <div class="title">
+    <h2>Application for Training</h2>
+  </div>
+  <!-- <div *ngIf="item"> -->
+  <div class="course-title">
+    <h3>
+      <span>{{item?.courseSchedule?.name}}</span>
+    </h3>
+    <!-- <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag> -->
+  </div>
+  <div>
+    <p>Category: {{item?.category?.name}}</p>
+  </div>
+
+  <form nz-form [formGroup]="form">
+    <app-select-control  [formControl]="form.controls.course"
+    label="bed" #bedSelect></app-select-control>
+    <nz-form-item nz-row class="register-area">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <button (click)="apply()" nz-button nzType="primary">Apply</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <!-- </div> -->
+</div>

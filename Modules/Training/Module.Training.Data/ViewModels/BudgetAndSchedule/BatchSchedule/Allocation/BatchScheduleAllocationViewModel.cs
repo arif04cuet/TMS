@@ -25,7 +25,7 @@ namespace Module.Training.Data
                 Id = x.Id,
                 AllocationDate = x.AllocationDate,
                 AppliedDate = x.AppliedDate,
-                BatchSchedule = new IdNameViewModel { Id = x.BatchSchedule.Id, Name = x.BatchSchedule.CourseSchedule.Name },
+                BatchSchedule = new IdNameViewModel { Id = x.BatchSchedule.Id, Name = x.BatchSchedule.Name },
                 Course = new IdNameViewModel { Id = x.Course.Id, Name = x.Course.Name },
                 Trainee = new IdNameViewModel { Id = x.Trainee.Id, Name = x.Trainee.FullName },
                 Status = new IdNameViewModel { Id = (long)x.Status, Name = x.Status.ToString() },

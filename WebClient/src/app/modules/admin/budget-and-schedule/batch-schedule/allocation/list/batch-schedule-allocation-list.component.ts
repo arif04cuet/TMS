@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
 import { BatchScheduleAllocationHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-allocation-http.service';
 import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
-import { map } from 'rxjs/operators';
 import { SelectComponent } from 'src/app/shared/select/select.component';
 import { progress, createAnchorAndFireForDownload } from 'src/services/utilities.service';
 
@@ -38,16 +37,7 @@ export class BatchScheduleAllocationListComponent extends TableComponent {
 
   ngAfterViewInit() {
     this.batchScheduleSelect.register((pagination, search) => {
-      return this.batchScheduleHttpService.list(pagination, search).pipe(
-        map((x: any) => {
-          if (x.data && x.data.items && x.data.items.length) {
-            x.data.items.forEach(item => {
-              item.name = item.courseSchedule.name;
-            });
-          }
-          return x;
-        })
-      );
+      return this.batchScheduleHttpService.dropdown(pagination, search);
     }).fetch();
 
     this.courseSelect.register((pagination, search) => {
@@ -79,7 +69,6 @@ export class BatchScheduleAllocationListComponent extends TableComponent {
   }
 
   mark(e) {
-    console.log(e);
     this.loading = true;
     const body = {
       ids: Array.from(this.setOfCheckedId),
@@ -89,10 +78,31 @@ export class BatchScheduleAllocationListComponent extends TableComponent {
       (res: any) => {
         this.loading = false;
         this.success('success');
+        this.refresh();
       },
       err => {
         this.loading = false;
         this.failed('failed');
+        this.refresh();
+      }
+    );
+  }
+
+  migrate() {
+    this.loading = true;
+    const body = {
+      ids: Array.from(this.setOfCheckedId)
+    }
+    this.subscribe(this.batchScheduleAllocationHttpService.migrateToNextBatch(body),
+      (res: any) => {
+        this.loading = false;
+        this.success('success');
+        this.refresh();
+      },
+      err => {
+        this.loading = false;
+        this.failed('failed');
+        this.refresh();
       }
     );
   }

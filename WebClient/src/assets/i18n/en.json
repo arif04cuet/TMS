@@ -445,4 +445,16 @@
   "bed.and.room.both.can.not.be.choose": "Bed and room both can not be choose",
   "question.topics": "Session",
   "answer.length": "Max characters to answer"
+  "bed.and.room.both.can.not.be.choose": "Bed and room both can not be choose",
+  "migrate.to.next.batch": "Migrate to next batch",
+  "is.online": "Is online",
+  "extra.time": "Extra time",
+  "exam.type": "Exam type",
+  "question.type": "Question type",
+  "evaluation.type": "Evaluation type",
+  "is.this.exam.is.online": "Is this exam is online?",
+  "success": "Success",
+  "failed": "Failed",
+  "exam.evaluation.type": "Exam evaluation type",
+  "my.exam": "My exam"
 }

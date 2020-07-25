@@ -37,7 +37,6 @@ export class ExamHomeComponent {
       this.component = 'result';
       this.model = e.data;
     }
-    console.log(e)
   }
 
 }

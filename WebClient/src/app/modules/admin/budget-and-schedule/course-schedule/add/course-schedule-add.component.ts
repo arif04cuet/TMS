@@ -11,7 +11,6 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { forEachObj } from 'src/services/utilities.service';
 import { SelectComponent } from 'src/app/shared/select/select.component';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-course-schedule-add',
@@ -241,7 +240,7 @@ export class CourseScheduleAddComponent extends FormComponent {
               x.items = x.items.map(y => {
                 delete y.id;
                 return y;
-              })
+              });
             }
             return x;
           });

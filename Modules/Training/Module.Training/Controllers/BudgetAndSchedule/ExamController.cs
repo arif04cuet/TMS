@@ -72,6 +72,13 @@ namespace Module.Training.Controllers
             return result.ToOkResult();
         }
 
+        [HttpPost("{examId}/download")]
+        public async Task<IActionResult> DownloadExamPaper(long examId)
+        {
+            var result = await _examService.DownloadExamPaperAsync(examId);
+            return File(result, "application/pdf", $"exam-paper.pdf");
+        }
+
 
     }
 }

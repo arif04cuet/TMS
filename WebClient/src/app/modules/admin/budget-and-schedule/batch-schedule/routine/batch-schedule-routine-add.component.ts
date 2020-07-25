@@ -31,6 +31,8 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
   courseModuleCount;
   data;
 
+  persons = [1,2]
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private courseScheduleHttpService: CourseScheduleHttpService,

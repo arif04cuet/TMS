@@ -1,0 +1,42 @@
+<div>
+    <div class="box" style="margin: 0; box-shadow: none;">
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class=" content">
+                <div class="header-container">
+                    <span class="header">
+                        {{'questions'|translate}} ({{total}})
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
+                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
+                nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                <thead>
+                    <tr class="v-align-top advanced-table-filter">
+                        <th>{{'title'|translate}}</th>
+                        <th>{{'mark'|translate}}</th>
+                        <th>{{'type'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="cursor-pointer" (click)="select(data)" *ngFor="let data of basicTable.data">
+                        <td>{{ data.title }}</td>
+                        <td>{{ data.mark }}</td>
+                        <td>{{ data.type?.name }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <div class="block footer pad-v-12 pad-h-20">
+            <div class="column">
+                <button (click)="close()" nz-button class="btn-custom">{{'cancel'|translate}}</button>
+            </div>
+        </div>
+    </div>
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }}
+        {{'items'|translate}} </ng-template>
+</div>

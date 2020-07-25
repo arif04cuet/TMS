@@ -1,5 +1,4 @@
-﻿using Infrastructure.Security;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Security
 {

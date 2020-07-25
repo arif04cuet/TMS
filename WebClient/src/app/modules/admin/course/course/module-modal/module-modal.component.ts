@@ -54,4 +54,8 @@ export class ModuleModalComponent extends TableComponent {
     this.modal.closeAll();
   }
 
+  close() {
+    this.modal.closeAll();
+  }
+
 }

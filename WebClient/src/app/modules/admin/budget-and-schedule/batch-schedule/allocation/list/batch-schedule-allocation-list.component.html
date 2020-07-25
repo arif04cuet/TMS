@@ -20,7 +20,10 @@
                 <nz-dropdown-menu #actions="nzDropdownMenu">
                     <ul nz-menu>
                         <li *ngFor="let status of statuses" nz-menu-item (click)="mark(status.id)">
-                            <i nz-icon nzType="plus"></i>{{('mark.as.' + status.name|lowercase)|translate}}
+                            {{('mark.as.' + status.name|lowercase)|translate}}
+                        </li>
+                        <li nz-menu-item (click)="migrate()">
+                            {{'migrate.to.next.batch'|translate}}
                         </li>
                     </ul>
                 </nz-dropdown-menu>
@@ -44,15 +47,15 @@
                         <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
                         <th>{{'trainee'|translate}}</th>
                         <th>
-                            <div>{{'course'|translate}} </div>
+                            <div>{{'batch'|translate}}</div>
                             <div>
-                                <app-select #courseSelect></app-select>
+                                <app-select #batchScheduleSelect></app-select>
                             </div>
                         </th>
                         <th>
-                            <div>{{'schedule'|translate}}</div>
+                            <div>{{'course'|translate}} </div>
                             <div>
-                                <app-select #batchScheduleSelect></app-select>
+                                <app-select #courseSelect></app-select>
                             </div>
                         </th>
                         <th>
@@ -79,8 +82,8 @@
                     <tr *ngFor="let data of basicTable.data">
                         <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                         <td>{{ data.trainee?.name }}</td>
-                        <td>{{ data.course?.name }}</td>
                         <td>{{ data.batchSchedule?.name }}</td>
+                        <td>{{ data.course?.name }}</td>
                         <td>{{ data.status?.name }}</td>
                         <td>{{ data.bed?.name }}</td>
                         <td class="action-column fit-cell">

@@ -4,10 +4,6 @@ using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using Module.Core.Shared;
 using Module.Training.Data;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
-using System;
-using System.IO;
 using Module.Core.Data;
 
 namespace Module.Training.Controllers
@@ -40,6 +36,13 @@ namespace Module.Training.Controllers
         public async Task<ActionResult> Get(long id)
         {
             var result = await _batchScheduleService.Get(id);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("dropdown")]
+        public async Task<ActionResult> ListDropdown([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _batchScheduleService.ListDropdownAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

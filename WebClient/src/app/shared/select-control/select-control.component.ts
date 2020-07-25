@@ -40,7 +40,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   private fetchFn: (pagination: string, search?: string) => Observable<Object>;
   private subscriptions = [];
   private _selectFirstOption = false;
-  private _onLoadCompleted;
+  private _onLoadCompleted: (items?: any[]) => void;
 
   private loadingMoreCallCount = 0;
   private lastLoadingMoreFetchItems = [];
@@ -92,8 +92,9 @@ export class SelectControlComponent implements ControlValueAccessor {
           if (clearOnFetch) {
             this.items = [];
           }
+          const _items = [...this.items, ...items];
           setTimeout(() => {
-            this.items = [...this.items, ...items];
+            this.items = _items
           }, 0);
           this.busy(false);
           if (this._selectFirstOption && this.items.length > 0) {
@@ -101,7 +102,7 @@ export class SelectControlComponent implements ControlValueAccessor {
             this.formControl.setValue(this._value);
           }
           if (this._onLoadCompleted) {
-            this._onLoadCompleted();
+            this._onLoadCompleted(_items);
           }
         },
         err => {
@@ -139,7 +140,7 @@ export class SelectControlComponent implements ControlValueAccessor {
     }
   }
 
-  onLoadCompleted(fn: () => void) {
+  onLoadCompleted(fn: (items?: any[]) => void) {
     this._onLoadCompleted = fn;
     return this;
   }

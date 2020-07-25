@@ -22,5 +22,7 @@ namespace Module.Training.Data
 
         Task<PagedCollection<ExamParticipantViewRequest>> ListParticipantAsync(long batchScheduleId, long examId);
 
+        Task<byte[]> DownloadExamPaperAsync(long examId, CancellationToken cancellationToken = default);
+
     }
 }

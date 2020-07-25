@@ -31,9 +31,9 @@ export class TrainingCourseComponent extends TableComponent {
       const data = {
         data: {
           items: [
-            {id: 'UPCOMING', name: 'Upcoming'},
-            {id: 'RUNNING', name: 'Running'},
-            {id: 'FINISHED', name: 'Finished'}
+            { id: 'UPCOMING', name: 'Upcoming' },
+            { id: 'RUNNING', name: 'Running' },
+            { id: 'FINISHED', name: 'Finished' }
           ],
           size: 3
         }
@@ -49,7 +49,7 @@ export class TrainingCourseComponent extends TableComponent {
   load2() {
     this.load((p, s) => {
       let search;
-      if(this.category) {
+      if (this.category) {
         search = `Search=CourseSchedule.Course.CategoryId eq ${this.category}`
       }
       return this.trainingCourseHttpService.list2(this.status, search);
@@ -61,7 +61,7 @@ export class TrainingCourseComponent extends TableComponent {
     this.load2();
   }
 
-  
+
   categoryChanged(e) {
     this.category = e;
     this.load2();
@@ -69,6 +69,12 @@ export class TrainingCourseComponent extends TableComponent {
 
   log(e) {
     console.log(e);
+  }
+
+  view(item) {
+    if (item) {
+      this.goTo(`/course/${item.id}`);
+    }
   }
 
 }
