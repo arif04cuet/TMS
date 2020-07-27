@@ -33,6 +33,7 @@ namespace Infrastructure.Data.EFCore
 
             try
             {
+                provider = services.BuildServiceProvider();
                 var dataContext = provider.GetService<IDataContext>();
                 (dataContext as DbContext)?.Database.Migrate();
             }
