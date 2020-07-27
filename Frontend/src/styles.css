@@ -2,10 +2,9 @@
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 
 .logo {
-    width: 120px;
-    height: 31px;
+    
     background: rgba(255, 255, 255, 0.2);
-    margin: 16px 30px 16px 0;
+    margin: 0;
     float: left;
   }
 
@@ -39,3 +38,53 @@
   .filter .ant-select:first-child {
     margin-right: 15px;
   }
+
+  .ant-layout-header {
+    background: #fff;
+}
+.top-menu {
+  text-align: right;
+}
+
+.ant-layout-header .logo img {padding-right: 15px;}
+.ant-layout-header .logo span {font-size: 17px;font-weight: bold;}
+.ant-layout-header .top-menu {text-align: right;}
+.ant-layout-header .top-menu {text-align: right;}
+.ant-layout-header .top-menu .ant-menu-item{font-weight: bold;}
+
+.bottom-menu nz-header{
+  background-color: #00909E;
+}
+
+.bottom-menu .ant-menu{
+  background-color: #00909E;
+  color: #fff;
+}
+
+.top-menu .ant-menu-item-active, 
+.top-menu .ant-menu-item:hover,
+.top-menu .ant-menu-item-selected {
+    border-bottom: none;
+    border-top: 2px solid #00909E;
+    background-color: #00909E;
+    
+}
+
+.bottom-menu .ant-menu-horizontal>.ant-menu-item-active, 
+.bottom-menu .ant-menu-horizontal>.ant-menu-item:hover, 
+.bottom-menu .ant-menu-horizontal>.ant-menu-submenu .ant-menu-submenu-title:hover {
+    background-color: white;
+    border: none;
+    
+}
+
+.bottom-menu .ant-menu-horizontal>.ant-menu-item-selected 
+{
+    background-color: white;
+    color:black;
+    border: none;
+}
+
+.bottom-menu .ant-menu-item{padding:0 30px}
+
+

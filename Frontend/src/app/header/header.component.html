@@ -1,10 +1,30 @@
 <nz-layout class="layout">
   <nz-header>
-    <div class="logo"></div>
-    <ul nzTheme="dark" nz-menu nzMode="horizontal" class="header-menu">
-      <li (click)="navigate('/')" nz-menu-item nzSelected>Home</li>
-      <li (click)="navigate('member-registration')" nz-menu-item>Member Registration</li>
-      <li (click)="navigate('course')" nz-menu-item>Course</li>
+    <div class="logo">
+      <img height="50" src="../../assets/images/logo.jpg" alt="">
+      <span>জাতীয় সমাজসেবা একাডেমী প্রশিক্ষণ ব্যাবস্থাপনা </span>
+    </div>
+    <ul nzTheme="light" nz-menu nzMode="horizontal" class="top-menu">
+      <li (click)="navigate('/')" nz-menu-item nzSelected>হোম</li>
+      <li (click)="navigate('member-registration')" nz-menu-item>প্রশ্ন ও উত্তর</li>
+      <li (click)="navigate('course')" nz-menu-item>লগইন</li>
     </ul>
+  </nz-header>
+</nz-layout>
+
+<nz-layout class="bottom-menu">
+  <nz-header>
+
+
+    <ul nzTheme="light" nz-menu nzMode="horizontal" class="">
+      <li (click)="navigate('/')" nz-menu-item nzSelected>অনলাইন আবেদন</li>
+      <li (click)="navigate('member-registration')" nz-menu-item>আমাদের সম্পর্কে</li>
+      <li (click)="navigate('course')" nz-menu-item>প্রশিক্ষণ কোর্স</li>
+      <li (click)="navigate('course')" nz-menu-item>পহোটেল এ্যান্ড রুম</li>
+      <li (click)="navigate('course')" nz-menu-item>নতুন বই</li>
+      <li (click)="navigate('course')" nz-menu-item>যোগাযোগ</li>
+    </ul>
+
+
   </nz-header>
 </nz-layout>
