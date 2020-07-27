@@ -26,7 +26,7 @@ namespace Module.Training.Entities
         public EvaluationMethod EvaluationMethod { get; set; }
 
         public ExamEvaluationType? EvaluationType { get; set; }
-        public ExamQuestionType? QuestionType { get; set; }
+        public QuestionType? QuestionType { get; set; }
 
         public int Mark { get; set; }
         public int TotalMinutes { get; set; }
@@ -53,12 +53,6 @@ namespace Module.Training.Entities
         PreTraining = 1,
         InTraining = 2,
         PostTraining = 3
-    }
-
-    public enum ExamQuestionType : byte
-    {
-        Written = 1,
-        MCQ = 2
     }
 
 }

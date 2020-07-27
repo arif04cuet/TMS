@@ -42,4 +42,9 @@ export class ExamHttpService extends BaseHttpService {
         return this.httpService.getClient().request(req);
     }
 
+    answer(allocationId, examId) {
+        const url = `trainings/batch-schedules/allocations/${allocationId}/exams/${examId}/answer`;
+        return this.httpService.get(url);
+    }
+
 }

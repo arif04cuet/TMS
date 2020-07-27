@@ -42,7 +42,8 @@
                         <td>{{ data.courseSchedule }}</td>
                         <td>{{ data.course }}</td>
                         <td class="action-column fit-cell">
-                            <button nz-button (click)="view(data)" class="btn-custom">
+                            <!-- *ngIf="!data.attended" -->
+                            <button *ngIf="!data.attended" nz-button (click)="view(data)" class="btn-custom">
                                 {{'view'|translate}}
                             </button>
                         </td>

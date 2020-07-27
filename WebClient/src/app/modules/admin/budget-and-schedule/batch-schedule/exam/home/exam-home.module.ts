@@ -8,6 +8,7 @@ import { ExamAddModule } from '../add/exam-add.module';
 import { ExamListModule } from '../list/exam-list.module';
 import { ExamHomeComponent } from './exam-home.component';
 import { ResultAddModule } from '../result/result-add.module';
+import { ExamAnswerModule } from '../answer/exam-answer.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ResultAddModule } from '../result/result-add.module';
     SharedModule,
     ExamAddModule,
     ExamListModule,
-    ResultAddModule
+    ResultAddModule,
+    ExamAnswerModule
   ],
   exports: [ExamHomeComponent]
 })

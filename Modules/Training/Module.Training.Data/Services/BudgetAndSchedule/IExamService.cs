@@ -20,9 +20,11 @@ namespace Module.Training.Data
 
         Task<long> UpdateMarksAsync(ExamMarkUpdateRequest request, CancellationToken cancellationToken = default);
 
-        Task<PagedCollection<ExamParticipantViewRequest>> ListParticipantAsync(long batchScheduleId, long examId);
+        Task<PagedCollection<ExamResultViewModel>> ListParticipantAsync(long batchScheduleId, long examId);
 
         Task<byte[]> DownloadExamPaperAsync(long examId, CancellationToken cancellationToken = default);
+
+        Task<ExamAnswerViewModel> ViewExamAnswerAsync(long allocationId, long examId, CancellationToken cancellationToken = default);
 
     }
 }

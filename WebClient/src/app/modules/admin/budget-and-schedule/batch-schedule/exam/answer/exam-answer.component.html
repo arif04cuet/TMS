@@ -1,0 +1,40 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+<div [style.display]="loading ? 'none' : ''">
+    <div class="block pad-v-12 pad-h-20 box-divider">
+        <div class="column content">
+            <div class="header-container">
+                <span class="header">
+                    <span>
+                        {{ 'exam.answer'|translate }}
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="block bg-offset pad-h-20 pad-t-20 pad-b-10 box-divider">
+        <div class="content">
+            <div *ngFor="let q of data.questions; let i = index;">
+                <p>
+                    <strong>{{i+1}}. {{q.name}}</strong>
+                </p>
+                <ng-container *ngIf="q.writtenAnswer">
+                    <textarea rows="4" nz-input [ngModel]="q.writtenAnswer"></textarea>
+                </ng-container>
+                <ng-container *ngIf="q.mcqAnswer && q.options && q.options.length > 0">
+                    <nz-radio-group [ngModel]="q.mcqAnswer">
+                        <label nz-radio [nzValue]="o.id" *ngFor="let o of q.options">{{ o.name }}</label>
+                    </nz-radio-group>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="block footer pad-v-12 pad-h-20 box-divider">
+        <div class="column">
+            <button (click)="cancel()" nz-button class="btn-custom">
+                {{'cancel'|translate}}
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BaseComponent } from 'src/app/shared/base.component';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MyExamHttpService } from 'src/services/http/budget-and-schedule/my-exam-http.service';
@@ -7,7 +6,8 @@ import { FormComponent } from 'src/app/shared/form.component';
 
 @Component({
   selector: 'app-my-exam-start',
-  templateUrl: './my-exam-start.component.html'
+  templateUrl: './my-exam-start.component.html',
+  styleUrls: ['./my-exam-start.component.scss']
 })
 export class MyExamStartComponent extends FormComponent {
 
@@ -33,6 +33,7 @@ export class MyExamStartComponent extends FormComponent {
   }
 
   get(id) {
+    this.loading = true;
     this.subscribe(this.myExamHttpService.get(id),
       (res: any) => {
         this.data = res.data;
@@ -66,22 +67,21 @@ export class MyExamStartComponent extends FormComponent {
       return;
     }
     const body = {
-      examId: this.id,
+      examId: Number(this.examId),
       answers: this.data.questions.map(x => {
         return {
-          question: x.id,
-          mcqAnswer: x.mcqAnswer,
-          WrittenAnswer: x.writtenAnswer
+          question: x.question.id,
+          mcqAnswer: x.question.mcqAnswer || null,
+          writtenAnswer: x.question.writtenAnswer || null
         }
       })
     };
-    this.log(body);
-    return;
     this.loading = true;
     this.subscribe(this.myExamHttpService.add(body),
     (res: any) => {
       this.loading = false;
       this.success('success');
+      this.cancel();
     },
     err => {
       this.loading = false;

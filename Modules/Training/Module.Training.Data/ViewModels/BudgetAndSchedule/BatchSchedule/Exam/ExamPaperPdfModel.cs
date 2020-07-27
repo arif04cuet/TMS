@@ -20,8 +20,8 @@ namespace Module.Training.Data
             {
                 CourseName = x.BatchSchedule.CourseSchedule.Name,
                 Date = DateTime.UtcNow,
-                IsMcq = x.QuestionType.HasValue && x.QuestionType == ExamQuestionType.MCQ,
-                IsWritten = x.QuestionType.HasValue && x.QuestionType == ExamQuestionType.Written,
+                IsMcq = x.QuestionType.HasValue && x.QuestionType == QuestionType.MCQ,
+                IsWritten = x.QuestionType.HasValue && x.QuestionType == QuestionType.Written,
             };
         }
     }
@@ -36,7 +36,7 @@ namespace Module.Training.Data
             return x => new QuestionPdfModel
             {
                 Title = x.Question.Title,
-                Options = x.Question.Type == QuestionType.Multiple ? x.Question.Options.Select(y => new QuestionOptionPdfModel
+                Options = x.Question.Type == QuestionType.MCQ ? x.Question.Options.Select(y => new QuestionOptionPdfModel
                 {
                     Title = y.Option
                 }) : null

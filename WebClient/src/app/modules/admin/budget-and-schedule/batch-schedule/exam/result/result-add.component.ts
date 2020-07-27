@@ -57,6 +57,14 @@ export class ResultAddComponent extends TableComponent {
     });
   }
 
+  viewAnswer(e) {
+    e.examId = this.examId;
+    this.onAction.emit({
+      action: 'answer',
+      data: e
+    });
+  }
+
   load() {
     return super.load((p, s) => this.examHttpService.result(this.batchScheduleId, this.examId));
   }
@@ -67,7 +75,7 @@ export class ResultAddComponent extends TableComponent {
 
   markChanged(d, e) {
     const n = Number(e);
-    if(n) {
+    if (n) {
       d.mark = n;
     }
   }

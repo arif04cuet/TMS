@@ -2,11 +2,11 @@
 
 <div *ngIf="!loading">
     <div>
-        <!-- <div class="block header pad-v-12 pad-h-20 box-divider">
+        <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'result'|translate}} ({{total}})
+                        {{'total.mark'|translate}}
                     </span>
                 </div>
             </div>
@@ -17,11 +17,8 @@
                 <button (click)="refresh()" nz-button class="btn-custom">
                     {{'refresh'|translate}}
                 </button>
-                <button (click)="cancel()" nz-button class="btn-custom">
-                    {{'cancel'|translate}}
-                </button>
             </div>
-        </div> -->
+        </div>
         <div class="block">
             <nz-table #basicTable [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total" [nzData]="items" nzShowPagination="false" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>

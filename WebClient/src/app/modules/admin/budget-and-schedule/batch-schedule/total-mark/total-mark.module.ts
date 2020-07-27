@@ -6,9 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
-import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http.service';
 import { TotalMarkComponent } from './total-mark.component';
 import { TotalMarkRoutingModule } from './total-mark-routing.module';
+import { TotalMarksHttpService } from 'src/services/http/budget-and-schedule/total-marks-http.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { TotalMarkRoutingModule } from './total-mark-routing.module';
   ],
   exports: [TotalMarkComponent],
   providers: [
-    ExamHttpService,
+    TotalMarksHttpService,
     CommonValidator
   ]
 })

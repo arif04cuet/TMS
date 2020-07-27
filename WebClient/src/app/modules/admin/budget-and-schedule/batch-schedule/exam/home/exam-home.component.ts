@@ -37,6 +37,10 @@ export class ExamHomeComponent {
       this.component = 'result';
       this.model = e.data;
     }
+    else if (action == 'answer') {
+      this.component = 'answer';
+      this.model = e.data;
+    }
   }
 
 }

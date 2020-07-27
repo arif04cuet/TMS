@@ -7,5 +7,6 @@
         public string BatchSchedule { get; set; }
         public string CourseSchedule { get; set; }
         public string Course { get; set; }
+        public bool Attended { get; set; }
     }
 }

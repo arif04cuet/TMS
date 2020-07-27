@@ -11,7 +11,7 @@ namespace Module.Training.Data
         public long BatchSchedule { get; set; }
         public long EvaluationMethod { get; set; }
         public ExamEvaluationType? EvaluationType { get; set; }
-        public ExamQuestionType? QuestionType { get; set; }
+        public QuestionType? QuestionType { get; set; }
         public int Mark { get; set; }
         public int TotalMinutes { get; set; }
         public int ExtraTime { get; set; }

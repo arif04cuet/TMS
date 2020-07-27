@@ -470,5 +470,6 @@
   "start": "Start",
   "submit": "Submit",
   "remaining": "Remaining",
-  "total.time": "Total time"
+  "total.time": "Total time",
+  "exam.answer": "Exam answer"
 }

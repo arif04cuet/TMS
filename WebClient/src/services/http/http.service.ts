@@ -18,7 +18,7 @@ export class HttpService {
     }
 
     post(url: string, body: any) {
-        return this.http.post(`${environment.baseUrl}/${url}`, body/*, { headers: this.getCommonHeader() }*/);
+        return this.http.post(`${environment.baseUrl}/${url}`, body, { headers: this.getCommonHeader() });
     }
 
     postFromData(url: string, body: any) {
@@ -63,7 +63,7 @@ export class HttpService {
                 // 'Access-Control-Allow-Origin': '*',
                 // 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
                 // 'Access-Control-Allow-Headers': 'Origin, Content-Type, X-XSRF-TOKEN',
-                'Authorization': `Bearer ${this.securityService.getAuthData().accessToken}`,
+                'Authorization': `Bearer ${token.accessToken}`,
             });
             return httpOptions;
         }

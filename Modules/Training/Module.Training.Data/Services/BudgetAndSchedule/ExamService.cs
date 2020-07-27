@@ -1,5 +1,4 @@
-﻿using Dapper;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -147,33 +146,31 @@ namespace Module.Training.Data
             return result;
         }
 
-        public async Task<PagedCollection<ExamParticipantViewRequest>> ListParticipantAsync(long batchScheduleId, long examId)
+        public async Task<PagedCollection<ExamResultViewModel>> ListParticipantAsync(long batchScheduleId, long examId)
         {
-            var sqlWithExam = $@"select ep.Id, isnull(ep.Mark, 0) Mark, u.FullName Name, a.Id ParticipantId
-                    from [training].[BatchScheduleAllocation] a
-                    left join [training].[ExamParticipant] ep on ep.ParticipantId = a.Id
-                    left join [core].[User] u on u.Id = a.TraineeId
-                    where a.[Status] = 2 and a.BatchScheduleId = ${batchScheduleId} and ep.ExamId = ${examId}";
+            var query = _examParticipantRepository
+                .Where(x => x.ExamId == examId
+                && x.Participant.BatchScheduleId == batchScheduleId
+                && !x.IsDeleted)
+                .Select(x => new ExamResultViewModel
+                {
+                    //AllocationId = x.ParticipantId.Value,
+                    Id = x.Id,
+                    ParticipantId = x.ParticipantId.Value,
+                    Name = x.Participant.Trainee.FullName,
+                    TotalMark = x.Mark,
+                    IsMcq = x.Exam.QuestionType == QuestionType.MCQ
+                });
 
-            var items = await _dbConnection.QueryAsync<ExamParticipantViewRequest>(sqlWithExam);
-
-            if (items.Count() <= 0)
-            {
-                // no exam participants
-                var allParticipantsSql = $@"select null Id, 0 Mark, u.FullName Name,                  a.Id ParticipantId
-                                from [training].[BatchScheduleAllocation] a
-                                left join [core].[User] u on u.Id = a.TraineeId
-                                where a.[Status] = 2 and a.BatchScheduleId = ${batchScheduleId}";
-
-                items = await _dbConnection.QueryAsync<ExamParticipantViewRequest>(allParticipantsSql);
-            }
+            var items = await query.ToListAsync();
+            var total = items.Count();
 
             var pagingOptions = new PagingOptions
             {
-                Limit = items.Count(),
+                Limit = total,
                 Offset = 0
             };
-            var result = new PagedCollection<ExamParticipantViewRequest>(items, items.Count(), pagingOptions);
+            var result = new PagedCollection<ExamResultViewModel>(items, total, pagingOptions);
             return result;
         }
 
@@ -234,6 +231,57 @@ namespace Module.Training.Data
             var htmlContent = await _viewRenderer.RenderViewToStringAsync("/Views/exam-paper.cshtml", examPapper);
             var bytes = _pdfConverter.Convert(htmlContent);
             return bytes;
+        }
+
+        public async Task<ExamAnswerViewModel> ViewExamAnswerAsync(long allocationId, long examId, CancellationToken cancellationToken = default)
+        {
+            var exam = await _examRepository
+                .AsReadOnly()
+                .Where(x => x.Id == examId && !x.IsDeleted)
+                .Select(x => new { Id = x.Id, Name = x.Name })
+                .FirstOrDefaultAsync();
+
+            if (exam == null)
+                throw new ValidationException("Exam not found");
+
+            var questions = await _unitOfWork.GetRepository<ExamQuestion>()
+                    .AsReadOnly()
+                    .Where(x => x.ExamId == examId && !x.IsDeleted)
+                    .Select(x => new ExamAnswerQuestionViewModel
+                    {
+                        Id = x.QuestionId,
+                        Name = x.Question.Title,
+                        Options = x.Question.Options.Select(y => new IdNameViewModel
+                        {
+                            Id = y.Id,
+                            Name = y.Option
+                        })
+                    })
+                    .ToListAsync(cancellationToken);
+
+            foreach (var question in questions)
+            {
+                var ans = await _unitOfWork.GetRepository<ExamAnswer>()
+                    .AsReadOnly()
+                    .Where(x => x.ExamId == examId
+                    && x.QuestionId == question.Id
+                    && x.AllocationId == allocationId
+                    && !x.IsDeleted)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                if (ans != null)
+                {
+                    question.WrittenAnswer = ans.WrittenAnswer;
+                    question.McqAnswer = ans.McqAnswerId;
+                }
+            }
+
+            return new ExamAnswerViewModel
+            {
+                Id = exam.Id,
+                Name = exam.Name,
+                Questions = questions
+            };
         }
 
     }

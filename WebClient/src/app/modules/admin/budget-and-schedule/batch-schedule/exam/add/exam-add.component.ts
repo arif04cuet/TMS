@@ -75,18 +75,18 @@ export class ExamAddComponent extends FormComponent {
     this.typeSelect.register((pagination, search) => {
       return this.batchScheduleHttpService.listEvaluationMethods(this.batchScheduleId, pagination, search);
     })
-    .onLoadCompleted((items: any[]) => {
-      const e = this.form.controls.evaluationMethod.value;
-      this.showHideQuestionTypeInput(e, items);
-    })
-    .fetch();
+      .onLoadCompleted((items: any[]) => {
+        const e = this.form.controls.evaluationMethod.value;
+        this.showHideQuestionTypeInput(e, items);
+      })
+      .fetch();
 
     this.questionTypeSelect.register((pagination, search) => {
       return of({
         data: {
           items: [
-            { id: 1, name: 'Written' },
-            { id: 2, name: 'MCQ' },
+            { id: 1, name: 'MCQ' },
+            { id: 2, name: 'Written' },
           ],
           size: 2
         }
@@ -116,7 +116,7 @@ export class ExamAddComponent extends FormComponent {
     if (this.batchScheduleId) {
       body.batchSchedule = Number(this.batchScheduleId);
     }
-    if(!this.showQuestionTypeInput) {
+    if (!this.showQuestionTypeInput) {
       delete body.questionType;
     }
     body.questions = this.data.questions;
@@ -196,7 +196,9 @@ export class ExamAddComponent extends FormComponent {
       nzWidth: '80%',
       nzContent: component,
       nzGetContainer: () => document.body,
-      nzComponentParams: {},
+      nzComponentParams: <any>{
+        questionType: this.form.controls.questionType.value
+      },
       nzFooter: null
     });
   }
@@ -207,7 +209,7 @@ export class ExamAddComponent extends FormComponent {
   }
 
   private showHideQuestionTypeInput(e, items?: any[]) {
-    if(e) {
+    if (e) {
       const _items = items || this.typeSelect.items;
       const item = _items.find(x => x.id == e);
       this.showQuestionTypeInput = item && item.name?.toLowerCase() == "written";

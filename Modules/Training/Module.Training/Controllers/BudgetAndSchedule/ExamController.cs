@@ -79,6 +79,13 @@ namespace Module.Training.Controllers
             return File(result, "application/pdf", $"exam-paper.pdf");
         }
 
+        [HttpGet("/api/trainings/batch-schedules/allocations/{allocationId}/exams/{examId}/answer")]
+        public async Task<ActionResult> GetAnswer(long allocationId, long examId)
+        {
+            var result = await _examService.ViewExamAnswerAsync(allocationId, examId);
+            return result.ToOkResult();
+        }
+
 
     }
 }

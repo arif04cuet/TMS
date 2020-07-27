@@ -28,7 +28,7 @@
                     <ng-container *ngIf="q.question.type.name == 'Written'">
                         <textarea rows="4" nz-input [(ngModel)]="q.question.writtenAnswer"></textarea>
                     </ng-container>
-                    <ng-container *ngIf="q.question.type.name == 'Multiple'">
+                    <ng-container *ngIf="q.question.type.name == 'MCQ'">
                         <nz-radio-group [(ngModel)]="q.question.mcqAnswer">
                             <label nz-radio [nzValue]="o.id" *ngFor="let o of q.question.options">{{ o.option }}</label>
                         </nz-radio-group>

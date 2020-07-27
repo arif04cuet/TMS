@@ -63,6 +63,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div nz-row [nzGutter]="24">
+                            <div class="field-container">
+                                <div>
+                                    <label>{{'question.type'|translate }}</label>
+                                </div>
+                                <div>
+                                    {{data.questionType?.name || 'n/a'|translate}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

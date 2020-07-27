@@ -31,6 +31,7 @@ export class MyExamViewComponent extends BaseComponent {
   }
 
   get(id) {
+    this.loading = true;
     this.subscribe(this.examHttpService.get(id),
       (res: any) => {
         this.data = res.data;

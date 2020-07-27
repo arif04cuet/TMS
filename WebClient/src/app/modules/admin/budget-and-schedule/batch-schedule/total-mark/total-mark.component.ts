@@ -1,9 +1,9 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
-import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http.service';
 import { TableComponent } from 'src/app/shared/table.component';
+import { TotalMarksHttpService } from 'src/services/http/budget-and-schedule/total-marks-http.service';
 
 @Component({
   selector: 'app-total-mark',
@@ -12,53 +12,38 @@ import { TableComponent } from 'src/app/shared/table.component';
 export class TotalMarkComponent extends TableComponent {
 
   loading: boolean = false;
-  @Output() onAction = new EventEmitter();
-  @Input() model;
-
   private batchScheduleId;
-  private examId;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private examHttpService: ExamHttpService,
+    private totalMarksHttpService: TotalMarksHttpService,
     private v: CommonValidator
   ) {
-    super(examHttpService);
+    super(totalMarksHttpService);
   }
 
   ngOnInit(): void {
 
     const snapshot = this.activatedRoute.snapshot;
     this.batchScheduleId = snapshot.params.id;
-
-    if (this.model && this.model.id) {
-      this.examId = this.model.id;
-      this.load();
-    }
+    this.load();
   }
 
   submit(): void {
-    const body = {
-      marks: this.items
-    }
-    this.subscribe(this.examHttpService.updateResult(this.examId, body),
-      res => {
-        this.loading = false;
-        this.cancel();
-        this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
-      },
-      err => this.loading = false
-    );
-  }
-
-  cancel() {
-    this.onAction.emit({
-      action: 'cancel'
-    });
+    // const body = {
+    //   marks: this.items
+    // }
+    // this.subscribe(this.totalMarksHttpService.update(this.examId, body),
+    //   res => {
+    //     this.loading = false;
+    //     this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
+    //   },
+    //   err => this.loading = false
+    // );
   }
 
   load() {
-    return super.load((p, s) => this.examHttpService.result(this.batchScheduleId, this.examId));
+    return super.load((p, s) => this.totalMarksHttpService.list(this.batchScheduleId, p, s));
   }
 
   refresh() {
@@ -67,7 +52,7 @@ export class TotalMarkComponent extends TableComponent {
 
   markChanged(d, e) {
     const n = Number(e);
-    if(n) {
+    if (n) {
       d.mark = n;
     }
   }

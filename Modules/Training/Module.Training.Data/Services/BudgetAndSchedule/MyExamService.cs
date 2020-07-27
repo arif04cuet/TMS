@@ -7,6 +7,7 @@ using Module.Core.Data;
 using Module.Training.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 using System.Data;
 using System.Linq;
 using System.Threading;
@@ -46,13 +47,15 @@ namespace Module.Training.Data
                 throw new ValidationException("User not found");
 
             var examParticipant = await _examParticipantRepository
-                .FirstOrDefaultAsync(x => x.Participant.TraineeId == user.Id && !x.IsDeleted, true);
+                .FirstOrDefaultAsync(x => x.Participant.TraineeId == user.Id
+                && x.ExamId == request.ExamId
+                && !x.IsDeleted, true);
 
-            if (examParticipant != null)
-                throw new ValidationException("You already took this exam.");
+            // if (examParticipant != null)
+            // throw new ValidationException("You already took this exam.");
 
             var exam = await _examRepository
-                .FirstOrDefaultAsync(x => x.Id == request.ExamId && !x.IsDeleted);
+                .FirstOrDefaultAsync(x => x.Id == request.ExamId && !x.IsDeleted, true);
 
             if (exam == null)
                 throw new ValidationException("Exam not found");
@@ -60,22 +63,93 @@ namespace Module.Training.Data
             var allocation = await _unitOfWork.GetRepository<BatchScheduleAllocation>()
                 .FirstOrDefaultAsync(x => x.TraineeId == user.Id
                 && x.Status == BatchScheduleAllocationStatus.Approved
-                && !x.IsDeleted);
+                && !x.IsDeleted, true);
 
             if (allocation == null)
                 throw new ValidationException("Allocation not found");
 
-            var answers = request.Answers.Select(x => new ExamAnswer
+            int totalMark = 0;
+
+            foreach (var item in request.Answers)
             {
-                AllocationId = allocation.Id,
-                ExamId = exam.Id,
-                QuestionId = x.Question,
-                WrittenAnswer = x.WrittenAnswer,
-                McqAnswerId = x.McqAnswer
-            });
-            await _examAnswerRepository.AddRangeAsync(answers);
+                var dbExamAnswer = await _examAnswerRepository
+                    .FirstOrDefaultAsync(x => x.ExamId == exam.Id
+                    && x.AllocationId == allocation.Id
+                    && x.QuestionId == item.Question
+                    && !x.IsDeleted);
+
+                if (dbExamAnswer == null)
+                {
+                    var newExamAnswer = new ExamAnswer
+                    {
+                        AllocationId = allocation.Id,
+                        ExamId = exam.Id,
+                        QuestionId = item.Question,
+                        WrittenAnswer = item.WrittenAnswer,
+                        McqAnswerId = item.McqAnswer
+                    };
+                    await _examAnswerRepository.AddAsync(newExamAnswer);
+                }
+                else
+                {
+                    dbExamAnswer.McqAnswerId = item.McqAnswer;
+                    dbExamAnswer.WrittenAnswer = item.WrittenAnswer;
+                }
+
+                if (item.McqAnswer.HasValue)
+                {
+                    var mark = await _unitOfWork.GetRepository<ExamQuestion>()
+                        .AsReadOnly()
+                        .Where(x => x.ExamId == exam.Id
+                        && x.QuestionId == item.Question
+                        && !x.IsDeleted)
+                        .Select(x => new { Question = x.QuestionId, Mark = x.Mark })
+                        .FirstOrDefaultAsync(cancellationToken);
+
+                    if (mark != null)
+                    {
+                        var option = await _unitOfWork.GetRepository<QuestionOption>()
+                            .AsReadOnly()
+                            .Where(x => x.QuestionId == mark.Question
+                            && x.Id == item.McqAnswer
+                            && x.IsCorrect
+                            && !x.IsDeleted)
+                            .Select(x => new { Id = x.Id })
+                            .FirstOrDefaultAsync(cancellationToken);
+
+                        if (option != null)
+                        {
+                            totalMark += mark.Mark;
+                        }
+                    }
+
+                }
+            }
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            if (result > 0)
+            {
+                var dbExamParticiapnt = await _examParticipantRepository
+                    .FirstOrDefaultAsync(x => x.ExamId == exam.Id
+                    && x.ParticipantId == allocation.Id
+                    && !x.IsDeleted);
+
+                if (dbExamParticiapnt == null)
+                {
+                    var examParticiapnt = new ExamParticipant
+                    {
+                        ExamId = exam.Id,
+                        ParticipantId = allocation.Id,
+                        Mark = totalMark
+                    };
+                    await _examParticipantRepository.AddAsync(examParticiapnt, cancellationToken);
+                }
+                else
+                {
+                    dbExamParticiapnt.Mark = totalMark;
+                }
+                result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+            }
 
             return result;
         }
@@ -89,10 +163,12 @@ namespace Module.Training.Data
                 throw new ValidationException("User not found");
 
             var participant = await _examParticipantRepository
-                .FirstOrDefaultAsync(x => x.Participant.TraineeId == user.Id && !x.IsDeleted, true);
+                .FirstOrDefaultAsync(x => x.Participant.TraineeId == user.Id
+                && x.ExamId == id
+                && !x.IsDeleted, true);
 
-            if (participant != null)
-                throw new ValidationException("You already took this exam.");
+            // if (participant != null)
+            // throw new ValidationException("You already took this exam.");
 
             var item = await _examRepository.GetAsync(x => x.Id == id, ExamViewModel.Select(), cancellationToken);
 
@@ -110,39 +186,46 @@ namespace Module.Training.Data
 
         public async Task<PagedCollection<MyExamListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var selectSql = @"select e.Id, e.Name, b.Name BatchSchedule, cs.Name CourseSchedule, c.Name Course";
+            long userId = _appService.GetAuthenticatedUser().Id;
+            var query = _unitOfWork.GetRepository<BatchScheduleAllocation>()
+                .AsReadOnly()
+                .Where(x => x.TraineeId == userId
+                && x.Status == BatchScheduleAllocationStatus.Approved
+                && !x.IsDeleted)
+                .SelectMany(x => x.BatchSchedule.Exams)
+                .Where(x => x.ExamDate.Date == DateTime.UtcNow.Date
+                && x.Status == ExamStatus.Pending
+                && x.QuestionType.HasValue
+                && x.IsOnline
+                && !x.IsDeleted);
 
-            var bodySql = @" from [training].[BatchScheduleAllocation] a
-                left join [training].[Exam] e on e.BatchScheduleId = a.BatchScheduleId
-                left join [training].[BatchSchedule] b on b.Id = a.BatchScheduleId
-                left join [training].[CourseSchedule] cs on cs.Id = b.CourseScheduleId
-                left join [training].[Course] c on c.Id = cs.CourseId
-                where 
-                a.TraineeId = @UserId and
-                a.[Status] = 2 and
-                a.IsDeleted = 0 and
-                e.IsOnline = 0 and
-                e.[Status] != 1 and
-                convert(date, getutcdate()) = convert(date, e.ExamDate) and
-                e.IsDeleted = 0";
+            var items = await query
+                .Select(x => new MyExamListViewModel
+                {
+                    Id = x.Id,
+                    BatchSchedule = x.BatchSchedule.Name,
+                    CourseSchedule = x.BatchSchedule.CourseSchedule.Name,
+                    Name = x.Name,
+                    Course = x.BatchSchedule.CourseSchedule.Name,
+                })
+                .ApplyPagination(pagingOptions)
+                .ToListAsync();
 
-            var pagingSql = @" order by e.UpdatedAt offset @Offset rows fetch next @Limit rows only";
-
-            var countSql = "select count(*)" + bodySql;
-            var resultSql = selectSql + bodySql + pagingSql;
-            var @params = new
+            foreach (var item in items)
             {
-                UserId = 1,
-                Offset = pagingOptions.Offset,
-                Limit = pagingOptions.Limit
-            };
+                var count = await _unitOfWork.GetRepository<ExamParticipant>()
+                    .AsReadOnly()
+                    .Where(x => x.Participant.TraineeId == userId
+                    && x.ExamId == item.Id
+                    && !x.IsDeleted)
+                    .Select(x => x.Id)
+                    .CountAsync();
+                item.Attended = count > 0;
+            }
 
-            var total = await _unitOfWork.GetConnection().ExecuteScalarAsync<int>(countSql, @params);
-            var items = await _unitOfWork.GetConnection()
-                .QueryAsync<MyExamListViewModel>(resultSql, @params);
+            var total = query.Select(x => x.Id).Count();
 
             var result = new PagedCollection<MyExamListViewModel>(items, total, pagingOptions);
-
             return result;
         }
 

@@ -56,7 +56,7 @@ namespace Module.Training.Data
             return result;
         }
 
-        public async Task<PagedCollection<TotalMarkListViewModel>> ListAsync(long batchScheduleId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<TotalMarkViewModel>> ListAsync(long batchScheduleId, CancellationToken cancellationToken = default)
         {
             var query = _unitOfWork.GetRepository<BatchSchedule>()
                 .AsReadOnly()
@@ -64,18 +64,26 @@ namespace Module.Training.Data
                 .SelectMany(x => x.CourseSchedule.Course.EvaluationMethods);
 
             var evaluationMethods = await query
-                .Select(x => new
+                .Select(x => new TotalMarkEvaluationMethodViewModel
                 {
-                    CourseEvaluationMethodId = x.Id,
-                    EvaluationMethodId = x.EvaluationMethodId,
-                    EvaluationMethodName = x.EvaluationMethod.Name
+                    Id = x.EvaluationMethodId,
+                    Name = x.EvaluationMethod.Name
                 })
-                .OrderBy(x => x.EvaluationMethodId)
                 .ToListAsync();
 
-            var participantsQuery = _unitOfWork.GetRepository<BatchScheduleAllocation>()
+            var participants = await _unitOfWork.GetRepository<BatchScheduleAllocation>()
                 .AsReadOnly()
-                .Where(x => x.BatchScheduleId == batchScheduleId && !x.IsDeleted);
+                .Where(x => x.BatchScheduleId == batchScheduleId
+                && x.Status == BatchScheduleAllocationStatus.Approved
+                && !x.IsDeleted)
+                .ToListAsync();
+
+            List<TotalMarkViewModel> marks = new List<TotalMarkViewModel>();
+
+            foreach (var participant in participants)
+            {
+                
+            }
 
             var totalMarkQuery = _unitOfWork.GetRepository<TotalMark>()
                 .AsReadOnly()

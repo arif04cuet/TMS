@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TableComponent } from 'src/app/shared/table.component';
 import { NzModalService } from 'ng-zorro-antd';
@@ -11,6 +11,7 @@ import { QuestionHttpService } from 'src/services/http/budget-and-schedule/quest
 export class QuestionModalComponent extends TableComponent {
 
   selectedItem;
+  @Input() questionType;
 
   constructor(
     private questionHttpService: QuestionHttpService,
@@ -38,7 +39,11 @@ export class QuestionModalComponent extends TableComponent {
   }
 
   load() {
+    console.log(this.questionType);
     super.load((p, s) => {
+      if(this.questionType) {
+        s += `&Search=Type eq ${this.questionType}`;
+      }
       return this.questionHttpService.list(p, s);
     });
   }

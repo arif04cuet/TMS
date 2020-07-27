@@ -11,7 +11,7 @@ export class QuestionHttpService extends BaseHttpService {
         const obj = {
             data: {
                 items: [
-                    { id: 1, name: 'Multiple' },
+                    { id: 1, name: 'MCQ' },
                     { id: 2, name: 'Written' }
                 ],
                 size: 2
