@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Msi.UtilityKit.Pagination;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace Module.Training.Data
 
         Task<long> UpdateAsync(TotalMarkUpdateRequest request);
 
-        Task<PagedCollection<TotalMarkListViewModel>> ListAsync(long batchScheduleId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<TotalMarkViewModel>> ListAsync(long batchScheduleId, CancellationToken cancellationToken = default);
 
     }
 }

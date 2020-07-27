@@ -45,8 +45,8 @@ namespace Module.Training.Data
                     var totalMark = new TotalMark
                     {
                         Mark = mark.Mark,
-                        ParticipantId = mark.Participant.Id,
-                        EvaluationMethodId = mark.CourseEvaluationMethodId,
+                        //ParticipantId = mark.Participant.Id,
+                        //EvaluationMethodId = mark.CourseEvaluationMethodId,
                         BatchScheduleId = request.BatchSchedule
                     };
                     await _totalMarkRepository.AddAsync(totalMark);
@@ -80,86 +80,93 @@ namespace Module.Training.Data
 
             List<TotalMarkViewModel> marks = new List<TotalMarkViewModel>();
 
-            foreach (var participant in participants)
-            {
-                
-            }
+            //foreach (var participant in participants)
+            //{
+            //    var totalMark = _unitOfWork.GetRepository<TotalMark>()
+            //        .FirstOrDefaultAsync(x => x.BatchScheduleId == batchScheduleId
+            //        && x.ParticipantId == participant.Id
+            //        && !x.IsDeleted)
+            //    new TotalMarkViewModel
+            //    {
+            //        Id =  
+            //    }
+            //}
 
-            var totalMarkQuery = _unitOfWork.GetRepository<TotalMark>()
-                .AsReadOnly()
-                .Where(x => x.BatchScheduleId == batchScheduleId && !x.IsDeleted);
+            //var totalMarkQuery = _unitOfWork.GetRepository<TotalMark>()
+            //    .AsReadOnly()
+            //    .Where(x => x.BatchScheduleId == batchScheduleId && !x.IsDeleted);
 
-            var totalMarkCount = await totalMarkQuery.Select(x => x.Id).CountAsync();
+            //var totalMarkCount = await totalMarkQuery.Select(x => x.Id).CountAsync();
 
-            IEnumerable<TotalMarkListViewModel> totalMarks = null;
+            //IEnumerable<TotalMarkListViewModel> totalMarks = null;
 
-            if (totalMarkCount == 0)
-            {
-                var participants = await participantsQuery
-                    .Select(x => new TotalMarkListViewModel
-                    {
-                        Participant = new IdNameViewModel
-                        {
-                            Id = x.Id,
-                            Name = x.Trainee.FullName
-                        }
-                    })
-                    .ToListAsync();
+            //if (totalMarkCount == 0)
+            //{
+            //    var participants = await participantsQuery
+            //        .Select(x => new TotalMarkListViewModel
+            //        {
+            //            Participant = new IdNameViewModel
+            //            {
+            //                Id = x.Id,
+            //                Name = x.Trainee.FullName
+            //            }
+            //        })
+            //        .ToListAsync();
 
-                var _participants = new List<TotalMarkListViewModel>();
-                foreach (var participant in participants)
-                {
-                    foreach (var evaluationMethod in evaluationMethods)
-                    {
-                        _participants.Add(new TotalMarkListViewModel
-                        {
-                            Participant = new IdNameViewModel
-                            {
-                                Id = participant.Participant.Id,
-                                Name = participant.Participant.Name
-                            },
-                            CourseEvaluationMethodId = evaluationMethod.CourseEvaluationMethodId,
-                            EvaluationMethod = new IdNameViewModel
-                            {
-                                Id = evaluationMethod.EvaluationMethodId,
-                                Name = evaluationMethod.EvaluationMethodName
-                            }
-                        });
-                    }
-                }
+            //    var _participants = new List<TotalMarkListViewModel>();
+            //    foreach (var participant in participants)
+            //    {
+            //        foreach (var evaluationMethod in evaluationMethods)
+            //        {
+            //            _participants.Add(new TotalMarkListViewModel
+            //            {
+            //                Participant = new IdNameViewModel
+            //                {
+            //                    Id = participant.Participant.Id,
+            //                    Name = participant.Participant.Name
+            //                },
+            //                CourseEvaluationMethodId = evaluationMethod.CourseEvaluationMethodId,
+            //                EvaluationMethod = new IdNameViewModel
+            //                {
+            //                    Id = evaluationMethod.EvaluationMethodId,
+            //                    Name = evaluationMethod.EvaluationMethodName
+            //                }
+            //            });
+            //        }
+            //    }
 
-                totalMarks = _participants;
-            }
-            else
-            {
-                totalMarks = await totalMarkQuery
-                    .OrderBy(x => x.ParticipantId).ThenBy(x => x.EvaluationMethod.Id)
-                    .Select(x => new TotalMarkListViewModel
-                    {
-                        Id = x.Id,
-                        Participant = new IdNameViewModel
-                        {
-                            Id = x.ParticipantId.Value,
-                            Name = x.Participant.Trainee.FullName
-                        },
-                        CourseEvaluationMethodId = x.EvaluationMethod.Id,
-                        EvaluationMethod = new IdNameViewModel
-                        {
-                            Id = x.EvaluationMethod.EvaluationMethodId,
-                            Name = x.EvaluationMethod.EvaluationMethod.Name
-                        },
-                        Mark = x.Mark
-                    })
-                    .ToListAsync();
-            }
+            //    totalMarks = _participants;
+            //}
+            //else
+            //{
+            //    totalMarks = await totalMarkQuery
+            //        .OrderBy(x => x.ParticipantId).ThenBy(x => x.EvaluationMethod.Id)
+            //        .Select(x => new TotalMarkListViewModel
+            //        {
+            //            Id = x.Id,
+            //            Participant = new IdNameViewModel
+            //            {
+            //                Id = x.ParticipantId.Value,
+            //                Name = x.Participant.Trainee.FullName
+            //            },
+            //            CourseEvaluationMethodId = x.EvaluationMethod.Id,
+            //            EvaluationMethod = new IdNameViewModel
+            //            {
+            //                Id = x.EvaluationMethod.EvaluationMethodId,
+            //                Name = x.EvaluationMethod.EvaluationMethod.Name
+            //            },
+            //            Mark = x.Mark
+            //        })
+            //        .ToListAsync();
+            //}
 
-            var pagingOptions = new PagingOptions
-            {
-                Limit = totalMarks.Count(),
-                Offset = 0
-            };
-            var result = new PagedCollection<TotalMarkListViewModel>(totalMarks, totalMarks.Count(), pagingOptions);
-            return result;
+            //var pagingOptions = new PagingOptions
+            //{
+            //    Limit = totalMarks.Count(),
+            //    Offset = 0
+            //};
+            //var result = IEnumerable<TotalMarkViewModel>(null, 0, pagingOptions);
+            return null;
         }
 
     }
