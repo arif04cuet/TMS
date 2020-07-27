@@ -10,7 +10,7 @@ namespace Module.Training.Entities
         public long AllocationId { get; set; }
         public BatchScheduleAllocation Allocation { get; set; }
 
-        public long ExamId { get; set; }
+        public long? ExamId { get; set; }
         public Exam Exam { get; set; }
 
         public long? QuestionId { get; set; }

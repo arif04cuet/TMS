@@ -11702,7 +11702,7 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("ExamId")
+                    b.Property<long?>("ExamId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
@@ -13971,9 +13971,7 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Training.Entities.Exam", "Exam")
                         .WithMany()
-                        .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ExamId");
 
                     b.HasOne("Module.Training.Entities.QuestionOption", "McqAnswer")
                         .WithMany()

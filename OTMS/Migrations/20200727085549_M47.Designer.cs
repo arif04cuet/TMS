@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200727085434_M47")]
+    [Migration("20200727085549_M47")]
     partial class M47
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -11704,7 +11704,7 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("ExamId")
+                    b.Property<long?>("ExamId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
@@ -13973,9 +13973,7 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Training.Entities.Exam", "Exam")
                         .WithMany()
-                        .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ExamId");
 
                     b.HasOne("Module.Training.Entities.QuestionOption", "McqAnswer")
                         .WithMany()

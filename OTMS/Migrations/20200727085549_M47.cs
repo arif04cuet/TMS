@@ -10,8 +10,7 @@ namespace OTMS.Migrations
                 name: "ExamId",
                 schema: "training",
                 table: "ExamAnswer",
-                nullable: false,
-                defaultValue: 0L);
+                nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExamAnswer_ExamId",
@@ -27,7 +26,7 @@ namespace OTMS.Migrations
                 principalSchema: "training",
                 principalTable: "Exam",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
