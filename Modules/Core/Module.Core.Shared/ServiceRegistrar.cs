@@ -23,6 +23,8 @@ namespace Module.Core.Shared
 
         public void Register(IServiceCollection services, IConfiguration config)
         {
+            var provider = services.BuildServiceProvider();
+
             // Email
             var emailOptions = config.GetSection(nameof(EmailOptions));
             services.Configure<EmailOptions>(option => emailOptions.Bind(option));
@@ -30,8 +32,8 @@ namespace Module.Core.Shared
             // new CustomAssemblyLoadContext().LoadUnmanagedLibrary()
 
             //DinkToPdf
-            ILogger logger = ServiceFactory.GetService<ILogger<ServiceRegistrar>>();
-            IHostingEnvironment hostingEnvironment = ServiceFactory.GetService<IHostingEnvironment>();
+            ILogger logger = provider.GetService<ILogger<ServiceRegistrar>>();
+            IHostingEnvironment hostingEnvironment = provider.GetService<IHostingEnvironment>();
 
             var context = new CustomAssemblyLoadContext();
             logger.LogInformation("DinkToPdf Setup");

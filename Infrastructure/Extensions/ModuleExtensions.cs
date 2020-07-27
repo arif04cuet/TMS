@@ -14,7 +14,8 @@ namespace Infrastructure.Extensions
 
         public static IServiceCollection AddModules(this IServiceCollection services)
         {
-            var assemblyProvider = new AssemblyProvider(ServiceFactory.GetProvider());
+            var provider = services.BuildServiceProvider();
+            var assemblyProvider = new AssemblyProvider(provider);
             ProjectManager.SetAssemblies(assemblyProvider.GetAssemblies(null, false));
 
             var classTypes = ProjectManager.Assemblies
