@@ -455,7 +455,6 @@
   "success": "Success",
   "failed": "Failed",
   "exam.evaluation.type": "Exam evaluation type",
-  "my.exam": "My exam",
   "grade.name": "Grade Name",
   "cms.category": "Category",
   "cms.categories": "Categories",
@@ -466,5 +465,10 @@
   "cms.content": "Contents",
   "cms.contents": "Contents",
   "cms.banner": "Banner",
-  "cms.banners": "Banners"
+  "my.exam": "My exam",
+  "my.exams": "My exams",
+  "start": "Start",
+  "submit": "Submit",
+  "remaining": "Remaining",
+  "total.time": "Total time"
 }

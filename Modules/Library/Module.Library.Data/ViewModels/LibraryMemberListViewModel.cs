@@ -33,5 +33,23 @@ namespace Module.Library.Data
             };
         }
 
+        public static Expression<Func<LibraryMember, LibraryMemberListViewModel>> Select2(IMediaService mediaService)
+        {
+            return x => new LibraryMemberRequestListViewModel
+            {
+                Id = x.Id,
+                UserId = x.UserId,
+                Email = x.User.Email,
+                FullName = x.User.FullName,
+                Mobile = x.User.Mobile,
+                Library = new IdNameViewModel
+                {
+                    Id = x.Library.Id,
+                    Name = x.Library.Name
+                },
+                Photo = mediaService.GetPhotoUrl(x.User.Profile.Media)
+            };
+        }
+
     }
 }

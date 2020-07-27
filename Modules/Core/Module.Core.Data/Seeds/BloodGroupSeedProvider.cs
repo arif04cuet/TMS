@@ -20,7 +20,8 @@ namespace Module.Core.Data
                 new BloodGroup(ABPositive, "AB+"),
                 new BloodGroup(ABNegative, "AB-"),
                 new BloodGroup(OPositive, "O+"),
-                new BloodGroup(ONegative, "O-")
+                new BloodGroup(ONegative, "O-"),
+                new BloodGroup(9, "Other")
             };
         }
     }

@@ -3,6 +3,7 @@ using Module.Core.Entities;
 using Module.Core.Entities.Constants;
 using Msi.UtilityKit.Search;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Training.Entities
@@ -36,5 +37,7 @@ namespace Module.Training.Entities
 
         public DateTime RegistrationStartDate { get; set; }
         public DateTime RegistrationEndDate { get; set; }
+
+        public virtual ICollection<Exam> Exams { get; private set; } = new HashSet<Exam>();
     }
 }

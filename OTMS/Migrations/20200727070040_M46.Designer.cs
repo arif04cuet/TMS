@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200727070040_M46")]
+    partial class M46
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -11702,9 +11704,6 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("ExamId")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -11732,8 +11731,6 @@ namespace OTMS.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AllocationId");
-
-                    b.HasIndex("ExamId");
 
                     b.HasIndex("McqAnswerId");
 
@@ -13968,10 +13965,6 @@ namespace OTMS.Migrations
                         .HasForeignKey("AllocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Module.Training.Entities.Exam", "Exam")
-                        .WithMany()
-                        .HasForeignKey("ExamId");
 
                     b.HasOne("Module.Training.Entities.QuestionOption", "McqAnswer")
                         .WithMany()

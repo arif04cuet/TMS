@@ -6,16 +6,21 @@ using Module.Core.Shared.Options;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace Module.Core.Shared
 {
     public class EmailSender : IEmailSender
     {
         private readonly EmailOptions _emailOptions;
+        private readonly ILogger<EmailSender> _logger;
 
-        public EmailSender(IOptionsMonitor<EmailOptions> options)
+        public EmailSender(
+            ILogger<EmailSender> logger,
+            IOptionsMonitor<EmailOptions> options)
         {
             _emailOptions = options.CurrentValue;
+            _logger = logger;
         }
 
         public async Task SendAsync(string to, string subject, string body, bool isHtml = true)
@@ -51,7 +56,7 @@ namespace Module.Core.Shared
                 }
                 catch (Exception ex)
                 {
-
+                    _logger.LogError("Email send error: " + ex.Message);
                 }
             }
         }

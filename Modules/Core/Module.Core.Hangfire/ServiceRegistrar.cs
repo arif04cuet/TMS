@@ -19,7 +19,8 @@ namespace Module.Core.Hangfire
 
         public void Register(IServiceCollection services, IConfiguration config)
         {
-            var configuration = ServiceFactory.GetService<IConfiguration>();
+            var provider = services.BuildServiceProvider();
+            var configuration = provider.GetService<IConfiguration>();
 
             services.AddHangfireService(option =>
             {

@@ -1,8 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
-import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http.service';
-import { Searchable } from 'src/decorators/searchable.decorator';
+import { MyExamHttpService } from 'src/services/http/budget-and-schedule/my-exam-http.service';
 
 @Component({
   selector: 'app-my-exam-list',
@@ -10,21 +9,17 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 })
 export class MyExamListComponent extends TableComponent {
 
-  @Searchable("Name", "like") name;
-  @Searchable("ExamDate", "eq") examDate;
   @Output() onAction = new EventEmitter();
-  private batchScheduleId;
 
   constructor(
-    private examHttpService: ExamHttpService,
+    private myExamHttpService: MyExamHttpService,
     private activatedRoute: ActivatedRoute
   ) {
-    super(examHttpService);
+    super(myExamHttpService);
   }
 
   ngOnInit() {
     const snapshot = this.activatedRoute.snapshot;
-    this.batchScheduleId = snapshot.params.id;
     this.gets();
   }
 
@@ -42,11 +37,8 @@ export class MyExamListComponent extends TableComponent {
     }
   }
 
-  result(e) {
-    this.onAction.emit({
-      action: 'result',
-      data: e
-    });
+  view(e) {
+    this.goTo(`/admin/trainings/my-exam/${e.id}/view`);
   }
 
   gets() {
@@ -63,12 +55,8 @@ export class MyExamListComponent extends TableComponent {
 
   load() {
     super.load((p, s) => {
-      return this.examHttpService.list2(this.batchScheduleId, p, s);
+      return this.myExamHttpService.list(p, s);
     });
-  }
-
-  download(exam) {
-    this.log('download exam', exam);
   }
 
 }

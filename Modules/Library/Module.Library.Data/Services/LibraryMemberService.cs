@@ -232,31 +232,7 @@ namespace Module.Library.Data
 
         public async Task<PagedCollection<LibraryMemberListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
         {
-            var query = _libraryMemberRepository
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions);
-
-            var items = await query
-                .ApplyPagination(pagingOptions)
-                .Select(x => new LibraryMemberListViewModel
-                {
-                    Id = x.Id,
-                    UserId = x.UserId,
-                    Email = x.User.Email,
-                    FullName = x.User.FullName,
-                    Mobile = x.User.Mobile,
-                    Library = new IdNameViewModel
-                    {
-                        Id = x.Library.Id,
-                        Name = x.Library.Name
-                    },
-                    Photo = _mediaService.GetPhotoUrl(x.User.Profile.Media)
-                })
-                .ToListAsync();
-
-            var total = await query.Select(x => x.Id).CountAsync();
-            return new PagedCollection<LibraryMemberListViewModel>(items, total, pagingOptions);
+            return await _libraryMemberRepository.ListAsync(LibraryMemberListViewModel.Select2(_mediaService), pagingOptions, searchOptions);
         }
 
         public async Task<PagedCollection<LibraryMemberRequestListViewModel>> ListMemberRequestAsync(bool? isApproved, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)

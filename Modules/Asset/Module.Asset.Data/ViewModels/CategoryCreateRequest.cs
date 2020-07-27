@@ -1,6 +1,4 @@
-﻿using Module.Core.Entities;
-
-namespace Module.Asset.Data
+﻿namespace Module.Asset.Data
 {
     public class CategoryCreateRequest : CategoryResource
     {
