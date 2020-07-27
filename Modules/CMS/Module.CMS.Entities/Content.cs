@@ -22,9 +22,10 @@ namespace Module.CMS.Entities
         public long? AttachmentId { get; set; }
         public Media Attachment { get; set; }
 
+        [Searchable]
         public long CategoryId { get; set; }
         [Searchable]
-        public Category Category { get; set; }
+        public CmsCategory Category { get; set; }
 
     }
 }

@@ -36,14 +36,14 @@ namespace Module.CMS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CategoryCreateRequest request)
+        public async Task<IActionResult> Post([FromBody] CmsCategoryCreateRequest request)
         {
             var result = await _categoryService.CreateAsync(request);
             return result.ToCreatedResult();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(long id, [FromBody] CategoryUpdateRequest request)
+        public async Task<IActionResult> Put(long id, [FromBody] CmsCategoryUpdateRequest request)
         {
             request.Id = id;
             var result = await _categoryService.UpdateAsync(request);

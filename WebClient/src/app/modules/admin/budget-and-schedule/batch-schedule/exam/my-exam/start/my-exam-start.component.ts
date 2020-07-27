@@ -14,6 +14,8 @@ export class MyExamStartComponent extends FormComponent {
   loading: boolean = false;
   data: any = {}
   serverUrl = environment.serverUri;
+  timeRemaining = ''
+  totalTime = ''
 
   constructor(
     private myExamHttpService: MyExamHttpService,
@@ -32,7 +34,15 @@ export class MyExamStartComponent extends FormComponent {
     this.subscribe(this.myExamHttpService.get(id),
       (res: any) => {
         this.data = res.data;
+        this.data.totalSeconds = this.data.totalMinutes * 60;
+        this.totalTime = this.getTimeString(this.data.totalSeconds);
         this.loading = false;
+        setInterval(() => {
+          this.data.totalSeconds--;
+          setTimeout(() => {
+            this.timeRemaining = this.getTimeString(this.data.totalSeconds);
+          });
+        }, 1000);
       },
       (err: any) => {
         this.loading = false;
@@ -50,6 +60,13 @@ export class MyExamStartComponent extends FormComponent {
 
   submit() {
 
+  }
+
+  getTimeString(seconds: number) {
+    var h = Math.floor(seconds / 3600);
+    var m = Math.floor(seconds % 3600 / 60);
+    var s = Math.floor(seconds % 3600 % 60);
+    return `${h}:${m}:${s}`;
   }
 
 }

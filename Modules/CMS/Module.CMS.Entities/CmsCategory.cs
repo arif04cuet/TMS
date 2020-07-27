@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.CMS.Entities
 {
-    [Table(nameof(Category), Schema = SchemaConstants.Cms)]
-    public class Category : IdNameEntity
+    [Table(nameof(CmsCategory), Schema = SchemaConstants.Cms)]
+    public class CmsCategory : IdNameEntity
     {
     }
 }

@@ -1,20 +1,40 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 
-<div [style.display]="loading ? 'none' : ''">
+<div [style.display]="loading ? 'none' : ''" class="box">
     <div class="block pad-v-12 pad-h-20 box-divider">
-        <div class="content">
+        <div class="column content">
             <div class="header-container">
                 <span class="header">
-                    <span *ngIf="mode=='add'">
+                    <span>
                         {{ 'my.exam'|translate }}
                     </span>
                 </span>
             </div>
         </div>
+        <div class="column">
+            <span>
+                {{ 'total.time'|translate }}: {{totalTime}} | 
+                {{ 'remaining'|translate }}: {{timeRemaining}}
+            </span>
+        </div>
     </div>
-    <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
+    <div class="block bg-offset pad-h-20 pad-t-20 pad-b-10 box-divider">
         <div class="content">
-                            
+            <div *ngFor="let q of data.questions; let i = index;">
+                <p>
+                    <strong>{{i+1}}. {{q.question?.title}}</strong>
+                </p>
+                <ng-container *ngIf="q.question && q.question.type">
+                    <ng-container *ngIf="q.question.type.name == 'Written'">
+                        <textarea rows="4" nz-input [(ngModel)]="q.question.writtenAnswer"></textarea>
+                    </ng-container>
+                    <ng-container *ngIf="q.question.type.name == 'Multiple'">
+                        <nz-radio-group [(ngModel)]="q.question.mcqAnswer">
+                            <label nz-radio [nzValue]="o.id" *ngFor="let o of q.question.options">{{ o.option }}</label>
+                        </nz-radio-group>
+                    </ng-container>
+                </ng-container>
+            </div>
         </div>
     </div>
 
@@ -29,9 +49,3 @@
         </div>
     </div>
 </div>
-
-<ng-template #errorTemplate let-control>
-    {{control?.errors?.message}}
-</ng-template>
-
-<ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>

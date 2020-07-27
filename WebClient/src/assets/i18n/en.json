@@ -467,5 +467,8 @@
   "cms.banner": "Banner",
   "my.exam": "My exam",
   "my.exams": "My exams",
-  "start": "Start"
+  "start": "Start",
+  "submit": "Submit",
+  "remaining": "Remaining",
+  "total.time": "Total time"
 }

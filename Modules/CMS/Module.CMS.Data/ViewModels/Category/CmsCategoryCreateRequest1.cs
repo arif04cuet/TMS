@@ -2,13 +2,13 @@
 
 namespace Module.CMS.Data
 {
-    public class CategoryCreateRequest
+    public class CmsCategoryCreateRequest
     {
         public string Name { get; set; }
 
-        public Category Map(Category category = null)
+        public CmsCategory Map(CmsCategory category = null)
         {
-            var entity = category ?? new Category();
+            var entity = category ?? new CmsCategory();
             entity.Name = Name;
             return entity;
         }

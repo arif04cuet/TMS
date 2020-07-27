@@ -14,16 +14,16 @@ namespace Module.CMS.Data
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<CmsCategory> _categoryRepository;
 
         public CategoryService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _categoryRepository = _unitOfWork.GetRepository<Category>();
+            _categoryRepository = _unitOfWork.GetRepository<CmsCategory>();
         }
 
-        public async Task<long> CreateAsync(CategoryCreateRequest request, CancellationToken cancellationToken = default)
+        public async Task<long> CreateAsync(CmsCategoryCreateRequest request, CancellationToken cancellationToken = default)
         {
             var entity = request.Map();
             await _categoryRepository.AddAsync(entity, cancellationToken);
@@ -31,7 +31,7 @@ namespace Module.CMS.Data
             return entity.Id;
         }
 
-        public async Task<bool> UpdateAsync(CategoryUpdateRequest request, CancellationToken cancellationToken = default)
+        public async Task<bool> UpdateAsync(CmsCategoryUpdateRequest request, CancellationToken cancellationToken = default)
         {
             var entity = await _categoryRepository
                 .AsQueryable()
@@ -58,12 +58,12 @@ namespace Module.CMS.Data
             return result > 0;
         }
 
-        public async Task<CategoryViewModel> Get(long id, CancellationToken cancellationToken = default)
+        public async Task<CmsCategoryViewModel> Get(long id, CancellationToken cancellationToken = default)
         {
             var item = await _categoryRepository
                 .AsReadOnly()
                 .Where(x => x.Id == id && !x.IsDeleted)
-                .Select(x => CategoryViewModel.Map(x))
+                .Select(x => CmsCategoryViewModel.Map(x))
                 .FirstOrDefaultAsync();
 
             if (item == null)
@@ -72,7 +72,7 @@ namespace Module.CMS.Data
             return item;
         }
 
-        public async Task<PagedCollection<CategoryViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public async Task<PagedCollection<CmsCategoryViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var list = _categoryRepository
                 .AsReadOnly()
@@ -80,12 +80,12 @@ namespace Module.CMS.Data
                 .ApplySearch(searchOptions)
                 .ApplyPagination(pagingOptions);
 
-            var results = list.Select(x => CategoryViewModel.Map(x));
+            var results = list.Select(x => CmsCategoryViewModel.Map(x));
 
             var total = await list.Select(x => x.Id).CountAsync(cancellationToken);
             var items = await results.ToListAsync(cancellationToken);
 
-            var result = new PagedCollection<CategoryViewModel>(items, total, pagingOptions);
+            var result = new PagedCollection<CmsCategoryViewModel>(items, total, pagingOptions);
             return result;
         }
 

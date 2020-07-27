@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzFormModule, NzRadioModule, NzInputModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http.service';
@@ -19,7 +19,9 @@ import { MyExamStartRoutingModule } from './my-exam-start-routing.module';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    NzRadioModule,
+    NzInputModule
   ],
   exports: [MyExamStartComponent],
   providers: [

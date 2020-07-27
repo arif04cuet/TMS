@@ -1,6 +1,6 @@
 ﻿namespace Module.CMS.Data
 {
-    public class CategoryUpdateRequest : CategoryCreateRequest
+    public class CmsCategoryUpdateRequest : CmsCategoryCreateRequest
     {
         public long Id { get; set; }
     }
