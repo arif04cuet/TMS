@@ -17,6 +17,8 @@ export class MyExamStartComponent extends FormComponent {
   timeRemaining = ''
   totalTime = ''
 
+  private examId;
+
   constructor(
     private myExamHttpService: MyExamHttpService,
     private activatedRoute: ActivatedRoute
@@ -26,8 +28,8 @@ export class MyExamStartComponent extends FormComponent {
 
   ngOnInit() {
     const snapshot = this.activatedRoute.snapshot;
-    const examId = snapshot.params.id;
-    this.get(examId);
+    this.examId = snapshot.params.id;
+    this.get(this.examId);
   }
 
   get(id) {
@@ -38,7 +40,7 @@ export class MyExamStartComponent extends FormComponent {
         this.totalTime = this.getTimeString(this.data.totalSeconds);
         this.loading = false;
         setInterval(() => {
-          this.data.totalSeconds--;
+          --this.data.totalSeconds;
           setTimeout(() => {
             this.timeRemaining = this.getTimeString(this.data.totalSeconds);
           });
@@ -59,7 +61,33 @@ export class MyExamStartComponent extends FormComponent {
   }
 
   submit() {
-
+    if (!this.data && !this.data.questions) {
+      this.failed('failed');
+      return;
+    }
+    const body = {
+      examId: this.id,
+      answers: this.data.questions.map(x => {
+        return {
+          question: x.id,
+          mcqAnswer: x.mcqAnswer,
+          WrittenAnswer: x.writtenAnswer
+        }
+      })
+    };
+    this.log(body);
+    return;
+    this.loading = true;
+    this.subscribe(this.myExamHttpService.add(body),
+    (res: any) => {
+      this.loading = false;
+      this.success('success');
+    },
+    err => {
+      this.loading = false;
+      this.failed('failed');
+    }
+    );
   }
 
   getTimeString(seconds: number) {

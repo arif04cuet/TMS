@@ -36,25 +36,10 @@ namespace Module.Training.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ExamCreateRequest request)
+        public async Task<IActionResult> Post([FromBody] SubmitExamAnswerRequest request)
         {
-            var result = await _myExamService.CreateAsync(request);
+            var result = await _myExamService.SubmitAnswerAsync(request);
             return result.ToCreatedResult();
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(long id, [FromBody] ExamUpdateRequest request)
-        {
-            request.Id = id;
-            var result = await _myExamService.UpdateAsync(request);
-            return result.ToOkResult();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
-        {
-            await _myExamService.DeleteAsync(id);
-            return NoContent();
         }
 
     }

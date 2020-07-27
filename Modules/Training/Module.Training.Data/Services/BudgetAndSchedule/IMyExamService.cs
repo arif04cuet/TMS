@@ -8,11 +8,7 @@ namespace Module.Training.Data
 {
     public interface IMyExamService : IScopedService
     {
-        Task<long> CreateAsync(ExamCreateRequest request, CancellationToken cancellationToken = default);
-
-        Task<bool> UpdateAsync(ExamUpdateRequest request, CancellationToken cancellationToken = default);
-
-        Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default);
+        Task<long> SubmitAnswerAsync(SubmitExamAnswerRequest request, CancellationToken cancellationToken = default);
 
         Task<ExamViewModel> Get(long classRoutineId, CancellationToken cancellationToken = default);
 

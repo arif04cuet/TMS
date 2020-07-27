@@ -7,7 +7,6 @@ using Module.Core.Data;
 using Module.Training.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
-using System;
 using System.Data;
 using System.Linq;
 using System.Threading;
@@ -22,6 +21,7 @@ namespace Module.Training.Data
         private readonly IRepository<Exam> _examRepository;
         private readonly IRepository<ExamParticipant> _examParticipantRepository;
         private readonly IRepository<ExamQuestion> _examQuestionRepository;
+        private readonly IRepository<ExamAnswer> _examAnswerRepository;
         private readonly IDbConnection _dbConnection;
         private readonly IAppService _appService;
 
@@ -35,90 +35,49 @@ namespace Module.Training.Data
             _dbConnection = _unitOfWork.GetConnection();
             _examParticipantRepository = _unitOfWork.GetRepository<ExamParticipant>();
             _examQuestionRepository = _unitOfWork.GetRepository<ExamQuestion>();
+            _examAnswerRepository = _unitOfWork.GetRepository<ExamAnswer>();
         }
 
-        public async Task<long> CreateAsync(ExamCreateRequest request, CancellationToken cancellationToken = default)
+        public async Task<long> SubmitAnswerAsync(SubmitExamAnswerRequest request, CancellationToken cancellationToken = default)
         {
-            var entity = request.Map();
-            await _examRepository.AddAsync(entity, cancellationToken);
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            // check logged in user took this exam or not
+            var user = _appService.GetAuthenticatedUser();
+            if (user == null || !user.Exists())
+                throw new ValidationException("User not found");
 
-            var questions = request.Questions.Select(x => new ExamQuestion
+            var examParticipant = await _examParticipantRepository
+                .FirstOrDefaultAsync(x => x.Participant.TraineeId == user.Id && !x.IsDeleted, true);
+
+            if (examParticipant != null)
+                throw new ValidationException("You already took this exam.");
+
+            var exam = await _examRepository
+                .FirstOrDefaultAsync(x => x.Id == request.ExamId && !x.IsDeleted);
+
+            if (exam == null)
+                throw new ValidationException("Exam not found");
+
+            var allocation = await _unitOfWork.GetRepository<BatchScheduleAllocation>()
+                .FirstOrDefaultAsync(x => x.TraineeId == user.Id
+                && x.Status == BatchScheduleAllocationStatus.Approved
+                && !x.IsDeleted);
+
+            if (allocation == null)
+                throw new ValidationException("Allocation not found");
+
+            var answers = request.Answers.Select(x => new ExamAnswer
             {
-                ExamId = entity.Id,
-                QuestionId = x.Question.Id,
-                Mark = x.Mark
+                AllocationId = allocation.Id,
+                ExamId = exam.Id,
+                QuestionId = x.Question,
+                WrittenAnswer = x.WrittenAnswer,
+                McqAnswerId = x.McqAnswer
             });
-            await _examQuestionRepository.AddRangeAsync(questions);
-            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return entity.Id;
-        }
-
-        public async Task<bool> UpdateAsync(ExamUpdateRequest request, CancellationToken cancellationToken = default)
-        {
-            var entity = await _examRepository
-                .AsQueryable()
-                .FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
-
-            if (entity == null)
-                throw new NotFoundException($"Exam not found");
-
-            request.Map(entity);
-
-            // questions
-            foreach (var question in request.Questions)
-            {
-                if (question.Id.HasValue)
-                {
-                    // update
-                    var dbQuestion = await _examQuestionRepository
-                        .Where(x => x.Id == question.Id.Value && x.ExamId == request.Id && !x.IsDeleted)
-                        .FirstOrDefaultAsync();
-
-                    if (dbQuestion != null)
-                    {
-                        dbQuestion.Mark = question.Mark;
-                    }
-                }
-                else
-                {
-                    // new
-                    var newExamQuestion = new ExamQuestion
-                    {
-                        ExamId = request.Id,
-                        QuestionId = question.Question.Id,
-                        Mark = question.Mark
-                    };
-                    await _examQuestionRepository.AddAsync(newExamQuestion);
-                }
-            }
-
-            // delete question
-            var requestExamQuestionIds = request.Questions
-                .Where(x => x.Id.HasValue)
-                .Select(x => x.Id.Value);
-
-            var examQuestionToBeDelete = await _examQuestionRepository
-                .Where(x => x.ExamId == request.Id && !requestExamQuestionIds.Contains(x.Id))
-    .ToListAsync();
-
-            _examQuestionRepository.RemoveRange(examQuestionToBeDelete);
+            await _examAnswerRepository.AddRangeAsync(answers);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return result > 0;
-        }
 
-        public async Task<bool> DeleteAsync(long id, CancellationToken cancellationToken = default)
-        {
-            var entity = await _examRepository.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, true);
-
-            if (entity == null)
-                throw new NotFoundException("Exam not found");
-
-            entity.IsDeleted = true;
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return result > 0;
+            return result;
         }
 
         public async Task<ExamViewModel> Get(long id, CancellationToken cancellationToken = default)

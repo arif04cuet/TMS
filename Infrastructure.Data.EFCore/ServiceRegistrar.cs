@@ -40,7 +40,13 @@ namespace Infrastructure.Data.EFCore
             catch (Exception e)
             {
                 logger.LogError($"---MIGRATE ERROR--- at {DateTime.Now}");
-                logger.LogError(e.Message);
+                Exception ex = e;
+                while(ex != null)
+                {
+                    logger.LogError(ex.Message);
+                    ex = ex.InnerException;
+                }
+                logger.LogError($"---MIGRATE ERROR END --- at {DateTime.Now}");
             }
         }
     }
