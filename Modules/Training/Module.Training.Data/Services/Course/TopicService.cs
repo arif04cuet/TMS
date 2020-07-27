@@ -33,13 +33,16 @@ namespace Module.Training.Data
             await _topicRepository.AddAsync(entity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var resourcePersons = request.ResourcePersons.Select(x => new TopicResourcePerson
+            if(request.ResourcePersons?.Count() > 0)
             {
-                TopicId = entity.Id,
-                ResourcePersonId = x
-            });
-            await _topicResourcePersonRepository.AddRangeAsync(resourcePersons);
-            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+                var resourcePersons = request.ResourcePersons.Select(x => new TopicResourcePerson
+                {
+                    TopicId = entity.Id,
+                    ResourcePersonId = x
+                });
+                await _topicResourcePersonRepository.AddRangeAsync(resourcePersons);
+                result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+            }
 
             return entity.Id;
         }

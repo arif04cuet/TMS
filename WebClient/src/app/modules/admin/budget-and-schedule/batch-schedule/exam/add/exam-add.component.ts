@@ -117,7 +117,7 @@ export class ExamAddComponent extends FormComponent {
       body.batchSchedule = Number(this.batchScheduleId);
     }
     if(!this.showQuestionTypeInput) {
-      delete body.evaluationType;
+      delete body.questionType;
     }
     body.questions = this.data.questions;
     this.submitForm(

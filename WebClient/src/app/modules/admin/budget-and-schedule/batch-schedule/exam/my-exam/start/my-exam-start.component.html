@@ -1,0 +1,37 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+<div [style.display]="loading ? 'none' : ''">
+    <div class="block pad-v-12 pad-h-20 box-divider">
+        <div class="content">
+            <div class="header-container">
+                <span class="header">
+                    <span *ngIf="mode=='add'">
+                        {{ 'my.exam'|translate }}
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
+        <div class="content">
+                            
+        </div>
+    </div>
+
+    <div class="block footer pad-v-12 pad-h-20 box-divider">
+        <div class="column">
+            <button (click)="cancel()" nz-button class="btn-custom">
+                {{'cancel'|translate}}
+            </button>
+            <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
+                {{'submit'|translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>
+
+<ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>

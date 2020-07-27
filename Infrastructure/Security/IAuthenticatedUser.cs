@@ -5,6 +5,8 @@
         long Id { get; set; }
         string Email { get; set; }
 
+        bool Exists();
+
         bool IsSuperUser();
     }
 }

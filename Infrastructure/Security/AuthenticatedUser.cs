@@ -14,5 +14,10 @@
         {
             return Id == 1 && Email.Equals("admin@gmail.com");
         }
+
+        public bool Exists()
+        {
+            return !string.IsNullOrEmpty(Email) || Id > 0;
+        }
     }
 }

@@ -82,12 +82,8 @@ export class HttpService {
             'Access-Control-Allow-Headers': 'Origin, Content-Type, X-XSRF-TOKEN'
         };
         const token = this.securityService.getAuthData();
-        const t = `${localStorage.access_token}`;
-        if(t) {
-            headers['Authorization'] = `Bearer ${t}`;
-        }
         if (token) {
-            // headers['Authorization'] = `Bearer ${this.securityService.getAuthData().accessToken}`;
+            headers['Authorization'] = `Bearer ${token.accessToken}`;
         }
         return headers;
     }

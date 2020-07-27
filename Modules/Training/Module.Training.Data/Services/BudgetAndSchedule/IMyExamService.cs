@@ -16,11 +16,7 @@ namespace Module.Training.Data
 
         Task<ExamViewModel> Get(long classRoutineId, CancellationToken cancellationToken = default);
 
-        Task<PagedCollection<ExamViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
-
-        Task<long> UpdateMarksAsync(ExamMarkUpdateRequest request, CancellationToken cancellationToken = default);
-
-        Task<PagedCollection<ExamParticipantViewRequest>> ListParticipantAsync(long batchScheduleId, long examId);
+        Task<PagedCollection<MyExamListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
     }
 }

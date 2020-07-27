@@ -5,24 +5,24 @@ import { MyExamListComponent } from './my-exam-list.component';
 const routes: Routes = [
   { path: '', component: MyExamListComponent },
   {
-    path: ':id/edit',
-    loadChildren: () => import('../add/exam-add.module').then(x => x.ExamAddModule),
+    path: ':id/view',
+    loadChildren: () => import('./view/my-exam-view.module').then(x => x.MyExamViewModule),
     data: {
-      name: 'exam_edit',
+      name: 'my_exam_view',
       breadcrumb: {
         icon: 'edit',
-        title: 'edit'
+        title: 'my.exam'
       }
     }
   },
   {
-    path: 'add',
-    loadChildren: () => import('../add/exam-add.module').then(x => x.ExamAddModule),
+    path: ':id/start',
+    loadChildren: () => import('./start/my-exam-start.module').then(x => x.MyExamStartModule),
     data: {
-      name: 'exam_add',
+      name: 'my_exam_start',
       breadcrumb: {
-        icon: 'plus',
-        title: 'add'
+        icon: 'edit',
+        title: 'my.exam'
       }
     }
   }

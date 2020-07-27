@@ -66,6 +66,7 @@ namespace OTMS
             app.UseCors("default");
 
             app.UseAuthorization();
+            app.UseAuthentication();
             app.UseStaticFilesService();
 
             app.UseEndpoints(endpoints =>

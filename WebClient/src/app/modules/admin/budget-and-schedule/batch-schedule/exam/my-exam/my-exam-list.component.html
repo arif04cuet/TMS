@@ -1,20 +1,16 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 
-<div *ngIf="!loading">
+<div *ngIf="!loading" class="box">
     <div>
         <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'exams'|translate}} ({{total}})
+                        {{'my.exams'|translate}} ({{total}})
                     </span>
                 </div>
             </div>
             <div class="column">
-                <button (click)="add()" nz-button class="btn-custom">
-                    <i nz-icon nzType="plus" nzTheme="outline"></i>
-                    {{'new'|translate}}
-                </button>
                 <button (click)="refresh()" nz-button class="btn-custom">
                     <i nz-icon nzType="sync" nzTheme="outline"></i>
                     {{'refresh'|translate}}
@@ -25,70 +21,30 @@
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
                 (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
                 nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>
-                            {{'name'|translate}}
-                            <input [(ngModel)]="name" nz-input />
-                        </th>
-                        <th>
-                            {{'exam.date'|translate}}
-                            <nz-date-picker [(ngModel)]="examDate"></nz-date-picker>
-                        </th>
-                        <th>{{'evaluation.type'|translate}}</th>
-                        <th>{{'exam.type'|translate}}</th>
-                        <th>{{'question.type'|translate}}</th>
-                        <th>{{'mark'|translate}}</th>
-                        <th>{{'total.minutes'|translate}}</th>
-                        <th>{{'extra.time'|translate}}</th>
-                        <th>{{'status'|translate}}</th>
-                        <th>{{'is.online'|translate}}</th>
-                        <th>{{'download'|translate}}</th>
+                        <th>{{'name'|translate}}</th>
+                        <th>{{'batch.schedule'|translate}}</th>
+                        <th>{{'course.schedule'|translate}}</th>
+                        <th>{{'course'|translate}}</th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
-                                <button (click)="search()" nz-button class="btn-custom">
-                                    <i nz-icon nzType="sync" nzTheme="outline"></i>
-                                    {{'search'|translate}}
-                                </button>
                             </div>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td class="fit-cell">{{ data.name }}</td>
-                        <td class="fit-cell">{{ data.examDate|momentDate }}</td>
-                        <td>{{ data.evaluationType?.name }}</td>
-                        <td>{{ data.evaluationMethod?.name }}</td>
-                        <td>{{ data.questionType?.name }}</td>
-                        <td>{{ data.mark }}</td>
-                        <td>{{ data.totalMinutes }}</td>
-                        <td>{{ data.extraTime }}</td>
-                        <td>{{ data.status?.name }}</td>
-                        <td>{{ (data.isOnline ? 'yes' : 'no')|translate }}</td>
-                        <td>
-                            <a *ngIf="!data.isOnline" (click)="download(data)">{{'download'|translate}}</a>
-                        </td>
+                        <td>{{ data.name }}</td>
+                        <td>{{ data.batchSchedule }}</td>
+                        <td>{{ data.courseSchedule }}</td>
+                        <td>{{ data.course }}</td>
                         <td class="action-column fit-cell">
-                            <button nz-button (click)="result(data)" class="btn-custom">
-                                {{'result'|translate}}
+                            <button nz-button (click)="view(data)" class="btn-custom">
+                                {{'view'|translate}}
                             </button>
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
                         </td>
                     </tr>
                 </tbody>
