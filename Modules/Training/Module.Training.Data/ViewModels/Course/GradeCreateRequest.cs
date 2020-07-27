@@ -5,6 +5,7 @@ namespace Module.Training.Data
     public class GradeCreateRequest
     {
         public string Name { get; set; }
+        public string GradeName { get; set; }
         public int From { get; set; }
         public int To { get; set; }
 
@@ -12,6 +13,7 @@ namespace Module.Training.Data
         {
             var entity = grade ?? new Grade();
             entity.Name = Name;
+            entity.GradeName = GradeName;
             entity.From = From;
             entity.To = To;
             return entity;

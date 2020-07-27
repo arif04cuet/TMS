@@ -7,6 +7,7 @@ namespace Module.Training.Entities
     [Table(nameof(Grade), Schema = SchemaConstants.Training)]
     public class Grade : IdNameEntity
     {
+        public string GradeName { get; set; }
         public int From { get; set; }
         public int To { get; set; }
     }

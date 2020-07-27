@@ -42,6 +42,32 @@ export class HomeComponent extends BaseComponent {
         route: '/admin/trainings/my-exam',
         icon: 'dashboard',
       },
+
+      {
+        level: 1,
+        title: 'cms',
+        icon: 'user',
+        nav: [
+          {
+            level: 2,
+            title: 'cms.category',
+            route: '/admin/cms/categories',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'cms.content',
+            route: '/admin/cms/contents',
+            icon: 'user'
+          },
+          {
+            level: 2,
+            title: 'cms.banner',
+            route: '/admin/cms/banners',
+            icon: 'user'
+          }
+        ]
+      },
       {
         level: 1,
         title: 'user',

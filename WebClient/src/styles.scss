@@ -781,3 +781,11 @@ label {
     pointer-events: auto;
   }
 }
+
+.ck-content{
+  height:200px;
+}
+
+.box .block .field-container input {
+  max-width: 100%;
+}

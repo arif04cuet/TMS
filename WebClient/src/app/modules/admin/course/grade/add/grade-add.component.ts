@@ -25,6 +25,7 @@ export class GradeAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
+      gradeName: [null, [], this.v.required.bind(this)],
       from: [null, [], this.v.required.bind(this)],
       to: [null, [], this.v.required.bind(this)]
     });

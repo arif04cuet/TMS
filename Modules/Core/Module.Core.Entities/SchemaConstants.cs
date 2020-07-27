@@ -6,5 +6,6 @@
         public const string Core = "core";
         public const string Asset = "asset";
         public const string Training = "training";
+        public const string Cms = "cms";
     }
 }

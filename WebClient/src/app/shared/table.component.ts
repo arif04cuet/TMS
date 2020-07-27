@@ -20,7 +20,7 @@ export class TableComponent extends BaseComponent {
     indeterminate = false;
     listOfCurrentPageItems = [];
     rowItemDisabledFilterKey = "disabled";
-    pageSizeOptions= [10, 20, 40, 50, 80, 100];
+    pageSizeOptions = [10, 20, 40, 50, 80, 100];
 
     constructor(service) {
         super();
@@ -31,7 +31,7 @@ export class TableComponent extends BaseComponent {
         if (response && response.status == 200) {
             this.total = response.data.size;
             if (items == null) {
-                if(!response.data.items && Array.isArray(response.data)) {
+                if (!response.data.items && Array.isArray(response.data)) {
                     this.items = response.data;
                     this.total = response.data.length;
                 }
@@ -59,6 +59,8 @@ export class TableComponent extends BaseComponent {
                         deleteModal.getInstance().nzOkLoading = false;
                         this._messageService.create('success', deletedText);
                         this.invoke(this.onDeleted, res);
+                        //refresh data
+                        this.load();
                     },
                     err => {
                         deleteModal.getInstance().nzOkLoading = false;
@@ -68,6 +70,8 @@ export class TableComponent extends BaseComponent {
                 );
             }
         });
+
+
     }
 
     getSearchTerms() {

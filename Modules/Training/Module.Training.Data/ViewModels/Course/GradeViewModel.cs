@@ -7,6 +7,7 @@ namespace Module.Training.Data
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public string GradeName { get; set; }
         public int From { get; set; }
         public int To { get; set; }
 
@@ -16,6 +17,7 @@ namespace Module.Training.Data
             {
                 Id = grade.Id,
                 Name = grade.Name,
+                GradeName = grade.GradeName,
                 From = grade.From,
                 To = grade.To
             };

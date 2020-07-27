@@ -21,8 +21,24 @@ import { TranslateService } from '@ngx-translate/core';
             <span>{{ 'no.photo'|translate }}</span>
         </div>
         <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i> 
-        <img *ngIf="!photoLoading && photoUrl" [src]="photoUrl" class="photo" />
-        <div *ngIf="!photoLoading" class="overlay">
+        <img *ngIf="!photoLoading && photoUrl && type == 'image'" [src]="photoUrl" class="photo" />
+        
+        <div *ngIf="!photoLoading && type == 'file'" >
+        <div>
+          <a class="icon" (click)="handleUpload($event); photo.click()">
+            <i nz-icon nzType="upload" nzTheme="outline" style="font-size:30px"></i>
+          </a>
+          <br/>
+          <a *ngIf="!photoLoading && photoUrl && type == 'file'" [href]="photoUrl" target="__blank">Download</a>
+          <a *ngIf="photoUrl && delete" class="icon" (click)="handleDelete($event)" style="margin-left:10px">
+            <i nz-icon nzType="delete" nzTheme="outline"></i>
+          </a>
+        </div>
+      </div>
+
+        
+
+        <div *ngIf="!photoLoading && type == 'image'" class="overlay">
           <div>
             <a class="icon" (click)="handleUpload($event); photo.click()">
               <i nz-icon nzType="upload" nzTheme="outline"></i>
@@ -40,6 +56,7 @@ export class PhotoUploadComponent {
 
   @Input() uploaderClass: string = 'photo-uploader';
   @Input() label;
+  @Input() type: string = "image";
   @Input() photoUrl;
   @Input() control: FormControl;
   @Input() delete: (mediaId: any) => Observable<boolean>;

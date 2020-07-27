@@ -7,6 +7,45 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
+
+      {
+        path: 'cms/banners',
+        loadChildren: () => import('../cms/banner/list/banner-list.module').then(x => x.BannerListModule),
+        data: {
+          name: 'cms_banners',
+          breadcrumb: {
+            icon: 'team',
+            title: 'cms.banner'
+          }
+        }
+      },
+
+      {
+        path: 'cms/contents',
+        loadChildren: () => import('../cms/content/list/content-list.module').then(x => x.CmsContentListModule),
+        data: {
+          name: 'cms_contents',
+          breadcrumb: {
+            icon: 'team',
+            title: 'cms.content'
+          }
+        }
+      },
+
+
+      {
+        path: 'cms/categories',
+        loadChildren: () => import('../cms/category/list/category-list.module').then(x => x.CmsCategoryListModule),
+        data: {
+          name: 'cms_categories',
+          breadcrumb: {
+            icon: 'team',
+            title: 'cms.category'
+          }
+        }
+      },
+
+
       {
         path: 'users',
         loadChildren: () => import('../user/user/list/user-list.module').then(x => x.UserListModule),

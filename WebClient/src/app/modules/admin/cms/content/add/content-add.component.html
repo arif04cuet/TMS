@@ -1,0 +1,103 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+
+<div class="box" [style.display]="loading ? 'none' : ''">
+    <div class="block pad-v-12 pad-h-20 box-divider">
+        <div class="content">
+            <div class="header-container">
+                <span class="header">
+                    <span *ngIf="mode=='add'">
+                        {{ 'create.a.x0'|translate:{x0: 'cms.content'|translate|lowercase} }}
+                    </span>
+                    <span *ngIf="mode=='edit'">
+                        {{ 'update.a.x0'|translate:{x0: 'cms.content'|translate|lowercase} }}
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
+        <div class="content">
+            <form nz-form [formGroup]="form">
+
+                <div nz-row [nzGutter]="24">
+
+                    <div nz-col [nzSpan]="16">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'title'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="text" nz-input formControlName="name"
+                                    placeholder="{{'title'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #categorySelect label="cms.category"
+                            [formControl]="form.controls.categoryId">
+                        </app-select-control>
+                    </div>
+
+
+
+                </div>
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="24">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label>{{'body'|translate}}</label>
+                            </div>
+                            <nz-form-control>
+                                <ckeditor #bodyEditorComponent [editor]="bodyEditor"></ckeditor>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+
+                    <div nz-col [nzSpan]="8">
+                        <div class="field-container">
+                            <app-photo-upload [control]="form.controls.attachment" type="file" label="attachment"
+                                [photoUrl]="attachmentUrl" [delete]="attachmentDeleteHandler"
+                                uploaderClass="normal-uploader">
+                            </app-photo-upload>
+                        </div>
+                    </div>
+
+                    <div nz-col [nzSpan]="8">
+                        <div class="field-container">
+                            <app-photo-upload [control]="form.controls.image" label="image" [photoUrl]="imageUrl"
+                                [delete]="imageDeleteHandler" uploaderClass="rectangular-uploader">
+                            </app-photo-upload>
+                        </div>
+                    </div>
+
+
+                    <div nz-col [nzSpan]="8">
+                        <nz-form-control>
+                            <span nz-checkbox formControlName="isActive">
+                                <span>{{'publish'|translate}}</span>
+                            </span>
+                        </nz-form-control>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="block footer pad-v-12 pad-h-20 box-divider">
+        <div class="column">
+            <button (click)="cancel()" nz-button class="btn-custom">
+                {{'cancel'|translate}}
+            </button>
+            <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
+                {{submitButtonText|translate}}
+            </button>
+        </div>
+    </div>
+    <ng-template #errorTemplate let-control>
+        {{control?.errors?.message}}
+    </ng-template>
+</div>

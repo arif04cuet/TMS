@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Module.Core.Shared\Module.Core.Shared.csproj" />
     <ProjectReference Include="..\..\Core\Module.Core\Module.Core.csproj" />
+    <ProjectReference Include="..\Module.CMS.Data\Module.CMS.Data.csproj" />
   </ItemGroup>
 
 </Project>
