@@ -6,6 +6,7 @@ import { TrainingCourseComponent } from './training-course/training-course.compo
 import { TrainingCourseViewComponent } from './training-course/view/training-course-view.component';
 import { TrainingCourseApplyComponent } from './training-course/apply/training-course-apply.component';
 import { LoginComponent } from './login/login.component';
+import { HomePageComponent } from './homepage/homepage.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
     // loadChildren: () => import('./home/home.module').then(x => x.HomeModule)
     component: HomeComponent,
     children: [
+      {
+        path: '',
+        component: HomePageComponent
+      },
       {
         path: 'login',
         component: LoginComponent

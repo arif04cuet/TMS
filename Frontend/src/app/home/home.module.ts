@@ -8,6 +8,8 @@ import { TrainingCourseModule } from '../training-course/training-course.module'
 import { TrainingCourseViewModule } from '../training-course/view/training-course-view.module';
 import { TrainingCourseApplyModule } from '../training-course/apply/training-course-apply.module';
 import { LoginModule } from '../login/login.module';
+import { HomePageModule } from '../homepage/homepage.module';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { LoginModule } from '../login/login.module';
     TrainingCourseModule,
     TrainingCourseViewModule,
     TrainingCourseApplyModule,
-    LoginModule
+    LoginModule,
+    HomePageModule,
+    NzLayoutModule
   ],
   exports: [HomeComponent]
 })

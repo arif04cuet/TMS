@@ -50,15 +50,11 @@
 .ant-layout-header .logo span {font-size: 17px;font-weight: bold;}
 .ant-layout-header .top-menu {text-align: right;}
 .ant-layout-header .top-menu {text-align: right;}
-.ant-layout-header .top-menu .ant-menu-item{font-weight: bold;}
 
-.bottom-menu nz-header{
-  background-color: #00909E;
-}
-
-.bottom-menu .ant-menu{
-  background-color: #00909E;
-  color: #fff;
+.top-menu .ant-menu-item
+{
+  font-weight: bold;
+  top: 0;
 }
 
 .top-menu .ant-menu-item-active, 
@@ -66,9 +62,26 @@
 .top-menu .ant-menu-item-selected {
     border-bottom: none;
     border-top: 2px solid #00909E;
-    background-color: #00909E;
+    background-color: #e6f7ff;
     
 }
+.bottom-menu nz-header{
+  background-color: #00909E;
+  height:50px;
+}
+.bottom-menu nz-header .ant-menu{
+  height: 100%;
+  line-height: 1;
+  background-color: #00909E;
+  color: #fff;
+
+  }
+
+.bottom-menu .ant-menu .ant-menu-item{
+  height: 100%;
+  padding: 18px;
+}
+
 
 .bottom-menu .ant-menu-horizontal>.ant-menu-item-active, 
 .bottom-menu .ant-menu-horizontal>.ant-menu-item:hover, 
@@ -86,5 +99,14 @@
 }
 
 .bottom-menu .ant-menu-item{padding:0 30px}
+
+nz-content,nz-footer {
+  padding: 0 50px;
+}
+
+
+nz-content{
+  min-height: 300px!important;
+}
 
 
