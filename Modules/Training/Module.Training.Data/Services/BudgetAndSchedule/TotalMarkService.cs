@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Training.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -119,30 +120,62 @@ namespace Module.Training.Data
                     .Select(x => new { Id = x.Id, Mark = x.Mark })
                     .FirstOrDefaultAsync();
 
-                    if (evaluationTotalMark != null)
-                    {
-                        mark.TotalMark += evaluationTotalMark.Mark;
-                    }
-
                     var listEvaluationMethod = mark.EvaluationMethods.FirstOrDefault(x => x.Id == evaluationMethod.Id);
                     if (listEvaluationMethod == null)
                     {
                         listEvaluationMethod = new TotalMarkEvaluationMethodViewModel
                         {
                             Id = evaluationMethod.Id,
-                            Name = evaluationMethod.Name,
-                            Mark = evaluationTotalMark == null ? 0 : evaluationTotalMark.Mark
+                            Name = evaluationMethod.Name
                         };
                         mark.EvaluationMethods.Add(listEvaluationMethod);
                     }
+
+                    if (evaluationTotalMark == null)
+                    {
+                        listEvaluationMethod.Mark = await GetEvaluationMethodExamTotalMark(allocation.Id, batchScheduleId, evaluationMethod.Id);
+                    }
                     else
                     {
-                        listEvaluationMethod.Mark = evaluationTotalMark == null ? 0 : evaluationTotalMark.Mark;
+                        listEvaluationMethod.Mark = evaluationTotalMark.Mark;
                     }
+                    mark.TotalMark += listEvaluationMethod.Mark;
                 }
             }
 
             return marks;
+        }
+
+        private async Task<int> GetEvaluationMethodExamTotalMark(long allocationId, long batchScheduleId, long evaluationMethod)
+        {
+            var allExamMark = await _unitOfWork.GetRepository<Exam>()
+                .AsReadOnly()
+                .Where(x => x.BatchScheduleId == batchScheduleId
+                && x.EvaluationMethodId == evaluationMethod
+                && !x.IsDeleted)
+                .Select(x => x.Mark)
+                .SumAsync();
+
+            var myExamMark = await _unitOfWork.GetRepository<ExamParticipant>()
+                .AsReadOnly()
+                .Where(x => x.Exam.BatchScheduleId == batchScheduleId
+                && x.Exam.EvaluationMethodId == evaluationMethod
+                && x.ParticipantId == allocationId
+                && !x.IsDeleted)
+                .Select(x => x.Mark)
+                .SumAsync();
+
+            var evaluationMark = await _unitOfWork.GetRepository<BatchSchedule>()
+                .AsReadOnly()
+                .Where(x => x.Id == batchScheduleId
+                && !x.IsDeleted)
+                .SelectMany(x => x.CourseSchedule.Course.EvaluationMethods)
+                .FirstOrDefaultAsync(x => x.Id == evaluationMethod && !x.IsDeleted);
+
+            //var mark = (100 / 250) * (evaluationMethodMark);
+
+            var mark = allExamMark == 0 ? 0 : (myExamMark / (float)allExamMark) * evaluationMark?.Mark;
+            return (int)mark.Value;
         }
 
     }
