@@ -1,32 +1,65 @@
-<div class="course">
+<div class="course1">
 
-  <div class="title">
+  <div class="page-title">
     <h2>Training Courses</h2>
   </div>
 
-  <div class="filter">
-    <div>
-      Status:
-      <app-select (onChange)="statusChanged($event)" #statusSelect></app-select>
-    </div>
-    <div>
-      Category:
-      <app-select (onChange)="categoryChanged($event)" #categorySelect></app-select>
-    </div>
-  </div>
+  <div class="page-content">
 
-  <div *ngIf="items">
-    <div *ngFor="let item of items" class="course-item">
-      <div class="course-title">
-        <h3>
-          <span>{{item?.courseSchedule?.name}}</span>
-        </h3>
-        <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag>
+    <div class="filter">
+      <div>
+        Status:
+        <app-select (onChange)="statusChanged($event)" #statusSelect></app-select>
       </div>
       <div>
-        <p>Category: {{item?.category?.name}}</p>
+        Category:
+        <app-select (onChange)="categoryChanged($event)" #categorySelect></app-select>
       </div>
-      <button (click)="view(item)" nz-button nzType="primary">View details</button>
+    </div>
+
+    <div *ngIf="items">
+      <div *ngFor="let item of items" class="course-item">
+
+        <div nz-row [nzGutter]="16">
+
+          <div nz-col class="gutter-row" [nzSpan]="5">
+
+            <img src="https://via.placeholder.com/200" alt="">
+
+          </div>
+          <div nz-col class="gutter-row" [nzSpan]="12">
+            <div class="inner-box">
+              <div class="details">
+                <h3>
+                  <span>{{item.name}}</span>
+                </h3>
+                <div class="flex">
+
+                  <h2 class="course-name">
+                    <span>{{item.course.name}}</span>
+                  </h2>
+
+                  <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag>
+
+                </div>
+                <p>{{item.startDate | date :'dd/MM/yyyy'}} - {{item.endDate}}</p>
+
+                <p>Category: {{item?.category?.name}}</p>
+
+                <button (click)="view(item)" nz-button nzType="primary">View details</button>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+
+      </div>
+
     </div>
 
   </div>

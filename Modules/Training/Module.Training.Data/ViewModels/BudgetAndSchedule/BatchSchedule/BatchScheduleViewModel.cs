@@ -27,7 +27,7 @@ namespace Module.Training.Data
         public DateTime RegistrationEndDate { get; set; }
         public string Status { get; set; }
         public IdNameViewModel Category { get; set; }
-
+        public IdNameViewModel Course { get; set; }
         public IEnumerable<IdNameViewModel> Modules { get; set; }
 
         public static Expression<Func<BatchSchedule, BatchScheduleViewModel>> Select()
@@ -51,7 +51,8 @@ namespace Module.Training.Data
                 StartDate = x.StartDate,
                 TotalSeat = x.TotalSeat,
                 Status = now < x.RegistrationStartDate.Date ? "UPCOMING" : (now >= x.StartDate.Date && now <= x.EndDate.Date ? "RUNNING" : (now >= x.EndDate.Date ? "FINISHED" : "")),
-                Category = new IdNameViewModel { Id = x.CourseSchedule.Course.Category.Id, Name = x.CourseSchedule.Course.Category.Name }
+                Category = new IdNameViewModel { Id = x.CourseSchedule.Course.Category.Id, Name = x.CourseSchedule.Course.Category.Name },
+                Course = new IdNameViewModel { Id = x.CourseSchedule.Course.Id, Name = x.CourseSchedule.Course.Name }
             };
         }
 

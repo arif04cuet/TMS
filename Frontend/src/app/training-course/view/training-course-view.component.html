@@ -1,17 +1,52 @@
-<div class="course">
-  <div class="title">
-    <h2>Training Course Details</h2>
+<div class="course-details">
+
+  <div class="page-title">
+    <h2>Course Details</h2>
   </div>
-  <!-- <div *ngIf="item"> -->
-    <div class="course-title">
-      <h3>
-        <span>{{item?.courseSchedule?.name}}</span>
-      </h3>
-      <!-- <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag> -->
+
+  <div class="page-content">
+
+
+    <div *ngIf="item">
+
+
+      <div nz-row [nzGutter]="16">
+
+        <div nz-col class="gutter-row" [nzSpan]="5">
+
+          <img src="https://via.placeholder.com/200" alt="">
+
+        </div>
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <div class="inner-box">
+            <div class="details">
+              <h3>
+                <span>{{item.name}}</span>
+              </h3>
+              <div class="flex">
+
+                <h2 class="course-name">
+                  <span>{{item.course.name}}</span>
+                </h2>
+
+                <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag>
+
+              </div>
+              <p>{{item.startDate | date :'dd/MM/yyyy'}} - {{item.endDate}}</p>
+
+              <p>Category: {{item?.category?.name}}</p>
+
+              <button (click)="apply(item)" nz-button nzType="primary">Apply</button>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
     </div>
-    <div>
-      <p>Category: {{item?.category?.name}}</p>
-    </div>
-    <button (click)="apply(item)" nz-button nzType="primary">Apply</button>
-  <!-- </div> -->
+
+  </div>
+
 </div>

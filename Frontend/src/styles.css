@@ -100,13 +100,27 @@
 
 .bottom-menu .ant-menu-item{padding:0 30px}
 
-nz-content,nz-footer {
-  padding: 0 50px;
+nz-header,nz-content,nz-footer {
+  padding: 0 100px!important;
 }
 
 
 nz-content{
   min-height: 300px!important;
 }
+.page-title
+{
+  text-align: left;
+  border-bottom: 1px solid gray;
+  margin-top: 20px;
+}
+.page-content
+{
+  margin-top: 10px;
+}
+.flex{display: flex;}
+
+
+
 
 
