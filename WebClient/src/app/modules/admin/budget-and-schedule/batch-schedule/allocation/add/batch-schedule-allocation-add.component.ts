@@ -56,16 +56,7 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
 
   ngAfterViewInit() {
     this.batchScheduleSelect.register((pagination, search) => {
-      return this.batchScheduleHttpService.list(pagination, search).pipe(
-        map((x: any) => {
-          if(x.data && x.data.items && x.data.items.length) {
-            x.data.items.forEach(item => {
-              item.name = item.courseSchedule.name; 
-            });
-          }
-          return x;
-        })
-      );
+      return this.batchScheduleHttpService.list(pagination, search);
     }).fetch();
 
     this.courseSelect.register((pagination, search) => {

@@ -119,6 +119,11 @@ namespace Module.Training.Data
                     .Select(x => new { Id = x.Id, Mark = x.Mark })
                     .FirstOrDefaultAsync();
 
+                    if (evaluationTotalMark != null)
+                    {
+                        mark.TotalMark += evaluationTotalMark.Mark;
+                    }
+
                     var listEvaluationMethod = mark.EvaluationMethods.FirstOrDefault(x => x.Id == evaluationMethod.Id);
                     if (listEvaluationMethod == null)
                     {

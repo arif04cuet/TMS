@@ -10,7 +10,7 @@ namespace Module.Training.Data
         public string ParticipantName { get; set; }
         public long BatchAllocationId { get; set; }
         public ICollection<TotalMarkEvaluationMethodViewModel> EvaluationMethods { get; set; }
-        //public int Mark { get; set; }
+        public int TotalMark { get; set; }
 
     }
 

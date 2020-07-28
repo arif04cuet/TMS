@@ -61,4 +61,10 @@ export class TotalMarkComponent extends TableComponent {
     this.load();
   }
 
+  onMarkChanged(data) {
+    if (data.evaluationMethods && data.evaluationMethods.length > 0) {
+      data.totalMark = data.evaluationMethods.map(x => x.mark).reduce((a, c) => a + c)
+    }
+  }
+
 }

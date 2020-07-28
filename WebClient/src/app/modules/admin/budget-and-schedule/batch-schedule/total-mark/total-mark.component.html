@@ -27,14 +27,16 @@
                         <ng-container *ngIf="items && items.length > 0">
                             <th *ngFor="let m of items[0].evaluationMethods">{{ m.name }}</th>
                         </ng-container>
+                        <th>{{'total'|translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.participantName }}</td>
                         <td *ngFor="let m of data.evaluationMethods">
-                            <input [value]="m.mark" [(ngModel)]="m.mark" type="number" nz-input placeholder="{{'mark'|translate}}" />
+                            <input [value]="m.mark" (input)="onMarkChanged(data)" [(ngModel)]="m.mark" type="number" nz-input placeholder="{{'mark'|translate}}" />
                         </td>
+                        <td>{{ data.totalMark }}</td>
                     </tr>
                 </tbody>
             </nz-table>

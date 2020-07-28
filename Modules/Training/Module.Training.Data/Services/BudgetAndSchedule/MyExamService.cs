@@ -61,7 +61,7 @@ namespace Module.Training.Data
                 throw new ValidationException("Exam not found");
 
             var allocation = await _unitOfWork.GetRepository<BatchScheduleAllocation>()
-                .FirstOrDefaultAsync(x => x.TraineeId == user.Id
+                .FirstOrDefaultAsync(x => x.BatchScheduleId == exam.BatchScheduleId && x.TraineeId == user.Id
                 && x.Status == BatchScheduleAllocationStatus.Approved
                 && !x.IsDeleted, true);
 
