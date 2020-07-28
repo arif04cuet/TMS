@@ -25,7 +25,7 @@ export class BatchScheduleAddComponent extends FormComponent {
 
   batchScheduleAddEditTitle;
   currentSelectedTab;
-  hideFooterIndexes = [2, 3, 4, 6, 7, 8]
+  hideFooterIndexes = [2, 3, 4, 5, 6, 7, 8]
 
   constructor(
     private activatedRoute: ActivatedRoute,

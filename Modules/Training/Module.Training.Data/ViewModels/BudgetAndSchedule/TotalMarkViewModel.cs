@@ -6,10 +6,11 @@ namespace Module.Training.Data
 
     public class TotalMarkViewModel
     {
-        public long? Id { get; set; }
-        public string Name { get; set; }
-        public IEnumerable<TotalMarkEvaluationMethodViewModel> EvaluationMethods { get; set; }
-        public int Mark { get; set; }
+        public long? TotalMarkId { get; set; }
+        public string ParticipantName { get; set; }
+        public long BatchAllocationId { get; set; }
+        public ICollection<TotalMarkEvaluationMethodViewModel> EvaluationMethods { get; set; }
+        //public int Mark { get; set; }
 
     }
 

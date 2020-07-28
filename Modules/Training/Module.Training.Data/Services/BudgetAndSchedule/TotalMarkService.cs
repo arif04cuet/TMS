@@ -1,13 +1,10 @@
 ﻿using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Module.Core.Shared;
 using Module.Training.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Infrastructure;
-using Msi.UtilityKit.Pagination;
 
 namespace Module.Training.Data
 {
@@ -28,28 +25,37 @@ namespace Module.Training.Data
         {
             foreach (var mark in request.Marks)
             {
-                if (mark.Id.HasValue)
+                if (mark.TotalMarkId.HasValue)
                 {
                     // update
-                    var dbMark = await _totalMarkRepository
-                        .Where(x => x.Id == mark.Id.Value && x.BatchScheduleId == request.BatchSchedule && !x.IsDeleted)
-                        .FirstOrDefaultAsync();
-                    if (dbMark == null)
-                        throw new ValidationException("Total mark not found");
+                    foreach (var item in mark.EvaluationMethods)
+                    {
+                        var dbMark = await _totalMarkRepository
+                            .Where(x => x.Id == mark.TotalMarkId
+                            && x.BatchScheduleId == request.BatchSchedule
+                            && x.EvaluationMethodId == item.Id
+                            && !x.IsDeleted)
+                            .FirstOrDefaultAsync();
 
-                    dbMark.Mark = mark.Mark;
+                        if (dbMark != null)
+                        {
+                            dbMark.Mark = item.Mark;
+                        }
+                    }
                 }
                 else
                 {
                     // new
-                    var totalMark = new TotalMark
+                    foreach (var item in mark.EvaluationMethods)
                     {
-                        Mark = mark.Mark,
-                        //ParticipantId = mark.Participant.Id,
-                        //EvaluationMethodId = mark.CourseEvaluationMethodId,
-                        BatchScheduleId = request.BatchSchedule
-                    };
-                    await _totalMarkRepository.AddAsync(totalMark);
+                        await _totalMarkRepository.AddAsync(new TotalMark
+                        {
+                            Mark = item.Mark,
+                            ParticipantId = mark.BatchAllocationId,
+                            BatchScheduleId = request.BatchSchedule,
+                            EvaluationMethodId = item.Id
+                        });
+                    }
                 }
             }
             var result = await _unitOfWork.SaveChangesAsync();
@@ -58,12 +64,10 @@ namespace Module.Training.Data
 
         public async Task<IEnumerable<TotalMarkViewModel>> ListAsync(long batchScheduleId, CancellationToken cancellationToken = default)
         {
-            var query = _unitOfWork.GetRepository<BatchSchedule>()
+            var evaluationMethods = await _unitOfWork.GetRepository<BatchSchedule>()
                 .AsReadOnly()
                 .Where(x => x.Id == batchScheduleId && !x.IsDeleted)
-                .SelectMany(x => x.CourseSchedule.Course.EvaluationMethods);
-
-            var evaluationMethods = await query
+                .SelectMany(x => x.CourseSchedule.Course.EvaluationMethods)
                 .Select(x => new TotalMarkEvaluationMethodViewModel
                 {
                     Id = x.EvaluationMethodId,
@@ -71,102 +75,69 @@ namespace Module.Training.Data
                 })
                 .ToListAsync();
 
-            var participants = await _unitOfWork.GetRepository<BatchScheduleAllocation>()
+            var allocations = await _unitOfWork.GetRepository<BatchScheduleAllocation>()
                 .AsReadOnly()
                 .Where(x => x.BatchScheduleId == batchScheduleId
                 && x.Status == BatchScheduleAllocationStatus.Approved
                 && !x.IsDeleted)
+                .Select(x => new
+                {
+                    Id = x.Id,
+                    Name = x.Trainee.FullName
+                })
                 .ToListAsync();
 
             List<TotalMarkViewModel> marks = new List<TotalMarkViewModel>();
 
-            //foreach (var participant in participants)
-            //{
-            //    var totalMark = _unitOfWork.GetRepository<TotalMark>()
-            //        .FirstOrDefaultAsync(x => x.BatchScheduleId == batchScheduleId
-            //        && x.ParticipantId == participant.Id
-            //        && !x.IsDeleted)
-            //    new TotalMarkViewModel
-            //    {
-            //        Id =  
-            //    }
-            //}
+            foreach (var allocation in allocations)
+            {
+                var totalMark = await _totalMarkRepository
+                    .AsReadOnly()
+                    .Where(x => x.BatchScheduleId == batchScheduleId
+                    && x.ParticipantId == allocation.Id
+                    && !x.IsDeleted)
+                    .Select(x => new { Id = x.Id, Mark = x.Mark })
+                    .FirstOrDefaultAsync();
 
-            //var totalMarkQuery = _unitOfWork.GetRepository<TotalMark>()
-            //    .AsReadOnly()
-            //    .Where(x => x.BatchScheduleId == batchScheduleId && !x.IsDeleted);
+                var mark = new TotalMarkViewModel
+                {
+                    TotalMarkId = totalMark?.Id,
+                    ParticipantName = allocation.Name,
+                    BatchAllocationId = allocation.Id,
+                    EvaluationMethods = new List<TotalMarkEvaluationMethodViewModel>()
+                    //Mark = totalMark == null ? 0 : totalMark.Mark
+                };
+                marks.Add(mark);
+                foreach (var evaluationMethod in evaluationMethods)
+                {
+                    var evaluationTotalMark = await _unitOfWork.GetRepository<TotalMark>()
+                    .AsReadOnly()
+                    .Where(x => x.BatchScheduleId == batchScheduleId
+                    && x.ParticipantId == allocation.Id
+                    && x.EvaluationMethodId == evaluationMethod.Id
+                    && !x.IsDeleted)
+                    .Select(x => new { Id = x.Id, Mark = x.Mark })
+                    .FirstOrDefaultAsync();
 
-            //var totalMarkCount = await totalMarkQuery.Select(x => x.Id).CountAsync();
+                    var listEvaluationMethod = mark.EvaluationMethods.FirstOrDefault(x => x.Id == evaluationMethod.Id);
+                    if (listEvaluationMethod == null)
+                    {
+                        listEvaluationMethod = new TotalMarkEvaluationMethodViewModel
+                        {
+                            Id = evaluationMethod.Id,
+                            Name = evaluationMethod.Name,
+                            Mark = evaluationTotalMark == null ? 0 : evaluationTotalMark.Mark
+                        };
+                        mark.EvaluationMethods.Add(listEvaluationMethod);
+                    }
+                    else
+                    {
+                        listEvaluationMethod.Mark = evaluationTotalMark == null ? 0 : evaluationTotalMark.Mark;
+                    }
+                }
+            }
 
-            //IEnumerable<TotalMarkListViewModel> totalMarks = null;
-
-            //if (totalMarkCount == 0)
-            //{
-            //    var participants = await participantsQuery
-            //        .Select(x => new TotalMarkListViewModel
-            //        {
-            //            Participant = new IdNameViewModel
-            //            {
-            //                Id = x.Id,
-            //                Name = x.Trainee.FullName
-            //            }
-            //        })
-            //        .ToListAsync();
-
-            //    var _participants = new List<TotalMarkListViewModel>();
-            //    foreach (var participant in participants)
-            //    {
-            //        foreach (var evaluationMethod in evaluationMethods)
-            //        {
-            //            _participants.Add(new TotalMarkListViewModel
-            //            {
-            //                Participant = new IdNameViewModel
-            //                {
-            //                    Id = participant.Participant.Id,
-            //                    Name = participant.Participant.Name
-            //                },
-            //                CourseEvaluationMethodId = evaluationMethod.CourseEvaluationMethodId,
-            //                EvaluationMethod = new IdNameViewModel
-            //                {
-            //                    Id = evaluationMethod.EvaluationMethodId,
-            //                    Name = evaluationMethod.EvaluationMethodName
-            //                }
-            //            });
-            //        }
-            //    }
-
-            //    totalMarks = _participants;
-            //}
-            //else
-            //{
-            //    totalMarks = await totalMarkQuery
-            //        .OrderBy(x => x.ParticipantId).ThenBy(x => x.EvaluationMethod.Id)
-            //        .Select(x => new TotalMarkListViewModel
-            //        {
-            //            Id = x.Id,
-            //            Participant = new IdNameViewModel
-            //            {
-            //                Id = x.ParticipantId.Value,
-            //                Name = x.Participant.Trainee.FullName
-            //            },
-            //            CourseEvaluationMethodId = x.EvaluationMethod.Id,
-            //            EvaluationMethod = new IdNameViewModel
-            //            {
-            //                Id = x.EvaluationMethod.EvaluationMethodId,
-            //                Name = x.EvaluationMethod.EvaluationMethod.Name
-            //            },
-            //            Mark = x.Mark
-            //        })
-            //        .ToListAsync();
-            //}
-
-            //var pagingOptions = new PagingOptions
-            //{
-            //    Limit = totalMarks.Count(),
-            //    Offset = 0
-            //};
-            //var result = IEnumerable<TotalMarkViewModel>(null, 0, pagingOptions);
-            return null;
+            return marks;
         }
 
     }

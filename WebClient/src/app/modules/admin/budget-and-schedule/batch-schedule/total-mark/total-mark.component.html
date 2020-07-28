@@ -24,14 +24,16 @@
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>{{'name'|translate}}</th>
-                        <th>{{'mark'|translate}}</th>
+                        <ng-container *ngIf="items && items.length > 0">
+                            <th *ngFor="let m of items[0].evaluationMethods">{{ m.name }}</th>
+                        </ng-container>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.name }}</td>
-                        <td style="max-width: 150px;">
-                            <input [value]="data.mark" (input)="markChanged(data, $event.target.value)" type="number" nz-input placeholder="{{'mark'|translate}}" />
+                        <td>{{ data.participantName }}</td>
+                        <td *ngFor="let m of data.evaluationMethods">
+                            <input [value]="m.mark" [(ngModel)]="m.mark" type="number" nz-input placeholder="{{'mark'|translate}}" />
                         </td>
                     </tr>
                 </tbody>
