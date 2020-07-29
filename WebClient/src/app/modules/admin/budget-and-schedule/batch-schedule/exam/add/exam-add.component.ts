@@ -212,7 +212,7 @@ export class ExamAddComponent extends FormComponent {
     if (e) {
       const _items = items || this.typeSelect.items;
       const item = _items.find(x => x.id == e);
-      this.showQuestionTypeInput = item && item.name?.toLowerCase() == "written";
+      this.showQuestionTypeInput = item && item.name?.trim()?.toLowerCase() == "written";
     }
   }
 
