@@ -3,6 +3,7 @@ import { TrainingCourseHttpService } from 'src/services/training-course-http-ser
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-training-course-view',
@@ -30,6 +31,8 @@ export class TrainingCourseViewComponent extends BaseComponent {
     this.subscribe(this.trainingCourseHttpService.get(id),
       (res: any) => {
         this.item = res.data;
+        this.item.course.imageUrl = (this.item.course.imageUrl) ? `${environment.serverUri}/${this.item.course.imageUrl}`:'https://via.placeholder.com/200';
+        console.log(this.item);
       },
       err => { }
     );

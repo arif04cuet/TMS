@@ -1,26 +1,54 @@
-<div class="course">
-  <div class="title">
-    <h2>Application for Training</h2>
-  </div>
-  <!-- <div *ngIf="item"> -->
-  <div class="course-title">
-    <h3>
-      <span>{{item?.courseSchedule?.name}}</span>
-    </h3>
-    <!-- <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag> -->
-  </div>
-  <div>
-    <p>Category: {{item?.category?.name}}</p>
-  </div>
 
-  <form nz-form [formGroup]="form">
-    <app-select-control  [formControl]="form.controls.course"
-    label="bed" #bedSelect></app-select-control>
-    <nz-form-item nz-row class="register-area">
-      <nz-form-control [nzSpan]="14" [nzOffset]="6">
-        <button (click)="apply()" nz-button nzType="primary">Apply</button>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-  <!-- </div> -->
+<div  nz-row>
+  <div nz-col nzSpan="12" nzOffset="6">
+  
+    <div *ngIf="alreadyApplied">
+      <nz-alert 
+      nzType="error" 
+      nzMessage="You already applied to this course."
+      nzShowIcon>
+      </nz-alert>
+      <a (click)="navigate('course')" >প্রশিক্ষণ কোর্স</a>
+    </div>
+
+    <div *ngIf="!alreadyApplied">
+
+      <nz-alert 
+        nzType="info" 
+        nzMessage="You are going to apply on following course. after selecting bed, pls click on apply button." 
+        nzShowIcon>
+    
+      </nz-alert>
+    
+      <br><br>
+      <div class="">
+      
+        <h4>{{item?.name}}</h4>
+        <h3>{{item?.course?.name}}</h3>
+        <h4>{{item?.startDate | date :'MMM d, y'}} - {{item?.endDate | date :'MMM d, y'}}</h4>
+        
+      </div>
+    
+    
+      <br><br>
+      <div class="bed">
+       
+        <form nz-form [formGroup]="form">
+          <app-select-control  [formControl]="form.controls.bed"
+          label="select.bed" #bedSelect></app-select-control>
+          <nz-form-item class="register-area">
+            <nz-form-control>
+              <button (click)="apply()" nz-button nzType="primary">Apply</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+        
+        
+      </div>
+
+    </div>
+
+
+
+  </div>
 </div>

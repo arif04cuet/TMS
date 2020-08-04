@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.IO;
 
 namespace Module.Training.Data
 {
@@ -27,7 +28,7 @@ namespace Module.Training.Data
         public DateTime RegistrationEndDate { get; set; }
         public string Status { get; set; }
         public IdNameViewModel Category { get; set; }
-        public IdNameViewModel Course { get; set; }
+        public CourseViewModel Course { get; set; }
         public IEnumerable<IdNameViewModel> Modules { get; set; }
 
         public static Expression<Func<BatchSchedule, BatchScheduleViewModel>> Select()
@@ -52,7 +53,16 @@ namespace Module.Training.Data
                 TotalSeat = x.TotalSeat,
                 Status = now < x.RegistrationStartDate.Date ? "UPCOMING" : (now >= x.StartDate.Date && now <= x.EndDate.Date ? "RUNNING" : (now >= x.EndDate.Date ? "FINISHED" : "")),
                 Category = new IdNameViewModel { Id = x.CourseSchedule.Course.Category.Id, Name = x.CourseSchedule.Course.Category.Name },
-                Course = new IdNameViewModel { Id = x.CourseSchedule.Course.Id, Name = x.CourseSchedule.Course.Name }
+                //Course = new IdNameViewModel { Id = x.CourseSchedule.Course.Id, Name = x.CourseSchedule.Course.Name }
+                Course = new CourseViewModel{
+                    Id=x.CourseSchedule.Course.Id,
+                    Name = x.CourseSchedule.Course.Name,
+                    Objective = x.CourseSchedule.Course.Objective,
+                    Description = x.CourseSchedule.Course.Description,
+                    TotalMark = x.CourseSchedule.Course.TotalMark,
+                    Duration = x.CourseSchedule.Course.Duration,
+                    ImageUrl = x.CourseSchedule.Course.ImageId.HasValue ? Path.Combine(MediaConstants.Path, x.CourseSchedule.Course.Image.FileName) : string.Empty,
+                }
             };
         }
 
@@ -82,7 +92,17 @@ namespace Module.Training.Data
                 {
                     Id = y.CourseModuleId,
                     Name = y.CourseModule.Name
-                })
+                }),
+                Course = new CourseViewModel{
+                    Id=x.CourseSchedule.Course.Id,
+                    Name = x.CourseSchedule.Course.Name,
+                    Objective = x.CourseSchedule.Course.Objective,
+                    Description = x.CourseSchedule.Course.Description,
+                    TotalMark = x.CourseSchedule.Course.TotalMark,
+                    Duration = x.CourseSchedule.Course.Duration,
+                    ImageUrl = x.CourseSchedule.Course.ImageId.HasValue ? Path.Combine(MediaConstants.Path, x.CourseSchedule.Course.Image.FileName) : string.Empty,
+                }
+
             };
         }
     }

@@ -14,11 +14,15 @@ namespace Module.Training.Controllers
     {
 
         private readonly ICourseService _courseService;
+        private readonly IBatchScheduleAllocationService _batchScheduleAllocationService;
 
         public CourseController(
-            ICourseService courseService)
+            ICourseService courseService,
+            IBatchScheduleAllocationService batchScheduleAllocationService
+            )
         {
             _courseService = courseService;
+            _batchScheduleAllocationService = batchScheduleAllocationService;
         }
 
         [HttpGet]
@@ -39,6 +43,13 @@ namespace Module.Training.Controllers
         public async Task<IActionResult> Post([FromBody] CourseCreateRequest request)
         {
             var result = await _courseService.CreateAsync(request);
+            return result.ToCreatedResult();
+        }
+
+        [HttpPost("{id}/apply")]
+         public async Task<IActionResult> RegisterAllocation([FromBody]BatchScheduleAllocationCreateRequest request)
+        {
+            var result = await _batchScheduleAllocationService.CreateAsync(request);
             return result.ToCreatedResult();
         }
 

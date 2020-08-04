@@ -5,10 +5,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AuthService } from 'src/services/auth.service';
+import {BannerComponent} from '../banner/banner.component';
 
 @NgModule({
   declarations: [
-    HomePageComponent
+    HomePageComponent,
+    BannerComponent
   ],
   exports: [HomePageComponent],
   imports: [

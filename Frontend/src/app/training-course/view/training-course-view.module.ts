@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TrainingCourseHttpService } from 'src/services/training-course-http-service';
+import { NzListModule } from 'ng-zorro-antd/list';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TrainingCourseHttpService } from 'src/services/training-course-http-ser
     NzFormModule,
     ReactiveFormsModule,
     NzInputModule,
-    NzTagModule
+    NzTagModule,
+    NzListModule
   ],
   providers: [
     TrainingCourseHttpService

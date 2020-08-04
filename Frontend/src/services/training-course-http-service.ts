@@ -28,5 +28,11 @@ export class TrainingCourseHttpService extends BaseHttpService {
         return this.httpService.get(this.buildUrl(url, pagination, search, 'Search=IsBooked eq false'));
     }
 
+    public batchAllocation(batchId) {
+        const url = "trainings/batch-schedules/allocations";
+        return this.httpService.get(this.buildUrl(url, null, null, `Search=BatchScheduleId eq ${batchId}`));
+    }
+
+
 
 }

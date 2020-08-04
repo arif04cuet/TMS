@@ -3,6 +3,8 @@ import { TrainingCourseHttpService } from 'src/services/training-course-http-ser
 import { TableComponent } from 'src/shared/table.component';
 import { SelectComponent } from 'src/shared/select/select.component';
 import { of } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-training-course',
@@ -16,7 +18,7 @@ export class TrainingCourseComponent extends TableComponent {
 
   status;
   category;
-
+  
   constructor(
     private trainingCourseHttpService: TrainingCourseHttpService) {
     super(trainingCourseHttpService);
@@ -52,7 +54,16 @@ export class TrainingCourseComponent extends TableComponent {
       if (this.category) {
         search = `Search=CourseSchedule.Course.CategoryId eq ${this.category}`
       }
-      return this.trainingCourseHttpService.list2(this.status, search);
+      return this.trainingCourseHttpService.list2(this.status, search).pipe(
+        map((x:any)=>{
+          
+          x.data.items.forEach(o => {
+            o.course.imageUrl = (o.course.imageUrl) ? `${environment.serverUri}/${o.course.imageUrl}`:'https://via.placeholder.com/200';
+          });
+          
+          return x;
+        })
+      );
     })
   }
 

@@ -11,6 +11,9 @@ import { HttpService } from 'src/services/http.service';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { AuthService } from 'src/services/auth.service';
 import { SecurityService } from 'src/services/security.service';
+import {CmsHttpService} from 'src/services/cms-http-service';
+import { NzCarouselModule } from 'ng-zorro-antd/carousel';
+
 
 @NgModule({
   declarations: [
@@ -23,14 +26,16 @@ import { SecurityService } from 'src/services/security.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HomeModule
+    HomeModule,
+    NzCarouselModule
   ],
   providers: [
     HttpService,
     NzMessageService,
     NzModalService,
     AuthService,
-    SecurityService
+    SecurityService,
+    CmsHttpService
   ],
   bootstrap: [AppComponent]
 })

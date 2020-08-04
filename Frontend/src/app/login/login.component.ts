@@ -19,8 +19,10 @@ export class LoginComponent extends FormComponent {
     private activatedRoute: ActivatedRoute) {
     super();
 
-    const snapshot = activatedRoute.snapshot;
-    this.redirect = snapshot.params.redirect;
+   
+    //const snapshot = activatedRoute.snapshot;
+    //this.redirect = snapshot.params.redirect;
+    this.redirect = this.activatedRoute.snapshot.queryParamMap.get('redirect');
   }
 
   ngOnInit(): void {

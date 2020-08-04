@@ -13,6 +13,7 @@ namespace OTMS.Extensions
                     policy
                     .AllowAnyHeader()
                     .AllowAnyMethod()
+                    .WithOrigins("http://localhost:4201")
                     .WithOrigins("http://localhost:4200")
                     .WithOrigins("http://localhost:4300")
                     .WithOrigins("http://localhost:4400")

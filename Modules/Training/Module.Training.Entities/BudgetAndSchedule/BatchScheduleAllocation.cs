@@ -18,6 +18,7 @@ namespace Module.Training.Entities
         public long? CourseId { get; set; }
         public Course Course { get; set; }
 
+        [Searchable]
         public long TraineeId { get; set; }
         public User Trainee { get; set; }
 

@@ -1,51 +1,70 @@
 <div class="course-details">
-
+  
   <div class="page-title">
     <h2>Course Details</h2>
   </div>
 
   <div class="page-content">
 
-
-    <div *ngIf="item">
-
-
-      <div nz-row [nzGutter]="16">
-
-        <div nz-col class="gutter-row" [nzSpan]="5">
-
-          <img src="https://via.placeholder.com/200" alt="">
-
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="12">
-          <div class="inner-box">
-            <div class="details">
-              <h3>
-                <span>{{item.name}}</span>
-              </h3>
-              <div class="flex">
-
-                <h2 class="course-name">
-                  <span>{{item.course.name}}</span>
-                </h2>
-
-                <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag>
-
-              </div>
-              <p>{{item.startDate | date :'dd/MM/yyyy'}} - {{item.endDate}}</p>
-
-              <p>Category: {{item?.category?.name}}</p>
-
-              <button (click)="apply(item)" nz-button nzType="primary">Apply</button>
-
-            </div>
-          </div>
-        </div>
+    <div nz-row>
+      <div nz-col nzSpan="6">
+        <img [src]="item.course.imageUrl" alt="{{item.name}" style="max-width: 98%;">
+        <br>
+        
+        
+        <button nz-button nzType="primary">{{item?.category?.name}} </button>
+        <br><br>
+        <button nz-button nzType="primary">{{item?.course?.duration}} Hours</button>
+        
 
       </div>
 
+      <div nz-col nzSpan="1"></div>
 
+
+      <div nz-col nzSpan="12">
+        <div class="details">
+          <h3>
+            <span>{{item.name}}</span>
+          </h3>
+       
+          <h2>{{item.course.name}}</h2>
+
+          <p>{{item.startDate | date :'dd/MM/yyyy'}} - {{item.endDate|date :'dd/MM/yyyy'}}</p>
+
+          <p>Course Coordinator: <b>{{item.coordinator.name}}</b></p>
+          <p>Course Co Coordinator: <b>{{item.coCoordinator.name}}</b></p>
+
+          <div class="description">
+            <p>Course Description</p>
+            <div [innerHTML]="item?.course?.description"></div>
+          </div>
+
+          <br>
+          <div class="modules">
+
+            <nz-list nzBordered nzSize="small">
+              <nz-list-header>Modules</nz-list-header>
+              <nz-list-item *ngFor="let i of item.modules">
+              
+               <a href="http://">{{i.name}}</a>
+
+              </nz-list-item>
+              <nz-list-footer></nz-list-footer>
+            </nz-list>
+
+          </div>
+
+
+          <br><br>
+
+          <button (click)="apply(item)" nz-button nzType="primary">Apply</button>
+
+        </div>
+
+      </div>
     </div>
+    
 
   </div>
 

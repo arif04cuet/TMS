@@ -51,7 +51,7 @@ namespace Module.Training.Data
                 // temporary booked hostel allocation
                 var hostelAllocation = new Allocation
                 {
-                    CheckinDate = DateTime.UtcNow,
+                    //CheckinDate = DateTime.UtcNow,
                     BatchScheduleAllocationId = entity.Id,
                     Status = AllocationStatus.TemporaryBooked,
                     UserId = entity.TraineeId
