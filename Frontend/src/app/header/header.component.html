@@ -6,7 +6,7 @@
     </div>
     <ul nzTheme="light" nz-menu nzMode="horizontal" class="top-menu">
       <li (click)="navigate('/')" nz-menu-item nzSelected>হোম</li>
-      <li nz-menu-item>প্রশ্ন ও উত্তর</li>
+      <li (click)="navigate('faq')" nz-menu-item>প্রশ্ন ও উত্তর</li>
       <li  nz-menu-item>লগইন</li>
     </ul>
   </nz-header>
@@ -18,11 +18,11 @@
 
     <ul nzTheme="light" nz-menu nzMode="horizontal" class="">
       <li nz-menu-item nzSelected>অনলাইন আবেদন</li>
-      <li nz-menu-item>আমাদের সম্পর্কে</li>
+      <li (click)="navigate('/page/about-us')"  nz-menu-item>আমাদের সম্পর্কে</li>
       <li (click)="navigate('course')" nz-menu-item>প্রশিক্ষণ কোর্স</li>
       <li  nz-menu-item>পহোটেল এ্যান্ড রুম</li>
       <li  nz-menu-item>নতুন বই</li>
-      <li  nz-menu-item>যোগাযোগ</li>
+      <li (click)="navigate('/page/contact')"  nz-menu-item>যোগাযোগ</li>
     </ul>
 
 

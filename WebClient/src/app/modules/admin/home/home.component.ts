@@ -65,6 +65,12 @@ export class HomeComponent extends BaseComponent {
             title: 'cms.banner',
             route: '/admin/cms/banners',
             icon: 'user'
+          },
+           {
+            level: 2,
+            title: 'cms.faq',
+            route: '/admin/cms/faq',
+            icon: 'user'
           }
         ]
       },

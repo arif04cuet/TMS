@@ -471,5 +471,7 @@
   "submit": "Submit",
   "remaining": "Remaining",
   "total.time": "Total time",
-  "exam.answer": "Exam answer"
+  "exam.answer": "Exam answer",
+  "cms.faq":"FAQ",
+  "faq":"FAQ"
 }

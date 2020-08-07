@@ -18,6 +18,17 @@ export class CmsHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
+    contents(p, s) {
+        const url = this.buildUrl(`cms/contents`, p, s)
+        return this.httpService.get(url);
+    }
+
+    faq(p, s) {
+        const url = this.buildUrl(`cms/faq`, p, s)
+        return this.httpService.get(url);
+    }
+
+
 
 
 }

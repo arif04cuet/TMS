@@ -1,0 +1,40 @@
+.ant-layout-footer
+{
+    background: #fff;
+}
+.ant-layout-footer .top
+{
+    padding:50px 0;
+}
+
+.ant-layout-footer .bottom
+{
+    padding:30px 0;
+}
+
+.footer .ant-menu-item{
+    margin: 0;
+    height: 25px;
+    line-height: 25px;
+}
+
+.footer .ant-menu{
+    background: transparent;
+}
+.text-center
+{
+    text-align: center;
+}
+.footer .ant-menu-vertical
+{
+    border-right: 0;
+}
+.footer .bottom .gutter-row
+{
+    border-right: 1px solid #f0f0f0;
+}
+
+.footer .bottom .gutter-row + .last
+{
+    border-right: 0px solid #f0f0f0;
+}

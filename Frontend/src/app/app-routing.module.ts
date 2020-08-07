@@ -7,6 +7,8 @@ import { TrainingCourseViewComponent } from './training-course/view/training-cou
 import { TrainingCourseApplyComponent } from './training-course/apply/training-course-apply.component';
 import { LoginComponent } from './login/login.component';
 import { HomePageComponent } from './homepage/homepage.component';
+import { PageComponent } from './page/page.component';
+import { FaqComponent } from './faq/faq.component';
 
 const routes: Routes = [
   {
@@ -23,6 +25,10 @@ const routes: Routes = [
         component: LoginComponent
       },
       {
+        path: 'faq',
+        component: FaqComponent
+      },
+      {
         path: 'member-registration',
         component: LibraryMemberRegistrationComponent
       },
@@ -33,6 +39,10 @@ const routes: Routes = [
       {
         path: 'course/:id',
         component: TrainingCourseViewComponent
+      },
+      {
+        path: 'page/:slug',
+        component: PageComponent
       },
       {
         path: 'course/:id/apply',

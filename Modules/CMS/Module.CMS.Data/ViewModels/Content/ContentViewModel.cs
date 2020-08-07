@@ -12,6 +12,7 @@ namespace Module.CMS.Data
 
         public long Id { get; set; }
         public string Name { get; set; }
+        public string Slug { get; set; }
         public string Summery { get; set; }
         public string Body { get; set; }
         public IdNameViewModel Category { get; set; }
@@ -34,6 +35,7 @@ namespace Module.CMS.Data
             {
                 Id = x.Id,
                 Name = x.Name,
+                Slug = x.Slug,
                 Summery = x.Summery,
                 Body = x.Body,
                 IsActive = x.IsActive,

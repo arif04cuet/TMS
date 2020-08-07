@@ -9,6 +9,18 @@ const routes: Routes = [
     children: [
 
       {
+        path: 'cms/faq',
+        loadChildren: () => import('../cms/faq/list/faq-list.module').then(x => x.CmsFaqListModule),
+        data: {
+          name: 'cms_faq',
+          breadcrumb: {
+            icon: 'team',
+            title: 'cms.faq'
+          }
+        }
+      },
+
+      {
         path: 'cms/banners',
         loadChildren: () => import('../cms/banner/list/banner-list.module').then(x => x.BannerListModule),
         data: {

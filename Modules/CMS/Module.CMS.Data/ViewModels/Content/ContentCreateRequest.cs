@@ -5,6 +5,7 @@ namespace Module.CMS.Data
     public class ContentCreateRequest
     {
         public string Name { get; set; }
+        public string Slug { get; set; }
         public string Summery { get; set; }
         public string Body { get; set; }
         public long CategoryId { get; set; }
@@ -17,6 +18,7 @@ namespace Module.CMS.Data
         {
             var entity = category ?? new Content();
             entity.Name = Name;
+            entity.Slug = Slug;
             entity.Summery = Summery;
             entity.Body = Body;
             entity.IsActive = IsActive;

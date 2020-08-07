@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { FooterComponent } from './footer.component';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd';
+import { NzMenuModule, NzIconModule } from 'ng-zorro-antd';
+import { NzGridModule } from 'ng-zorro-antd';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,9 @@ import { NzMenuModule } from 'ng-zorro-antd';
   ],
   imports: [
     NzLayoutModule,
-    NzMenuModule
+    NzMenuModule,
+    NzGridModule,
+    NzIconModule
   ],
   exports: [FooterComponent]
 })

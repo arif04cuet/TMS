@@ -13,6 +13,8 @@ namespace Module.CMS.Entities
         [Searchable]
         public string Name { get; set; }
 
+        [Searchable]
+        public string Slug {get;set;}
         public string Summery { get; set; }
         public string Body { get; set; }
 

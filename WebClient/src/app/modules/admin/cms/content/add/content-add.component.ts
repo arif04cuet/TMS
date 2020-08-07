@@ -47,6 +47,7 @@ export class ContentAddComponent extends FormComponent {
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
       image: [],
+      slug: [],
       attachment: [],
       isActive: [],
       categoryId: [null, [], this.v.required.bind(this)]

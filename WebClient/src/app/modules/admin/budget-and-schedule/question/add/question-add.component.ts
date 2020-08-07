@@ -101,6 +101,7 @@ export class QuestionAddComponent extends FormComponent {
 
   addOption() {
     this.createOptionFormGroup({});
+    //this.createOptionFormGroup({ isCorrect: false });
   }
 
   deleteOption(index) {

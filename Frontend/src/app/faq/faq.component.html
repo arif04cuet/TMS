@@ -1,0 +1,14 @@
+<div nz-row>
+    <div nz-col nzSpan="24">
+        
+      <nz-collapse>
+        <nz-collapse-panel *ngFor="let item of items" [nzHeader]="item.question">
+          <p style="margin:0;">
+            {{item.answer}}
+          </p>
+        </nz-collapse-panel>
+      </nz-collapse>  
+      
+    </div>
+    
+  </div>
