@@ -14,6 +14,7 @@ import { FaqModule } from '../faq/faq.module';
 import { BannerModule } from '../banner/banner.module';
 import { ContentListModule } from '../content-list/content-list.module';
 import { ContentListSingleModule } from '../content-list/single/content-list-single.module';
+import { RegistrationModule } from '../registration/registration.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ContentListSingleModule } from '../content-list/single/content-list-sin
     FaqModule,
     BannerModule,
     ContentListModule,
-    ContentListSingleModule
+    ContentListSingleModule,
+    RegistrationModule
   ],
   exports: [HomeComponent]
 })

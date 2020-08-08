@@ -105,5 +105,13 @@ namespace Module.Core.Controllers
             return result.ToOkResult();
         }
 
+        [HttpPost("registration-from-frontend")]
+        [RequirePermission(UserCreate, UserManage)]
+        public async Task<IActionResult> RegistrationFromFrontend([FromBody] UserCreateFromFrontendRequest request)
+        {
+            var result = await _userService.CreateFromFrontendAsync(request);
+            return result.ToCreatedResult();
+        }
+
     }
 }
