@@ -6,11 +6,13 @@ import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AuthService } from 'src/services/auth.service';
 import {BannerComponent} from '../banner/banner.component';
+import { FaqModule } from '../faq/faq.module';
+import { BannerModule } from '../banner/banner.module';
+import { AboutModule } from './about/about.module';
 
 @NgModule({
   declarations: [
-    HomePageComponent,
-    BannerComponent
+    HomePageComponent
   ],
   exports: [HomePageComponent],
   imports: [
@@ -21,7 +23,10 @@ import {BannerComponent} from '../banner/banner.component';
     NzFormModule,
     ReactiveFormsModule,
     NzInputModule,
-    NzSelectModule
+    NzSelectModule,
+    FaqModule,
+    BannerModule,
+    AboutModule
   ],
   providers: [
     AuthService

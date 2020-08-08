@@ -1,0 +1,36 @@
+<div class="course1">
+
+  <div class="page-title" *ngIf="showTitle">
+    <h2>Contents - {{category}}</h2>
+  </div>
+
+  <div class="page-content">
+
+
+    <div *ngIf="items">
+      <div *ngFor="let item of items" class="contents-item">
+
+        <div nz-row [nzGutter]="5">
+
+          <div nz-col class="gutter-row" [nzSpan]="3">
+
+            <img [src]="item.imageUrl" alt="{{item.name}}" style="max-width: 98%;">
+
+          </div>
+          <div nz-col class="gutter-row" [nzSpan]="12">
+            <div class="inner-box">
+              <h3>{{item.name}}</h3>
+             <div [innerHTML]="item.body.substring(0, 300)"></div>
+             <a (click)="view(item)">See More..</a>
+            </div>
+          </div>
+
+        </div>
+       
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

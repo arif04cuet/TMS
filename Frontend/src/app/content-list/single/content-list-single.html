@@ -1,0 +1,12 @@
+<nz-page-header class="site-page-header" (nzBack)="onBack(item)" nzBackIcon [nzTitle]="item?.name">
+</nz-page-header>
+<div *ngIf="item?.imageUrl">
+    <img [src]="item?.imageUrl" alt="item?.name">
+</div>
+
+<div *ngIf="item?.attachmentUrl">
+    Attachment :
+   <a target="__blank" [href]="item?.attachmentUrl">Download</a>
+</div>
+
+<div [innerHTML]="item?.body"></div>

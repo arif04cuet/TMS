@@ -4,7 +4,7 @@ import { BaseHttpService } from './base-http-service';
 @Injectable()
 export class CmsHttpService extends BaseHttpService {
     
-    public END_POINT = "cms/banners";
+    public END_POINT = "cms/contents";
 
     list2(status: string, search: string) {
         if(status) {
@@ -15,6 +15,11 @@ export class CmsHttpService extends BaseHttpService {
 
     categories(p, s) {
         const url = this.buildUrl(`courses/categories`, p, s)
+        return this.httpService.get(url);
+    }
+
+    banners(p, s) {
+        const url = this.buildUrl(`cms/banners`, p, s)
         return this.httpService.get(url);
     }
 

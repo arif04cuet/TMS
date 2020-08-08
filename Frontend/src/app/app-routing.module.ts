@@ -9,6 +9,8 @@ import { LoginComponent } from './login/login.component';
 import { HomePageComponent } from './homepage/homepage.component';
 import { PageComponent } from './page/page.component';
 import { FaqComponent } from './faq/faq.component';
+import { ContentListComponent } from './content-list/content-list.component';
+import { ContentListSingleComponent } from './content-list/single/content-list-single.component';
 
 const routes: Routes = [
   {
@@ -19,6 +21,14 @@ const routes: Routes = [
       {
         path: '',
         component: HomePageComponent
+      },
+      {
+        path: 'contents/:category',
+        component: ContentListComponent
+      },
+      {
+        path: 'contents/:category/:id',
+        component: ContentListSingleComponent
       },
       {
         path: 'login',

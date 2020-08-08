@@ -24,10 +24,10 @@ export class PageComponent extends TableComponent  {
   }
 
   ngOnInit(): void {
-    const snapshot = this.activatedRoute.snapshot
-    const slug = snapshot.params.slug;
-console.log(slug);
-    this.get(slug);
+    const snapshot = this.activatedRoute.params.subscribe(x=>{
+      console.log(x);
+      this.get(x.slug);
+    });
   }
 
   get(slug) {

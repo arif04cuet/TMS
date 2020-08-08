@@ -27,7 +27,7 @@ export class BannerComponent extends TableComponent  {
     
     this.load((p, s) => {
       p = `offset=0&limit=${this.count}`;
-      return this._cmsHttpService.list(p,s).pipe(
+      return this._cmsHttpService.banners(p,s).pipe(
         map((x:any)=>{
           
           x.data.items.forEach(o => {

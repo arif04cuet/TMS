@@ -18,7 +18,6 @@ export class FaqComponent extends TableComponent  {
   }
 
   ngOnInit(): void {
-
     this.gets();
   }
 

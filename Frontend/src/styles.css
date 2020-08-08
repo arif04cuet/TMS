@@ -106,7 +106,8 @@ nz-header,nz-content,nz-footer {
 
 
 nz-content{
-  min-height: 300px!important;
+  min-height: 400px!important;
+  margin-top: 20px;
 }
 .page-title
 {

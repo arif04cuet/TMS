@@ -10,6 +10,10 @@ import { TrainingCourseApplyModule } from '../training-course/apply/training-cou
 import { LoginModule } from '../login/login.module';
 import { HomePageModule } from '../homepage/homepage.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { FaqModule } from '../faq/faq.module';
+import { BannerModule } from '../banner/banner.module';
+import { ContentListModule } from '../content-list/content-list.module';
+import { ContentListSingleModule } from '../content-list/single/content-list-single.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,11 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
     TrainingCourseApplyModule,
     LoginModule,
     HomePageModule,
-    NzLayoutModule
+    NzLayoutModule,
+    FaqModule,
+    BannerModule,
+    ContentListModule,
+    ContentListSingleModule
   ],
   exports: [HomeComponent]
 })
