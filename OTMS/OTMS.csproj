@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <None Include="appsettings.json" />
-    <None Include="Views\honorarium.cshtml" />
+    <None Include="Views\honorarium-for-participants.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

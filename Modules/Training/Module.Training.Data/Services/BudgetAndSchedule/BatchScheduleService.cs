@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Module.Core.Data;
 using Module.Core.Shared;
@@ -7,6 +8,7 @@ using Module.Training.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -20,11 +22,17 @@ namespace Module.Training.Data
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<BatchSchedule> _batchScheduleRepository;
         private readonly IRepository<BatchScheduleAllocation> _batchScheduleAllocationRepository;
+        private readonly IRazorViewRenderer _viewRenderer;
+        private readonly IPdfConverter _pdfConverter;
 
         public BatchScheduleService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IPdfConverter pdfConverter,
+            IRazorViewRenderer viewRenderer)
         {
             _unitOfWork = unitOfWork;
+            _pdfConverter = pdfConverter;
+            _viewRenderer = viewRenderer;
             _batchScheduleRepository = _unitOfWork.GetRepository<BatchSchedule>();
             _batchScheduleAllocationRepository = _unitOfWork.GetRepository<BatchScheduleAllocation>();
         }
@@ -203,32 +211,75 @@ namespace Module.Training.Data
             return result > 0;
         }
 
-        // TODO
-        //public async Task<PagedCollection<IdNameViewModel>> TotalMarksAsync(long batchScheduleId)
-        //{
-        //    var course = await _batchScheduleRepository
-        //        .AsReadOnly()
-        //        .Where(x => x.Id == batchScheduleId && !x.IsDeleted)
-        //        .Select(x => x.CourseSchedule.Course)
-        //        .FirstOrDefaultAsync();
+        public async Task<byte[]> GenerateHonorariumSheetAsync(long batchScheduleId, CancellationToken cancellationToken = default)
+        {
+            List<HonorariumPdfModelModel> list = new List<HonorariumPdfModelModel>();
+            var persons = await _unitOfWork.GetRepository<BatchScheduleAllocation>()
+                .AsReadOnly()
+                .Where(x => x.BatchScheduleId == batchScheduleId && x.Status == BatchScheduleAllocationStatus.Approved && !x.IsDeleted)
+                .Select(x => new
+                {
+                    Name = x.Trainee.FullName,
+                    DesignationId = x.Trainee.DesignationId,
+                    Designation = x.Trainee.DesignationId != null ? x.Trainee.Designation.Name : "",
+                })
+                .ToListAsync(cancellationToken);
 
-        //    //course.TotalMark
+            var latestHonorarium = await _unitOfWork.GetRepository<Honorarium>()
+                .AsReadOnly()
+                .Where(x => x.HonorariumFor == HonorariumFor.Participant && !x.IsDeleted)
+                .OrderByDescending(x => x.Year)
+                .FirstOrDefaultAsync(cancellationToken);
 
-        //    Expression<Func<BatchScheduleAllocation, bool>> predicate = x => x.BatchScheduleId == batchScheduleId && x.Status == BatchScheduleAllocationStatus.Approved;
+            if (latestHonorarium != null)
+            {
+                var heads = await _unitOfWork.GetRepository<HonorariumHead>()
+                    .Where(x => x.HonorariumId == latestHonorarium.Id && x.DesignationId != null && !x.IsDeleted)
+                    .Select(x => new
+                    {
+                        DesignationId = x.DesignationId,
+                        Head = x.Head,
+                        Amount = x.Amount
+                    })
+                    .ToListAsync();
 
-        //    var result = await _unitOfWork.GetRepository<CourseEvaluationMethod>()
-        //        .ListAsync(
-        //        x => x.CourseId == courseId,
-        //        x => new IdNameViewModel
-        //        {
-        //            Id = x.EvaluationMethodId,
-        //            Name = x.EvaluationMethod.Name
-        //        },
-        //        pagingOptions,
-        //        searchOptions);
+                if (heads.Count > 0)
+                {
+                    foreach (var person in persons)
+                    {
+                        var head = heads.FirstOrDefault(x => x.DesignationId == person.DesignationId);
+                        var amount = head != null ? head.Amount : 0;
+                        var tenPercentReduceAmount = (10.0 / 100.0) * amount;
+                        list.Add(new HonorariumPdfModelModel
+                        {
+                            Designation = person.Designation,
+                            Name = person.Name,
+                            Amount = amount,
+                            TenPercentReduceAmout = tenPercentReduceAmount,
+                            NetAmount = amount - tenPercentReduceAmount
+                        });
+                    }
+                }
 
-        //    return result;
-        //}
+            }
+
+            var course = await _unitOfWork.GetRepository<BatchSchedule>()
+                .AsReadOnly()
+                .Where(x => x.Id == batchScheduleId && !x.IsDeleted)
+                .Select(x => x.CourseSchedule.Course.Name)
+                .FirstOrDefaultAsync();
+
+            var model = new HonorariumSheetForParticipantsPdfModel
+            {
+                Date = DateTime.UtcNow,
+                CourseName = course ?? "",
+                Participants = list
+            };
+
+            var htmlContent = await _viewRenderer.RenderViewToStringAsync("/Views/honorarium-for-participants.cshtml", model);
+            var pdfBytes = _pdfConverter.Convert(htmlContent);
+            return pdfBytes;
+        }
 
     }
 }

@@ -89,5 +89,12 @@ namespace Module.Training.Controllers
             return NoContent();
         }
 
+        [HttpPost("{id}/honorarium-sheet")]
+        public async Task<IActionResult> CompleteAndGenerateSheetMultiple(long id)
+        {
+            var result = await _batchScheduleService.GenerateHonorariumSheetAsync(id);
+            return File(result, "application/pdf", $"participants-honorarium-sheet.pdf");
+        }
+
     }
 }

@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { SessionProgressHttpService } from 'src/services/http/budget-and-schedule/session-progress-http.service';
 import { HonorariumComponent } from './honorarium.component';
+import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { HonorariumComponent } from './honorarium.component';
   ],
   exports: [HonorariumComponent],
   providers: [
-    SessionProgressHttpService
+    BatchScheduleHttpService
   ]
 })
 export class HonorariumModule { }

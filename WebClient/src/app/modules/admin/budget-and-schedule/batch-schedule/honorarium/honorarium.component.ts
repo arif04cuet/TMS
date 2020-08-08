@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
-import { SessionProgressHttpService } from 'src/services/http/budget-and-schedule/session-progress-http.service';
 import { progress, createAnchorAndFireForDownload } from 'src/services/utilities.service';
+import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
 
 @Component({
   selector: 'app-honorarium',
@@ -10,39 +10,35 @@ import { progress, createAnchorAndFireForDownload } from 'src/services/utilities
 })
 export class HonorariumComponent extends TableComponent {
 
-  module;
   private batchScheduleId;
 
   constructor(
-    private sessionProgressHttpService: SessionProgressHttpService,
+    private batchScheduleHttpService: BatchScheduleHttpService,
     private activatedRoute: ActivatedRoute
   ) {
-    super(sessionProgressHttpService);
+    super(batchScheduleHttpService);
   }
 
   ngOnInit() {
     const snapshot = this.activatedRoute.snapshot;
     this.snapshot(snapshot);
     this.batchScheduleId = snapshot.params.id;
-    this.gets();
   }
 
-  gets() {
-    //this.load();
-  }
-
-  GenerateSheet() {
+  downloadSheet() {
     this.loading = true;
-    // this.subscribe(this.sessionProgressHttpService.completeAndGenerateSheet(this.batchScheduleId, e.id),
-    //   res => this.download(res),
-    //   err => this.loading = false
-    // );
+    this.subscribe(this.batchScheduleHttpService.downloadHonorariumSheet(this.batchScheduleId),
+      res => {
+        this.loading = false;
+        this.download(res);
+      },
+      err => this.loading = false
+    );
   }
   
   private download(res) {
     progress(res, null, (data: Blob) => {
-      createAnchorAndFireForDownload(data, "honorarium-sheet.pdf");
-      this.load();
+      createAnchorAndFireForDownload(data, "participants-honorarium-sheet.pdf");
       this.success('success');
     });
   }

@@ -119,7 +119,7 @@ namespace Module.Training.Data
             var persons = _routinePeriodRepository
                 .AsReadOnly()
                 .Where(where)
-                .Select(x => new ParticipantHonorariumModel
+                .Select(x => new HonorariumPdfModelModel
                 {
                     Amount = x.ResourcePerson.HonorariumHead.Amount,
                     Name = x.ResourcePerson.User.FullName,
@@ -134,13 +134,13 @@ namespace Module.Training.Data
                 .Select(x => x.CourseSchedule.Course.Name)
                 .FirstOrDefaultAsync();
 
-            var model = new HonorariumSheetForParticipantsPdfModel
+            var model = new HonorariumSheetForResourcePersonsPdfModel
             {
                 Date = DateTime.UtcNow,
                 CourseName = course ?? "",
                 ResourcePersons = persons
             };
-            var htmlContent = await _viewRenderer.RenderViewToStringAsync("/Views/honorarium.cshtml", model);
+            var htmlContent = await _viewRenderer.RenderViewToStringAsync("/Views/honorarium-for-resource-person.cshtml", model);
             var pdfBytes = _pdfConverter.Convert(htmlContent);
             return pdfBytes;
         }

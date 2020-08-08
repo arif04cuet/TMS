@@ -473,5 +473,7 @@
   "total.time": "Total time",
   "exam.answer": "Exam answer",
   "cms.faq":"FAQ",
-  "faq":"FAQ"
+  "faq":"FAQ",
+  "exam.mark.and.question.total.mark.must.be.same": "Exam mark and question total mark must be same",
+  "question.marks.can.not.have.zero": "Question marks can not have zero"
 }

@@ -1,0 +1,105 @@
+﻿@model Module.Training.Data.HonorariumSheetForParticipantsPdfModel
+
+<!doctype html>
+
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Honorarium Sheet</title>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"> -->
+
+    <style>
+        .table, .table th, .table td {
+            border: 1px solid #000;
+            border-collapse: collapse;
+            table-layout: fixed;
+            width: 100%
+        }
+
+        .table td {
+            padding: 0 10px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .signature div:not(:first-child) {
+            text-align: center;
+        }
+
+        .signature div:last-child {
+            text-align: right;
+        }
+
+        .signature div {
+            float: left;
+            width: 33.33%;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="center">
+        <div>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</div>
+        <div>জাতীয় সমাজ সেবা একাডেমি</div>
+        <div>সমাজ সেবা অধিদফতর</div>
+        <div><a href="www.nass.gov.bd">www.nass.gov.bd</a> </div>
+        <br />
+        <div>
+            “@Model.CourseName” অংশগ্রহণকারী এর সম্মানী বিতরণ বিবরণী
+        </div>
+    </div>
+    <p> তারিখ: @Model.Date.Day/@Model.Date.Month/@Model.Date.Year</p>
+    <table class="table">
+        <tr>
+            <th>ক্রম</th>
+            <th>নাম</th>
+            <th>সম্মানীর পরিমান</th>
+            <th>১০% উৎসে কর কর্তন</th>
+            <th>প্রদত্ত নিট সম্মানী</th>
+            <th>স্বাক্ষর ও স্ট্যাম্প</th>
+        </tr>
+        @{
+            int i = 1;
+            foreach (var item in Model.Participants)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td class="center">
+                        @item.Name
+                        @if(!string.IsNullOrEmpty(item.Designation))
+                        {
+                            <br />
+                            @item.Designation
+                        }
+                    </td>
+                    <td class="center">@item.Amount</td>
+                    <td class="center">@item.TenPercentReduceAmout</td>
+                    <td class="center">@item.NetAmount</td>
+                    <td></td>
+                </tr>
+                i++;
+            }
+        }
+    </table>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="signature">
+        <div>প্রদানকারীর স্বাক্ষর</div>
+        <div>যাচাইকারীর স্বাক্ষর</div>
+        <div>অনুমোদনকারীর স্বাক্ষর</div>
+    </div>
+</body>
+</html>

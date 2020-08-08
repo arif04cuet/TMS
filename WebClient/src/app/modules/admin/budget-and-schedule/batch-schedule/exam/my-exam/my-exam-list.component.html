@@ -28,6 +28,7 @@
                         <th>{{'batch.schedule'|translate}}</th>
                         <th>{{'course.schedule'|translate}}</th>
                         <th>{{'course'|translate}}</th>
+                        <th>{{'date'|translate}}</th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
@@ -41,6 +42,7 @@
                         <td>{{ data.batchSchedule }}</td>
                         <td>{{ data.courseSchedule }}</td>
                         <td>{{ data.course }}</td>
+                        <td>{{ data.dateTime|momentDate }}</td>
                         <td class="action-column fit-cell">
                             <!-- *ngIf="!data.attended" -->
                             <button *ngIf="!data.attended" nz-button (click)="view(data)" class="btn-custom">

@@ -27,5 +27,7 @@ namespace Module.Training.Data
 
         Task<PagedCollection<IdNameViewModel>> EvaluationMethodListAsync(long batchScheduleId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
+        Task<byte[]> GenerateHonorariumSheetAsync(long batchScheduleId, CancellationToken cancellationToken = default);
+
     }
 }

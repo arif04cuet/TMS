@@ -1,4 +1,6 @@
-﻿namespace Module.Training.Data
+﻿using System;
+
+namespace Module.Training.Data
 {
     public class MyExamListViewModel
     {
@@ -8,5 +10,6 @@
         public string CourseSchedule { get; set; }
         public string Course { get; set; }
         public bool Attended { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

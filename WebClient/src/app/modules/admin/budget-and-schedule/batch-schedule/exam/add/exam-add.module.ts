@@ -10,6 +10,7 @@ import { ExamAddComponent } from './exam-add.component';
 import { ExamAddRoutingModule } from './exam-add-routing.module';
 import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http.service';
 import { QuestionModalModule } from '../question-modal/question-modal.module';
+import { MomentPipeModule, MomentPipe } from 'src/pipes/moment.pipe';
 
 @NgModule({
   declarations: [
@@ -25,13 +26,15 @@ import { QuestionModalModule } from '../question-modal/question-modal.module';
     NgZorroAntdModule,
     SharedModule,
     SelectControlModule,
-    QuestionModalModule
+    QuestionModalModule,
+    MomentPipeModule
   ],
   exports: [ExamAddComponent],
   providers: [
     ExamHttpService,
     CommonValidator,
-    NzModalService
+    NzModalService,
+    MomentPipe
   ]
 })
 export class ExamAddModule { }

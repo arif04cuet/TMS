@@ -30,5 +30,11 @@ export class BatchScheduleHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
+    downloadHonorariumSheet(batchScheduleId) {
+        const url = `${this.END_POINT}/${batchScheduleId}/honorarium-sheet`;
+        const req = this.httpService.download(url, {});
+        return this.httpService.getClient().request(req);
+    }
+
 
 }

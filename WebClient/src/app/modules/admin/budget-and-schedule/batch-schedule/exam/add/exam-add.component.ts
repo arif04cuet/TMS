@@ -9,6 +9,7 @@ import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/
 import { of } from 'rxjs';
 import { QuestionModalComponent } from '../question-modal/question-modal.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { MomentPipe } from 'src/pipes/moment.pipe';
 
 @Component({
   selector: 'app-exam-add',
@@ -37,7 +38,8 @@ export class ExamAddComponent extends FormComponent {
     private examHttpService: ExamHttpService,
     private batchScheduleHttpService: BatchScheduleHttpService,
     private v: CommonValidator,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private momentPipe: MomentPipe
   ) {
     super();
   }
@@ -112,6 +114,17 @@ export class ExamAddComponent extends FormComponent {
   }
 
   submit(): void {
+
+    if(this.questionMarkHasZeroValue()) {
+      this.failed('question.marks.can.not.have.zero');
+      return;
+    }
+
+    if(this.calculateMarks() != Number(this.form.controls.mark.value || 0)) {
+      this.failed('exam.mark.and.question.total.mark.must.be.same');
+      return;
+    }
+
     const body: any = this.constructObject(this.form.controls);
     if (this.batchScheduleId) {
       body.batchSchedule = Number(this.batchScheduleId);
@@ -143,6 +156,7 @@ export class ExamAddComponent extends FormComponent {
     if (id != null) {
       this.subscribe(this.examHttpService.get(id),
         (res: any) => {
+          res.data.examDate = this.momentPipe.transform(res.data.examDate)
           this.setValues(this.form.controls, res.data);
           this.data = res.data;
           this.initModalData();
@@ -180,11 +194,20 @@ export class ExamAddComponent extends FormComponent {
       if (question) {
         const exist = this.data.questions.find(x => x.question.id == question.id);
         if (!exist && question) {
+          // check total question marks
+          const totalMarks = this.calculateMarks();
+          const totalQuestionMark = totalMarks + question.mark
+          const totalMark = Number(this.form.controls.mark.value);
+          if (totalQuestionMark > totalMark) {
+            const exceed = totalQuestionMark - totalMark;
+            const rest = question.mark - exceed;
+            const mark = (totalMarks + rest) > totalMark ? 0 : rest;
+            question.mark = mark;
+          }
           this.data.questions = [...this.data.questions, {
             question: question,
             mark: question.mark
           }];
-          this.calculateMarks();
         }
         else {
           this.info(m);
@@ -207,7 +230,6 @@ export class ExamAddComponent extends FormComponent {
 
   deleteQuestion(q) {
     this.data.questions = this.data.questions.filter(x => x.question.id != q.question.id);
-    this.calculateMarks();
   }
 
   private showHideQuestionTypeInput(e, items?: any[]) {
@@ -229,8 +251,14 @@ export class ExamAddComponent extends FormComponent {
     if (this.data.questions && this.data.questions.length) {
       total = this.data.questions.map(x => x.mark).reduce((a, c) => a + c);
     }
-    //this.setValue('totalMark', total);
-    this.log('question totalMark', total);
+    return total;
+  }
+
+  private questionMarkHasZeroValue() {
+    if (this.data.questions && this.data.questions.length) {
+      return this.data.questions.some(x => !x.mark);
+    }
+    return false;
   }
 
 }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Module.Training.Data
 {
-    public class HonorariumSheetForParticipantsPdfModel
+    public class HonorariumSheetForResourcePersonsPdfModel
     {
         public DateTime Date { get; set; }
         public string CourseName { get; set; }
-        public IEnumerable<ParticipantHonorariumModel> ResourcePersons { get; set; }
+        public IEnumerable<HonorariumPdfModelModel> ResourcePersons { get; set; }
     }
 
-    public class ParticipantHonorariumModel
+    public class HonorariumPdfModelModel
     {
         public string Name { get; set; }
         public string Designation { get; set; }

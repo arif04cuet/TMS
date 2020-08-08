@@ -187,13 +187,17 @@ namespace Module.Training.Data
         public async Task<PagedCollection<MyExamListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             long userId = _appService.GetAuthenticatedUser().Id;
-            var query = _unitOfWork.GetRepository<BatchScheduleAllocation>()
+             var batchScheduleIds = await _unitOfWork.GetRepository<BatchScheduleAllocation>()
                 .AsReadOnly()
                 .Where(x => x.TraineeId == userId
                 && x.Status == BatchScheduleAllocationStatus.Approved
                 && !x.IsDeleted)
-                .SelectMany(x => x.BatchSchedule.Exams)
-                .Where(x => x.ExamDate.Date == DateTime.UtcNow.Date
+                .Select(x => x.BatchScheduleId)
+                .ToListAsync();
+
+            var query = _unitOfWork.GetRepository<Exam>()
+                .Where(x => batchScheduleIds.Contains(x.BatchScheduleId)
+                && x.ExamDate <= DateTime.UtcNow
                 && x.Status == ExamStatus.Pending
                 && x.QuestionType.HasValue
                 && x.IsOnline
@@ -207,6 +211,7 @@ namespace Module.Training.Data
                     CourseSchedule = x.BatchSchedule.CourseSchedule.Name,
                     Name = x.Name,
                     Course = x.BatchSchedule.CourseSchedule.Name,
+                    DateTime = x.ExamDate
                 })
                 .ApplyPagination(pagingOptions)
                 .ToListAsync();
