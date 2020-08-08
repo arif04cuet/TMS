@@ -17,5 +17,7 @@ namespace Module.Core.Data
         Task<PagedCollection<UserListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<bool> UpdateAsync(UserUpdateRequest request, CancellationToken cancellationToken = default);
+
+        Task<long> CreateFromFrontendAsync(UserCreateFromFrontendRequest request, CancellationToken cancellationToken = default);
     }
 }

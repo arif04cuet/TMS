@@ -188,5 +188,26 @@ namespace Module.Core.Data
             return result > 0;
         }
 
+        public async Task<long> CreateFromFrontendAsync(UserCreateFromFrontendRequest request, CancellationToken cancellationToken = default)
+        {
+            var newUser = new User
+            {
+                FullName = request.FullName,
+                StatusId = StatusConstants.Pending,
+                Email = request.Email,
+                DesignationId = request.Designation,
+                Password = request.Password.HashPassword()
+            };
+
+            await _userRepository.AddAsync(newUser, cancellationToken);
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            UserProfile profile = new UserProfile { UserId = newUser.Id };
+            await _userProfileRepository.AddAsync(profile, cancellationToken);
+
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return newUser.Id;
+        }
+
     }
 }

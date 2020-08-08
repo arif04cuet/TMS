@@ -12,8 +12,7 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { AuthService } from 'src/services/auth.service';
 import { SecurityService } from 'src/services/security.service';
 import {CmsHttpService} from 'src/services/cms-http-service';
-
-
+import { RegistrationHttpService } from 'src/services/registration-http-service';
 
 @NgModule({
   declarations: [
@@ -34,7 +33,8 @@ import {CmsHttpService} from 'src/services/cms-http-service';
     NzModalService,
     AuthService,
     SecurityService,
-    CmsHttpService
+    CmsHttpService,
+    RegistrationHttpService
   ],
   bootstrap: [AppComponent]
 })

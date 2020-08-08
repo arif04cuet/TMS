@@ -11,6 +11,7 @@ import { PageComponent } from './page/page.component';
 import { FaqComponent } from './faq/faq.component';
 import { ContentListComponent } from './content-list/content-list.component';
 import { ContentListSingleComponent } from './content-list/single/content-list-single.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
       {
         path: 'course/:id/apply',
         component: TrainingCourseApplyComponent
+      },
+      {
+        path: 'registration',
+        component: RegistrationComponent
       }
     ]
   }

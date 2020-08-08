@@ -17,7 +17,7 @@
 
 
     <ul nzTheme="light" nz-menu nzMode="horizontal" class="">
-      <li nz-menu-item nzSelected>অনলাইন আবেদন</li>
+      <li nz-menu-item (click)="navigate('/registration')" nzSelected>অনলাইন আবেদন</li>
       <li (click)="navigate('/page/about-us')"  nz-menu-item>আমাদের সম্পর্কে</li>
       <li (click)="navigate('course')" nz-menu-item>প্রশিক্ষণ কোর্স</li>
       <li  nz-menu-item>পহোটেল এ্যান্ড রুম</li>
