@@ -5,10 +5,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AuthService } from 'src/services/auth.service';
-import {BannerComponent} from '../banner/banner.component';
 import { FaqModule } from '../faq/faq.module';
 import { BannerModule } from '../banner/banner.module';
 import { AboutModule } from './about/about.module';
+import { CourseModule } from './courses/course.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { AboutModule } from './about/about.module';
     NzSelectModule,
     FaqModule,
     BannerModule,
-    AboutModule
+    AboutModule,
+    CourseModule
   ],
   providers: [
     AuthService

@@ -15,6 +15,7 @@ export class ContentListComponent extends TableComponent {
 
  @Input() category:string = "News";
  @Input() showTitle:boolean = false;
+ @Input() bodyCharacters:number = 300;
  
   constructor(
     private cmsHttpService: CmsHttpService,
@@ -42,8 +43,8 @@ export class ContentListComponent extends TableComponent {
       map((x:any)=>{
         
         x.data.items.forEach(o => {
-          
           o.imageUrl = (o.imageUrl) ? `${environment.serverUri}/${o.imageUrl}`:'https://via.placeholder.com/100';
+          o.body = o.body?o.body.substring(0,this.bodyCharacters)+'...':'';
         });
         
         return x;

@@ -1,0 +1,17 @@
+.course-flex
+{
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.course-flex nz-card
+{
+   width: 240px;
+   margin-right: 10px;
+}
+
+.course-image
+{
+   width: 240px;
+   height: 185px!important;
+}

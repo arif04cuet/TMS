@@ -17,21 +17,27 @@
         </div>
     </div>
     <div nz-col nzSpan="12">
-        <h2>All See Recent Updated Notice</h2>
+        <h2 class="title"> All See Recent Updated Notice</h2>
 
         <nz-tabset>
             <nz-tab nzTitle="News">
-                <app-content-list hideTitle=true category="News"></app-content-list>
-                <br><a (click)="viewcategory('News')">আরো পড়ুন <i nz-icon nzType="right" nzTheme="outline"></i></a>
+                <app-content-list bodyCharacters=130 hideTitle=true category="News"></app-content-list>
+                <br><a (click)="viewcategory('News')">আরো পড়ুন 
+                    <i nz-icon nzType="right" nzTheme="outline"></i>
+                </a>
                 
             </nz-tab>
             <nz-tab nzTitle="Events">
-                <app-content-list hideTitle=true category="Event"></app-content-list>
-                <br><a (click)="viewcategory('Event')">আরো পড়ুন</a>
+                <app-content-list bodyCharacters=130  hideTitle=true category="Event"></app-content-list>
+                <br><a (click)="viewcategory('Event')">আরো পড়ুন
+                    <i nz-icon nzType="right" nzTheme="outline"></i>
+                </a>
             </nz-tab>
             <nz-tab nzTitle="Notices">
-                <app-content-list hideTitle=true category="Notice"></app-content-list>
-                <br><a (click)="viewcategory('Notice')">আরো পড়ুন</a>
+                <app-content-list bodyCharacters=130 hideTitle=true category="Notice"></app-content-list>
+                <br><a (click)="viewcategory('Notice')">আরো পড়ুন
+                    <i nz-icon nzType="right" nzTheme="outline"></i>
+                </a>
             </nz-tab>
           </nz-tabset>
 

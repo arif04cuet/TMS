@@ -119,8 +119,12 @@ nz-content{
 {
   margin-top: 10px;
 }
-.flex{display: flex;}
-
+.flex{display: flex;align-items: center;}
+.title
+{
+   border-left: 5px solid #00909E; 
+   padding-left: 10px;
+}
 
 
 

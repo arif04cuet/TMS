@@ -2,5 +2,59 @@
 <br>
 <app-about></app-about>
 <br>
+<br>
+<!-- course grid -->
+ 
+
+<div nz-row nzGutter="32">
+    
+    <div nz-col nzSpan="18" class="gutter-row" >
+        <div nz-row>
+    
+            <div nz-col nzSpan="12" >
+                <h2 class="title">রানিং কোর্স সমূহ</h2>
+            </div>
+            <div nz-col nzSpan="12" style="text-align: right;">
+                <button nz-button nzType="primary" (click)="navigate('course')">সকল কোর্স </button>
+            </div>
+               
+        </div>
+
+        <hr>
+        <div nz-row>
+    
+          
+            <div nz-col nzSpan="18" >
+                <app-course status="RUNNING" count=6></app-course>
+            </div>
+               
+        </div>
+
+    </div>
+
+    <div nz-col nzSpan="6" class="gutter-row" >
+        <div nz-row>
+    
+            <div nz-col nzSpan="24" >
+                <h2 class="title">পরবর্তী কোর্স সমূহ </h2>
+            </div>
+                          
+        </div>
+
+        <hr>
+        <div nz-row>
+    
+          
+            <div nz-col nzSpan="18" >
+                <app-course status="UPCOMING" count=2></app-course>
+            </div>
+               
+        </div>
+
+    </div>
+            
+</div>
+
+<br>
 <app-faq></app-faq>
 

@@ -1,0 +1,18 @@
+
+        <div class="course-flex">
+
+            <div *ngFor=" let item of items" (click)="view(item)"> 
+            
+                <nz-card  nzHoverable  [nzCover]="coverTemplate">
+                    <nz-card-meta [nzTitle]="item?.course?.name" ></nz-card-meta>
+                    <div [innerHTML]="item?.course?.description"></div>
+                </nz-card>
+                <ng-template #coverTemplate>
+                    <img class="course-image" alt="example" [src]="item?.course?.imageUrl" />
+                </ng-template>
+
+            </div>
+
+        </div>
+   
+ 
