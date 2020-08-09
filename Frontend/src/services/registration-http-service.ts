@@ -14,7 +14,7 @@ export class RegistrationHttpService {
     }
 
     designations() {
-        const url = `designations`;
+        const url = `designations?offset=0&limit=1000`;
         return this.httpService.get(url);
     }
 

@@ -13,6 +13,7 @@ import { AuthService } from 'src/services/auth.service';
 import { SecurityService } from 'src/services/security.service';
 import {CmsHttpService} from 'src/services/cms-http-service';
 import { RegistrationHttpService } from 'src/services/registration-http-service';
+import { CommonValidator } from 'src/shared/common.validator';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { RegistrationHttpService } from 'src/services/registration-http-service'
     AuthService,
     SecurityService,
     CmsHttpService,
-    RegistrationHttpService
+    RegistrationHttpService,
+    CommonValidator
   ],
   bootstrap: [AppComponent]
 })

@@ -195,6 +195,7 @@ namespace Module.Core.Data
                 FullName = request.FullName,
                 StatusId = StatusConstants.Pending,
                 Email = request.Email,
+                Mobile = request.Mobile,
                 DesignationId = request.Designation,
                 Password = request.Password.HashPassword()
             };
