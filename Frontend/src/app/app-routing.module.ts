@@ -12,6 +12,7 @@ import { FaqComponent } from './faq/faq.component';
 import { ContentListComponent } from './content-list/content-list.component';
 import { ContentListSingleComponent } from './content-list/single/content-list-single.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { HotelAndRoomComponent } from './hotel-and-room/hotel-and-room.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
       {
         path: 'registration',
         component: RegistrationComponent
+      },
+      {
+        path: 'hotel-and-room',
+        component: HotelAndRoomComponent
       }
     ]
   }

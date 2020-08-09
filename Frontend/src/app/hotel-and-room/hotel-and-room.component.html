@@ -1,16 +1,39 @@
+<br>
 <div nz-row>
-    <div nz-col nzSpan="24">
-      
-      <h2>FAQ</h2>
-      <hr>
-      <nz-collapse >
-        <nz-collapse-panel *ngFor="let item of items" [nzHeader]="item.question">
-          
-          <div [innerHTML]="item.answer"></div>
-          
-        </nz-collapse-panel>
-      </nz-collapse>  
-      
-    </div>
-    
+  <div nz-col nzSpan="10">
+    From: 
+    <nz-date-picker [ngModel]="from"></nz-date-picker>
   </div>
+  <div nz-col nzSpan="10">
+    To: 
+    <nz-date-picker [ngModel]="to"></nz-date-picker>
+  </div>
+  <div nz-col nzSpan="4">
+    <button (click)="search()" nz-button nzType="primary">Search</button>
+  </div>
+</div>
+<br>
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false" (nzPageIndexChange)="pageIndexChanged($event)"
+      (nzPageSizeChange)="pageSizeChanged($event)" #basicTable nzShowSizeChanger [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+      [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+      <thead>
+        <tr class="v-align-top advanced-table-filter">
+          <th>Name</th>
+          <th>Type</th>
+          <th>Beds</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.name }}</td>
+          <td>{{ data.type }}</td>
+          <td>{{ data.bedCount }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }} Items </ng-template>

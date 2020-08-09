@@ -15,6 +15,7 @@ import { BannerModule } from '../banner/banner.module';
 import { ContentListModule } from '../content-list/content-list.module';
 import { ContentListSingleModule } from '../content-list/single/content-list-single.module';
 import { RegistrationModule } from '../registration/registration.module';
+import { HotelAndRoomModule } from '../hotel-and-room/hotel-and-room.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RegistrationModule } from '../registration/registration.module';
     BannerModule,
     ContentListModule,
     ContentListSingleModule,
-    RegistrationModule
+    RegistrationModule,
+    HotelAndRoomModule
   ],
   exports: [HomeComponent]
 })

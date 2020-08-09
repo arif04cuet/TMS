@@ -14,6 +14,12 @@ import { SecurityService } from 'src/services/security.service';
 import {CmsHttpService} from 'src/services/cms-http-service';
 import { RegistrationHttpService } from 'src/services/registration-http-service';
 import { CommonValidator } from 'src/shared/common.validator';
+import { HotelHttpService } from 'src/services/hotel-http-service';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { NZ_I18N, en_US } from 'ng-zorro-antd';
+
+registerLocaleData(en);
 
 @NgModule({
   declarations: [
@@ -29,6 +35,7 @@ import { CommonValidator } from 'src/shared/common.validator';
     HomeModule
   ],
   providers: [
+    { provide: NZ_I18N, useValue: en_US },
     HttpService,
     NzMessageService,
     NzModalService,
@@ -36,7 +43,8 @@ import { CommonValidator } from 'src/shared/common.validator';
     SecurityService,
     CmsHttpService,
     RegistrationHttpService,
-    CommonValidator
+    CommonValidator,
+    HotelHttpService
   ],
   bootstrap: [AppComponent]
 })

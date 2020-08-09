@@ -24,5 +24,7 @@ namespace Module.Training.Data
         Task<PagedCollection<IdNameViewModel>> ListFloorsAsync(long hostelId, long buildingId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<IdNameViewModel>> ListRoomsAsync(long hostelId, long buildingId, long floorId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
+        Task<PagedCollection<HotelAndRoomViewModel>> ListRoomsAndBedsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
     }
 }

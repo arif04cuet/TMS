@@ -6,6 +6,7 @@ using Module.Core.Shared;
 using Module.Training.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -96,6 +97,18 @@ namespace Module.Training.Data
         public async Task<PagedCollection<IdNameViewModel>> ListBedsAsync(long hostelId, long buildingId, long floorId, long roomId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var result = await _bedRepository.ListAsync(x => x.HostelId == hostelId && x.BuildingId == buildingId && x.FloorId == floorId && x.RoomId == roomId, pagingOptions, searchOptions, cancellationToken);
+            return result;
+        }
+
+        public async Task<PagedCollection<HotelAndRoomViewModel>> ListRoomsAndBedsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var result = await _roomRepository.ListAsync(x => !x.IsBooked,
+                x => new HotelAndRoomViewModel
+                {
+                    Name = x.Name,
+                    Type = x.Type.Name,
+                    BedCount = x.Beds.Where(y => !y.IsBooked && !y.IsDeleted).Count()
+                }, pagingOptions, searchOptions, cancellationToken);
             return result;
         }
 

@@ -4,6 +4,7 @@ using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using Module.Core.Shared;
 using Module.Training.Data;
+using System;
 
 namespace Module.Training.Controllers
 {
@@ -75,6 +76,12 @@ namespace Module.Training.Controllers
         public async Task<ActionResult> ListRooms(long id, long buildingId, long floorId, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
             var result = await _hostelService.ListRoomsAsync(id, buildingId, floorId, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+        [HttpGet("rooms-and-beds")]
+        public async Task<ActionResult> RoomsAndBeds(DateTime from, DateTime to, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _hostelService.ListRoomsAndBedsAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

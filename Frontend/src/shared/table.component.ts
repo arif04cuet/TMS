@@ -10,6 +10,7 @@ export class TableComponent extends BaseComponent {
     pageSize: number = 20;
     items = [];
     additionalSearchTerm;
+    pageSizeOptions = [10, 20, 40, 50, 80, 100];
 
     service;
     onDeleted: (res: any) => void;

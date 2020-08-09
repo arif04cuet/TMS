@@ -1,34 +1,29 @@
 import { Component, Input } from '@angular/core';
-import {CmsHttpService} from '../../services/cms-http-service';
-import { map } from 'rxjs/operators';
 import { TableComponent } from 'src/shared/table.component';
+import { HotelHttpService } from 'src/services/hotel-http-service';
 
 
 @Component({
   selector: 'app-hotel-and-room',
   templateUrl: './hotel-and-room.component.html'
 })
-export class HotelAndRoomComponent extends TableComponent  {
+export class HotelAndRoomComponent extends TableComponent {
+
+  from;
+  to;
 
   constructor(
-    private _cmsHttpService: CmsHttpService) {
-   super(_cmsHttpService);
+    private hotelHttpService: HotelHttpService) {
+    super(hotelHttpService);
   }
 
   ngOnInit(): void {
-    this.gets();
+    this.loading = false;
   }
 
-  gets() {
-    this.load((p, s) => {
-      return this._cmsHttpService.faq(p,s).pipe(
-        map((x:any)=>{
-          x.data.items.forEach(o => {
-            //o.mediaUrl = (o.mediaUrl) ? `${environment.serverUri}/${o.mediaUrl}`:'';
-          });
-          return x;
-        })
-      );
-    })
+  search() {
+    this.loading = true;
+    this.load();
   }
+
 }
