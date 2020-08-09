@@ -18,7 +18,7 @@ namespace Module.Library.Data
         Task<PagedCollection<IdNameViewModel>> ListLibrarianAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
         Task<LibraryViewModel> GetAsync(long id);
-
+        Task<LibraryCountViewModel> getCountsAsync();
         Task<bool> UpdateAsync(LibraryUpdateRequest request, CancellationToken ct = default);
 
         Task<PagedCollection<FineListViewModel>> ListFineAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);

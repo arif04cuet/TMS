@@ -80,5 +80,12 @@ namespace Module.Library.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("counts")]        
+        public async Task<ActionResult> getCount()
+        {
+            var result = await _libraryService.getCountsAsync();
+            return result.ToOkResult();
+        }
+
     }
 }

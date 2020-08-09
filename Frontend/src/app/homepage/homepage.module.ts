@@ -9,6 +9,8 @@ import { FaqModule } from '../faq/faq.module';
 import { BannerModule } from '../banner/banner.module';
 import { AboutModule } from './about/about.module';
 import { CourseModule } from './courses/course.module';
+import { HotelAndRoomModule } from '../hotel-and-room/hotel-and-room.module';
+import { LibraryModule } from './library/library.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { CourseModule } from './courses/course.module';
     FaqModule,
     BannerModule,
     AboutModule,
-    CourseModule
+    CourseModule,
+    HotelAndRoomModule,
+    LibraryModule
   ],
   providers: [
     AuthService

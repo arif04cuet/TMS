@@ -1,0 +1,35 @@
+<div nz-row nzGutter="32" class="library">
+    <div nz-col nzSpan="16" class="gutter-row">
+        <nz-table #basicTable  [nzData]="count">
+           
+            <tbody>
+              <tr>
+                  <td style="color:#EE9735">লাইব্রেরীর সংখ্যা</td>
+                  <td class="text-right">{{count.libraryCount}}</td>
+              </tr>
+
+
+              <tr>
+                <td style="color:#09C75A">বইয়ের ক্যাটাগরির সংখ্যা</td>
+                <td class="text-right">{{count.bookCategoryCount}}</td>
+            </tr>
+
+            <tr>
+                <td style="color:##074CCC">মোট বইয়ে সংখ্যা </td>
+                <td class="text-right">{{count.bookCount}}</td>
+            </tr>
+
+            </tbody>
+          </nz-table>
+    </div>
+    <div nz-col nzSpan="2" class="gutter-row"></div>
+    <div nz-col nzSpan="6" class="gutter-row">
+
+     
+            <img width="100%" src="../../../assets/images/library.png" alt="">
+            <div class="text-center">
+                <h2>লাইব্রেরীর মেম্বার হতে রেজিষ্টেশন করুন</h2>
+                <button nz-button nzType="primary" (click)="registration()">নিবন্ধন করতে ক্লিক করুন</button>
+            </div>
+    </div>
+</div>

@@ -125,6 +125,23 @@ namespace Module.Library.Data
 
             return result;
         }
+         public async Task<LibraryCountViewModel> GetCountsAsync()
+        {
+            var count = await _libraryRepository
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .CountAsync();
+
+                var result =  new LibraryCountViewModel
+                {
+                    LibraryCount=count,
+                    BookategoryCount=30,
+                    BookCount=2000
+                };
+
+            return result;
+        }
+
 
         public async Task<bool> UpdateAsync(LibraryUpdateRequest request, CancellationToken ct = default)
         {
@@ -173,6 +190,11 @@ namespace Module.Library.Data
 
             var total = await query.Select(x => x.Id).CountAsync();
             return new PagedCollection<FineListViewModel>(items, total, pagingOptions);
+        }
+
+        Task<LibraryCountViewModel> ILibraryService.getCountsAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

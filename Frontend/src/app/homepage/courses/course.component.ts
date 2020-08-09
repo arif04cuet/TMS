@@ -29,7 +29,7 @@ export class CourseComponent extends TableComponent {
     this.load((p, s) => {
       
       s += `scheduleStatus=${this.status}`;
-      p = `limit ${this.count}`;
+      p = `limit=${this.count}`;
       return this.trainingCourseHttpService.list(p, s).pipe(
         map((x:any)=>{
           
