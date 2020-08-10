@@ -14,6 +14,7 @@ namespace OTMS.Extensions
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .WithOrigins("http://frontend-tms.softbdltd.com")
+                    .WithOrigins("http://dashboard-tms.softbdltd.com:4200")
                     .WithOrigins("http://dashboard-tms.softbdltd.com")
                     .WithOrigins("http://localhost:4201")
                     .WithOrigins("http://localhost:4200")
