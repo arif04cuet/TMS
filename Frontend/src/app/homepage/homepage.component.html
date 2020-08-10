@@ -1,75 +1,106 @@
-<app-banner count="2"></app-banner>
-<br>
-<app-about></app-about>
-<br>
-<br>
+<div class="homepage">
+
+
+<!-- Banner Block-->
+<div class="banner block">
+
+        <app-banner count="2"></app-banner>
+    
+</div>
+
+<!-- About US  Block-->
+
+<div class="about-us block">
+    <div class="container">
+        <app-about></app-about>
+    </div>
+</div>
+
 <!-- course grid -->
- 
 
-<div nz-row nzGutter="32">
-    
-    <div nz-col nzSpan="18" class="gutter-row" >
-        <div nz-row>
-    
-            <div nz-col nzSpan="12" >
-                <h2 class="title">রানিং কোর্স সমূহ</h2>
-            </div>
-            <div nz-col nzSpan="12" style="text-align: right;">
-                <button nz-button nzType="primary" (click)="navigate('course')">সকল কোর্স </button>
-            </div>
-               
-        </div>
-
-        <hr>
-        <div nz-row>
-    
-          
-            <div nz-col nzSpan="18" >
-                <app-course status="RUNNING" count=6></app-course>
-            </div>
-               
-        </div>
-
-    </div>
-
-    <div nz-col nzSpan="6" class="gutter-row" >
-        <div nz-row>
-    
-            <div nz-col nzSpan="24" >
-                <h2 class="title">পরবর্তী কোর্স সমূহ </h2>
-            </div>
-                          
-        </div>
-
-        <hr>
-        <div nz-row>
-    
-          
-            <div nz-col nzSpan="18" >
-                <app-course status="UPCOMING" count=2></app-course>
-            </div>
-               
-        </div>
-
-    </div>
+<div class="course-block gray">
+    <div class="container">
+        
+        <div nz-row nzGutter="32">
+        
+            <div nz-col nzSpan="18" class="gutter-row" >
+                <div nz-row>
             
+                    <div nz-col nzSpan="12" >
+                        <h2 class="title">রানিং কোর্স সমূহ</h2>
+                    </div>
+                    <div nz-col nzSpan="12" style="text-align: right;">
+                        <button nz-button nzType="primary" (click)="navigate('course')">সকল কোর্স </button>
+                    </div>
+                    
+                </div>
+        
+                <hr>
+                <div nz-row>
+            
+                
+                    <div nz-col nzSpan="18" >
+                        <app-course status="RUNNING" count=6></app-course>
+                    </div>
+                    
+                </div>
+        
+            </div>
+        
+            <div nz-col nzSpan="6" class="gutter-row" >
+                <div nz-row>
+            
+                    <div nz-col nzSpan="24" >
+                        <h2 class="title">পরবর্তী কোর্স সমূহ </h2>
+                    </div>
+                                
+                </div>
+        
+                <hr>
+                <div nz-row>
+            
+                
+                    <div nz-col nzSpan="18" >
+                        <app-course status="UPCOMING" count=2></app-course>
+                    </div>
+                    
+                </div>
+        
+            </div>
+                    
+        </div>
+        
+    </div>
 </div>
 
-<br><br>
-<!-- Hotel -->
-<div class="hotel">
-
-    <h2 class="title">হোটেল এ্যান্ড রুম</h2>
-    <app-hotel-and-room></app-hotel-and-room>
-    <img width="100%" src="../../assets/images/hotes_facilities.png" alt="">
-
+<!-- Hotel Block-->
+<div class="hotel block">
+    <div class="container">
+        <h2 class="title">হোটেল এ্যান্ড রুম</h2>
+        <app-hotel-and-room></app-hotel-and-room>
+        <img width="100%" src="../../assets/images/hotes_facilities.png" alt="">
+    </div>
 </div>
 
-<br><br>
-<div class="library">
-    <h2 class="title">আমাদের লাইব্রেরী</h2>
-    <app-library></app-library>
-</div>
-<br><br>
-<app-faq></app-faq>
+<!-- Library Block -->
+<div class="library block gray">
+    <div class="container">
 
+        <h2 class="title">আমাদের লাইব্রেরী</h2>
+        <app-library></app-library>
+
+    </div>
+</div>
+
+<!-- FAQ Block -->
+
+<div class="faq block ">
+    <div class="container">
+
+        <app-faq></app-faq>
+        
+    </div>
+</div>
+
+
+</div>

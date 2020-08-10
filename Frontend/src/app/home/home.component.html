@@ -2,7 +2,10 @@
 
 <nz-content>
 
+<div [ngClass]="[ home ? '' : 'container block']">
     <router-outlet></router-outlet>
+</div>
+    
 
 </nz-content>
 

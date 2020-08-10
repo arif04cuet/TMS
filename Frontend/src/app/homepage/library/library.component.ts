@@ -15,6 +15,7 @@ export class LibraryComponent extends TableComponent {
    bookCategoryCount:40,
    bookCount:3000
  }
+data=[1,2];
 
   constructor(
     private libraryHttpService: LibraryHttpService) {

@@ -1,26 +1,4 @@
-.course {
-  padding: 50px 100px;
-}
-
-.course-item {
-  border-bottom: 1px solid #eee;
-  padding: 10px 0;
-}
-
-.filter {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.title {
-  text-align: center;
-}
-
-.course-title {
-  display: flex;
-  align-items: center;
-}
-
-.course-title h3 {
-  margin-right: 15px;
+.registration .ant-form-item-label
+{
+  text-align: left;
 }

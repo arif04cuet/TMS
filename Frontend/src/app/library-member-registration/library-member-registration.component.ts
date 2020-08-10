@@ -6,7 +6,8 @@ import { LibraryHttpService } from 'src/services/library-http-service';
 
 @Component({
   selector: 'app-library-member-registration',
-  templateUrl: './library-member-registration.component.html'
+  templateUrl: './library-member-registration.component.html',
+  styleUrls: ['./library-member-registration.component.css']
 })
 export class LibraryMemberRegistrationComponent extends FormComponent {
 

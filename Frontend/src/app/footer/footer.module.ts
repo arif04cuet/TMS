@@ -12,6 +12,7 @@ import { NzGridModule } from 'ng-zorro-antd';
     NzLayoutModule,
     NzMenuModule,
     NzGridModule,
+    NzIconModule,
     NzIconModule
   ],
   exports: [FooterComponent]

@@ -65,10 +65,13 @@
     background-color: #e6f7ff;
     
 }
-.bottom-menu nz-header{
+.bottom-menu{
   background-color: #00909E;
   height:50px;
 }
+.bottom-menu nz-header{
+  height: 99%;
+  }
 .bottom-menu nz-header .ant-menu{
   height: 100%;
   line-height: 1;
@@ -101,13 +104,12 @@
 .bottom-menu .ant-menu-item{padding:0 30px}
 
 nz-header,nz-content,nz-footer {
-  padding: 0 100px!important;
+  padding: 0!important;
 }
 
 
 nz-content{
-  min-height: 400px!important;
-  margin-top: 20px;
+  min-height: 400px!important;  
 }
 .page-title
 {
@@ -126,6 +128,19 @@ nz-content{
    padding-left: 10px;
 }
 
+.container{
+  padding: 0 100px!important;
+}
 
+.gray{
+  background: #F9F9F9;
+}
 
-
+.block {
+  padding: 20px 0;
+  margin: 5px 0;
+}
+.homepage .banner {
+  padding-top: 0px;
+  margin-top: 0px;
+}

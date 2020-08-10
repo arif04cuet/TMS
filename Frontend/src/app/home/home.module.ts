@@ -16,12 +16,14 @@ import { ContentListModule } from '../content-list/content-list.module';
 import { ContentListSingleModule } from '../content-list/single/content-list-single.module';
 import { RegistrationModule } from '../registration/registration.module';
 import { HotelAndRoomModule } from '../hotel-and-room/hotel-and-room.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
     HomeComponent
   ],
   imports: [
+    CommonModule,
     RouterModule,
     HeaderModule,
     FooterModule,
