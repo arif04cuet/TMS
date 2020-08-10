@@ -46,7 +46,10 @@ export class BannerAddComponent extends FormComponent {
   submit(): void {
     //const body = this.constructObject(this.form.controls);
 
-    const body = this.constructObject(this.form.controls);
+    const body: any = this.constructObject(this.form.controls);
+    if (!body.media) {
+      delete body.media;
+    }
 
     this.submitForm(
       {
@@ -74,7 +77,7 @@ export class BannerAddComponent extends FormComponent {
           this.setValues(this.form.controls, res.data);
           this.loading = false;
 
-          if (res.data.media) {
+          if (res.data.mediaUrl) {
             this.mediaUrl = `${environment.serverUri}/${res.data.mediaUrl}`;
           }
 

@@ -95,6 +95,9 @@ export class RoomAddComponent extends FormComponent {
     if (hostel) {
       body.hostel = hostel.id;
     }
+    if (!body.image) {
+      delete body.image;
+    }
     this.submitForm(
       {
         request: this.roomHttpService.add(body),
@@ -124,7 +127,7 @@ export class RoomAddComponent extends FormComponent {
           this.prepareForm(res);
           this.loading = false;
 
-          if (res.data.image) {
+          if (res.data.imageUrl) {
             this.imageUrl = `${environment.serverUri}/${res.data.imageUrl}`;
 
           }

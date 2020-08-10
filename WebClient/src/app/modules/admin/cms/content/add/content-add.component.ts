@@ -67,7 +67,9 @@ export class ContentAddComponent extends FormComponent {
 
     const body: any = this.constructObject(this.form.controls);
     body.body = this.bodyEditorComponent.editorInstance.getData();
-
+    if (!body.image) {
+      delete body.image;
+    }
 
     this.submitForm(
       {
@@ -98,7 +100,7 @@ export class ContentAddComponent extends FormComponent {
           this.data = res.data;
           this.setEditorData(this.data);
 
-          if (res.data.image) {
+          if (res.data.imageUrl) {
             this.imageUrl = `${environment.serverUri}/${res.data.imageUrl}`;
 
           }

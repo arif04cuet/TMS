@@ -121,6 +121,10 @@ export class CourseAddComponent extends FormComponent {
       body.methods = [];
     }
 
+    if (!body.image) {
+      delete body.image;
+    }
+
     this.submitForm(
       {
         request: this.courseHttpService.add(body),
@@ -147,7 +151,7 @@ export class CourseAddComponent extends FormComponent {
           this.setValues(this.form.controls, res.data);
           this.loading = false;
           this.data = res.data;
-          if (res.data.image) {
+          if (res.data.imageUrl) {
             this.imageUrl = `${environment.serverUri}/${res.data.imageUrl}`;
 
           }
