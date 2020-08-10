@@ -10,10 +10,11 @@ import { LibraryHttpService } from 'src/services/library-http-service';
 })
 export class LibraryComponent extends TableComponent {
 
+
  count = {
-   libraryCount:10,
-   bookCategoryCount:40,
-   bookCount:3000
+   libraryCount:0,
+   bookategoryCount:0,
+   bookCount:0
  }
 data=[1,2];
 
@@ -22,7 +23,19 @@ data=[1,2];
     super(libraryHttpService);
   }
   ngOnInit(): void {
-    //this.gets();
+    this.get();
+  }
+
+  get() {
+    this.loading = true;
+    
+      this.subscribe(this.libraryHttpService.getCounts(),
+        (res: any) => {
+          this.count = res.data;
+          this.loading = false;
+        }
+      );
+    
   }
 
   registration()

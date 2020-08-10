@@ -10,6 +10,10 @@ export class LibraryHttpService extends BaseHttpService {
         const url = `library/members/request`;
         return this.httpService.post(url, body);
     }
-    
+    getCounts(){
+        const url = this.END_POINT+'/counts';
+        return this.httpService.get(url);
+    }
+
 
 }
