@@ -83,7 +83,7 @@ namespace Module.Library.Controllers
         [HttpGet("counts")]        
         public async Task<ActionResult> GetCount()
         {
-            var result = await _libraryService.getCountsAsync();
+            var result = await _libraryService.GetCountsAsync();
             return result.ToOkResult();
         }
 

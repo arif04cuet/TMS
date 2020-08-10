@@ -125,6 +125,7 @@ namespace Module.Library.Data
 
             return result;
         }
+
         public async Task<LibraryCountViewModel> GetCountsAsync()
         {
             var libraryCount = await _libraryRepository
@@ -200,11 +201,6 @@ namespace Module.Library.Data
 
             var total = await query.Select(x => x.Id).CountAsync();
             return new PagedCollection<FineListViewModel>(items, total, pagingOptions);
-        }
-
-        Task<LibraryCountViewModel> ILibraryService.getCountsAsync()
-        {
-            throw new NotImplementedException();
         }
     }
 }
