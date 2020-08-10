@@ -125,19 +125,29 @@ namespace Module.Library.Data
 
             return result;
         }
-         public async Task<LibraryCountViewModel> GetCountsAsync()
+        public async Task<LibraryCountViewModel> GetCountsAsync()
         {
-            var count = await _libraryRepository
+            var libraryCount = await _libraryRepository
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)
                 .CountAsync();
 
-                var result =  new LibraryCountViewModel
-                {
-                    LibraryCount=count,
-                    BookategoryCount=30,
-                    BookCount=2000
-                };
+            var bookCategoryCount = await _unitOfWork.GetRepository<BookSubject>()
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .CountAsync();
+
+            var bookCount = await _unitOfWork.GetRepository<BookItem>()
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .CountAsync();
+
+            var result = new LibraryCountViewModel
+            {
+                LibraryCount = libraryCount,
+                BookategoryCount = bookCategoryCount,
+                BookCount = bookCount
+            };
 
             return result;
         }
