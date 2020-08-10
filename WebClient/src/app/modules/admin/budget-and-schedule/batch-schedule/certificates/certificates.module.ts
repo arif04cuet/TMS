@@ -9,6 +9,7 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
 import { CertificatesComponent } from './certificates.component';
 import { CertificatesRoutingModule } from './certificates-routing.module';
 import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
+import { BatchScheduleAllocationHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-allocation-http.service';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/
   exports: [CertificatesComponent],
   providers: [
     BatchScheduleHttpService,
+    BatchScheduleAllocationHttpService,
     CommonValidator
   ]
 })

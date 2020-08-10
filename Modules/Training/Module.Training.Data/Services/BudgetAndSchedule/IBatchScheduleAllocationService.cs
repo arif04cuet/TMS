@@ -24,5 +24,7 @@ namespace Module.Training.Data
 
         Task<byte[]> ExportAllocationAsync(ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
+        Task<byte[]> DownloadCertificateAsync(long batchScheduleAllocationId, CancellationToken cancellationToken = default);
+
     }
 }

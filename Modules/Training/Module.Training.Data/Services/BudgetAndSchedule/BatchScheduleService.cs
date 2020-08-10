@@ -280,6 +280,5 @@ namespace Module.Training.Data
             var pdfBytes = _pdfConverter.Convert(htmlContent);
             return pdfBytes;
         }
-
     }
 }

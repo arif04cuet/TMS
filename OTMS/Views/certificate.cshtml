@@ -1,0 +1,56 @@
+﻿@model Module.Training.Data.ParticipantCertificatePdfModel
+
+<!doctype html>
+
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Certificate</title>
+
+    <style>
+        .container {
+            margin: 0 auto;
+            width: 595px;
+        }
+        .serial-no {
+            margin-top: 67px;
+            padding-left: 33px;
+            font-weight: bold;
+        }
+        .name {
+            margin-top: 392px;
+            font-size: 48px;
+            font-weight: bold;
+            font-style: italic;
+            text-align: center;
+        }
+        .course-details {
+            text-align: center;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .course-intro, .course-date {
+            font-size: 19px;
+        }
+        .course-name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="serial-no">SL. No: @Model.Serial</div>
+        <div class="name">@Model.ParticipantName</div>
+        <div class="course-details">
+            <div class="course-intro">in recognition of Successfull Completion of the Training Course on</div>
+            <div class="course-name">"@Model.CourseName"</div>
+            <div class="course-date">held from @Model.CourseDate</div>
+        </div>
+        @*<img style="width: 595px; position: absolute; left: 326px; top: 0; z-index: -1;" src="certificate.jpg" alt="Certificate" />*@
+    </div>
+</body>
+</html>

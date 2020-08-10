@@ -36,4 +36,10 @@ export class BatchScheduleAllocationHttpService extends BaseHttpService {
         const req = this.httpService.download(url, {});
         return this.httpService.getClient().request(req);
     }
+
+    downloadCertificate(batchScheduleAllocationId) {
+        const url = `${this.END_POINT}/${batchScheduleAllocationId}/certificate`;
+        const req = this.httpService.download(url, {});
+        return this.httpService.getClient().request(req);
+    }
 }

@@ -86,6 +86,12 @@ namespace Module.Training.Controllers
             return NoContent();
         }
 
+        [HttpPost("{id}/certificate")]
+        public async Task<IActionResult> DownloadCertificate(long id)
+        {
+            var result = await _batchScheduleAllocationService.DownloadCertificateAsync(id);
+            return File(result, "application/pdf", $"certificate.pdf");
+        }
 
     }
 }

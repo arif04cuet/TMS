@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TableComponent } from 'src/app/shared/table.component';
 import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
+import { BatchScheduleAllocationHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-allocation-http.service';
+import { progress, createAnchorAndFireForDownload } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-certificates',
@@ -13,6 +15,7 @@ export class CertificatesComponent extends TableComponent {
 
   constructor(
     private batchScheduleHttpService: BatchScheduleHttpService,
+    private batchScheduleAllocationHttpService: BatchScheduleAllocationHttpService,
     private activatedRoute: ActivatedRoute
   ) {
     super(batchScheduleHttpService);
@@ -43,6 +46,26 @@ export class CertificatesComponent extends TableComponent {
         return this.batchScheduleHttpService.listParticipant(this.id, p, s);
       })
     }
+  }
+
+  downloadCertificate(model) {
+    if(model) {
+      this.loading = true;
+      this.subscribe(this.batchScheduleAllocationHttpService.downloadCertificate(model.batchScheduleAllocationId),
+        res => {
+          this.loading = false;
+          this.download(res);
+        },
+        err => this.loading = false
+      );
+    }
+  }
+  
+  private download(res) {
+    progress(res, null, (data: Blob) => {
+      createAnchorAndFireForDownload(data, "certificate.pdf");
+      this.success('success');
+    });
   }
 
 }

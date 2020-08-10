@@ -31,7 +31,7 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.name }}</td>
-                        <td><a>{{ 'download'|translate }}</a></td>
+                        <td><a (click)="downloadCertificate(data)">{{ 'download'|translate }}</a></td>
                     </tr>
                 </tbody>
             </nz-table>

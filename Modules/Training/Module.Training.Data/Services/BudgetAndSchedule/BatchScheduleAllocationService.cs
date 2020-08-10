@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Module.Core.Data;
@@ -22,17 +23,23 @@ namespace Module.Training.Data
         private readonly IAllocationService _allocationService;
         private readonly IRepository<BatchScheduleAllocation> _batchSceduleAllocationRepository;
         private readonly ILogger<BatchScheduleAllocationService> _logger;
+        private readonly IRazorViewRenderer _viewRenderer;
+        private readonly IPdfConverter _pdfConverter;
 
         public BatchScheduleAllocationService(
             IUnitOfWork unitOfWork,
             IExcelService excelService,
             IAllocationService allocationService,
-            ILogger<BatchScheduleAllocationService> logger)
+            ILogger<BatchScheduleAllocationService> logger,
+            IPdfConverter pdfConverter,
+            IRazorViewRenderer viewRenderer)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
             _excelService = excelService;
             _allocationService = allocationService;
+            _pdfConverter = pdfConverter;
+            _viewRenderer = viewRenderer;
             _batchSceduleAllocationRepository = _unitOfWork.GetRepository<BatchScheduleAllocation>();
         }
 
@@ -217,6 +224,43 @@ namespace Module.Training.Data
 
             var bytes = _excelService.Generate(result);
             return bytes;
+        }
+
+        public async Task<byte[]> DownloadCertificateAsync(long batchScheduleAllocationId, CancellationToken cancellationToken = default)
+        {
+            var model = await _unitOfWork.GetRepository<BatchScheduleAllocation>()
+                .AsReadOnly()
+                .Where(x => x.Id == batchScheduleAllocationId && !x.IsDeleted)
+                .Select(x => new ParticipantCertificatePdfModel
+                {
+                    ParticipantName = x.Trainee.FullName,
+                    CourseName = x.BatchSchedule.CourseSchedule.Course.Name,
+                    CourseDate = $"{x.BatchSchedule.StartDate.Date} - {x.BatchSchedule.EndDate.Date}",
+                    Serial = "123"
+                })
+                .FirstOrDefaultAsync();
+
+            var serial = 0;
+            if (model != null)
+            {
+                serial = await _unitOfWork.GetRepository<Certificate>()
+                    .AsReadOnly()
+                    .Where(x => !x.IsDeleted)
+                    .CountAsync();
+
+                model.Serial = (serial + 1).ToString();
+
+                await _unitOfWork.GetRepository<Certificate>().AddAsync(new Certificate
+                {
+                    Serial = model.Serial,
+                    BatchScheduleAllocationId = batchScheduleAllocationId
+                });
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            var htmlContent = await _viewRenderer.RenderViewToStringAsync("/Views/certificate.cshtml", model);
+            var pdfBytes = _pdfConverter.Convert(htmlContent);
+            return pdfBytes;
         }
 
     }

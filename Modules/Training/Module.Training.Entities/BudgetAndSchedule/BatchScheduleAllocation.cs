@@ -28,9 +28,6 @@ namespace Module.Training.Entities
         [Searchable]
         public BatchScheduleAllocationStatus Status { get; set; }
 
-        public long? CertificateId { get; set; }
-        public Certificate Certificate { get; set; }
-
         public long? BedId { get; set; }
         public Bed Bed { get; set; }
 
