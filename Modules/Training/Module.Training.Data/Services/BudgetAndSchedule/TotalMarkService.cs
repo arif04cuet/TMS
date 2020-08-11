@@ -71,7 +71,7 @@ namespace Module.Training.Data
                 .SelectMany(x => x.CourseSchedule.Course.EvaluationMethods)
                 .Select(x => new TotalMarkEvaluationMethodViewModel
                 {
-                    Id = x.EvaluationMethodId,
+                    Id = x.Id,
                     Name = x.EvaluationMethod.Name
                 })
                 .ToListAsync();
