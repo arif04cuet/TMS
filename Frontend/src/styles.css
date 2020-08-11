@@ -1,11 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 
+.top-menu{
+  display: flex;
+  justify-content: space-between;
+}
 .logo {
     
     background: rgba(255, 255, 255, 0.2);
     margin: 0;
-    float: left;
   }
 
   .header-menu {
@@ -129,7 +132,7 @@ nz-content{
 }
 
 .container{
-  padding: 0 100px!important;
+  padding: 0 100px;
 }
 
 .gray{
