@@ -13,7 +13,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'eye',
         title: 'View'
-      }
+      },
+      permissions: ['license.manage', 'license.view']
     }
   },
 
@@ -26,7 +27,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'edit',
         title: 'Edit'
-      }
+      },
+      permissions: ['license.manage', 'license.update']
     }
   },
   {
@@ -37,7 +39,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'Add'
-      }
+      },
+      permissions: ['license.manage', 'license.create']
     }
   },
   {
@@ -48,7 +51,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'eye',
         title: 'checkout'
-      }
+      },
+      permissions: ['license.manage', 'license.checkout']
     }
   },
   {
@@ -59,7 +63,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'eye',
         title: 'checkin'
-      }
+      },
+      permissions: ['license.manage', 'license.checkin']
     }
   }
 ];

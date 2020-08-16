@@ -2,15 +2,13 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { SupplierHttpService } from 'src/services/http/asset/supplier-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 
 
 @Component({
   selector: 'app-supplier-list',
-  templateUrl: './supplier-list.component.html',
-  styleUrls: ['./supplier-list.component.scss']
+  templateUrl: './supplier-list.component.html'
 })
 export class SupplierListComponent extends TableComponent {
 
@@ -25,10 +23,8 @@ export class SupplierListComponent extends TableComponent {
   @Searchable("ContactPhone", "like") ContactPhone;
   @Searchable("IsActive", "eq") IsActive;
 
-
   constructor(
     private supplierHttpService: SupplierHttpService,
-    private commonHttpService: CommonHttpService,
     private activatedRoute: ActivatedRoute
   ) {
     super(supplierHttpService);

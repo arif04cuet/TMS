@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms';
-import { of, forkJoin } from 'rxjs';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { DesignationHttpService } from 'src/services/http/user/designation-http.service';

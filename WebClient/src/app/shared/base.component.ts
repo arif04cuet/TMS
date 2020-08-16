@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { invoke, getLang, forEachObj } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
+import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
 
 export class BaseComponent {
 
@@ -16,7 +17,8 @@ export class BaseComponent {
     _router: Router;
     _httpService: HttpService;
     _translate: TranslateService;
-    _modalService: NzModalService
+    _modalService: NzModalService;
+    _permissionService: PermissionHttpService;
     breadcrumbs = [];
 
     protected _activatedRouteSnapshot: ActivatedRouteSnapshot
@@ -28,7 +30,7 @@ export class BaseComponent {
         this._httpService = AppInjector.get(HttpService);
         this._translate = AppInjector.get(TranslateService);
         this._modalService = AppInjector.get(NzModalService);
-
+        this._permissionService = AppInjector.get(PermissionHttpService);
     }
 
     subscribe<T>(

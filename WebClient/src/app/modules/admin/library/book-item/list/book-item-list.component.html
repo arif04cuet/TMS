@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="column">
-                <button (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['book.manage', 'book.create']" (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -96,23 +96,27 @@
                         <td>{{ data.issueDate|date:'medium':'+0000' }}</td>
                         <td>{{ data.returnDate|date:'medium':'+0000' }}</td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="!data.issuedTo && data.status.id == 1" nzType="primary" (click)="issue(data)" nz-button
-                                class="btn-custom">
-                                {{'issue'|translate}}
-                            </button>
-                            <button *ngIf="data.issuedTo" nz-button (click)="return(data)" class="btn-custom">
-                                {{'return'|translate}}
-                            </button>
+                            <ng-container *checkPermission="['book.manage', 'book.issue']">
+                                <button *ngIf="!data.issuedTo && data.status.id == 1" nzType="primary" (click)="issue(data)" nz-button
+                                    class="btn-custom">
+                                    {{'issue'|translate}}
+                                </button>
+                            </ng-container>
+                            <ng-container *checkPermission="['book.manage', 'book.return']">
+                                <button *ngIf="data.issuedTo" nz-button (click)="return(data)" class="btn-custom">
+                                    {{'return'|translate}}
+                                </button>
+                            </ng-container>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
                                 <i nz-icon nzType="ellipsis"></i>
                             </button>
                             <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li nz-menu-item (click)="add(data)">
+                                    <li *checkPermission="['book.manage', 'book.update']" nz-menu-item (click)="add(data)">
                                         <i nz-icon nzType="edit"></i>{{'edit'|translate}}
                                     </li>
-                                    <li nz-menu-item (click)="delete(data)">
+                                    <li *checkPermission="['book.manage', 'book.delete']" nz-menu-item (click)="delete(data)">
                                         <i nz-icon nzType="delete"></i>{{'delete'|translate}}
                                     </li>
                                 </ul>

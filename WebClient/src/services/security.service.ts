@@ -1,46 +1,74 @@
 import { Injectable } from '@angular/core';
+import { state } from 'src/constants/state';
 
 @Injectable()
 export class SecurityService {
 
     private _storage: Storage;
     private authDataKey = 'otms_app_auth_data';
+    private permissionDataKey = 'otms_app_permission_data';
     private rememberMeTokenKey = 'remember_me';
+
+    private permissions: string[] = [];
+    private authData: IAuthData = null;
 
     constructor() {
         this._storage = sessionStorage;
     }
 
-    public setUserAccessible(data)  {
-        var key = this.authDataKey + "_accessibles";
-        if (data) {
-            this._storage.removeItem(key);
-            this._storage.setItem(key, JSON.stringify(data));
-        } else {
-            this._storage.removeItem(key);
-        }
-    }
-
-    public getUserAccessible() {
-        var key = this.authDataKey + "_accessibles";
-        return JSON.parse(this._storage.getItem(key));
-    }
-
     public setAuthData(data: IAuthData): void {
         if (data) {
+            this.authData = data;
             this._storage.removeItem(this.authDataKey);
             this._storage.setItem(this.authDataKey, JSON.stringify(data));
         } else {
+            this.authData = null;
             this._storage.removeItem(this.authDataKey);
+        }
+    }
+
+    public setPermissions(permissions: string[]): void {
+        state.permissionCache = {};
+        if (permissions) {
+            this.permissions = permissions;
+            this._storage.removeItem(this.permissionDataKey);
+            this._storage.setItem(this.permissionDataKey, JSON.stringify(permissions));
+        } else {
+            this.permissions = [];
+            this._storage.removeItem(this.permissionDataKey);
+        }
+    }
+
+    public getPermissions(): string[] {
+        if (this.permissions && this.permissions.length) {
+            return this.permissions;
+        }
+        else {
+            const permissions = <string[]>JSON.parse(this._storage.getItem(this.permissionDataKey));
+            this.permissions = permissions;
+            return this.permissions;
         }
     }
 
     public getAuthData(): IAuthData {
-        return <IAuthData>JSON.parse(this._storage.getItem(this.authDataKey));
+        if(this.authData) {
+            return <IAuthData>this.authData;
+        }
+        else {
+            this.authData = <IAuthData>JSON.parse(this._storage.getItem(this.authDataKey));
+            return this.authData;
+        }
     }
 
     public removeAuthData(): void {
         this._storage.removeItem(this.authDataKey);
+        this.authData = null;
+    }
+
+    public removePermissions(): void {
+        this._storage.removeItem(this.permissionDataKey);
+        this.permissions = [];
+        state.permissionCache = {};
     }
 
     public setRememberMeToken(data: string): void {

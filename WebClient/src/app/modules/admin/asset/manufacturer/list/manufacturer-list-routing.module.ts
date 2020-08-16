@@ -12,7 +12,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'edit',
         title: 'Edit'
-      }
+      },
+      permissions: ['manufacturer.manage', 'manufacturer.update']
     }
   },
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'Add'
-      }
+      },
+      permissions: ['manufacturer.manage', 'manufacturer.create']
     }
   },
 ];

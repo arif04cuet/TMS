@@ -12,7 +12,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'edit',
         title: 'edit'
-      }
+      },
+      permissions: ['book.manage', 'book.update']
     }
   },
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
         icon: 'plus',
         title: 'add'
       },
+      permissions: ['book.manage', 'book.create']
     }
   },
   {
@@ -34,7 +36,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'issue'
-      }
+      },
+      permissions: ['book.manage', 'book.issue']
     }
   },
   {
@@ -45,7 +48,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'issue'
-      }
+      },
+      permissions: ['book.manage', 'book.issue']
     }
   },
   {
@@ -56,7 +60,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'return'
-      }
+      },
+      permissions: ['book.manage', 'book.return']
     }
   }
 ];

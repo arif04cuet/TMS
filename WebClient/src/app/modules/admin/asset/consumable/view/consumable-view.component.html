@@ -5,12 +5,12 @@
                 <app-consumable-details></app-consumable-details>
             </ng-template>
         </nz-tab> -->
-        <nz-tab nzTitle="{{ 'checkouts'|translate }}">
+        <nz-tab *checkPermission="['consumable.manage', 'consumable.checkout.list']" nzTitle="{{ 'checkouts'|translate }}">
             <ng-template nz-tab>
                 <app-consumable-checkout-list></app-consumable-checkout-list>
             </ng-template>
         </nz-tab>
-        <nz-tab nzTitle="{{ 'history'|translate }}">
+        <nz-tab *checkPermission="['consumable.manage', 'consumable.checkout.history']" nzTitle="{{ 'history'|translate }}">
             <ng-template nz-tab>
                 <app-consumable-checkout-history></app-consumable-checkout-history>
             </ng-template>

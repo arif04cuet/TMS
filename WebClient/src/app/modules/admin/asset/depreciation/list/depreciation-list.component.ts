@@ -2,15 +2,13 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { DepreciationHttpService } from 'src/services/http/asset/depreciation-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 
 
 @Component({
   selector: 'app-depreciation-list',
-  templateUrl: './depreciation-list.component.html',
-  styleUrls: ['./depreciation-list.component.scss']
+  templateUrl: './depreciation-list.component.html'
 })
 export class DepreciationListComponent extends TableComponent {
 

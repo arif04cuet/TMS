@@ -11,8 +11,9 @@ const routes: Routes = [
       name: 'consumable_items',
       breadcrumb: {
         icon: 'eye',
-        title: 'View'
-      }
+        title: 'view'
+      },
+      permissions: ['consumable.item.manage', 'consumable.item.list']
     }
   },
   {
@@ -22,8 +23,9 @@ const routes: Routes = [
       name: 'consumable_view',
       breadcrumb: {
         icon: 'eye',
-        title: 'View'
-      }
+        title: 'view'
+      },
+      permissions: ['consumable.manage', 'consumable.view']
     }
   },
   {
@@ -33,8 +35,9 @@ const routes: Routes = [
       name: 'consumable_checkout',
       breadcrumb: {
         icon: 'eye',
-        title: 'Checkout'
-      }
+        title: 'checkout'
+      },
+      permissions: ['consumable.manage', 'consumable.checkout']
     }
   },
 
@@ -45,8 +48,9 @@ const routes: Routes = [
       name: 'consumable_checkin',
       breadcrumb: {
         icon: 'eye',
-        title: 'Checkin'
-      }
+        title: 'checkin'
+      },
+      permissions: ['consumable.manage', 'consumable.checkin']
     }
   },
   // {
@@ -68,7 +72,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'Add'
-      }
+      },
+      permissions: ['consumable.manage', 'consumable.create']
     }
   }
 ];

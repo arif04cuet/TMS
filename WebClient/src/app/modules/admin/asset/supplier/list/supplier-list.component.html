@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="column">
-                <button (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['supplier.manage', 'supplier.create']" (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -32,7 +32,6 @@
                         </th>
                         <th>
                             {{'address'|translate}}
-
                         </th>
                         <th>
                             {{'contact_name'|translate}}
@@ -48,16 +47,13 @@
                         </th>
                         <th>
                             {{'status'|translate}}
-
                             <div>
                                 <nz-select [(ngModel)]="IsActive" class="btn-custom" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'isActive'|translate|lowercase}">
                                     <nz-option *ngFor="let p of statuses" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
                                 </nz-select>
-
                             </div>
-
                         </th>
                         <th>
                             <div class="ta-right">
@@ -80,7 +76,6 @@
                         <td>{{ data.contactEmail }}</td>
                         <td>{{ data.contactPhone }}</td>
                         <td>{{ data.isActive ? 'Active':'In Active' }}</td>
-
                         <td class="action-column fit-cell">
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
@@ -88,10 +83,10 @@
                             </button>
                             <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li nz-menu-item (click)="add(data)">
+                                    <li *checkPermission="['supplier.manage', 'supplier.update']" nz-menu-item (click)="add(data)">
                                         <i nz-icon nzType="edit"></i>{{'edit'|translate}}
                                     </li>
-                                    <li nz-menu-item (click)="delete(data)">
+                                    <li *checkPermission="['supplier.manage', 'supplier.delete']" nz-menu-item (click)="delete(data)">
                                         <i nz-icon nzType="delete"></i>{{'delete'|translate}}
                                     </li>
                                 </ul>

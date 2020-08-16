@@ -44,7 +44,6 @@ const routes: Routes = [
         }
       },
 
-
       {
         path: 'cms/categories',
         loadChildren: () => import('../cms/category/list/category-list.module').then(x => x.CmsCategoryListModule),
@@ -57,7 +56,6 @@ const routes: Routes = [
         }
       },
 
-
       {
         path: 'users',
         loadChildren: () => import('../user/user/list/user-list.module').then(x => x.UserListModule),
@@ -66,7 +64,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'team',
             title: 'users'
-          }
+          },
+          permissions: ['user.manage', 'user.list']
         }
       },
       {
@@ -77,7 +76,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'roles'
-          }
+          },
+          permissions: ['role.manage', 'role.list']
         }
       },
       {
@@ -88,7 +88,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'offices'
-          }
+          },
+          permissions: ['office.manage', 'office.list']
         }
       },
       {
@@ -99,7 +100,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'designations'
-          }
+          },
+          permissions: ['designation.manage', 'designation.list']
         }
       },
       {
@@ -110,7 +112,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'departments'
-          }
+          },
+          permissions: ['department.manage', 'department.list']
         }
       },
       {
@@ -121,7 +124,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'profile'
-          }
+          },
+          permissions: ['profile.manage', 'profile.view']
         }
       },
       {
@@ -132,7 +136,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'libraries'
-          }
+          },
+          permissions: ['library.manage', 'library.list']
         }
       },
       {
@@ -143,7 +148,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'members'
-          }
+          },
+          permissions: ['library.member.manage', 'library.member.list']
         }
       },
       {
@@ -154,7 +160,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'members'
-          }
+          },
+          permissions: ['library.member.request.manage', 'library.member.request.list']
         }
       },
       {
@@ -165,7 +172,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'cards'
-          }
+          },
+          permissions: ['card.manage', 'card.list']
         }
       },
       {
@@ -176,7 +184,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'books'
-          }
+          },
+          permissions: ['book.catalog.manage', 'book.catalog.list']
         }
       },
       {
@@ -188,7 +197,7 @@ const routes: Routes = [
             icon: 'safety',
             title: 'books'
           },
-          permissions: ['user.manage']
+          permissions: ['book.manage', 'book.list']
         }
       },
       {
@@ -199,7 +208,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'racks'
-          }
+          },
+          permissions: ['rack.manage', 'rack.list']
         }
       },
       {
@@ -210,7 +220,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'authors'
-          }
+          },
+          permissions: ['author.manage', 'author.list']
         }
       },
       {
@@ -221,7 +232,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'publishers'
-          }
+          },
+          permissions: ['publisher.manage', 'publisher.list']
         }
       },
       {
@@ -232,7 +244,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'categories'
-          }
+          },
+          permissions: ['book.category.manage', 'book.category.list']
         }
       },
       {
@@ -243,7 +256,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'issues'
-          }
+          },
+          permissions: ['library.report.issue']
         }
       },
       {
@@ -254,7 +268,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'fines'
-          }
+          },
+          permissions: ['library.report.fine']
         }
       },
       {
@@ -265,7 +280,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'assets'
-          }
+          },
+          permissions: ['asset.manage', 'asset.list']
         }
       },
       {
@@ -276,7 +292,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'plus',
             title: 'Add'
-          }
+          },
+          permissions: ['maintenance.manage', 'maintenance.list']
         }
       },
       {
@@ -287,7 +304,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'asset.models'
-          }
+          },
+          permissions: ['asset.model.manage', 'asset.model.list']
         }
       },
       {
@@ -298,7 +316,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'audit'
-          }
+          },
+          permissions: ['asset.audit.create']
         }
       },
       {
@@ -310,7 +329,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'asset.itemcode'
-          }
+          },
+          permissions: ['item.code.manage', 'item.code.list']
         }
       },
       // {
@@ -344,7 +364,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'consumable'
-          }
+          },
+          permissions: ['consumable.manage', 'consumable.list']
         }
       },
       // {
@@ -366,7 +387,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'supplier'
-          }
+          },
+          permissions: ['supplier.manage', 'supplier.list']
         }
       },
       {
@@ -377,7 +399,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'Depreciation'
-          }
+          },
+          permissions: ['depreciation.manage', 'depreciation.list']
         }
       },
 
@@ -389,7 +412,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'manufacturer'
-          }
+          },
+          permissions: ['manufacturer.manage', 'manufacturer.list']
         }
       },
       {
@@ -400,7 +424,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'status'
-          }
+          },
+          permissions: ['asset.status.manage', 'asset.status.list']
         }
       },
       {
@@ -411,7 +436,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'category'
-          }
+          },
+          permissions: ['asset.category.manage', 'asset.category.list']
         }
       },
       {
@@ -422,7 +448,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'license'
-          }
+          },
+          permissions: ['license.manage', 'license.list']
         }
       },
       {
@@ -433,7 +460,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'activity.log'
-          }
+          },
+          permissions: ['report.activity.log']
         }
       },
       {
@@ -444,7 +472,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'audit.log'
-          }
+          },
+          permissions: ['report.audit.log']
         }
       },
       {
@@ -455,7 +484,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'depreciation.report'
-          }
+          },
+          permissions: ['report.depreciation']
         }
       },
       {
@@ -466,7 +496,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'license.report'
-          }
+          },
+          permissions: ['report.license']
         }
       },
       {
@@ -477,7 +508,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'maintenance.report'
-          }
+          },
+          permissions: ['report.maintenance']
         }
       },
       {
@@ -488,7 +520,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'asset.report'
-          }
+          },
+          permissions: ['report.asset']
         }
       },
       {
@@ -499,7 +532,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'allocations'
-          }
+          },
+          permissions: ['allocation.manage', 'allocation.list']
         }
       },
       {
@@ -510,7 +544,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'hostels'
-          }
+          },
+          permissions: ['hostel.manage', 'hostel.list']
         }
       },
       {
@@ -521,7 +556,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'buildings'
-          }
+          },
+          permissions: ['building.manage', 'building.list']
         }
       },
       {
@@ -532,7 +568,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'facilities'
-          }
+          },
+          permissions: ['room.facilities.manage', 'room.facilities.list']
         }
       },
       {
@@ -543,7 +580,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'rooms'
-          }
+          },
+          permissions: ['room.manage', 'room.list']
         }
       },
       {
@@ -554,7 +592,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'beds'
-          }
+          },
+          permissions: ['bed.manage', 'bed.list']
         }
       },
       {
@@ -565,7 +604,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'grades'
-          }
+          },
+          permissions: ['grade.manage', 'grade.list']
         }
       },
       {
@@ -576,7 +616,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'evaluation.methods'
-          }
+          },
+          permissions: ['evaluation.method.manage', 'evaluation.method.list']
         }
       },
       {
@@ -587,7 +628,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'course.methods'
-          }
+          },
+          permissions: ['method.manage', 'method.list']
         }
       },
       {
@@ -598,7 +640,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'course.categories'
-          }
+          },
+          permissions: ['course.category.manage', 'course.category.list']
         }
       },
       {
@@ -609,7 +652,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'topics'
-          }
+          },
+          permissions: ['topic.manage', 'topic.list']
         }
       },
       {
@@ -620,7 +664,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'modules'
-          }
+          },
+          permissions: ['module.manage', 'module.list']
         }
       },
       {
@@ -631,7 +676,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'courses'
-          }
+          },
+          permissions: ['course.manage', 'course.list']
         }
       },
       {
@@ -642,7 +688,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'resource.persons'
-          }
+          },
+          permissions: ['resource.person.manage', 'resource.person.list']
         }
       },
       {
@@ -653,7 +700,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'expertise'
-          }
+          },
+          permissions: ['expertise.manage', 'expertise.list']
         }
       },
       // Budget and schedule
@@ -665,7 +713,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'honorarium.heads'
-          }
+          },
+          permissions: ['honorarium.head.manage', 'honorarium.head.list']
         }
       },
       {
@@ -676,7 +725,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'course.schedules'
-          }
+          },
+          permissions: ['schedule.manage', 'schedule.list']
         }
       },
       {
@@ -687,7 +737,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'batch.schedules'
-          }
+          },
+          permissions: ['batch.manage', 'batch.list']
         }
       },
       {
@@ -698,7 +749,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'allocations'
-          }
+          },
+          permissions: ['batch.allocation.manage', 'batch.allocation.list']
         }
       },
       {
@@ -709,7 +761,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'questions'
-          }
+          },
+          permissions: ['question.manage', 'question.list']
         }
       },
       {

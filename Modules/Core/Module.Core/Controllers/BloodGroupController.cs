@@ -32,7 +32,6 @@ namespace Module.Core.Controllers
         }
 
         [HttpGet("{id}")]
-        [RequirePermission(RoleView)]
         public async Task<ActionResult> Get(long id)
         {
             var result = await _nameService.Get(id);

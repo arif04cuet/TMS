@@ -6,8 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-designation-list',
-  templateUrl: './designation-list.component.html',
-  styleUrls: ['./designation-list.component.scss']
+  templateUrl: './designation-list.component.html'
 })
 export class DesignationListComponent extends TableComponent {
 
@@ -21,7 +20,6 @@ export class DesignationListComponent extends TableComponent {
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
     this.gets();
-    
     this.onDeleted = (res: any) => {
       this.gets();
     }

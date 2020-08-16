@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="column">
-                <button (click)="edit()" nz-button class="btn-custom">
+                <button *checkPermission="['profile.manage', 'profile.update']" (click)="edit()" nz-button class="btn-custom">
                     <i nz-icon nzType="edit" nzTheme="outline"></i>
                     {{
                         'x0.x1'|translate:{x0: 'edit'|translate, x1: 'profile'|translate|lowercase}

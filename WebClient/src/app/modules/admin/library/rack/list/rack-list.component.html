@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="column">
-                <button (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['rack.manage', 'rack.create']" (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -62,10 +62,10 @@
                             </button>
                             <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li nz-menu-item (click)="add(data)">
+                                    <li *checkPermission="['rack.manage', 'rack.update']" (click)="add()" nz-menu-item (click)="add(data)">
                                         <i nz-icon nzType="edit"></i>{{'edit'|translate}}
                                     </li>
-                                    <li nz-menu-item (click)="delete(data)">
+                                    <li *checkPermission="['rack.manage', 'rack.delete']" (click)="add()" nz-menu-item (click)="delete(data)">
                                         <i nz-icon nzType="delete"></i>{{'delete'|translate}}
                                     </li>
                                 </ul>

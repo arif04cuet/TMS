@@ -45,7 +45,7 @@ namespace Module.Core.Data
             var sql = $@"select p.*, m.Name ModuleName, pg.Name GroupName,
                             case when up.UserId = @UserId or rp.RoleId in (@RoleId)
                             then 1 else 0 end as 'Granted'
-                        from Permission p
+                        from [core].[Permission] p
                         left join [core].[RolePermission] rp on rp.PermissionId = p.Id
                         left join [core].[UserPermission] up on up.PermissionId = p.Id
                         left join [core].[Module] m on m.Id = p.ModuleId

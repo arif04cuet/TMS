@@ -18,6 +18,18 @@ namespace Module.Core.Data
                 new PermissionGroup(DepartmentGroup, "Department"),
                 new PermissionGroup(ProfileGroup, "Profile"),
                 new PermissionGroup(BookGroup, "Book"),
+                new PermissionGroup(LibraryGroup, "Library"),
+                new PermissionGroup(LibraryMemberGroup, "Member"),
+                new PermissionGroup(LibraryMemberRequestGroup, "Member Request"),
+                new PermissionGroup(CardGroup, "Card"),
+                new PermissionGroup(BookCatalogGroup, "Catalog"),
+                new PermissionGroup(RackGroup, "Rack"),
+                new PermissionGroup(AuthorGroup, "Author"),
+                new PermissionGroup(PublisherGroup, "Publisher"),
+                new PermissionGroup(BookCategoryGroup, "Category"),
+                new PermissionGroup(LibraryReportGroup, "Report"),
+                new PermissionGroup(AssetGroup, "Asset"),
+                new PermissionGroup(MaintenanceGroup, "Maintenance"),
             };
         }
     }

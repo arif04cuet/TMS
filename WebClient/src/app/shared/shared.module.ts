@@ -3,9 +3,13 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BoxLoaderModule } from './box-loader.component';
 import { getLang } from 'src/services/utilities.service';
 import { MomentPipeModule } from 'src/pipes/moment.pipe';
+import { CheckPermissionDirective } from 'src/directives/permission.directive';
 
 
 @NgModule({
+  declarations: [
+    CheckPermissionDirective
+  ],
   imports: [
     TranslateModule,
     BoxLoaderModule,
@@ -14,7 +18,8 @@ import { MomentPipeModule } from 'src/pipes/moment.pipe';
   exports: [
     TranslateModule,
     BoxLoaderModule,
-    MomentPipeModule
+    MomentPipeModule,
+    CheckPermissionDirective
   ]
 })
 export class SharedModule {

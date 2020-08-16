@@ -2,15 +2,13 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { ManufacturerHttpService } from 'src/services/http/asset/manufacturer-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 
 
 @Component({
   selector: 'app-manufacturer-list',
-  templateUrl: './manufacturer-list.component.html',
-  styleUrls: ['./manufacturer-list.component.scss']
+  templateUrl: './manufacturer-list.component.html'
 })
 export class ManufacturerListComponent extends TableComponent {
 

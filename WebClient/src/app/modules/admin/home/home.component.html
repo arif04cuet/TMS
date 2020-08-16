@@ -29,21 +29,23 @@
     <nz-layout class="left-layout">
         <nz-sider [nzWidth]="250">
             <!-- <div class="logo"></div> -->
-            <ul nz-menu nzMode="inline">
+            <ul nz-menu nzMode="inline" *ngIf="permissionLoaded">
                 <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: nav }"></ng-container>
                 <ng-template #menuTemplate let-nav>
                     <ng-container *ngFor="let n of nav">
-                        <li (click)="onMenuItemClick(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="n.level * 24">
-                            <i nz-icon nzType="{{n.icon}}"></i>
-                            <span>{{n.title|translate}}</span>
-                        </li>
-                        <li (click)="onMenuItemClick(n)" *ngIf="n.nav" nz-submenu nzTitle="{{n.title|translate}}"
-                            [nzIcon]="n.icon" [nzPaddingLeft]="n.level * 24">
-                            <ul>
-                                <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: n.nav }">
-                                </ng-container>
-                            </ul>
-                        </li>
+                        <ng-container *ngIf="n.granted">
+                            <li (click)="onMenuItemClick(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="n.level * 24">
+                                <i nz-icon nzType="{{n.icon}}"></i>
+                                <span>{{n.title|translate}}</span>
+                            </li>
+                            <li (click)="onMenuItemClick(n)" *ngIf="n.nav" nz-submenu nzTitle="{{n.title|translate}}"
+                                [nzIcon]="n.icon" [nzPaddingLeft]="n.level * 24">
+                                <ul>
+                                    <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: n.nav }">
+                                    </ng-container>
+                                </ul>
+                            </li>
+                        </ng-container>
                     </ng-container>
                 </ng-template>
             </ul>

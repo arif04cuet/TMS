@@ -12,7 +12,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'eye',
         title: 'view'
-      }
+      },
+      permissions: ['asset.manage', 'asset.view']
     }
   },
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'edit',
         title: 'edit'
-      }
+      },
+      permissions: ['asset.manage', 'asset.update']
     }
   },
   {
@@ -34,7 +36,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'add'
-      }
+      },
+      permissions: ['asset.manage', 'asset.create']
     }
   },
   {
@@ -45,7 +48,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'checkout'
-      }
+      },
+      permissions: ['asset.manage', 'asset.checkout']
     }
   },
   {
@@ -56,7 +60,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'checkout'
-      }
+      },
+      permissions: ['asset.manage', 'asset.bulk.checkout']
     }
   },
   {
@@ -67,7 +72,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'Add'
-      }
+      },
+      permissions: ['asset.manage', 'asset.checkin']
     }
   },
   {
@@ -78,7 +84,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'Add'
-      }
+      },
+      permissions: ['asset.manage', 'asset.audit.create']
     }
   }
 ];

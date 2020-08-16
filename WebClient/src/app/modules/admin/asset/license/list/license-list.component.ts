@@ -7,8 +7,7 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 
 @Component({
   selector: 'app-license-list',
-  templateUrl: './license-list.component.html',
-  styleUrls: ['./license-list.component.scss']
+  templateUrl: './license-list.component.html'
 })
 export class LicenseListComponent extends TableComponent {
 
