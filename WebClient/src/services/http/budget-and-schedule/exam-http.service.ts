@@ -18,7 +18,8 @@ export class ExamHttpService extends BaseHttpService {
             data: {
                 items: [
                     { id: 1, name: 'Completed' },
-                    { id: 2, name: 'Pending' }
+                    { id: 2, name: 'Pending' },
+                    { id: 3, name: 'Cancelled' }
                 ],
                 size: 2
             }

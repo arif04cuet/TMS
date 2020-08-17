@@ -172,6 +172,8 @@ export class ExamAddComponent extends FormComponent {
       this.initModalData();
       this.loading = false;
       this.setValue('evaluationType', 2);
+      this.setValue('status', 2);
+      
       
     }
   }

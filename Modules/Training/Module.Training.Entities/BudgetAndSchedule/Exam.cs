@@ -45,7 +45,8 @@ namespace Module.Training.Entities
     public enum ExamStatus : byte
     {
         Completed = 1,
-        Pending = 2
+        Pending = 2,
+        Cancelled =3,
     }
 
     public enum ExamEvaluationType : byte
