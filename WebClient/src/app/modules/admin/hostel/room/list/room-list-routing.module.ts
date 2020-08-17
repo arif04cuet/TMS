@@ -12,7 +12,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'edit',
         title: 'edit'
-      }
+      },
+      permissions: ['room.manage', 'room.update']
     }
   },
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'add'
-      }
+      },
+      permissions: ['room.manage', 'room.create']
     }
   },
   {
@@ -34,7 +36,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'types'
-      }
+      },
+      permissions: ['room.type.manage', 'room.type.create']
     }
   }
 ];

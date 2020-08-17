@@ -12,7 +12,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'edit',
         title: 'edit'
-      }
+      },
+      permissions: ['resource.person.manage', 'resource.person.update']
     }
   },
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'add'
-      }
+      },
+      permissions: ['resource.person.manage', 'resource.person.create']
     }
   }
 ];

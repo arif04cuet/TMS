@@ -2,15 +2,13 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { StatusHttpService } from 'src/services/http/asset/status-http.service';
-import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 
 
 @Component({
   selector: 'app-status-list',
-  templateUrl: './status-list.component.html',
-  styleUrls: ['./status-list.component.scss']
+  templateUrl: './status-list.component.html'
 })
 export class StatusListComponent extends TableComponent {
 
@@ -20,7 +18,6 @@ export class StatusListComponent extends TableComponent {
   ];
 
   masterstatuses = [];
-
 
   @Searchable("Name", "like") Name;
   @Searchable("Type", "eq") Type;
@@ -86,9 +83,7 @@ export class StatusListComponent extends TableComponent {
   }
 
   getTypeName(typeId) {
-
     return this.masterstatuses.find(x => x.id === typeId);
-
   }
 
 }

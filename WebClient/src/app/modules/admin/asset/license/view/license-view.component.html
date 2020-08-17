@@ -1,17 +1,17 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 <div *ngIf="!loading" class="box">
     <nz-tabset class="form-tabset">
-        <nz-tab nzTitle="{{'details'|translate}}">
+        <nz-tab *checkPermission="['license.manage', 'license.view']" nzTitle="{{'details'|translate}}">
             <ng-template nz-tab>
                 <app-license-details></app-license-details>
             </ng-template>
         </nz-tab>
-        <nz-tab nzTitle="{{ 'seats'|translate }}">
+        <nz-tab *checkPermission="['license.manage', 'license.seat.list']" nzTitle="{{ 'seats'|translate }}">
             <ng-template nz-tab>
                 <app-license-seats></app-license-seats>
             </ng-template>
         </nz-tab>
-        <nz-tab nzTitle="{{ 'history'|translate }}">
+        <nz-tab *checkPermission="['license.manage', 'license.checkout.history']" nzTitle="{{ 'history'|translate }}">
             <ng-template nz-tab>
                 <app-license-checkout-history></app-license-checkout-history>
             </ng-template>

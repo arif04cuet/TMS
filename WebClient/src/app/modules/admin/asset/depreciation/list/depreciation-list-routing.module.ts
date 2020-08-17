@@ -12,7 +12,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'edit',
         title: 'Edit'
-      }
+      },
+      permissions: ['depreciation.manage', 'depreciation.update']
     }
   },
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'Add'
-      }
+      },
+      permissions: ['depreciation.manage', 'depreciation.create']
     }
   },
 ];

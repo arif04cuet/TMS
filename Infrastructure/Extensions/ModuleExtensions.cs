@@ -48,6 +48,14 @@ namespace Infrastructure.Extensions
 
             ProjectManager.SetEntities(_entities);
             ProjectManager.SetServiceRegistrars(_serviceRegistrars);
+
+            //List<long> list = new List<long>();
+            //foreach (var item in _seedProviders[9].GetSeeds())
+            //{
+            //    long id = (long)item.GetType().GetProperty("Id").GetValue(item);
+            //    list.Add(id);
+            //}
+            //List<long> duplicate = list.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
             ProjectManager.SetSeedProviders(_seedProviders.OrderBy(x => x.Order).ToList());
 
             return services;

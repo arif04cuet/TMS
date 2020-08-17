@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="column">
-                <button (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['consumable.manage', 'consumable.create']" (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -60,7 +60,7 @@
                             </button>
                             <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li nz-menu-item (click)="view(data)">
+                                    <li *checkPermission="['consumable.manage', 'consumable.view']" nz-menu-item (click)="view(data)">
                                         <i nz-icon nzType="eye"></i>{{'view'|translate}}
                                     </li>
                                     <!-- <li nz-menu-item (click)="add(data)">

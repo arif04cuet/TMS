@@ -1,11 +1,11 @@
 <div class="box">
     <nz-tabset class="form-tabset">
-        <nz-tab nzTitle="{{'details'|translate}}">
+        <nz-tab *checkPermission="['asset.manage', 'asset.view']" nzTitle="{{'details'|translate}}">
             <ng-template nz-tab>
                 <app-asset-details></app-asset-details>
             </ng-template>
         </nz-tab>
-        <nz-tab nzTitle="{{ 'licenses'|translate }}">
+        <nz-tab *checkPermission="['asset.manage', 'license.manage', 'license.list']" nzTitle="{{ 'licenses'|translate }}">
             <ng-template nz-tab>
                 <app-asset-license-list></app-asset-license-list>
             </ng-template>
@@ -15,12 +15,12 @@
                 <app-asset-component-list></app-asset-component-list>
             </ng-template>
         </nz-tab> -->
-        <nz-tab nzTitle="{{ 'maintenances'|translate }}">
+        <nz-tab *checkPermission="['asset.manage', 'maintenance.manage', 'maintenance.list']" nzTitle="{{ 'maintenances'|translate }}">
             <ng-template nz-tab>
                 <app-asset-maintenance-list></app-asset-maintenance-list>
             </ng-template>
         </nz-tab>
-        <nz-tab nzTitle="{{ 'history'|translate }}">
+        <nz-tab *checkPermission="['asset.manage', 'asset.checkout.history']" nzTitle="{{ 'history'|translate }}">
             <ng-template nz-tab>
                 <app-asset-checkout-history></app-asset-checkout-history>
             </ng-template>

@@ -40,7 +40,6 @@ namespace Module.Library.Controllers
         }
 
         [HttpGet("{id}")]
-        [RequirePermission(LibraryView, LibraryManage)]
         public async Task<ActionResult> Get(long id)
         {
             var result = await _libraryMemberService.GetAsync(id);

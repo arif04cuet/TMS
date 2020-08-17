@@ -8,22 +8,24 @@ const routes: Routes = [
     path: ':id/edit',
     loadChildren: () => import('../add/library-add.module').then(x => x.LibraryAddModule),
     data: {
-      name: 'user_edit',
+      name: 'library_edit',
       breadcrumb: {
         icon: 'edit',
         title: 'edit'
-      }
+      },
+      permissions: ['library.manage', 'library.update']
     }
   },
   {
     path: 'add',
     loadChildren: () => import('../add/library-add.module').then(x => x.LibraryAddModule),
     data: {
-      name: 'user_add',
+      name: 'library_add',
       breadcrumb: {
         icon: 'plus',
         title: 'add'
-      }
+      },
+      permissions: ['library.manage', 'library.create']
     }
   }
 ];

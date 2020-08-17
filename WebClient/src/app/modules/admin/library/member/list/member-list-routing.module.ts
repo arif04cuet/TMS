@@ -12,7 +12,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'edit',
         title: 'edit'
-      }
+      },
+      permissions: ['library.member.manage', 'library.member.update']
     }
   },
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'add'
-      }
+      },
+      permissions: ['library.member.manage', 'library.member.create']
     }
   },
   {
@@ -34,7 +36,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'add'
-      }
+      },
+      permissions: ['library.member.manage', 'library.member.create']
     }
   }
 ];

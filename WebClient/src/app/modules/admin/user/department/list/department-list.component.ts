@@ -6,8 +6,7 @@ import { DepartmentHttpService } from 'src/services/http/user/department-http.se
 
 @Component({
   selector: 'app-department-list',
-  templateUrl: './department-list.component.html',
-  styleUrls: ['./department-list.component.scss']
+  templateUrl: './department-list.component.html'
 })
 export class DepartmentListComponent extends TableComponent {
 

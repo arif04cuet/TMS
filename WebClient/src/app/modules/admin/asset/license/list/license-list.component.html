@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="column">
-                <button (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['license.manage', 'license.create']" (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -74,20 +74,22 @@
                         <td>{{ data.available }}</td>
                         <td>{{ data.isActive ? 'Active':'In Active' }}</td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="data.available" class="btn-custom" nz-button nzType="primary" (click)="checkout(data)">{{'checkout'|translate}}</button>
+                            <ng-container *checkPermission="['license.manage', 'license.checkout']">
+                                <button *ngIf="data.available" class="btn-custom" nz-button nzType="primary" (click)="checkout(data)">{{'checkout'|translate}}</button>
+                            </ng-container>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">
                                 <i nz-icon nzType="ellipsis"></i>
                             </button>
                             <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li nz-menu-item (click)="view(data)">
+                                    <li *checkPermission="['license.manage', 'license.view']" nz-menu-item (click)="view(data)">
                                         <i nz-icon nzType="eye"></i>{{'view'|translate}}
                                     </li>
-                                    <li nz-menu-item (click)="add(data)">
+                                    <li *checkPermission="['license.manage', 'license.update']" nz-menu-item (click)="add(data)">
                                         <i nz-icon nzType="edit"></i>{{'edit'|translate}}
                                     </li>
-                                    <li nz-menu-item (click)="delete(data)">
+                                    <li *checkPermission="['license.manage', 'license.delete']" nz-menu-item (click)="delete(data)">
                                         <i nz-icon nzType="delete"></i>{{'delete'|translate}}
                                     </li>
                                 </ul>

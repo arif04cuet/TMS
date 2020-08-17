@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,10 +20,11 @@ import { environment } from 'src/environments/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import {TranslateModule, TranslateLoader, TranslatePipe, TranslateService} from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
+import { PermissionHttpService, permissionFactory } from 'src/services/http/user/permission-http.service';
 import { MediaHttpService } from 'src/services/http/media-http.service';
+import { CacheService } from 'src/services/cache.service';
 
 registerLocaleData(en);
 
@@ -38,7 +39,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 }
 
 const dateConfig: NzDateConfig = {
-  
+
 }
 
 @NgModule({
@@ -75,8 +76,15 @@ const dateConfig: NzDateConfig = {
     MediaHttpService,
     TranslatePipe,
     { provide: ErrorHandler, useClass: ErrorHandler },
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    AuthGuard
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    AuthGuard,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: permissionFactory,
+      deps: [AuthService, SecurityService, PermissionHttpService],
+      multi: true
+    },
+    CacheService
   ],
   bootstrap: [AppComponent]
 })

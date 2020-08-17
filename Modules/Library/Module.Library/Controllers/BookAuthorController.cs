@@ -32,7 +32,6 @@ namespace Module.Library.Controllers
         }
 
         [HttpGet("{id}")]
-        [RequirePermission(AuthorView, AuthorManage)]
         public async Task<ActionResult> Get(long id)
         {
             var result = await _nameCrudService.Get(id);

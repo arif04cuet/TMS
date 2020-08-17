@@ -32,7 +32,6 @@ namespace Module.Core.Controllers
         }
 
         [HttpGet("{id}")]
-        [RequirePermission(OfficeView, OfficeManage)]
         public async Task<ActionResult> Get(long id)
         {
             var result = await _officeService.Get(id);

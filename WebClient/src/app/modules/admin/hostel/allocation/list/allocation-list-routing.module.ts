@@ -12,7 +12,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'edit',
         title: 'edit'
-      }
+      },
+      permissions: ['allocation.manage', 'allocation.update']
     }
   },
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'add'
-      }
+      },
+      permissions: ['allocation.manage', 'allocation.create']
     }
   },
   {
@@ -34,7 +36,8 @@ const routes: Routes = [
       breadcrumb: {
         icon: 'plus',
         title: 'checkout'
-      }
+      },
+      permissions: ['allocation.manage', 'allocation.checkout']
     }
   }
 ];

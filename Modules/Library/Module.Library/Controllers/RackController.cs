@@ -40,7 +40,6 @@ namespace Module.Library.Controllers
         }
 
         [HttpGet("{id}")]
-        [RequirePermission(RackView, RackManage)]
         public async Task<ActionResult> Get(long id)
         {
             var result = await _rackService.GetAsync(id);

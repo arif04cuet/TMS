@@ -19,8 +19,12 @@
                         <td>{{ data.issuedToAsset?.name}}</td>
                         <td>{{ data.issueDate | date }}</td>
                         <td class="ta-right">
-                            <button class="btn-custom" *ngIf="(data.issuedToUserId || data.issuedToAsset)" (click)="checkin(data.id)" nz-button nzType="primary">{{'checkin'|translate}}</button>
-                            <button class="btn-custom" *ngIf="!(data.issuedToUserId || data.issuedToAsset)" (click)="checkout(data.id)"  nz-button nzType="default">{{'checkout'|translate}}</button>
+                            <ng-container *checkPermission="['license.manage', 'license.seat.checkin']">
+                                <button class="btn-custom" *ngIf="(data.issuedToUserId || data.issuedToAsset)" (click)="checkin(data.id)" nz-button nzType="primary">{{'checkin'|translate}}</button>
+                            </ng-container>
+                            <ng-container *checkPermission="['license.manage', 'license.seat.checkout']">
+                                <button class="btn-custom" *ngIf="!(data.issuedToUserId || data.issuedToAsset)" (click)="checkout(data.id)"  nz-button nzType="default">{{'checkout'|translate}}</button>
+                            </ng-container>
                         </td>
                     </tr>
                 </tbody>

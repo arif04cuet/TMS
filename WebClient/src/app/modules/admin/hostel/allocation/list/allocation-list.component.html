@@ -11,10 +11,10 @@
                 </div>
             </div>
             <div class="column">
-                <button (click)="batchCheckout()" nzType="primary" nz-button class="btn-custom">
+                <button *checkPermission="['allocation.manage', 'allocation.checkout']" (click)="batchCheckout()" nzType="primary" nz-button class="btn-custom">
                     {{'batch.checkout'|translate}}
                 </button>
-                <button (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['allocation.manage', 'allocation.create']"  (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -31,7 +31,6 @@
                 [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <!-- <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th> -->
                         <th>{{'checkin'|translate}}</th>
                         <th>{{'checkout'|translate}}</th>
                         <th>{{'user'|translate}}</th>
@@ -49,7 +48,6 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <!-- <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.checkoutDate" (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
                         <td>{{ data.checkinDate|momentDate  }}</td>
                         <td>{{ data.checkoutDate|momentDate  }}</td>
                         <td>{{ data.user?.name }}</td>
@@ -59,15 +57,21 @@
                         <td>{{ data.amount }}</td>
                         <td>{{ data.status?.name }}</td>
                         <td class="action-column fit-cell">
-                            <button nzType="primary" *ngIf="data.status?.id == 1" nz-button (click)="add(data)" class="btn-custom">
-                                {{'edit'|translate}}
-                            </button>
-                            <button (click)="cancel(data)" *ngIf="data.status?.id == 1" nz-button class="btn-custom">
-                                {{'cancel'|translate}}
-                            </button>
-                            <button nzType="primary" (click)="checkout(data)" *ngIf="data.status?.id == 2" nz-button class="btn-custom">
-                                {{'checkout'|translate}}
-                            </button>
+                            <ng-container *checkPermission="['allocation.manage', 'allocation.update']">
+                                <button nzType="primary" *ngIf="data.status?.id == 1" nz-button (click)="add(data)" class="btn-custom">
+                                    {{'edit'|translate}}
+                                </button>
+                            </ng-container>
+                            <ng-container *checkPermission="['allocation.manage', 'allocation.cancel']">
+                                <button (click)="cancel(data)" *ngIf="data.status?.id == 1" nz-button class="btn-custom">
+                                    {{'cancel'|translate}}
+                                </button>
+                            </ng-container>
+                            <ng-container *checkPermission="['allocation.manage', 'allocation.checkout']">
+                                <button nzType="primary" (click)="checkout(data)" *ngIf="data.status?.id == 2" nz-button class="btn-custom">
+                                    {{'checkout'|translate}}
+                                </button>
+                            </ng-container>
                         </td>
                     </tr>
                 </tbody>

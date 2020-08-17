@@ -12,7 +12,7 @@
             </div>
 
             <div class="column">
-                <button nz-dropdown [nzDropdownMenu]="addActions" nzTrigger="click" nz-button class="btn-custom">
+                <button *checkPermission="['library.member.manage', 'library.member.create']" nz-dropdown [nzDropdownMenu]="addActions" nzTrigger="click" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -92,10 +92,10 @@
                             </button>
                             <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li nz-menu-item (click)="add(data)">
+                                    <li *checkPermission="['library.member.manage', 'library.member.update']" nz-menu-item (click)="add(data)">
                                         <i nz-icon nzType="edit"></i>{{'edit'|translate}}
                                     </li>
-                                    <li nz-menu-item (click)="delete(data)">
+                                    <li *checkPermission="['library.member.manage', 'library.member.delete']" nz-menu-item (click)="delete(data)">
                                         <i nz-icon nzType="delete"></i>{{'delete'|translate}}
                                     </li>
                                 </ul>

@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="column">
-                <button (click)="checkout()" nz-button class="btn-custom">
+                <button *checkPermission="['consumable.manage', 'consumable.checkout']" (click)="checkout()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'checkout'|translate}}
                 </button>
@@ -37,7 +37,9 @@
                         <td>{{ data.quantity || '-' }}</td>
                         <td>{{ data.issueDate|date:'medium':'+0000' }}</td>
                         <td class="action-column fit-cell ta-right">
-                            <button *ngIf="data.quantity > 0" (click)="checkin(data.id)" class="btn-custom" nz-button nzType="primary">{{'return'|translate}}</button>
+                            <ng-container *checkPermission="['consumable.manage', 'consumable.checkin']">
+                                <button *ngIf="data.quantity > 0" (click)="checkin(data.id)" class="btn-custom" nz-button nzType="primary">{{'return'|translate}}</button>
+                            </ng-container>
                         </td>
                     </tr>
                 </tbody>

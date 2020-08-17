@@ -32,7 +32,6 @@ namespace Module.Core.Controllers
         }
 
         [HttpGet("{id}")]
-        [RequirePermission(DesignationView, DepartmentManage)]
         public async Task<ActionResult> Get(long id)
         {
             var result = await _nameCrudService.Get(id);
