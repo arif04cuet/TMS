@@ -46,6 +46,13 @@ namespace Module.Library.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("dashboard")]
+        public async Task<ActionResult> Dashboard()
+        {
+            var result = await _libraryService.GetDashboard();
+            return result.ToOkResult();
+        }
+
         [HttpPost]
         [RequirePermission(LibraryCreate, LibraryManage)]
         public async Task<IActionResult> Post([FromBody] LibraryCreateRequest request)

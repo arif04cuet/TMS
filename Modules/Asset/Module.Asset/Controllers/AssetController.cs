@@ -39,6 +39,13 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("dashboard")]
+        public async Task<ActionResult> Dashboard()
+        {
+            var result = await _assetService.GetDashboard();
+            return result.ToOkResult();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AssetCreateRequest request)
         {

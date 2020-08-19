@@ -202,5 +202,29 @@ namespace Module.Library.Data
             var total = await query.Select(x => x.Id).CountAsync();
             return new PagedCollection<FineListViewModel>(items, total, pagingOptions);
         }
+
+        public async Task<LibraryDashboardViewModel> GetDashboard(CancellationToken cancellationToken = default)
+        {
+            LibraryDashboardViewModel model = new LibraryDashboardViewModel();
+
+            model.NewItem = await _unitOfWork.GetRepository<BookItem>().Where(x => x.CreatedAt.Value.Date == DateTime.UtcNow.Date && !x.IsDeleted).LongCountAsync();
+
+            // actual return date is over
+            model.Pending = await _unitOfWork.GetRepository<BookIssue>().Where(x => x.ReturnDate.Value.Date < DateTime.UtcNow.Date && !x.IsDeleted).LongCountAsync();
+
+            model.ReturnPending = 0;
+
+            model.TodaysIssue = await _unitOfWork.GetRepository<BookIssue>().Where(x => x.IssueDate.Date == DateTime.UtcNow.Date && !x.IsDeleted).LongCountAsync();
+
+            model.TodaysReturn = await _unitOfWork.GetRepository<BookIssue>().Where(x => x.ActualReturnDate.Value.Date == DateTime.UtcNow.Date && !x.IsDeleted).LongCountAsync();
+
+            model.TotalIssued = await _unitOfWork.GetRepository<BookIssue>().Where(x => !x.IsDeleted).LongCountAsync();
+
+            model.TotalItem = await _unitOfWork.GetRepository<BookItem>().Where(x => !x.IsDeleted).LongCountAsync();
+
+            model.TotalMember = await _unitOfWork.GetRepository<LibraryMember>().Where(x => !x.IsDeleted).LongCountAsync();
+
+            return model;
+        }
     }
 }

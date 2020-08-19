@@ -36,13 +36,14 @@ export class HomeComponent extends BaseComponent {
         title: 'dashboard',
         route: '/admin',
         icon: 'dashboard',
+        fn: () => true
       },
       {
         level: 1,
         title: 'my.exam',
         route: '/admin/trainings/my-exam',
         icon: 'dashboard',
-        fn: () => true,
+        fn: () => true
       },
       {
         level: 1,

@@ -43,7 +43,7 @@ namespace Module.Core.Data
             var rolesStr = roles.Join(",");
 
             var sql = $@"select p.*, m.Name ModuleName, pg.Name GroupName,
-                            case when up.UserId = @UserId or rp.RoleId in (@RoleId)
+                            case when up.UserId = {userId.Value} or rp.RoleId in ({rolesStr})
                             then 1 else 0 end as 'Granted'
                         from [core].[Permission] p
                         left join [core].[RolePermission] rp on rp.PermissionId = p.Id
@@ -52,7 +52,7 @@ namespace Module.Core.Data
                         left join [core].[PermissionGroup] pg on pg.Id = p.GroupId
                         order by p.ModuleId asc, p.GroupId asc";
             var permissions = await _unitOfWork.GetConnection()
-                .QueryAsync<PermissionDto>(sql, new { UserId = userId.Value, RoleId = rolesStr });
+                .QueryAsync<PermissionDto>(sql);
 
             var result = CreatePagedCollection(permissions, pagingOptions);
             return result;
@@ -150,7 +150,7 @@ namespace Module.Core.Data
             var codes = request.Permissions != null && request.Permissions.Count() > 0 ? request.Permissions.Select(x => "\'" + x + "\'").Join(",") : "";
 
             var sql = $@"select p.Id, p.Code,
-                            case when p.Code in ({codes}) and (up.UserId = @UserId or rp.RoleId in (@RoleId))
+                            case when p.Code in ({codes}) and (up.UserId = {request.UserId.Value} or rp.RoleId in ({rolesStr}))
                             then 1 else 0 end as 'Granted'
                         from [core].[Permission] p
                         left join [core].[RolePermission] rp on rp.PermissionId = p.Id
@@ -158,7 +158,7 @@ namespace Module.Core.Data
                         where p.Code in ({codes})";
 
             var result = await _unitOfWork.GetConnection()
-                .QueryAsync<CheckPermissionViewModel>(sql, new { UserId = request.UserId.Value, RoleId = rolesStr });
+                .QueryAsync<CheckPermissionViewModel>(sql);
 
             return result;
         }

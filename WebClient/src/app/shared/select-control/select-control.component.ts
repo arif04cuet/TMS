@@ -132,12 +132,7 @@ export class SelectControlComponent implements ControlValueAccessor {
     if (this.onChange) {
       this.onChange.emit(e);
     }
-    if (this.info) {
-      const item = this.items.find(x => x.id == e);
-      Promise.resolve(this.info(item)).then(x => {
-        this.infoText = x || '';
-      })
-    }
+    this.infoPromise(e);
   }
 
   onLoadCompleted(fn: (items?: any[]) => void) {
@@ -153,9 +148,9 @@ export class SelectControlComponent implements ControlValueAccessor {
 
   loadMore() {
     const canLoadMore = (this.loadingMoreCallCount == 0
-    || (this.loadingMoreCallCount > 0 && this.lastLoadingMoreFetchItems.length > 0))
-    && !this.loadingMore;
-    if(canLoadMore) {
+      || (this.loadingMoreCallCount > 0 && this.lastLoadingMoreFetchItems.length > 0))
+      && !this.loadingMore;
+    if (canLoadMore) {
       this.loadingMore = true;
       this.fetchNext()
       this.loadingMoreCallCount++;
@@ -177,6 +172,17 @@ export class SelectControlComponent implements ControlValueAccessor {
     this.subscriptions.forEach(item => {
       item.unsubscribe();
     });
+  }
+
+  private infoPromise(e) {
+    if (this.info && this.items && this.items.length) {
+      const item = this.items.find(x => x.id == e);
+      if(item) {
+        Promise.resolve(this.info(item)).then(x => {
+          this.infoText = x || '';
+        });
+      }
+    }
   }
 
   private busy(value) {

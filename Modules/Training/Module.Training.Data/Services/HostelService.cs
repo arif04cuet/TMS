@@ -6,6 +6,7 @@ using Module.Core.Shared;
 using Module.Training.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -112,5 +113,41 @@ namespace Module.Training.Data
             return result;
         }
 
+        public async Task<HostelDashboardViewModel> GetDashboard(CancellationToken cancellationToken = default)
+        {
+            HostelDashboardViewModel model = new HostelDashboardViewModel();
+
+            model.TotalRoom = await _unitOfWork.GetRepository<Room>().Where(x => !x.IsDeleted).LongCountAsync();
+            model.FreeRoom = await _unitOfWork.GetRepository<Room>().Where(x => !x.IsBooked && !x.IsDeleted).LongCountAsync();
+
+            model.TotalSeat = await _unitOfWork.GetRepository<Bed>().Where(x => !x.IsDeleted).LongCountAsync();
+            model.FreeSeat = await _unitOfWork.GetRepository<Bed>().Where(x => !x.IsBooked && !x.IsDeleted).LongCountAsync();
+
+            model.TodaysCheckin = await _unitOfWork.GetRepository<Allocation>()
+                .Where(x => x.CheckinDate.Value.Date == DateTime.UtcNow.Date
+                && x.Status == AllocationStatus.Booked
+                && !x.IsDeleted)
+                .LongCountAsync();
+
+            model.TodaysCheckout = await _unitOfWork.GetRepository<Allocation>()
+                .Where(x => x.CheckoutDate.Value.Date == DateTime.UtcNow.Date
+                && x.Status == AllocationStatus.CheckedOut
+                && !x.IsDeleted)
+                .LongCountAsync();
+
+            model.TodaysCheckoutable = 0;
+
+            model.AllocatedRoom = await _unitOfWork.GetRepository<Room>().Where(x => x.IsBooked && !x.IsDeleted).LongCountAsync();
+
+            model.AllocatedSeat = await _unitOfWork.GetRepository<Bed>().Where(x => x.IsBooked && !x.IsDeleted).LongCountAsync();
+
+            model.BookingRequest = await _unitOfWork.GetRepository<Allocation>().Where(x => x.Status == AllocationStatus.TemporaryBooked && !x.IsDeleted).LongCountAsync();
+
+            model.CheckinAndCheckout = await _unitOfWork.GetRepository<Allocation>().Where(x => (x.Status == AllocationStatus.Booked || x.Status == AllocationStatus.CheckedOut) && !x.IsDeleted).LongCountAsync();
+
+            model.RequiredRoomAndSeat = 0;
+
+            return model;
+        }
     }
 }

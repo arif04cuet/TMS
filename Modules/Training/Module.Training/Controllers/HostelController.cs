@@ -36,6 +36,13 @@ namespace Module.Training.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("dashboard")]
+        public async Task<ActionResult> Dashboard()
+        {
+            var result = await _hostelService.GetDashboard();
+            return result.ToOkResult();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] HostelCreateRequest request)
         {

@@ -19,6 +19,8 @@ namespace Module.Library.Data
 
         Task<LibraryViewModel> GetAsync(long id);
 
+        Task<LibraryDashboardViewModel> GetDashboard(CancellationToken cancellationToken = default);
+
         Task<LibraryCountViewModel> GetCountsAsync();
 
         Task<bool> UpdateAsync(LibraryUpdateRequest request, CancellationToken ct = default);

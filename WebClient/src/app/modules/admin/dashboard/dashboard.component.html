@@ -1,0 +1,78 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div *ngIf="!loading">
+    <div nz-row [nzGutter]="8" style="margin-bottom: 8px;">
+        <div nz-col [nzSpan]="24">
+            <nz-card nzTitle="{{'reorder.alert'|translate}}">
+                <nz-table *ngIf="inventory.reorderAlert" #basicTable [nzData]="inventory.reorderAlert" nzShowPagination="false">
+                    <thead>
+                        <tr>
+                            <th>{{'name'|translate}}</th>
+                            <th>{{'available'|translate}}</th>
+                            <th>{{'min.quantity'|translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data">
+                            <td>
+                                <a (click)="goToReorderAlert(data)" >{{ data.item }}</a>
+                            </td>
+                            <td>{{ data.available }}</td>
+                            <td>{{ data.minQuantity }}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <div *ngIf="!inventory.reorderAlert">{{'no.data'|translate}}</div>
+            </nz-card>
+        </div>
+    </div>
+
+    <div nz-row [nzGutter]="8" style="margin-bottom: 8px;">
+        <div nz-col [nzSpan]="8">
+            <nz-card nzTitle="{{'hostel'|translate}}">
+                <div>{{'total.room'|translate}} : {{hostel.totalRoom}}</div>
+                <div>{{'total.seat'|translate}} : {{hostel.totalSeat}}</div>
+                <div>{{'free.room'|translate}} : {{hostel.freeRoom}}</div>
+                <div>{{'free.seat'|translate}} : {{hostel.freeSeat}}</div>
+                <div>{{'booking.request'|translate}} : {{hostel.bookingRequest}}</div>
+                <div>{{'todays.checkin'|translate}} : {{hostel.todaysCheckin}}</div>
+                <div>{{'todays.checkout'|translate}} : {{hostel.todaysCheckout}}</div>
+                <div>{{'todays.checkoutable'|translate}} : {{hostel.todaysCheckoutable}}</div>
+                <div>{{'required.room.and.seat'|translate}} : {{hostel.requiredRoomAndSeat}}</div>
+                <div>{{'allocated.room.and.seat'|translate}} : {{hostel.allocatedRoomAndSeat}}</div>
+                <div>{{'checkin.and.checkout'|translate}} : {{hostel.checkinAndCheckout}}</div>
+            </nz-card>
+        </div>
+        <div nz-col [nzSpan]="8">
+            <nz-card nzTitle="{{'library'|translate}}">
+                <div>{{'total.issued'|translate}} : {{library.totalIssued}}</div>
+                <div>{{'todays.issue'|translate}} : {{library.todaysIssue}}</div>
+                <div>{{'pending'|translate}} : {{library.pending}}</div>
+                <div>{{'todays.return'|translate}} : {{library.todaysReturn}}</div>
+                <div>{{'return.pending'|translate}} : {{library.returnPending}}</div>
+                <div>{{'total.member'|translate}} : {{library.totalMember}}</div>
+                <div>{{'total.item'|translate}} : {{library.totalItem}}</div>
+                <div>{{'new.item'|translate}} : {{library.newItem}}</div>
+            </nz-card>
+        </div>
+        <div nz-col [nzSpan]="8">
+            <nz-card nzTitle="{{'training'|translate}}">
+                <div>{{'running.courses'|translate}} : {{training.runningCourses}}</div>
+                <div>{{'running.batches'|translate}} : {{training.runningBatches}}</div>
+                <div>{{'total.participants'|translate}} : {{training.totalParticipants}}</div>
+                <div>{{'todays.classes'|translate}} : {{training.todaysClasses}}</div>
+                <div>{{'todays.exams'|translate}} : {{training.todaysExams}}</div>
+                <div>{{'todays.resources.persons'|translate}} : {{training.todaysResourcesPersons}}</div>
+            </nz-card>
+        </div>
+    </div>
+
+    <div nz-row [nzGutter]="8" style="margin-bottom: 8px;">
+        <div nz-col [nzSpan]="8">
+            <nz-card nzTitle="{{'current.stock'|translate}}">
+                <div><a (click)="goTo('/admin/asset')">{{'assets'|translate}}</a> : {{inventory.currentStock.asset}}</div>
+                <div><a (click)="goTo('/admin/asset/licenses')">{{'license'|translate}}</a> : {{inventory.currentStock.license}}</div>
+                <div><a (click)="goTo('/admin/asset/consumables')">{{'consumables'|translate}}</a> : {{inventory.currentStock.consumable}}</div>
+            </nz-card>
+        </div>
+    </div>
+</div>

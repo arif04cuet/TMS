@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Dapper;
+using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
@@ -6,7 +7,9 @@ using Module.Core.Data;
 using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +29,7 @@ namespace Module.Asset.Data
         private readonly IRepository<Depreciation> _depreciationRepository;
         private readonly IAssetEmailService _assetEmailService;
         private readonly IMediaService _mediaService;
+        private readonly IDbConnection _dbConnection;
 
         public AssetService(
             IUnitOfWork unitOfWork,
@@ -44,6 +48,7 @@ namespace Module.Asset.Data
             _assetEmailService = assetEmailService;
             _licenseSeatRepository = _unitOfWork.GetRepository<LicenseSeat>();
             _depreciationRepository = _unitOfWork.GetRepository<Depreciation>();
+            _dbConnection = _unitOfWork.GetConnection();
         }
 
         public async Task<long> CreateAsync(AssetCreateRequest request, CancellationToken cancellationToken = default)
@@ -278,6 +283,50 @@ namespace Module.Asset.Data
             return result;
         }
 
+        public async Task<AssetDashboardViewModel> GetDashboard(CancellationToken cancellationToken = default)
+        {
+            AssetDashboardViewModel model = new AssetDashboardViewModel();
+            var now = DateTime.UtcNow.Date;
+
+            model.AssetReturnAlert = 0;
+
+            model.BatchWiseItemRequiredAndReceived = 0;
+
+            string totalConsumableSql = @"select 
+                        sum(c.Available) Available
+                        from[asset].[Consumable] c
+                       where c.IsDeleted = 0";
+            long totalConsumable = await _dbConnection.ExecuteScalarAsync<long>(totalConsumableSql);
+
+            model.CurrentStock = new AssetCurrentStockViewModel
+            {
+                Asset = await _assetRepository.Where(x => x.CheckoutId == null && !x.IsDeleted).CountAsync(),
+                License = await _unitOfWork.GetRepository<LicenseSeat>().Where(x => x.IssuedToAssetId == null && x.IssuedToUserId == null && !x.IsDeleted).CountAsync(),
+                Consumable = totalConsumable
+            };
+
+            string reorderAlerSql = @"with cte 
+                        as (select c.ItemCodeId,
+                        sum(c.Available) Available, sum(c.Quantity) Quantity
+                        from [asset].[Consumable] c
+                        where c.IsDeleted = 0 
+                        group by c.ItemCodeId
+                        )
+                        select cte.ItemCodeId Id, cte.Available, cte.Quantity,
+                        concat(i.Code, ' - ', i.Name) Item,
+                        c.Name Category, c.Id CategoryId, i.MinQuantity,
+                        i.TotalQuantity ItemQuantity, i.Available as ItemAvailable from cte
+                        left join [asset].[ItemCode] i on i.Id = cte.ItemCodeId
+                        left join [asset].[Category] c on c.Id = i.CategoryId
+                        where i.Available < i.MinQuantity
+                        order by i.Code";
+            model.ReorderAlert = await _dbConnection.QueryAsync<AssetReorderAlertViewModel>(reorderAlerSql);
+
+            model.Requisition = 0;
+
+            return await Task.FromResult(model);
+        }
+
         private (long? TargetId, AssetType TargetType) GetTarget(long? assetId, long? userId, long? locationId)
         {
             long? targetId = assetId;
@@ -296,5 +345,6 @@ namespace Module.Asset.Data
             }
             return (targetId, targetType);
         }
+
     }
 }
