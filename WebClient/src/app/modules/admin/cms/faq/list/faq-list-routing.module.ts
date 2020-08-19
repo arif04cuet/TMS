@@ -13,7 +13,7 @@ const routes: Routes = [
         icon: 'edit',
         title: 'edit'
       },
-      permissions: ['faq.manage', 'faq.update']
+      permissions: ['content.faq.manage', 'content.faq.update']
     }
   },
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
         icon: 'plus',
         title: 'add'
       },
-      permissions: ['faq.manage', 'faq.create']
+      permissions: ['content.faq.manage', 'content.faq.create']
     }
   }
 ];

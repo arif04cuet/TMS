@@ -16,7 +16,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'team',
             title: 'cms.faq'
-          }
+          },
+           permissions: ['content.faq.manage', 'content.faq.list']
         }
       },
 
@@ -28,7 +29,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'team',
             title: 'cms.banner'
-          }
+          },
+           permissions: ['content.banner.manage', 'content.banner.list']
         }
       },
 
@@ -40,7 +42,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'team',
             title: 'cms.content'
-          }
+          },
+           permissions: ['content.manage', 'content.list']
         }
       },
 
@@ -52,7 +55,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'team',
             title: 'cms.category'
-          }
+          },
+           permissions: ['content.category.manage', 'content.category.list']
         }
       },
 

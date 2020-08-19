@@ -13,7 +13,7 @@ const routes: Routes = [
         icon: 'edit',
         title: 'edit'
       },
-      permissions: ['cms.category.manage', 'cms.category.update']
+      permissions: ['content.category.manage', 'content.category.update']
     }
   },
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
         icon: 'plus',
         title: 'add'
       },
-      permissions: ['cms.category.manage', 'cms.category.create']
+      permissions: ['content.category.manage', 'content.category.create']
     }
   }
 ];

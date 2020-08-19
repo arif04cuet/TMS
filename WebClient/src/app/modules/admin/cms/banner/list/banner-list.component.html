@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['banner.manage', 'banner.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['content.banner.manage', 'content.banner.create']" (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -60,10 +60,10 @@
                             </button>
                             <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li *checkPermission="['banner.manage', 'banner.update']" nz-menu-item (click)="add(data)">
+                                    <li *checkPermission="['content.banner.manage', 'content.banner.update']" nz-menu-item (click)="add(data)">
                                         <i nz-icon nzType="edit"></i>{{'edit'|translate}}
                                     </li>
-                                    <li *checkPermission="['banner.manage', 'banner.delete']" nz-menu-item (click)="delete(data)">
+                                    <li *checkPermission="['content.banner.manage', 'content.banner.delete']" nz-menu-item (click)="delete(data)">
                                         <i nz-icon nzType="delete"></i>{{'delete'|translate}}
                                     </li>
                                 </ul>

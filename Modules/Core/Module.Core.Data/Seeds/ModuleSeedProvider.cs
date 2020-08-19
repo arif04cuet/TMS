@@ -14,6 +14,10 @@ namespace Module.Core.Data
                 new Entities.Module(UserManagement, "User Management"),
                 new Entities.Module(LibraryManagement, "Library Management"),
                 new Entities.Module(AssetManagement, "Asset Management"),
+                new Entities.Module(HostelManagement, "Hostel Management"),
+                new Entities.Module(TrainingManagement, "Training Management"),
+                new Entities.Module(CmsManagement, "Contents Management"),
+
             };
         }
     }

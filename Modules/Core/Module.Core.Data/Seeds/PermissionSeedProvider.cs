@@ -265,6 +265,294 @@ namespace Module.Core.Data
                 new Permission (MaintenanceDelete,  Delete, $"maintenance.{Delete.ToLower()}", MaintenanceGroup, AssetManagement),
                 new Permission (MaintenanceManage,  Manage, $"maintenance.{Manage.ToLower()}", MaintenanceGroup, AssetManagement),
                 #endregion
+
+
+
+                #region Asset Audit
+                new Permission (AssetAuditCreate, Create, $"asset.audit.{Create.ToLower()}", AssetGroup, AssetManagement),
+                new Permission (AssetBulkCheckoutCreate, Create, $"asset.bulk.{Checkout.ToLower()}", AssetGroup, AssetManagement),
+                #endregion
+
+
+                #region Asset Consumable
+                new Permission (ConsumableCreate, Create, $"license.{Create.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableUpdate,  Update, $"license.{Update.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableList, List, $"license.{List.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableDelete,  Delete, $"license.{Delete.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableManage,  Manage, $"license.{Manage.ToLower()}", ConsumableGroup, AssetManagement),
+                #endregion
+
+                #region Asset Settings asset model
+                new Permission (ConsumableCreate,   Create, $"asset.model.{Create.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableUpdate,   Update, $"asset.model.{Update.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableList,     List,   $"asset.model.{List.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableDelete,   Delete, $"asset.model.{Delete.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableManage,   Manage, $"asset.model.{Manage.ToLower()}", ConsumableGroup, AssetManagement),
+                #endregion
+
+                #region Asset Settings Item Code
+                new Permission (ItemCodeCreate,   Create, $"item.code.{Create.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (ItemCodeUpdate,   Update, $"item.code.{Update.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (ItemCodeList,     List,   $"item.code.{List.ToLower()}",      SettingGroup, AssetManagement),
+                new Permission (ItemCodeDelete,   Delete, $"item.code.{Delete.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (ItemCodeManage,   Manage, $"item.code.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                #endregion
+
+                #region Asset Settings supplier
+                new Permission (SupplierCreate,   Create, $"supplier.{Create.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (SupplierUpdate,   Update, $"supplier.{Update.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (SupplierList,     List,   $"supplier.{List.ToLower()}",      SettingGroup, AssetManagement),
+                new Permission (SupplierDelete,   Delete, $"supplier.{Delete.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (SupplierManage,   Manage, $"supplier.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                #endregion
+                
+                #region Asset Settings depreciation
+                new Permission (DepreciationCreate,   Create, $"depreciation.{Create.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (DepreciationUpdate,   Update, $"depreciation.{Update.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (DepreciationList,     List,   $"depreciation.{List.ToLower()}",      SettingGroup, AssetManagement),
+                new Permission (DepreciationDelete,   Delete, $"depreciation.{Delete.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (DepreciationManage,   Manage, $"depreciation.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                #endregion
+
+                #region Asset Settings manufacturer
+                new Permission (ManufacturerCreate,   Create, $"manufacturer.{Create.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (ManufacturerUpdate,   Update, $"manufacturer.{Update.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (ManufacturerList,     List,   $"manufacturer.{List.ToLower()}",    SettingGroup, AssetManagement),
+                new Permission (ManufacturerDelete,   Delete, $"manufacturer.{Delete.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (ManufacturerManage,   Manage, $"manufacturer.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                #endregion
+
+                #region Asset Settings asset.status
+                new Permission (AssetStatusCreate,   Create, $"asset.status.{Create.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetStatusUpdate,   Update, $"asset.status.{Update.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetStatusList,     List,   $"asset.status.{List.ToLower()}",    SettingGroup, AssetManagement),
+                new Permission (AssetStatusDelete,   Delete, $"asset.status.{Delete.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetStatusManage,   Manage, $"asset.status.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                #endregion
+
+                #region Asset Settings asset.category
+                new Permission (AssetCategoryCreate,   Create, $"asset.category.{Create.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetCategoryUpdate,   Update, $"asset.category.{Update.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetCategoryList,     List,   $"asset.category.{List.ToLower()}",    SettingGroup, AssetManagement),
+                new Permission (AssetCategoryDelete,   Delete, $"asset.category.{Delete.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetCategoryManage,   Manage, $"asset.category.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                #endregion
+
+                #region Asset Report
+                new Permission (ReportActivityLog,      Create, $"report.activity.log",  AssetReportGroup, AssetManagement),
+                new Permission (ReportAuditLog,         Create, $"report.audit.log",     AssetReportGroup, AssetManagement),
+                new Permission (ReportDepreciation,     Create,   $"report.depreciation",  AssetReportGroup, AssetManagement),
+                new Permission (ReportLicense,          Create, $"report.license",       AssetReportGroup, AssetManagement),
+                new Permission (ReportMaintenance,      Create, $"report.maintenance",   AssetReportGroup, AssetManagement),
+                new Permission (ReportAsset,            Create, $"report.asset",         AssetReportGroup, AssetManagement),
+                #endregion
+
+
+                #region ContentCategory
+                new Permission (ContentCategoryCreate, Create, $"content.category.{Create.ToLower()}", ContentCategoryGroup, CmsManagement),
+                new Permission (ContentCategoryUpdate,  Update, $"content.category.{Update.ToLower()}", ContentCategoryGroup, CmsManagement),
+                new Permission (ContentCategoryList, List, $"content.category.{List.ToLower()}", ContentCategoryGroup, CmsManagement),
+                new Permission (ContentCategoryDelete,  Delete, $"content.category.{Delete.ToLower()}", ContentCategoryGroup, CmsManagement),
+                new Permission (ContentCategoryManage,  Manage, $"content.category.{Manage.ToLower()}", ContentCategoryGroup, CmsManagement),
+                #endregion
+
+                #region Contents
+                new Permission (ContentsCreate, Create, $"content.{Create.ToLower()}", ContentsGroup, CmsManagement),
+                new Permission (ContentsUpdate,  Update, $"content.{Update.ToLower()}", ContentsGroup, CmsManagement),
+                new Permission (ContentsList, List, $"content.{List.ToLower()}", ContentsGroup, CmsManagement),
+                new Permission (ContentsDelete,  Delete, $"content.{Delete.ToLower()}", ContentsGroup, CmsManagement),
+                new Permission (ContentsManage,  Manage, $"content.{Manage.ToLower()}", ContentsGroup, CmsManagement),
+                #endregion
+
+                #region ContentFaq
+                new Permission (ContentFaqCreate, Create, $"content.faq.{Create.ToLower()}", ContentFaqGroup, CmsManagement),
+                new Permission (ContentFaqUpdate,  Update, $"content.faq.{Update.ToLower()}", ContentFaqGroup, CmsManagement),
+                new Permission (ContentFaqList, List, $"content.faq.{List.ToLower()}", ContentFaqGroup, CmsManagement),
+                new Permission (ContentFaqDelete,  Delete, $"content.faq.{Delete.ToLower()}", ContentFaqGroup, CmsManagement),
+                new Permission (ContentFaqManage,  Manage, $"content.faq.{Manage.ToLower()}", ContentFaqGroup, CmsManagement),
+                #endregion
+
+                #region ContentBanner
+                new Permission (ContentBannerCreate, Create, $"content.banner.{Create.ToLower()}", ContentBannerGroup, CmsManagement),
+                new Permission (ContentBannerUpdate,  Update, $"content.banner.{Update.ToLower()}", ContentBannerGroup, CmsManagement),
+                new Permission (ContentBannerList, List, $"content.banner.{List.ToLower()}", ContentBannerGroup, CmsManagement),
+                new Permission (ContentBannerDelete,  Delete, $"content.banner.{Delete.ToLower()}", ContentBannerGroup, CmsManagement),
+                new Permission (ContentBannerManage,  Manage, $"content.banner.{Manage.ToLower()}", ContentBannerGroup, CmsManagement),
+                #endregion
+
+
+                #region Hostel Allocation
+                new Permission (HostelAllocationCreate,   Create, $"allocation.{Create.ToLower()}",  HostelAllocationGroup, HostelManagement),
+                new Permission (HostelAllocationUpdate,   Update, $"allocation.{Update.ToLower()}",  HostelAllocationGroup, HostelManagement),
+                new Permission (HostelAllocationList,     List,   $"allocation.{List.ToLower()}",    HostelAllocationGroup, HostelManagement),
+                new Permission (HostelAllocationDelete,   Delete, $"allocation.{Delete.ToLower()}",  HostelAllocationGroup, HostelManagement),
+                new Permission (HostelAllocationManage,   Manage, $"allocation.{Manage.ToLower()}",  HostelAllocationGroup, HostelManagement),
+                #endregion
+                
+                #region Hostel Hostel
+                new Permission (HostelHostelCreate,   Create, $"hostel.{Create.ToLower()}",  HostelHostelGroup, HostelManagement),
+                new Permission (HostelHostelUpdate,   Update, $"hostel.{Update.ToLower()}",  HostelHostelGroup, HostelManagement),
+                new Permission (HostelHostelList,     List,   $"hostel.{List.ToLower()}",    HostelHostelGroup, HostelManagement),
+                new Permission (HostelHostelDelete,   Delete, $"hostel.{Delete.ToLower()}",  HostelHostelGroup, HostelManagement),
+                new Permission (HostelHostelManage,   Manage, $"hostel.{Manage.ToLower()}",  HostelHostelGroup, HostelManagement),
+                #endregion
+                
+                #region Hostel Building
+                new Permission (HostelBuildingCreate,   Create, $"building.{Create.ToLower()}",  HostelBuildingGroup, HostelManagement),
+                new Permission (HostelBuildingUpdate,   Update, $"building.{Update.ToLower()}",  HostelBuildingGroup, HostelManagement),
+                new Permission (HostelBuildingList,     List,   $"building.{List.ToLower()}",    HostelBuildingGroup, HostelManagement),
+                new Permission (HostelBuildingDelete,   Delete, $"building.{Delete.ToLower()}",  HostelBuildingGroup, HostelManagement),
+                new Permission (HostelBuildingManage,   Manage, $"building.{Manage.ToLower()}",  HostelBuildingGroup, HostelManagement),
+                #endregion
+
+                #region Hostel Room
+                new Permission (HostelRoomCreate,   Create, $"room.{Create.ToLower()}",  HostelRoomGroup, HostelManagement),
+                new Permission (HostelRoomUpdate,   Update, $"room.{Update.ToLower()}",  HostelRoomGroup, HostelManagement),
+                new Permission (HostelRoomList,     List,   $"room.{List.ToLower()}",    HostelRoomGroup, HostelManagement),
+                new Permission (HostelRoomDelete,   Delete, $"room.{Delete.ToLower()}",  HostelRoomGroup, HostelManagement),
+                new Permission (HostelRoomManage,   Manage, $"room.{Manage.ToLower()}",  HostelRoomGroup, HostelManagement),
+                #endregion
+
+                #region Hostel Bed
+                new Permission (HostelBedCreate,   Create, $"bed.{Create.ToLower()}",  HostelBedGroup, HostelManagement),
+                new Permission (HostelBedUpdate,   Update, $"bed.{Update.ToLower()}",  HostelBedGroup, HostelManagement),
+                new Permission (HostelBedList,     List,   $"bed.{List.ToLower()}",    HostelBedGroup, HostelManagement),
+                new Permission (HostelBedDelete,   Delete, $"bed.{Delete.ToLower()}",  HostelBedGroup, HostelManagement),
+                new Permission (HostelBedManage,   Manage, $"bed.{Manage.ToLower()}",  HostelBedGroup, HostelManagement),
+                #endregion
+
+                #region Hostel room.type
+                new Permission (HostelRoomTypeCreate,   Create, $"room.type.{Create.ToLower()}",  HostelRoomTypeGroup, HostelManagement),
+                new Permission (HostelRoomTypeUpdate,   Update, $"room.type.{Update.ToLower()}",  HostelRoomTypeGroup, HostelManagement),
+                new Permission (HostelRoomTypeList,     List,   $"room.type.{List.ToLower()}",    HostelRoomTypeGroup, HostelManagement),
+                new Permission (HostelRoomTypeDelete,   Delete, $"room.type.{Delete.ToLower()}",  HostelRoomTypeGroup, HostelManagement),
+                new Permission (HostelRoomTypeManage,   Manage, $"room.type.{Manage.ToLower()}",  HostelRoomTypeGroup, HostelManagement),
+                #endregion
+
+                #region Hostel room.facilities
+                new Permission (HostelRoomFacilitiesCreate,   Create, $"room.facilities.{Create.ToLower()}",  HostelRoomFacilitiesTypeGroup, HostelManagement),
+                new Permission (HostelRoomFacilitiesUpdate,   Update, $"room.facilities.{Update.ToLower()}",  HostelRoomFacilitiesTypeGroup, HostelManagement),
+                new Permission (HostelRoomFacilitiesList,     List,   $"room.facilities.{List.ToLower()}",    HostelRoomFacilitiesTypeGroup, HostelManagement),
+                new Permission (HostelRoomFacilitiesDelete,   Delete, $"room.facilities.{Delete.ToLower()}",  HostelRoomFacilitiesTypeGroup, HostelManagement),
+                new Permission (HostelRoomFacilitiesManage,   Manage, $"room.facilities.{Manage.ToLower()}",  HostelRoomFacilitiesTypeGroup, HostelManagement),
+                #endregion
+
+                #region Traingin course
+                new Permission (TrainingCourseCreate,   Create, $"course.{Create.ToLower()}",  TrainingCourseGroup, TrainingManagement),
+                new Permission (TrainingCourseUpdate,   Update, $"course.{Update.ToLower()}",  TrainingCourseGroup, TrainingManagement),
+                new Permission (TrainingCourseList,     List,   $"course.{List.ToLower()}",    TrainingCourseGroup, TrainingManagement),
+                new Permission (TrainingCourseDelete,   Delete, $"course.{Delete.ToLower()}",  TrainingCourseGroup, TrainingManagement),
+                new Permission (TrainingCourseManage,   Manage, $"course.{Manage.ToLower()}",  TrainingCourseGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin module
+                new Permission (TrainingModuleCreate,   Create, $"module.{Create.ToLower()}",  TrainingModuleGroup, TrainingManagement),
+                new Permission (TrainingModuleUpdate,   Update, $"module.{Update.ToLower()}",  TrainingModuleGroup, TrainingManagement),
+                new Permission (TrainingModuleList,     List,   $"module.{List.ToLower()}",    TrainingModuleGroup, TrainingManagement),
+                new Permission (TrainingModuleDelete,   Delete, $"module.{Delete.ToLower()}",  TrainingModuleGroup, TrainingManagement),
+                new Permission (TrainingModuleManage,   Manage, $"module.{Manage.ToLower()}",  TrainingModuleGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin topic
+                new Permission (TrainingTopicCreate,   Create, $"topic.{Create.ToLower()}",  TrainingTopicGroup, TrainingManagement),
+                new Permission (TrainingTopicUpdate,   Update, $"topic.{Update.ToLower()}",  TrainingTopicGroup, TrainingManagement),
+                new Permission (TrainingTopicList,     List,   $"topic.{List.ToLower()}",    TrainingTopicGroup, TrainingManagement),
+                new Permission (TrainingTopicDelete,   Delete, $"topic.{Delete.ToLower()}",  TrainingTopicGroup, TrainingManagement),
+                new Permission (TrainingTopicManage,   Manage, $"topic.{Manage.ToLower()}",  TrainingTopicGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin course.category
+                new Permission (TrainingCourseCategoryCreate,   Create, $"course.category.{Create.ToLower()}",  TrainingCourseCategoryGroup, TrainingManagement),
+                new Permission (TrainingCourseCategoryUpdate,   Update, $"course.category.{Update.ToLower()}",  TrainingCourseCategoryGroup, TrainingManagement),
+                new Permission (TrainingCourseCategoryList,     List,   $"course.category.{List.ToLower()}",    TrainingCourseCategoryGroup, TrainingManagement),
+                new Permission (TrainingCourseCategoryDelete,   Delete, $"course.category.{Delete.ToLower()}",  TrainingCourseCategoryGroup, TrainingManagement),
+                new Permission (TrainingCourseCategoryManage,   Manage, $"course.category.{Manage.ToLower()}",  TrainingCourseCategoryGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin method
+                new Permission (TrainingMethodCreate,   Create, $"method.{Create.ToLower()}",  TrainingMethodGroup, TrainingManagement),
+                new Permission (TrainingMethodUpdate,   Update, $"method.{Update.ToLower()}",  TrainingMethodGroup, TrainingManagement),
+                new Permission (TrainingMethodList,     List,   $"method.{List.ToLower()}",    TrainingMethodGroup, TrainingManagement),
+                new Permission (TrainingMethodDelete,   Delete, $"method.{Delete.ToLower()}",  TrainingMethodGroup, TrainingManagement),
+                new Permission (TrainingMethodManage,   Manage, $"method.{Manage.ToLower()}",  TrainingMethodGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin evaluation.method
+                new Permission (TrainingEvaluationMethodCreate,   Create, $"evaluation.method.{Create.ToLower()}",  TrainingEvaluationMethodGroup, TrainingManagement),
+                new Permission (TrainingEvaluationMethodUpdate,   Update, $"evaluation.method.{Update.ToLower()}",  TrainingEvaluationMethodGroup, TrainingManagement),
+                new Permission (TrainingEvaluationMethodList,     List,   $"evaluation.method.{List.ToLower()}",    TrainingEvaluationMethodGroup, TrainingManagement),
+                new Permission (TrainingEvaluationMethodDelete,   Delete, $"evaluation.method.{Delete.ToLower()}",  TrainingEvaluationMethodGroup, TrainingManagement),
+                new Permission (TrainingEvaluationMethodManage,   Manage, $"evaluation.method.{Manage.ToLower()}",  TrainingEvaluationMethodGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin grade
+                new Permission (TrainingGradeCreate,   Create, $"grade.{Create.ToLower()}",  TrainingGradeGroup, TrainingManagement),
+                new Permission (TrainingGradeUpdate,   Update, $"grade.{Update.ToLower()}",  TrainingGradeGroup, TrainingManagement),
+                new Permission (TrainingGradeList,     List,   $"grade.{List.ToLower()}",    TrainingGradeGroup, TrainingManagement),
+                new Permission (TrainingGradeDelete,   Delete, $"grade.{Delete.ToLower()}",  TrainingGradeGroup, TrainingManagement),
+                new Permission (TrainingGradeManage,   Manage, $"grade.{Manage.ToLower()}",  TrainingGradeGroup, TrainingManagement),
+                #endregion
+
+
+                #region Traingin expertise
+                new Permission (TrainingExpertiseCreate,   Create, $"expertise.{Create.ToLower()}",  TrainingExpertiseGroup, TrainingManagement),
+                new Permission (TrainingExpertiseUpdate,   Update, $"expertise.{Update.ToLower()}",  TrainingExpertiseGroup, TrainingManagement),
+                new Permission (TrainingExpertiseList,     List,   $"expertise.{List.ToLower()}",    TrainingExpertiseGroup, TrainingManagement),
+                new Permission (TrainingExpertiseDelete,   Delete, $"expertise.{Delete.ToLower()}",  TrainingExpertiseGroup, TrainingManagement),
+                new Permission (TrainingExpertiseManage,   Manage, $"expertise.{Manage.ToLower()}",  TrainingExpertiseGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin resource.person
+                new Permission (TrainingResourcePersonCreate,   Create, $"resource.person.{Create.ToLower()}",  TrainingResourcePersonGroup, TrainingManagement),
+                new Permission (TrainingResourcePersonUpdate,   Update, $"resource.person.{Update.ToLower()}",  TrainingResourcePersonGroup, TrainingManagement),
+                new Permission (TrainingResourcePersonList,     List,   $"resource.person.{List.ToLower()}",    TrainingResourcePersonGroup, TrainingManagement),
+                new Permission (TrainingResourcePersonDelete,   Delete, $"resource.person.{Delete.ToLower()}",  TrainingResourcePersonGroup, TrainingManagement),
+                new Permission (TrainingResourcePersonManage,   Manage, $"resource.person.{Manage.ToLower()}",  TrainingResourcePersonGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin schedule
+                new Permission (TrainingScheduleCreate,   Create, $"schedule.{Create.ToLower()}",  TrainingScheduleGroup, TrainingManagement),
+                new Permission (TrainingScheduleUpdate,   Update, $"schedule.{Update.ToLower()}",  TrainingScheduleGroup, TrainingManagement),
+                new Permission (TrainingScheduleList,     List,   $"schedule.{List.ToLower()}",    TrainingScheduleGroup, TrainingManagement),
+                new Permission (TrainingScheduleDelete,   Delete, $"schedule.{Delete.ToLower()}",  TrainingScheduleGroup, TrainingManagement),
+                new Permission (TrainingScheduleManage,   Manage, $"schedule.{Manage.ToLower()}",  TrainingScheduleGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin batch
+                new Permission (TrainingBatchCreate,   Create, $"batch.{Create.ToLower()}",  TrainingBatchGroup, TrainingManagement),
+                new Permission (TrainingBatchUpdate,   Update, $"batch.{Update.ToLower()}",  TrainingBatchGroup, TrainingManagement),
+                new Permission (TrainingBatchList,     List,   $"batch.{List.ToLower()}",    TrainingBatchGroup, TrainingManagement),
+                new Permission (TrainingBatchDelete,   Delete, $"batch.{Delete.ToLower()}",  TrainingBatchGroup, TrainingManagement),
+                new Permission (TrainingBatchManage,   Manage, $"batch.{Manage.ToLower()}",  TrainingBatchGroup, TrainingManagement),
+                #endregion
+
+
+                #region Traingin batch.allocation
+                new Permission (TrainingBatchAllocationCreate,   Create, $"batch.allocation.{Create.ToLower()}",  TrainingBatchAllocationGroup, TrainingManagement),
+                new Permission (TrainingBatchAllocationUpdate,   Update, $"batch.allocation.{Update.ToLower()}",  TrainingBatchAllocationGroup, TrainingManagement),
+                new Permission (TrainingBatchAllocationList,     List,   $"batch.allocation.{List.ToLower()}",    TrainingBatchAllocationGroup, TrainingManagement),
+                new Permission (TrainingBatchAllocationDelete,   Delete, $"batch.allocation.{Delete.ToLower()}",  TrainingBatchAllocationGroup, TrainingManagement),
+                new Permission (TrainingBatchAllocationManage,   Manage, $"batch.allocation.{Manage.ToLower()}",  TrainingBatchAllocationGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin question
+                new Permission (TrainingQuestionCreate,   Create, $"question.{Create.ToLower()}",  TrainingQuestionGroup, TrainingManagement),
+                new Permission (TrainingQuestionUpdate,   Update, $"question.{Update.ToLower()}",  TrainingQuestionGroup, TrainingManagement),
+                new Permission (TrainingQuestionList,     List,   $"question.{List.ToLower()}",    TrainingQuestionGroup, TrainingManagement),
+                new Permission (TrainingQuestionDelete,   Delete, $"question.{Delete.ToLower()}",  TrainingQuestionGroup, TrainingManagement),
+                new Permission (TrainingQuestionManage,   Manage, $"question.{Manage.ToLower()}",  TrainingQuestionGroup, TrainingManagement),
+                #endregion
+
+                #region Traingin honorarium.head
+                new Permission (TrainingHonorariumHeadCreate,   Create, $"honorarium.head.{Create.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
+                new Permission (TrainingHonorariumHeadUpdate,   Update, $"honorarium.head.{Update.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
+                new Permission (TrainingHonorariumHeadList,     List,   $"honorarium.head.{List.ToLower()}",    TrainingHonorariumHeadGroup, TrainingManagement),
+                new Permission (TrainingHonorariumHeadDelete,   Delete, $"honorarium.head.{Delete.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
+                new Permission (TrainingHonorariumHeadManage,   Manage, $"honorarium.head.{Manage.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
+                #endregion
+
+
+
             };
         }
     }

@@ -49,7 +49,7 @@ export class HomeComponent extends BaseComponent {
         title: 'cms',
         icon: 'user',
         fn: () => {
-          return this.permissionService.isRouteGranted(['cms.category', 'content', 'banner', 'faq']);
+          return this.permissionService.isRouteGranted(['content.category', 'content', 'content.banner', 'content.faq']);
         },
         nav: [
           {
@@ -58,7 +58,7 @@ export class HomeComponent extends BaseComponent {
             route: '/admin/cms/categories',
             icon: 'user',
             fn: () => {
-              return this.permissionService.isRouteGranted('cms.category');
+              return this.permissionService.isRouteGranted('content.category');
             },
           },
           {
@@ -76,7 +76,7 @@ export class HomeComponent extends BaseComponent {
             route: '/admin/cms/banners',
             icon: 'user',
             fn: () => {
-              return this.permissionService.isRouteGranted('banner');
+              return this.permissionService.isRouteGranted('content.banner');
             },
           },
           {
@@ -85,14 +85,14 @@ export class HomeComponent extends BaseComponent {
             route: '/admin/cms/faq',
             icon: 'user',
             fn: () => {
-              return this.permissionService.isRouteGranted('faq');
+              return this.permissionService.isRouteGranted('content.faq');
             },
           }
         ]
       },
       {
         level: 1,
-        title: 'user',
+        title: 'user.management',
         icon: 'team',
         fn: () => {
           return this.permissionService.isRouteGranted(['user', 'role', 'designation', 'department']);
@@ -146,7 +146,7 @@ export class HomeComponent extends BaseComponent {
       },
       {
         level: 1,
-        title: 'library',
+        title: 'library.management',
         icon: 'team',
         fn: () => {
           return this.permissionService.isRouteGranted(['library', 'library.member', 'library.member.request', 'card', 'book.catalog', 'book', 'book.issue', 'rack', 'author', 'publisher', 'book.category', '#library.report.issue', '#library.report.fine']);
@@ -284,7 +284,7 @@ export class HomeComponent extends BaseComponent {
       },
       {
         level: 1,
-        title: 'asset',
+        title: 'asset.management',
         icon: 'team',
         fn: () => {
           return this.permissionService.isRouteGranted(['asset', 'maintenance', '#asset.audit.create', '#asset.bulk.checkout', 'license', 'consumable', 'asset.model', 'item.code', 'supplier', 'depreciation', 'manufacturer', 'asset.status', 'asset.category', '#report.activity.log', '#report.audit.log', '#report.depreciation', '#report.license', '#report.maintenance', '#report.asset']);
@@ -507,7 +507,7 @@ export class HomeComponent extends BaseComponent {
       },
       {
         level: 1,
-        title: 'hostel',
+        title: 'hostel.management',
         icon: 'team',
         fn: () => {
           return this.permissionService.isRouteGranted(['allocation', 'hostel', 'building', 'room', 'bed', 'room.type', 'room.facilities']);
@@ -580,7 +580,7 @@ export class HomeComponent extends BaseComponent {
       },
       {
         level: 1,
-        title: 'course',
+        title: 'course.management',
         icon: 'team',
         fn: () => {
           return this.permissionService.isRouteGranted(['course', 'module', 'topic', 'course.category', 'method', 'evaluation.method', 'grade', 'expertise', 'resource.person']);

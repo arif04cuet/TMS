@@ -12,11 +12,14 @@ namespace Module.Core.Data
         {
             return new List<PermissionGroup>
             {
+                //user
                 new PermissionGroup(UserGroup, "User"),
                 new PermissionGroup(RoleGroup, "Role"),
                 new PermissionGroup(DesignationGroup, "Designation"),
                 new PermissionGroup(DepartmentGroup, "Department"),
                 new PermissionGroup(ProfileGroup, "Profile"),
+                
+                //library
                 new PermissionGroup(BookGroup, "Book"),
                 new PermissionGroup(LibraryGroup, "Library"),
                 new PermissionGroup(LibraryMemberGroup, "Member"),
@@ -28,8 +31,17 @@ namespace Module.Core.Data
                 new PermissionGroup(PublisherGroup, "Publisher"),
                 new PermissionGroup(BookCategoryGroup, "Category"),
                 new PermissionGroup(LibraryReportGroup, "Report"),
+                
+                //asset
                 new PermissionGroup(AssetGroup, "Asset"),
                 new PermissionGroup(MaintenanceGroup, "Maintenance"),
+
+                //CMS
+                new PermissionGroup(ContentCategoryGroup, "Contents Category"),
+                new PermissionGroup(ContentsGroup, "Contents"),
+                new PermissionGroup(ContentFaqGroup, "Contents Faq"),
+                new PermissionGroup(ContentBannerGroup, "Contents Banner"),
+
             };
         }
     }

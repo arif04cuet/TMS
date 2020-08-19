@@ -13,7 +13,7 @@ const routes: Routes = [
         icon: 'edit',
         title: 'edit'
       },
-      permissions: ['banner.manage', 'banner.update']
+      permissions: ['content.banner.manage', 'content.banner.update']
     }
   },
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
         icon: 'plus',
         title: 'add'
       },
-      permissions: ['banner.manage', 'banner.create']
+      permissions: ['content.banner.manage', 'content.banner.create']
     }
   }
 ];
