@@ -17,6 +17,8 @@ namespace Module.Training.Data
 
         Task<HostelViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
+        Task<HostelDashboardViewModel> GetDashboard(CancellationToken cancellationToken = default);
+
         Task<PagedCollection<HostelViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<IdNameViewModel>> ListBuildingsAsync(long hostelId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);

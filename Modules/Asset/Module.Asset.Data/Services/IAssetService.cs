@@ -16,6 +16,8 @@ namespace Module.Asset.Data
 
         Task<AssetViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
+        Task<AssetDashboardViewModel> GetDashboard(CancellationToken cancellationToken = default);
+
         Task<PagedCollection<AssetViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<bool> CheckoutAsync(AssetCheckoutRequest request, CancellationToken cancellationToken = default);
