@@ -267,7 +267,7 @@ namespace Module.Core.Data
                 #endregion
 
 
-/*
+
                 #region Asset Audit
                 new Permission (AssetAuditCreate, Create, $"asset.audit.{Create.ToLower()}", AssetGroup, AssetManagement),
                 new Permission (AssetBulkCheckoutCreate, Create, $"asset.bulk.{Checkout.ToLower()}", AssetGroup, AssetManagement),
@@ -346,7 +346,7 @@ namespace Module.Core.Data
                 new Permission (ReportMaintenance,      Create, $"report.maintenance",   AssetReportGroup, AssetManagement),
                 new Permission (ReportAsset,            Create, $"report.asset",         AssetReportGroup, AssetManagement),
                 #endregion
-*/
+
 
                 #region ContentCategory
                 new Permission (ContentCategoryCreate, Create, $"content.category.{Create.ToLower()}", ContentCategoryGroup, CmsManagement),
@@ -380,7 +380,7 @@ namespace Module.Core.Data
                 new Permission (ContentBannerManage,  Manage, $"content.banner.{Manage.ToLower()}", ContentBannerGroup, CmsManagement),
                 #endregion
 
-/*
+
                 #region Hostel Allocation
                 new Permission (HostelAllocationCreate,   Create, $"allocation.{Create.ToLower()}",  HostelAllocationGroup, HostelManagement),
                 new Permission (HostelAllocationUpdate,   Update, $"allocation.{Update.ToLower()}",  HostelAllocationGroup, HostelManagement),
@@ -551,7 +551,7 @@ namespace Module.Core.Data
                 new Permission (TrainingHonorariumHeadManage,   Manage, $"honorarium.head.{Manage.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
                 #endregion
 
-*/
+
 
             };
         }
