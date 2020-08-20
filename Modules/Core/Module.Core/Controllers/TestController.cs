@@ -64,8 +64,17 @@ namespace Module.Core.Controllers
             {
                 try
                 {
-                    (_dataContext as DbContext)?.Database.Migrate();
-                    _logger.LogInformation($"---TEST MIGRATE DONE--- at {DateTime.Now}");
+                    DbContext dbContext = (_dataContext as DbContext);
+                    if (dbContext != null)
+                    {
+                        dbContext.Database.CurrentTransaction?.Dispose();
+                        dbContext.Database.Migrate();
+                        _logger.LogInformation($"---TEST MIGRATE DONE--- at {DateTime.Now}");
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"---TEST MIGRATE DB CONTEXT NULL--- at {DateTime.Now}");
+                    }
                 }
                 catch (Exception e)
                 {
