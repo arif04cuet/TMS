@@ -63,6 +63,7 @@ namespace Module.Core.Data
                 new PermissionGroup(TrainingCourseCategoryGroup, "Course Category"),
                 new PermissionGroup(TrainingMethodGroup, "Training Method"),
                 new PermissionGroup(TrainingEvaluationMethodGroup, "Evaluation Method"),
+                new PermissionGroup(TrainingGradeGroup, "Grade"),
                 new PermissionGroup(TrainingExpertiseGroup, "Exertise"),
                 new PermissionGroup(TrainingResourcePersonGroup, "Resource Person"),
                 new PermissionGroup(TrainingScheduleGroup, "Course Schedule"),
