@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace Module.Core.Controllers
 {
@@ -7,9 +11,16 @@ namespace Module.Core.Controllers
     public class TestController : ControllerBase
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IDataContext _dataContext;
+        private readonly ILogger<TestController> _logger;
 
-        public TestController(IHttpContextAccessor httpContextAccessor)
+        public TestController(
+            IHttpContextAccessor httpContextAccessor,
+            IDataContext dataContext,
+            ILoggerFactory loggerFactory)
         {
+            _logger = loggerFactory.CreateLogger<TestController>();
+            _dataContext = dataContext;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -35,7 +46,8 @@ namespace Module.Core.Controllers
                     ContentType = http.Request.ContentType
                 },
                 TraceIdentifier = http.TraceIdentifier,
-                Connection = new {
+                Connection = new
+                {
                     RemoteIpAddress = http.Connection.RemoteIpAddress.ToString(),
                     RemotePort = http.Connection.RemotePort,
                     LocalIpAddress = http.Connection.LocalIpAddress.ToString(),
@@ -43,6 +55,31 @@ namespace Module.Core.Controllers
                 }
             };
             return Ok(info);
+        }
+
+        [HttpGet("migrate")]
+        public void Migrate()
+        {
+            if (_dataContext != null)
+            {
+                try
+                {
+                    (_dataContext as DbContext)?.Database.Migrate();
+                    _logger.LogInformation($"---TEST MIGRATE DONE--- at {DateTime.Now}");
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError($"---TEST MIGRATE ERROR--- at {DateTime.Now}");
+                    Exception ex = e;
+                    while (ex != null)
+                    {
+                        _logger.LogError(ex.Message);
+                        ex = ex.InnerException;
+                    }
+                    _logger.LogError($"---TEST MIGRATE ERROR END --- at {DateTime.Now}");
+                }
+            }
+
         }
 
     }
