@@ -36,6 +36,7 @@ namespace Infrastructure.Data.EFCore
                 provider = services.BuildServiceProvider();
                 var dataContext = provider.GetService<IDataContext>();
                 (dataContext as DbContext)?.Database.Migrate();
+                logger.LogInformation($"---MIGRATE DONE--- at {DateTime.Now}");
             }
             catch (Exception e)
             {
