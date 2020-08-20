@@ -197,7 +197,7 @@
         public const long ManufacturerList   = 2483;      
 
         // Asset Reports
-        public const long ReportActivityLog = 2484;
+        public const long ReportActivityLog = 2584;
         public const long ReportAuditLog    = 2485;
         public const long ReportDepreciation= 2486;
         public const long ReportLicense     = 2487;
@@ -215,7 +215,7 @@
 
         // setting category
 
-        public const long AssetCategoryCreate = 2494;
+        public const long AssetCategoryCreate = 2594;
         public const long AssetCategoryUpdate = 2495;
         public const long AssetCategoryDelete = 2496;
         public const long AssetCategoryManage = 2497;
@@ -473,11 +473,11 @@
         public const long TrainingExpertiseGroup        = 47;
         public const long TrainingResourcePersonGroup   = 48;
 
-        public const long TrainingScheduleGroup           = 50;
-        public const long TrainingBatchGroup           = 51;
-        public const long TrainingBatchAllocationGroup            = 52;
-        public const long TrainingQuestionGroup   = 53;
-        public const long TrainingHonorariumHeadGroup           = 54;
+        public const long TrainingScheduleGroup         = 50;
+        public const long TrainingBatchGroup            = 51;
+        public const long TrainingBatchAllocationGroup  = 52;
+        public const long TrainingQuestionGroup         = 53;
+        public const long TrainingHonorariumHeadGroup   = 54;
 
 
     }

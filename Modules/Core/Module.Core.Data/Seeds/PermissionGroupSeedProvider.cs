@@ -35,12 +35,43 @@ namespace Module.Core.Data
                 //asset
                 new PermissionGroup(AssetGroup, "Asset"),
                 new PermissionGroup(MaintenanceGroup, "Maintenance"),
+                new PermissionGroup(LicenseGroup, "License"),
+                new PermissionGroup(ConsumableGroup, "Consumable"),
+                new PermissionGroup(SettingGroup, "Setting"),
+                new PermissionGroup(AssetReportGroup, "Report"),
+
 
                 //CMS
                 new PermissionGroup(ContentCategoryGroup, "Contents Category"),
                 new PermissionGroup(ContentsGroup, "Contents"),
                 new PermissionGroup(ContentFaqGroup, "Contents Faq"),
                 new PermissionGroup(ContentBannerGroup, "Contents Banner"),
+
+                //Hostel
+                new PermissionGroup(HostelAllocationGroup, "Hostel Allocation"),
+                new PermissionGroup(HostelHostelGroup, "Hostels"),
+                new PermissionGroup(HostelBuildingGroup, "Building"),
+                new PermissionGroup(HostelRoomGroup, "Room"),
+                new PermissionGroup(HostelBedGroup, "Bed"),
+                new PermissionGroup(HostelRoomTypeGroup, "Room Type"),
+                new PermissionGroup(HostelRoomFacilitiesGroup, "Room facilities"),
+
+                //Training
+                new PermissionGroup(TrainingCourseGroup, "Course"),
+                new PermissionGroup(TrainingModuleGroup, "Module"),
+                new PermissionGroup(TrainingTopicGroup, "Session"),
+                new PermissionGroup(TrainingCourseCategoryGroup, "Course Category"),
+                new PermissionGroup(TrainingMethodGroup, "Training Method"),
+                new PermissionGroup(TrainingEvaluationMethodGroup, "Evaluation Method"),
+                new PermissionGroup(TrainingExpertiseGroup, "Exertise"),
+                new PermissionGroup(TrainingResourcePersonGroup, "Resource Person"),
+                new PermissionGroup(TrainingScheduleGroup, "Course Schedule"),
+                new PermissionGroup(TrainingBatchGroup, "Batch Schedule"),
+                new PermissionGroup(TrainingBatchAllocationGroup, "Participant Approval"),
+                new PermissionGroup(TrainingQuestionGroup, "Question"),
+                new PermissionGroup(TrainingHonorariumHeadGroup, "Honorarium Head")
+
+
 
             };
         }

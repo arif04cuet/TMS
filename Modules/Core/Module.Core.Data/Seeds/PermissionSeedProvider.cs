@@ -275,19 +275,19 @@ namespace Module.Core.Data
 
 
                 #region Asset Consumable
-                new Permission (ConsumableCreate, Create, $"license.{Create.ToLower()}", ConsumableGroup, AssetManagement),
-                new Permission (ConsumableUpdate,  Update, $"license.{Update.ToLower()}", ConsumableGroup, AssetManagement),
-                new Permission (ConsumableList, List, $"license.{List.ToLower()}", ConsumableGroup, AssetManagement),
-                new Permission (ConsumableDelete,  Delete, $"license.{Delete.ToLower()}", ConsumableGroup, AssetManagement),
-                new Permission (ConsumableManage,  Manage, $"license.{Manage.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableCreate,   Create, $"consumable.{Create.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableUpdate,   Update, $"consumable.{Update.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableList,     List,   $"consumable.{List.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableDelete,   Delete, $"consumable.{Delete.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (ConsumableManage,   Manage, $"consumable.{Manage.ToLower()}", ConsumableGroup, AssetManagement),
                 #endregion
 
                 #region Asset Settings asset model
-                new Permission (ConsumableCreate,   Create, $"asset.model.{Create.ToLower()}", ConsumableGroup, AssetManagement),
-                new Permission (ConsumableUpdate,   Update, $"asset.model.{Update.ToLower()}", ConsumableGroup, AssetManagement),
-                new Permission (ConsumableList,     List,   $"asset.model.{List.ToLower()}", ConsumableGroup, AssetManagement),
-                new Permission (ConsumableDelete,   Delete, $"asset.model.{Delete.ToLower()}", ConsumableGroup, AssetManagement),
-                new Permission (ConsumableManage,   Manage, $"asset.model.{Manage.ToLower()}", ConsumableGroup, AssetManagement),
+                new Permission (AssetModelCreate,   Create, $"asset.model.{Create.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetModelUpdate,   Update, $"asset.model.{Update.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetModelList,     List,   $"asset.model.{List.ToLower()}",    SettingGroup, AssetManagement),
+                new Permission (AssetModelDelete,   Delete, $"asset.model.{Delete.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetModelManage,   Manage, $"asset.model.{Manage.ToLower()}",  SettingGroup, AssetManagement),
                 #endregion
 
                 #region Asset Settings Item Code
@@ -341,7 +341,7 @@ namespace Module.Core.Data
                 #region Asset Report
                 new Permission (ReportActivityLog,      Create, $"report.activity.log",  AssetReportGroup, AssetManagement),
                 new Permission (ReportAuditLog,         Create, $"report.audit.log",     AssetReportGroup, AssetManagement),
-                new Permission (ReportDepreciation,     Create,   $"report.depreciation",  AssetReportGroup, AssetManagement),
+                new Permission (ReportDepreciation,     Create, $"report.depreciation",  AssetReportGroup, AssetManagement),
                 new Permission (ReportLicense,          Create, $"report.license",       AssetReportGroup, AssetManagement),
                 new Permission (ReportMaintenance,      Create, $"report.maintenance",   AssetReportGroup, AssetManagement),
                 new Permission (ReportAsset,            Create, $"report.asset",         AssetReportGroup, AssetManagement),
@@ -430,11 +430,11 @@ namespace Module.Core.Data
                 #endregion
 
                 #region Hostel room.facilities
-                new Permission (HostelRoomFacilitiesCreate,   Create, $"room.facilities.{Create.ToLower()}",  HostelRoomFacilitiesTypeGroup, HostelManagement),
-                new Permission (HostelRoomFacilitiesUpdate,   Update, $"room.facilities.{Update.ToLower()}",  HostelRoomFacilitiesTypeGroup, HostelManagement),
-                new Permission (HostelRoomFacilitiesList,     List,   $"room.facilities.{List.ToLower()}",    HostelRoomFacilitiesTypeGroup, HostelManagement),
-                new Permission (HostelRoomFacilitiesDelete,   Delete, $"room.facilities.{Delete.ToLower()}",  HostelRoomFacilitiesTypeGroup, HostelManagement),
-                new Permission (HostelRoomFacilitiesManage,   Manage, $"room.facilities.{Manage.ToLower()}",  HostelRoomFacilitiesTypeGroup, HostelManagement),
+                new Permission (HostelRoomFacilitiesCreate,   Create, $"room.facilities.{Create.ToLower()}",  HostelRoomFacilitiesGroup, HostelManagement),
+                new Permission (HostelRoomFacilitiesUpdate,   Update, $"room.facilities.{Update.ToLower()}",  HostelRoomFacilitiesGroup, HostelManagement),
+                new Permission (HostelRoomFacilitiesList,     List,   $"room.facilities.{List.ToLower()}",    HostelRoomFacilitiesGroup, HostelManagement),
+                new Permission (HostelRoomFacilitiesDelete,   Delete, $"room.facilities.{Delete.ToLower()}",  HostelRoomFacilitiesGroup, HostelManagement),
+                new Permission (HostelRoomFacilitiesManage,   Manage, $"room.facilities.{Manage.ToLower()}",  HostelRoomFacilitiesGroup, HostelManagement),
                 #endregion
 
                 #region Traingin course
