@@ -311,15 +311,25 @@ namespace Module.Library.Data
             return result;
         }
 
-        public async Task<PagedCollection<BookItemListViewModel>> ListBookItemsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        public async Task<PagedCollection<BookItemListViewModel>> ListBookItemsAsync(DateTime? issueDateStart, DateTime? issueDateEnd, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
         {
 
             var issues = _bookIssueRepository.AsReadOnly();
             var items = _bookItemRepository
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions)
-                .OrderBy(x => x.Book.Title).ThenBy(x => x.CurrentIssue);
+                .ApplySearch(searchOptions);
+
+            if (issueDateStart.HasValue)
+            {
+                items = items.Where(x => x.CurrentIssue.IssueDate.Date >= issueDateStart.Value.Date);
+            }
+            if(issueDateEnd.HasValue)
+            {
+                items = items.Where(x => x.CurrentIssue.IssueDate.Date <= issueDateEnd.Value.Date);
+            }
+
+            items = items.OrderBy(x => x.Book.Title).ThenBy(x => x.CurrentIssue);
 
             var result = items.Select(x => new BookItemListViewModel
             {
