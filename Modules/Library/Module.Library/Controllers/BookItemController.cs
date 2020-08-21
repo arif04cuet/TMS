@@ -7,6 +7,7 @@ using Module.Core.Shared;
 using static Module.Core.Shared.PermissionConstants;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 
 namespace Module.Library.Controllers
 {
@@ -25,9 +26,9 @@ namespace Module.Library.Controllers
 
         [HttpGet]
         [RequirePermission(BookList, BookManage)]
-        public async Task<ActionResult> List([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> List([FromQuery] DateTime? issueDateStart, [FromQuery] DateTime? issueDateEnd, [FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
-            var result = await _bookService.ListBookItemsAsync(pagingOptions, searchOptions);
+            var result = await _bookService.ListBookItemsAsync(issueDateStart, issueDateEnd, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

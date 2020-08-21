@@ -2,6 +2,7 @@
 using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace Module.Library.Data
 
         Task<BookItemViewModel> GetBookItemAsync(long bookItemId);
 
-        Task<PagedCollection<BookItemListViewModel>> ListBookItemsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
+        Task<PagedCollection<BookItemListViewModel>> ListBookItemsAsync(DateTime? issueDateStart, DateTime? issueDateEnd, IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
         Task<PagedCollection<IdNameViewModel>> ListBookEditionsAsync(long bookId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 

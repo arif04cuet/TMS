@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { BookItemListComponent } from './book-item-list.component';
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NzTableModule, NgZorroAntdModule, NzFormModule, NzDatePickerModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { BookItemListRoutingModule } from './book-item-list-routing.module';
@@ -23,6 +23,7 @@ import { AuthorHttpService } from 'src/services/http/user/author-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
+    NzDatePickerModule,
     SharedModule
   ],
   exports: [BookItemListComponent],
