@@ -37,6 +37,7 @@ export function clean(o) {
 
 export function getLang() {
     const lang = environment.production ? 'bn' : 'bn'
+    
     return lang || localStorage.getItem('otms_lang');
 }
 

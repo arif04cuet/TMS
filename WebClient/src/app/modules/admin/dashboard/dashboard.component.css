@@ -1,0 +1,8 @@
+.dashboard-item{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed gray;
+    padding: 3px;
+    width: 85%;
+    align-items: center;
+}

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NzTableModule, NgZorroAntdModule, NzFormModule, NzListModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -22,7 +22,8 @@ import { ViewModule } from 'src/app/shared/view.component';
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    ViewModule
+    ViewModule,
+    NzListModule
   ],
   exports: [DashboardComponent],
   providers: [

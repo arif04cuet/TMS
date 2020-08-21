@@ -3,10 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AdminHttpService } from 'src/services/http/admin-http.service';
 import { forkJoin } from 'rxjs';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  styleUrls:['./dashboard.component.css']
 })
 export class DashboardComponent extends BaseComponent {
 
@@ -15,8 +17,10 @@ export class DashboardComponent extends BaseComponent {
   hostel: any = {};
   training: any = {};
   inventory: any = {};
+  userInfo;
 
   constructor(
+    private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private adminHttpService: AdminHttpService
   ) {
@@ -25,8 +29,29 @@ export class DashboardComponent extends BaseComponent {
 
   ngOnInit(): void {
     this.get();
+    this.userInfo = this.authService.getLoggedInUserInfo();
+    
+    
   }
+  userHasRole(roles=[]){
+    var hasRole = false;
+    for(var role of roles)
+    {
+      
+        if(this.hasRole(role))
+        {
+          hasRole = true;
+          break;
+        }
+    }
 
+    return hasRole;
+    
+  }
+  hasRole(roleId)
+  {
+    return this.userInfo.roles.some(r=>r.id == roleId);
+  }
   get() {
     this.loading = true;
     const requests = forkJoin([

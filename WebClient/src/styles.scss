@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import url('https://fonts.maateen.me/solaiman-lipi/font.css');
 .row {
     display: flex;
     justify-content: space-between;
@@ -788,4 +788,8 @@ label {
 
 .box .block .field-container input {
   max-width: 100%;
+}
+
+body{
+  font-family: 'SolaimanLipi', sans-serif;
 }

@@ -1,14 +1,14 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 <div *ngIf="!loading">
-    <div nz-row [nzGutter]="8" style="margin-bottom: 8px;">
-        <div nz-col [nzSpan]="24">
-            <nz-card nzTitle="{{'reorder.alert'|translate}}">
+    <div  nz-row [nzGutter]="8" style="margin-bottom: 8px;">
+        <div *ngIf="userHasRole([1,4,8,9])" nz-col [nzSpan]="8">
+            <nz-card nzTitle="{{'dashboard.reorder.alert'|translate}}">
                 <nz-table *ngIf="inventory.reorderAlert" #basicTable [nzData]="inventory.reorderAlert" nzShowPagination="false">
                     <thead>
                         <tr>
-                            <th>{{'name'|translate}}</th>
-                            <th>{{'available'|translate}}</th>
-                            <th>{{'min.quantity'|translate}}</th>
+                            <th>{{'dashboard.ra.item'|translate}}</th>
+                            <th>{{'dashboard.ra.available'|translate}}</th>
+                            <th>{{'dashboard.ra.reorder.level'|translate}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,55 +24,60 @@
                 <div *ngIf="!inventory.reorderAlert">{{'no.data'|translate}}</div>
             </nz-card>
         </div>
-    </div>
 
-    <div nz-row [nzGutter]="8" style="margin-bottom: 8px;">
-        <div nz-col [nzSpan]="8">
-            <nz-card nzTitle="{{'hostel'|translate}}">
-                <div>{{'total.room'|translate}} : {{hostel.totalRoom}}</div>
-                <div>{{'total.seat'|translate}} : {{hostel.totalSeat}}</div>
-                <div>{{'free.room'|translate}} : {{hostel.freeRoom}}</div>
-                <div>{{'free.seat'|translate}} : {{hostel.freeSeat}}</div>
-                <div>{{'booking.request'|translate}} : {{hostel.bookingRequest}}</div>
-                <div>{{'todays.checkin'|translate}} : {{hostel.todaysCheckin}}</div>
-                <div>{{'todays.checkout'|translate}} : {{hostel.todaysCheckout}}</div>
-                <div>{{'todays.checkoutable'|translate}} : {{hostel.todaysCheckoutable}}</div>
-                <div>{{'required.room.and.seat'|translate}} : {{hostel.requiredRoomAndSeat}}</div>
-                <div>{{'allocated.room.and.seat'|translate}} : {{hostel.allocatedRoomAndSeat}}</div>
-                <div>{{'checkin.and.checkout'|translate}} : {{hostel.checkinAndCheckout}}</div>
-            </nz-card>
-        </div>
-        <div nz-col [nzSpan]="8">
-            <nz-card nzTitle="{{'library'|translate}}">
-                <div>{{'total.issued'|translate}} : {{library.totalIssued}}</div>
-                <div>{{'todays.issue'|translate}} : {{library.todaysIssue}}</div>
-                <div>{{'pending'|translate}} : {{library.pending}}</div>
-                <div>{{'todays.return'|translate}} : {{library.todaysReturn}}</div>
-                <div>{{'return.pending'|translate}} : {{library.returnPending}}</div>
-                <div>{{'total.member'|translate}} : {{library.totalMember}}</div>
-                <div>{{'total.item'|translate}} : {{library.totalItem}}</div>
-                <div>{{'new.item'|translate}} : {{library.newItem}}</div>
-            </nz-card>
-        </div>
-        <div nz-col [nzSpan]="8">
-            <nz-card nzTitle="{{'training'|translate}}">
-                <div>{{'running.courses'|translate}} : {{training.runningCourses}}</div>
-                <div>{{'running.batches'|translate}} : {{training.runningBatches}}</div>
-                <div>{{'total.participants'|translate}} : {{training.totalParticipants}}</div>
-                <div>{{'todays.classes'|translate}} : {{training.todaysClasses}}</div>
-                <div>{{'todays.exams'|translate}} : {{training.todaysExams}}</div>
-                <div>{{'todays.resources.persons'|translate}} : {{training.todaysResourcesPersons}}</div>
-            </nz-card>
-        </div>
-    </div>
-
-    <div nz-row [nzGutter]="8" style="margin-bottom: 8px;">
-        <div nz-col [nzSpan]="8">
+        <div  *ngIf="userHasRole([1,4,8,9])" nz-col [nzSpan]="8">
             <nz-card nzTitle="{{'current.stock'|translate}}">
-                <div><a (click)="goTo('/admin/asset')">{{'assets'|translate}}</a> : {{inventory.currentStock.asset}}</div>
-                <div><a (click)="goTo('/admin/asset/licenses')">{{'license'|translate}}</a> : {{inventory.currentStock.license}}</div>
-                <div><a (click)="goTo('/admin/asset/consumables')">{{'consumables'|translate}}</a> : {{inventory.currentStock.consumable}}</div>
+                <div class="dashboard-item"><span><a (click)="goTo('/admin/asset')">{{'assets'|translate}}</a> :                  </span><span>{{inventory.currentStock.asset}}     </span></div>
+                <div class="dashboard-item"><span><a (click)="goTo('/admin/asset/licenses')">{{'license'|translate}}</a> :        </span><span>{{inventory.currentStock.license}}   </span></div>
+                <div class="dashboard-item"><span><a (click)="goTo('/admin/asset/consumables')">{{'consumables'|translate}}</a> : </span><span>{{inventory.currentStock.consumable}}</span></div>
+            </nz-card>
+        </div>
+
+    </div>
+
+    <div nz-row [nzGutter]="8" style="margin-bottom: 8px;">
+        <div *ngIf="userHasRole([1,5,8,9])"  nz-col [nzSpan]="8">
+
+
+            <nz-card nzTitle="{{'hostel.management'|translate}}">
+
+
+                <div class="dashboard-item"><span>{{'total.room'|translate}} :              </span><span>{{hostel.totalRoom}}               </span></div>
+                <div class="dashboard-item"><span>{{'total.seat'|translate}} :              </span><span>{{hostel.totalSeat}}               </span></div>
+                <div class="dashboard-item"><span>{{'free.room'|translate}} :               </span><span>{{hostel.freeRoom}}                </span></div>
+                <div class="dashboard-item"><span>{{'free.seat'|translate}} :               </span><span>{{hostel.freeSeat}}                </span></div>
+                <div class="dashboard-item"><span>{{'booking.request'|translate}} :         </span><span>{{hostel.bookingRequest}}          </span></div>
+                <div class="dashboard-item"><span>{{'todays.checkin'|translate}} :          </span><span>{{hostel.todaysCheckin}}           </span></div>
+                <div class="dashboard-item"><span>{{'todays.checkout'|translate}} :         </span><span>{{hostel.todaysCheckout}}          </span></div>
+                <div class="dashboard-item"><span>{{'todays.checkoutable'|translate}} :     </span><span>{{hostel.todaysCheckoutable}}      </span></div>
+                <div class="dashboard-item"><span>{{'required.room.and.seat'|translate}} :  </span><span>{{hostel.requiredRoomAndSeat}}     </span></div>
+                <div class="dashboard-item"><span>{{'allocated.room.and.seat'|translate}} : </span><span>{{hostel.allocatedRoomAndSeat}}    </span></div>
+                <div class="dashboard-item"><span>{{'checkin.and.checkout'|translate}} :    </span><span>{{hostel.checkinAndCheckout}}      </span></div>
+            </nz-card>
+        </div>
+        <div *ngIf="userHasRole([1,2,8,9])"  nz-col [nzSpan]="8">
+            <nz-card nzTitle="{{'library.management'|translate}}">
+                <div class="dashboard-item"><span>{{'total.issued'|translate}} : </span><span>{{library.totalIssued}}    </span> </div>
+                <div class="dashboard-item"><span>{{'todays.issue'|translate}} : </span><span>{{library.todaysIssue}}    </span> </div>
+                <div class="dashboard-item"><span>{{'pending'|translate}} :      </span><span>{{library.pending}}        </span> </div>
+                <div class="dashboard-item"><span>{{'todays.return'|translate}} :</span><span>{{library.todaysReturn}}   </span> </div>
+                <div class="dashboard-item"><span>{{'return.pending'|translate}}:</span><span>{{library.returnPending}}  </span> </div>
+                <div class="dashboard-item"><span>{{'total.member'|translate}} : </span><span>{{library.totalMember}}    </span> </div>
+                <div class="dashboard-item"><span>{{'total.item'|translate}} :   </span><span>{{library.totalItem}}      </span> </div>
+                <div class="dashboard-item"><span>{{'new.item'|translate}} :     </span><span>{{library.newItem}}        </span> </div>
+            </nz-card>
+        </div>
+        <div *ngIf="userHasRole([1,6,7,8,9])"  nz-col [nzSpan]="8">
+            <nz-card nzTitle="{{'training.management'|translate}}">
+                <div class="dashboard-item"><span>{{'running.courses'|translate}} :         </span> <span>{{training.runningCourses}}        </span> </div>
+                <div class="dashboard-item"><span>{{'running.batches'|translate}} :         </span> <span>{{training.runningBatches}}        </span> </div>
+                <div class="dashboard-item"><span>{{'total.participants'|translate}} :      </span> <span>{{training.totalParticipants}}     </span> </div>
+                <div class="dashboard-item"><span>{{'todays.classes'|translate}} :          </span> <span>{{training.todaysClasses}}         </span> </div>
+                <div class="dashboard-item"><span>{{'todays.exams'|translate}} :            </span> <span>{{training.todaysExams}}           </span> </div>
+                <div class="dashboard-item"><span>{{'todays.resources.persons'|translate}} :</span> <span>{{training.todaysResourcesPersons}}</span> </div>
             </nz-card>
         </div>
     </div>
+
+ 
 </div>

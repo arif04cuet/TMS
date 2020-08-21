@@ -30,7 +30,18 @@
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>{{'name'|translate}} <input [(ngModel)]="name" nz-input /></th>
-                        <th>{{'hostel'|translate}}</th>
+                        <th>{{'hostel'|translate}}
+
+                            <div>
+                                <nz-select [(ngModel)]="hostels" class="btn-custom" nzShowSearch nzAllowClear
+                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'hostel'|translate|lowercase}">
+                                    <nz-option *ngFor="let p of hostels" [nzLabel]="p.name" [nzValue]="p.id">
+                                    </nz-option>
+                                </nz-select>
+                            </div>
+
+
+                        </th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { BuildingHttpService } from 'src/services/http/hostel/building-http.service';
+import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service';
 
 @Component({
   selector: 'app-building-list',
@@ -12,11 +13,13 @@ import { BuildingHttpService } from 'src/services/http/hostel/building-http.serv
 export class BuildingListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-  @Searchable("Hostel.Name", "like") hostel;
+  //@Searchable("Hostel.Name", "like") hostel;
+  @Searchable("HostelId", "eq") hostels;
 
   serverUrl = environment.serverUri;
 
   constructor(
+    private hostelHttpService: HostelHttpService,
     private buildingHttpService: BuildingHttpService,
     private activatedRoute: ActivatedRoute
   ) {
@@ -43,6 +46,15 @@ export class BuildingListComponent extends TableComponent {
 
   refresh() {
     this.load();
+    this.subscribe(this.hostelHttpService.list(),
+    (res: any) => {
+      this.hostels = res.data.items;
+    },
+    err => {
+      console.log(err);
+      this.loading = false;
+    }
+  );
   }
 
   search() {
