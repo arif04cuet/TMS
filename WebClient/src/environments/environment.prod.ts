@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverUri: 'http://dashboard-tms.softbdltd.com:4200',
-  baseUrl: 'http://dashboard-tms.softbdltd.com:4200/api',
+  serverUri: 'http://api-tms.softbdltd.com',
+  baseUrl: 'http://api-tms.softbdltd.com/api',
   langFilePath: '/assets/i18n/'
 };
