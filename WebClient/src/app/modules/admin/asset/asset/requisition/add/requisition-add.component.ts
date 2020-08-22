@@ -1,14 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Type, TemplateRef } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
-import { forEachObj } from 'src/services/utilities.service';
-import { AbstractControl, FormArray } from '@angular/forms';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { RequisitionHttpService } from 'src/services/http/asset/requisition-http.service';
 import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
+import { AssetModalComponent } from '../asset-modal/asset-modal.component';
+import { NzModalService } from 'ng-zorro-antd';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-requisition-add',
@@ -18,31 +19,39 @@ export class RequisitionAddComponent extends FormComponent {
 
   loading: boolean = true;
   statuses = [];
+  assetModalInfo: any = {};
+  items = [];
 
   @ViewChild('userSelect') userSelect: SelectControlComponent;
   @ViewChild('batchSelect') batchSelect: SelectControlComponent;
-  
-  photoUrl;
+  @ViewChild("modalFooter") modalFooter: TemplateRef<any>;
+
+  typeText = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private requisitionHttpService: RequisitionHttpService,
     private userHttpService: UserHttpService,
     private batchScheduleHttpService: BatchScheduleHttpService,
-    private v: CommonValidator
+    private v: CommonValidator,
+    private modal: NzModalService
   ) {
     super();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       title: [null, [], this.v.required.bind(this)],
       currentApprover: [],
-      batchSchedule: [],
-      items: this.fb.array([])
+      batchSchedule: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
+    this.typeText = {
+      1: await this.t('asset'),
+      3: await this.t('consumable'),
+      6: await this.t('license')
+    };
   }
 
   ngAfterViewInit() {
@@ -59,14 +68,19 @@ export class RequisitionAddComponent extends FormComponent {
 
   submit(): void {
     const body: any = this.constructObject(this.form.controls);
-    if (this.id) {
-      body.id = Number(this.id);
+
+    if (this.items.filter(x => x.quantity <= 0).length > 0) {
+      this.info('quantity.can.not.be.zero');
+      return
     }
-    // const items = (this.form.controls.items as any).controls.length;
-    // if (!items || items <= 0) {
-    //   this.info('please.add.at.least.one.item');
-    //   return;
-    // }
+
+    const items = JSON.parse(JSON.stringify(this.items));
+    body.items = items.map(x => {
+      const type = x.type;
+      x.type = type.id;
+      return x;
+    })
+
     this.submitForm(
       {
         request: this.requisitionHttpService.add(body),
@@ -77,8 +91,7 @@ export class RequisitionAddComponent extends FormComponent {
         failed: res => {
           if (res.error
             && res.error.message == "form_error"
-            && res.error.data.length
-            && res.error.data[0].field == "Items") {
+            && res.error.data.length) {
             this._messageService.error(res.error.data[0].message);
           }
         }
@@ -98,9 +111,44 @@ export class RequisitionAddComponent extends FormComponent {
     if (id != null) {
       this.subscribe(this.requisitionHttpService.get(id),
         (res: any) => {
-          this.setValues(this.form.controls, res.data, ['items']);
-          this.form.controls.items = this.fb.array([]);
-          this.prepareForm(res);
+          if (res.data.items) {
+            this.items = res.data.items.map(x => {
+              const obj = {
+                id: x.id,
+                asset: x.asset.id,
+                name: x.asset.name,
+                type: { id: x.assetType.id, name: this.typeText[x.assetType.id] },
+                quantity: x.quantity,
+                comment: x.comment,
+                available: x.available
+              };
+
+              if (x.assetType.id == 1) {
+                if (!this.assetModalInfo.assets) {
+                  this.assetModalInfo.assets = [];
+                }
+                this.assetModalInfo.assets.push({id: x.asset.id});
+              }
+
+              if (x.assetType.id == 3) {
+                if (!this.assetModalInfo.consumables) {
+                  this.assetModalInfo.consumables = [];
+                }
+                this.assetModalInfo.consumables.push({id: x.asset.id});
+              }
+
+              if (x.assetType.id == 6) {
+                if (!this.assetModalInfo.licenses) {
+                  this.assetModalInfo.licenses = [];
+                }
+                this.assetModalInfo.licenses.push({id: x.asset.id});
+              }
+
+              return obj;
+
+            })
+          }
+          this.setValues(this.form.controls, res.data);
           this.loading = false;
         }
       );
@@ -116,50 +164,75 @@ export class RequisitionAddComponent extends FormComponent {
     this.goTo('/admin/asset/my-requisitions');
   }
 
-  addItem() {
-    this.createItemFormGroup({});
-  }
-
-  deleteItem(index) {
-    const itemFormArray = this.getItemFormArray();
-    if (itemFormArray.controls && itemFormArray.controls.length) {
-      itemFormArray.removeAt(index);
+  quantityChanged(e, data) {
+    if (data.quantity > data.available) {
+      this.info('quantity.exceeds');
+      setTimeout(() => data.quantity = data.available);
+    }
+    if (data.quantity <= 0) {
+      setTimeout(() => data.quantity = 1);
     }
   }
 
-  private prepareForm(res) {
-    if (res.data && res.data.Items?.length) {
-      res.data.Items.forEach(x => {
-        this.createItemFormGroup(x);
-      });
-    }
-  }
-
-  private createItemFormGroup(data: any) {
-    const formGroup = this.fb.group({
-      assetTag: [null, [], this.v.required.bind(this)],
-      itemNo: [],
-      purchaseCost: [null, [], this.v.required.bind(this)],
-      isRequestable: [false],
-      warranty: [],
-      maintenance: [],
-      depreciation: [null, [], this.v.required.bind(this)],
-      media: [],
-      status: [null, [], this.v.required.bind(this)],
-      assetModel: [null, [], this.v.required.bind(this)]
-    });
-    forEachObj(formGroup.controls, (k, v) => {
-      const dataValue = data[k];
-      if (dataValue) {
-        (v as AbstractControl).setValue(dataValue);
+  addAsset() {
+    const modal = this.createModal(AssetModalComponent);
+    this.subscribe(modal.afterClose, res => {
+      console.log('asset modal info', this.assetModalInfo);
+      if (this.assetModalInfo) {
+        const items = [];
+        items.push(...this.makeItems(this.assetModalInfo.assets, 1));
+        items.push(...this.makeItems(this.assetModalInfo.licenses, 6));
+        items.push(...this.makeItems(this.assetModalInfo.consumables, 3, 'item'));
+        this.items = items;
       }
     });
-    const itemFormArray = this.getItemFormArray();
-    itemFormArray.push(formGroup);
   }
 
-  private getItemFormArray(): FormArray {
-    return this.form.get("items") as FormArray;
+  createModal<T>(component: Type<T>) {
+    return this.modal.create({
+      nzWidth: '80%',
+      nzContent: component,
+      nzGetContainer: () => document.body,
+      nzComponentParams: <any>{
+        data: this.assetModalInfo
+      },
+      nzFooter: this.modalFooter
+    });
+  }
+
+  deleteItem(index, data) {
+    this.items.splice(index, 1);
+    this.items = [...this.items];
+    if (this.assetModalInfo) {
+      if (this.assetModalInfo.assets && data.type.id == 1) {
+        this.assetModalInfo.assets = this.assetModalInfo.assets.filter(x => x.id != data.asset);
+      }
+      if (this.assetModalInfo.licenses && data.type.id == 6) {
+        this.assetModalInfo.licenses = this.assetModalInfo.licenses.filter(x => x.id != data.asset);
+      }
+      if (this.assetModalInfo.consumables && data.type.id == 3) {
+        this.assetModalInfo.consumables = this.assetModalInfo.consumables.filter(x => x.id != data.asset);
+      }
+    }
+  }
+
+  private makeItems(items: any[], type: number, nameProp: string = 'name') {
+    if (items && items.length) {
+      const _items = [];
+      items.forEach(item => {
+        const oldItem = this.items.find(x => x.asset == item.id && x.type.id == type);
+        _items.push({
+          asset: item.id,
+          name: item[nameProp],
+          type: { id: type, name: this.typeText[type] },
+          quantity: type == 1 ? 1 : (oldItem?.quantity || 0),
+          comment: oldItem?.comment || '',
+          available: item.available
+        })
+      });
+      return _items;
+    }
+    return []
   }
 
 }

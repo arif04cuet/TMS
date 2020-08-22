@@ -517,5 +517,6 @@
   "approver.employee": "Approver employee",
   "reject": "Reject",
   "temporary.approve": "Temporary approve",
-  "Approve": "approve"
+  "add.asset": "Add asset",
+  "comment": "Comment"
 }

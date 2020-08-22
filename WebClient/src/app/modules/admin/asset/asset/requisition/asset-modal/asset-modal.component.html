@@ -1,0 +1,32 @@
+<div>
+    <div class="box" style="margin: 0; box-shadow: none;">
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class=" content">
+                <div class="header-container">
+                    <span class="header">
+                        {{'assets'|translate}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <nz-tabset class="form-tabset">
+                <nz-tab nzTitle="{{'assets'|translate}}">
+                    <ng-template nz-tab>
+                        <app-requisition-asset-list [data]="data"></app-requisition-asset-list>
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="{{'license'|translate}}">
+                    <ng-template nz-tab>
+                        <app-requisition-license-list [data]="data"></app-requisition-license-list>
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="{{'consumables'|translate}}">
+                    <ng-template nz-tab>
+                        <app-requisition-consumable-list [data]="data"></app-requisition-consumable-list>
+                    </ng-template>
+                </nz-tab>
+            </nz-tabset>
+        </div>
+    </div>
+</div>
