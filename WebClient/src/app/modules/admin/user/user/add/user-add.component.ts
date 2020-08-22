@@ -58,11 +58,12 @@ export class UserAddComponent extends FormComponent {
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
+    const user  = await this.t('user');
     if (this.mode == 'add') {
-      this.addEditTitle = await this.t('create.a.x0', { x0: 'user' });
+      this.addEditTitle = await this.t('create.a.x0', { x0: user });
     }
     else if (this.mode == 'edit') {
-      this.addEditTitle = await this.t('update.a.x0', { x0: 'user' });
+      this.addEditTitle = await this.t('update.a.x0', { x0: user });
     }
   }
 

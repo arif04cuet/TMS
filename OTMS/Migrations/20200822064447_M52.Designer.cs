@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200822064447_M52")]
+    partial class M52
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1475,6 +1477,9 @@ namespace OTMS.Migrations
                     b.Property<byte>("AssetType")
                         .HasColumnType("tinyint");
 
+                    b.Property<int?>("ChangedQuantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
@@ -1490,13 +1495,16 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("RequestQuantity")
                         .HasColumnType("int");
 
                     b.Property<long>("RequisitionHistoryId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("RequisitionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("RequisitionItemId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -1513,6 +1521,8 @@ namespace OTMS.Migrations
                     b.HasIndex("RequisitionHistoryId");
 
                     b.HasIndex("RequisitionId");
+
+                    b.HasIndex("RequisitionItemId");
 
                     b.ToTable("RequisitionHistoryItem","asset");
                 });
@@ -15727,6 +15737,10 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Asset.Entities.Requisition", "Requisition")
                         .WithMany()
                         .HasForeignKey("RequisitionId");
+
+                    b.HasOne("Module.Asset.Entities.RequisitionItem", "RequisitionItem")
+                        .WithMany()
+                        .HasForeignKey("RequisitionItemId");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.RequisitionItem", b =>

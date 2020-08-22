@@ -47,6 +47,13 @@ export class HomeComponent extends BaseComponent {
       },
       {
         level: 1,
+        title: 'my.requisition',
+        route: '/admin/asset/my-requisitions',
+        icon: 'dashboard',
+        fn: () => true
+      },
+      {
+        level: 1,
         title: 'cms',
         icon: 'user',
         fn: () => {

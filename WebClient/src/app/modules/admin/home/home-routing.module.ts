@@ -301,6 +301,18 @@ const routes: Routes = [
         }
       },
       {
+        path: 'asset/my-requisitions',
+        loadChildren: () => import('../asset/asset/requisition/list/requisition-list.module').then(x => x.RequisitionListModule),
+        data: {
+          name: 'requisition_list',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'requisitions'
+          },
+          permissions: ['requisition.manage', 'requisition.list']
+        }
+      },
+      {
         path: 'asset/maintenances',
         loadChildren: () => import('../asset/asset/view/maintenance/list/asset-maintenance-list.module').then(x => x.AssetMaintenanceListModule),
         data: {

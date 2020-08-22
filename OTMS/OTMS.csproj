@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200822063132_M52.cs" />
+    <Compile Remove="Migrations\20200822063132_M52.Designer.cs" />
+    <Compile Remove="Migrations\20200822064116_M52.cs" />
+    <Compile Remove="Migrations\20200822064116_M52.Designer.cs" />
+    <Compile Remove="Migrations\20200822064305_M52.cs" />
+    <Compile Remove="Migrations\20200822064305_M52.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="appsettings.json" />
     <None Include="Views\honorarium-for-participants.cshtml" />
   </ItemGroup>

@@ -36,11 +36,12 @@ export class RoleAddComponent extends FormComponent {
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
+    const role = await this.t('role');
     if (this.mode == 'add') {
-      this.addEditTitle = await this.t('create.a.x0', { x0: 'role' });
+      this.addEditTitle = await this.t('create.a.x0', { x0: role });
     }
     else if (this.mode == 'edit') {
-      this.addEditTitle = await this.t('update.a.x0', { x0: 'role' });
+      this.addEditTitle = await this.t('update.a.x0', { x0: role });
     }
   }
 

@@ -60,7 +60,7 @@ namespace Module.Core.Data
 
         public async Task<PagedCollection<ModulePermissionViewModel>> ListUserPermissionsAsync(long userId, IPagingOptions pagingOptions, CancellationToken cancellationToken = default)
         {
-            var sql = $@"select p.*, m.Name ModuleName, pg.Name GroupName,
+            var sql = $@"select distinct (p.Id), p.Code, p.[Description], p.GroupId, p.ModuleId, p.Name, m.Name ModuleName, pg.Name GroupName,
                             case when up.UserId = @UserId
                             then 1 else 0 end as 'Granted'
                         from [core].[Permission] p
@@ -77,7 +77,7 @@ namespace Module.Core.Data
 
         public async Task<PagedCollection<ModulePermissionViewModel>> ListRolePermissionsAsync(long roleId, IPagingOptions pagingOptions, CancellationToken cancellationToken = default)
         {
-            var sql = $@"select p.*, m.Name ModuleName, pg.Name GroupName,
+            var sql = $@"select distinct (p.Id), p.Code, p.[Description], p.GroupId, p.ModuleId, p.Name, m.Name ModuleName, pg.Name GroupName,
                             case when rp.RoleId in (@RoleId)
                             then 1 else 0 end as 'Granted'
                         from [core].[Permission] p

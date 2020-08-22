@@ -12,21 +12,11 @@ namespace Module.Training.Data
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Hostel> _hostelRepository;
-        private readonly IRepository<Floor> _floorRepository;
-        private readonly IRepository<Room> _roomRepository;
-        private readonly IRepository<Building> _buildingRepository;
-        private readonly IRepository<Bed> _bedRepository;
 
         public TrainingService(
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _hostelRepository = _unitOfWork.GetRepository<Hostel>();
-            _floorRepository = _unitOfWork.GetRepository<Floor>();
-            _roomRepository = _unitOfWork.GetRepository<Room>();
-            _buildingRepository = _unitOfWork.GetRepository<Building>();
-            _bedRepository = _unitOfWork.GetRepository<Bed>();
         }
 
         public async Task<TrainingDashboardViewModel> GetDashboard(CancellationToken cancellationToken = default)

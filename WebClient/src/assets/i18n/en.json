@@ -510,5 +510,12 @@
   "no.data": "No data",
   "dashboard.ra.item":"Item",
   "dashboard.ra.available":"Current Stock",
-  "dashboard.ra.reorder.level":"Reorder Level"
+  "dashboard.ra.reorder.level":"Reorder Level",
+  "requisitions": "Requisitions",
+  "requisition": "Requisition",
+  "my.requisition": "My requisition",
+  "approver.employee": "Approver employee",
+  "reject": "Reject",
+  "temporary.approve": "Temporary approve",
+  "Approve": "approve"
 }
