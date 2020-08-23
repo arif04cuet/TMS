@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
 using Module.Core.Data;
 using Module.Core.Entities;
+using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System;
@@ -177,6 +178,12 @@ namespace Module.Asset.Data
                 entity.CurrentRoleApproverId = RoleConstants.InventoryManager;
             }
 
+            // delete requisition items
+            var requestItemIds = request.Items.Where(x => x.Id.HasValue).Select(x => x.Id);
+            var itemsToBeDeleted = _requisitionItemRepository.Where(x => x.RequisitionId == entity.Id && !requestItemIds.Contains(x.Id));
+            _requisitionItemRepository.RemoveRange(itemsToBeDeleted);
+            await _unitOfWork.SaveChangesAsync();
+
             foreach (var item in request.Items)
             {
                 if (item.Id.HasValue)
@@ -228,17 +235,21 @@ namespace Module.Asset.Data
 
             foreach (var item in requisition.Items)
             {
+                int available = 0;
+                string name = "";
                 if (item.AssetType.Id == (long)AssetType.Asset)
                 {
-                    item.Available = _unitOfWork.GetRepository<Entities.Asset>()
-                        .FirstOrDefaultAsync(x => x.Id == item.Asset.Id && x.CheckoutId == null && !x.IsDeleted) != null ? 1 : 0;
+                    var asset = await _unitOfWork.GetRepository<Entities.Asset>()
+                        .FirstOrDefaultAsync(x => x.Id == item.Asset.Id && x.CheckoutId == null && !x.IsDeleted, true);
+                    available = asset != null ? 1 : 0;
+                    name = asset?.Name ?? "";
                 }
                 else if (item.AssetType.Id == (long)AssetType.License)
                 {
                     var license = await _unitOfWork.GetRepository<License>()
-                        .Where(x => x.Id == item.Asset.Id && !x.IsDeleted)
-                        .FirstOrDefaultAsync();
-                    item.Available = license == null ? 0 : license.Available.Value;
+                        .FirstOrDefaultAsync(x => x.Id == item.Asset.Id && !x.IsDeleted, true);
+                    available = license == null ? 0 : license.Available.Value;
+                    name = license?.Name ?? "";
                 }
                 else if (item.AssetType.Id == (long)AssetType.Consumable)
                 {
@@ -249,9 +260,15 @@ namespace Module.Asset.Data
                         where c.IsDeleted = 0 and c.ItemCodeId = {item.Asset.Id}
                         group by c.ItemCodeId
                         )
-                        select top 1 cte.ItemCodeId Id from cte";
-                    item.Available = await _dbConnection.ExecuteScalarAsync<int>(sql);
+                        select top 1 cte.Available Id, concat(i.Code, ' - ', i.Name) Name from cte
+                        left join [asset].[ItemCode] i on i.Id = cte.ItemCodeId";
+                    var asset = await _dbConnection.QueryFirstOrDefaultAsync<IdNameViewModel>(sql);
+
+                    available = asset == null ? 0 : (int)asset.Id;
+                    name = asset?.Name ?? "";
                 }
+                item.Available = available;
+                item.Asset.Name = name;
             }
 
             return requisition;

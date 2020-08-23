@@ -26,12 +26,14 @@
                                 <label class="required">{{'title'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="text" nz-input formControlName="title" placeholder="{{'title'|translate}}" />
+                                <input type="text" nz-input formControlName="title"
+                                    placeholder="{{'title'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #userSelect label="approver.employee" labelKey="fullName" [formControl]="form.controls.currentApprover">
+                        <app-select-control #userSelect label="approver.employee" labelKey="fullName"
+                            [formControl]="form.controls.currentApprover">
                         </app-select-control>
                     </div>
                     <div nz-col [nzSpan]="8">
@@ -40,141 +42,65 @@
                         </app-select-control>
                     </div>
                 </div>
-
-                <div nz-row [nzGutter]="24" class="field-container">
-                    <div nz-col [nzSpan]="24" style="margin: 10px 0">
-                        <span class="title-text">
-                            {{'assets'|translate|uppercase}}
-                        </span>
-                    </div>
-                </div>
-                <ng-container formArrayName="items">
-                    <ng-container *ngFor="let item of form.get('items')?.controls; let i = index">
-                        <div nz-row [nzGutter]="24" [formGroupName]="i">
-                            <div nz-col [nzSpan]="24" style="margin: 10px 0">
-                                <div class="edition-row">
-                                    <div nz-row class="ta-right" style="padding-right: 5px;">
-                                        <button (click)="deleteItem(i)" nz-button class="btn-custom">
-                                            {{'delete'|translate}}
-                                        </button>
-                                    </div>
-                                    <div nz-row>
-                                        <div nz-col [nzSpan]="6">
-                                            <app-select-control mandatory="true" #modelSelect label="asset.model"
-                                                [formControl]="item.controls.assetModel">
-                                            </app-select-control>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label class="required">{{'asset.tag'|translate}}</label>
-                                                </div>
-                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="text" nz-input formControlName="assetTag"
-                                                        placeholder="{{'asset.tag'|translate}}" />
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'serial'|translate}}</label>
-                                                </div>
-                                                <nz-form-control>
-                                                    <input type="text" nz-input formControlName="itemNo"
-                                                        placeholder="{{'serial'|translate}}" />
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label class="required">{{'purchase.cost'|translate}}</label>
-                                                </div>
-                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="number" nz-input formControlName="purchaseCost"
-                                                        placeholder="{{'purchase.cost'|translate}}" />
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-                                    </div>
-                                    <div nz-row>
-                                        <div nz-col [nzSpan]="6">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'warranty'|translate}}</label>
-                                                </div>
-                                                <nz-form-control>
-                                                    <nz-input-group nzAddOnAfter="{{'months'|translate|lowercase}}">
-                                                        <input type="number" nz-input formControlName="warranty"
-                                                            placeholder="{{'warranty'|translate}}" />
-                                                    </nz-input-group>
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'maintenance'|translate}}</label>
-                                                </div>
-                                                <nz-form-control>
-                                                    <nz-input-group nzAddOnAfter="{{'months'|translate|lowercase}}">
-                                                        <input type="number" nz-input formControlName="maintenance"
-                                                            placeholder="{{'maintenance'|translate}}" />
-                                                    </nz-input-group>
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <app-select-control mandatory="true" #statusSelect label="status"
-                                                [formControl]="item.controls.status">
-                                            </app-select-control>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <app-select-control mandatory="true" #depreciationSelect
-                                                label="depreciation" [formControl]="item.controls.depreciation">
-                                            </app-select-control>
-                                        </div>
-                                    </div>
-                                    <div nz-row>
-                                        <div nz-col [nzSpan]="6">
-                                            <div class="field-container">
-                                                <app-photo-upload [control]="item.controls.media" label="photo"
-                                                    [photoUrl]="photoUrl">
-                                                </app-photo-upload>
-                                            </div>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <nz-form-item class="field-container">
-                                                <div>
-                                                    <label>{{'requestable'|translate}}</label>
-                                                </div>
-                                                <nz-form-control>
-                                                    <span nz-checkbox
-                                                        formControlName="isRequestable">{{'users.may.request'|translate}}</span>
-                                                </nz-form-control>
-                                            </nz-form-item>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <app-view label="eol"></app-view>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-                </ng-container>
-                <div nz-row [nzGutter]="24" class="field-container">
-                    <div nz-col [nzSpan]="24" style="margin: 10px 0">
-                        <button (click)="addItem()" nz-button class="btn-custom">
-                            {{'add.new.item'|translate }}
-                        </button>
-                    </div>
-                </div>
-
             </form>
         </div>
+
+        <div nz-row [nzGutter]="24" class="field-container">
+            <div nz-col [nzSpan]="24" style="margin: 10px 0">
+                <span class="title-text">
+                    {{'assets'|translate|uppercase}}
+                </span>
+            </div>
+        </div>
+    
+        <div nz-row [nzGutter]="24" class="field-container">
+            <div nz-col [nzSpan]="24">
+                <nz-table #basicTable nzShowPagination='false' [nzData]="items">
+                    <thead>
+                        <tr class="v-align-top advanced-table-filter">
+                            <th>{{'name'|translate}}</th>
+                            <th>{{'type'|translate}}</th>
+                            <th>{{'quantity'|translate}}</th>
+                            <th>{{'available'|translate}}</th>
+                            <th>{{'comment'|translate}}</th>
+                            <th class="ta-right">
+                                <div>{{'action'|translate}}</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data; let i = index">
+                            <td>{{ data.name }}</td>
+                            <td>{{ data.type.name }}</td>
+                            <td>
+                                <span *ngIf="data.type.id == 1">{{data.quantity}}</span>
+                                <input (input)="quantityChanged($event, data)" *ngIf="data.type.id != 1" type="number" [(ngModel)]="data.quantity" nz-input />
+                            </td>
+                            <td>{{ data.available }}</td>
+                            <td>
+                                <textarea nz-input [(ngModel)]="data.comment">
+                                </textarea>
+                            </td>
+                            <td class="action-column fit-cell">
+                                <button nz-button (click)="deleteItem(i, data)"
+                                    class="btn-custom">{{'delete'|translate}}</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    
+        <div nz-row [nzGutter]="24" class="field-container">
+            <div nz-col [nzSpan]="24" style="margin: 10px 0">
+                <button (click)="addAsset()" nz-button class="btn-custom">
+                    {{'add.asset'|translate }}
+                </button>
+            </div>
+        </div>
+
     </div>
+
     <div class="block footer pad-v-12 pad-h-20 box-divider">
         <div class="column">
             <button (click)="cancel()" nz-button class="btn-custom">
@@ -185,7 +111,14 @@
             </button>
         </div>
     </div>
-    <ng-template #errorTemplate let-control>
-        {{control?.errors?.message}}
-    </ng-template>
 </div>
+
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>
+
+<ng-template #modalFooter>
+    <div class="pad-v-12 pad-h-20">
+        <button nz-button class="btn-custom">Cancel</button>
+    </div>
+</ng-template>

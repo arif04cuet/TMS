@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NzTableModule, NgZorroAntdModule, NzFormModule, NzModalModule, NzModalService } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
@@ -13,6 +13,7 @@ import { RequisitionAddRoutingModule } from './requisition-add-routing.module';
 import { RequisitionHttpService } from 'src/services/http/asset/requisition-http.service';
 import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { AssetModalModule } from '../asset-modal/asset-modal.module';
 
 @NgModule({
   declarations: [
@@ -29,14 +30,17 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
     SharedModule,
     SelectControlModule,
     PhotoUploadModule,
-    ViewModule
+    ViewModule,
+    NzModalModule,
+    AssetModalModule
   ],
   exports: [RequisitionAddComponent],
   providers: [
     CommonValidator,
     RequisitionHttpService,
     BatchScheduleHttpService,
-    UserHttpService
+    UserHttpService,
+    NzModalService
   ]
 })
 export class RequisitionAddModule { }
