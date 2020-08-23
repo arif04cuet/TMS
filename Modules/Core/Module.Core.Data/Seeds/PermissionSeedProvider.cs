@@ -275,11 +275,11 @@ namespace Module.Core.Data
 
 
                 #region License
-                new Permission (LicenseCreate,   Create, $"lincese.{Create.ToLower()}",  LicenseGroup, AssetManagement),
-                new Permission (LicenseUpdate,   Update, $"lincese.{Update.ToLower()}",  LicenseGroup, AssetManagement),
-                new Permission (LicenseList,     List,   $"lincese.{List.ToLower()}",    LicenseGroup, AssetManagement),
-                new Permission (LicenseDelete,   Delete, $"lincese.{Delete.ToLower()}",  LicenseGroup, AssetManagement),
-                new Permission (LicenseManage,   Manage, $"lincese.{Manage.ToLower()}",  LicenseGroup, AssetManagement),
+                new Permission (LicenseCreate,   Create, $"license.{Create.ToLower()}",  LicenseGroup, AssetManagement),
+                new Permission (LicenseUpdate,   Update, $"license.{Update.ToLower()}",  LicenseGroup, AssetManagement),
+                new Permission (LicenseList,     List,   $"license.{List.ToLower()}",    LicenseGroup, AssetManagement),
+                new Permission (LicenseDelete,   Delete, $"license.{Delete.ToLower()}",  LicenseGroup, AssetManagement),
+                new Permission (LicenseManage,   Manage, $"license.{Manage.ToLower()}",  LicenseGroup, AssetManagement),
                 #endregion
 
                 #region Asset Consumable

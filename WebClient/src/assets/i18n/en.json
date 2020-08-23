@@ -518,5 +518,6 @@
   "reject": "Reject",
   "temporary.approve": "Temporary approve",
   "add.asset": "Add asset",
-  "comment": "Comment"
+  "comment": "Comment",
+  "license.seats":"No of license"
 }
