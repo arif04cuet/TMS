@@ -801,7 +801,8 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'my.exams'
-          }
+          },
+          permissions: ['myexam.manage']
         }
       }
     ]

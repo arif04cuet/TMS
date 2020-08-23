@@ -17,6 +17,7 @@ namespace Module.Core.Data
                 new Entities.Module(HostelManagement, "Hostel Management"),
                 new Entities.Module(TrainingManagement, "Training Management"),
                 new Entities.Module(CmsManagement, "Contents Management"),
+                new Entities.Module(OthersManagement, "Others Management"),
 
             };
         }

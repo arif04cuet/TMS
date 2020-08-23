@@ -43,14 +43,18 @@ export class HomeComponent extends BaseComponent {
         title: 'my.exam',
         route: '/admin/trainings/my-exam',
         icon: 'dashboard',
-        fn: () => true
+        fn: () => {
+          return this.permissionService.isRouteGranted('#myexam.manage');
+        },
       },
       {
         level: 1,
         title: 'my.requisition',
         route: '/admin/asset/my-requisitions',
         icon: 'dashboard',
-        fn: () => true
+        fn: () => {
+          return this.permissionService.isRouteGranted('requisition');
+        },
       },
       {
         level: 1,

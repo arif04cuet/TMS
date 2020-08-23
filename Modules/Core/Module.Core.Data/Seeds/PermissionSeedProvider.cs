@@ -347,6 +347,15 @@ namespace Module.Core.Data
                 new Permission (ReportAsset,            Create, $"report.asset",         AssetReportGroup, AssetManagement),
                 #endregion
 
+                #region Asset Requisition
+                new Permission (AssetRequisitionCreate,   Create, $"requisition.{Create.ToLower()}",  AssetRequisitionGroup, AssetManagement),
+                new Permission (AssetRequisitionUpdate,   Update, $"requisition.{Update.ToLower()}",  AssetRequisitionGroup, AssetManagement),
+                new Permission (AssetRequisitionList,     List,   $"requisition.{List.ToLower()}",    AssetRequisitionGroup, AssetManagement),
+                new Permission (AssetRequisitionDelete,   Delete, $"requisition.{Delete.ToLower()}",  AssetRequisitionGroup, AssetManagement),
+                new Permission (AssetRequisitionManage,   Manage, $"requisition.{Manage.ToLower()}",  AssetRequisitionGroup, AssetManagement),
+                #endregion
+
+
 
                 #region ContentCategory
                 new Permission (ContentCategoryCreate, Create, $"content.category.{Create.ToLower()}", ContentCategoryGroup, CmsManagement),
@@ -550,6 +559,11 @@ namespace Module.Core.Data
                 new Permission (TrainingHonorariumHeadDelete,   Delete, $"honorarium.head.{Delete.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
                 new Permission (TrainingHonorariumHeadManage,   Manage, $"honorarium.head.{Manage.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
                 #endregion
+
+                #region others
+                new Permission (MyExamManage,   Manage, $"myexam.{Manage.ToLower()}",  OthersGroup, OthersManagement),
+                #endregion
+
 
 
 

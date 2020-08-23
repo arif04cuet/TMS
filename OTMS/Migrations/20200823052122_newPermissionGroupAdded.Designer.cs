@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200823052122_newPermissionGroupAdded")]
+    partial class newPermissionGroupAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4537,46 +4539,6 @@ namespace OTMS.Migrations
                         },
                         new
                         {
-                            Id = 7101L,
-                            Code = "requisition.create",
-                            GroupId = 56L,
-                            ModuleId = 3L,
-                            Name = "Create"
-                        },
-                        new
-                        {
-                            Id = 7102L,
-                            Code = "requisition.update",
-                            GroupId = 56L,
-                            ModuleId = 3L,
-                            Name = "Update"
-                        },
-                        new
-                        {
-                            Id = 7105L,
-                            Code = "requisition.list",
-                            GroupId = 56L,
-                            ModuleId = 3L,
-                            Name = "List"
-                        },
-                        new
-                        {
-                            Id = 7103L,
-                            Code = "requisition.delete",
-                            GroupId = 56L,
-                            ModuleId = 3L,
-                            Name = "Delete"
-                        },
-                        new
-                        {
-                            Id = 7104L,
-                            Code = "requisition.manage",
-                            GroupId = 56L,
-                            ModuleId = 3L,
-                            Name = "Manage"
-                        },
-                        new
-                        {
                             Id = 2600L,
                             Code = "content.category.create",
                             GroupId = 19L,
@@ -5574,14 +5536,6 @@ namespace OTMS.Migrations
                             GroupId = 54L,
                             ModuleId = 5L,
                             Name = "Manage"
-                        },
-                        new
-                        {
-                            Id = 6100L,
-                            Code = "myexam.manage",
-                            GroupId = 55L,
-                            ModuleId = 7L,
-                            Name = "Manage"
                         });
                 });
 
@@ -5795,14 +5749,6 @@ namespace OTMS.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Report",
-                            Version = 0L
-                        },
-                        new
-                        {
-                            Id = 56L,
-                            IsActive = true,
-                            IsDeleted = false,
-                            Name = "Requisition",
                             Version = 0L
                         },
                         new

@@ -11,6 +11,7 @@
         public const long TrainingManagement = 5;
 
         public const long CmsManagement = 6;
+        public const long OthersManagement = 7;
 
 
     }

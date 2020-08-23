@@ -412,6 +412,15 @@
         public const long TrainingHonorariumHeadManage = 5104;
         public const long TrainingHonorariumHeadList   = 5105; 
 
+        //Others
+        public const long MyExamManage = 6100;
+
+        //asset requisition
+        public const long AssetRequisitionCreate = 7101;
+        public const long AssetRequisitionUpdate = 7102;
+        public const long AssetRequisitionDelete = 7103;
+        public const long AssetRequisitionManage = 7104;
+        public const long AssetRequisitionList   = 7105; 
 
     }
 
@@ -478,6 +487,9 @@
         public const long TrainingBatchAllocationGroup  = 52;
         public const long TrainingQuestionGroup         = 53;
         public const long TrainingHonorariumHeadGroup   = 54;
+
+        public const long OthersGroup   = 55;
+        public const long AssetRequisitionGroup   = 56;
 
 
     }

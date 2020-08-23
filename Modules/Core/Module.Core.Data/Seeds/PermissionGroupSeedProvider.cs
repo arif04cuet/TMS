@@ -39,6 +39,7 @@ namespace Module.Core.Data
                 new PermissionGroup(ConsumableGroup, "Consumable"),
                 new PermissionGroup(SettingGroup, "Setting"),
                 new PermissionGroup(AssetReportGroup, "Report"),
+                new PermissionGroup(AssetRequisitionGroup, "Requisition"),
 
 
                 //CMS
@@ -70,8 +71,10 @@ namespace Module.Core.Data
                 new PermissionGroup(TrainingBatchGroup, "Batch Schedule"),
                 new PermissionGroup(TrainingBatchAllocationGroup, "Participant Approval"),
                 new PermissionGroup(TrainingQuestionGroup, "Question"),
-                new PermissionGroup(TrainingHonorariumHeadGroup, "Honorarium Head")
+                new PermissionGroup(TrainingHonorariumHeadGroup, "Honorarium Head"),
 
+                //Others
+                new PermissionGroup(OthersGroup, "Others")
 
 
             };
