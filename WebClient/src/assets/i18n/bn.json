@@ -560,5 +560,7 @@
     "dashboard.ra.available":"বর্তমান স্টক ",
     "dashboard.ra.reorder.level":"রি-অর্ডার লেভেল ",
     "hostel.management":"হোস্টেল ব্যবস্থাপনা",
-    "training.management":"প্রশিক্ষণ ব্যবস্থাপনা"
+    "training.management":"প্রশিক্ষণ ব্যবস্থাপনা",
+    "course.management":"কোর্স  ব্যবস্থাপনা",
+    "my.requisition":"আমার চাহিদা"
   }

@@ -507,5 +507,7 @@
         public const string Return = "Return";
         public const string Fine = "Fine";
         public const string Checkout = "Checkout";
+        public const string Audit = "Audit";
+        public const string BulkCheckout = "Bulk Checkout";
     }
 }

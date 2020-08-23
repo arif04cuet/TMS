@@ -14,7 +14,7 @@ namespace Module.Asset.Data
             var entity = depreciation ?? new Depreciation();
             entity.Name = Name;
             entity.Term = Term;
-            entity.Frequency = Frequency;
+            entity.Frequency = 2;
             entity.IsActive = IsActive;
             return entity;
         }

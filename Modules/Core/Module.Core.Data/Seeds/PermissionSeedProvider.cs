@@ -269,10 +269,18 @@ namespace Module.Core.Data
 
 
                 #region Asset Audit
-                new Permission (AssetAuditCreate, Create, $"asset.audit.{Create.ToLower()}", AssetGroup, AssetManagement),
-                new Permission (AssetBulkCheckoutCreate, Create, $"asset.bulk.{Checkout.ToLower()}", AssetGroup, AssetManagement),
+                new Permission (AssetAuditCreate, Audit, $"asset.audit.{Create.ToLower()}", AssetGroup, AssetManagement),
+                new Permission (AssetBulkCheckoutCreate, BulkCheckout, $"asset.bulk.{Checkout.ToLower()}", AssetGroup, AssetManagement),
                 #endregion
 
+
+                #region License
+                new Permission (LicenseCreate,   Create, $"lincese.{Create.ToLower()}",  LicenseGroup, AssetManagement),
+                new Permission (LicenseUpdate,   Update, $"lincese.{Update.ToLower()}",  LicenseGroup, AssetManagement),
+                new Permission (LicenseList,     List,   $"lincese.{List.ToLower()}",    LicenseGroup, AssetManagement),
+                new Permission (LicenseDelete,   Delete, $"lincese.{Delete.ToLower()}",  LicenseGroup, AssetManagement),
+                new Permission (LicenseManage,   Manage, $"lincese.{Manage.ToLower()}",  LicenseGroup, AssetManagement),
+                #endregion
 
                 #region Asset Consumable
                 new Permission (ConsumableCreate,   Create, $"consumable.{Create.ToLower()}", ConsumableGroup, AssetManagement),
