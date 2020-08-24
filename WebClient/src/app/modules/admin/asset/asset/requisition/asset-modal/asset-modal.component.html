@@ -13,17 +13,17 @@
             <nz-tabset class="form-tabset">
                 <nz-tab nzTitle="{{'assets'|translate}}">
                     <ng-template nz-tab>
-                        <app-requisition-asset-list [data]="data"></app-requisition-asset-list>
+                        <app-requisition-asset-list [data]="cloneData"></app-requisition-asset-list>
                     </ng-template>
                 </nz-tab>
                 <nz-tab nzTitle="{{'license'|translate}}">
                     <ng-template nz-tab>
-                        <app-requisition-license-list [data]="data"></app-requisition-license-list>
+                        <app-requisition-license-list [data]="cloneData"></app-requisition-license-list>
                     </ng-template>
                 </nz-tab>
                 <nz-tab nzTitle="{{'consumables'|translate}}">
                     <ng-template nz-tab>
-                        <app-requisition-consumable-list [data]="data"></app-requisition-consumable-list>
+                        <app-requisition-consumable-list [data]="cloneData"></app-requisition-consumable-list>
                     </ng-template>
                 </nz-tab>
             </nz-tabset>

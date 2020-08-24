@@ -519,5 +519,11 @@
   "temporary.approve": "Temporary approve",
   "add.asset": "Add asset",
   "comment": "Comment",
-  "license.seats":"No of license"
+  "license.seats":"No of license",
+  "approve.or.reject.a.x0": "Approve or reject a {{x0}}",
+  "requested.assets": "Requested assets",
+  "requisition.details": "Requisition details",
+  "approver": "Approver",
+  "initiator": "Initiator",
+  "send": "Send"
 }

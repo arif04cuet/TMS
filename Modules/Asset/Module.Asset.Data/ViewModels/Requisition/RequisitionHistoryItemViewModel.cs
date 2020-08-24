@@ -13,8 +13,7 @@ namespace Module.Asset.Data
         public long? RequisitionItemId { get; set; }
         public IdNameViewModel Asset { get; set; }
         public IdNameViewModel AssetType { get; set; }
-        public int RequestQuantity { get; set; }
-        public int? ChangedQuantity { get; set; }
+        public int Quantity { get; set; }
         public string Comment { get; set; }
 
         public static Expression<Func<RequisitionHistoryItem, RequisitionHistoryItemViewModel>> Select()
@@ -26,7 +25,7 @@ namespace Module.Asset.Data
                 RequisitionHistoryId = x.RequisitionHistoryId,
                 Asset = new IdNameViewModel { Id = x.AssetId },
                 AssetType = new IdNameViewModel { Id = (long)x.AssetType, Name = x.AssetType.ToString() },
-                RequestQuantity = x.Quantity,
+                Quantity = x.Quantity,
                 Comment = x.Comment
             };
         }

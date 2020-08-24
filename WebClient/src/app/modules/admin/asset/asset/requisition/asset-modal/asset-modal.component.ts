@@ -9,6 +9,8 @@ import { BaseComponent } from 'src/app/shared/base.component';
 export class AssetModalComponent extends BaseComponent {
 
   @Input() data: any = {};
+  cloneData: any = {};
+  send = false;
 
   constructor(
     private activatedRoute: ActivatedRoute
@@ -17,7 +19,14 @@ export class AssetModalComponent extends BaseComponent {
   }
 
   ngOnInit() {
+    this.cloneData = JSON.parse(JSON.stringify(this.data));
     this.snapshot(this.activatedRoute.snapshot);
+  }
+
+  ngOnDestroy() {
+    if(this.send) {
+      this.data = JSON.parse(JSON.stringify(this.cloneData));
+    }
   }
 
 }

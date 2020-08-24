@@ -4,18 +4,18 @@ import { RequisitionListComponent } from './requisition-list.component';
 
 const routes: Routes = [
   { path: '', component: RequisitionListComponent },
-  // {
-  //   path: ':id/view',
-  //   loadChildren: () => import('../view/asset-view.module').then(x => x.AssetViewModule),
-  //   data: {
-  //     name: 'asset_view',
-  //     breadcrumb: {
-  //       icon: 'eye',
-  //       title: 'view'
-  //     },
-  //     permissions: ['asset.manage', 'asset.view']
-  //   }
-  // },
+  {
+    path: ':id/view',
+    loadChildren: () => import('../view/requisition-view.module').then(x => x.RequisitionViewModule),
+    data: {
+      name: 'requisition_view',
+      breadcrumb: {
+        icon: 'eye',
+        title: 'view'
+      },
+      permissions: ['requisition.manage', 'requisition.view']
+    }
+  },
   {
     path: ':id/edit',
     loadChildren: () => import('../add/requisition-add.module').then(x => x.RequisitionAddModule),

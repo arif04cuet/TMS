@@ -17,5 +17,7 @@ namespace Module.Asset.Data
         Task<RequisitionViewModel> Get(long Id, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<RequisitionListViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
+        Task<long> ChangeStatusAsync(RequisitionStatusChangeRequest request, CancellationToken cancellationToken = default);
     }
 }
