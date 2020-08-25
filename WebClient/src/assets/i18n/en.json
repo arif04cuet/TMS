@@ -516,8 +516,9 @@
   "my.requisition": "My requisition",
   "approver.employee": "Approver employee",
   "reject": "Reject",
-  "temporary.approve": "Temporary approve",
-  "add.asset": "Add asset",
+  "temporary.approve": "Approve",
+  "add.asset": "Add Items",
   "comment": "Comment",
-  "license.seats":"No of license"
+  "license.seats":"No of license",
+  "requisition.batch":"For Batch"
 }

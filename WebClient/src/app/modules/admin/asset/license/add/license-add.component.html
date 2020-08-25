@@ -24,7 +24,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'name'|translate}}</label>
+                                <label class="required">{{'name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="name" placeholder="{{'name'|translate}}" />
@@ -35,7 +35,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'product_key'|translate}}</label>
+                                <label class="required">{{'product_key'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="productKey"
@@ -47,11 +47,11 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'license.seats'|translate}}</label>
+                                <label class="required">{{'license.seats'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="number" nz-input formControlName="seats"
-                                    placeholder="{{'seats'|translate}}" />
+                                    placeholder="{{'license.seats'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -64,12 +64,12 @@
 
 
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #categorySelect label="category" [formControl]="form.controls.categoryId">
+                        <app-select-control #categorySelect mandatory="true" label="category" [formControl]="form.controls.categoryId">
                         </app-select-control>
                     </div>
 
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #supplierSelect label="supplier" [formControl]="form.controls.supplierId">
+                        <app-select-control #supplierSelect mandatory="true" label="supplier" [formControl]="form.controls.supplierId">
                         </app-select-control>
                     </div>
 
@@ -87,7 +87,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'purchase_cost'|translate}}</label>
+                                <label class="required">{{'purchase_cost'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <nz-input-group nzSuffix="{{'tk'|translate}}">
@@ -103,7 +103,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'purchase_date'|translate}}</label>
+                                <label class="required">{{'purchase_date'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <nz-date-picker formControlName="purchaseDate"></nz-date-picker>
@@ -114,7 +114,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'expire_date'|translate}}</label>
+                                <label class="required">{{'expire_date'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <nz-date-picker formControlName="expireDate"></nz-date-picker>
@@ -130,7 +130,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'licensed_to_name'|translate}}</label>
+                                <label class="required">{{'licensed_to_name'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="licenseToName"
@@ -142,7 +142,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'licensed_to_email'|translate}}</label>
+                                <label class="required">{{'licensed_to_email'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="licenseToEmail"
@@ -154,7 +154,7 @@
                     <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
-                                <label>{{'order_number'|translate}}</label>
+                                <label >{{'order_number'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="orderNumber"

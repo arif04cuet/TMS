@@ -422,6 +422,7 @@
         public const long AssetRequisitionManage = 7104;
         public const long AssetRequisitionList   = 7105; 
 
+
     }
 
     public static class PermissionGroupConstants
@@ -490,6 +491,7 @@
 
         public const long OthersGroup   = 55;
         public const long AssetRequisitionGroup   = 56;
+        public const long OfficeGroup = 57;
 
 
     }

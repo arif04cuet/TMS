@@ -15,6 +15,7 @@ namespace Module.Core.Data
                 //user
                 new PermissionGroup(UserGroup, "User"),
                 new PermissionGroup(RoleGroup, "Role"),
+                new PermissionGroup(OfficeGroup, "Office"),
                 new PermissionGroup(DesignationGroup, "Designation"),
                 new PermissionGroup(DepartmentGroup, "Department"),
                 new PermissionGroup(ProfileGroup, "Profile"),

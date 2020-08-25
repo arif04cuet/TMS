@@ -62,6 +62,14 @@ namespace Module.Core.Data
                 },
                 #endregion
 
+                #region Office
+                new Permission (OfficeCreate,   Create, $"office.{Create.ToLower()}",  OfficeGroup, UserManagement),
+                new Permission (OfficeUpdate,   Update, $"office.{Update.ToLower()}",  OfficeGroup, UserManagement),
+                new Permission (OfficeList,     List,   $"office.{List.ToLower()}",    OfficeGroup, UserManagement),
+                new Permission (OfficeDelete,   Delete, $"office.{Delete.ToLower()}",  OfficeGroup, UserManagement),
+                new Permission (OfficeManage,   Manage, $"office.{Manage.ToLower()}",  OfficeGroup, UserManagement),
+                #endregion
+
                 #region Designation
                 new Permission {
                     Id = DesignationCreate,
