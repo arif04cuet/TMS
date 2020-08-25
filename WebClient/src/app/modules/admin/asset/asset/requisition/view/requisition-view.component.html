@@ -1,0 +1,155 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+
+<div [style.display]="loading ? 'none' : ''">
+
+    <div class="box">
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class="column content">
+                <div class="header-container">
+                    <span class="header">
+                        {{ 'requisition.details'|translate }}
+                    </span>
+                </div>
+            </div>
+            <div class="column">
+                <button nzType="primary" (click)="cancel()" nz-button class="btn-custom">
+                    {{'cancel'|translate}}
+                </button>
+            </div>
+        </div>
+        <div class="block bg-offset pad-v-12 pad-h-20  box-divide">
+            <div class="content">
+                <div nz-row [nzGutter]="24" class="field-container">
+                    <div nz-col [nzSpan]="6">
+                        <app-view label="title" [data]="data.title"></app-view>
+                    </div>
+                    <div nz-col [nzSpan]="6">
+                        <app-view label="initiator" [data]="data.initiator?.name"></app-view>
+                    </div>
+                    <div nz-col [nzSpan]="6">
+                        <app-view label="status" [data]="data.status?.name"></app-view>
+                    </div>
+                    <div nz-col [nzSpan]="6">
+                        <app-view label="batch.schedule" [data]="data.batchSchedule?.name"></app-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-container *ngFor="let history of data.histories; let i = index;">
+        <div class="box">
+            <div class="block pad-v-12 pad-h-20 box-divider">
+                <div class="content">
+                    <div class="header-container">
+                        <span class="header">
+                            {{ 'history'|translate }} - {{i+1}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="block bg-offset pad-v-12 pad-h-20  box-divide">
+                <div class="content">
+                    <div nz-row [nzGutter]="24" class="field-container">
+                        <div nz-col [nzSpan]="12">
+                            <app-view label="approver" [data]="history.approverName">
+                            </app-view>
+                        </div>
+                        <div nz-col [nzSpan]="12">
+                            <app-view label="status" [data]="history.status?.name"></app-view>
+                        </div>
+                    </div>
+                    <div nz-row [nzGutter]="24" class="field-container">
+                        <div nz-col [nzSpan]="24">
+                            <nz-table #basicTable nzShowPagination='false' [nzData]="history.items">
+                                <thead>
+                                    <tr class="v-align-top advanced-table-filter">
+                                        <th>{{'name'|translate}}</th>
+                                        <th>{{'type'|translate}}</th>
+                                        <th>{{'quantity'|translate}}</th>
+                                        <th>{{'comment'|translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of basicTable.data; let i = index">
+                                        <td>{{ data.asset.name }}</td>
+                                        <td>{{ data.assetType.name }}</td>
+                                        <td>{{ data.quantity }}</td>
+                                        <td>{{ data.comment }}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="data.status?.id != 4 && data.status?.id != 3">
+        <div class="box">
+            <div class="block pad-v-12 pad-h-20 box-divider">
+                <div class="content">
+                    <div class="header-container">
+                        <span class="header">
+                            {{ 'requested.assets'|translate }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="block bg-offset pad-v-12 pad-h-20  box-divide">
+                <div class="content">
+                    <div nz-row [nzGutter]="24" class="field-container">
+                        <div nz-col [nzSpan]="24">
+                            <nz-table #basicTable nzShowPagination='false' [nzData]="items">
+                                <thead>
+                                    <tr class="v-align-top advanced-table-filter">
+                                        <th>{{'name'|translate}}</th>
+                                        <th>{{'type'|translate}}</th>
+                                        <th>{{'quantity'|translate}}</th>
+                                        <th *ngIf="data.isInventoryManager">{{'available'|translate}}</th>
+                                        <th>{{'comment'|translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let d of basicTable.data; let i = index">
+                                        <td>{{ d.name }}</td>
+                                        <td>{{ d.type.name }}</td>
+                                        <td>
+                                            <span *ngIf="d.type.id == 1">{{data.quantity}}</span>
+                                            <input (input)="quantityChanged($event, d)" *ngIf="d.type.id != 1"
+                                                type="number" [(ngModel)]="d.quantity" nz-input />
+                                        </td>
+                                        <td *ngIf="data.isInventoryManager">{{ d.available }}</td>
+                                        <td>
+                                            <textarea nz-input [(ngModel)]="d.comment">
+                                </textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block footer pad-v-12 pad-h-20 box-divider">
+                <div class="column">
+                    <ng-container *ngIf="data.status?.id != 4">
+                        <!-- if not rejected -->
+                        <button *ngIf="data.canReject" (click)="submit(4)" nz-button class="btn-custom">
+                            {{'reject'|translate}}
+                        </button>
+                        <button *ngIf="data.canTemporaryApprove && !data.canApprove" (click)="submit(2)"
+                            nzType="primary" nz-button class="btn-custom">
+                            {{'temporary.approve'|translate}}
+                        </button>
+                        <button *ngIf="data.canApprove || (data.canApprove && data.canTemporaryApprove)"
+                            (click)="submit(3)" nzType="primary" nz-button class="btn-custom">
+                            {{'approve'|translate}}
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>

@@ -520,5 +520,10 @@
   "add.asset": "Add Items",
   "comment": "Comment",
   "license.seats":"No of license",
-  "requisition.batch":"For Batch"
+  "approve.or.reject.a.x0": "Approve or reject a {{x0}}",
+  "requested.assets": "Requested assets",
+  "requisition.details": "Requisition details",
+  "approver": "Approver",
+  "initiator": "Initiator",
+  "send": "Send"
 }

@@ -61,7 +61,7 @@
                             <th>{{'name'|translate}}</th>
                             <th>{{'type'|translate}}</th>
                             <th>{{'quantity'|translate}}</th>
-                            <th>{{'available'|translate}}</th>
+                            <th *ngIf="data.isInventoryManager">{{'available'|translate}}</th>
                             <th>{{'comment'|translate}}</th>
                             <th class="ta-right">
                                 <div>{{'action'|translate}}</div>
@@ -76,7 +76,7 @@
                                 <span *ngIf="data.type.id == 1">{{data.quantity}}</span>
                                 <input (input)="quantityChanged($event, data)" *ngIf="data.type.id != 1" type="number" [(ngModel)]="data.quantity" nz-input />
                             </td>
-                            <td>{{ data.available }}</td>
+                            <td *ngIf="data.isInventoryManager">{{ data.available }}</td>
                             <td>
                                 <textarea nz-input [(ngModel)]="data.comment">
                                 </textarea>
@@ -119,6 +119,7 @@
 
 <ng-template #modalFooter>
     <div class="pad-v-12 pad-h-20">
-        <button nz-button class="btn-custom">Cancel</button>
+        <button (click)="closeModal()" nz-button class="btn-custom">{{'cancel'|translate}}</button>
+        <button (click)="sendItemFromModal()" nzType="primary" nz-button class="btn-custom">{{'send'|translate}}</button>
     </div>
 </ng-template>

@@ -33,12 +33,19 @@
                             {{'title'|translate}}
                             <input [(ngModel)]="title" nz-input />
                         </th>
+                        <th>{{'initiator'|translate}}</th>
                         <th>
                             {{'count'|translate}}
                         </th>
                         <th>
                             {{'status'|translate}}
-                            <input [(ngModel)]="status" nz-input />
+                            <div>
+                                <nz-select [(ngModel)]="status" class="btn-custom" nzShowSearch nzAllowClear
+                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'status'|translate|lowercase}">
+                                    <nz-option *ngFor="let p of statuses" [nzLabel]="p.name" [nzValue]="p.id">
+                                    </nz-option>
+                                </nz-select>
+                            </div>
                         </th>
                         <th class="ta-right">
                             <div>
@@ -56,14 +63,17 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td><a (click)="view(data)">{{ data.title }}</a></td>
+                        <td>{{ data.initiator.name }}</td>
                         <td>{{ data.itemCount }}</td>
                         <td>{{ data.status.name }}</td>
                         <td class="action-column fit-cell">
                             <button *ngIf="data.canReject" nz-button (click)="reject(data)"
                                 class="btn-custom">{{'reject'|translate}}</button>
-                            <button *ngIf="data.canApprove" nz-button (click)="approve(data)" nzType="primary"
+                            <button *ngIf="data.canApprove || (data.canApprove && data.canTemporaryApprove)" nz-button
+                                (click)="approve(data)" nzType="primary"
                                 class="btn-custom">{{'approve'|translate}}</button>
-                            <button *ngIf="data.canTemporaryApprove" nz-button (click)="approve(data)" nzType="primary"
+                            <button *ngIf="data.canTemporaryApprove && !data.canApprove" nz-button
+                                (click)="approve(data)" nzType="primary"
                                 class="btn-custom">{{'temporary.approve'|translate}}</button>
                             <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
                                 class="btn-custom">

@@ -1,7 +1,7 @@
 ﻿using Module.Asset.Entities;
-using Module.Core.Data;
 using Module.Core.Shared;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Module.Asset.Data
@@ -14,13 +14,11 @@ namespace Module.Asset.Data
         public bool CanReject { get; set; }
         public bool CanApprove { get; set; }
         public bool CanTemporaryApprove { get; set; }
-        //public IdNameViewModel Initiator { get; set; }
-        //public IdNameViewModel CurrentApprover { get; set; }
-        //public IdNameViewModel CurrentRoleApprover { get; set; }
-        //public IdNameViewModel BatchSchedule { get; set; }
+        public bool IsInventoryManager { get; set; }
         public IdNameViewModel Status { get; set; }
+        public IdNameViewModel Initiator { get; set; }
 
-        public static Expression<Func<Requisition, RequisitionListViewModel>> Select(long? loggedInUserId, long? loggedInUserRoleId)
+        public static Expression<Func<Requisition, RequisitionListViewModel>> Select(long? loggedInUserId, long[] loggedInUserRoleIds, bool isInventoryManager)
         {
             return x => new RequisitionListViewModel
             {
@@ -28,21 +26,20 @@ namespace Module.Asset.Data
                 Title = x.Title,
                 ItemCount = x.Items.Count,
 
-                CanReject = ((x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null) || (x.CurrentRoleApproverId == loggedInUserRoleId && x.CurrentRoleApproverId != null))
-                && x.Status == RequisitionStatus.Initiated,
+                CanReject = ((x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null) || (loggedInUserRoleIds.Contains(x.CurrentRoleApproverId.Value) && x.CurrentRoleApproverId != null))
+                && (x.Status == RequisitionStatus.Initiated || x.Status == RequisitionStatus.TemporaryApproved),
 
-                CanApprove = ((x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null) || (x.CurrentRoleApproverId == loggedInUserRoleId && x.CurrentRoleApproverId != null))
+                CanApprove = ((x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null) || (loggedInUserRoleIds.Contains(x.CurrentRoleApproverId.Value) && x.CurrentRoleApproverId != null))
                 && (x.Status == RequisitionStatus.Initiated || x.Status == RequisitionStatus.TemporaryApproved)
-                && loggedInUserRoleId == RoleConstants.InventoryManager,
+                && isInventoryManager,
 
-                CanTemporaryApprove = ((x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null) || (x.CurrentRoleApproverId == loggedInUserRoleId && x.CurrentRoleApproverId != null))
+                CanTemporaryApprove = ((x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null) || (loggedInUserRoleIds.Contains(x.CurrentRoleApproverId.Value) && x.CurrentRoleApproverId != null))
                 && x.Status == RequisitionStatus.Initiated,
 
-                //Initiator = new IdNameViewModel { Id = x.Initiator.Id, Name = x.Initiator.FullName },
-                //BatchSchedule = x.BatchScheduleId.HasValue ? new IdNameViewModel { Id = x.BatchSchedule.Id, Name = x.BatchSchedule.Name } : null,
-                //CurrentApprover = x.CurrentApproverId.HasValue ? new IdNameViewModel { Id = x.CurrentApprover.Id, Name = x.CurrentApprover.FullName } : null,
-                //CurrentRoleApprover = x.CurrentRoleApproverId.HasValue ? new IdNameViewModel { Id = x.CurrentRoleApprover.Id, Name = x.CurrentRoleApprover.Name } : null,
-                Status = new IdNameViewModel { Id = (long)x.Status, Name = x.Status.ToString() }
+                IsInventoryManager = isInventoryManager,
+
+                Status = new IdNameViewModel { Id = (long)x.Status, Name = x.Status.ToString() },
+                Initiator = new IdNameViewModel { Id = x.Initiator.Id, Name = x.Initiator.FullName }
             };
         }
 

@@ -1,4 +1,5 @@
 ﻿using Module.Asset.Entities;
+using Module.Core.Data;
 using Module.Core.Shared;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,14 @@ namespace Module.Asset.Data
         public IdNameViewModel CurrentRoleApprover { get; set; }
         public IdNameViewModel BatchSchedule { get; set; }
         public IdNameViewModel Status { get; set; }
+        public bool CanReject { get; set; }
+        public bool CanApprove { get; set; }
+        public bool CanTemporaryApprove { get; set; }
+        public bool IsInventoryManager { get; set; }
         public IEnumerable<RequisitionItemViewModel> Items { get; set; }
         public IEnumerable<RequisitionHistoryViewModel> Histories { get; set; }
 
-        public static Expression<Func<Requisition, RequisitionViewModel>> Select()
+        public static Expression<Func<Requisition, RequisitionViewModel>> Select(long? loggedInUserId, long[] loggedInUserRoleIds, bool isInventoryManager)
         {
             return x => new RequisitionViewModel
             {
@@ -30,6 +35,18 @@ namespace Module.Asset.Data
                 CurrentApprover = x.CurrentApproverId.HasValue ? new IdNameViewModel { Id = x.CurrentApprover.Id, Name = x.CurrentApprover.FullName } : null,
                 CurrentRoleApprover = x.CurrentRoleApproverId.HasValue ? new IdNameViewModel { Id = x.CurrentRoleApprover.Id, Name = x.CurrentRoleApprover.Name } : null,
                 Status = new IdNameViewModel { Id = (long)x.Status, Name = x.Status.ToString() },
+
+                CanReject = ((x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null) || (loggedInUserRoleIds.Contains(x.CurrentRoleApproverId.Value) && x.CurrentRoleApproverId != null))
+                && (x.Status == RequisitionStatus.Initiated || x.Status == RequisitionStatus.TemporaryApproved),
+
+                CanApprove = ((x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null) || (loggedInUserRoleIds.Contains(x.CurrentRoleApproverId.Value) && x.CurrentRoleApproverId != null))
+                && (x.Status == RequisitionStatus.Initiated || x.Status == RequisitionStatus.TemporaryApproved)
+                && isInventoryManager,
+
+                CanTemporaryApprove = ((x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null) || (loggedInUserRoleIds.Contains(x.CurrentRoleApproverId.Value) && x.CurrentRoleApproverId != null))
+                && x.Status == RequisitionStatus.Initiated,
+
+                IsInventoryManager = isInventoryManager,
 
                 Items = x.Items.Select(y => new RequisitionItemViewModel
                 {
@@ -59,7 +76,7 @@ namespace Module.Asset.Data
                         RequisitionHistoryId = z.RequisitionHistoryId,
                         Asset = new IdNameViewModel { Id = z.AssetId },
                         AssetType = new IdNameViewModel { Id = (long)z.AssetType, Name = z.AssetType.ToString() },
-                        RequestQuantity = z.Quantity,
+                        Quantity = z.Quantity,
                         Comment = z.Comment
                     })
                 })

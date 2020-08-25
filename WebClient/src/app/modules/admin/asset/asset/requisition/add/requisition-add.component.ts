@@ -8,8 +8,7 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { RequisitionHttpService } from 'src/services/http/asset/requisition-http.service';
 import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
 import { AssetModalComponent } from '../asset-modal/asset-modal.component';
-import { NzModalService } from 'ng-zorro-antd';
-import { JsonPipe } from '@angular/common';
+import { NzModalService, NzModalRef } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-requisition-add',
@@ -21,6 +20,7 @@ export class RequisitionAddComponent extends FormComponent {
   statuses = [];
   assetModalInfo: any = {};
   items = [];
+  data: any = {};
 
   @ViewChild('userSelect') userSelect: SelectControlComponent;
   @ViewChild('batchSelect') batchSelect: SelectControlComponent;
@@ -28,13 +28,15 @@ export class RequisitionAddComponent extends FormComponent {
 
   typeText = {};
 
+  private modal: NzModalRef<AssetModalComponent>;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private requisitionHttpService: RequisitionHttpService,
     private userHttpService: UserHttpService,
     private batchScheduleHttpService: BatchScheduleHttpService,
     private v: CommonValidator,
-    private modal: NzModalService
+    private modalService: NzModalService
   ) {
     super();
   }
@@ -112,6 +114,7 @@ export class RequisitionAddComponent extends FormComponent {
       this.subscribe(this.requisitionHttpService.get(id),
         (res: any) => {
           if (res.data.items) {
+            this.data = res.data;
             this.items = res.data.items.map(x => {
               const obj = {
                 id: x.id,
@@ -127,21 +130,21 @@ export class RequisitionAddComponent extends FormComponent {
                 if (!this.assetModalInfo.assets) {
                   this.assetModalInfo.assets = [];
                 }
-                this.assetModalInfo.assets.push({id: x.asset.id});
+                this.assetModalInfo.assets.push({ id: x.asset.id });
               }
 
               if (x.assetType.id == 3) {
                 if (!this.assetModalInfo.consumables) {
                   this.assetModalInfo.consumables = [];
                 }
-                this.assetModalInfo.consumables.push({id: x.asset.id});
+                this.assetModalInfo.consumables.push({ id: x.asset.id });
               }
 
               if (x.assetType.id == 6) {
                 if (!this.assetModalInfo.licenses) {
                   this.assetModalInfo.licenses = [];
                 }
-                this.assetModalInfo.licenses.push({id: x.asset.id});
+                this.assetModalInfo.licenses.push({ id: x.asset.id });
               }
 
               return obj;
@@ -166,19 +169,23 @@ export class RequisitionAddComponent extends FormComponent {
 
   quantityChanged(e, data) {
     if (data.quantity > data.available) {
-      this.info('quantity.exceeds');
-      setTimeout(() => data.quantity = data.available);
+      //this.info('quantity.exceeds');
+      //setTimeout(() => data.quantity = data.available);
     }
     if (data.quantity <= 0) {
-      setTimeout(() => data.quantity = 1);
+      //setTimeout(() => data.quantity = 1);
     }
   }
 
   addAsset() {
     const modal = this.createModal(AssetModalComponent);
+    this.modal = modal;
     this.subscribe(modal.afterClose, res => {
-      console.log('asset modal info', this.assetModalInfo);
-      if (this.assetModalInfo) {
+      const component = modal.getContentComponent();
+      this.assetModalInfo = component.data;
+      const send = component.send;
+      component.send = false;
+      if (this.assetModalInfo && send) {
         const items = [];
         items.push(...this.makeItems(this.assetModalInfo.assets, 1));
         items.push(...this.makeItems(this.assetModalInfo.licenses, 6));
@@ -188,8 +195,21 @@ export class RequisitionAddComponent extends FormComponent {
     });
   }
 
+  sendItemFromModal() {
+    if (this.modal) {
+      this.modal.getContentComponent().send = true;
+      this.modal.triggerCancel();
+    }
+  }
+
+  closeModal() {
+    if (this.modal) {
+      this.modal.triggerCancel();
+    }
+  }
+
   createModal<T>(component: Type<T>) {
-    return this.modal.create({
+    return this.modalService.create({
       nzWidth: '80%',
       nzContent: component,
       nzGetContainer: () => document.body,

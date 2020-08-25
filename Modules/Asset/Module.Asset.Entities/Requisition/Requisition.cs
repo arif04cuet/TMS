@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Module.Core.Entities.Constants;
 using Module.Training.Entities;
 using System.Collections.Generic;
+using Msi.UtilityKit.Search;
 
 namespace Module.Asset.Entities
 {
@@ -17,6 +18,7 @@ namespace Module.Asset.Entities
             Histories = new HashSet<RequisitionHistory>();
         }
 
+        [Searchable]
         public string Title { get; set; }
         public long InitiatorId { get; set; }
         public User Initiator { get; set; }
@@ -30,6 +32,7 @@ namespace Module.Asset.Entities
         public long? BatchScheduleId { get; set; }
         public BatchSchedule BatchSchedule { get; set; }
 
+        [Searchable]
         public RequisitionStatus Status { get; set; }
 
         public virtual ICollection<RequisitionItem> Items { get; set; }

@@ -56,5 +56,11 @@ namespace Module.Asset.Controllers
             return NoContent();
         }
 
+        [HttpPost("submit")]
+        public async Task<IActionResult> ChangeStatusAsync([FromBody] RequisitionStatusChangeRequest request)
+        {
+            var result = await _requisitionService.ChangeStatusAsync(request);
+            return result.ToCreatedResult();
+        }
     }
 }

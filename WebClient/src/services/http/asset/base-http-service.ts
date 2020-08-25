@@ -18,6 +18,7 @@ export class BaseHttpService {
         ];
         return status;
     }
+    
     public get(id) {
         return this.httpService.get(this.END_POINT + '/' + `${id}`);
     }

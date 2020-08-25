@@ -28,13 +28,22 @@ namespace Module.Asset.Data
         private readonly IRepository<RequisitionHistoryItem> _requisitionHistoryItemRepository;
         private readonly IDbConnection _dbConnection;
         private readonly IAppService _appService;
+        private readonly IAssetService _assetService;
+        private readonly ILicenseService _licenseService;
+        private readonly IConsumableService _consumableService;
 
         public RequisitionService(
             IUnitOfWork unitOfWork,
-            IAppService appService)
+            IAppService appService,
+            IAssetService assetService,
+            ILicenseService licenseService,
+            IConsumableService consumableService)
         {
             _unitOfWork = unitOfWork;
             _appService = appService;
+            _assetService = assetService;
+            _licenseService = licenseService;
+            _consumableService = consumableService;
             _dbConnection = _unitOfWork.GetConnection();
             _requisitionRepository = _unitOfWork.GetRepository<Requisition>();
             _requisitionItemRepository = _unitOfWork.GetRepository<RequisitionItem>();
@@ -74,7 +83,7 @@ namespace Module.Asset.Data
             return result;
         }
 
-        public async Task<long> ApproveAsync(RequisitionStatusChangeRequest request, CancellationToken cancellationToken = default)
+        public async Task<long> ChangeStatusAsync(RequisitionStatusChangeRequest request, CancellationToken cancellationToken = default)
         {
 
             long? loggedInUserId = _appService.GetAuthenticatedUser()?.Id;
@@ -89,18 +98,22 @@ namespace Module.Asset.Data
             if (requisition == null)
                 throw new ValidationException("Requisition not found.");
 
-            long? loggedInUserRoleId = await GetLoggedInUserRoleId();
-            long? requisitionUserRoleId = await GetUserRoleId(requisition.CurrentApproverId);
+            long? currentRoleApproverId = requisition.CurrentRoleApproverId;
+            long[] loggedInUserRoleIds = await GetLoggedInUserRoleIds();
+            long[] requisitionUserRoleIds = await GetUserRoleIds(requisition.CurrentApproverId);
+            bool isInventoryManager = loggedInUserRoleIds.Contains(RoleConstants.InventoryManager);
 
-            bool canStatusChange = loggedInUserId == requisition.CurrentApproverId || loggedInUserRoleId == requisition.CurrentRoleApproverId;
+            bool canStatusChange = loggedInUserId == requisition.CurrentApproverId || loggedInUserRoleIds.Contains(requisition.CurrentRoleApproverId.Value);
 
             if (!canStatusChange)
                 throw new ValidationException("You have no rights to do this operation.");
 
-            bool canApprove = canStatusChange && loggedInUserRoleId == RoleConstants.InventoryManager && request.Status == RequisitionStatus.Approved;
-
-            if (!canApprove)
-                throw new ValidationException("You have no rights to approve this requisition");
+            if (request.Status == RequisitionStatus.Approved)
+            {
+                bool canApprove = canStatusChange && isInventoryManager;
+                if (!canApprove)
+                    throw new ValidationException("Only inventory manager can approve requisitions.");
+            }
 
             // create history
             var history = Requisition.MapHistory(requisition);
@@ -141,6 +154,40 @@ namespace Module.Asset.Data
                     newItem.RequisitionId = requisition.Id;
                     await _requisitionItemRepository.AddAsync(newItem);
                 }
+
+                if (request.Status == RequisitionStatus.Approved && isInventoryManager)
+                {
+                    // reduce asset
+                    if (item.Type == AssetType.Asset)
+                    {
+                        await _assetService.CheckoutAsync(new AssetCheckoutRequest
+                        {
+                            AssetIds = new long[] { item.Asset },
+                            ChekoutToUserId = requisition.InitiatorId
+                        }, cancellationToken);
+                    }
+                    else if (item.Type == AssetType.License)
+                    {
+                        for (int i = 0; i < item.Quantity; i++)
+                        {
+                            await _licenseService.CheckoutAsync(new LicenseCheckoutRequest
+                            {
+                                Id = item.Asset,
+                                IssuedToUserId = requisition.InitiatorId
+                            }, cancellationToken);
+                        }
+                    }
+                    else if (item.Type == AssetType.Consumable)
+                    {
+                        await _consumableService.CheckoutByItemCodeAsync(new ConsumableCheckoutByItemCodeRequest
+                        {
+                            ItemCodeId = item.Asset,
+                            UserId = requisition.InitiatorId,
+                            Quantity = item.Quantity
+                        }, cancellationToken);
+                    }
+                }
+
             }
 
             if (request.Status == RequisitionStatus.TemporaryApproved)
@@ -154,6 +201,34 @@ namespace Module.Asset.Data
                 requisition.CurrentApproverId = null;
                 requisition.CurrentRoleApproverId = null;
                 requisition.Status = request.Status;
+            }
+
+            if(request.Status == RequisitionStatus.Approved)
+            {
+                // create history
+                var history2 = new RequisitionHistory
+                {
+                    ApproverId = loggedInUserId,
+                    RoleApproverId = currentRoleApproverId,
+                    BatchScheduleId = requisition.BatchScheduleId,
+                    InitiatorId = requisition.InitiatorId,
+                    RequisitionId = requisition.Id,
+                    Status = RequisitionStatus.Approved,
+                    Title = requisition.Title
+                };
+                await _requisitionHistoryRepository.AddAsync(history2);
+                result += await _unitOfWork.SaveChangesAsync();
+
+                var historyItems2 = request.Items.Select(x => new RequisitionHistoryItem
+                {
+                    AssetId = x.Asset,
+                    AssetType = x.Type,
+                    Quantity = x.Quantity,
+                    Comment = x.Comment,
+                    RequisitionHistoryId = history2.Id,
+                    RequisitionId = requisition.Id
+                });
+                await _requisitionHistoryItemRepository.AddRangeAsync(historyItems2);
             }
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -224,11 +299,12 @@ namespace Module.Asset.Data
 
         public async Task<RequisitionViewModel> Get(long id, CancellationToken cancellationToken = default)
         {
+            long? loggedInUserId = _appService.GetAuthenticatedUser()?.Id;
+            long[] loggedInUserRoleIds = await GetLoggedInUserRoleIds();
+            bool isInventoryManager = loggedInUserRoleIds.Contains(RoleConstants.InventoryManager);
+
             var requisition = await _requisitionRepository
-                .AsReadOnly()
-                .Where(x => x.Id == id && !x.IsDeleted)
-                .Select(RequisitionViewModel.Select())
-                .FirstOrDefaultAsync(cancellationToken);
+                .GetAsync(x => x.Id == id, RequisitionViewModel.Select(loggedInUserId, loggedInUserRoleIds, isInventoryManager));
 
             if (requisition == null)
                 throw new NotFoundException("Requisition not found");
@@ -240,8 +316,8 @@ namespace Module.Asset.Data
                 if (item.AssetType.Id == (long)AssetType.Asset)
                 {
                     var asset = await _unitOfWork.GetRepository<Entities.Asset>()
-                        .FirstOrDefaultAsync(x => x.Id == item.Asset.Id && x.CheckoutId == null && !x.IsDeleted, true);
-                    available = asset != null ? 1 : 0;
+                        .FirstOrDefaultAsync(x => x.Id == item.Asset.Id && !x.IsDeleted, true);
+                    available = asset != null && asset.CheckoutId == null ? 1 : 0;
                     name = asset?.Name ?? "";
                 }
                 else if (item.AssetType.Id == (long)AssetType.License)
@@ -253,21 +329,34 @@ namespace Module.Asset.Data
                 }
                 else if (item.AssetType.Id == (long)AssetType.Consumable)
                 {
-                    string sql = $@"with cte 
-                        as (select c.ItemCodeId,
-                        sum(c.Available) Available
-                        from [asset].[Consumable] c
-                        where c.IsDeleted = 0 and c.ItemCodeId = {item.Asset.Id}
-                        group by c.ItemCodeId
-                        )
-                        select top 1 cte.Available Id, concat(i.Code, ' - ', i.Name) Name from cte
-                        left join [asset].[ItemCode] i on i.Id = cte.ItemCodeId";
-                    var asset = await _dbConnection.QueryFirstOrDefaultAsync<IdNameViewModel>(sql);
-
-                    available = asset == null ? 0 : (int)asset.Id;
-                    name = asset?.Name ?? "";
+                    var asset = await GetConsumable(item.Asset.Id);
+                    available = (int)asset.Id;
+                    name = asset.Name;
                 }
                 item.Available = available;
+                item.Asset.Name = name;
+            }
+
+            foreach (var item in requisition.Histories.SelectMany(x => x.Items))
+            {
+                string name = "";
+                if (item.AssetType.Id == (long)AssetType.Asset)
+                {
+                    var asset = await _unitOfWork.GetRepository<Entities.Asset>()
+                        .FirstOrDefaultAsync(x => x.Id == item.Asset.Id && !x.IsDeleted, true);
+                    name = asset?.Name ?? "";
+                }
+                else if (item.AssetType.Id == (long)AssetType.License)
+                {
+                    var license = await _unitOfWork.GetRepository<License>()
+                        .FirstOrDefaultAsync(x => x.Id == item.Asset.Id && !x.IsDeleted, true);
+                    name = license?.Name ?? "";
+                }
+                else if (item.AssetType.Id == (long)AssetType.Consumable)
+                {
+                    var asset = await GetConsumable(item.Asset.Id);
+                    name = asset.Name;
+                }
                 item.Asset.Name = name;
             }
 
@@ -278,27 +367,53 @@ namespace Module.Asset.Data
         {
 
             long? loggedInUserId = _appService.GetAuthenticatedUser()?.Id;
-            long? loggedInUserRoleId = await GetLoggedInUserRoleId();
+            long[] loggedInUserRoleIds = await GetLoggedInUserRoleIds();
+            bool isInventoryManager = loggedInUserRoleIds.Contains(RoleConstants.InventoryManager);
 
             Expression<Func<Requisition, bool>> predicate = x => (x.InitiatorId == loggedInUserId
             || (x.CurrentApproverId == loggedInUserId && x.CurrentApproverId != null)
-            || x.CurrentRoleApproverId == loggedInUserRoleId && x.CurrentRoleApproverId != null)
+            || loggedInUserRoleIds.Contains(x.CurrentRoleApproverId.Value) && x.CurrentRoleApproverId != null)
             && !x.IsDeleted;
 
-            return await _requisitionRepository.ListAsync(predicate, RequisitionListViewModel.Select(loggedInUserId, loggedInUserRoleId), pagingOptions, searchOptions, cancellationToken);
+            var result = await _requisitionRepository.ListAsync(predicate, RequisitionListViewModel.Select(loggedInUserId, loggedInUserRoleIds, isInventoryManager), pagingOptions, searchOptions, cancellationToken);
+            return result;
         }
 
-        private async Task<long?> GetLoggedInUserRoleId()
+        private async Task<long[]> GetLoggedInUserRoleIds()
         {
             long? loggedInUserId = _appService.GetAuthenticatedUser()?.Id;
-            var userRole = await _unitOfWork.GetRepository<UserRole>().FirstOrDefaultAsync(x => x.Id == loggedInUserId && !x.IsDeleted, true);
-            return userRole?.Id;
+            return await GetUserRoleIds(loggedInUserId);
         }
 
-        private async Task<long?> GetUserRoleId(long? userId)
+        private async Task<long[]> GetUserRoleIds(long? userId)
         {
-            var userRole = await _unitOfWork.GetRepository<UserRole>().FirstOrDefaultAsync(x => x.Id == userId && !x.IsDeleted, true);
-            return userRole?.Id;
+            var userRoles = await _unitOfWork.GetRepository<UserRole>()
+                .AsReadOnly()
+                .Where(x => x.UserId == userId && !x.IsDeleted)
+                .Select(x => x.RoleId)
+                .ToArrayAsync();
+            return userRoles;
+        }
+
+        private async Task<IdNameViewModel> GetConsumable(long assetId)
+        {
+            // Id contains Asset's Available value, Name contains Asset's name
+            string sql = $@"with cte 
+                        as (select c.ItemCodeId,
+                        sum(c.Available) Available
+                        from [asset].[Consumable] c
+                        where c.IsDeleted = 0 and c.ItemCodeId = {assetId}
+                        group by c.ItemCodeId
+                        )
+                        select top 1 cte.Available Id, concat(i.Code, ' - ', i.Name) Name from cte
+                        left join [asset].[ItemCode] i on i.Id = cte.ItemCodeId";
+            var asset = await _dbConnection.QueryFirstOrDefaultAsync<IdNameViewModel>(sql);
+            return new IdNameViewModel
+            {
+                Id = asset == null ? 0 :
+                asset.Id,
+                Name = asset.Name ?? ""
+            };
         }
 
     }
