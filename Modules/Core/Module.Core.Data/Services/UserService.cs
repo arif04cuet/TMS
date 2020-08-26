@@ -50,6 +50,7 @@ namespace Module.Core.Data
                 EmployeeId = request.EmployeeId,
                 StatusId = request.Status,
                 Email = request.Email,
+                Mobile=request.Mobile,
                 DepartmentId = request.Department,
                 DesignationId = request.Designation,
                 Password = request.Password.HashPassword()

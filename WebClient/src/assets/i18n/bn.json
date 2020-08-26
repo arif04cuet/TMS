@@ -567,5 +567,6 @@
     "add.asset":"আইটেম নির্বাচন করুন ",
     "approver.employee":"অনুমোদনকারী ",
     "requisition.batch":"ব্যাচ",
-    "temporary.approve": "অনুমোদন "
+    "temporary.approve": "অনুমোদন ",
+    "asset.new.purchase":"নতুন ক্রয় "
   }

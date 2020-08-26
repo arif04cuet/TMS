@@ -44,8 +44,8 @@ export class HomeComponent extends BaseComponent {
         route: '/admin/trainings/my-exam',
         icon: 'dashboard',
         fn: () => {
-          //return this.permissionService.isRouteGranted('#myexam.manage');
-          return true;
+          return this.permissionService.isRouteGranted('myexam');
+          //return true;
         },
       },
       {
@@ -320,6 +320,18 @@ export class HomeComponent extends BaseComponent {
                   return this.permissionService.isRouteGranted('asset');
                 },
               },
+
+              {
+                level: 3,
+                title: 'asset.new.purchase',
+                route: '/admin/asset/add',
+                icon: 'user',
+                fn: () => {
+                  return this.permissionService.isRouteGranted('asset');
+                },
+              },
+
+
               {
                 level: 3,
                 title: 'maintenances',

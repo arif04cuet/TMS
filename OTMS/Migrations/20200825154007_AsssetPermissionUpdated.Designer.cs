@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200825154007_AsssetPermissionUpdated")]
+    partial class AsssetPermissionUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -5537,14 +5539,6 @@ namespace OTMS.Migrations
                         },
                         new
                         {
-                            Id = 6100L,
-                            Code = "myexam.manage",
-                            GroupId = 51L,
-                            ModuleId = 5L,
-                            Name = "MyExam"
-                        },
-                        new
-                        {
                             Id = 4801L,
                             Code = "batch.allocation.create",
                             GroupId = 52L,
@@ -5661,6 +5655,14 @@ namespace OTMS.Migrations
                             Code = "honorarium.head.manage",
                             GroupId = 54L,
                             ModuleId = 5L,
+                            Name = "Manage"
+                        },
+                        new
+                        {
+                            Id = 6100L,
+                            Code = "myexam.manage",
+                            GroupId = 55L,
+                            ModuleId = 7L,
                             Name = "Manage"
                         });
                 });

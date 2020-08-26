@@ -41,7 +41,14 @@ namespace Module.Core.Data
                 new PermissionGroup(SettingGroup, "Setting"),
                 new PermissionGroup(AssetReportGroup, "Report"),
                 new PermissionGroup(AssetRequisitionGroup, "Requisition"),
-
+                
+                new PermissionGroup(AssetSettingModelGroup, "Asset Setting Model"),
+                new PermissionGroup(AssetSettingItemCodeGroup, "Asset Setting Item Code"),
+                new PermissionGroup(AssetSettingSupplierGroup, "Asset Setting Supplier"),
+                new PermissionGroup(AssetSettingDepreciationGroup, "Asset Setting Depreciation"),
+                new PermissionGroup(AssetSettingManufacturerGroup, "Asset Setting Manufacturer"),
+                new PermissionGroup(AssetSettingStatusGroup, "Asset Setting Status"),
+                new PermissionGroup(AssetSettingCategoryGroup, "Asset Setting Category"),
 
                 //CMS
                 new PermissionGroup(ContentCategoryGroup, "Contents Category"),

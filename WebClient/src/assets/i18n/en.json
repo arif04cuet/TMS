@@ -525,5 +525,8 @@
   "requisition.details": "Requisition details",
   "approver": "Approver",
   "initiator": "Initiator",
-  "send": "Send"
+  "send": "Send",
+  "select":"Select",
+  "asset.new.purchase":"New Purchase"
+
 }

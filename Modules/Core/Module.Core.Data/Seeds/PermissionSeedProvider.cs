@@ -299,68 +299,68 @@ namespace Module.Core.Data
                 #endregion
 
                 #region Asset Settings asset model
-                new Permission (AssetModelCreate,   Create, $"asset.model.{Create.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (AssetModelUpdate,   Update, $"asset.model.{Update.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (AssetModelList,     List,   $"asset.model.{List.ToLower()}",    SettingGroup, AssetManagement),
-                new Permission (AssetModelDelete,   Delete, $"asset.model.{Delete.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (AssetModelManage,   Manage, $"asset.model.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetModelCreate,   Create, $"asset.model.{Create.ToLower()}",  AssetSettingModelGroup, AssetManagement),
+                new Permission (AssetModelUpdate,   Update, $"asset.model.{Update.ToLower()}",  AssetSettingModelGroup, AssetManagement),
+                new Permission (AssetModelList,     List,   $"asset.model.{List.ToLower()}",    AssetSettingModelGroup, AssetManagement),
+                new Permission (AssetModelDelete,   Delete, $"asset.model.{Delete.ToLower()}",  AssetSettingModelGroup, AssetManagement),
+                new Permission (AssetModelManage,   Manage, $"asset.model.{Manage.ToLower()}",  AssetSettingModelGroup, AssetManagement),
                 #endregion
 
                 #region Asset Settings Item Code
-                new Permission (ItemCodeCreate,   Create, $"item.code.{Create.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (ItemCodeUpdate,   Update, $"item.code.{Update.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (ItemCodeList,     List,   $"item.code.{List.ToLower()}",      SettingGroup, AssetManagement),
-                new Permission (ItemCodeDelete,   Delete, $"item.code.{Delete.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (ItemCodeManage,   Manage, $"item.code.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (ItemCodeCreate,   Create, $"item.code.{Create.ToLower()}",      AssetSettingItemCodeGroup, AssetManagement),
+                new Permission (ItemCodeUpdate,   Update, $"item.code.{Update.ToLower()}",      AssetSettingItemCodeGroup, AssetManagement),
+                new Permission (ItemCodeList,     List,   $"item.code.{List.ToLower()}",        AssetSettingItemCodeGroup, AssetManagement),
+                new Permission (ItemCodeDelete,   Delete, $"item.code.{Delete.ToLower()}",      AssetSettingItemCodeGroup, AssetManagement),
+                new Permission (ItemCodeManage,   Manage, $"item.code.{Manage.ToLower()}",      AssetSettingItemCodeGroup, AssetManagement),
                 #endregion
 
                 #region Asset Settings supplier
-                new Permission (SupplierCreate,   Create, $"supplier.{Create.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (SupplierUpdate,   Update, $"supplier.{Update.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (SupplierList,     List,   $"supplier.{List.ToLower()}",      SettingGroup, AssetManagement),
-                new Permission (SupplierDelete,   Delete, $"supplier.{Delete.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (SupplierManage,   Manage, $"supplier.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (SupplierCreate,   Create, $"supplier.{Create.ToLower()}",   AssetSettingSupplierGroup, AssetManagement),
+                new Permission (SupplierUpdate,   Update, $"supplier.{Update.ToLower()}",   AssetSettingSupplierGroup, AssetManagement),
+                new Permission (SupplierList,     List,   $"supplier.{List.ToLower()}",     AssetSettingSupplierGroup, AssetManagement),
+                new Permission (SupplierDelete,   Delete, $"supplier.{Delete.ToLower()}",   AssetSettingSupplierGroup, AssetManagement),
+                new Permission (SupplierManage,   Manage, $"supplier.{Manage.ToLower()}",   AssetSettingSupplierGroup, AssetManagement),
                 #endregion
                 
                 #region Asset Settings depreciation
-                new Permission (DepreciationCreate,   Create, $"depreciation.{Create.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (DepreciationUpdate,   Update, $"depreciation.{Update.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (DepreciationList,     List,   $"depreciation.{List.ToLower()}",      SettingGroup, AssetManagement),
-                new Permission (DepreciationDelete,   Delete, $"depreciation.{Delete.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (DepreciationManage,   Manage, $"depreciation.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (DepreciationCreate,   Create, $"depreciation.{Create.ToLower()}",   AssetSettingDepreciationGroup, AssetManagement),
+                new Permission (DepreciationUpdate,   Update, $"depreciation.{Update.ToLower()}",   AssetSettingDepreciationGroup, AssetManagement),
+                new Permission (DepreciationList,     List,   $"depreciation.{List.ToLower()}",     AssetSettingDepreciationGroup, AssetManagement),
+                new Permission (DepreciationDelete,   Delete, $"depreciation.{Delete.ToLower()}",   AssetSettingDepreciationGroup, AssetManagement),
+                new Permission (DepreciationManage,   Manage, $"depreciation.{Manage.ToLower()}",   AssetSettingDepreciationGroup, AssetManagement),
                 #endregion
 
                 #region Asset Settings manufacturer
-                new Permission (ManufacturerCreate,   Create, $"manufacturer.{Create.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (ManufacturerUpdate,   Update, $"manufacturer.{Update.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (ManufacturerList,     List,   $"manufacturer.{List.ToLower()}",    SettingGroup, AssetManagement),
-                new Permission (ManufacturerDelete,   Delete, $"manufacturer.{Delete.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (ManufacturerManage,   Manage, $"manufacturer.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (ManufacturerCreate,   Create, $"manufacturer.{Create.ToLower()}",  AssetSettingManufacturerGroup, AssetManagement),
+                new Permission (ManufacturerUpdate,   Update, $"manufacturer.{Update.ToLower()}",  AssetSettingManufacturerGroup, AssetManagement),
+                new Permission (ManufacturerList,     List,   $"manufacturer.{List.ToLower()}",    AssetSettingManufacturerGroup, AssetManagement),
+                new Permission (ManufacturerDelete,   Delete, $"manufacturer.{Delete.ToLower()}",  AssetSettingManufacturerGroup, AssetManagement),
+                new Permission (ManufacturerManage,   Manage, $"manufacturer.{Manage.ToLower()}",  AssetSettingManufacturerGroup, AssetManagement),
                 #endregion
 
                 #region Asset Settings asset.status
-                new Permission (AssetStatusCreate,   Create, $"asset.status.{Create.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (AssetStatusUpdate,   Update, $"asset.status.{Update.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (AssetStatusList,     List,   $"asset.status.{List.ToLower()}",    SettingGroup, AssetManagement),
-                new Permission (AssetStatusDelete,   Delete, $"asset.status.{Delete.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (AssetStatusManage,   Manage, $"asset.status.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetStatusCreate,   Create, $"asset.status.{Create.ToLower()}",  AssetSettingStatusGroup, AssetManagement),
+                new Permission (AssetStatusUpdate,   Update, $"asset.status.{Update.ToLower()}",  AssetSettingStatusGroup, AssetManagement),
+                new Permission (AssetStatusList,     List,   $"asset.status.{List.ToLower()}",    AssetSettingStatusGroup, AssetManagement),
+                new Permission (AssetStatusDelete,   Delete, $"asset.status.{Delete.ToLower()}",  AssetSettingStatusGroup, AssetManagement),
+                new Permission (AssetStatusManage,   Manage, $"asset.status.{Manage.ToLower()}",  AssetSettingStatusGroup, AssetManagement),
                 #endregion
 
                 #region Asset Settings asset.category
-                new Permission (AssetCategoryCreate,   Create, $"asset.category.{Create.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (AssetCategoryUpdate,   Update, $"asset.category.{Update.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (AssetCategoryList,     List,   $"asset.category.{List.ToLower()}",    SettingGroup, AssetManagement),
-                new Permission (AssetCategoryDelete,   Delete, $"asset.category.{Delete.ToLower()}",  SettingGroup, AssetManagement),
-                new Permission (AssetCategoryManage,   Manage, $"asset.category.{Manage.ToLower()}",  SettingGroup, AssetManagement),
+                new Permission (AssetCategoryCreate,   Create, $"asset.category.{Create.ToLower()}",  AssetSettingStatusGroup, AssetManagement),
+                new Permission (AssetCategoryUpdate,   Update, $"asset.category.{Update.ToLower()}",  AssetSettingStatusGroup, AssetManagement),
+                new Permission (AssetCategoryList,     List,   $"asset.category.{List.ToLower()}",    AssetSettingStatusGroup, AssetManagement),
+                new Permission (AssetCategoryDelete,   Delete, $"asset.category.{Delete.ToLower()}",  AssetSettingStatusGroup, AssetManagement),
+                new Permission (AssetCategoryManage,   Manage, $"asset.category.{Manage.ToLower()}",  AssetSettingStatusGroup, AssetManagement),
                 #endregion
 
                 #region Asset Report
-                new Permission (ReportActivityLog,      Create, $"report.activity.log",  AssetReportGroup, AssetManagement),
-                new Permission (ReportAuditLog,         Create, $"report.audit.log",     AssetReportGroup, AssetManagement),
-                new Permission (ReportDepreciation,     Create, $"report.depreciation",  AssetReportGroup, AssetManagement),
-                new Permission (ReportLicense,          Create, $"report.license",       AssetReportGroup, AssetManagement),
-                new Permission (ReportMaintenance,      Create, $"report.maintenance",   AssetReportGroup, AssetManagement),
-                new Permission (ReportAsset,            Create, $"report.asset",         AssetReportGroup, AssetManagement),
+                new Permission (ReportActivityLog,      AssetReportActivityLog , $"report.activity.log",  AssetReportGroup, AssetManagement),
+                new Permission (ReportAuditLog,         AssetReportAuditLog    , $"report.audit.log",     AssetReportGroup, AssetManagement),
+                new Permission (ReportDepreciation,     AssetReportDepreciation, $"report.depreciation",  AssetReportGroup, AssetManagement),
+                new Permission (ReportLicense,          AssetReportLicense     , $"report.license",       AssetReportGroup, AssetManagement),
+                new Permission (ReportMaintenance,      AssetReportMaintenance , $"report.maintenance",   AssetReportGroup, AssetManagement),
+                new Permission (ReportAsset,            AssetReportAsset       , $"report.asset",         AssetReportGroup, AssetManagement),
                 #endregion
 
                 #region Asset Requisition
@@ -549,6 +549,7 @@ namespace Module.Core.Data
                 new Permission (TrainingBatchList,     List,   $"batch.{List.ToLower()}",    TrainingBatchGroup, TrainingManagement),
                 new Permission (TrainingBatchDelete,   Delete, $"batch.{Delete.ToLower()}",  TrainingBatchGroup, TrainingManagement),
                 new Permission (TrainingBatchManage,   Manage, $"batch.{Manage.ToLower()}",  TrainingBatchGroup, TrainingManagement),
+                new Permission (MyExamManage,          MyExam, $"myexam.{Manage.ToLower()}", TrainingBatchGroup, TrainingManagement),
                 #endregion
 
 
@@ -576,12 +577,7 @@ namespace Module.Core.Data
                 new Permission (TrainingHonorariumHeadManage,   Manage, $"honorarium.head.{Manage.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
                 #endregion
 
-                #region others
-                new Permission (MyExamManage,   Manage, $"myexam.{Manage.ToLower()}",  OthersGroup, OthersManagement),
-                #endregion
-
-
-
+            
 
             };
         }

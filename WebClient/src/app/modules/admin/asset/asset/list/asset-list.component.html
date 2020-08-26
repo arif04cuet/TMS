@@ -28,13 +28,14 @@
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th></th>
+                        <th> {{'name'|translate}}</th>
                         <th>
                             {{'asset.tag'|translate}}
                             <input [(ngModel)]="assetTag" nz-input />
                         </th>
                         <th>
-                            {{'name'|translate}}
-                            <input [(ngModel)]="name" nz-input />
+                            {{'title'|translate}}
+                            
                         </th>
                         <th>
                             {{'category'|translate}}
@@ -64,6 +65,7 @@
                             </nz-avatar>
                             <nz-avatar *ngIf="!data.photo" nzSize="large" nzIcon="user"></nz-avatar>
                         </td>
+                        <td>{{ data.assetModel.name }}</td>
                         <td>{{ data.assetTag }}</td>
                         <td><a (click)="view(data)">{{ data.name }}</a></td>
                         <td>{{ data.category.name }}</td>

@@ -493,6 +493,15 @@
         public const long AssetRequisitionGroup   = 56;
         public const long OfficeGroup = 57;
 
+        public const long AssetSettingModelGroup           = 58;
+        public const long AssetSettingItemCodeGroup             = 59;
+        public const long AssetSettingSupplierGroup             = 60;
+        public const long AssetSettingDepreciationGroup         = 61;
+        public const long AssetSettingManufacturerGroup         = 62;
+        public const long AssetSettingStatusGroup         = 63;
+        public const long AssetSettingCategoryGroup         = 64;
+
+
 
     }
 
@@ -511,5 +520,18 @@
         public const string Checkout = "Checkout";
         public const string Audit = "Audit";
         public const string BulkCheckout = "Bulk Checkout";
+
+        //Reports
+
+        public const string AssetReportActivityLog  = "Activity Log";
+        public const string AssetReportAuditLog     = "Audit Log";
+        public const string AssetReportDepreciation = "Depreciation";
+        public const string AssetReportLicense      = "License";
+        public const string AssetReportMaintenance  = "Maintenance";
+        public const string AssetReportAsset        = "Asset";
+
+        public const string MyExam  = "MyExam";
+
+
     }
 }
