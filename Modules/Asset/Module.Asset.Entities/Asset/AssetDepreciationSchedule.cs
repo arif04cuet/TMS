@@ -1,7 +1,6 @@
 using Infrastructure.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 using Module.Core.Entities.Constants;
-using System;
 
 namespace Module.Asset.Entities
 {
@@ -12,7 +11,7 @@ namespace Module.Asset.Entities
         public Asset Asset { get; set; }
 
         public long? AssetDepreciationId { get; set; }
-        public AssetDepreciation AssetDepreciation { get; set; }
+        public AssetDepreciationRevision AssetDepreciation { get; set; }
 
         public float CurrentDepreciation { get; set; }
         public float CummulativeValue { get; set; }

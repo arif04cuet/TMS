@@ -517,6 +517,18 @@ const routes: Routes = [
         }
       },
       {
+        path: 'asset/reports/depreciation/:assetId/schedules',
+        loadChildren: () => import('../asset/reports/depreciation-schedule/depreciation-schedule-report.module').then(x => x.DepreciationScheduleReportModule),
+        data: {
+          name: 'asset_depreciation_report',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'depreciation.report'
+          },
+          permissions: ['report.depreciation']
+        }
+      },
+      {
         path: 'asset/reports/license',
         loadChildren: () => import('../asset/reports/license/license-report.module').then(x => x.LicenseReportModule),
         data: {

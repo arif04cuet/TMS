@@ -1,13 +1,16 @@
 ﻿using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
-using Module.Core.Shared;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Dapper;
+using Module.Core.Data;
+using System.Linq.Expressions;
 
 namespace Module.Asset.Data
 {
@@ -17,12 +20,14 @@ namespace Module.Asset.Data
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<CheckoutHistory> _historyRepository;
         private readonly ICheckoutHistoryService _checkoutHistoryService;
+        private readonly IDbConnection _dbConnection;
 
         public AssetReportService(
             IUnitOfWork unitOfWork,
             ICheckoutHistoryService checkoutHistoryService)
         {
             _unitOfWork = unitOfWork;
+            _dbConnection = _unitOfWork.GetConnection();
             _checkoutHistoryService = checkoutHistoryService;
             _historyRepository = _unitOfWork.GetRepository<CheckoutHistory>();
         }
@@ -34,45 +39,52 @@ namespace Module.Asset.Data
 
         public async Task<PagedCollection<DepreciationReportViewModel>> DepreciationReportAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var assets = _unitOfWork.GetRepository<Entities.Asset>()
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted)
-                .ApplySearch(searchOptions);
+            var sql = $@"with cte as (
+                        select max(d2.CreatedAt) CreatedAt, count(*) count from [asset].[AssetDepreciationRevision] d2
+                        group by d2.AssetId
+                        order by max(d2.CreatedAt)
+                        offset {pagingOptions?.Offset ?? 0} rows fetch next {pagingOptions?.Limit ?? 20} rows only)
+                        select a.Name AssetName, a.Id AssetId, d.EOL, d.Id DepreciationId,
+                        a.PurchaseCost Price, 12 DepreciationFrequency,
+                        d.RatePerFrequency DepreciationRate,
+                        d.ValuePerFrequency DepreciationValue,
+                        case when cte.count > 1 then 'Revised' else '1st time' end as Status
+                        from cte
+                        left join [asset].[AssetDepreciationRevision] d on d.CreatedAt = cte.CreatedAt
+                        left join [asset].[Asset] a on a.Id = d.AssetId";
 
-            var results = assets
-                .ApplyPagination(pagingOptions)
-                .Select(x => new DepreciationReportViewModel
-                {
-                    Location = x.LocationId != null ? x.Location.OfficeName : "",
-                    Asset = x.Name,
-                    CheckedOut = x.CheckoutId != null ? new AssetCheckoutViewModel
-                    {
-                        CheckoutDate = x.Checkout.CheckoutDate,
-                        ExpectedChekinDate = x.Checkout.ExpectedChekinDate,
-                        ChekoutToAsset = x.Checkout.ChekoutToAssetId != null ? new IdNameViewModel
-                        {
-                            Id = x.Checkout.ChekoutToAsset.Id,
-                            Name = x.Checkout.ChekoutToAsset.Name
-                        } : null,
-                        ChekoutToUser = x.Checkout.ChekoutToUserId != null ? new IdNameViewModel
-                        {
-                            Id = x.Checkout.ChekoutToUser.Id,
-                            Name = x.Checkout.ChekoutToUser.FullName
-                        } : null,
-                        ChekoutToLocation = x.Checkout.ChekoutToLocationId != null ? new IdNameViewModel
-                        {
-                            Id = x.Checkout.ChekoutToLocation.Id,
-                            Name = x.Checkout.ChekoutToLocation.OfficeName
-                        } : null
-                    } : null,
-                    Cost = x.PurchaseCost.ToString(),
-                    Purchased = x.PurchaseDate
-                });
+            var totalSql = @"with cte as (
+                        select d2.AssetId from [asset].[AssetDepreciationRevision] d2
+                        group by d2.AssetId)
+                        select count(*) from cte";
 
-            var total = await assets.Select(x => x.Id).CountAsync(cancellationToken);
-            var items = await results.ToListAsync(cancellationToken);
+            var items = await _dbConnection.QueryAsync<DepreciationReportViewModel>(sql);
+            int total = await _dbConnection.ExecuteScalarAsync<int>(totalSql);
 
             var result = new PagedCollection<DepreciationReportViewModel>(items, total, pagingOptions);
+            return result;
+        }
+
+        public async Task<PagedCollection<DepreciationScheduleReportViewModel>> DepreciationScheduleReportAsync(long? assetId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        {
+            var query = _unitOfWork
+                .GetRepository<AssetDepreciationSchedule>()
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted);
+
+            if (assetId.HasValue)
+            {
+                query = query.Where(x => x.AssetId == assetId);
+            }
+            query = query.OrderBy(x => x.CreatedAt).ApplySearch(searchOptions);
+            var total = await query.Select(x => x.Id).CountAsync();
+            var items = await query
+                .Select(DepreciationScheduleReportViewModel.Select())
+                .ApplyPagination(pagingOptions)
+                .ToListAsync();
+
+            var result = new PagedCollection<DepreciationScheduleReportViewModel>(items, total, pagingOptions);
+
             return result;
         }
 

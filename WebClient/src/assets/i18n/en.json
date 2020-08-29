@@ -525,5 +525,17 @@
   "requisition.details": "Requisition details",
   "approver": "Approver",
   "initiator": "Initiator",
-  "send": "Send"
+  "send": "Send",
+  "email.sent.please.follow.the.link": "Email sent. Please follow the link",
+  "password.not.matched": "Password not matched",
+  "forgot.password": "Forgot password",
+  "reset.password": "Reset password",
+  "depreciation.frequency": "Depreciation frequency",
+  "depreciation.rate": "Depreciation rate",
+  "depreciation.value": "Depreciation value",
+  "current.depreciation": "Current depreciation",
+  "cumulative": "Cumulative",
+  "current.value": "Current value",
+  "depreciate": "Depreciate",
+  "current.year.depreciation": "Current year depreciation"
 }

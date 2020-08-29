@@ -12,7 +12,7 @@ import { PermissionHttpService } from 'src/services/http/user/permission-http.se
 export class HomeComponent extends BaseComponent {
 
   nav = [];
-  userInfo;
+  userInfo: any = {};
   permissionLoaded = false;
 
   constructor(
@@ -28,7 +28,7 @@ export class HomeComponent extends BaseComponent {
     this.on('breadcrumbs', (data: any[]) => {
       this.breadcrumbs = data;
     })
-    this.userInfo = this.authService.getLoggedInUserInfo();
+    this.userInfo = this.authService.getLoggedInUserInfo() || {};
 
     const nav = [
       {

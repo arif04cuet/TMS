@@ -38,7 +38,7 @@ namespace Module.Asset.Data
                 SupplierId = Supplier,
                 Warranty = x.Warranty,
                 Maintenance = x.Maintenance,
-                DepreciationId = x.Depreciation,
+                EOL = x.Eol,
                 Barcode = barcodeService.Generate(),
                 InventoryEntryDate = InventoryEntryDate,
                 InvoiceDate = InvoiceDate

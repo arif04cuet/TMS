@@ -60,6 +60,7 @@ export class BaseComponent {
         this._subscriptions.forEach(s => {
             s.unsubscribe();
         });
+        this._subscriptions = [];
     }
 
     on<T>(key: string, fn: (value: T) => void): void {
@@ -86,7 +87,7 @@ export class BaseComponent {
         if (error && error.error) {
             if (error && error.status === 403) {
                 this._messageService.error(error.error);
-                this._router.navigateByUrl('/login');
+                this._router.navigateByUrl(redirect);
             } else if (error.error.message) {
                 if (error.error.message == "form_error") {
 

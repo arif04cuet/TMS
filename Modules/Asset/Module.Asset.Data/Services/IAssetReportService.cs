@@ -1,5 +1,4 @@
 ﻿using Infrastructure;
-using Module.Asset.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System.Threading;
@@ -16,5 +15,7 @@ namespace Module.Asset.Data
         Task<PagedCollection<LicenseReportViewModel>> LicenseReportAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
 
         Task<PagedCollection<MaintenanceReportViewModel>> MaintenanceReportAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
+
+        Task<PagedCollection<DepreciationScheduleReportViewModel>> DepreciationScheduleReportAsync(long? assetId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default);
     }
 }

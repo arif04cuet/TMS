@@ -9,6 +9,14 @@ const routes: Routes = [
     loadChildren: () => import('./modules/public/login/login.module').then(x => x.LoginModule)
   },
   {
+    path: 'forgot-password',
+    loadChildren: () => import('./modules/public/forgot-password/forgot-password.module').then(x => x.ForgotPasswordModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./modules/public/reset-password/reset-password.module').then(x => x.ResetPasswordModule)
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./modules/admin/home/home.module').then(x => x.HomeModule),
     canActivate: [AuthGuard],

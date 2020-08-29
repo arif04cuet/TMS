@@ -464,7 +464,6 @@ nz-header .ant-badge-count {
   }
 }
 
-
 .custom-tabs {
   border-radius: 5px !important;
   nz-radio-group {
@@ -792,4 +791,29 @@ label {
 
 body{
   font-family: 'SolaimanLipi', sans-serif;
+}
+
+.login-form {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+  form {
+      max-width: 300px;
+      width: 100%;
+      .login-form-button {
+          width: 100%;
+      }
+      .login-form-forgot {
+          float: right;
+      }
+  }
+  .logo {
+      img {
+          width: 100px;
+      }
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+  }
 }

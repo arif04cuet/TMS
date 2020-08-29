@@ -13,7 +13,6 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
 import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
 import { StatusHttpService } from 'src/services/http/asset/status-http.service';
 import { PhotoUploadModule } from 'src/app/shared/photo.component';
-import { DepreciationHttpService } from 'src/services/http/asset/depreciation-http.service';
 import { ViewModule } from 'src/app/shared/view.component';
 
 @NgModule({
@@ -39,8 +38,7 @@ import { ViewModule } from 'src/app/shared/view.component';
     CommonValidator,
     MediaHttpService,
     AssetModelHttpService,
-    StatusHttpService,
-    DepreciationHttpService
+    StatusHttpService
   ]
 })
 export class AssetAddModule { }

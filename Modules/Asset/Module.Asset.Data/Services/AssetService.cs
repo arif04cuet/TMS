@@ -26,18 +26,20 @@ namespace Module.Asset.Data
         private readonly IBarcodeService _barcodeService;
         private readonly IRepository<ComponentAsset> _componentAssetRepository;
         private readonly IRepository<LicenseSeat> _licenseSeatRepository;
-        private readonly IRepository<Depreciation> _depreciationRepository;
         private readonly IAssetEmailService _assetEmailService;
         private readonly IMediaService _mediaService;
         private readonly IDbConnection _dbConnection;
+        private readonly IAssetDepreciationService _assetDepreciationService;
 
         public AssetService(
             IUnitOfWork unitOfWork,
             IMediaService mediaService,
             ICheckoutHistoryService checkoutHistoryService,
             IBarcodeService barcodeService,
-            IAssetEmailService assetEmailService)
+            IAssetEmailService assetEmailService,
+            IAssetDepreciationService assetDepreciationService)
         {
+            _assetDepreciationService = assetDepreciationService;
             _mediaService = mediaService;
             _barcodeService = barcodeService;
             _checkoutHistoryService = checkoutHistoryService;
@@ -47,41 +49,19 @@ namespace Module.Asset.Data
             _componentAssetRepository = _unitOfWork.GetRepository<ComponentAsset>();
             _assetEmailService = assetEmailService;
             _licenseSeatRepository = _unitOfWork.GetRepository<LicenseSeat>();
-            _depreciationRepository = _unitOfWork.GetRepository<Depreciation>();
             _dbConnection = _unitOfWork.GetConnection();
         }
 
         public async Task<long> CreateAsync(AssetCreateRequest request, CancellationToken cancellationToken = default)
         {
-            var assets = request.ToMap(_barcodeService);
-            await _assetRepository.AddRangeAsync(assets, cancellationToken);
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-
+            var assets = request.ToMap(_barcodeService);            
+            var result = 0;
             foreach (var asset in assets)
             {
-                var depreciation = await _depreciationRepository
-                    .AsReadOnly()
-                    .FirstOrDefaultAsync(x => x.Id == asset.DepreciationId && !x.IsDeleted);
-
-                if (depreciation == null)
-                    throw new NotFoundException("Depreciation not found.");
-
-
-                var term = depreciation.Term * 12; // months
-                var frequency = term / depreciation.Frequency;
-                var depreciationRatePerFrequency = 100 / frequency; // %
-                var depreciationValuePerFrequency = asset.PurchaseCost / frequency;
-
-                var assetDepreciation = new AssetDepreciation
-                {
-                    AssetId = asset.Id,
-                    Term = depreciation.Term,
-                    Frequency = depreciation.Frequency
-                };
-
-
+                await _assetRepository.AddAsync(asset, cancellationToken);
+                result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+                await _assetDepreciationService.CreateAsync(asset.Id);
             }
-
             return result;
         }
 
@@ -92,14 +72,22 @@ namespace Module.Asset.Data
             if (entity == null)
                 throw new NotFoundException($"Asset not found");
 
+            int oldEOL = entity.EOL;
+
             entity = request.ToMap(entity);
 
             if (string.IsNullOrEmpty(entity.Barcode))
             {
                 entity.Barcode = _barcodeService.Generate();
             }
-
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            if (result > 0 && oldEOL != request.EOL)
+            {
+                // EOL changed, update depreciation
+                await _assetDepreciationService.ReviseAsync(entity.Id);
+            }
+
             return result > 0;
         }
 

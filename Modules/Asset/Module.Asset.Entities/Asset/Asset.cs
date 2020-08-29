@@ -52,8 +52,9 @@ namespace Module.Asset.Entities
         public long? LocationId { get; set; }
         public Office Location { get; set; }
 
-        public long? DepreciationId { get; set; }
-        public Depreciation Depreciation { get; set; }
+        public int EOL { get; set; }
+        public bool HasDepreciated { get; set; }
+        public DateTime? NextDepreciateDate { get; set; }
 
         public long? MediaId { get; set; }
         public Media Media { get; set; }

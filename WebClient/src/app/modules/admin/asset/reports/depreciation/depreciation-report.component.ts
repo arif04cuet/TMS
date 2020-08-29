@@ -42,4 +42,10 @@ export class DepreciationReportComponent extends TableComponent {
     });
   }
 
+  viewSchedules(data) {
+    if(data) {
+      this.goTo(`/admin/asset/reports/depreciation/${data.assetId}/schedules`);
+    }
+  }
+
 }

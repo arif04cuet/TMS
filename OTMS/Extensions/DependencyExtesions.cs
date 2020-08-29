@@ -14,8 +14,8 @@ namespace OTMS.Extensions
         {
             ServiceFactory.Init(services.BuildServiceProvider());
             services.AddAesSecurity(configuration);
-            services.AddJwt(configuration);
             services.AddCors();
+            services.AddJwt(configuration);
             services.AddModules();
 
             foreach (var item in ProjectManager.ServiceRegistrars)

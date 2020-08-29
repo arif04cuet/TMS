@@ -13,8 +13,6 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
 import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
 import { StatusHttpService } from 'src/services/http/asset/status-http.service';
 import { PhotoUploadModule } from 'src/app/shared/photo.component';
-import { ViewModule } from 'src/app/shared/view.component';
-import { DepreciationHttpService } from 'src/services/http/asset/depreciation-http.service';
 
 @NgModule({
   declarations: [
@@ -30,8 +28,7 @@ import { DepreciationHttpService } from 'src/services/http/asset/depreciation-ht
     NgZorroAntdModule,
     SharedModule,
     SelectControlModule,
-    PhotoUploadModule,
-    ViewModule
+    PhotoUploadModule
   ],
   exports: [AssetEditComponent],
   providers: [
@@ -39,8 +36,7 @@ import { DepreciationHttpService } from 'src/services/http/asset/depreciation-ht
     CommonValidator,
     MediaHttpService,
     AssetModelHttpService,
-    StatusHttpService,
-    DepreciationHttpService
+    StatusHttpService
   ]
 })
 export class AssetEditModule { }

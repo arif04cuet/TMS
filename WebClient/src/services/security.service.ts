@@ -13,7 +13,7 @@ export class SecurityService {
     private authData: IAuthData = null;
 
     constructor() {
-        this._storage = sessionStorage;
+        this._storage = localStorage;
     }
 
     public setAuthData(data: IAuthData): void {

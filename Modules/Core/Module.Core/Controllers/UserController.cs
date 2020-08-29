@@ -7,12 +7,14 @@ using Module.Core.Data;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using Module.Core.Shared;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Module.Core.Controllers
 {
     //[ApiVersion("v1")]
     [Route("api/users")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
 
@@ -105,8 +107,8 @@ namespace Module.Core.Controllers
             return result.ToOkResult();
         }
 
+        [AllowAnonymous]
         [HttpPost("registration-from-frontend")]
-        [RequirePermission(UserCreate, UserManage)]
         public async Task<IActionResult> RegistrationFromFrontend([FromBody] UserCreateFromFrontendRequest request)
         {
             var result = await _userService.CreateFromFrontendAsync(request);

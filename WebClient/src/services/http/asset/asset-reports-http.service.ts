@@ -25,6 +25,11 @@ export class AssetReportsHttpService {
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
 
+    public depreciationSchedule(assetId: number, pagination = null, search = null) {
+        let url = `${this.EndPoint}/depreciation/${assetId}/schedules?`;
+        return this.httpService.get(this.buildUrl(url, pagination, search));
+    }
+
     public license(pagination = null, search = null) {
         let url = `${this.EndPoint}/license?`;
         return this.httpService.get(this.buildUrl(url, pagination, search));

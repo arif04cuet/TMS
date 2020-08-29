@@ -63,6 +63,10 @@ export class AssetBaseHttpService {
         return this.httpService.post(`${this.buildBaseEndpoint()}`, body);
     }
 
+    public depreciate(id) {
+        return this.httpService.post(`${this.buildBaseEndpoint()}/${id}/depreciate`, {});
+    }
+
     public delete(id: number) {
         return this.httpService.delete(`${this.buildBaseEndpoint()}/${id}`);
     }

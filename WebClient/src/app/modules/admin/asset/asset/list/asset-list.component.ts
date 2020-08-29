@@ -56,20 +56,36 @@ export class AssetListComponent extends TableComponent {
   }
 
   view(model) {
-    if(model) {
+    if (model) {
       this.goTo(`/admin/asset/${model.id}/view`);
     }
   }
 
   checkout(model) {
-    if(model) {
+    if (model) {
       this.goTo(`/admin/asset/${model.id}/checkout`);
     }
   }
 
   checkin(model) {
-    if(model) {
+    if (model) {
       this.goTo(`/admin/asset/${model.id}/checkin`);
+    }
+  }
+
+  depreciate(model) {
+    if (model) {
+      this.loading = true;
+      this.subscribe(this.assetHttpService.depreciate(model.id),
+        res => {
+          this.loading = false;
+          this.success('success')
+        },
+        err => {
+          this.loading = false;
+          this.failed('failed')
+        }
+      );
     }
   }
 
