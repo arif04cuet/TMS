@@ -12,5 +12,9 @@ namespace Module.Core.Data
         Task<TokenViewModel> RefreshAsync(TokenRefreshRequest request);
 
         Task<bool> RevokeAsync(TokenRevokeRequest request);
+
+        Task<bool> CreateForgotPasswordToken(ForgotPasswordRequest request);
+
+        Task<bool> ResetPasswordAsync(ResetPasswordRequest request);
     }
 }

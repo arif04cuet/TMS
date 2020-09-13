@@ -7,8 +7,7 @@ import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './login.component.html'
 })
 export class LoginComponent extends FormComponent {
 
@@ -21,6 +20,13 @@ export class LoginComponent extends FormComponent {
   }
 
   ngOnInit(): void {
+
+    const remember = this.authService.isRemember();
+    if (remember) {
+      this.goTo('/admin');
+      return;
+    }
+
     this.onCheckMode = id => this.get(id);
     this.createForm({
       email: [null, [], this.v.required.bind(this)],

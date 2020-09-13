@@ -93,6 +93,9 @@
                                     <li *checkPermission="['asset.manage', 'asset.delete']" nz-menu-item (click)="delete(data)">
                                         <i nz-icon nzType="delete"></i>{{'delete'|translate}}
                                     </li>
+                                    <li nz-menu-item (click)="depreciate(data)">
+                                        <i nz-icon></i>{{'depreciate'|translate}}
+                                    </li>
                                 </ul>
                             </nz-dropdown-menu>
                         </td>

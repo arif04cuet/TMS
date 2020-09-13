@@ -22,40 +22,23 @@
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>{{'asset'|translate}}</th>
-                        <th>{{'depreciation.name'|translate}}</th>
-                        <th>{{'number.of.months'|translate}}</th>
-                        <th>{{'checked.out'|translate}}</th>
-                        <th>{{'location'|translate}}</th>
-                        <th>{{'purchased'|translate}}</th>
-                        <th>{{'eol'|translate}}</th>
-                        <th>{{'cost'|translate}}</th>
-                        <th>{{'value'|translate}}</th>
-                        <th>{{'diff'|translate}}</th>
-                        <!-- <th>
-                            <div class="ta-right">
-                                {{'action'|translate}}
-                            </div>
-                            <div>
-                                <button (click)="search()" nz-button class="btn-custom">
-                                    <i nz-icon nzType="search"></i>
-                                    {{'search'|translate}}
-                                </button>
-                            </div>
-                        </th> -->
+                        <th>{{'price'|translate}}</th>
+                        <th>{{'eol'|translate}} ({{ 'year'|translate }}) </th>
+                        <th>{{'depreciation.frequency'|translate}}</th>
+                        <th>{{'depreciation.rate'|translate}}/{{'year'}}</th>
+                        <th>{{'depreciation.value'|translate}}/{{'year'}}</th>
+                        <th>{{'status'|translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.asset }}</td>
-                        <td>{{ data.depreciationName }}</td>
-                        <td>{{ data.numberOfMonths }}</td>
-                        <td>{{ data.checkedOut?.chekoutToUser?.name || data.checkedOut?.chekoutToLocation?.name || data.checkedOut?.chekoutToAsset?.name }}</td>
-                        <td>{{ data.location }}</td>
-                        <td>{{ data.purchased|date:'medium':'+0000' }}</td>
-                        <td>{{ data.eol }}</td>
-                        <td>{{ data.cost }}</td>
-                        <td>{{ data.value }}</td>
-                        <td>{{ data.diff }}</td>
+                        <td><a (click)="viewSchedules(data)">{{ data.assetName }}</a></td>
+                        <td>{{ data.price }}</td>
+                        <td>{{ data.eol / 12 }}</td>
+                        <td>{{ data.depreciationFrequency / 12 }}</td>
+                        <td>{{ data.depreciationRate }}%</td>
+                        <td>{{ data.depreciationValue }}</td>
+                        <td>{{ data.status }}</td>
                     </tr>
                 </tbody>
             </nz-table>

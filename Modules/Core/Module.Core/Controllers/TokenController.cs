@@ -40,6 +40,20 @@ namespace Module.Core.Controllers
             return result.ToOkResult();
         }
 
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordRequest request)
+        {
+            var result = await _tokenService.CreateForgotPasswordToken(request);
+            return result.ToOkResult();
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordRequest request)
+        {
+            var result = await _tokenService.ResetPasswordAsync(request);
+            return result.ToOkResult();
+        }
+
         [HttpPost("revoke")]
         public async Task<IActionResult> Revoke([FromBody]TokenRevokeRequest request)
         {

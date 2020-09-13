@@ -9,7 +9,7 @@
         public double PurchaseCost { get; set; }
         public int Warranty { get; set; }
         public int Maintenance { get; set; }
-        public long Depreciation { get; set; }
+        public int Eol { get; set; }
         public bool IsRequestable { get; set; }
         public long? Media { get; set; }
     }

@@ -25,10 +25,11 @@ export class PermissionHttpService {
     }
 
     getPermissions(): string[] {
-        return this.securityService.getPermissions();
+        return this.securityService.getPermissions() || [];
     }
 
     isRouteGranted(modules: string | string[]) {
+        // return true;
         let _permissions = []
         if (Array.isArray(modules)) {
             (<string[]>modules).forEach(m => {
@@ -75,7 +76,7 @@ export function permissionFactory(
     permissionService: PermissionHttpService
 ) {
     const userId = authService.getLoggedInUserId();
-    if (userId) {
+    if (/*false && */userId) {
         console.log('permission Factory');
         return () => permissionService.list(userId).pipe(
             map(res => {

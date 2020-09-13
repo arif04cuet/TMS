@@ -31,8 +31,8 @@ namespace Module.Asset.Data
         public IdNameViewModel CheckoutToLocation { get; set; }
         public IdNameViewModel CheckoutToAsset { get; set; }
         public AssetCategoryViewModel Category { get; set; }
-        public DepreciationViewModel Depreciation { get; set; }
         public long? CheckoutId { get; set; }
+        public int EOL { get; set; }
 
         public static Expression<Func<Entities.Asset, AssetViewModel>> Select(IMediaService mediaService)
         {
@@ -68,7 +68,7 @@ namespace Module.Asset.Data
                 CheckoutId = x.CheckoutId,
                 Photo = mediaService.GetPhotoUrl(x.Media),
 
-                Depreciation = x.DepreciationId != null ? new DepreciationViewModel { Id = x.Depreciation.Id, Name = x.Depreciation.Name, Term = x.Depreciation.Term, IsActive = x.Depreciation.IsActive } : null,
+                EOL = x.EOL
             };
         }
     }

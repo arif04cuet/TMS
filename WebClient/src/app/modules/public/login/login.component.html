@@ -23,7 +23,7 @@
                 <label nz-checkbox formControlName="remember">
                     <span>{{'remember_me'|translate}}</span>
                 </label>
-                <a class="login-form-forgot" class="login-form-forgot">{{'forgot_password'|translate}}</a>
+                <a (click)="goTo('/forgot-password')" class="login-form-forgot" class="login-form-forgot">{{'forgot_password'|translate}}</a>
                 <button [nzLoading]="submitting" (click)="submit()" nz-button class="login-form-button"
                     [nzType]="'primary'">{{'login'|translate}}</button>
                 <!-- Or -->

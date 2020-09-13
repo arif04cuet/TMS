@@ -203,9 +203,17 @@
                                             </app-select-control>
                                         </div>
                                         <div nz-col [nzSpan]="6">
-                                            <app-select-control mandatory="true" #depreciationSelect
-                                                label="depreciation" [formControl]="item.controls.depreciation">
-                                            </app-select-control>
+                                            <nz-form-item class="field-container">
+                                                <div>
+                                                    <label>{{'eol'|translate}}</label>
+                                                </div>
+                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                                    <nz-input-group nzAddOnAfter="{{'months'|translate|lowercase}}">
+                                                        <input type="number" nz-input formControlName="eol"
+                                                            placeholder="{{'eol'|translate}}" />
+                                                    </nz-input-group>
+                                                </nz-form-control>
+                                            </nz-form-item>
                                         </div>
                                     </div>
                                     <div nz-row>
@@ -226,9 +234,6 @@
                                                         formControlName="isRequestable">{{'users.may.request'|translate}}</span>
                                                 </nz-form-control>
                                             </nz-form-item>
-                                        </div>
-                                        <div nz-col [nzSpan]="6">
-                                            <app-view label="eol"></app-view>
                                         </div>
                                     </div>
                                 </div>

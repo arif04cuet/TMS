@@ -8,7 +8,6 @@ import { SelectControlComponent } from 'src/app/shared/select-control/select-con
 import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
 import { StatusHttpService } from 'src/services/http/asset/status-http.service';
 import { environment } from 'src/environments/environment';
-import { DepreciationHttpService } from 'src/services/http/asset/depreciation-http.service';
 
 @Component({
   selector: 'app-asset-edit',
@@ -20,7 +19,6 @@ export class AssetEditComponent extends FormComponent {
   statuses = [];
 
   @ViewChild('statusSelect') statusSelect: SelectControlComponent;
-  @ViewChild('depreciationSelect') depreciationSelect: SelectControlComponent;
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
   @ViewChild('locationSelect') locationSelect: SelectControlComponent;
   @ViewChild('modelSelect') modelSelect: SelectControlComponent;
@@ -33,7 +31,6 @@ export class AssetEditComponent extends FormComponent {
     private assetHttpService: AssetBaseHttpService,
     private assetModelHttpService: AssetModelHttpService,
     private statusHttpService: StatusHttpService,
-    private depreciationHttpService: DepreciationHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -56,7 +53,7 @@ export class AssetEditComponent extends FormComponent {
       purchaseDate: [null, [], this.v.required.bind(this)],
       warranty: [],
       maintenance: [],
-      depreciation: [null, [], this.v.required.bind(this)],
+      eol: [null, [], this.v.required.bind(this)],
       media: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
@@ -71,10 +68,6 @@ export class AssetEditComponent extends FormComponent {
 
     this.statusSelect.register((pagination, search) => {
       return this.statusHttpService.list(pagination, search);
-    }).fetch();
-
-    this.depreciationSelect.register((pagination, search) => {
-      return this.depreciationHttpService.list(pagination, search);
     }).fetch();
 
     this.supplierSelect.register((pagination, search) => {

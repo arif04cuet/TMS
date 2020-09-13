@@ -1,0 +1,55 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div *ngIf="!loading">
+    <div class="box">
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class="column content">
+                <div class="header-container">
+                    <span class="header">
+                        {{'depreciation.report'|translate}} ({{total}})
+                    </span>
+                </div>
+            </div>
+            <div class="column">
+                <button (click)="refresh()" nz-button class="btn-custom">
+                    <i nz-icon nzType="sync" nzTheme="outline"></i>
+                    {{'refresh'|translate}}
+                </button>
+            </div>
+        </div>
+        <div class="block">
+            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
+                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
+                nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
+                [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
+                <thead>
+                    <tr class="v-align-top advanced-table-filter">
+                        <th>{{'year'|translate}}</th>
+                        <th>{{'asset'|translate}}</th>
+                        <th>{{'price'|translate}}</th>
+                        <th>{{'current.year.depreciation'|translate}}</th>
+                        <th>{{'depreciation.value'|translate}} ({{'cumulative'}})</th>
+                        <th>{{'current.value'|translate}}</th>
+                        <th>{{'eol'|translate}} ({{ 'year'|translate }}) </th>
+                        <th>{{'depreciation.rate'|translate}}/{{'year'}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of basicTable.data; let i = index;">
+                        <td>{{ i }}</td>
+                        <td>{{ data.asset?.name }}</td>
+                        <td>{{ data.price }}</td>
+                        <td>{{ data.currentDepreciation }}</td>
+                        <td>{{ data.depreciationValue }}</td>
+                        <td>{{ data.currentValue }}</td>
+                        <td>{{ data.eol / 12 }}</td>
+                        <td>{{ data.depreciationRate }}%</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }}
+        {{'items'|translate}} </ng-template>
+</div>

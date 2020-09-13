@@ -3,7 +3,6 @@ import { HttpService } from './http/http.service';
 import { map, switchMap } from 'rxjs/operators';
 import { SecurityService } from './security.service';
 import { PermissionHttpService, extractPermissions } from './http/user/permission-http.service';
-import { state } from 'src/constants/state';
 
 @Injectable()
 export class AuthService {
@@ -24,20 +23,49 @@ export class AuthService {
     public login(body) {
         return this.httpService.post('token', body).pipe(
             map((res: any) => {
+                const data = res.data;
+                data.remember = body.remember || false;
                 this.securityService.setAuthData(res.data);
                 return res;
             }),
             switchMap((res2: any) => {
-                return this.permissionService.list(res2.data.userId).pipe(
-                    map(x => {
-                        const permissions = extractPermissions(x);
-                        console.log('login permissions', permissions);
-                        this.securityService.setPermissions(permissions);
-                        return res2;
-                    })
-                )
+                if (res2 && res2.data && res2.data.userId) {
+                    return this.permissionService.list(res2.data.userId).pipe(
+                        map(x => {
+                            const permissions = extractPermissions(x);
+                            console.log('login permissions', permissions);
+                            this.securityService.setPermissions(permissions);
+                            return res2;
+                        })
+                    )
+                }
+                return res2;
             })
         );
+    }
+
+    public reLogin() {
+        const data = this.securityService.getAuthData();
+        const body = data ? {
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken
+        } : {};
+        return this.httpService.post('token/refresh', body).pipe(
+            map((res: any) => {
+                const remember = this.isRemember();
+                res.data.remember = remember;
+                this.securityService.setAuthData(res.data);
+                return res;
+            })
+        );
+    }
+
+    public forgotPassword(body) {
+        return this.httpService.post('token/forgot-password', body);
+    }
+
+    public resetPassword(body) {
+        return this.httpService.post('token/reset-password', body);
     }
 
     public logout() {
@@ -58,6 +86,11 @@ export class AuthService {
     public getLoggedInUserId() {
         const data: any = this.securityService.getAuthData();
         return data?.userId;
+    }
+
+    public isRemember() {
+        const data: any = this.securityService.getAuthData();
+        return data?.remember || false;
     }
 
 }

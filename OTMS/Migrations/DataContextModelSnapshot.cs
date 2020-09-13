@@ -178,8 +178,11 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("DepreciationId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("EOL")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("HasDepreciated")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("InventoryEntryDate")
                         .HasColumnType("datetime2");
@@ -213,6 +216,9 @@ namespace OTMS.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NextDepreciateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -251,8 +257,6 @@ namespace OTMS.Migrations
                     b.HasIndex("CheckoutId")
                         .IsUnique()
                         .HasFilter("[CheckoutId] IS NOT NULL");
-
-                    b.HasIndex("DepreciationId");
 
                     b.HasIndex("LocationId");
 
@@ -364,7 +368,7 @@ namespace OTMS.Migrations
                     b.ToTable("AssetCheckout","asset");
                 });
 
-            modelBuilder.Entity("Module.Asset.Entities.AssetDepreciation", b =>
+            modelBuilder.Entity("Module.Asset.Entities.AssetDepreciationRevision", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -380,6 +384,9 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("EOL")
+                        .HasColumnType("int");
+
                     b.Property<int>("Frequency")
                         .HasColumnType("int");
 
@@ -389,14 +396,8 @@ namespace OTMS.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("NextDepreciateDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<float>("RatePerFrequency")
                         .HasColumnType("real");
-
-                    b.Property<int>("Term")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -414,7 +415,7 @@ namespace OTMS.Migrations
 
                     b.HasIndex("AssetId");
 
-                    b.ToTable("AssetDepreciation","asset");
+                    b.ToTable("AssetDepreciationRevision","asset");
                 });
 
             modelBuilder.Entity("Module.Asset.Entities.AssetDepreciationSchedule", b =>
@@ -11587,6 +11588,26 @@ namespace OTMS.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Module.Core.Entities.UserForgotPasswordToken", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserForgotPasswordToken","core");
+                });
+
             modelBuilder.Entity("Module.Core.Entities.UserPermission", b =>
                 {
                     b.Property<long>("Id")
@@ -15635,10 +15656,6 @@ namespace OTMS.Migrations
                         .WithOne("ChekoutToAsset")
                         .HasForeignKey("Module.Asset.Entities.Asset", "CheckoutId");
 
-                    b.HasOne("Module.Asset.Entities.Depreciation", "Depreciation")
-                        .WithMany()
-                        .HasForeignKey("DepreciationId");
-
                     b.HasOne("Module.Core.Entities.Office", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId");
@@ -15676,7 +15693,7 @@ namespace OTMS.Migrations
                         .HasForeignKey("ChekoutToUserId");
                 });
 
-            modelBuilder.Entity("Module.Asset.Entities.AssetDepreciation", b =>
+            modelBuilder.Entity("Module.Asset.Entities.AssetDepreciationRevision", b =>
                 {
                     b.HasOne("Module.Asset.Entities.Asset", "Asset")
                         .WithMany()
@@ -15685,7 +15702,7 @@ namespace OTMS.Migrations
 
             modelBuilder.Entity("Module.Asset.Entities.AssetDepreciationSchedule", b =>
                 {
-                    b.HasOne("Module.Asset.Entities.AssetDepreciation", "AssetDepreciation")
+                    b.HasOne("Module.Asset.Entities.AssetDepreciationRevision", "AssetDepreciation")
                         .WithMany()
                         .HasForeignKey("AssetDepreciationId");
 
@@ -16069,6 +16086,15 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Core.Entities.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId");
+                });
+
+            modelBuilder.Entity("Module.Core.Entities.UserForgotPasswordToken", b =>
+                {
+                    b.HasOne("Module.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Module.Core.Entities.UserPermission", b =>

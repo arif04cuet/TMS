@@ -1,19 +1,15 @@
-﻿using System;
-
-namespace Module.Asset.Data
+﻿namespace Module.Asset.Data
 {
     public class DepreciationReportViewModel
     {
-        public string Asset { get; set; }
-        public string Serial { get; set; }
-        public string DepreciationName { get; set; }
-        public int NumberOfMonths { get; set; }
-        public AssetCheckoutViewModel CheckedOut { get; set; }
-        public string Location { get; set; }
-        public DateTime? Purchased { get; set; }
-        public DateTime? EOL { get; set; }
-        public string Cost { get; set; }
-        public string Value { get; set; }
-        public string Diff { get; set; }
+        public string AssetName { get; set; }
+        public long AssetId { get; set; }
+        public long DepreciationId { get; set; }
+        public double Price { get; set; }
+        public int EOL { get; set; }
+        public int DepreciationFrequency { get; set; }
+        public float DepreciationRate { get; set; }
+        public float DepreciationValue { get; set; }
+        public string Status { get; set; }
     }
 }

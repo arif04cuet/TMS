@@ -21,7 +21,7 @@ namespace Module.Asset.Data
         public double PurchaseCost { get; set; }
         public int Warranty { get; set; }
         public int Maintenance { get; set; }
-        public long Depreciation { get; set; }
+        public int EOL { get; set; }
         public bool IsRequestable { get; set; }
         public long? Media { get; set; }
 
@@ -43,7 +43,7 @@ namespace Module.Asset.Data
             asset.SupplierId = Supplier;
             asset.Warranty = Warranty;
             asset.Maintenance = Maintenance;
-            asset.DepreciationId = Depreciation;
+            asset.EOL = EOL;
             asset.InventoryEntryDate = InventoryEntryDate;
             asset.InvoiceDate = InvoiceDate;
             if (asset != null && Media.HasValue)

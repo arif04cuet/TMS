@@ -35,6 +35,13 @@ namespace Module.Asset.Controllers
             return result.ToOkResult();
         }
 
+        [HttpGet("depreciation/{assetId}/schedules")]
+        public async Task<ActionResult> DepreciationSchedulesReport(long assetId, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _assetReportService.DepreciationScheduleReportAsync(assetId, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet("license")]
         public async Task<ActionResult> LicenseReport([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {

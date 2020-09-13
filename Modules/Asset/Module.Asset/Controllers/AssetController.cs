@@ -16,11 +16,14 @@ namespace Module.Asset.Controllers
 
         private readonly IAssetService _assetService;
         private readonly ICheckoutHistoryService _checkoutHistoryService;
+        private readonly IAssetDepreciationService _assetDepreciationService;
 
         public AssetController(
             IAssetService assetService,
+            IAssetDepreciationService assetDepreciationService,
             ICheckoutHistoryService checkoutHistoryService)
         {
+            _assetDepreciationService = assetDepreciationService;
             _checkoutHistoryService = checkoutHistoryService;
             _assetService = assetService;
         }
@@ -50,6 +53,13 @@ namespace Module.Asset.Controllers
         public async Task<IActionResult> Post([FromBody] AssetCreateRequest request)
         {
             var result = await _assetService.CreateAsync(request);
+            return result.ToCreatedResult();
+        }
+
+        [HttpPost("{id}/depreciate")]
+        public async Task<IActionResult> Depreciate(long id)
+        {
+            var result = await _assetDepreciationService.ApplyAsync(id);
             return result.ToCreatedResult();
         }
 

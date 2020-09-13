@@ -11,6 +11,8 @@ using Module.Core.Extensions;
 using System.IO;
 using Module.Core.Shared;
 using OTMS.Converter;
+using Module.Asset.Data;
+using System;
 
 namespace OTMS
 {
@@ -47,6 +49,11 @@ namespace OTMS
                 options.JsonSerializerOptions.Converters.Add(new TimeSpanSerializerConverter());
             });
 
+            services.AddCronJob<AssetDepreciationScheduleCronJob>(x =>
+            {
+                x.CronExpression = @"0 */12 * * *";
+                x.TimeZoneInfo = TimeZoneInfo.Local;
+            });
             services.AddRazorPages();
         }
 
@@ -65,8 +72,8 @@ namespace OTMS
             app.UseRouting();
             app.UseCors("default");
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseStaticFilesService();
 
             app.UseEndpoints(endpoints =>
