@@ -13,6 +13,9 @@ namespace OTMS.Extensions
                     policy
                     .AllowAnyHeader()
                     .AllowAnyMethod()
+                    .WithOrigins("https://frontend-tms.softbdltd.com")
+                    .WithOrigins("https://api-tms.softbdltd.com")
+                    .WithOrigins("https://dashboard-tms.softbdltd.com")
                     .WithOrigins("http://frontend-tms.softbdltd.com")
                     .WithOrigins("http://api-tms.softbdltd.com")
                     .WithOrigins("http://dashboard-tms.softbdltd.com")
