@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepartmentListRoutingModule } from './department-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DepartmentHttpService } from 'src/services/http/user/department-http.service';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DepartmentHttpService } from 'src/services/http/user/department-http.se
   ],
   exports: [DepartmentListComponent],
   providers: [
-    DepartmentHttpService
+    DepartmentHttpService,
+    CommonValidator
   ]
 })
 export class DepartmentListModule { }

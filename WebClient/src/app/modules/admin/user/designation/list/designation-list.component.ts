@@ -3,6 +3,8 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 import { ActivatedRoute } from '@angular/router';
+import { DesignationAddComponent } from '../add/designation-add.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-designation-list',
@@ -12,7 +14,8 @@ export class DesignationListComponent extends TableComponent {
 
   constructor(
     private designationHttpService: DesignationHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(designationHttpService);
   }
@@ -26,12 +29,13 @@ export class DesignationListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/designations/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/designations/add');
-    }
+    this.addModal(DesignationAddComponent, this.modalService, {id: model?.id});
+    // if (model) {
+    //   this.goTo(`/admin/designations/${model.id}/edit`);
+    // }
+    // else {
+    //   this.goTo('/admin/designations/add');
+    // }
   }
 
   gets(pagination = null, search = null) {

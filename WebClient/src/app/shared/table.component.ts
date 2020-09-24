@@ -1,6 +1,8 @@
 import { BaseComponent } from './base.component';
 import { getSearchableProperties } from 'src/decorators/searchable.decorator';
 import { Observable } from 'rxjs';
+import { Type } from '@angular/core';
+import { NzModalService } from 'ng-zorro-antd';
 
 export class TableComponent extends BaseComponent {
 
@@ -148,6 +150,24 @@ export class TableComponent extends BaseComponent {
     onItemChecked(id: number, checked: boolean): void {
         this.updateCheckedSet(id, checked);
         this.refreshCheckedStatus();
+    }
+
+    addModal<T>(component: Type<T>, modalService: NzModalService, params: any = {},) {
+        const modal = modalService.create({
+            nzWidth: '80%',
+            nzContent: component,
+            nzGetContainer: () => document.body,
+            nzComponentParams: params,
+            nzFooter: null
+        });
+        const s = modal.afterOpen.subscribe(() => {
+            const componentInstance = (<any>modal.getContentComponent());
+            componentInstance.modalInstance = modal.getInstance();
+            componentInstance.id = params.id;
+            componentInstance.onCheckMode = id => componentInstance.get(id);
+            componentInstance.init();
+        });
+        this._subscriptions.push(s);
     }
 
 }

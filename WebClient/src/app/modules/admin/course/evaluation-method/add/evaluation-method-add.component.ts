@@ -1,20 +1,18 @@
 import { Component } from '@angular/core';
-import { FormComponent } from 'src/app/shared/form.component';
-import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { EvaluationMethodHttpService } from 'src/services/http/course/evaluation-method-http.service';
+import { FormBaseComponent } from 'src/app/shared/form-base.component';
 
 @Component({
   selector: 'app-evaluation-method-add',
   templateUrl: './evaluation-method-add.component.html'
 })
-export class EvaluationMethodAddComponent extends FormComponent {
+export class EvaluationMethodAddComponent extends FormBaseComponent {
 
   loading: boolean = true;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private evaluationMethodHttpService: EvaluationMethodHttpService,
     private v: CommonValidator
   ) {
@@ -22,12 +20,10 @@ export class EvaluationMethodAddComponent extends FormComponent {
   }
 
   ngOnInit(): void {
-    this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
       mark: [null, [], this.v.required.bind(this)]
     });
-    super.ngOnInit(this.activatedRoute.snapshot);
   }
 
   submit(): void {
@@ -66,7 +62,7 @@ export class EvaluationMethodAddComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/courses/evaluation-methods');
+    this.closeModal();
   }
 
 }

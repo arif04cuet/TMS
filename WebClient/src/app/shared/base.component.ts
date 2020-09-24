@@ -104,7 +104,7 @@ export class BaseComponent {
     }
 
     getQueryParams(name: string) {
-        return this._activatedRouteSnapshot.queryParams[name] || this._activatedRouteSnapshot.params[name];
+        return this._activatedRouteSnapshot && (this._activatedRouteSnapshot.queryParams[name] || this._activatedRouteSnapshot.params[name]) || "";
     }
 
     constructObject(controls) {

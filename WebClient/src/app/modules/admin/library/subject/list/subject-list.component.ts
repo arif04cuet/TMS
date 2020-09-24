@@ -3,6 +3,8 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
+import { SubjectAddComponent } from '../add/subject-add.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-subject-list',
@@ -12,7 +14,8 @@ export class SubjectListComponent extends TableComponent {
 
   constructor(
     private subjectHttpService: SubjectHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(subjectHttpService);
   }
@@ -27,12 +30,7 @@ export class SubjectListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/library/categories/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/library/categories/add');
-    }
+    this.addModal(SubjectAddComponent, this.modalService, {id: model?.id});
   }
 
   gets(pagination = null, search = null) {

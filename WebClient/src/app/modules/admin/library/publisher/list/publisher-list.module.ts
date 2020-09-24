@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { PublisherListComponent } from './publisher-list.component';
 import { PublisherListRoutingModule } from './publisher-list-routing.module';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { PublisherListRoutingModule } from './publisher-list-routing.module';
   ],
   exports: [PublisherListComponent],
   providers: [
-    PublisherHttpService
+    PublisherHttpService,
+    CommonValidator
   ]
 })
 export class PublisherListModule { }

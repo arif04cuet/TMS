@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { MethodHttpService } from 'src/services/http/course/method-http.service';
+import { MethodAddComponent } from '../add/method-add.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-method-list',
@@ -12,12 +14,12 @@ import { MethodHttpService } from 'src/services/http/course/method-http.service'
 export class MethodListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
 
   constructor(
     private methodHttpService: MethodHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(methodHttpService);
   }
@@ -28,12 +30,7 @@ export class MethodListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/courses/methods/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/courses/methods/add');
-    }
+    this.addModal(MethodAddComponent, this.modalService, {id: model?.id});
   }
 
   gets() {

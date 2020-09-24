@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ExpertiseListComponent } from './expertise-list.component';
 import { ExpertiseListRoutingModule } from './expertise-list-routing.module';
 import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.service';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.se
   ],
   exports: [ExpertiseListComponent],
   providers: [
-    ExpertiseHttpService
+    ExpertiseHttpService,
+    CommonValidator
   ]
 })
 export class ExpertiseListModule { }

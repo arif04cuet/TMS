@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FacilitiesListComponent } from './facilities-list.component';
 import { FacilitiesListRoutingModule } from './facilities-list-routing.module';
 import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.service';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.
   ],
   exports: [FacilitiesListComponent],
   providers: [
-    FacilitiesHttpService
+    FacilitiesHttpService,
+    CommonValidator
   ]
 })
 export class FacilitiesListModule { }

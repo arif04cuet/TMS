@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service';
+import { HostelAddComponent } from '../add/hostel-add.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-hostel-list',
@@ -17,7 +19,8 @@ export class HostelListComponent extends TableComponent {
 
   constructor(
     private hostelHttpService: HostelHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(hostelHttpService);
   }
@@ -28,12 +31,7 @@ export class HostelListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/hostels/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/hostels/add');
-    }
+    this.addModal(HostelAddComponent, this.modalService, {id: model?.id});
   }
 
   gets() {

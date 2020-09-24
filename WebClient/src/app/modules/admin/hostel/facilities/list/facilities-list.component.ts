@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.service';
+import { FacilitiesAddComponent } from '../add/facilities-add.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-facilities-list',
@@ -12,12 +14,12 @@ import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.
 export class FacilitiesListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
 
   constructor(
     private facilitiesHttpService: FacilitiesHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(facilitiesHttpService);
   }
@@ -28,12 +30,7 @@ export class FacilitiesListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/hostels/facilities/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/hostels/facilities/add');
-    }
+    this.addModal(FacilitiesAddComponent, this.modalService, {id: model?.id});
   }
 
   gets() {

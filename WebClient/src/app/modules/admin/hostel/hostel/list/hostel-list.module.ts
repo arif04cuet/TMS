@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { HostelListComponent } from './hostel-list.component';
 import { HostelListRoutingModule } from './hostel-list-routing.module';
 import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service'
   ],
   exports: [HostelListComponent],
   providers: [
-    HostelHttpService
+    HostelHttpService,
+    CommonValidator
   ]
 })
 export class HostelListModule { }

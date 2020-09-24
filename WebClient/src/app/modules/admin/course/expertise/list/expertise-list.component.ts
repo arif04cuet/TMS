@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.service';
+import { ExpertiseAddComponent } from '../add/expertise-add.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-expertise-list',
@@ -12,12 +14,12 @@ import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.se
 export class ExpertiseListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
 
   constructor(
     private expertiseHttpService: ExpertiseHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(expertiseHttpService);
   }
@@ -28,12 +30,7 @@ export class ExpertiseListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/courses/expertise/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/courses/expertise/add');
-    }
+    this.addModal(ExpertiseAddComponent, this.modalService, {id: model?.id});
   }
 
   gets() {

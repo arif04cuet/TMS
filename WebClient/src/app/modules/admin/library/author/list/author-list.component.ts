@@ -3,6 +3,8 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
+import { NzModalService } from 'ng-zorro-antd';
+import { AuthorAddComponent } from '../add/author-add.component';
 
 @Component({
   selector: 'app-author-list',
@@ -12,7 +14,8 @@ export class AuthorListComponent extends TableComponent {
 
   constructor(
     private authorHttpService: AuthorHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(authorHttpService);
   }
@@ -27,12 +30,7 @@ export class AuthorListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/library/authors/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/library/authors/add');
-    }
+    this.addModal(AuthorAddComponent, this.modalService, {id: model?.id});
   }
 
   gets(pagination = null, search = null) {

@@ -3,6 +3,8 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
+import { PublisherAddComponent } from '../add/publisher-add.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-publisher-list',
@@ -12,7 +14,8 @@ export class PublisherListComponent extends TableComponent {
 
   constructor(
     private publisherHttpService: PublisherHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(publisherHttpService);
   }
@@ -27,12 +30,7 @@ export class PublisherListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/library/publishers/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/library/publishers/add');
-    }
+    this.addModal(PublisherAddComponent, this.modalService, {id: model?.id});
   }
 
   gets(pagination = null, search = null) {

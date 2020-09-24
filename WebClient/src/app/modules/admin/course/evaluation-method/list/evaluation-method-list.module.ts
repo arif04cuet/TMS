@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { EvaluationMethodListComponent } from './evaluation-method-list.component';
 import { EvaluationMethodListRoutingModule } from './evaluation-method-list-routing.module';
 import { EvaluationMethodHttpService } from 'src/services/http/course/evaluation-method-http.service';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { EvaluationMethodHttpService } from 'src/services/http/course/evaluation
   ],
   exports: [EvaluationMethodListComponent],
   providers: [
-    EvaluationMethodHttpService
+    EvaluationMethodHttpService,
+    CommonValidator
   ]
 })
 export class EvaluationMethodListModule { }

@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MethodHttpService } from 'src/services/http/course/method-http.service';
 import { MethodListComponent } from './method-list.component';
 import { MethodListRoutingModule } from '../../method/list/method-list-routing.module';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MethodListRoutingModule } from '../../method/list/method-list-routing.m
   ],
   exports: [MethodListComponent],
   providers: [
-    MethodHttpService
+    MethodHttpService,
+    CommonValidator
   ]
 })
 export class MethodListModule { }

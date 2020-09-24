@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { EvaluationMethodHttpService } from 'src/services/http/course/evaluation-method-http.service';
+import { EvaluationMethodAddComponent } from '../add/evaluation-method-add.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-evaluation-method-list',
@@ -12,12 +14,12 @@ import { EvaluationMethodHttpService } from 'src/services/http/course/evaluation
 export class EvaluationMethodListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
 
   constructor(
     private evaluationMethodHttpService: EvaluationMethodHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(evaluationMethodHttpService);
   }
@@ -28,12 +30,7 @@ export class EvaluationMethodListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/courses/evaluation-methods/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/courses/evaluation-methods/add');
-    }
+    this.addModal(EvaluationMethodAddComponent, this.modalService, {id: model?.id});
   }
 
   gets() {

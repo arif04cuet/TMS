@@ -75,3 +75,42 @@ export function buildUrl(url: string, ...args) {
     const _url = `${url}?${_args.join('&')}`;
     return _url;
 }
+
+export function toBengali(obj) {
+    const map = getNumberMap();
+    for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            if(typeof(obj[key]) == "number") {
+                const str = obj[key].toString();
+                const len = str.length;
+                let bengaliNumber = ""
+                for(let i=0; i<len; i++) {
+                    const l = map[str[i]];
+                    if(l) {
+                        bengaliNumber += l;
+                    }
+                    else {
+                        bengaliNumber += str[i];
+                    }
+                }
+                obj[key] = bengaliNumber;
+            }
+        }
+    }
+    return obj;
+}
+
+export function getNumberMap() {
+    return {
+        '0': '০',
+        '1': '১',
+        '2': '২',
+        '3': '৩',
+        '4': '৪',
+        '5': '৫',
+        '6': '৬',
+        '7': '৭',
+        '8': '৮',
+        '9': '৯'
+    }
+}

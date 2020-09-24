@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DesignationListRoutingModule } from './designation-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DesignationHttpService } from 'src/services/http/user/designation-http.
   ],
   exports: [DesignationListComponent],
   providers: [
-    DesignationHttpService
+    DesignationHttpService,
+    CommonValidator
   ]
 })
 export class DesignationListModule { }

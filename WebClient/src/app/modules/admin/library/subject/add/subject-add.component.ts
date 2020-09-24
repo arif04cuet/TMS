@@ -1,20 +1,18 @@
 import { Component } from '@angular/core';
-import { FormComponent } from 'src/app/shared/form.component';
-import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
+import { FormBaseComponent } from 'src/app/shared/form-base.component';
 
 @Component({
   selector: 'app-subject-add',
   templateUrl: './subject-add.component.html'
 })
-export class SubjectAddComponent extends FormComponent {
+export class SubjectAddComponent extends FormBaseComponent {
 
   loading: boolean = true;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private subjectHttpService: SubjectHttpService,
     private v: CommonValidator
   ) {
@@ -22,11 +20,9 @@ export class SubjectAddComponent extends FormComponent {
   }
 
   ngOnInit(): void {
-    this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)]
     });
-    super.ngOnInit(this.activatedRoute.snapshot);
   }
 
   submit(): void {
@@ -65,7 +61,7 @@ export class SubjectAddComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/library/categories');
+    this.closeModal();
   }
 
 }

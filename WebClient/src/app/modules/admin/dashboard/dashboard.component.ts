@@ -4,11 +4,12 @@ import { BaseComponent } from 'src/app/shared/base.component';
 import { AdminHttpService } from 'src/services/http/admin-http.service';
 import { forkJoin } from 'rxjs';
 import { AuthService } from 'src/services/auth.service';
+import { toBengali } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls:['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent extends BaseComponent {
 
@@ -30,28 +31,22 @@ export class DashboardComponent extends BaseComponent {
   ngOnInit(): void {
     this.get();
     this.userInfo = this.authService.getLoggedInUserInfo();
-    
-    
   }
-  userHasRole(roles=[]){
+  userHasRole(roles = []) {
     var hasRole = false;
-    for(var role of roles)
-    {
-      
-        if(this.hasRole(role))
-        {
-          hasRole = true;
-          break;
-        }
+    for (var role of roles) {
+      if (this.hasRole(role)) {
+        hasRole = true;
+        break;
+      }
     }
-
     return hasRole;
-    
   }
-  hasRole(roleId)
-  {
-    return this.userInfo.roles.some(r=>r.id == roleId);
+  
+  hasRole(roleId) {
+    return this.userInfo.roles.some(r => r.id == roleId);
   }
+
   get() {
     this.loading = true;
     const requests = forkJoin([
@@ -63,18 +58,25 @@ export class DashboardComponent extends BaseComponent {
     this.subscribe(requests,
       (res: any) => {
         this.loading = false;
-
         this.inventory = res[0].data;
         if (!this.inventory.reorderAlert) {
           this.inventory.reorderAlert = [];
         }
+        else {
+          this.inventory.reorderAlert.forEach(element => {
+            toBengali(element);
+          });
+        }
+
         if (!this.inventory.currentStock) {
           this.inventory.currentStock = {};
         }
-
-        this.hostel = res[1].data;
-        this.library = res[2].data;
-        this.training = res[3].data;
+        else {
+          toBengali(this.inventory.currentStock);
+        }
+        this.hostel = toBengali(res[1].data);
+        this.library = toBengali(res[2].data);
+        this.training = toBengali(res[3].data);
       },
       err => { this.loading = false; }
     )

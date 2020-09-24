@@ -1,20 +1,18 @@
 import { Component } from '@angular/core';
-import { FormComponent } from 'src/app/shared/form.component';
-import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { MethodHttpService } from 'src/services/http/course/method-http.service';
+import { FormBaseComponent } from 'src/app/shared/form-base.component';
 
 @Component({
   selector: 'app-method-add',
   templateUrl: './method-add.component.html'
 })
-export class MethodAddComponent extends FormComponent {
+export class MethodAddComponent extends FormBaseComponent {
 
   loading: boolean = true;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private methodHttpService: MethodHttpService,
     private v: CommonValidator
   ) {
@@ -22,11 +20,9 @@ export class MethodAddComponent extends FormComponent {
   }
 
   ngOnInit(): void {
-    this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)]
     });
-    super.ngOnInit(this.activatedRoute.snapshot);
   }
 
   submit(): void {
@@ -65,7 +61,7 @@ export class MethodAddComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/courses/methods');
+    this.closeModal();
   }
 
 }

@@ -1,20 +1,18 @@
 import { Component } from '@angular/core';
-import { FormComponent } from 'src/app/shared/form.component';
-import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
+import { FormBaseComponent } from 'src/app/shared/form-base.component';
 
 @Component({
   selector: 'app-author-add',
   templateUrl: './author-add.component.html'
 })
-export class AuthorAddComponent extends FormComponent {
+export class AuthorAddComponent extends FormBaseComponent {
 
   loading: boolean = true;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private authorHttpService: AuthorHttpService,
     private v: CommonValidator
   ) {
@@ -22,11 +20,9 @@ export class AuthorAddComponent extends FormComponent {
   }
 
   ngOnInit(): void {
-    this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.v.required.bind(this)]
     });
-    super.ngOnInit(this.activatedRoute.snapshot);
   }
 
   submit(): void {
@@ -65,7 +61,7 @@ export class AuthorAddComponent extends FormComponent {
   }
 
   cancel() {
-    this.goTo('/admin/library/authors');
+    this.closeModal();
   }
 
 }

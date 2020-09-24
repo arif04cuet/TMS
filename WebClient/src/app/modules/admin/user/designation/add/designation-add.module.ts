@@ -8,6 +8,7 @@ import { DesignationAddRoutingModule } from './designation-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
+import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
 
 @NgModule({
   declarations: [

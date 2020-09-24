@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthorListRoutingModule } from './author-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AuthorHttpService } from 'src/services/http/user/author-http.service';
   ],
   exports: [AuthorListComponent],
   providers: [
-    AuthorHttpService
+    AuthorHttpService,
+    CommonValidator
   ]
 })
 export class AuthorListModule { }
