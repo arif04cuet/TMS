@@ -3,7 +3,6 @@ import { BaseComponent } from 'src/app/shared/base.component';
 import { AdminHttpService } from 'src/services/http/admin-http.service';
 import { forkJoin } from 'rxjs';
 import { AuthService } from 'src/services/auth.service';
-import { toBengali } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -60,21 +59,9 @@ export class DashboardComponent extends BaseComponent {
         if (!this.inventory.reorderAlert) {
           this.inventory.reorderAlert = [];
         }
-        // else {
-        //   this.inventory.reorderAlert.forEach(element => {
-        //     toBengali(element);
-        //   });
-        // }
-
         if (!this.inventory.currentStock) {
           this.inventory.currentStock = {};
         }
-        // else {
-        //   toBengali(this.inventory.currentStock);
-        // }
-        // this.hostel = toBengali(res[1].data);
-        // this.library = toBengali(res[2].data);
-        // this.training = toBengali(res[3].data);
         this.hostel = res[1].data;
         this.library = res[2].data;
         this.training = res[3].data;
