@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AdminHttpService } from 'src/services/http/admin-http.service';
 import { forkJoin } from 'rxjs';
@@ -22,7 +21,6 @@ export class DashboardComponent extends BaseComponent {
 
   constructor(
     private authService: AuthService,
-    private activatedRoute: ActivatedRoute,
     private adminHttpService: AdminHttpService
   ) {
     super();
@@ -62,21 +60,24 @@ export class DashboardComponent extends BaseComponent {
         if (!this.inventory.reorderAlert) {
           this.inventory.reorderAlert = [];
         }
-        else {
-          this.inventory.reorderAlert.forEach(element => {
-            toBengali(element);
-          });
-        }
+        // else {
+        //   this.inventory.reorderAlert.forEach(element => {
+        //     toBengali(element);
+        //   });
+        // }
 
         if (!this.inventory.currentStock) {
           this.inventory.currentStock = {};
         }
-        else {
-          toBengali(this.inventory.currentStock);
-        }
-        this.hostel = toBengali(res[1].data);
-        this.library = toBengali(res[2].data);
-        this.training = toBengali(res[3].data);
+        // else {
+        //   toBengali(this.inventory.currentStock);
+        // }
+        // this.hostel = toBengali(res[1].data);
+        // this.library = toBengali(res[2].data);
+        // this.training = toBengali(res[3].data);
+        this.hostel = res[1].data;
+        this.library = res[2].data;
+        this.training = res[3].data;
       },
       err => { this.loading = false; }
     )

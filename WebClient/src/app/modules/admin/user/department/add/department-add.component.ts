@@ -31,14 +31,14 @@ export class DepartmentAddComponent extends FormBaseComponent {
       {
         request: this.departmentHttpService.add(body),
         succeed: res => {
-          this.cancel();
+          this.cancel(true);
           this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
       },
       {
         request: this.departmentHttpService.edit(this.id, body),
         succeed: res => {
-          this.cancel();
+          this.cancel(true);
           this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
         }
       }
@@ -60,9 +60,8 @@ export class DepartmentAddComponent extends FormBaseComponent {
     }
   }
 
-  cancel() {
-    //this.goTo('/admin/departments');
-    this.closeModal();
+  cancel(result = {}) {
+    this.closeModal(result);
   }
 
 }

@@ -32,14 +32,14 @@ export class EvaluationMethodAddComponent extends FormBaseComponent {
       {
         request: this.evaluationMethodHttpService.add(body),
         succeed: res => {
-          this.cancel();
+          this.cancel(true);
           this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
       },
       {
         request: this.evaluationMethodHttpService.edit(this.id, body),
         succeed: res => {
-          this.cancel();
+          this.cancel(true);
           this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
         }
       }
@@ -61,8 +61,8 @@ export class EvaluationMethodAddComponent extends FormBaseComponent {
     }
   }
 
-  cancel() {
-    this.closeModal();
+  cancel(result = {}) {
+    this.closeModal(result);
   }
 
 }

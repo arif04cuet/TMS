@@ -20,11 +20,12 @@ import { environment } from 'src/environments/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { TranslateModule, TranslateLoader, TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { PermissionHttpService, permissionFactory } from 'src/services/http/user/permission-http.service';
 import { MediaHttpService } from 'src/services/http/media-http.service';
 import { CacheService } from 'src/services/cache.service';
+import { EnglishToBanglaInterceptor } from 'src/interceptors/english-to-bangla.interceptor';
 
 registerLocaleData(en);
 
@@ -77,6 +78,7 @@ const dateConfig: NzDateConfig = {
     TranslatePipe,
     { provide: ErrorHandler, useClass: ErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: EnglishToBanglaInterceptor, multi: true },
     AuthGuard,
     {
       provide: APP_INITIALIZER,

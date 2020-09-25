@@ -169,9 +169,9 @@ export class FormBaseComponent extends BaseComponent {
         }
     }
 
-    closeModal() {
+    closeModal(result = {}) {
         if (this.modalInstance) {
-            this.modalInstance.close();
+            this.modalInstance.close(result);
         }
     }
 

@@ -37,7 +37,7 @@ export function clean(o) {
 
 export function getLang() {
     const lang = environment.production ? 'bn' : 'bn'
-    
+
     return lang || localStorage.getItem('otms_lang');
 }
 
@@ -77,27 +77,43 @@ export function buildUrl(url: string, ...args) {
 }
 
 export function toBengali(obj) {
-    const map = getNumberMap();
     for (const key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            if(typeof(obj[key]) == "number") {
-                const str = obj[key].toString();
-                const len = str.length;
-                let bengaliNumber = ""
-                for(let i=0; i<len; i++) {
-                    const l = map[str[i]];
-                    if(l) {
-                        bengaliNumber += l;
-                    }
-                    else {
-                        bengaliNumber += str[i];
-                    }
+        if (obj.hasOwnProperty(key)) {
+            if (!Array.isArray(obj[key])) {
+                convertPropertyToBengali(obj, key);
+            }
+            else {
+                for (let i = 0; i < obj[key].length; i++) {
+                    toBengali(obj[key][i]);
                 }
-                obj[key] = bengaliNumber;
             }
         }
     }
     return obj;
+}
+
+export function convertPropertyToBengali(obj, key) {
+    const map = getNumberMap();
+    if(!["id", "offset", "limit"].includes(key)) {
+        if (typeof (obj[key]) == "number") {
+            const str = obj[key].toString();
+            const len = str.length;
+            let bengaliNumber = ""
+            for (let i = 0; i < len; i++) {
+                const l = map[str[i]];
+                if (l) {
+                    bengaliNumber += l;
+                }
+                else {
+                    bengaliNumber += str[i];
+                }
+            }
+            obj[key] = bengaliNumber;
+        }
+        else if (typeof(obj[key]) == "object") {
+            toBengali(obj[key])
+        }
+    }
 }
 
 export function getNumberMap() {

@@ -31,14 +31,14 @@ export class DesignationAddComponent extends FormBaseComponent {
       {
         request: this.designationHttpService.add(body),
         succeed: res => {
-          this.cancel();
+          this.cancel(true);
           this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
       },
       {
         request: this.designationHttpService.edit(this.id, body),
         succeed: res => {
-          this.cancel();
+          this.cancel(true);
           this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
         }
       }
@@ -60,9 +60,8 @@ export class DesignationAddComponent extends FormBaseComponent {
     }
   }
 
-  cancel() {
-    // this.goTo('/admin/designations');
-    this.closeModal();
+  cancel(result = {}) {
+    this.closeModal(result);
   }
 
 }

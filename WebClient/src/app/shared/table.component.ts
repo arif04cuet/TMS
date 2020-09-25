@@ -22,7 +22,9 @@ export class TableComponent extends BaseComponent {
     indeterminate = false;
     listOfCurrentPageItems = [];
     rowItemDisabledFilterKey = "disabled";
-    pageSizeOptions = [10, 20, 40, 50, 80, 100];
+    pageSizeOptions = [20, 100];
+
+    private _fn: (pagination: string, search: string) => Observable<Object>;
 
     constructor(service) {
         super();
@@ -85,6 +87,7 @@ export class TableComponent extends BaseComponent {
     }
 
     load(fn?: (pagination: string, search: string) => Observable<Object>) {
+        this._fn = fn;
         let offset = 0;
         if (this.pageIndex > 1) {
             offset = (this.pageSize * this.pageIndex) - this.pageSize;
@@ -167,7 +170,13 @@ export class TableComponent extends BaseComponent {
             componentInstance.onCheckMode = id => componentInstance.get(id);
             componentInstance.init();
         });
-        this._subscriptions.push(s);
+        const _fn = this._fn;
+        const s2 = modal.afterClose.subscribe(x => {
+            if(x === true) {
+                this.load(_fn);
+            }
+        });
+        this._subscriptions.push(...[s, s2]);
     }
 
 }

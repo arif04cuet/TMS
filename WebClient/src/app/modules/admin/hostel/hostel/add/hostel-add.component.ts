@@ -61,8 +61,8 @@ export class HostelAddComponent extends FormBaseComponent {
     }
   }
 
-  cancel() {
-    this.closeModal();
+  cancel(result = {}) {
+    this.closeModal(result);
   }
 
 }

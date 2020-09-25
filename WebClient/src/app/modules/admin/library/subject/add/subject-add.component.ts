@@ -31,14 +31,14 @@ export class SubjectAddComponent extends FormBaseComponent {
       {
         request: this.subjectHttpService.add(body),
         succeed: res => {
-          this.cancel();
+          this.cancel(true);
           this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
         }
       },
       {
         request: this.subjectHttpService.edit(this.id, body),
         succeed: res => {
-          this.cancel();
+          this.cancel(true);
           this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
         }
       }
@@ -60,8 +60,8 @@ export class SubjectAddComponent extends FormBaseComponent {
     }
   }
 
-  cancel() {
-    this.closeModal();
+  cancel(result = {}) {
+    this.closeModal(result);
   }
 
 }
