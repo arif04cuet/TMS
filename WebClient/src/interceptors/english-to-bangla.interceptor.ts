@@ -25,6 +25,7 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
 
     allowed(url: string): boolean {
         const list = [
+            "api/asset",
             "api/asset/dashboard",
             "api/hostels/dashboard",
             "api/libraries/dashboard",

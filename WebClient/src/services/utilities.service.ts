@@ -94,7 +94,7 @@ export function toBengali(obj) {
 
 export function convertPropertyToBengali(obj, key) {
     if (!["id", "offset", "limit"].includes(key)) {
-        if (typeof (obj[key]) == "number") {
+        if (typeof (obj[key]) == "number" || /^\d+$/.test(obj[key])) {
             const v = convertValueToBengali(obj[key].toString());
             obj[key] = v;
         }
