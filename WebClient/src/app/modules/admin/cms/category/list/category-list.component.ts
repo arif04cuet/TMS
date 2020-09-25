@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { CategoryHttpService } from 'src/services/http/cms/category-http.service';
+import { CategoryAddComponent } from '../add/category-add.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-cms-category-list',
@@ -12,12 +14,12 @@ import { CategoryHttpService } from 'src/services/http/cms/category-http.service
 export class CmsCategoryListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
 
   constructor(
     private categoryHttpService: CategoryHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService
   ) {
     super(categoryHttpService);
   }
@@ -28,12 +30,7 @@ export class CmsCategoryListComponent extends TableComponent {
   }
 
   add(model = null) {
-    if (model) {
-      this.goTo(`/admin/cms/categories/${model.id}/edit`);
-    }
-    else {
-      this.goTo('/admin/cms/categories/add');
-    }
+    this.addModal(CategoryAddComponent, this.modalService, {id: model?.id});
   }
 
   gets() {

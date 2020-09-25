@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CategoryHttpService } from 'src/services/http/cms/category-http.service';
 import { CmsCategoryListComponent } from './category-list.component';
 import { CategoryListRoutingModule } from './category-list-routing.module';
+import { CommonValidator } from 'src/validators/common.validator';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CategoryListRoutingModule } from './category-list-routing.module';
   ],
   exports: [CmsCategoryListComponent],
   providers: [
-    CategoryHttpService
+    CategoryHttpService,
+    CommonValidator
   ]
 })
 export class CmsCategoryListModule { }

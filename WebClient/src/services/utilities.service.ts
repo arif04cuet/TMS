@@ -93,27 +93,32 @@ export function toBengali(obj) {
 }
 
 export function convertPropertyToBengali(obj, key) {
-    const map = getNumberMap();
-    if(!["id", "offset", "limit"].includes(key)) {
+    if (!["id", "offset", "limit"].includes(key)) {
         if (typeof (obj[key]) == "number") {
-            const str = obj[key].toString();
-            const len = str.length;
-            let bengaliNumber = ""
-            for (let i = 0; i < len; i++) {
-                const l = map[str[i]];
-                if (l) {
-                    bengaliNumber += l;
-                }
-                else {
-                    bengaliNumber += str[i];
-                }
-            }
-            obj[key] = bengaliNumber;
+            const v = convertValueToBengali(obj[key].toString());
+            obj[key] = v;
         }
-        else if (typeof(obj[key]) == "object") {
+        else if (typeof (obj[key]) == "object") {
             toBengali(obj[key])
         }
     }
+}
+
+export function convertValueToBengali(value: any) {
+    value = value.toString()
+    const map = getNumberMap();
+    const len = value.length;
+    let bengaliNumber = ""
+    for (let i = 0; i < len; i++) {
+        const l = map[value[i]];
+        if (l) {
+            bengaliNumber += l;
+        }
+        else {
+            bengaliNumber += value[i];
+        }
+    }
+    return bengaliNumber;
 }
 
 export function getNumberMap() {

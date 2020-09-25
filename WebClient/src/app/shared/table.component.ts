@@ -9,7 +9,7 @@ export class TableComponent extends BaseComponent {
     loading: boolean = true;
     total: number = 0;
     pageIndex: number = 1;
-    pageSize: number = 20;
+    pageSize: number = 100;
     items = [];
     additionalSearchTerm;
 
@@ -157,7 +157,7 @@ export class TableComponent extends BaseComponent {
 
     addModal<T>(component: Type<T>, modalService: NzModalService, params: any = {},) {
         const modal = modalService.create({
-            nzWidth: '80%',
+            nzWidth: '50%',
             nzContent: component,
             nzGetContainer: () => document.body,
             nzComponentParams: params,
