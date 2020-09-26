@@ -9,7 +9,7 @@ export class TableComponent extends BaseComponent {
     loading: boolean = true;
     total: number = 0;
     pageIndex: number = 1;
-    pageSize: number = 100;
+    pageSize: number = 500;
     items = [];
     additionalSearchTerm;
 
@@ -22,7 +22,7 @@ export class TableComponent extends BaseComponent {
     indeterminate = false;
     listOfCurrentPageItems = [];
     rowItemDisabledFilterKey = "disabled";
-    pageSizeOptions = [20, 100];
+    pageSizeOptions = [50, 100, 500];
 
     private _fn: (pagination: string, search: string) => Observable<Object>;
 
@@ -172,7 +172,7 @@ export class TableComponent extends BaseComponent {
         });
         const _fn = this._fn;
         const s2 = modal.afterClose.subscribe(x => {
-            if(x === true) {
+            if (x === true) {
                 this.load(_fn);
             }
         });
