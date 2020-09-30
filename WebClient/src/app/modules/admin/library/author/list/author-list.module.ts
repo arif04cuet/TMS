@@ -8,6 +8,7 @@ import { AuthorListRoutingModule } from './author-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [AuthorListComponent],
   providers: [

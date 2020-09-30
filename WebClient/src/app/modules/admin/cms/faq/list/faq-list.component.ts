@@ -1,15 +1,29 @@
 import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
-import { Searchable } from 'src/decorators/searchable.decorator';
-import { environment } from 'src/environments/environment';
 import { FaqHttpService } from 'src/services/http/cms/faq-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-cms-faq-list',
   templateUrl: './faq-list.component.html'
 })
 export class CmsFaqListComponent extends TableComponent {
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['content.faq.manage', 'content.faq.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['content.faq.manage', 'content.faq.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private faqHttpService: FaqHttpService,

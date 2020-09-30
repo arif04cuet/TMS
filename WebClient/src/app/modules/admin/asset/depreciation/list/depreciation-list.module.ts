@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DepreciationListRoutingModule } from './depreciation-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DepreciationHttpService } from 'src/services/http/asset/depreciation-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { DepreciationHttpService } from 'src/services/http/asset/depreciation-ht
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [DepreciationListComponent],
   providers: [

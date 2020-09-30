@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 
 @Component({
@@ -11,6 +12,20 @@ import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.s
 export class ConsumableListComponent extends TableComponent {
 
   private itemCodeId;
+  buttons: IButton[] = [
+    {
+      label: 'checkout',
+      action: d => this.checkout(d),
+      condition: d => d.available > 0,
+      type: 'primary'
+    },
+    {
+      label: 'view',
+      action: d => this.view(d),
+      permissions: ['consumable.manage', 'consumable.view'],
+      icon: 'eye'
+    }
+  ]
 
   constructor(
     private consumableHttpService: ConsumableHttpService,

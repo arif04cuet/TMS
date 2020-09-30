@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { LibraryHttpService } from 'src/services/http/library-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [MemberListComponent],
   providers: [

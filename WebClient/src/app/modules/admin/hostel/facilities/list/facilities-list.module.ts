@@ -8,6 +8,7 @@ import { FacilitiesListComponent } from './facilities-list.component';
 import { FacilitiesListRoutingModule } from './facilities-list-routing.module';
 import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [FacilitiesListComponent],
   providers: [

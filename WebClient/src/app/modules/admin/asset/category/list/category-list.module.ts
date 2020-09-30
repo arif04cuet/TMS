@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategoryListRoutingModule } from './category-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { CategoryHttpService } from 'src/services/http/asset/category-http.servi
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [CategoryListComponent],
   providers: [

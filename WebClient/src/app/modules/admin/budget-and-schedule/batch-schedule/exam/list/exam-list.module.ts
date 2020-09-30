@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ExamListComponent } from './exam-list.component';
 import { ExamListRoutingModule } from './exam-list-routing.module';
 import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [ExamListComponent],
   providers: [

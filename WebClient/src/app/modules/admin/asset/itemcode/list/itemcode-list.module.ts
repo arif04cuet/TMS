@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ItemCodeListRoutingModule } from './itemcode-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.servi
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [ItemCodeListComponent],
   providers: [

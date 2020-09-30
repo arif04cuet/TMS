@@ -31,7 +31,6 @@
                     <tr class="v-align-top advanced-table-filter">
                         <th>
                             {{'name'|translate}}
-
                             <input [(ngModel)]="name" nz-input />
                         </th>
                         <th>{{'address'|translate}}</th>
@@ -39,7 +38,6 @@
                             <div>
                                 {{'action'|translate}}
                             </div>
-
                             <div>
                                 <button (click)="search()" nz-button class="btn-custom">
                                     <i nz-icon nzType="search"></i>
@@ -54,20 +52,7 @@
                         <td>{{ data.name }}</td>
                         <td>{{ data.address }}</td>
                         <td class="action-column fit-cell">
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['hostel.manage', 'hostel.update']" nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['hostel.manage', 'hostel.delete']" nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

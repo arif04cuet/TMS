@@ -3,6 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { LicenseHttpService } from 'src/services/http/asset/license-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 
 @Component({
@@ -16,6 +17,34 @@ export class LicenseListComponent extends TableComponent {
   @Searchable("Name", "like") Name;
   @Searchable("ProductKey", "like") ProductKey;
   @Searchable("IsActive", "eq") IsActive;
+
+  buttons: IButton[] = [
+    {
+      label: 'checkout',
+      action: d => this.checkout(d),
+      condition: d => d.available,
+      type: 'primary',
+      permissions: ['license.manage', 'license.checkout']
+    },
+    {
+      label: 'view',
+      action: d => this.view(d),
+      permissions: ['license.manage', 'license.view'],
+      icon: 'eye'
+    },
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['license.manage', 'license.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['license.manage', 'license.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private licenseHttpService: LicenseHttpService,

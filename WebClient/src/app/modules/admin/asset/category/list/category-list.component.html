@@ -1,5 +1,4 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
-
 <div *ngIf="!loading">
     <div class="box">
         <div class="block header pad-v-12 pad-h-20 box-divider">
@@ -34,7 +33,6 @@
                             {{'parent'|translate}}
                             <input [(ngModel)]="Parent" nz-input />
                         </th>
-
                         <th>
                             {{'status'|translate}}
                             <div>
@@ -64,20 +62,7 @@
                         <td>{{ data.parent }}</td>
                         <td>{{ data.isActive ? 'Active':'In Active' }}</td>
                         <td class="action-column fit-cell">
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['asset.category.manage', 'asset.category.update']" nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['asset.category.manage', 'asset.category.delete']" nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

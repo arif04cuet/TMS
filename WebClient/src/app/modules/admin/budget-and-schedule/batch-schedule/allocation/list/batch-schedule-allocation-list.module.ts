@@ -10,6 +10,7 @@ import { BatchScheduleAllocationListRoutingModule } from './batch-schedule-alloc
 import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
 import { SelectModule } from 'src/app/shared/select/select.module';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SelectModule } from 'src/app/shared/select/select.module';
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectModule
+    SelectModule,
+    TableActionsModule
   ],
   exports: [BatchScheduleAllocationListComponent],
   providers: [

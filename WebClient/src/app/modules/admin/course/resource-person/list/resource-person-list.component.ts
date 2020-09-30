@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { ResourcePersonHttpService } from 'src/services/http/course/resource-person-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-resource-person-list',
@@ -17,6 +18,21 @@ export class ResourcePersonListComponent extends TableComponent {
   @Searchable("Email", "like") email;
 
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['resource.person.manage', 'resource.person.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['resource.person.manage', 'resource.person.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private resourcePersonHttpService: ResourcePersonHttpService,

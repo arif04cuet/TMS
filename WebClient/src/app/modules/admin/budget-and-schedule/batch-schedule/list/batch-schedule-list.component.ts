@@ -3,8 +3,8 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
-import { CourseScheduleHttpService } from 'src/services/http/budget-and-schedule/course-schedule-http.service';
 import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-batch-schedule-list',
@@ -13,8 +13,22 @@ import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/
 export class BatchScheduleListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['batch.manage', 'batch.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['batch.manage', 'batch.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private batchScheduleHttpService: BatchScheduleHttpService,

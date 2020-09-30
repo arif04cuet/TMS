@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ContentHttpService } from 'src/services/http/cms/content-http.service';
 import { CategoryHttpService } from 'src/services/http/cms/category-http.service';
 import { SelectComponent } from 'src/app/shared/select/select.component';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-cms-content-list',
@@ -13,10 +14,24 @@ import { SelectComponent } from 'src/app/shared/select/select.component';
 })
 export class CmsContentListComponent extends TableComponent {
 
-  @Searchable("Name", "like") name;
-
-  serverUrl = environment.serverUri;
   @ViewChild('categorySelect') categorySelect: SelectComponent;
+  @Searchable("Name", "like") name;
+  serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['content.manage', 'content.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['content.manage', 'content.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private contentHttpService: ContentHttpService,

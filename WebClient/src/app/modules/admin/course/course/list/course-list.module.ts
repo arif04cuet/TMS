@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CourseListComponent } from './course-list.component';
 import { CourseListRoutingModule } from './course-list-routing.module';
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CourseHttpService } from 'src/services/http/course/course-http.service'
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [CourseListComponent],
   providers: [

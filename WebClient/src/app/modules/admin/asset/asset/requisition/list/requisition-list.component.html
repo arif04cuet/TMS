@@ -67,34 +67,7 @@
                         <td>{{ data.itemCount }}</td>
                         <td>{{ data.status.name }}</td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="data.canReject" nz-button (click)="reject(data)"
-                                class="btn-custom">{{'reject'|translate}}</button>
-                            <button *ngIf="data.canApprove || (data.canApprove && data.canTemporaryApprove)" nz-button
-                                (click)="approve(data)" nzType="primary"
-                                class="btn-custom">{{'approve'|translate}}</button>
-                            <button *ngIf="data.canTemporaryApprove && !data.canApprove" nz-button
-                                (click)="approve(data)" nzType="primary"
-                                class="btn-custom">{{'temporary.approve'|translate}}</button>
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['requisition.manage', 'requisition.view']" nz-menu-item
-                                        (click)="view(data)">
-                                        <i nz-icon nzType="eye"></i>{{'view'|translate}}
-                                    </li>
-                                    <li *checkPermission="['requisition.manage', 'requisition.update']" nz-menu-item
-                                        (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['requisition.manage', 'requisition.delete']" nz-menu-item
-                                        (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

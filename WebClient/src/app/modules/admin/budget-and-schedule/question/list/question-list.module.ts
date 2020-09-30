@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { QuestionHttpService } from 'src/services/http/budget-and-schedule/question-http.service';
 import { QuestionListComponent } from './question-list.component';
 import { QuestionListRoutingModule } from './question-list-routing.module';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { QuestionListRoutingModule } from './question-list-routing.module';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [QuestionListComponent],
   providers: [

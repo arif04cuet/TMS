@@ -24,7 +24,7 @@
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
                 (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
                 nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th></th>
@@ -74,30 +74,7 @@
                         <td>{{ data.location?.name }}</td>
                         <td>{{ data.purchaseCost }}</td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="!data.checkoutId" (click)="checkout(data)" class="btn-custom" nz-button
-                                nzType="primary">{{'checkout'|translate}}</button>
-                            <button *ngIf="data.checkoutId" (click)="checkin(data)" class="btn-custom" nz-button
-                                nzType="primary">{{'checkin'|translate}}</button>
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['asset.manage', 'asset.view']" nz-menu-item (click)="view(data)">
-                                        <i nz-icon nzType="eye"></i>{{'view'|translate}}
-                                    </li>
-                                    <li *checkPermission="['asset.manage', 'asset.update']" nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['asset.manage', 'asset.delete']" nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                    <li nz-menu-item (click)="depreciate(data)">
-                                        <i nz-icon></i>{{'depreciate'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

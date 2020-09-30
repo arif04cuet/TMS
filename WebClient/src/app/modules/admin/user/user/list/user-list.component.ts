@@ -8,6 +8,7 @@ import { CommonHttpService } from 'src/services/http/common-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-user-list',
@@ -23,8 +24,21 @@ export class UserListComponent extends TableComponent {
   @Searchable("DesignationId", "eq") designation;
   @Searchable("Mobile", "like") mobile;
   @Searchable("Email", "like") email;
-
   serverUrl = environment.serverUri;
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['user.manage', 'user.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['user.manage', 'user.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private userHttpService: UserHttpService,

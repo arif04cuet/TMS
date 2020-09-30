@@ -3,6 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 
 @Component({
@@ -16,6 +17,21 @@ export class ItemCodeListComponent extends TableComponent {
   @Searchable("Name", "like") Name;
   @Searchable("Code", "eq") Code;
   @Searchable("IsActive", "eq") IsActive;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['item.code.manage', 'item.code.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['item.code.manage', 'item.code.delete'],
+      icon: 'delete'
+    }
+  ]
 
   private parentId;
 

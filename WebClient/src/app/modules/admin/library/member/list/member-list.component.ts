@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-member-list',
@@ -19,6 +20,21 @@ export class MemberListComponent extends TableComponent {
   @Searchable("LibraryId", "eq") library;
   @Searchable("User.Mobile", "like") mobile;
   @Searchable("User.Email", "like") email;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['library.member.manage', 'library.member.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['library.member.manage', 'library.member.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private libraryMemberHttpService: LibraryMemberHttpService,

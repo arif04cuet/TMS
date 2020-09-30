@@ -8,6 +8,7 @@ import { CategoryHttpService } from 'src/services/http/course/category-http.serv
 import { CategoryListComponent } from './category-list.component';
 import { CategoryListRoutingModule } from './category-list-routing.module';
 import { CommonValidator } from 'src/validators/common.validator';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [CategoryListComponent],
   providers: [

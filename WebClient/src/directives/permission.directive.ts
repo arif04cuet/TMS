@@ -11,21 +11,25 @@ export class CheckPermissionDirective {
 
     @Input() set checkPermission(permissions: string | string[]) {
         let condition = false;
-        const cacheKey = permissions.toString();
-        if (state.permissionCache.hasOwnProperty(cacheKey)) {
-            condition = state.permissionCache[cacheKey];
-        }
-        else {
-            const _permissions = this.permissionService.getPermissions();
-            if (Array.isArray(permissions)) {
-                condition = permissions.some(x => _permissions.includes(x));
+        if(permissions) {
+            const cacheKey = permissions.toString();
+            if (state.permissionCache.hasOwnProperty(cacheKey)) {
+                condition = state.permissionCache[cacheKey];
             }
             else {
-                condition = _permissions.includes(permissions);
+                const _permissions = this.permissionService.getPermissions();
+                if (Array.isArray(permissions)) {
+                    condition = permissions.some(x => _permissions.includes(x));
+                }
+                else {
+                    condition = _permissions.includes(permissions);
+                }
+                state.permissionCache[cacheKey] = condition;
             }
-            state.permissionCache[cacheKey] = condition;
         }
-
+        else {
+            condition = true;
+        }
         if (condition && !this.hasView) {
             this.viewContainer.createEmbeddedView(this.templateRef);
             this.hasView = true;

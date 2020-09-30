@@ -9,6 +9,7 @@ import { CategoryHttpService } from 'src/services/http/cms/category-http.service
 import { CmsContentListComponent } from './content-list.component';
 import { ContentListRoutingModule } from './content-list-routing.module';
 import { SelectModule } from 'src/app/shared/select/select.module';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SelectModule } from 'src/app/shared/select/select.module';
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectModule
+    SelectModule,
+    TableActionsModule
   ],
   exports: [CmsContentListComponent],
   providers: [

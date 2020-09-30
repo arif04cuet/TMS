@@ -10,7 +10,6 @@
                     </span>
                 </div>
             </div>
-
             <div class="column">
                 <button *checkPermission="['user.manage', 'user.create']" (click)="add()" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
@@ -76,20 +75,7 @@
                         <td>{{ data.mobile }}</td>
                         <td>{{ data.email }}</td>
                         <td class="action-column fit-cell">
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['user.manage', 'user.update']" nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['user.manage', 'user.delete']" nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

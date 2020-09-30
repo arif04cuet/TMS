@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoleListRoutingModule } from './role-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RoleHttpService } from 'src/services/http/user/role-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RoleHttpService } from 'src/services/http/user/role-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [RoleListComponent],
   providers: [

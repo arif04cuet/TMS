@@ -3,10 +3,10 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
-import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-book-item-list',
@@ -24,9 +24,37 @@ export class BookItemListComponent extends TableComponent {
   @Searchable("Status.Name", "like") status;
   issueDate;
 
+  buttons: IButton[] = [
+    {
+      label: 'issue',
+      action: d => this.issue(d),
+      condition: d => !d.issuedTo && d.status.id == 1,
+      permissions: ['book.manage', 'book.issue'],
+      type: 'primary'
+    },
+    {
+      label: 'return',
+      action: d => this.return(d),
+      condition: d => d.issuedTo,
+      permissions: ['book.manage', 'book.return'],
+      type: 'primary'
+    },
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['book.manage', 'book.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['book.manage', 'book.delete'],
+      icon: 'delete'
+    }
+  ]
+
   constructor(
     private bookHttpService: BookHttpService,
-    private userHttpService: UserHttpService,
     private publisherHttpService: PublisherHttpService,
     private authorHttpService: AuthorHttpService,
     private activatedRoute: ActivatedRoute

@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { BatchScheduleListComponent } from './batch-schedule-list.component';
 import { BatchScheduleListRoutingModule } from './batch-schedule-list-routing.module';
 import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/batch-schedule-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [BatchScheduleListComponent],
   providers: [

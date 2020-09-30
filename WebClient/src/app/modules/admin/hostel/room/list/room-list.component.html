@@ -44,14 +44,12 @@
                             <div>
                                 {{'action'|translate}}
                             </div>
-
                             <div>
                                 <button (click)="search()" nz-button class="btn-custom">
                                     <i nz-icon nzType="search"></i>
                                     {{'search'|translate}}
                                 </button>
                             </div>
-
                         </th>
                     </tr>
                 </thead>
@@ -64,20 +62,7 @@
                         <td>{{ data.hostel?.name }}</td>
                         <td>{{ (data.isBooked ? 'yes' : 'no')|translate }}</td>
                         <td class="action-column fit-cell">
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['room.manage', 'room.update']" nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['room.manage', 'room.delete']" nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

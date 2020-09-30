@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { CategoryHttpService } from 'src/services/http/course/category-http.service';
 import { CategoryAddComponent } from '../../category/add/category-add.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-category-list',
@@ -15,6 +16,21 @@ export class CategoryListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['course.category.manage', 'course.category.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['course.category.manage', 'course.category.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private categoryHttpService: CategoryHttpService,

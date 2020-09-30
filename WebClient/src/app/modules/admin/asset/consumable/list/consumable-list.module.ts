@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ConsumableListRoutingModule } from './consumable-list-routing.module';
 import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.s
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [ConsumableListComponent],
   providers: [

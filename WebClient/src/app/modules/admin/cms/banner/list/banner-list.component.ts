@@ -5,6 +5,7 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { BannerHttpService } from 'src/services/http/cms/banner-http.service';
 import { map, catchError } from 'rxjs/operators';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-cms-banner-list',
@@ -13,8 +14,22 @@ import { map, catchError } from 'rxjs/operators';
 export class BannerListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['content.banner.manage', 'content.banner.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['content.banner.manage', 'content.banner.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private bannerHttpService: BannerHttpService,

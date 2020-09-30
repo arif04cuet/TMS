@@ -8,6 +8,7 @@ import { ManufacturerListRoutingModule } from './manufacturer-list-routing.modul
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ManufacturerHttpService } from 'src/services/http/asset/manufacturer-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonHttpService } from 'src/services/http/common-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [ManufacturerListComponent],
   providers: [

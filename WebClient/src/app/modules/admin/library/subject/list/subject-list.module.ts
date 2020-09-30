@@ -8,6 +8,7 @@ import { SubjectListRoutingModule } from './subject-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [SubjectListComponent],
   providers: [

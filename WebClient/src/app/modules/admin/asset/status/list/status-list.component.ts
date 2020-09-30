@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { StatusHttpService } from 'src/services/http/asset/status-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 
 @Component({
@@ -23,6 +24,20 @@ export class StatusListComponent extends TableComponent {
   @Searchable("Type", "eq") Type;
   @Searchable("IsActive", "eq") IsActive;
 
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['asset.status.manage', 'asset.status.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['asset.status.manage', 'asset.status.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private statusHttpService: StatusHttpService,

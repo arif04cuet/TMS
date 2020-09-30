@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
 import { environment } from 'src/environments/environment';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-asset-list',
@@ -19,8 +20,44 @@ export class AssetListComponent extends TableComponent {
   @Searchable("AssetTag", "like") assetTag;
   @Searchable("Name", "like") name;
   @Searchable("Category.Name", "like") category;
-
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'checkout',
+      action: d => this.checkout(d),
+      condition: d => !d.checkoutId,
+      type: 'primary'
+    },
+    {
+      label: 'checkin',
+      action: d => this.checkin(d),
+      condition: d => d.checkoutId,
+      type: 'primary'
+    },
+    {
+      label: 'view',
+      action: d => this.view(d),
+      permissions: ['asset.manage', 'asset.view'],
+      icon: 'eye'
+    },
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['asset.manage', 'asset.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['asset.manage', 'asset.delete'],
+      icon: 'delete'
+    },
+    // {
+    //   label: 'depreciate',
+    //   action: d => this.depreciate(d)
+    // }
+  ]
 
   constructor(
     private assetHttpService: AssetBaseHttpService,

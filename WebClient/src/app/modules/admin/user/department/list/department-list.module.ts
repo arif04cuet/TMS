@@ -8,6 +8,7 @@ import { DepartmentListRoutingModule } from './department-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DepartmentHttpService } from 'src/services/http/user/department-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [DepartmentListComponent],
   providers: [

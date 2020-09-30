@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { EvaluationMethodHttpService } from 'src/services/http/course/evaluation-method-http.service';
 import { EvaluationMethodAddComponent } from '../add/evaluation-method-add.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-evaluation-method-list',
@@ -15,6 +16,21 @@ export class EvaluationMethodListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['evaluation.method.manage', 'evaluation.method.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['evaluation.method.manage', 'evaluation.method.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private evaluationMethodHttpService: EvaluationMethodHttpService,

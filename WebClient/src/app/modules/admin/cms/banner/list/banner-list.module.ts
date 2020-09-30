@@ -8,6 +8,7 @@ import { BannerHttpService } from 'src/services/http/cms/banner-http.service';
 import { BannerListComponent } from './banner-list.component';
 import { BannerListRoutingModule } from './banner-list-routing.module';
 import { SelectModule } from 'src/app/shared/select/select.module';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SelectModule } from 'src/app/shared/select/select.module';
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectModule
+    SelectModule,
+    TableActionsModule
   ],
   exports: [BannerListComponent],
   providers: [

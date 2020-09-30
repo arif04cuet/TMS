@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { OfficeHttpService } from 'src/services/http/user/office-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-office-list',
@@ -12,6 +13,20 @@ import { OfficeHttpService } from 'src/services/http/user/office-http.service';
 export class OfficeListComponent extends TableComponent {
 
   @Searchable("OfficeName", "like") name;
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['office.manage', 'office.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['office.manage', 'office.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private activatedRoute: ActivatedRoute,

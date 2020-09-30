@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AssetListComponent } from './asset-list.component';
 import { AssetListRoutingModule } from './asset-list-routing.module';
 import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [AssetListComponent],
   providers: [

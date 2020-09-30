@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { RequisitionHttpService } from 'src/services/http/asset/requisition-http.service';
 import { map } from 'rxjs/operators';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-requisition-list',
@@ -20,6 +21,41 @@ export class RequisitionListComponent extends TableComponent {
     { id: 3, name: 'Approved' },
     { id: 4, name: 'Rejected' },
   ];
+  buttons: IButton[] = [
+    { 
+      label: 'reject',
+      action: d => this.reject(d),
+      condition: d => d.canReject
+    },
+    {
+      label: 'approve',
+      action: d => this.approve(d),
+      condition: d => d.canApprove || (d.canApprove && d.canTemporaryApprove)
+    },
+    {
+      label: 'temporary.approve',
+      action: d => this.approve(d),
+      condition: d => d.canTemporaryApprove && !d.canApprove
+    },
+    {
+      label: 'view',
+      action: d => this.view(d),
+      permissions: ['requisition.manage', 'requisition.view'],
+      icon: 'eye'
+    },
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['requisition.manage', 'requisition.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['requisition.manage', 'requisition.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private requisitionHttpService: RequisitionHttpService,

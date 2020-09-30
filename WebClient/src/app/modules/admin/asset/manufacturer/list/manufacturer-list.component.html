@@ -1,5 +1,4 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
-
 <div *ngIf="!loading">
     <div class="box">
         <div class="block header pad-v-12 pad-h-20 box-divider">
@@ -30,34 +29,27 @@
                             {{'name'|translate}}
                             <input [(ngModel)]="Name" nz-input />
                         </th>
-
                         <th>
                             {{'support_email'|translate}}
                             <input [(ngModel)]="SupportEmail" nz-input />
                         </th>
-
                         <th>
                             {{'support_phone'|translate}}
                             <input [(ngModel)]="SupportPhone" nz-input />
                         </th>
-
                         <th>
                             {{'support_url'|translate}}
                             <input [(ngModel)]="SupportUrl" nz-input />
                         </th>
-
                         <th>
                             {{'status'|translate}}
-
                             <div>
                                 <nz-select [(ngModel)]="IsActive" class="btn-custom" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'isActive'|translate|lowercase}">
                                     <nz-option *ngFor="let p of statuses" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
                                 </nz-select>
-
                             </div>
-
                         </th>
                         <th>
                             <div class="ta-right">
@@ -79,22 +71,8 @@
                         <td>{{ data.supportPhone }}</td>
                         <td>{{ data.supportUrl }}</td>
                         <td>{{ data.isActive ? 'Active':'In Active' }}</td>
-
                         <td class="action-column fit-cell">
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['manufacturer.manage', 'manufacturer.update']" nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['manufacturer.manage', 'manufacturer.delete']" nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ExamHttpService } from 'src/services/http/budget-and-schedule/exam-http.service';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { progress, createAnchorAndFireForDownload } from 'src/services/utilities.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-exam-list',
@@ -15,6 +16,24 @@ export class ExamListComponent extends TableComponent {
   @Searchable("ExamDate", "eq") examDate;
   @Output() onAction = new EventEmitter();
   private batchScheduleId;
+
+  buttons: IButton[] = [
+    {
+      label: 'result',
+      action: d => this.result(d),
+      condition: d => d.isOnline && d.questionType != null
+    },
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private examHttpService: ExamHttpService,

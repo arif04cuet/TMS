@@ -8,6 +8,7 @@ import { ExpertiseListComponent } from './expertise-list.component';
 import { ExpertiseListRoutingModule } from './expertise-list-routing.module';
 import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [ExpertiseListComponent],
   providers: [

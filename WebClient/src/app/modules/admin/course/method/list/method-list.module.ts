@@ -8,6 +8,7 @@ import { MethodHttpService } from 'src/services/http/course/method-http.service'
 import { MethodListComponent } from './method-list.component';
 import { MethodListRoutingModule } from '../../method/list/method-list-routing.module';
 import { CommonValidator } from 'src/validators/common.validator';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [MethodListComponent],
   providers: [

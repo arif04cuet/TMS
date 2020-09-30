@@ -10,6 +10,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
 import { DesignationHttpService } from 'src/services/http/user/designation-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DesignationHttpService } from 'src/services/http/user/designation-http.
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [UserListComponent],
   providers: [

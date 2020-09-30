@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { CourseScheduleHttpService } from 'src/services/http/budget-and-schedule/course-schedule-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-course-schedule-list',
@@ -13,6 +14,21 @@ export class CourseScheduleListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['schedule.manage', 'schedule.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['schedule.manage', 'schedule.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private courseScheduleHttpService: CourseScheduleHttpService,

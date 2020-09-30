@@ -3,6 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { AssetMaintenanceHttpService } from 'src/services/http/asset/asset-maintenance-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 
 @Component({
@@ -13,6 +14,18 @@ export class AssetMaintenanceListComponent extends TableComponent {
 
   @Searchable("Name", "like") Name;
   id;
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private assetMaintenanceHttpService: AssetMaintenanceHttpService,

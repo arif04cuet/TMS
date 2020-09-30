@@ -4,12 +4,28 @@ import { DesignationHttpService } from 'src/services/http/user/designation-http.
 import { ActivatedRoute } from '@angular/router';
 import { DesignationAddComponent } from '../add/designation-add.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-designation-list',
   templateUrl: './designation-list.component.html'
 })
 export class DesignationListComponent extends TableComponent {
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['designation.manage', 'designation.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['designation.manage', 'designation.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private designationHttpService: DesignationHttpService,

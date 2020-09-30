@@ -9,6 +9,7 @@ import { RoomListRoutingModule } from './room-list-routing.module';
 import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
 import { RoomTypeHttpService } from 'src/services/http/hostel/room-type-http.service';
 import { SelectModule } from 'src/app/shared/select/select.module';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SelectModule } from 'src/app/shared/select/select.module';
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectModule
+    SelectModule,
+    TableActionsModule
   ],
   exports: [RoomListComponent],
   providers: [

@@ -5,12 +5,28 @@ import { ActivatedRoute } from '@angular/router';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
 import { SubjectAddComponent } from '../add/subject-add.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-subject-list',
   templateUrl: './subject-list.component.html'
 })
 export class SubjectListComponent extends TableComponent {
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['book.category.manage', 'book.category.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['book.category.manage', 'book.category.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private subjectHttpService: SubjectHttpService,

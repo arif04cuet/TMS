@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { Searchable } from 'src/decorators/searchable.decorator';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-library-list',
@@ -11,10 +12,23 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 })
 export class LibraryListComponent extends TableComponent {
 
-  librarians = [];
-
   @Searchable("Name", "like") name;
   @Searchable("LibrarianId", "eq") librarian;
+  librarians = [];
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['library.manage', 'library.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['library.manage', 'library.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private libraryHttpService: LibraryHttpService,

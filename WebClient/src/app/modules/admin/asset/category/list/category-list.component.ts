@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 
 @Component({
@@ -20,6 +21,21 @@ export class CategoryListComponent extends TableComponent {
   @Searchable("Name", "like") Name;
   @Searchable("Parent.Name", "like") Parent;
   @Searchable("IsActive", "eq") IsActive;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['asset.category.manage', 'asset.category.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['asset.category.manage', 'asset.category.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private categoryHttpService: CategoryHttpService,

@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
 import { SelectComponent } from 'src/app/shared/select/select.component';
 import { RoomTypeHttpService } from 'src/services/http/hostel/room-type-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-room-list',
@@ -14,10 +15,23 @@ import { RoomTypeHttpService } from 'src/services/http/hostel/room-type-http.ser
 export class RoomListComponent extends TableComponent {
 
   @ViewChild('roomType') roomType: SelectComponent;
-
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['room.manage', 'room.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['room.manage', 'room.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private roomHttpService: RoomHttpService,

@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { RackHttpService } from 'src/services/http/rack-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-rack-list',
@@ -14,6 +15,21 @@ export class RackListComponent extends TableComponent {
   @Searchable("Name", "like") name;
   @Searchable("FloorNo", "like") floorNo;
   @Searchable("BuildingName", "like") buildingName;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['rack.manage', 'rack.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['rack.manage', 'rack.delete'],
+      icon: 'delete'
+    }
+  ]
   
   constructor(
     private rackHttpService: RackHttpService,

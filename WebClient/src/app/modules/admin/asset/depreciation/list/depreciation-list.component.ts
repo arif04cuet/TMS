@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { DepreciationHttpService } from 'src/services/http/asset/depreciation-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 
 @Component({
@@ -21,6 +22,20 @@ export class DepreciationListComponent extends TableComponent {
   @Searchable("Term", "eq") Term;
   @Searchable("IsActive", "eq") IsActive;
 
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['depreciation.manage', 'depreciation.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['depreciation.manage', 'depreciation.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private depreciationHttpService: DepreciationHttpService,

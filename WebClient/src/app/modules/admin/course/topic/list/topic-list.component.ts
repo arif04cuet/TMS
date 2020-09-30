@@ -3,6 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { TopicHttpService } from 'src/services/http/course/topic-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-topic-list',
@@ -11,6 +12,21 @@ import { TopicHttpService } from 'src/services/http/course/topic-http.service';
 export class TopicListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
+  
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['topic.manage', 'topic.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['topic.manage', 'topic.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private topicHttpService: TopicHttpService,

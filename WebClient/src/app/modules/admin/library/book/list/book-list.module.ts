@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AuthorHttpService } from 'src/services/http/user/author-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [BookListComponent],
   providers: [

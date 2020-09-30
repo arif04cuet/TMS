@@ -5,12 +5,28 @@ import { ActivatedRoute } from '@angular/router';
 import { DepartmentHttpService } from 'src/services/http/user/department-http.service';
 import { DepartmentAddComponent } from '../add/department-add.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-department-list',
   templateUrl: './department-list.component.html'
 })
 export class DepartmentListComponent extends TableComponent {
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['department.manage', 'department.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['department.manage', 'department.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private departmentHttpService: DepartmentHttpService,
@@ -30,13 +46,7 @@ export class DepartmentListComponent extends TableComponent {
   }
 
   add(model = null) {
-    this.addModal(DepartmentAddComponent, this.modalService, {id: model?.id})
-    // if (model) {
-    //   this.goTo(`/admin/departments/${model.id}/edit`);
-    // }
-    // else {
-    //   this.goTo('/admin/departments/add');
-    // }
+    this.addModal(DepartmentAddComponent, this.modalService, {id: model?.id});
   }
 
   gets(pagination = null, search = null) {

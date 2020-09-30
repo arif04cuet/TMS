@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { GradeHttpService } from 'src/services/http/course/grades-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-grade-list',
@@ -12,8 +13,22 @@ import { GradeHttpService } from 'src/services/http/course/grades-http.service';
 export class GradeListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['grade.manage', 'grade.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['grade.manage', 'grade.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private gradeHttpService: GradeHttpService,

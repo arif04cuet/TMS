@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CardListRoutingModule } from './card-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LibraryCardHttpService } from 'src/services/http/library-card-http.serv
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [CardListComponent],
   providers: [

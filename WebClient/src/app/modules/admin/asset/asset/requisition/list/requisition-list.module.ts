@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RequisitionListComponent } from './requisition-list.component';
 import { RequisitionListRoutingModule } from './requisition-list-routing.module';
 import { RequisitionHttpService } from 'src/services/http/asset/requisition-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { RequisitionHttpService } from 'src/services/http/asset/requisition-http
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    NzSelectModule
+    NzSelectModule,
+    TableActionsModule
   ],
   exports: [RequisitionListComponent],
   providers: [

@@ -5,12 +5,28 @@ import { ActivatedRoute } from '@angular/router';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { PublisherAddComponent } from '../add/publisher-add.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-publisher-list',
   templateUrl: './publisher-list.component.html'
 })
 export class PublisherListComponent extends TableComponent {
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['publisher.manage', 'publisher.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['publisher.manage', 'publisher.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private publisherHttpService: PublisherHttpService,

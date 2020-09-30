@@ -3,12 +3,28 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { forkJoin } from 'rxjs';
 import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { ActivatedRoute } from '@angular/router';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-role-list',
   templateUrl: './role-list.component.html'
 })
 export class RoleListComponent extends TableComponent {
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['role.manage', 'role.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['role.manage', 'role.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private roleHttpService: RoleHttpService,

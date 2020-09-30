@@ -5,12 +5,28 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { NzModalService } from 'ng-zorro-antd';
 import { AuthorAddComponent } from '../add/author-add.component';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-author-list',
   templateUrl: './author-list.component.html'
 })
 export class AuthorListComponent extends TableComponent {
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['author.manage', 'author.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['author.manage', 'author.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private authorHttpService: AuthorHttpService,

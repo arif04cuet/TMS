@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { GradeListComponent } from './grade-list.component';
 import { GradeListRoutingModule } from './grade-list-routing.module';
 import { GradeHttpService } from 'src/services/http/course/grades-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { GradeHttpService } from 'src/services/http/course/grades-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [GradeListComponent],
   providers: [

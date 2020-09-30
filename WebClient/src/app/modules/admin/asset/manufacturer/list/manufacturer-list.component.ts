@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { ManufacturerHttpService } from 'src/services/http/asset/manufacturer-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 
 @Component({
@@ -23,6 +24,20 @@ export class ManufacturerListComponent extends TableComponent {
   @Searchable("SupportPhone", "like") SupportPhone;
   @Searchable("IsActive", "eq") IsActive;
 
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['manufacturer.manage', 'manufacturer.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['manufacturer.manage', 'manufacturer.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private manufacturerHttpService: ManufacturerHttpService,

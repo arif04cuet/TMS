@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { FacilitiesHttpService } from 'src/services/http/hostel/facilities-http.service';
 import { FacilitiesAddComponent } from '../add/facilities-add.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-facilities-list',
@@ -15,6 +16,21 @@ export class FacilitiesListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['room.facilities.manage', 'room.facilities.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['room.facilities.manage', 'room.facilities.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private facilitiesHttpService: FacilitiesHttpService,

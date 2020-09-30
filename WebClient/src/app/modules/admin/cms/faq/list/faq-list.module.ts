@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FaqHttpService } from 'src/services/http/cms/faq-http.service';
 import { CmsFaqListComponent } from './faq-list.component';
 import { FaqListRoutingModule } from './faq-list-routing.module';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FaqListRoutingModule } from './faq-list-routing.module';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [CmsFaqListComponent],
   providers: [

@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { OfficeHttpService } from 'src/services/http/user/office-http.service';
 import { OfficeListComponent } from './office-list.component';
 import { OfficeListRoutingModule } from './office-list-routing.module';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { OfficeListRoutingModule } from './office-list-routing.module';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [OfficeListComponent],
   providers: [

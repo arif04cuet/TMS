@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AssetMaintenanceListRoutingModule } from './asset-maintenance-list-routing.module';
 import { AssetMaintenanceListComponent } from './asset-maintenance-list.component';
 import { AssetMaintenanceHttpService } from 'src/services/http/asset/asset-maintenance-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AssetMaintenanceHttpService } from 'src/services/http/asset/asset-maint
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [AssetMaintenanceListComponent],
   providers: [

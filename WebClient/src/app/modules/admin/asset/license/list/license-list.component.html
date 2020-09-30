@@ -74,26 +74,7 @@
                         <td>{{ data.available }}</td>
                         <td>{{ data.isActive ? 'Active':'In Active' }}</td>
                         <td class="action-column fit-cell">
-                            <ng-container *checkPermission="['license.manage', 'license.checkout']">
-                                <button *ngIf="data.available" class="btn-custom" nz-button nzType="primary" (click)="checkout(data)">{{'checkout'|translate}}</button>
-                            </ng-container>
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['license.manage', 'license.view']" nz-menu-item (click)="view(data)">
-                                        <i nz-icon nzType="eye"></i>{{'view'|translate}}
-                                    </li>
-                                    <li *checkPermission="['license.manage', 'license.update']" nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['license.manage', 'license.delete']" nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

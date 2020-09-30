@@ -8,6 +8,7 @@ import { EvaluationMethodListComponent } from './evaluation-method-list.componen
 import { EvaluationMethodListRoutingModule } from './evaluation-method-list-routing.module';
 import { EvaluationMethodHttpService } from 'src/services/http/course/evaluation-method-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [EvaluationMethodListComponent],
   providers: [

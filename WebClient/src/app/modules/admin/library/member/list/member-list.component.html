@@ -37,7 +37,6 @@
                 [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <!-- <th></th> -->
                         <th>
                             {{'name'|translate}}
                             <input [(ngModel)]="name" nz-input />
@@ -77,29 +76,12 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <!-- <td class="fit-cell">
-                            <nz-avatar nzSize="large" nzIcon="user">
-                            </nz-avatar>
-                        </td> -->
                         <td>{{ data.fullName }}</td>
                         <td>{{ data.library?.name }}</td>
                         <td>{{ data.mobile }}</td>
                         <td>{{ data.email }}</td>
                         <td class="action-column fit-cell">
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['library.member.manage', 'library.member.update']" nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['library.member.manage', 'library.member.delete']" nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

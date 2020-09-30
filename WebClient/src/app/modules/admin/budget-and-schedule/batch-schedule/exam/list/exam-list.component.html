@@ -72,23 +72,7 @@
                             <a *ngIf="!data.isOnline" (click)="download(data)">{{'download'|translate}}</a>
                         </td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="data.isOnline && data.questionType != null" nz-button (click)="result(data)" class="btn-custom">
-                                {{'result'|translate}}
-                            </button>
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ResourcePersonListComponent } from './resource-person-list.component';
 import { ResourcePersonRoutingModule } from './resource-person-list-routing.module';
 import { ResourcePersonHttpService } from 'src/services/http/course/resource-person-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ResourcePersonHttpService } from 'src/services/http/course/resource-per
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [ResourcePersonListComponent],
   providers: [

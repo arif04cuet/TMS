@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RoomTypeListRoutingModule } from './room-type-list-routing.module';
 import { RoomTypeHttpService } from 'src/services/http/hostel/room-type-http.service';
 import { RoomTypeListComponent } from './room-type-list.component';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RoomTypeListComponent } from './room-type-list.component';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [RoomTypeListComponent],
   providers: [

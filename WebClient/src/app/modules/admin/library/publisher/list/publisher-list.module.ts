@@ -9,6 +9,7 @@ import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { PublisherListComponent } from './publisher-list.component';
 import { PublisherListRoutingModule } from './publisher-list-routing.module';
 import { CommonValidator } from 'src/validators/common.validator';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CommonValidator } from 'src/validators/common.validator';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [PublisherListComponent],
   providers: [

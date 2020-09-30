@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { MethodHttpService } from 'src/services/http/course/method-http.service';
 import { MethodAddComponent } from '../add/method-add.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-method-list',
@@ -15,6 +16,21 @@ export class MethodListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['method.manage', 'method.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['method.manage', 'method.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private methodHttpService: MethodHttpService,

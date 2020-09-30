@@ -53,24 +53,7 @@
                         <td>{{ data.available }}</td>
                         <td>{{ data.minQuantity }}</td>
                         <td class="action-column fit-cell">
-                            <button *ngIf="data.available > 0" (click)="checkout(data)" class="btn-custom" nz-button nzType="primary">{{'checkout'|translate}}</button>
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['consumable.manage', 'consumable.view']" nz-menu-item (click)="view(data)">
-                                        <i nz-icon nzType="eye"></i>{{'view'|translate}}
-                                    </li>
-                                    <!-- <li nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li> -->
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>

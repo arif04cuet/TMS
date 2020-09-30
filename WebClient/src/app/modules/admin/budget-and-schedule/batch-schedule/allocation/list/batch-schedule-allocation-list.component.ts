@@ -7,6 +7,7 @@ import { BatchScheduleHttpService } from 'src/services/http/budget-and-schedule/
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
 import { SelectComponent } from 'src/app/shared/select/select.component';
 import { progress, createAnchorAndFireForDownload } from 'src/services/utilities.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-batch-schedule-allocation-list',
@@ -20,6 +21,19 @@ export class BatchScheduleAllocationListComponent extends TableComponent {
 
   serverUrl = environment.serverUri;
   statuses = [];
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private batchScheduleAllocationHttpService: BatchScheduleAllocationHttpService,

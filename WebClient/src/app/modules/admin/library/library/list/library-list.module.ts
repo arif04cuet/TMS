@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LibraryListRoutingModule } from './library-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LibraryHttpService } from 'src/services/http/library-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [LibraryListComponent],
   providers: [

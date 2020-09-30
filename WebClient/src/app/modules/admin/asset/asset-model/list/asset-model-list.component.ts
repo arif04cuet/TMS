@@ -3,6 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { AssetModelHttpService } from 'src/services/http/asset/asset-model-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 
 @Component({
@@ -18,6 +19,21 @@ export class AssetModelListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
   @Searchable("Category.Name", "like") category;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['asset.model.manage', 'asset.model.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['asset.model.manage', 'asset.model.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private assetModelHttpService: AssetModelHttpService,

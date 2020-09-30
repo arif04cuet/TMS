@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StatusListRoutingModule } from './status-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StatusHttpService } from 'src/services/http/asset/status-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { StatusHttpService } from 'src/services/http/asset/status-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [StatusListComponent],
   providers: [

@@ -3,6 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { CourseHttpService } from 'src/services/http/course/course-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-course-list',
@@ -11,6 +12,21 @@ import { CourseHttpService } from 'src/services/http/course/course-http.service'
 export class CourseListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['course.manage', 'course.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['course.manage', 'course.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private courseHttpService: CourseHttpService,

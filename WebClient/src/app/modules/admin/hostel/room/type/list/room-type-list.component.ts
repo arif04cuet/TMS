@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { environment } from 'src/environments/environment';
 import { RoomTypeHttpService } from 'src/services/http/hostel/room-type-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-room-type-list',
@@ -12,8 +13,22 @@ import { RoomTypeHttpService } from 'src/services/http/hostel/room-type-http.ser
 export class RoomTypeListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['room.type.manage', 'room.type.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['room.type.manage', 'room.type.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private roomTypeHttpService: RoomTypeHttpService,

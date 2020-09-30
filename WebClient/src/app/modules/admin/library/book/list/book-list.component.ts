@@ -7,6 +7,7 @@ import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { environment } from 'src/environments/environment';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-book-list',
@@ -17,6 +18,20 @@ export class BookListComponent extends TableComponent {
   publishers = [];
   authors = [];
   serverUrl = environment.serverUri;
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['book.catalog.manage', 'book.catalog.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['book.catalog.manage', 'book.catalog.delete'],
+      icon: 'delete'
+    }
+  ]
 
   @Searchable("Title", "like") title;
   @Searchable("Isbn", "like") isbn;

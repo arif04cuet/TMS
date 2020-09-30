@@ -3,6 +3,7 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-library-card-list',
@@ -12,6 +13,20 @@ export class CardListComponent extends TableComponent {
 
   @Searchable("Barcode", "like") number;
   @Searchable("CardType.Name", "like") type;
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['card.manage', 'card.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['card.manage', 'card.delete'],
+      icon: 'delete'
+    }
+  ]
   
   constructor(
     private libraryCardHttpService: LibraryCardHttpService,

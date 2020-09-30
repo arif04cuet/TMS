@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { CategoryHttpService } from 'src/services/http/cms/category-http.service';
 import { CategoryAddComponent } from '../add/category-add.component';
 import { NzModalService } from 'ng-zorro-antd';
+import { IButton } from 'src/app/shared/table-actions.component';
 
 @Component({
   selector: 'app-cms-category-list',
@@ -15,6 +16,21 @@ export class CmsCategoryListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
   serverUrl = environment.serverUri;
+
+  buttons: IButton[] = [
+    {
+      label: 'edit',
+      action: d => this.add(d),
+      permissions: ['content.category.manage', 'content.category.update'],
+      icon: 'edit'
+    },
+    {
+      label: 'delete',
+      action: d => this.delete(d),
+      permissions: ['content.category.manage', 'content.category.delete'],
+      icon: 'delete'
+    }
+  ]
 
   constructor(
     private categoryHttpService: CategoryHttpService,

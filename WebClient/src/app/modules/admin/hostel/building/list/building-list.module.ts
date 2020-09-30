@@ -8,6 +8,7 @@ import { BuildingListComponent } from './building-list.component';
 import { BuildingListRoutingModule } from './building-list-routing.module';
 import { BuildingHttpService } from 'src/services/http/hostel/building-http.service';
 import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service'
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [BuildingListComponent],
   providers: [

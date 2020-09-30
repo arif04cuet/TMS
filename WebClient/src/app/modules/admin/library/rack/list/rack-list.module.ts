@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RackListRoutingModule } from './rack-list-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RackHttpService } from 'src/services/http/rack-http.service';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RackHttpService } from 'src/services/http/rack-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    TableActionsModule
   ],
   exports: [RackListComponent],
   providers: [

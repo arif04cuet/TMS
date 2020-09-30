@@ -26,9 +26,6 @@
                 nzTableLayout="fixed" [nzScroll]="{ x: '100%' }" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <!-- <th>
-                            {{'isbn'|translate}}
-                        </th> -->
                         <th>
                             {{'barcode'|translate}}
                             <input [(ngModel)]="barcode" nz-input />
@@ -37,30 +34,6 @@
                             {{'title'|translate}}
                             <input [(ngModel)]="title" nz-input />
                         </th>
-                        <!-- <th>
-                            <div>
-                                {{'author'|translate}}
-                            </div>
-                            <div>
-                                <nz-select [(ngModel)]="author" class="btn-custom" nzShowSearch nzAllowClear
-                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'designation'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of authors" [nzLabel]="p.name" [nzValue]="p.id">
-                                    </nz-option>
-                                </nz-select>
-                            </div>
-                        </th>
-                        <th>
-                            <div>
-                                {{'publishers'|translate}}
-                            </div>
-                            <div>
-                                <nz-select [(ngModel)]="publisher" class="btn-custom" nzShowSearch nzAllowClear
-                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'publisher'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of publishers" [nzLabel]="p.name" [nzValue]="p.id">
-                                    </nz-option>
-                                </nz-select>
-                            </div>
-                        </th> -->
                         <th>
                             {{'status'|translate}}
                             <input [(ngModel)]="status" nz-input />
@@ -97,31 +70,7 @@
                         <td>{{ data.issueDate|date:'medium':'+0000' }}</td>
                         <td>{{ data.returnDate|date:'medium':'+0000' }}</td>
                         <td class="action-column fit-cell">
-                            <ng-container *checkPermission="['book.manage', 'book.issue']">
-                                <button *ngIf="!data.issuedTo && data.status.id == 1" nzType="primary" (click)="issue(data)" nz-button
-                                    class="btn-custom">
-                                    {{'issue'|translate}}
-                                </button>
-                            </ng-container>
-                            <ng-container *checkPermission="['book.manage', 'book.return']">
-                                <button *ngIf="data.issuedTo" nz-button (click)="return(data)" class="btn-custom">
-                                    {{'return'|translate}}
-                                </button>
-                            </ng-container>
-                            <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-                                class="btn-custom">
-                                <i nz-icon nzType="ellipsis"></i>
-                            </button>
-                            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li *checkPermission="['book.manage', 'book.update']" nz-menu-item (click)="add(data)">
-                                        <i nz-icon nzType="edit"></i>{{'edit'|translate}}
-                                    </li>
-                                    <li *checkPermission="['book.manage', 'book.delete']" nz-menu-item (click)="delete(data)">
-                                        <i nz-icon nzType="delete"></i>{{'delete'|translate}}
-                                    </li>
-                                </ul>
-                            </nz-dropdown-menu>
+                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
                     </tr>
                 </tbody>
