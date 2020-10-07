@@ -34,7 +34,7 @@
                             {{'type'|translate}}
                             <div>
                                 <nz-select [(ngModel)]="Type" class="btn-custom" nzShowSearch nzAllowClear
-                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'Type'|translate|lowercase}">
+                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'type'|translate|lowercase}">
                                     <nz-option *ngFor="let p of masterstatuses" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
                                 </nz-select>

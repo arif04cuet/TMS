@@ -45,7 +45,7 @@ const routes: Routes = [
   //     name: 'consumable_edit',
   //     breadcrumb: {
   //       icon: 'edit',
-  //       title: 'Edit'
+  //       title: 'edit'
   //     }
   //   }
   // },
@@ -56,7 +56,7 @@ const routes: Routes = [
   //     name: 'consumable_add',
   //     breadcrumb: {
   //       icon: 'plus',
-  //       title: 'Add'
+  //       title: 'add'
   //     }
   //   }
   // },

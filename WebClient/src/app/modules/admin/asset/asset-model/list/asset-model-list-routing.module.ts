@@ -11,7 +11,7 @@ const routes: Routes = [
       name: 'asset_model_edit',
       breadcrumb: {
         icon: 'edit',
-        title: 'Edit'
+        title: 'edit'
       },
       permissions: ['asset.model.manage', 'asset.model.update']
     }
@@ -23,7 +23,7 @@ const routes: Routes = [
       name: 'asset_model_add',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       },
       permissions: ['asset.model.manage', 'asset.model.create']
     }

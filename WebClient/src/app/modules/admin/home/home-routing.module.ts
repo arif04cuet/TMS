@@ -319,7 +319,7 @@ const routes: Routes = [
           name: 'maintenance_list',
           breadcrumb: {
             icon: 'plus',
-            title: 'Add'
+            title: 'maintenances'
           },
           permissions: ['maintenance.manage', 'maintenance.list']
         }
@@ -426,7 +426,7 @@ const routes: Routes = [
           name: 'depreciation_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'Depreciation'
+            title: 'depreciation'
           },
           permissions: ['depreciation.manage', 'depreciation.list']
         }

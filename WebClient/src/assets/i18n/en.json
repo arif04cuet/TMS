@@ -539,5 +539,20 @@
   "cumulative": "Cumulative",
   "current.value": "Current value",
   "depreciate": "Depreciate",
-  "current.year.depreciation": "Current year depreciation"
+  "current.year.depreciation": "Current year depreciation",
+  "created_at": "Created at",
+  "updated_at": "Updated at",
+  "attachment": "Attachment",
+  "image": "Image",
+  "banner.image": "Banner image",
+  "cms.banners": "Banners",
+  "answer": "Answer",
+  "paid": "Paid",
+  "asset.itemcode": "Asset item code",
+  "days": "Days",
+  "floors": "Floors",
+  "booked": "Booked",
+  "budget": "Budget",
+  "or": "Or",
+  "exam": "Exam"
 }

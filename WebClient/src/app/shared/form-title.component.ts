@@ -6,7 +6,7 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
     <div nz-row [nzGutter]="24">
     <div nz-col [nzSpan]="24" style="margin: 10px 0">
         <span class="title-text">
-            {{'x0.information'|translate:{x0: title}|uppercase}}
+            {{'x0.information'|translate:{x0: title|translate}|uppercase}}
         </span>
     </div>
     </div>

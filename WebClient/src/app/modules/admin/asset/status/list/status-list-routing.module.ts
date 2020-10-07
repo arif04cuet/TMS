@@ -11,7 +11,7 @@ const routes: Routes = [
       name: 'status_edit',
       breadcrumb: {
         icon: 'edit',
-        title: 'Edit'
+        title: 'edit'
       },
       permissions: ['asset.status.manage', 'asset.status.update']
     }
@@ -23,7 +23,7 @@ const routes: Routes = [
       name: 'status_add',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       },
       permissions: ['asset.status.manage', 'asset.status.create']
     }

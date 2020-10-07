@@ -35,7 +35,7 @@ const routes: Routes = [
       name: 'room_type_list',
       breadcrumb: {
         icon: 'plus',
-        title: 'types'
+        title: 'room.types'
       },
       permissions: ['room.type.manage', 'room.type.create']
     }

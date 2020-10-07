@@ -26,7 +26,7 @@ const routes: Routes = [
       name: 'license_edit',
       breadcrumb: {
         icon: 'edit',
-        title: 'Edit'
+        title: 'edit'
       },
       permissions: ['license.manage', 'license.update']
     }
@@ -38,7 +38,7 @@ const routes: Routes = [
       name: 'license_add',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       },
       permissions: ['license.manage', 'license.create']
     }

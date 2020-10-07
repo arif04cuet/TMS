@@ -11,7 +11,7 @@ const routes: Routes = [
       name: 'asset_maintenance_edit',
       breadcrumb: {
         icon: 'edit',
-        title: 'Edit'
+        title: 'edit'
       }
     }
   },
@@ -22,7 +22,7 @@ const routes: Routes = [
       name: 'asset_maintenance_add',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       }
     }
   }

@@ -11,7 +11,7 @@ const routes: Routes = [
       name: 'category_edit',
       breadcrumb: {
         icon: 'edit',
-        title: 'Edit'
+        title: 'edit'
       },
       permissions: ['asset.category.manage', 'asset.category.update']
     }
@@ -23,7 +23,7 @@ const routes: Routes = [
       name: 'category_add',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       },
       permissions: ['asset.category.manage', 'asset.category.create']
     }

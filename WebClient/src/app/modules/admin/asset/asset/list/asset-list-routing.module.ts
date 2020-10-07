@@ -71,7 +71,7 @@ const routes: Routes = [
       name: 'asset_checkin',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       },
       permissions: ['asset.manage', 'asset.checkin']
     }
@@ -83,7 +83,7 @@ const routes: Routes = [
       name: 'asset_audit',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       },
       permissions: ['asset.manage', 'asset.audit.create']
     }

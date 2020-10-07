@@ -11,7 +11,7 @@ const routes: Routes = [
       name: 'supplier_edit',
       breadcrumb: {
         icon: 'edit',
-        title: 'Edit'
+        title: 'edit'
       },
       permissions: ['supplier.manage', 'supplier.update']
     }
@@ -23,7 +23,7 @@ const routes: Routes = [
       name: 'supplier_add',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       },
       permissions: ['supplier.manage', 'supplier.create']
     }

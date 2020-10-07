@@ -11,7 +11,7 @@ const routes: Routes = [
       name: 'depreciation_edit',
       breadcrumb: {
         icon: 'edit',
-        title: 'Edit'
+        title: 'edit'
       },
       permissions: ['depreciation.manage', 'depreciation.update']
     }
@@ -23,7 +23,7 @@ const routes: Routes = [
       name: 'depreciation_add',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       },
       permissions: ['depreciation.manage', 'depreciation.create']
     }

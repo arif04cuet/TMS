@@ -90,10 +90,10 @@
                     <div nz-col [nzSpan]="8">
                         <div class="field-container">
                             <button *ngIf="roomOrBed == 'room'" (click)="selectRoom()" nz-button class="btn-custom" disabled="true">
-                                {{'select.x0'|translate:{x0: 'room'} }}
+                                {{'select.x0'|translate:{x0: 'room'|translate} }}
                             </button>
                             <button *ngIf="roomOrBed == 'bed'" (click)="selectBed()" nz-button class="btn-custom" disabled="true">
-                                {{'select.x0'|translate:{x0: 'bed'} }}
+                                {{'select.x0'|translate:{x0: 'bed'|translate} }}
                             </button>
                         </div>
                     </div>

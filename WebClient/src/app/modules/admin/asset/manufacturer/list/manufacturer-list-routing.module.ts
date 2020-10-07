@@ -11,7 +11,7 @@ const routes: Routes = [
       name: 'manufacturer_edit',
       breadcrumb: {
         icon: 'edit',
-        title: 'Edit'
+        title: 'edit'
       },
       permissions: ['manufacturer.manage', 'manufacturer.update']
     }
@@ -23,7 +23,7 @@ const routes: Routes = [
       name: 'manufacturer_add',
       breadcrumb: {
         icon: 'plus',
-        title: 'Add'
+        title: 'add'
       },
       permissions: ['manufacturer.manage', 'manufacturer.create']
     }
