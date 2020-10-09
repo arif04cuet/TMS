@@ -6,6 +6,7 @@ import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { PublisherAddComponent } from '../add/publisher-add.component';
 import { NzModalService } from 'ng-zorro-antd';
 import { IButton } from 'src/app/shared/table-actions.component';
+import { Searchable } from 'src/decorators/searchable.decorator';
 
 @Component({
   selector: 'app-publisher-list',
@@ -13,6 +14,7 @@ import { IButton } from 'src/app/shared/table-actions.component';
 })
 export class PublisherListComponent extends TableComponent {
 
+  @Searchable("Name", "like") name;
   buttons: IButton[] = [
     {
       label: 'edit',
@@ -52,7 +54,7 @@ export class PublisherListComponent extends TableComponent {
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.publisherHttpService.list()
+      this.publisherHttpService.list(pagination, search)
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
@@ -66,7 +68,11 @@ export class PublisherListComponent extends TableComponent {
   }
 
   refresh() {
-    this.gets(null, null);
+    this.gets(null, this.getSearchTerms());
+  }
+
+  search() {
+    this.gets(null, this.getSearchTerms())
   }
 
 }

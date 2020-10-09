@@ -6,6 +6,7 @@ import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { NzModalService } from 'ng-zorro-antd';
 import { AuthorAddComponent } from '../add/author-add.component';
 import { IButton } from 'src/app/shared/table-actions.component';
+import { Searchable } from 'src/decorators/searchable.decorator';
 
 @Component({
   selector: 'app-author-list',
@@ -13,6 +14,7 @@ import { IButton } from 'src/app/shared/table-actions.component';
 })
 export class AuthorListComponent extends TableComponent {
 
+  @Searchable("Name", "like") name;
   buttons: IButton[] = [
     {
       label: 'edit',
@@ -52,7 +54,7 @@ export class AuthorListComponent extends TableComponent {
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.authorHttpService.list()
+      this.authorHttpService.list(pagination, search)
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
@@ -66,7 +68,11 @@ export class AuthorListComponent extends TableComponent {
   }
 
   refresh() {
-    this.gets(null, null);
+    this.gets(null, this.getSearchTerms());
+  }
+
+  search() {
+    this.gets(null, this.getSearchTerms())
   }
 
 }

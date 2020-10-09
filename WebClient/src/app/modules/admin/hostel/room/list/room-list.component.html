@@ -1,6 +1,6 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 
-<div *ngIf="!loading">
+<div [style.display]="loading ? 'none' : ''">
     <div class="box">
         <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
@@ -33,8 +33,11 @@
                             {{'name'|translate}}
                             <input [(ngModel)]="name" nz-input />
                         </th>
-                        <th>{{'room.type'|translate}}
-                            <app-select #roomType></app-select>
+                        <th>
+                            {{'room.type'|translate}}
+                            <div>
+                                <app-select #roomType></app-select>
+                            </div>
                         </th>
                         <th>{{'floor'|translate}}</th>
                         <th>{{'building'|translate}}</th>

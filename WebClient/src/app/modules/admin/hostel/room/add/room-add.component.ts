@@ -65,7 +65,6 @@ export class RoomAddComponent extends FormComponent {
       return this.roomTypeHttpService.list(pagination, search);
     }).fetch();
 
-
     this.buildingSelect.register((pagination, search) => {
       return this.buildingHttpService.list(pagination, search).pipe(
         map((x: any) => {
@@ -75,8 +74,7 @@ export class RoomAddComponent extends FormComponent {
           return x;
         })
       );
-    })
-      .onLoadCompleted(() => {
+    }).onLoadCompleted(() => {
         if (this.isEditMode()) {
           this.onBuildingChanged(this.form.controls.building.value);
         }
