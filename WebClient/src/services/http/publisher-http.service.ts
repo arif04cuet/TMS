@@ -12,8 +12,15 @@ export class PublisherHttpService {
         return this.httpService.get(`books/publishers/${id}`);
     }
 
-    public list() {
-        return this.httpService.get('books/publishers');
+    public list(pagination?: string, search?: string) {
+        let url = 'books/publishers?'
+        if(pagination){
+            url += pagination
+        }
+        if(search) {
+            url += search
+        }
+        return this.httpService.get(url);
     }
 
     public add(body) {

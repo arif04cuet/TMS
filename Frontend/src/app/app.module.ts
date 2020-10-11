@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,8 +18,15 @@ import { HotelHttpService } from 'src/services/hotel-http-service';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { NZ_I18N, en_US } from 'ng-zorro-antd';
+import { environment } from 'src/environments/environment';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 registerLocaleData(en);
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient, environment.langFilePath);
+}
 
 @NgModule({
   declarations: [
@@ -32,7 +39,14 @@ registerLocaleData(en);
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HomeModule
+    HomeModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
@@ -44,7 +58,8 @@ registerLocaleData(en);
     CmsHttpService,
     RegistrationHttpService,
     CommonValidator,
-    HotelHttpService
+    HotelHttpService,
+    TranslatePipe,
   ],
   bootstrap: [AppComponent]
 })

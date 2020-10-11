@@ -17,6 +17,7 @@ import { ContentListSingleModule } from '../content-list/single/content-list-sin
 import { RegistrationModule } from '../registration/registration.module';
 import { HotelAndRoomModule } from '../hotel-and-room/hotel-and-room.module';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { CommonModule } from '@angular/common';
     ContentListModule,
     ContentListSingleModule,
     RegistrationModule,
-    HotelAndRoomModule
+    HotelAndRoomModule,
+    SharedModule
   ],
   exports: [HomeComponent]
 })
