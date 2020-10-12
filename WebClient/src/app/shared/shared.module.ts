@@ -4,11 +4,13 @@ import { BoxLoaderModule } from './box-loader.component';
 import { getLang } from 'src/services/utilities.service';
 import { MomentPipeModule } from 'src/pipes/moment.pipe';
 import { CheckPermissionDirective } from 'src/directives/permission.directive';
+import { EnToBnDirective } from 'src/directives/en-to-bn.directive';
 
 
 @NgModule({
   declarations: [
-    CheckPermissionDirective
+    CheckPermissionDirective,
+    EnToBnDirective
   ],
   imports: [
     TranslateModule,
@@ -19,7 +21,8 @@ import { CheckPermissionDirective } from 'src/directives/permission.directive';
     TranslateModule,
     BoxLoaderModule,
     MomentPipeModule,
-    CheckPermissionDirective
+    CheckPermissionDirective,
+    EnToBnDirective
   ]
 })
 export class SharedModule {
