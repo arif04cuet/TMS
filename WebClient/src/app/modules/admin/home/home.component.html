@@ -55,11 +55,11 @@
                 <div class="box">
                     <nz-breadcrumb>
                         <nz-breadcrumb-item *ngFor="let b of breadcrumbs">
-                            <a (click)="navigate(b)" *ngIf="!b.last">
+                            <a (click)="navigate(b)" *ngIf="!b.last && b.url">
                                 <i *ngIf="b.icon" nz-icon [nzType]="b.icon"></i>
                                 <span>{{b.title|translate}}</span>
                             </a>
-                            <ng-container *ngIf="b.last">
+                            <ng-container *ngIf="b.last || !b.url">
                                 <i *ngIf="b.icon" nz-icon [nzType]="b.icon"></i>
                                 <span>{{b.title|translate}}</span>
                             </ng-container>

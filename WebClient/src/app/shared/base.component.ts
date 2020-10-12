@@ -209,8 +209,14 @@ export class BaseComponent {
     buildBreadcrumbs() {
         let parent = this._activatedRouteSnapshot.parent;
         let arr = [];
+        let moduleBreadcrumb = null
         while (parent) {
             if (parent.url && parent.url.length > 0) {
+                if (parent.data && parent.data.breadcrumb && parent.data.breadcrumb.module) {
+                    moduleBreadcrumb = {
+                        title: parent.data?.breadcrumb?.module,
+                    };
+                }
                 arr.push({
                     url: parent.url.map(x => x.path).join('/'),
                     icon: parent.data?.breadcrumb?.icon,
@@ -225,6 +231,9 @@ export class BaseComponent {
             route += `/${x.url}`
             return { ...x, route: route, last: i == this.breadcrumbs.length - 1 };
         });
+        if(moduleBreadcrumb) {
+            this.breadcrumbs.splice(1, 0, moduleBreadcrumb);
+        }
         setTimeout(() => this.broadcast('breadcrumbs', this.breadcrumbs));
     }
 
