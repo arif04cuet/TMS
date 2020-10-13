@@ -9,6 +9,9 @@ namespace Module.Library.Entities
     {
         public long MediaId { get; set; }
         public Media Media { get; set; }
+
+        public long? Media2Id { get; set; }
+        public Media Media2 { get; set; }
         public bool IsDownloadable { get; set; }
 
         public long? FormatId { get; set; }

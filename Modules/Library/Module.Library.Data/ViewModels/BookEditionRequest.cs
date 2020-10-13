@@ -11,6 +11,7 @@ namespace Module.Library.Data
         public int NumberOfCopy { get; set; }
         public string Edition { get; set; }
         public long? EBook { get; set; }
+        public long? EBook2 { get; set; }
         public bool IsEbookDownloadable { get; set; }
         public long? EbookFormat { get; set; }
 
@@ -50,6 +51,7 @@ namespace Module.Library.Data
                 entity.FormatId = EbookFormat;
                 entity.IsDownloadable = IsEbookDownloadable;
                 entity.MediaId = EBook.Value;
+                entity.Media2Id = EBook2.Value;
                 return entity;
             }
             return default;

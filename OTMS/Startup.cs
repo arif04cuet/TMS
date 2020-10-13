@@ -55,6 +55,12 @@ namespace OTMS
                 x.TimeZoneInfo = TimeZoneInfo.Local;
             });
             services.AddRazorPages();
+            services.AddCronJob<BookReturnScheduleCronJob>(x =>
+            {
+                // run every day
+                x.CronExpression = @"0 0 * * *";
+                x.TimeZoneInfo = TimeZoneInfo.Local;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

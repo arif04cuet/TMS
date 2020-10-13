@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Module.Core.Data;
 using Module.Core.Shared;
 using Module.Library.Entities;
 using Msi.UtilityKit.Pagination;
@@ -20,9 +21,11 @@ namespace Module.Library.Data
         public readonly IUnitOfWork _unitOfWork;
         public readonly IRepository<LibraryCard> _libraryCardRepository;
         public readonly IRepository<LibraryCardType> _libraryCardTypeRepository;
+        public readonly IMediaService _mediaService;
 
-        public LibraryCardService(IUnitOfWork unitOfWork)
+        public LibraryCardService(IUnitOfWork unitOfWork, IMediaService mediaService)
         {
+            _mediaService = mediaService;
             _unitOfWork = unitOfWork;
             _libraryCardRepository = _unitOfWork.GetRepository<LibraryCard>();
             _libraryCardTypeRepository = _unitOfWork.GetRepository<LibraryCardType>();
@@ -42,7 +45,8 @@ namespace Module.Library.Data
                     LateFee = request.LateFee,
                     MaxIssueCount = request.MaxIssueCount,
                     CardStatusId = LibraryCardStatusConstants.Active,
-                    LibraryId = request.LibraryId
+                    LibraryId = request.LibraryId,
+                    PhotoId = request.PhotoId
                 };
                 cards.Add(card);
             }
@@ -113,7 +117,8 @@ namespace Module.Library.Data
                     {
                         Id = x.Member.Id,
                         Name = x.Member.FullName
-                    } : null
+                    } : null,
+                    Photo = _mediaService.GetPhotoUrl(x.Photo)
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -137,6 +142,7 @@ namespace Module.Library.Data
             item.CardStatusId = request.CardType;
             item.CardStatusId = request.StatusId;
             item.LibraryId = request.LibraryId;
+            item.PhotoId = request.PhotoId;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;

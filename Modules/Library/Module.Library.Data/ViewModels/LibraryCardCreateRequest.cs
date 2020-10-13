@@ -12,5 +12,6 @@ namespace Module.Library.Data
         public DateTime ExpireDate { get; set; }
         public long StatusId { get; set; }
         public long? LibraryId { get; set; }
+        public long? PhotoId { get; set; }
     }
 }
