@@ -91,7 +91,8 @@ const routes: Routes = [
           name: 'role_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'roles'
+            title: 'roles',
+            module: 'user'
           },
           permissions: ['role.manage', 'role.list']
         }
@@ -103,7 +104,8 @@ const routes: Routes = [
           name: 'office_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'offices'
+            title: 'offices',
+            module: 'user'
           },
           permissions: ['office.manage', 'office.list']
         }

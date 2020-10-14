@@ -1,5 +1,6 @@
 import { environment } from 'src/environments/environment';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 export function forEachObj(obj: any, fn: (k: any, v: any) => void) {
     for (const key in obj) {
@@ -76,15 +77,15 @@ export function buildUrl(url: string, ...args) {
     return _url;
 }
 
-export function toBengali(obj) {
+export function toBengali(obj, t: TranslateService) {
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
             if (!Array.isArray(obj[key])) {
-                convertPropertyToBengali(obj, key);
+                convertPropertyToBengali(obj, key, t);
             }
             else {
                 for (let i = 0; i < obj[key].length; i++) {
-                    toBengali(obj[key][i]);
+                    toBengali(obj[key][i], t);
                 }
             }
         }
@@ -92,20 +93,23 @@ export function toBengali(obj) {
     return obj;
 }
 
-export function convertPropertyToBengali(obj, key) {
+export function convertPropertyToBengali(obj, key, t: TranslateService) {
     if (!["id", "offset", "limit"].includes(key)) {
         if (typeof (obj[key]) == "number" || /^\d+$/.test(obj[key])) {
             const v = convertValueToBengali(obj[key].toString());
             obj[key] = v;
         }
+        else if (typeof(obj[key]) == "string") {
+            obj[key] = t.instant(obj[key]);
+        }
         else if (typeof (obj[key]) == "object") {
-            toBengali(obj[key])
+            toBengali(obj[key], t)
         }
     }
 }
 
 export function convertValueToBengali(value: any) {
-    value = value.toString()
+    value = value.toString();
     const map = getNumberMap();
     const len = value.length;
     let bengaliNumber = ""

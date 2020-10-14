@@ -14,5 +14,6 @@ namespace Module.Library.Data
         public float LateFee { get; set; }
         public int MaxIssueCount { get; set; }
         public DateTime? ExpireDate { get; set; }
+        public string Photo { get; set; }
     }
 }

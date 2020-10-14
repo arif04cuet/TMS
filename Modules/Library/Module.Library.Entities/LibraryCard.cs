@@ -29,5 +29,8 @@ namespace Module.Library.Entities
         [Searchable]
         public long? CardStatusId { get; set; }
         public LibraryCardStatus CardStatus { get; set; }
+
+        public long? PhotoId { get; set; }
+        public Media Photo { get; set; }
     }
 }

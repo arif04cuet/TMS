@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonValidator } from 'src/validators/common.validator';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
+import { PhotoUploadModule } from 'src/app/shared/photo.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectControlModule
+    SelectControlModule,
+    PhotoUploadModule
   ],
   exports: [CardAddComponent],
   providers: [

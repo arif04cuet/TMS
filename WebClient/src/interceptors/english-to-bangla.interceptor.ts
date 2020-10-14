@@ -3,12 +3,17 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse, Htt
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { toBengali } from 'src/services/utilities.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable()
 export class EnglishToBanglaInterceptor implements HttpInterceptor {
 
-    constructor() { }
+    private _translateService: TranslateService
+
+    constructor(translateService: TranslateService) {
+        this._translateService = translateService
+    }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
@@ -16,7 +21,7 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
                 if (event instanceof HttpResponse) {
 
                     if (this.allowed(event.url) && event.body && event.body.data) {
-                        toBengali(event.body.data);
+                        toBengali(event.body.data, this._translateService);
                     }
                 }
                 return event
@@ -27,6 +32,7 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
     allowed(url: string): boolean {
         const list = [
             "api/asset",
+            "api/status",
             "api/asset/dashboard",
             "api/hostels/dashboard",
             "api/libraries/dashboard",

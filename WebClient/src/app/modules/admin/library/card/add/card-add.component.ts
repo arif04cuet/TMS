@@ -7,6 +7,7 @@ import { LibraryCardHttpService } from 'src/services/http/library-card-http.serv
 import { forkJoin, of } from 'rxjs';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { FormControl } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-library-card-add',
@@ -16,6 +17,7 @@ export class CardAddComponent extends FormComponent {
 
   loading: boolean = true;
   cardTypes = [];
+  photoUrl;
 
   @ViewChild('statusSelect') statusSelect: SelectControlComponent;
 
@@ -36,6 +38,7 @@ export class CardAddComponent extends FormComponent {
       lateFee: [null, [], this.v.required.bind(this)],
       maxIssueCount: [null, [], this.v.required.bind(this)],
       statusId: [null, [], this.v.required.bind(this)],
+      photoId: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
     this.getData();
@@ -79,6 +82,7 @@ export class CardAddComponent extends FormComponent {
           this.setValues(this.form.controls, res.data);
           this.setValue('cardType', res.data.cardType?.id);
           this.setValue('statusId', res.data.status?.id)
+          this.photoUrl = environment.serverUri + '/' + res.data.photo;
           this.loading = false;
         }
       );
