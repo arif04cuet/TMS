@@ -14,19 +14,19 @@
 
           <div nz-col class="gutter-row" [nzSpan]="6">
 
-            <img class="image" [src]="item.imageUrl" alt="{{item.name}}" >
+            <img class="image" [src]="item.imageUrl" alt="{{item.name}}">
 
           </div>
           <div nz-col class="gutter-row" [nzSpan]="18">
             <div class="inner-box">
               <h3>{{item.name}}</h3>
-             <div [innerHTML]="item.body"></div>
-             <a (click)="view(item)">See More..</a>
+              <div [innerHTML]="item.body"></div>
+              <a (click)="view(item)">{{'See More..'|translate}}</a>
             </div>
           </div>
 
         </div>
-       
+
 
       </div>
 

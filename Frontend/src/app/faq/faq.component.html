@@ -1,17 +1,16 @@
-
 <div nz-row>
-    <div nz-col nzSpan="24">
-      
-      <h2 class="title">FAQ</h2>
-      <br>
-      <nz-collapse >
-        <nz-collapse-panel *ngFor="let item of items" [nzHeader]="item.question">
-          
-          <div [innerHTML]="item.answer"></div>
-          
-        </nz-collapse-panel>
-      </nz-collapse>  
-      
-    </div>
-    
+  <div nz-col nzSpan="24">
+
+    <h2 class="title">{{"FAQ"|translate}}</h2>
+    <br>
+    <nz-collapse>
+      <nz-collapse-panel *ngFor="let item of items" [nzHeader]="item.question">
+
+        <div [innerHTML]="item.answer"></div>
+
+      </nz-collapse-panel>
+    </nz-collapse>
+
   </div>
+
+</div>

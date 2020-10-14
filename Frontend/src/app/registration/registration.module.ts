@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AuthService } from 'src/services/auth.service';
 import { RegistrationHttpService } from 'src/services/registration-http-service';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { RegistrationHttpService } from 'src/services/registration-http-service'
     NzTagModule,
     NzAlertModule,
     NzTableModule,
-    NzSelectModule
+    NzSelectModule,
+    SharedModule
   ],
   providers: [
     RegistrationHttpService,

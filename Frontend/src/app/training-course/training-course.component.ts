@@ -18,7 +18,7 @@ export class TrainingCourseComponent extends TableComponent {
 
   status;
   category;
-  
+
   constructor(
     private trainingCourseHttpService: TrainingCourseHttpService) {
     super(trainingCourseHttpService);
@@ -33,9 +33,9 @@ export class TrainingCourseComponent extends TableComponent {
       const data = {
         data: {
           items: [
-            { id: 'UPCOMING', name: 'Upcoming' },
-            { id: 'RUNNING', name: 'Running' },
-            { id: 'FINISHED', name: 'Finished' }
+            { id: 'UPCOMING', name: 'আসন্ন' },
+            { id: 'RUNNING', name: 'চলমান' },
+            { id: 'FINISHED', name: 'সমাপ্ত' }
           ],
           size: 3
         }
@@ -55,12 +55,12 @@ export class TrainingCourseComponent extends TableComponent {
         search = `Search=CourseSchedule.Course.CategoryId eq ${this.category}`
       }
       return this.trainingCourseHttpService.list2(this.status, search).pipe(
-        map((x:any)=>{
-          
+        map((x: any) => {
+
           x.data.items.forEach(o => {
-            o.course.imageUrl = (o.course.imageUrl) ? `${environment.serverUri}/${o.course.imageUrl}`:'https://via.placeholder.com/200';
+            o.course.imageUrl = (o.course.imageUrl) ? `${environment.serverUri}/${o.course.imageUrl}` : 'https://via.placeholder.com/200';
           });
-          
+
           return x;
         })
       );

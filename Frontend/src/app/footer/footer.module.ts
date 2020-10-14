@@ -3,6 +3,7 @@ import { FooterComponent } from './footer.component';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule, NzIconModule } from 'ng-zorro-antd';
 import { NzGridModule } from 'ng-zorro-antd';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { NzGridModule } from 'ng-zorro-antd';
     NzMenuModule,
     NzGridModule,
     NzIconModule,
-    NzIconModule
+    NzIconModule,
+    SharedModule
   ],
   exports: [FooterComponent]
 })

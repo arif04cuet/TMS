@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SelectModule } from 'src/shared/select/select.module';
 import { TrainingCourseHttpService } from 'src/services/training-course-http-service';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TrainingCourseHttpService } from 'src/services/training-course-http-ser
     NzInputModule,
     NzSelectModule,
     SelectModule,
-    NzTagModule
+    NzTagModule,
+    SharedModule
   ],
   providers: [
     TrainingCourseHttpService

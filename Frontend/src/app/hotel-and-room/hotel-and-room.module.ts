@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { HotelHttpService } from 'src/services/hotel-http-service';
 import { NzButtonModule, NzDatePickerModule, NzTableModule, NzGridModule, NzSelectModule } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -21,9 +22,10 @@ import { FormsModule } from '@angular/forms';
     NzTableModule,
     FormsModule,
     NzGridModule,
-    NzSelectModule
+    NzSelectModule,
+    SharedModule
   ],
-  providers:[
+  providers: [
     HotelHttpService
   ],
   exports: [HotelAndRoomComponent]

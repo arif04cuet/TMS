@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NzFormModule, NzSelectModule } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
 import { SelectComponent } from './select.component';
+import { SharedModule } from '../share.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { SelectComponent } from './select.component';
     CommonModule,
     FormsModule,
     NzFormModule,
-    NzSelectModule
+    NzSelectModule,
+    SharedModule
   ],
   exports: [SelectComponent]
 })

@@ -119,7 +119,8 @@
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzMd]="8" [nzSm]="24">
                         <div nz-row [nzGutter]="24" class="field-container">
-                            <app-photo-upload [control]="form.controls.mediaId" label="photo" [photoUrl]="photoUrl">
+                            <app-photo-upload uploaderClass="rectangular-uploader" [control]="form.controls.mediaId"
+                                label="photo" [photoUrl]="photoUrl">
                             </app-photo-upload>
                         </div>
                     </div>
@@ -198,7 +199,8 @@
                                             <div nz-col [nzMd]="8" [nzSm]="24">
                                                 <div nz-row [nzGutter]="24">
                                                     <nz-form-item class="field-container">
-                                                        <input (change)="fileChanged($event, item)" type="file"  placeholder="{{'select.file'|translate}}" />
+                                                        <input (change)="fileChanged($event, item)" type="file"
+                                                            placeholder="{{'select.file'|translate}}" />
                                                     </nz-form-item>
                                                 </div>
                                             </div>

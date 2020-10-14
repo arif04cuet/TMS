@@ -176,61 +176,6 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
-            title: 'members',
-            route: '/admin/library/members',
-            icon: 'user',
-            fn: () => {
-              return this.permissionService.isRouteGranted('library.member');
-            }
-          },
-          {
-            level: 2,
-            title: 'member.requests',
-            route: '/admin/library/members/requests',
-            icon: 'user',
-            fn: () => {
-              return this.permissionService.isRouteGranted('library.member.request');
-            }
-          },
-          {
-            level: 2,
-            title: 'cards',
-            route: '/admin/library/cards',
-            icon: 'user',
-            fn: () => {
-              return this.permissionService.isRouteGranted('card');
-            }
-          },
-          {
-            level: 2,
-            title: 'book.catalog',
-            route: '/admin/library/books',
-            icon: 'user',
-            fn: () => {
-              return this.permissionService.isRouteGranted('book.catalog');
-            }
-          },
-          {
-            level: 2,
-            title: 'books',
-            route: '/admin/library/books/items',
-            icon: 'user',
-            fn: () => {
-              console.log('dddddd granted');
-              return this.permissionService.isRouteGranted('book');
-            }
-          },
-          {
-            level: 2,
-            title: 'book.issue',
-            route: '/admin/library/books/items/issues',
-            icon: 'user',
-            fn: () => {
-              return this.permissionService.isRouteGranted('book.issue');
-            }
-          },
-          {
-            level: 2,
             title: 'racks',
             route: '/admin/library/racks',
             icon: 'user',
@@ -240,11 +185,11 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
-            title: 'authors',
-            route: '/admin/library/authors',
+            title: 'book.categories',
+            route: '/admin/library/categories',
             icon: 'user',
             fn: () => {
-              return this.permissionService.isRouteGranted('author');
+              return this.permissionService.isRouteGranted('book.category');
             }
           },
           {
@@ -258,13 +203,73 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
-            title: 'book.categories',
-            route: '/admin/library/categories',
+            title: 'authors',
+            route: '/admin/library/authors',
             icon: 'user',
             fn: () => {
-              return this.permissionService.isRouteGranted('book.category');
+              return this.permissionService.isRouteGranted('author');
             }
           },
+          {
+            level: 2,
+            title: 'book.catalog',
+            route: '/admin/library/books',
+            icon: 'user',
+            fn: () => {
+              return this.permissionService.isRouteGranted('book.catalog');
+            }
+          },
+          {
+            level: 2,
+            title: 'book.management',
+            route: '/admin/library/books/items',
+            icon: 'user',
+            fn: () => {
+
+              return this.permissionService.isRouteGranted('book');
+            }
+          },
+          {
+            level: 2,
+            title: 'member.requests',
+            route: '/admin/library/members/requests',
+            icon: 'user',
+            fn: () => {
+              return this.permissionService.isRouteGranted('library.member.request');
+            }
+          },
+          {
+            level: 2,
+            title: 'member.management',
+            route: '/admin/library/members',
+            icon: 'user',
+            fn: () => {
+              return this.permissionService.isRouteGranted('library.member');
+            }
+          },
+
+          {
+            level: 2,
+            title: 'cards',
+            route: '/admin/library/cards',
+            icon: 'user',
+            fn: () => {
+              return this.permissionService.isRouteGranted('card');
+            }
+          },
+          {
+            level: 2,
+            title: 'book.issue',
+            route: '/admin/library/books/items/issues',
+            icon: 'user',
+            fn: () => {
+              return this.permissionService.isRouteGranted('book.issue');
+            }
+          },
+
+
+
+
           {
             level: 2,
             title: 'reports',
@@ -470,7 +475,7 @@ export class HomeComponent extends BaseComponent {
             icon: 'setting',
             fn: () => {
               return this.permissionService.isRouteGranted(['#report.activity.log', '#report.audit.log', '#report.depreciation', '#report.license', '#report.maintenance', '#report.asset']);
-            }, 
+            },
             nav: [
               {
                 level: 3,

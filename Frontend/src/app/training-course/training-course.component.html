@@ -1,18 +1,18 @@
 <div class="course1">
 
   <div class="page-title">
-    <h2>Training Courses</h2>
+    <h2>{{'Training Courses'|translate}}</h2>
   </div>
 
   <div class="page-content">
 
     <div class="filter">
       <div>
-        Status:
+        {{'Status'|translate}}:
         <app-select (onChange)="statusChanged($event)" #statusSelect></app-select>
       </div>
       <div>
-        Category:
+        {{'Category'|translate}}:
         <app-select (onChange)="categoryChanged($event)" #categorySelect></app-select>
       </div>
     </div>
@@ -33,34 +33,34 @@
                 <h3>
                   <span>{{item.name}}</span>
                 </h3>
-                <div class="flex">
+                <div class=" flex">
 
-                  <h2 class="course-name">
-                    <span>{{item.course.name}}</span>
-                  </h2>
+            <h2 class="course-name">
+              <span>{{item.course.name}}</span>
+            </h2>
 
-                  <nz-tag [nzColor]="'#f50'">{{item.status}}</nz-tag>
+            <nz-tag [nzColor]="'#f50'">{{item.status|translate}}</nz-tag>
 
-                </div>
-                <p>{{item.startDate | date :'dd/MM/yyyy'}} - {{item.endDate}}</p>
-
-                <p>Category: {{item?.category?.name}}</p>
-
-                <button (click)="view(item)" nz-button nzType="primary">View details</button>
-
-              </div>
-            </div>
           </div>
+          <p>{{item.startDate | date :'dd/MM/yyyy'}} - {{ item.endDate| date :'dd/MM/yyyy' }}</p>
+
+          <p>{{'Category'|translate}}: {{item?.category?.name}}</p>
+
+          <button (click)="view(item)" nz-button nzType="primary">{{'View details'|translate}}</button>
 
         </div>
-
-
-
-
-
       </div>
-
     </div>
 
   </div>
+
+
+
+
+
+</div>
+
+</div>
+
+</div>
 </div>

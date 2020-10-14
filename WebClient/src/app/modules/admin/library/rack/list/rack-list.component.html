@@ -22,11 +22,12 @@
         </div>
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>
-                            {{'name'|translate}}
+                            {{'rack.name'|translate}}
                             <input [(ngModel)]="name" nz-input />
                         </th>
                         <th>
@@ -34,7 +35,7 @@
                             <input [(ngModel)]="floorNo" nz-input />
                         </th>
                         <th>
-                            {{'building.name'|translate}}
+                            {{'self.name'|translate}}
                             <input [(ngModel)]="buildingName" nz-input />
                         </th>
                         <th class="ta-right">

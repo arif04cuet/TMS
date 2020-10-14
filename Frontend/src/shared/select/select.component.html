@@ -1,6 +1,5 @@
 <nz-select [(ngModel)]="value" class="btn-custom" [nzLoading]="loading" nzShowSearch
-    (ngModelChange)="onValueChange($event)" nzAllowClear
-    [nzPlaceHolder]="'Select'">
+    (ngModelChange)="onValueChange($event)" nzAllowClear nzPlaceHolder="{{'Select'|translate}}">
     <nz-option *ngFor="let p of items" [nzLabel]="p[labelKey]" [nzValue]="p.id">
     </nz-option>
 </nz-select>

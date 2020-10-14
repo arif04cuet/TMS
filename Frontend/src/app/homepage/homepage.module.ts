@@ -11,6 +11,7 @@ import { AboutModule } from './about/about.module';
 import { CourseModule } from './courses/course.module';
 import { HotelAndRoomModule } from '../hotel-and-room/hotel-and-room.module';
 import { LibraryModule } from './library/library.module';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { LibraryModule } from './library/library.module';
     AboutModule,
     CourseModule,
     HotelAndRoomModule,
-    LibraryModule
+    LibraryModule,
+    SharedModule
   ],
   providers: [
     AuthService

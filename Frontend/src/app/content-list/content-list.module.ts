@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SelectModule } from 'src/shared/select/select.module';
 import { CmsHttpService } from 'src/services/cms-http-service';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CmsHttpService } from 'src/services/cms-http-service';
     NzInputModule,
     NzSelectModule,
     SelectModule,
-    NzTagModule
+    NzTagModule,
+    SharedModule
   ],
   providers: [
     CmsHttpService

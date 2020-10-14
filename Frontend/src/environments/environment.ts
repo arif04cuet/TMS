@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  serverUri: 'https://localhost:44327',
-  baseUrl: 'https://localhost:44327/api',
+  serverUri: 'http://localhost:5000',
+  baseUrl: 'http://localhost:5000/api',
   langFilePath: '/assets/i18n/'
 };
 

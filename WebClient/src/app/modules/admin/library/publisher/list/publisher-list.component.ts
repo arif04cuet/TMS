@@ -41,20 +41,20 @@ export class PublisherListComponent extends TableComponent {
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
     this.gets();
-    
+
     this.onDeleted = (res: any) => {
       this.gets();
     }
   }
 
   add(model = null) {
-    this.addModal(PublisherAddComponent, this.modalService, {id: model?.id});
+    this.addModal(PublisherAddComponent, this.modalService, { id: model?.id });
   }
 
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.publisherHttpService.list(pagination, search)
+      this.publisherHttpService.list(),
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {

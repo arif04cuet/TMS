@@ -4,6 +4,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -12,10 +13,11 @@ import { CommonModule } from '@angular/common';
   imports: [
     NzLayoutModule,
     NzCollapseModule,
-    CommonModule
+    CommonModule,
+    SharedModule
   ],
-  providers:[
-    
+  providers: [
+
   ],
   exports: [FaqComponent]
 })

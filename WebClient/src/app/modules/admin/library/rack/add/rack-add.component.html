@@ -38,7 +38,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label class="required">{{'name'|translate}}</label>
+                                    <label class="required">{{'rack.name'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="text" nz-input formControlName="name"
@@ -67,11 +67,11 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label class="required">{{'building.name'|translate }}</label>
+                                    <label class="required">{{'self.name'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="text" nz-input formControlName="buildingName"
-                                        placeholder="{{'building.name'|translate }}" />
+                                        placeholder="{{'self.name'|translate }}" />
                                 </nz-form-control>
                             </nz-form-item>
                         </div>

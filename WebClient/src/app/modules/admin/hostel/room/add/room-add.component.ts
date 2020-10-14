@@ -75,10 +75,10 @@ export class RoomAddComponent extends FormComponent {
         })
       );
     }).onLoadCompleted(() => {
-        if (this.isEditMode()) {
-          this.onBuildingChanged(this.form.controls.building.value);
-        }
-      })
+      if (this.isEditMode()) {
+        this.onBuildingChanged(this.form.controls.building.value);
+      }
+    })
       .fetch();
 
     this.facilitiesSelect.register((pagination, search) => {
