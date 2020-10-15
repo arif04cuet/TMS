@@ -27,9 +27,10 @@ const routes: Routes = [
           name: 'cms_faq',
           breadcrumb: {
             icon: 'team',
-            title: 'cms.faq'
+            title: 'cms.faq',
+            module: "cms"
           },
-           permissions: ['content.faq.manage', 'content.faq.list']
+          permissions: ['content.faq.manage', 'content.faq.list']
         }
       },
 
@@ -40,9 +41,10 @@ const routes: Routes = [
           name: 'cms_banners',
           breadcrumb: {
             icon: 'team',
-            title: 'cms.banner'
+            title: 'cms.banner',
+            module: "cms"
           },
-           permissions: ['content.banner.manage', 'content.banner.list']
+          permissions: ['content.banner.manage', 'content.banner.list']
         }
       },
 
@@ -53,9 +55,10 @@ const routes: Routes = [
           name: 'cms_contents',
           breadcrumb: {
             icon: 'team',
-            title: 'cms.content'
+            title: 'cms.content',
+            module: "cms"
           },
-           permissions: ['content.manage', 'content.list']
+          permissions: ['content.manage', 'content.list']
         }
       },
 
@@ -66,9 +69,10 @@ const routes: Routes = [
           name: 'cms_categories',
           breadcrumb: {
             icon: 'team',
-            title: 'cms.category'
+            title: 'cms.category',
+            module: "cms"
           },
-           permissions: ['content.category.manage', 'content.category.list']
+          permissions: ['content.category.manage', 'content.category.list']
         }
       },
 
@@ -79,7 +83,8 @@ const routes: Routes = [
           name: 'user_list',
           breadcrumb: {
             icon: 'team',
-            title: 'users'
+            title: 'users',
+            module: "user.management"
           },
           permissions: ['user.manage', 'user.list']
         }
@@ -92,7 +97,7 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'roles',
-            module: 'user'
+            module: "user.management"
           },
           permissions: ['role.manage', 'role.list']
         }
@@ -105,7 +110,7 @@ const routes: Routes = [
           breadcrumb: {
             icon: 'safety',
             title: 'offices',
-            module: 'user'
+            module: "user.management"
           },
           permissions: ['office.manage', 'office.list']
         }
@@ -117,7 +122,8 @@ const routes: Routes = [
           name: 'designation_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'designations'
+            title: 'designations',
+            module: "user.management"
           },
           permissions: ['designation.manage', 'designation.list']
         }
@@ -129,7 +135,8 @@ const routes: Routes = [
           name: 'department_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'departments'
+            title: 'departments',
+            module: "user.management"
           },
           permissions: ['department.manage', 'department.list']
         }
@@ -153,7 +160,8 @@ const routes: Routes = [
           name: 'library_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'libraries'
+            title: 'libraries',
+            module: "library.management"
           },
           permissions: ['library.manage', 'library.list']
         }
@@ -165,7 +173,8 @@ const routes: Routes = [
           name: 'library_member_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'members'
+            title: 'members',
+            module: "library.management"
           },
           permissions: ['library.member.manage', 'library.member.list']
         }
@@ -177,7 +186,8 @@ const routes: Routes = [
           name: 'library_members_requests_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'members'
+            title: 'members',
+            module: "library.management"
           },
           permissions: ['library.member.request.manage', 'library.member.request.list']
         }
@@ -189,7 +199,8 @@ const routes: Routes = [
           name: 'library_card_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'cards'
+            title: 'cards',
+            module: "library.management"
           },
           permissions: ['card.manage', 'card.list']
         }
@@ -201,7 +212,8 @@ const routes: Routes = [
           name: 'book_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'books'
+            title: 'books',
+            module: "library.management"
           },
           permissions: ['book.catalog.manage', 'book.catalog.list']
         }
@@ -213,7 +225,8 @@ const routes: Routes = [
           name: 'book_item_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'books'
+            title: 'books',
+            module: "library.management"
           },
           permissions: ['book.manage', 'book.list']
         }
@@ -225,7 +238,8 @@ const routes: Routes = [
           name: 'rack_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'racks'
+            title: 'racks',
+            module: "library.management"
           },
           permissions: ['rack.manage', 'rack.list']
         }
@@ -237,7 +251,8 @@ const routes: Routes = [
           name: 'author_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'authors'
+            title: 'authors',
+            module: "library.management"
           },
           permissions: ['author.manage', 'author.list']
         }
@@ -249,7 +264,8 @@ const routes: Routes = [
           name: 'publisher_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'publishers'
+            title: 'publishers',
+            module: "library.management"
           },
           permissions: ['publisher.manage', 'publisher.list']
         }
@@ -261,7 +277,8 @@ const routes: Routes = [
           name: 'category_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'categories'
+            title: 'categories',
+            module: "library.management"
           },
           permissions: ['book.category.manage', 'book.category.list']
         }
@@ -273,7 +290,8 @@ const routes: Routes = [
           name: 'issue_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'issues'
+            title: 'issues',
+            module: "library.management"
           },
           permissions: ['library.report.issue']
         }
@@ -285,7 +303,8 @@ const routes: Routes = [
           name: 'fine_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'fines'
+            title: 'fines',
+            module: "library.management"
           },
           permissions: ['library.report.fine']
         }
@@ -297,7 +316,8 @@ const routes: Routes = [
           name: 'asset_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'assets'
+            title: 'assets',
+            module: "asset.management"
           },
           permissions: ['asset.manage', 'asset.list']
         }
@@ -309,7 +329,8 @@ const routes: Routes = [
           name: 'requisition_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'requisitions'
+            title: 'requisitions',
+            module: "asset.management"
           },
           permissions: ['requisition.manage', 'requisition.list']
         }
@@ -321,7 +342,8 @@ const routes: Routes = [
           name: 'maintenance_list',
           breadcrumb: {
             icon: 'plus',
-            title: 'maintenances'
+            title: 'maintenances',
+            module: "asset.management"
           },
           permissions: ['maintenance.manage', 'maintenance.list']
         }
@@ -333,7 +355,8 @@ const routes: Routes = [
           name: 'asset_model_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'asset.models'
+            title: 'asset.models',
+            module: "asset.management"
           },
           permissions: ['asset.model.manage', 'asset.model.list']
         }
@@ -345,7 +368,8 @@ const routes: Routes = [
           name: 'asset_audit_add',
           breadcrumb: {
             icon: 'safety',
-            title: 'audit'
+            title: 'audit',
+            module: "asset.management"
           },
           permissions: ['asset.audit.create']
         }
@@ -358,7 +382,8 @@ const routes: Routes = [
           parentId: 2,
           breadcrumb: {
             icon: 'safety',
-            title: 'asset.itemcode'
+            title: 'asset.itemcode',
+            module: "asset.management"
           },
           permissions: ['item.code.manage', 'item.code.list']
         }
@@ -393,7 +418,8 @@ const routes: Routes = [
           name: 'consumable_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'consumable'
+            title: 'consumable',
+            module: "asset.management"
           },
           permissions: ['consumable.manage', 'consumable.list']
         }
@@ -416,7 +442,8 @@ const routes: Routes = [
           name: 'supplier_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'supplier'
+            title: 'supplier',
+            module: "asset.management"
           },
           permissions: ['supplier.manage', 'supplier.list']
         }
@@ -428,7 +455,8 @@ const routes: Routes = [
           name: 'depreciation_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'depreciation'
+            title: 'depreciation',
+            module: "asset.management"
           },
           permissions: ['depreciation.manage', 'depreciation.list']
         }
@@ -441,7 +469,8 @@ const routes: Routes = [
           name: 'manufacturer_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'manufacturer'
+            title: 'manufacturer',
+            module: "asset.management"
           },
           permissions: ['manufacturer.manage', 'manufacturer.list']
         }
@@ -453,7 +482,8 @@ const routes: Routes = [
           name: 'status_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'status'
+            title: 'status',
+            module: "asset.management"
           },
           permissions: ['asset.status.manage', 'asset.status.list']
         }
@@ -465,7 +495,8 @@ const routes: Routes = [
           name: 'category_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'category'
+            title: 'category',
+            module: "asset.management"
           },
           permissions: ['asset.category.manage', 'asset.category.list']
         }
@@ -477,7 +508,8 @@ const routes: Routes = [
           name: 'license_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'license'
+            title: 'license',
+            module: "asset.management"
           },
           permissions: ['license.manage', 'license.list']
         }
@@ -489,7 +521,8 @@ const routes: Routes = [
           name: 'asset_activity_log',
           breadcrumb: {
             icon: 'safety',
-            title: 'activity.log'
+            title: 'activity.log',
+            module: "asset.management"
           },
           permissions: ['report.activity.log']
         }
@@ -501,7 +534,8 @@ const routes: Routes = [
           name: 'asset_audit_log',
           breadcrumb: {
             icon: 'safety',
-            title: 'audit.log'
+            title: 'audit.log',
+            module: "asset.management"
           },
           permissions: ['report.audit.log']
         }
@@ -513,7 +547,8 @@ const routes: Routes = [
           name: 'asset_depreciation_report',
           breadcrumb: {
             icon: 'safety',
-            title: 'depreciation.report'
+            title: 'depreciation.report',
+            module: "asset.management"
           },
           permissions: ['report.depreciation']
         }
@@ -525,7 +560,8 @@ const routes: Routes = [
           name: 'asset_depreciation_report',
           breadcrumb: {
             icon: 'safety',
-            title: 'depreciation.report'
+            title: 'depreciation.report',
+            module: "asset.management"
           },
           permissions: ['report.depreciation']
         }
@@ -537,7 +573,8 @@ const routes: Routes = [
           name: 'asset_license_report',
           breadcrumb: {
             icon: 'safety',
-            title: 'license.report'
+            title: 'license.report',
+            module: "asset.management"
           },
           permissions: ['report.license']
         }
@@ -549,7 +586,8 @@ const routes: Routes = [
           name: 'asset_maintenance_report',
           breadcrumb: {
             icon: 'safety',
-            title: 'maintenance.report'
+            title: 'maintenance.report',
+            module: "asset.management"
           },
           permissions: ['report.maintenance']
         }
@@ -561,7 +599,8 @@ const routes: Routes = [
           name: 'asset_asset_report',
           breadcrumb: {
             icon: 'safety',
-            title: 'asset.report'
+            title: 'asset.report',
+            module: "asset.management"
           },
           permissions: ['report.asset']
         }
@@ -573,7 +612,8 @@ const routes: Routes = [
           name: 'allocation_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'allocations'
+            title: 'allocations',
+            module: "hostel.management"
           },
           permissions: ['allocation.manage', 'allocation.list']
         }
@@ -585,7 +625,8 @@ const routes: Routes = [
           name: 'hostel_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'hostels'
+            title: 'hostels',
+            module: "hostel.management"
           },
           permissions: ['hostel.manage', 'hostel.list']
         }
@@ -597,7 +638,8 @@ const routes: Routes = [
           name: 'building_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'buildings'
+            title: 'buildings',
+            module: "hostel.management"
           },
           permissions: ['building.manage', 'building.list']
         }
@@ -609,7 +651,8 @@ const routes: Routes = [
           name: 'facilities_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'facilities'
+            title: 'facilities',
+            module: "hostel.management"
           },
           permissions: ['room.facilities.manage', 'room.facilities.list']
         }
@@ -621,7 +664,8 @@ const routes: Routes = [
           name: 'room_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'rooms'
+            title: 'rooms',
+            module: "hostel.management"
           },
           permissions: ['room.manage', 'room.list']
         }
@@ -633,7 +677,8 @@ const routes: Routes = [
           name: 'bed_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'beds'
+            title: 'beds',
+            module: "hostel.management"
           },
           permissions: ['bed.manage', 'bed.list']
         }
@@ -645,7 +690,8 @@ const routes: Routes = [
           name: 'grade_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'grades'
+            title: 'grades',
+            module: "course.management"
           },
           permissions: ['grade.manage', 'grade.list']
         }
@@ -657,7 +703,8 @@ const routes: Routes = [
           name: 'evaluation_method_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'evaluation.methods'
+            title: 'evaluation.methods',
+            module: "course.management"
           },
           permissions: ['evaluation.method.manage', 'evaluation.method.list']
         }
@@ -669,7 +716,8 @@ const routes: Routes = [
           name: 'course_method_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'course.methods'
+            title: 'course.methods',
+            module: "course.management"
           },
           permissions: ['method.manage', 'method.list']
         }
@@ -681,7 +729,8 @@ const routes: Routes = [
           name: 'course_category_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'course.categories'
+            title: 'course.categories',
+            module: "course.management"
           },
           permissions: ['course.category.manage', 'course.category.list']
         }
@@ -693,7 +742,8 @@ const routes: Routes = [
           name: 'course_topic_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'topics'
+            title: 'topics',
+            module: "course.management"
           },
           permissions: ['topic.manage', 'topic.list']
         }
@@ -705,7 +755,8 @@ const routes: Routes = [
           name: 'course_module_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'modules'
+            title: 'modules',
+            module: "course.management"
           },
           permissions: ['module.manage', 'module.list']
         }
@@ -717,7 +768,8 @@ const routes: Routes = [
           name: 'course_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'courses'
+            title: 'courses',
+            module: "course.management"
           },
           permissions: ['course.manage', 'course.list']
         }
@@ -729,7 +781,8 @@ const routes: Routes = [
           name: 'resource_persons_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'resource.persons'
+            title: 'resource.persons',
+            module: "course.management"
           },
           permissions: ['resource.person.manage', 'resource.person.list']
         }
@@ -741,7 +794,8 @@ const routes: Routes = [
           name: 'expertise_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'expertise'
+            title: 'expertise',
+            module: "course.management"
           },
           permissions: ['expertise.manage', 'expertise.list']
         }
@@ -754,7 +808,8 @@ const routes: Routes = [
           name: 'honorarium_head_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'honorarium.heads'
+            title: 'honorarium.heads',
+            module: "course.management"
           },
           permissions: ['honorarium.head.manage', 'honorarium.head.list']
         }
@@ -766,7 +821,8 @@ const routes: Routes = [
           name: 'course_schedule_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'course.schedules'
+            title: 'course.schedules',
+            module: "budget.and.schedule"
           },
           permissions: ['schedule.manage', 'schedule.list']
         }
@@ -778,7 +834,8 @@ const routes: Routes = [
           name: 'batch_schedule_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'batch.schedules'
+            title: 'batch.schedules',
+            module: "budget.and.schedule"
           },
           permissions: ['batch.manage', 'batch.list']
         }
@@ -790,7 +847,8 @@ const routes: Routes = [
           name: 'batch_schedule_allocation_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'allocations'
+            title: 'allocations',
+            module: "budget.and.schedule"
           },
           permissions: ['batch.allocation.manage', 'batch.allocation.list']
         }
@@ -802,7 +860,8 @@ const routes: Routes = [
           name: 'question_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'questions'
+            title: 'questions',
+            module: "budget.and.schedule"
           },
           permissions: ['question.manage', 'question.list']
         }

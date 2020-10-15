@@ -52,13 +52,13 @@ export class UserAddComponent extends FormComponent {
       department: [],
       mobile: [null, [], this.v.mobile.bind(this)],
       email: [null, [], this.v.required.bind(this)],
-      password: ['1234', [], this.password.bind(this)],
+      password: [null, [], this.password.bind(this)],
       roles: [null, [], this.v.required.bind(this)],
       status: [null, [], this.v.required.bind(this)]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
 
-    const user  = await this.t('user');
+    const user = await this.t('user');
     if (this.mode == 'add') {
       this.addEditTitle = await this.t('create.a.x0', { x0: user });
     }

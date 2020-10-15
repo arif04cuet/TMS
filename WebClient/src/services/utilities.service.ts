@@ -99,8 +99,10 @@ export function convertPropertyToBengali(obj, key, t: TranslateService) {
             const v = convertValueToBengali(obj[key].toString());
             obj[key] = v;
         }
-        else if (typeof(obj[key]) == "string") {
+        else if (typeof (obj[key]) == "string") {
+
             obj[key] = t.instant(obj[key]);
+            console.log(obj[key]);
         }
         else if (typeof (obj[key]) == "object") {
             toBengali(obj[key], t)

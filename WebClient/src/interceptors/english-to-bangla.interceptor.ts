@@ -21,6 +21,7 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
                 if (event instanceof HttpResponse) {
 
                     if (this.allowed(event.url) && event.body && event.body.data) {
+
                         toBengali(event.body.data, this._translateService);
                     }
                 }
@@ -32,6 +33,9 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
     allowed(url: string): boolean {
         const list = [
             "api/asset",
+            "api/languages",
+            "api/libraries/cards/status",
+            "api/books/status",
             "api/status",
             "api/asset/dashboard",
             "api/hostels/dashboard",
