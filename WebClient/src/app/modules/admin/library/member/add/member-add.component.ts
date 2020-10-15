@@ -9,6 +9,7 @@ import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-member-add',
@@ -20,6 +21,7 @@ export class MemberAddComponent extends FormComponent {
   libraries = [];
   statuses = [];
   cards = [];
+  photoUrl;
 
   private data: any = {}
 
@@ -47,6 +49,7 @@ export class MemberAddComponent extends FormComponent {
       memberSince: [null, [], this.v.required.bind(this)],
       cardId: [null, [], this.v.required.bind(this)],
       cardExpireDate: [null, [], this.v.required.bind(this)],
+      photo: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -82,6 +85,7 @@ export class MemberAddComponent extends FormComponent {
         (res: any) => {
           this.data = res.data;
           this.setValues(this.form.controls, res.data);
+          this.photoUrl = environment.serverUri + '/' + res.data.photo;
           const card = res.data.card;
           if (card) {
             this.cards.push({ id: card.id, name: card.barcode });

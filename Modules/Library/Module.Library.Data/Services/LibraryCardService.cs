@@ -142,7 +142,15 @@ namespace Module.Library.Data
             item.CardStatusId = request.CardType;
             item.CardStatusId = request.StatusId;
             item.LibraryId = request.LibraryId;
-            item.PhotoId = request.PhotoId;
+
+            if (request.PhotoId.HasValue && item.PhotoId != request.PhotoId)
+            {
+                // photo changed
+                long? oldMediaId = item.PhotoId;
+                item.PhotoId = request.PhotoId;
+                await _mediaService.UseAsync(request.PhotoId.Value);
+                _ = _mediaService.DeleteMediaAsync(oldMediaId);
+            }
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;

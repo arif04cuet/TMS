@@ -27,11 +27,12 @@ export class RoomAddComponent extends FormComponent {
   imageUrl;
   imageLoading = false;
 
-
   @ViewChild('typeSelect') typeSelect: SelectControlComponent;
   @ViewChild('buildingSelect') buildingSelect: SelectControlComponent;
   @ViewChild('floorSelect') floorSelect: SelectControlComponent;
   @ViewChild('facilitiesSelect') facilitiesSelect: SelectControlComponent;
+
+  private data: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -84,7 +85,6 @@ export class RoomAddComponent extends FormComponent {
     this.facilitiesSelect.register((pagination, search) => {
       return this.facilitiesHttpService.list(pagination, search);
     }).fetch();
-
   }
 
   submit(): void {
@@ -119,15 +119,14 @@ export class RoomAddComponent extends FormComponent {
     if (id != null) {
       this.subscribe(this.roomHttpService.get(id),
         (res: any) => {
+          this.data = res.data;
           this.setValues(this.form.controls, res.data, ['beds']);
           this.setValue('roomType', res.data.type?.id);
           this.form.controls.beds = this.fb.array([]);
           this.prepareForm(res);
           this.loading = false;
-
           if (res.data.imageUrl) {
             this.imageUrl = `${environment.serverUri}/${res.data.imageUrl}`;
-
           }
         }
       );
@@ -142,7 +141,10 @@ export class RoomAddComponent extends FormComponent {
   }
 
   onBuildingChanged(e) {
-    const hostel: any = this.getHostelByBuildingId(e);
+    let hostel: any = this.getHostelByBuildingId(e);
+    if(!hostel && this.isEditMode() && this.data) {
+      hostel = this.data.hostel;
+    }
     if (hostel) {
       this.floorSelect.register((pagination, search) => {
         return this.hostelHttpService.listFloors(hostel.id, e, pagination, search);

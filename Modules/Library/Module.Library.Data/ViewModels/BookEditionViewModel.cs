@@ -28,7 +28,10 @@ namespace Module.Library.Data
                 EBook = x.EBookId != null ? new EBookViewModel
                 {
                     Id = x.Id,
+                    EBook = x.EBook.MediaId,
                     FileName = x.EBook.Media.FileName,
+                    EBook2 = x.EBook.Media2Id,
+                    FileName2 = x.EBook.Media2.FileName,
                     IsDownloadable = x.EBook.IsDownloadable
                 } : null
             };

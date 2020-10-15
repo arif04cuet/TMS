@@ -11,6 +11,7 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { PermissionModule } from '../../../user/permission/permission.module';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
+import { PhotoUploadModule } from 'src/app/shared/photo.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LibraryCardHttpService } from 'src/services/http/library-card-http.serv
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    PermissionModule
+    PermissionModule,
+    PhotoUploadModule
   ],
   exports: [MemberAddComponent],
   providers: [

@@ -187,7 +187,7 @@
                                     </div>
 
                                     <div nz-row>
-                                        <div nz-col [nzMd]="8" [nzSm]="24">
+                                        <div nz-col [nzMd]="4" [nzSm]="24">
                                             <div nz-row [nzGutter]="24">
                                                 <nz-form-item class="field-container">
                                                     <label #hasEbook nz-checkbox
@@ -199,12 +199,23 @@
                                             <div nz-col [nzMd]="8" [nzSm]="24">
                                                 <div nz-row [nzGutter]="24">
                                                     <nz-form-item class="field-container">
+<<<<<<< HEAD
                                                         <input (change)="fileChanged($event, item)" type="file"
                                                             placeholder="{{'select.file'|translate}}" />
+=======
+                                                        <input (change)="fileChanged($event, item)" type="file" accept=".pdf" placeholder="{{'select.file'|translate}}" />
+>>>>>>> bb1db7524652cba9a8ecbe5cad1da5c67a44ec9b
                                                     </nz-form-item>
                                                 </div>
                                             </div>
                                             <div nz-col [nzMd]="8" [nzSm]="24">
+                                                <div nz-row [nzGutter]="24">
+                                                    <nz-form-item class="field-container">
+                                                        <input (change)="fileChanged2($event, item)" type="file" accept=".azw, .kfx, .mobi"  placeholder="{{'select.file'|translate}}" />
+                                                    </nz-form-item>
+                                                </div>
+                                            </div>
+                                            <div nz-col [nzMd]="4" [nzSm]="24">
                                                 <div nz-row [nzGutter]="24">
                                                     <nz-form-item class="field-container">
                                                         <label nz-checkbox
