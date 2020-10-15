@@ -118,6 +118,14 @@ export class BookAddComponent extends FormComponent {
   }
 
   async fileChanged(e, control: any) {
+    await this.fileChangedInternal(e, control, 'eBook');
+  }
+
+  async fileChanged2(e, control: any) {
+    await this.fileChangedInternal(e, control, 'eBook2');
+  }
+
+  async fileChangedInternal(e, control: any, controlName: string) {
     this.log('edition file changed', e, control);
     const file = e.target.files[0];
     let messageId
@@ -134,9 +142,8 @@ export class BookAddComponent extends FormComponent {
           console.log('progress', progress);
         },
         success => {
-          control.controls.eBook.setValue(success.data);
+          control.controls[controlName].setValue(success.data);
           this._messageService.remove(messageId);
-          
         },
         error => {
           this._messageService.remove(messageId);
@@ -172,6 +179,9 @@ export class BookAddComponent extends FormComponent {
       edition: [null, [], this.v.required.bind(this)],
       hasEbook: [],
       eBook: [],
+      eBook2: [],
+      eBookName: [],
+      eBook2Name: [],
       isEbookDownloadable: [],
       ebookFormat: []
     });
@@ -186,6 +196,10 @@ export class BookAddComponent extends FormComponent {
     if(data.eBook) {
       formGroup.controls.hasEbook.setValue(true);
       formGroup.controls.isEbookDownloadable.setValue(data.eBook.isDownloadable);
+      formGroup.controls.eBook.setValue(data.eBook.eBook);
+      formGroup.controls.eBookName.setValue(data.eBook.fileName);
+      formGroup.controls.eBook2.setValue(data.eBook.eBook2);
+      formGroup.controls.eBook2Name.setValue(data.eBook.fileName2);
     }
   }
 

@@ -51,7 +51,7 @@ namespace Module.Library.Data
                 entity.FormatId = EbookFormat;
                 entity.IsDownloadable = IsEbookDownloadable;
                 entity.MediaId = EBook.Value;
-                entity.Media2Id = EBook2.Value;
+                entity.Media2Id = EBook2;
                 return entity;
             }
             return default;

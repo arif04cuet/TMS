@@ -10,6 +10,7 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
+import { PhotoUploadModule } from 'src/app/shared/photo.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LibraryCardHttpService } from 'src/services/http/library-card-http.serv
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    PhotoUploadModule
   ],
   exports: [MemberAddComponent],
   providers: [

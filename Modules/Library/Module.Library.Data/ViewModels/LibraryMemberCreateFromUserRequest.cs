@@ -10,5 +10,7 @@ namespace Module.Library.Data
 
         public long CardId { get; set; }
         public DateTime CardExpireDate { get; set; }
+
+        public long? Photo { get; set; }
     }
 }

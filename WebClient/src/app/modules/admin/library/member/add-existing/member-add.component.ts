@@ -8,6 +8,7 @@ import { LibraryHttpService } from 'src/services/http/library-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-member-add-existing',
@@ -19,6 +20,7 @@ export class MemberAddComponent extends FormComponent {
   libraries = [];
   users = []
   cards = []
+  photoUrl;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -39,7 +41,8 @@ export class MemberAddComponent extends FormComponent {
       user: [null, [], this.v.required.bind(this)],
       memberSince: [null, [], this.v.required.bind(this)],
       cardId: [null, [], this.v.required.bind(this)],
-      cardExpireDate: [null, [], this.v.required.bind(this)]
+      cardExpireDate: [null, [], this.v.required.bind(this)],
+      photo: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -70,6 +73,7 @@ export class MemberAddComponent extends FormComponent {
       this.subscribe(this.libraryMemberHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
+          this.photoUrl = environment.serverUri + '/' + res.data.photo;
           const card = res.data.card;
           if(card) {
             this.setValue('cardId', card.id);

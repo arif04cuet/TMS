@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Infrastructure;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Module.Core.Data;
 using Module.Core.Entities;
@@ -27,21 +28,29 @@ namespace Module.Library.Data
         public readonly IRepository<UserRole> _userRoleRepository;
         public readonly IUserService _userService;
         public readonly IRepository<LibraryCard> _libraryCardRepository;
+        public readonly IRepository<UserProfile> _userProfileRepository;
         public readonly IMediaService _mediaService;
+        public readonly IEmailSender _emailSender;
+        public readonly IRazorViewRenderer _viewRenderer;
 
         public LibraryMemberService(
             IUnitOfWork unitOfWork,
             IUserService userService,
-            IMediaService mediaService)
+            IMediaService mediaService,
+            IEmailSender emailSender,
+            IRazorViewRenderer viewRenderer)
         {
             _mediaService = mediaService;
             _unitOfWork = unitOfWork;
             _userService = userService;
+            _emailSender = emailSender;
+            _viewRenderer = viewRenderer;
             _libraryMemberRepository = _unitOfWork.GetRepository<LibraryMember>();
             _userRepository = _unitOfWork.GetRepository<User>();
             _userRoleRepository = _unitOfWork.GetRepository<UserRole>();
             _libraryCardRepository = _unitOfWork.GetRepository<LibraryCard>();
             _libraryMemberRequestRepository = _unitOfWork.GetRepository<LibraryMemberRequest>();
+            _userProfileRepository = _unitOfWork.GetRepository<UserProfile>();
         }
 
         public async Task<long> CreateFromUserAsync(LibraryMemberCreateFromUserRequest request, CancellationToken ct = default)
@@ -91,6 +100,8 @@ namespace Module.Library.Data
             card.ExpireDate = request.CardExpireDate;
             member.CurrentCardId = card.Id;
 
+            await AddOrUpdateUserPhoto(user.Id, request.Photo);
+
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return user.Id;
         }
@@ -110,7 +121,7 @@ namespace Module.Library.Data
                 Email = request.Email,
                 Mobile = request.Mobile,
                 StatusId = request.Status,
-                Password = request.Password.HashPassword()
+                Password = request.Password.HashPassword(),
             };
 
             await _userRepository.AddAsync(user, ct);
@@ -135,6 +146,8 @@ namespace Module.Library.Data
             card.ExpireDate = request.CardExpireDate;
 
             member.CurrentCardId = card.Id;
+
+            await AddOrUpdateUserPhoto(user.Id, request.Photo);
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return user.Id;
@@ -192,6 +205,9 @@ namespace Module.Library.Data
 
                 result += await _unitOfWork.SaveChangesAsync(ct);
                 count++;
+
+                var htmlContent = await _viewRenderer.RenderViewToStringAsync("/Views/library-member-acceptance.cshtml", new LibraryMemberAcceptanceModel { Name = memberRequest.FullName });
+                _ = _emailSender.SendAsync(memberRequest.Email, "Request Approved", htmlContent);
             }
 
             return count;
@@ -291,7 +307,7 @@ namespace Module.Library.Data
                         Name = x.Library.Name
                     },
                     MemberSince = x.MemberSince,
-                    Photo = x.Id.ToString(),
+                    Photo = x.User != null && x.User.Profile != null ? _mediaService.GetPhotoUrl(x.User.Profile.Media) : null,
                     Card = x.CurrentCardId != null ? new LibraryCardViewModel
                     {
                         ExpireDate = x.CurrentCard.ExpireDate,
@@ -353,9 +369,49 @@ namespace Module.Library.Data
                 member.CurrentCard.ExpireDate = request.CardExpireDate;
             }
 
+            var profile = await _userProfileRepository.FirstOrDefaultAsync(x => x.UserId == user.Id && !x.IsDeleted);
+            if (profile != null && request.Photo.HasValue && profile.MediaId != request.Photo)
+            {
+                // photo changed
+                long? oldMediaId = profile.MediaId;
+                profile.MediaId = request.Photo;
+                await _mediaService.UseAsync(request.Photo.Value);
+                _ = _mediaService.DeleteMediaAsync(oldMediaId);
+            }
+            if (profile == null && request.Photo.HasValue)
+            {
+                profile = new UserProfile
+                {
+                    UserId = user.Id,
+                    MediaId = request.Photo
+                };
+                await _userProfileRepository.AddAsync(profile);
+            }
+
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
         }
 
+        private async Task AddOrUpdateUserPhoto(long userId, long? photoId)
+        {
+            if (photoId.HasValue)
+            {
+                var profile = await _userProfileRepository.FirstOrDefaultAsync(x => x.UserId == userId && !x.IsDeleted);
+
+                if (profile == null)
+                {
+                    profile = new UserProfile
+                    {
+                        UserId = userId,
+                        MediaId = photoId
+                    };
+                    await _userProfileRepository.AddAsync(profile);
+                }
+                else
+                {
+                    profile.MediaId = photoId;
+                }
+            }
+        }
     }
 }
