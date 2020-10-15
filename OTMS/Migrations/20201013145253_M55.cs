@@ -74,7 +74,7 @@ namespace OTMS.Migrations
                 columns: new[] { "GroupId", "ModuleId", "Name" },
                 values: new object[] { 51L, 5L, "MyExam" });
 
-            migrationBuilder.InsertData(
+            /*migrationBuilder.InsertData(
                 schema: "core",
                 table: "PermissionGroup",
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsActive", "IsDeleted", "Name", "UpdatedAt", "UpdatedBy", "Version" },
@@ -88,7 +88,7 @@ namespace OTMS.Migrations
                     { 62L, null, null, true, false, "Asset Setting Manufacturer", null, null, 0L },
                     { 63L, null, null, true, false, "Asset Setting Status", null, null, 0L },
                     { 64L, null, null, true, false, "Asset Setting Category", null, null, 0L }
-                });
+                });*/
 
             migrationBuilder.UpdateData(
                 schema: "core",
@@ -370,7 +370,7 @@ namespace OTMS.Migrations
                 column: "GroupId",
                 value: 63L);
 
-            migrationBuilder.InsertData(
+            /*migrationBuilder.InsertData(
                 schema: "core",
                 table: "Permission",
                 columns: new[] { "Id", "Code", "Description", "GroupId", "ModuleId", "Name" },
@@ -381,7 +381,7 @@ namespace OTMS.Migrations
                     { 1601L, "office.update", null, 57L, 1L, "Update" },
                     { 1605L, "office.manage", null, 57L, 1L, "Manage" },
                     { 1600L, "office.create", null, 57L, 1L, "Create" }
-                });
+                });*/
 
             migrationBuilder.CreateIndex(
                 name: "IX_LibraryCard_PhotoId",
