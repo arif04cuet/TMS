@@ -151,3 +151,8 @@ nz-content{
 .innerpage{
   margin-top: 20px;
 }
+
+.facilities .ant-list-item{
+  justify-content: flex-start!important;
+  
+}

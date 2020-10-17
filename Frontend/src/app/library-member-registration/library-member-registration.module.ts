@@ -5,6 +5,7 @@ import { NzFormModule, NzInputModule, NzSelectModule, NzButtonModule } from 'ng-
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     NzFormModule,
     ReactiveFormsModule,
     NzInputModule,
-    NzSelectModule
+    NzSelectModule,
+    SharedModule
   ],
   providers: [
     LibraryHttpService

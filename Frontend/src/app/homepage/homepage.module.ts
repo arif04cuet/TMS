@@ -12,6 +12,8 @@ import { CourseModule } from './courses/course.module';
 import { HotelAndRoomModule } from '../hotel-and-room/hotel-and-room.module';
 import { LibraryModule } from './library/library.module';
 import { SharedModule } from 'src/shared/share.module';
+import { RoomFacilitiesModule } from '../room-facilities/room-facilities.module';
+import { RoomImagesModule } from '../room-images/room-images.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { SharedModule } from 'src/shared/share.module';
     CourseModule,
     HotelAndRoomModule,
     LibraryModule,
+    RoomFacilitiesModule,
+    RoomImagesModule,
     SharedModule
   ],
   providers: [

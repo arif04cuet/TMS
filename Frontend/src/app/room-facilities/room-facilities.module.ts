@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
-import { TrainingCourseApplyComponent } from './training-course-apply.component';
-import { NzTableModule, NzAlertModule, NzFormModule, NzInputModule, NzButtonModule, NzTagModule } from 'ng-zorro-antd';
+
+import { NzTableModule, NzAlertModule, NzFormModule, NzInputModule, NzButtonModule, NzTagModule, NzSelectModule, NzIconModule, NzListModule } from 'ng-zorro-antd';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { TrainingCourseHttpService } from 'src/services/training-course-http-service';
-import { SelectControlModule } from 'src/shared/select-control/select-control.module';
 import { AuthService } from 'src/services/auth.service';
+
 import { SharedModule } from 'src/shared/share.module';
+import { RoomFacilitiesHttpService } from 'src/services/room-facilities-http-service';
+import { RoomFacilitiesComponent } from './room-facilities.component';
 
 @NgModule({
   declarations: [
-    TrainingCourseApplyComponent
+    RoomFacilitiesComponent
   ],
-  exports: [TrainingCourseApplyComponent],
+  exports: [RoomFacilitiesComponent],
   imports: [
     CommonModule,
     NzButtonModule,
@@ -23,14 +24,16 @@ import { SharedModule } from 'src/shared/share.module';
     ReactiveFormsModule,
     NzInputModule,
     NzTagModule,
-    SelectControlModule,
     NzAlertModule,
     NzTableModule,
+    NzSelectModule,
+    NzListModule,
+    NzIconModule,
     SharedModule
   ],
   providers: [
-    TrainingCourseHttpService,
+    RoomFacilitiesHttpService,
     AuthService
   ]
 })
-export class TrainingCourseApplyModule { }
+export class RoomFacilitiesModule { }

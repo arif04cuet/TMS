@@ -238,7 +238,9 @@ namespace Module.Training.Data
                 Floor = IdNameViewModel.Map(x.Floor),
                 Hostel = IdNameViewModel.Map(x.Hostel),
                 IsBooked = x.IsBooked,
-                Type = IdNameViewModel.Map(x.Type)
+                Type = IdNameViewModel.Map(x.Type),
+                Image = x.Image.Id,
+                ImageUrl = Path.Combine(MediaConstants.Path, x.Image.FileName),
             });
 
             var total = await assets.Select(x => x.Id).CountAsync(cancellationToken);

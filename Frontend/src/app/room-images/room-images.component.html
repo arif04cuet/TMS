@@ -1,0 +1,14 @@
+<div nz-row>
+  <div nz-col nzSpan="24">
+
+    <nz-carousel [nzEffect]="effect" nzAutoPlay>
+
+      <div nz-carousel-content *ngFor="let item of items">
+        <img [src]="item.imageUrl" alt="{{item.name}}" style="width: 100%;">
+      </div>
+
+    </nz-carousel>
+
+  </div>
+
+</div>

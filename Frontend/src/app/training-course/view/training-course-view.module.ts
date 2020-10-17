@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TrainingCourseHttpService } from 'src/services/training-course-http-service';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { SharedModule } from 'src/shared/share.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NzListModule } from 'ng-zorro-antd/list';
     ReactiveFormsModule,
     NzInputModule,
     NzTagModule,
-    NzListModule
+    NzListModule,
+    SharedModule
   ],
   providers: [
     TrainingCourseHttpService
