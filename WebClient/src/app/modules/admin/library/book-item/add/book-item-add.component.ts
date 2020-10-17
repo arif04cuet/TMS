@@ -45,7 +45,7 @@ export class BookItemAddComponent extends FormComponent {
       purchasePrice: [null, [], this.v.required.bind(this)],
       dateOfPurchase: [null, [], this.v.required.bind(this)],
       numberOfCopy: [null, [], this.numberOfCopyValidator.bind(this)],
-      format: [null, [], this.v.required.bind(this)],
+      format: [],
       status: [null, [], this.v.required.bind(this)],
     });
     super.ngOnInit(this.activatedRoute.snapshot);

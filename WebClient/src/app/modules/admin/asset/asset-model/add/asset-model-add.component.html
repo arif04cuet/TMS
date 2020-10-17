@@ -43,19 +43,21 @@
                         </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #categorySelect label="category" [formControl]="form.controls.category">
+                        <app-select-control mandatory="true" #categorySelect label="category"
+                            [formControl]="form.controls.category">
                         </app-select-control>
                     </div>
                 </div>
 
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #manufacturerSelect label="manufacturer"
+                        <app-select-control #manufacturerSelect label="manufacturer"
                             [formControl]="form.controls.manufacturer">
                         </app-select-control>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #depreciationSelect label="depreciation" [formControl]="form.controls.depreciation">
+                        <app-select-control mandatory="true" #depreciationSelect label="depreciation"
+                            [formControl]="form.controls.depreciation">
                         </app-select-control>
                     </div>
                     <div nz-col [nzSpan]="8">
@@ -65,7 +67,8 @@
                             </div>
                             <nz-form-control>
                                 <nz-input-group nzAddOnAfter="{{'months'|translate|lowercase}}">
-                                    <input type="number" nz-input formControlName="eol" placeholder="{{'eol'|translate}}" />
+                                    <input type="number" nz-input formControlName="eol"
+                                        placeholder="{{'eol'|translate}}" />
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
@@ -84,16 +87,17 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-                    <div nz-col [nzSpan]="8">
+                    <!-- <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
                                 <label>{{'requestable'|translate}}</label>
                             </div>
                             <nz-form-control>
-                                <span nz-checkbox formControlName="isRequestable">{{'users.may.request.this.model'|translate}}</span>
+                                <span nz-checkbox
+                                    formControlName="isRequestable">{{'users.may.request.this.model'|translate}}</span>
                             </nz-form-control>
                         </nz-form-item>
-                    </div>
+                    </div> -->
                 </div>
 
             </form>

@@ -817,3 +817,14 @@ body{
       flex-direction: column;
   }
 }
+
+.asset-categories {
+  table{
+    tr:nth-child(-n+5){
+      
+      td app-table-actions{
+        display: none;
+      }
+    }
+  }
+}

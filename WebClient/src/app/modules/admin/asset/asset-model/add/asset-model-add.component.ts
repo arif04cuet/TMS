@@ -34,7 +34,7 @@ export class AssetModelAddComponent extends FormComponent {
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
       category: [null, [], this.v.required.bind(this)],
-      manufacturer: [null, [], this.v.required.bind(this)],
+      manufacturer: [],
       depreciation: [null, [], this.v.required.bind(this)],
       modelNo: [],
       note: [],

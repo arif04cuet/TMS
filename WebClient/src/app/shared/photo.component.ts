@@ -54,7 +54,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class PhotoUploadComponent {
 
-  @Input() uploaderClass: string = 'photo-uploader';
+  @Input() uploaderClass: string = 'rectangular-uploader';
   @Input() label;
   @Input() type: string = "image";
   @Input() photoUrl;

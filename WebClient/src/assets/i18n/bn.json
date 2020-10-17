@@ -271,7 +271,7 @@
   "is_send_email": "চেকইন / চেকআউট করার জন্য ব্যবহারকারীকে ইমেল প্রেরণ করুন.",
   "isbn": "আইএসবিএন",
   "isbn.and.barcode": " আইসবিএন এবং বারকোড",
-  "issue": "প্রদানের তারিখ",
+  "issue": "ইস্যু",
   "issue.a.book": "একটি বই ইস্যু করুন",
   "issue.date": "প্রদানের তারিখ",
   "issued.to": "জারি করা",
@@ -607,6 +607,7 @@
   "Approved": "অনুমোদিত",
   "Active": "সক্রিয়",
   "In active": "নিষ্ক্রিয়",
+  "In Active": "নিষ্ক্রিয়",
   "Bangla": "বাংলা",
   "English": "ইংরেজি",
   "Arabic": "আরবি",
@@ -620,5 +621,13 @@
   "Ebook": "ইবুক",
   "Newspaper": "সংবাদপত্র",
   "Magazine": "সাময়িকি /পত্রিকা",
-  "Journal": "জার্নাল"
+  "Journal": "জার্নাল",
+  "Deployable": "Deployable",
+  "Undeployable": "Undeployable",
+  "Archived": "Archived",
+  "Asset": "সম্পদ",
+  "Consumable": "ভোগ্য সম্পদ",
+  "License": "লাইসেন্স",
+  "azw_KFX_mobi": ".azw /.KFX /.mobi",
+  "Upload Pdf": "আপলোড .pdf"
 }

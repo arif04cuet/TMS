@@ -199,6 +199,10 @@
                                             <div nz-col [nzMd]="8" [nzSm]="24">
                                                 <div nz-row [nzGutter]="24">
                                                     <nz-form-item class="field-container">
+                                                        <div>
+                                                            <label class="required">{{'Upload Pdf'|translate}}</label>
+                                                        </div>
+
                                                         <input (change)="fileChanged($event, item)" type="file"
                                                             accept=".pdf" placeholder="{{'select.file'|translate}}" />
                                                     </nz-form-item>
@@ -207,6 +211,10 @@
                                             <div nz-col [nzMd]="8" [nzSm]="24">
                                                 <div nz-row [nzGutter]="24">
                                                     <nz-form-item class="field-container">
+                                                        <div>
+                                                            <label class="required">{{'azw_KFX_mobi'|translate}}</label>
+                                                        </div>
+
                                                         <input (change)="fileChanged2($event, item)" type="file"
                                                             accept=".azw, .kfx, .mobi"
                                                             placeholder="{{'select.file'|translate}}" />

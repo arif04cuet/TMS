@@ -34,6 +34,8 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
         const list = [
             "api/asset",
             "api/languages",
+            "api/libraries/racks",
+            "api/books/items",
             "api/libraries/cards/status",
             "api/books/status",
             "api/status",
