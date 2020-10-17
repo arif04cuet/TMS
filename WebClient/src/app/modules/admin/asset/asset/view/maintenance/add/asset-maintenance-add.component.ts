@@ -7,6 +7,7 @@ import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { AssetMaintenanceHttpService } from 'src/services/http/asset/asset-maintenance-http.service';
 import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset-maintenance-add',
@@ -21,6 +22,13 @@ export class AssetMaintenanceAddComponent extends FormComponent {
   @ViewChild('assetSelect') assetSelect: SelectControlComponent;
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
 
+  assetInfo = item => {
+    if(item.warrantyRemainingInDays) {
+      const d = Math.floor(item.warrantyRemainingInDays);
+      return this._translate.get('remaining.warranty.is.x0.days', {x0: d}).toPromise();
+    }
+    return "";
+  }
   private assetId;
 
   constructor(
@@ -51,13 +59,19 @@ export class AssetMaintenanceAddComponent extends FormComponent {
   }
 
   ngAfterViewInit() {
-
     this.supplierSelect.register((pagination, search) => {
       return this.assetHttpService.suppliers(pagination, search);
     }).fetch();
 
     this.assetSelect.register((pagination, search) => {
-      return this.assetHttpService.list(pagination, search);
+      return this.assetHttpService.list(pagination, search).pipe(
+        map((x: any) => {
+          x.data.items.forEach(item => {
+            item.name = `${item.assetTag} - ${item.name}`;
+          });
+          return x;
+        })
+      );
     })
       .onLoadCompleted(() => {
         if (this.assetId) {
@@ -69,7 +83,6 @@ export class AssetMaintenanceAddComponent extends FormComponent {
     this.typeSelect.register((pagination, search) => {
       return this.assetMaintenanceHttpService.types();
     }).fetch();
-
   }
 
   submit(): void {
@@ -105,6 +118,23 @@ export class AssetMaintenanceAddComponent extends FormComponent {
     else {
       this.loading = false;
 
+    }
+  }
+
+  onAssetChanged(e) {
+    if (this.isAddMode()) {
+      const asset: any = this.assetSelect.items.find(x => x.id == e);
+      if(asset) {
+        if(asset.supplier) {
+          this.supplierSelect.setValue(asset.supplier.id);
+        }
+        if(asset.maintenanceRemainingInDays > 0) {
+          this.typeSelect.setValue(1);
+        }
+        if(asset.warrantyRemainingInDays > 0) {
+          this.setValue('warrantyImprovement', true);
+        }
+      }
     }
   }
 

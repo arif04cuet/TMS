@@ -100,9 +100,9 @@ export function convertPropertyToBengali(obj, key, t: TranslateService) {
             obj[key] = v;
         }
         else if (typeof (obj[key]) == "string") {
-
-            obj[key] = t.instant(obj[key]);
-            console.log(obj[key]);
+            if(key && obj[key]) {
+                obj[key] = t.instant(obj[key]);
+            }
         }
         else if (typeof (obj[key]) == "object") {
             toBengali(obj[key], t)

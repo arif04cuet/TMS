@@ -34,6 +34,9 @@ namespace Module.Asset.Data
         public long? CheckoutId { get; set; }
         public int EOL { get; set; }
 
+        public double? WarrantyRemainingInDays { get; set; }
+        public double? MaintenanceRemainingInDays { get; set; }
+
         public static Expression<Func<Entities.Asset, AssetViewModel>> Select(IMediaService mediaService)
         {
             return x => new AssetViewModel
@@ -68,7 +71,10 @@ namespace Module.Asset.Data
                 CheckoutId = x.CheckoutId,
                 Photo = mediaService.GetPhotoUrl(x.Media),
 
-                EOL = x.EOL
+                EOL = x.EOL,
+                WarrantyRemainingInDays = x.Warranty > 0 && x.PurchaseDate != null ? (x.PurchaseDate.Value.AddMonths(x.Warranty) - DateTime.Now).TotalDays : -1,
+
+                MaintenanceRemainingInDays = x.Maintenance > 0 && x.PurchaseDate != null ?(x.PurchaseDate.Value.AddMonths(x.Maintenance) - DateTime.Now).TotalDays : -1
             };
         }
     }
