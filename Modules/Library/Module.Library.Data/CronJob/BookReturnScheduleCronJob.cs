@@ -28,6 +28,7 @@ namespace Module.Asset.Data
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
                 var _emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
                 var _viewRenderer = scope.ServiceProvider.GetRequiredService<IRazorViewRenderer>();
+                var smsSender = scope.ServiceProvider.GetRequiredService<ISmsSender>();
 
                 var towDaysAfter = DateTime.Now.AddDays(2);
                 var items = await unitOfWork.GetRepository<BookIssue>()
@@ -37,19 +38,26 @@ namespace Module.Asset.Data
                     {
                         Book = x.Book.Title,
                         Name = x.Member.FullName,
-                        Email = x.Member.Email
+                        Email = x.Member.Email,
+                        Mobile = x.Member.Mobile
                     })
                     .ToListAsync();
 
                 foreach (var item in items)
                 {
+                    var date = DateTime.Now.AddDays(2).Date.ToString();
                     var htmlContent = await _viewRenderer.RenderViewToStringAsync("/Views/book-return-reminder.cshtml", new BookReturnReminderModel
                     {
                         Book = item.Book,
-                        Date = DateTime.Now.AddDays(2).Date.ToString(),
+                        Date = date,
                         Name = item.Name
                     });
                     _ = _emailSender.SendAsync(item.Email, "Return book reminder", htmlContent);
+
+                    if(string.IsNullOrEmpty(item.Mobile))
+                    {
+                        _ = smsSender.SendAsync(item.Mobile, $"Return your book at {date}");
+                    }
                 }
             }
         }

@@ -109,6 +109,7 @@ namespace Module.Library.Data
                     Barcode = x.Barcode,
                     CardType = IdNameViewModel.Map(x.CardType),
                     ExpireDate = x.ExpireDate,
+                    IssueDate = x.IssueDate,
                     CardFee = x.CardFee,
                     LateFee = x.LateFee,
                     MaxIssueCount = x.MaxIssueCount,
@@ -166,15 +167,25 @@ namespace Module.Library.Data
                     Barcode = x.Barcode,
                     CardType = IdNameViewModel.Map(x.CardType),
                     ExpireDate = x.ExpireDate,
+                    IssueDate = x.IssueDate,
                     CardFee = x.CardFee,
                     LateFee = x.LateFee,
                     MaxIssueCount = x.MaxIssueCount,
-                    Member = x.MemberId != null ? new IdNameViewModel
+                    Photo = _mediaService.GetPhotoUrl(x.Photo),
+                    Member = x.MemberId != null ? new
                     {
                         Id = x.Member.Id,
-                        Name = x.Member.FullName
+                        Name = x.Member.FullName,
+                        Photo = x.Member.Profile != null ? _mediaService.GetPhotoUrl(x.Member.Profile.Media) : "",
+                        Designation = x.Member.Designation.Name
                     } : null,
-                    Status = IdNameViewModel.Map(x.CardStatus)
+                    Status = IdNameViewModel.Map(x.CardStatus),
+                    Library = x.LibraryId != null ? new
+                    {
+                        Id = x.LibraryId,
+                        Name = x.Library.Name,
+                        Address = x.Library.Address
+                    } : null
                 })
                 .ToListAsync();
 

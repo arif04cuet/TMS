@@ -556,5 +556,7 @@
   "or": "Or",
   "exam": "Exam",
   "rack.name": "Rack Name",
-  "self.name": "Self Name"
+  "self.name": "Self Name",
+  "library.card.print.title": "Department of Social Service",
+  "library.card.print.address": "44 Shirley Ave. West Chicago. IL"
 }

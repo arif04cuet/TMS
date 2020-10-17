@@ -29,6 +29,10 @@ namespace Module.Core.Shared
             var emailOptions = config.GetSection(nameof(EmailOptions));
             services.Configure<EmailOptions>(option => emailOptions.Bind(option));
 
+            // SMS
+            var smsOptions = config.GetSection(nameof(SmsOptions));
+            services.Configure<SmsOptions>(option => smsOptions.Bind(option));
+
             // new CustomAssemblyLoadContext().LoadUnmanagedLibrary()
 
             //DinkToPdf

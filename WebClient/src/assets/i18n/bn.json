@@ -629,5 +629,7 @@
   "Consumable": "ভোগ্য সম্পদ",
   "License": "লাইসেন্স",
   "azw_KFX_mobi": ".azw /.KFX /.mobi",
-  "Upload Pdf": "আপলোড .pdf"
+  "Upload Pdf": "আপলোড .pdf",
+  "library.card.print.title": "ডিপার্টমেন্ট অফ সোশ্যাল সার্ভিস",
+  "library.card.print.address": "৪৪ শার্লি অভ. ওয়েস্ট শিকাগো. ইল"
 }

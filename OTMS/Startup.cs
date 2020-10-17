@@ -61,6 +61,8 @@ namespace OTMS
                 x.CronExpression = @"0 0 * * *";
                 x.TimeZoneInfo = TimeZoneInfo.Local;
             });
+
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

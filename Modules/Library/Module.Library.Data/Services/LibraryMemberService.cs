@@ -98,6 +98,7 @@ namespace Module.Library.Data
 
             card.MemberId = user.Id;
             card.ExpireDate = request.CardExpireDate;
+            card.IssueDate = DateTime.UtcNow;
             member.CurrentCardId = card.Id;
 
             await AddOrUpdateUserPhoto(user.Id, request.Photo);
@@ -144,6 +145,7 @@ namespace Module.Library.Data
 
             card.MemberId = user.Id;
             card.ExpireDate = request.CardExpireDate;
+            card.IssueDate = DateTime.UtcNow;
 
             member.CurrentCardId = card.Id;
 

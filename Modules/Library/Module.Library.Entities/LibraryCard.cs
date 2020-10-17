@@ -21,6 +21,7 @@ namespace Module.Library.Entities
         public float LateFee { get; set; }
         public int MaxIssueCount { get; set; }
         public DateTime? ExpireDate { get; set; }
+        public DateTime? IssueDate { get; set; }
 
         [Searchable]
         public long? MemberId { get; set; }
