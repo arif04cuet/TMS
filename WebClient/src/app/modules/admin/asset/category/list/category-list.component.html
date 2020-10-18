@@ -63,8 +63,10 @@
                         <td>{{ data.name }}</td>
                         <td>{{ data.parent }}</td>
                         <td>{{ (data.isActive ? 'Active':'In Active')|translate }}</td>
-                        <td class="action-column fit-cell">
-                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
+                        <td class="action-column fit-cell {{nonEditable.indexOf(data.name) === -1?'show':'hide'}}">
+                            <app-table-actions [data]="data" [buttons]="buttons">
+                            </app-table-actions>
+
                         </td>
                     </tr>
                 </tbody>

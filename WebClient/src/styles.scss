@@ -822,7 +822,7 @@ body{
   table{
     tr:nth-child(-n+5){
       
-      td app-table-actions{
+      td.hide app-table-actions{
         display: none;
       }
     }

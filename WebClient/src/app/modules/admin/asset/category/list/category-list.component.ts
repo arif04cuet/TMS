@@ -18,6 +18,14 @@ export class CategoryListComponent extends TableComponent {
     { id: false, name: 'In Active' }
   ];
 
+  nonEditable = [
+    'সম্পদ',
+    'ভোগ্য সম্পদ',
+    'লাইসেন্স',
+    'স্থাবর সম্পদ',
+    'অস্থাবর সম্পদ'
+  ];
+
   @Searchable("Name", "like") Name;
   @Searchable("Parent.Name", "like") Parent;
   @Searchable("IsActive", "eq") IsActive;
@@ -85,5 +93,6 @@ export class CategoryListComponent extends TableComponent {
   refresh() {
     this.gets(null, null);
   }
+
 
 }

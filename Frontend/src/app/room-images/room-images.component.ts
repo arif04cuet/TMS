@@ -27,7 +27,7 @@ export class RoomImagesComponent extends TableComponent {
   gets() {
 
     this.load((p, s) => {
-      p = `offset=0&limit=${this.count}`;
+      p = `Search=ImageId ne NULL&offset=0&limit=${this.count}`;
       return this._roomHttpService.list(p, s).pipe(
         map((x: any) => {
 

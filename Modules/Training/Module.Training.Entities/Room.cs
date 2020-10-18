@@ -37,8 +37,10 @@ namespace Module.Training.Entities
 
         [Searchable]
         public bool IsBooked { get; set; }
-
+        [Searchable]
         public long? ImageId { get; set; }
+
+        [Searchable]
         public Media Image { get; set; }
 
 
