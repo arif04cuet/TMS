@@ -31,7 +31,9 @@
               "src/theme.less",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/JsBarcode.all.min.js"
+            ]
           },
           "configurations": {
             "production": {

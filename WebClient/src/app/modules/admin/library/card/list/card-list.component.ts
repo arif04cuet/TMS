@@ -6,6 +6,7 @@ import { LibraryCardHttpService } from 'src/services/http/library-card-http.serv
 import { IButton } from 'src/app/shared/table-actions.component';
 import { environment } from 'src/environments/environment';
 import * as moment from 'moment';
+declare const JsBarcode: any;
 
 @Component({
   selector: 'app-library-card-list',
@@ -83,6 +84,7 @@ export class CardListComponent extends TableComponent {
         <div class="bottom">
             <div class="photo">
                 <img src="${photo}" alt="photo">
+                <svg id="barcode-${model.barcode}"></svg>
             </div>
             <div class="details">
                 <div class="name">${model.member.name}</div>
@@ -112,6 +114,7 @@ export class CardListComponent extends TableComponent {
     div.setAttribute('id', 'library-card');
     div.innerHTML = data;
     document.getElementsByTagName('html')[0].appendChild(div);
+    JsBarcode(`#barcode-${model.barcode}`, model.barcode, { width: 1, height: 20, fontSize: '5px', displayValue: false });
     window.print();
   }
 
