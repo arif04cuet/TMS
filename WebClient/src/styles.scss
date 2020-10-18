@@ -820,7 +820,7 @@ body{
 
 .asset-categories {
   table{
-    tr:nth-child(-n+5){
+    tr{
       
       td.hide app-table-actions{
         display: none;
