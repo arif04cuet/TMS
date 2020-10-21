@@ -95,20 +95,20 @@ export class CardListComponent extends TableComponent {
             <div class="details">
                 <div class="name">${model.member.name}</div>
                 <div class="details-line">
-                    <div class="label">${labelTitle}</div>
+                    <div class="label">পদবী</div>
                     <div class="value">${model.member.designation}</div>
                 </div>
                 <div class="details-line">
-                    <div class="label">${labelCode}</div>
+                    <div class="label">বারকোড</div>
                     <div class="value">${model.barcode}</div>
                 </div>
                 <div class="two-col">
                     <div class="details-line first-line">
-                        <div class="label">${labelIssueDate}</div>
+                        <div class="label">ইস্যু তারিখ</div>
                         <div class="value">${issueDate}</div>
                     </div>
                     <div class="details-line">
-                        <div class="label">${labelExpDate}</div>
+                        <div class="label">মেয়াদ উত্তীর্ণের তারিখ</div>
                         <div class="value">${expireDate}</div>
                     </div>
                 </div>
