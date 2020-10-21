@@ -37,7 +37,7 @@ export class CardListComponent extends TableComponent {
       icon: 'delete'
     }
   ]
-  
+
   constructor(
     private libraryCardHttpService: LibraryCardHttpService,
     private activatedRoute: ActivatedRoute
@@ -65,16 +65,22 @@ export class CardListComponent extends TableComponent {
       oldCard.remove();
     }
     let data = "";
-    const photo = model.member ? environment.serverUri + '/' + model.member.photo : '/src/assets/images/userphoto.png';
+    const photo = model.member ? environment.serverUri + '/' + model.member.photo : './assets/images/userphoto.png';
     const title = this._translate.instant('library.card.print.title');
     const address = this._translate.instant('library.card.print.address');
     const expireDate = model.expireDate ? moment.utc(model.expireDate).local().format('MMM D, YYYY') : "";
     const issueDate = model.issueDate ? moment.utc(model.issueDate).local().format('MMM D, YYYY') : "";
+
+    const labelTitle = this._translate.instant('library.card.print.label.title');
+    const labelCode = this._translate.instant('library.card.print.label.code');
+    const labelIssueDate = this._translate.instant('library.card.print.label.issue_date');
+    const labelExpDate = this._translate.instant('library.card.print.label.exp_date');
+
     data += `
       <div class="card-container">
         <div class="top">
             <div class="logo">
-                <img src="http://localhost:4400/assets/images/logo.jpg" alt="logo">
+                <img src="./assets/images/logo.jpg" alt="logo">
             </div>
             <div class="address">
                 <div class="title">${title}</div>
@@ -89,20 +95,20 @@ export class CardListComponent extends TableComponent {
             <div class="details">
                 <div class="name">${model.member.name}</div>
                 <div class="details-line">
-                    <div class="label">Title</div>
+                    <div class="label">${labelTitle}</div>
                     <div class="value">${model.member.designation}</div>
                 </div>
                 <div class="details-line">
-                    <div class="label">Code</div>
+                    <div class="label">${labelCode}</div>
                     <div class="value">${model.barcode}</div>
                 </div>
                 <div class="two-col">
                     <div class="details-line first-line">
-                        <div class="label">Issue Date</div>
+                        <div class="label">${labelIssueDate}</div>
                         <div class="value">${issueDate}</div>
                     </div>
                     <div class="details-line">
-                        <div class="label">Exp Date</div>
+                        <div class="label">${labelExpDate}</div>
                         <div class="value">${expireDate}</div>
                     </div>
                 </div>

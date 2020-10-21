@@ -559,5 +559,9 @@
   "self.name": "Self Name",
   "library.card.print.title": "Department of Social Service",
   "library.card.print.address": "44 Shirley Ave. West Chicago. IL",
-  "remaining.warranty.is.x0.days": "Remaining warranty is {{0}} days"
+  "remaining.warranty.is.x0.days": "Remaining warranty is {{0}} days",
+  "library.card.print.label.title": "title",
+  "library.card.print.label.code": "Barcode",
+  "library.card.print.label.issue_date": "Issue Date",
+  "library.card.print.label.exp_date": "Exp. Date"
 }

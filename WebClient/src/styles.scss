@@ -836,12 +836,15 @@ body{
 }
 
 @media print {
+  @page { margin: 0; }
   body {
     display: none;
+    margin: 1.6cm;
   }
   .card-container {
       width: 467px;
       page-break-after: always;
+      margin: 0 auto;
   }
 
   .top,
@@ -878,6 +881,7 @@ body{
 
   .bottom .details {
       padding-top: 45px;
+      width: 350px;
   }
 
   .bottom img {
