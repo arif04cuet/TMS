@@ -34,6 +34,17 @@ namespace Module.Training.Entities
         public long? PhotoId { get; set; }
         public Media Photo { get; set; }
 
+        public string FacebookUrl { get; set; }
+        public bool IsFacebookUrlPublic { get; set; }
+
+        public string YouTubeUrl { get; set; }
+        public bool IsYouTubeUrlPublic { get; set; }
+
+        public string LinkedinUrl { get; set; }
+        public bool IsLinkedinUrlPublic { get; set; }
+
+        public string InstagramUrl { get; set; }
+        public bool IsInstagramUrlPublic { get; set; }
 
 
     }

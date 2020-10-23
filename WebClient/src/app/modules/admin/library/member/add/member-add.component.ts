@@ -84,8 +84,9 @@ export class MemberAddComponent extends FormComponent {
       this.subscribe(this.libraryMemberHttpService.get(id),
         (res: any) => {
           this.data = res.data;
-          this.setValues(this.form.controls, res.data);
           this.photoUrl = environment.serverUri + '/' + res.data.photo;
+          delete res.data.photo;
+          this.setValues(this.form.controls, res.data);
           const card = res.data.card;
           if (card) {
             this.cards.push({ id: card.id, name: card.barcode });

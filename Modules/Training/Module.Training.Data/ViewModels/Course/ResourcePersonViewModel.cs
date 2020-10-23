@@ -29,9 +29,20 @@ namespace Module.Training.Data
         public string CvFileName { get; set; }
         public string Photo { get; set; }
 
-
         public string NID { get; set; }
         public string TIN { get; set; }
+
+        public string FacebookUrl { get; set; }
+        public bool IsFacebookUrlPublic { get; set; }
+
+        public string YouTubeUrl { get; set; }
+        public bool IsYouTubeUrlPublic { get; set; }
+
+        public string LinkedinUrl { get; set; }
+        public bool IsLinkedinUrlPublic { get; set; }
+
+        public string InstagramUrl { get; set; }
+        public bool IsInstagramUrlPublic { get; set; }
 
         public IEnumerable<IdNameViewModel> Expertises { get; set; }
 
@@ -48,8 +59,6 @@ namespace Module.Training.Data
                 AltMobile = x.AltMobile,
                 MailingAddress = x.MailingAddress,
                 OfficeAddress = x.OfficeAddress,
-
-
                 Name = x.User.FullName,
                 NID = x.NID,
                 Office = x.OfficeId != null ? new IdNameViewModel { Id = x.Office.Id, Name = x.Office.OfficeName } : null,
@@ -59,6 +68,15 @@ namespace Module.Training.Data
                 Photo = x.PhotoId.HasValue ? Path.Combine(MediaConstants.Path, x.Photo.FileName) : string.Empty,
                 Cv = x.CvId.HasValue ? Path.Combine(MediaConstants.Path, x.Cv.FileName) : string.Empty,
                 CvFileName = x.CvId.HasValue ? x.Cv.FileName : string.Empty,
+
+                FacebookUrl = x.FacebookUrl,
+                IsFacebookUrlPublic = x.IsFacebookUrlPublic,
+                YouTubeUrl = x.YouTubeUrl,
+                IsYouTubeUrlPublic = x.IsYouTubeUrlPublic,
+                LinkedinUrl = x.LinkedinUrl,
+                IsLinkedinUrlPublic = x.IsLinkedinUrlPublic,
+                InstagramUrl = x.InstagramUrl,
+                IsInstagramUrlPublic = x.IsInstagramUrlPublic
             };
         }
     }
