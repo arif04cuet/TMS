@@ -10,10 +10,10 @@
                 </div>
             </div>
             <div class="column">
-                <button (click)="search()" nz-button class="btn-custom">
+                <!-- <button (click)="search()" nz-button class="btn-custom">
                     <i nz-icon nzType="sync" nzTheme="outline"></i>
                     {{'search'|translate}}
-                </button>
+                </button> -->
             </div>
         </div>
         <div class="block">
@@ -22,34 +22,31 @@
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>
-                            {{'isbn'|translate}}
-                        </th>
-                        <th>
-                            {{'title'|translate}}
+                            {{'book.name'|translate}}
                         </th>
                         <th>
                             <div>
                                 {{'author'|translate}}
                             </div>
-                            <div>
+                            <!-- <div>
                                 <nz-select [(ngModel)]="author" class="btn-custom" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'designation'|translate|lowercase}">
                                     <nz-option *ngFor="let p of authors" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>
                                 </nz-select>
-                            </div>
+                            </div> -->
                         </th>
                         <th>
                             <div>
-                                {{'issued.to'|translate}}
+                                {{'recipient.name.and.designation'|translate}}
                             </div>
-                            <div>
+                            <!-- <div>
                                 <nz-select [(ngModel)]="issuedTo" class="btn-custom" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'member'|translate|lowercase}">
                                     <nz-option *ngFor="let p of members" [nzLabel]="p.fullName" [nzValue]="p.userId">
                                     </nz-option>
                                 </nz-select>
-                            </div>
+                            </div> -->
                         </th>
                         <th>
                             {{'issue.date'|translate}}
@@ -58,19 +55,18 @@
                             {{'return.date'|translate}}
                         </th>
                         <th>
-                            {{'actual.return.date'|translate}}
+                            {{'comment'|translate}}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.isbn }}</td>
                         <td>{{ data.title }}</td>
                         <td>{{ data.author?.name }}</td>
                         <td>{{ data.issuedTo?.name }}</td>
                         <td>{{ data.issueDate|date:'medium':'+0000' }}</td>
                         <td>{{ data.returnDate|date:'medium':'+0000' }}</td>
-                        <td>{{ data.actualReturnDate|date:'medium':'+0000' }}</td>
+                        <td>{{ data.note }}</td>
                     </tr>
                 </tbody>
             </nz-table>

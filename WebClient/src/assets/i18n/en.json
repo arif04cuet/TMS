@@ -568,5 +568,16 @@
   "facebook": "Facebook",
   "youtube": "YouTube",
   "linkedin": "Linkedin",
-  "instagram": "Instagram"
+  "instagram": "Instagram",
+  "book.entry.report": "Book entry report",
+  "book.entry": "Book entry",
+  "book.name": "Book name",
+  "recipient.name.and.designation": "Recipient name & designation",
+  "book.entries": "Book entries",
+  "voucher.no": "Voucher no",
+  "entry.date": "Entry date",
+  "entry.amount": "Entry amount",
+  "library.at.a.glance": "Library at a glance",
+  "book.type": "Book type",
+  "issue.amount": "Issue amount"
 }

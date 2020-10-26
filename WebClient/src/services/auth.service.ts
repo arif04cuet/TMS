@@ -33,7 +33,6 @@ export class AuthService {
                     return this.permissionService.list(res2.data.userId).pipe(
                         map(x => {
                             const permissions = extractPermissions(x);
-                            console.log('login permissions', permissions);
                             this.securityService.setPermissions(permissions);
                             return res2;
                         })

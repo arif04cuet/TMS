@@ -197,6 +197,21 @@ namespace Module.Library.Data
 
             _bookEditionRepository.RemoveRange(editionToBeDelete);
 
+            // Subjects
+            var dbSubjects = await _bookSubjecRepository
+                .Where(x => x.BookId == book.Id && !x.IsDeleted)
+                .ToListAsync();
+
+            var requestSubjectIds = request.Subjects != null ? request.Subjects.ToList() : new List<long>();
+
+            var deletedSubjects = dbSubjects.Where(x => !requestSubjectIds.Contains(x.Id));
+
+            var dbSubjectIds = dbSubjects.Select(x => x.Id).ToList();
+            var newSubjects = requestSubjectIds.Where(x => !dbSubjectIds.Contains(x)).Select(x => new BookSubject { BookId = book.Id, SubjectId = x });
+
+            await _bookSubjecRepository.AddRangeAsync(newSubjects);
+            _bookSubjecRepository.RemoveRange(deletedSubjects);
+
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return result > 0;
         }
@@ -604,7 +619,8 @@ namespace Module.Library.Data
                     } : null,
                     ActualReturnDate = x.ActualReturnDate,
                     IssueDate = x.IssueDate,
-                    ReturnDate = x.ReturnDate
+                    ReturnDate = x.ReturnDate,
+                    Note = x.Note
                 })
                 .ApplyPagination(pagingOptions)
                 .ToListAsync();
