@@ -6,13 +6,14 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'members'|translate}} ({{total}})
+                        {{'members'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
 
             <div class="column">
-                <button *checkPermission="['library.member.manage', 'library.member.create']" nz-dropdown [nzDropdownMenu]="addActions" nzTrigger="click" nz-button class="btn-custom">
+                <button *checkPermission="['library.member.manage', 'library.member.create']" nz-dropdown
+                    [nzDropdownMenu]="addActions" nzTrigger="click" nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -34,7 +35,8 @@
         </div>
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>

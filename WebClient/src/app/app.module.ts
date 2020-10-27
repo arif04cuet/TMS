@@ -26,6 +26,9 @@ import { PermissionHttpService, permissionFactory } from 'src/services/http/user
 import { MediaHttpService } from 'src/services/http/media-http.service';
 import { CacheService } from 'src/services/cache.service';
 import { EnglishToBanglaInterceptor } from 'src/interceptors/english-to-bangla.interceptor';
+import { BanglaToEnglishInterceptor } from 'src/interceptors/bangla-to-english.interceptor';
+
+
 
 registerLocaleData(en);
 
@@ -79,6 +82,7 @@ const dateConfig: NzDateConfig = {
     { provide: ErrorHandler, useClass: ErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: EnglishToBanglaInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: BanglaToEnglishInterceptor, multi: true },
     AuthGuard,
     {
       provide: APP_INITIALIZER,

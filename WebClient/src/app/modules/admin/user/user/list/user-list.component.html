@@ -22,8 +22,11 @@
             </div>
         </div>
         <div class="block">
-            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false" (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
+                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
+                nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th></th>
@@ -52,6 +55,11 @@
                             <input [(ngModel)]="email" nz-input />
                         </th>
                         <th>
+                            {{'status'|translate}}
+
+                        </th>
+
+                        <th>
                             <div class="ta-right">
                                 {{'action'|translate}}
                             </div>
@@ -67,13 +75,15 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td class="fit-cell">
-                            <nz-avatar nzSrc="{{serverUrl + '/' + data.photo}}" *ngIf="data.photo" nzSize="large"></nz-avatar>
+                            <nz-avatar nzSrc="{{serverUrl + '/' + data.photo}}" *ngIf="data.photo" nzSize="large">
+                            </nz-avatar>
                             <nz-avatar *ngIf="!data.photo" nzSize="large" nzIcon="user"></nz-avatar>
                         </td>
                         <td>{{ data.fullName }}</td>
                         <td class="fit-cell">{{ data.designation }}</td>
                         <td>{{ data.mobile }}</td>
                         <td>{{ data.email }}</td>
+                        <td>{{ data.status.name }}</td>
                         <td class="action-column fit-cell">
                             <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>
@@ -85,6 +95,7 @@
     <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
 
     <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
-    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }} {{'items'|translate}} </ng-template>
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }}
+        {{'items'|translate}} </ng-template>
 
 </div>

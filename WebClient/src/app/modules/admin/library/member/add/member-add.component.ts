@@ -41,7 +41,7 @@ export class MemberAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       fullName: [null, [], this.v.required.bind(this)],
-      mobile: [null, [], this.v.mobile.bind(this)],
+      mobile: [null, [], this.v.required.bind(this)],
       email: [null, [], this.v.required.bind(this)],
       password: [null, [], this.password.bind(this)],
       status: [null, [], this.v.required.bind(this)],

@@ -41,6 +41,24 @@
       </nz-form-control>
     </nz-form-item>
 
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="photo">{{'Photo'|translate}}</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzErrorTip]="errorTemplate">
+        <div (click)="photo.click()" class="photo-uploader cursor-pointer">
+          <div class="container">
+            <input id="photo" (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
+            <div class="placeholder" *ngIf="!photoLoading && !photoUrl">
+              <i nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
+              <span></span>
+            </div>
+            <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i>
+            <img *ngIf="!photoLoading && photoUrl" [src]="photoUrl" class="photo" />
+          </div>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+
+
     <nz-form-item nz-row class="register-area">
       <nz-form-control [nzSpan]="14" [nzOffset]="4">
         <button (click)="submit()" nz-button nzType="primary">{{'Register'|translate}}</button>

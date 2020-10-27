@@ -156,3 +156,49 @@ nz-content{
   justify-content: flex-start!important;
   
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.photo-uploader {
+  display: flex;
+  justify-content: left;
+}
+.photo-uploader .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d9d9d9;
+  background-color: #fff;
+}
+.photo-uploader .container .placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.photo-uploader .container, .photo-uploader img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+.photo-uploader .overlay {
+  position: absolute;
+  height: 152px;
+  width: 152px;
+  opacity: 0;
+  transition: 0.3s ease;
+  background-color: #fff;
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+}
+.photo-uploader .container:hover .overlay {
+  opacity: 1;
+}
+.photo-uploader .icon {
+  color: black;
+  font-size: 22px;
+}

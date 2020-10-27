@@ -178,7 +178,7 @@
                                                         <label class="required">{{'number.of.page'|translate}}</label>
                                                     </div>
                                                     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                        <input type="number" nz-input formControlName="numberOfPage"
+                                                        <input type="text" nz-input formControlName="numberOfPage"
                                                             placeholder="{{'number.of.page'|translate}}" />
                                                     </nz-form-control>
                                                 </nz-form-item>
@@ -205,6 +205,8 @@
 
                                                         <input (change)="fileChanged($event, item)" type="file"
                                                             accept=".pdf" placeholder="{{'select.file'|translate}}" />
+                                                        <a target="__blank" *ngIf="data.editions[i].eBook?.fileName"
+                                                            href="{{environment.serverUri +'/'+data.editions[i].eBook.fileName}}">Download</a>
                                                     </nz-form-item>
                                                 </div>
                                             </div>

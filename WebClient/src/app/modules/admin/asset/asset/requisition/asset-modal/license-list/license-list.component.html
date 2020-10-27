@@ -17,11 +17,16 @@
             </div>
         </div>
         <div class="block">
-            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false" (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
+                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)"
+                (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable nzShowSizeChanger
+                [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
+                [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate"
+                            (nzCheckedChange)="onAllChecked($event)"></th>
                         <th>
                             {{'license'|translate}}
                             <input [(ngModel)]="Name" nz-input />
@@ -63,14 +68,16 @@
                     </tr>
                 </thead>
                 <tbody>
+
                     <tr *ngFor="let data of basicTable.data">
-                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)"
+                            (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                         <td>{{ data.name }}</td>
                         <td>{{ data.productKey }}</td>
                         <td>{{ data.expireDate|date }}</td>
                         <td>{{ data.seats }}</td>
                         <td>{{ data.available }}</td>
-                        <td>{{ data.isActive ? 'Active':'In Active' }}</td>
+                        <td>{{ (data.isActive ? 'Active':'In Active')|translate }}</td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -78,5 +85,6 @@
         </div>
     </div>
     <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
-    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} {{'items'|translate}} </ng-template>
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }}
+        {{'items'|translate}} </ng-template>
 </div>

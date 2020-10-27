@@ -5,12 +5,15 @@ import { getLang } from 'src/services/utilities.service';
 import { MomentPipeModule } from 'src/pipes/moment.pipe';
 import { CheckPermissionDirective } from 'src/directives/permission.directive';
 import { EnToBnDirective } from 'src/directives/en-to-bn.directive';
+import { BanglaPipe } from 'src/pipes/bangla.pipe';
+
 
 
 @NgModule({
   declarations: [
     CheckPermissionDirective,
-    EnToBnDirective
+    EnToBnDirective,
+    BanglaPipe
   ],
   imports: [
     TranslateModule,
@@ -22,7 +25,8 @@ import { EnToBnDirective } from 'src/directives/en-to-bn.directive';
     BoxLoaderModule,
     MomentPipeModule,
     CheckPermissionDirective,
-    EnToBnDirective
+    EnToBnDirective,
+    BanglaPipe
   ]
 })
 export class SharedModule {

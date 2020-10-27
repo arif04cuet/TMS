@@ -50,7 +50,7 @@ namespace Module.Core.Data
                 EmployeeId = request.EmployeeId,
                 StatusId = request.Status,
                 Email = request.Email,
-                Mobile=request.Mobile,
+                Mobile = request.Mobile,
                 DepartmentId = request.Department,
                 DesignationId = request.Designation,
                 Password = request.Password.HashPassword()
@@ -137,7 +137,8 @@ namespace Module.Core.Data
                     Mobile = x.Mobile,
                     FullName = x.FullName,
                     Email = x.Email,
-                    Photo = _mediaService.GetPhotoUrl(x.Profile.Media)
+                    Photo = _mediaService.GetPhotoUrl(x.Profile.Media),
+                    Status = x.Status != null ? new IdNameViewModel { Id = x.Status.Id, Name = x.Status.Name } : null,
                 })
                 .ToListAsync();
 
@@ -206,6 +207,12 @@ namespace Module.Core.Data
 
             UserProfile profile = new UserProfile { UserId = newUser.Id };
             await _userProfileRepository.AddAsync(profile, cancellationToken);
+
+            if (request.Media.HasValue)
+            {
+                profile.MediaId = request.Media;
+                await _mediaService.UseAsync(request.Media.Value);
+            }
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
             return newUser.Id;

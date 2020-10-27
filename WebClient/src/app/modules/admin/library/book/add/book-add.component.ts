@@ -8,7 +8,7 @@ import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { CommonHttpService } from 'src/services/http/common-http.service';
-import { forEachObj } from 'src/services/utilities.service';
+import { forEachObj, convertValueToEnglish } from 'src/services/utilities.service';
 import { AbstractControl, FormArray } from '@angular/forms';
 import { SubjectHttpService } from 'src/services/http/subject-http.service';
 import { environment } from 'src/environments/environment';
@@ -26,6 +26,8 @@ export class BookAddComponent extends FormComponent {
   publishers = [];
   authors = [];
   subjects = [];
+  data;
+  environment = environment;
 
   photoUrl;
 
@@ -59,7 +61,14 @@ export class BookAddComponent extends FormComponent {
   }
 
   submit(): void {
-    const body = this.constructObject(this.form.controls);
+    const body: any = this.constructObject(this.form.controls);
+
+
+    //convert eng number to bangla
+    for (let index = 0; index < body.editions.length; index++) {
+      body.editions[index].numberOfPage = Number(convertValueToEnglish(body.editions[index].numberOfPage));
+    }
+
     this.submitForm(
       {
         request: this.bookHttpService.add(body),
@@ -78,11 +87,14 @@ export class BookAddComponent extends FormComponent {
     );
   }
 
+
+
   get(id) {
     this.loading = true;
     if (id != null) {
       this.subscribe(this.bookHttpService.get(id),
         (res: any) => {
+          this.data = res.data;
           this.setValues(this.form.controls, res.data, ['editions']);
           this.photoUrl = environment.serverUri + '/' + res.data.photo;
           this.form.controls.editions = this.fb.array([]);
@@ -193,7 +205,7 @@ export class BookAddComponent extends FormComponent {
     });
     const editionFormArray = this.getEditionFormArray();
     editionFormArray.push(formGroup);
-    if(data.eBook) {
+    if (data.eBook) {
       formGroup.controls.hasEbook.setValue(true);
       formGroup.controls.isEbookDownloadable.setValue(data.eBook.isDownloadable);
       formGroup.controls.eBook.setValue(data.eBook.eBook);

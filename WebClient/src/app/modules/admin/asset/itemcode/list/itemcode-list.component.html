@@ -11,7 +11,8 @@
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['item.code.manage', 'item.code.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['item.code.manage', 'item.code.create']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -23,7 +24,8 @@
         </div>
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>
@@ -67,7 +69,7 @@
                         <td>{{ data.totalQuantity}}</td>
                         <td>{{ data.available}}</td>
                         <td>{{ data.minQuantity}}</td>
-                        <td>{{ data.isActive ? 'Active':'In Active' }}</td>
+                        <td>{{ (data.isActive ? 'Active':'In Active')|translate }}</td>
                         <td class="action-column fit-cell">
                             <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>

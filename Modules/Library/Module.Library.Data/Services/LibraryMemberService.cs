@@ -176,7 +176,7 @@ namespace Module.Library.Data
                     .CountAsync()) > 0;
 
                 if (isUserExist)
-                    throw new ValidationException("Email or mobile not available");
+                    throw new ValidationException("User already exist with requested user's email or mobile.");
 
                 var user = new User
                 {

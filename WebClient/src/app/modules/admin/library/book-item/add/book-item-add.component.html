@@ -37,7 +37,7 @@
                                     <label class="required">{{'purchase.price'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="number" nz-input formControlName="purchasePrice"
+                                    <input type="text" nz-input formControlName="purchasePrice"
                                         placeholder="{{'purchase.price'|translate}}" />
                                 </nz-form-control>
                             </nz-form-item>
@@ -60,7 +60,7 @@
                                     <label class="required">{{'number.of.copy'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="number" nz-input formControlName="numberOfCopy"
+                                    <input type="text" nz-input formControlName="numberOfCopy"
                                         placeholder="{{'number.of.copy'|translate}}" />
                                 </nz-form-control>
                             </nz-form-item>
@@ -78,8 +78,7 @@
                             </nz-form-item>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control mandatory="true" [formControl]="form.controls.format" #formatSelect
-                                label="format">
+                            <app-select-control [formControl]="form.controls.format" #formatSelect label="format">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">

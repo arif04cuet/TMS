@@ -105,10 +105,10 @@ export class BookItemListComponent extends TableComponent {
   load() {
     super.load((p, s) => {
       if (this.issueDate && this.issueDate.length) {
-        if(this.issueDate[0]) {
+        if (this.issueDate[0]) {
           s += `&IssueDateStart=${this.issueDate[0].toISOString()}`
         }
-        if(this.issueDate[1]) {
+        if (this.issueDate[1]) {
           s += `&IssueDateEnd=${this.issueDate[1].toISOString()}`
         }
       }

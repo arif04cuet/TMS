@@ -2,6 +2,7 @@
 using Module.Core.Shared;
 using Module.Library.Entities;
 using System;
+using System.IO;
 using System.Linq.Expressions;
 
 namespace Module.Library.Data
@@ -29,9 +30,9 @@ namespace Module.Library.Data
                 {
                     Id = x.Id,
                     EBook = x.EBook.MediaId,
-                    FileName = x.EBook.Media.FileName,
+                    FileName = String.IsNullOrEmpty(x.EBook.Media.FileName) ? string.Empty : Path.Combine(MediaConstants.Path, x.EBook.Media.FileName),
                     EBook2 = x.EBook.Media2Id,
-                    FileName2 = x.EBook.Media2.FileName,
+                    FileName2 = String.IsNullOrEmpty(x.EBook.Media2.FileName) ? string.Empty : Path.Combine(MediaConstants.Path, x.EBook.Media2.FileName),
                     IsDownloadable = x.EBook.IsDownloadable
                 } : null
             };

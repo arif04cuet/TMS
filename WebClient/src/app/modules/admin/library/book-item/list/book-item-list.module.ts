@@ -11,6 +11,7 @@ import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { TableActionsModule } from 'src/app/shared/table-actions.component';
 
+
 @NgModule({
   declarations: [
     BookItemListComponent

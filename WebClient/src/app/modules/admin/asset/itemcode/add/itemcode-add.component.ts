@@ -61,9 +61,9 @@ export class ItemCodeAddComponent extends FormComponent {
     const body: any = this.constructObject(this.form.controls);
 
     if (this.isEditMode()) {
-      body.id = this.id;
+      body.id = Number(this.id);
     }
-
+    console.log(body);
     this.submitForm(
       {
         request: this.itemcodeHttpService.add(body),

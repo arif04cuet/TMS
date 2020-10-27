@@ -92,15 +92,20 @@ export function toBengali(obj, t: TranslateService) {
     }
     return obj;
 }
+export function ignoreKeys() {
+    return [
+        "id", "offset", "limit", 'size', "eBook", "categoryId"
+    ];
 
+}
 export function convertPropertyToBengali(obj, key, t: TranslateService) {
-    if (!["id", "offset", "limit"].includes(key)) {
+    if (!ignoreKeys().includes(key)) {
         if (typeof (obj[key]) == "number" || /^\d+$/.test(obj[key])) {
             const v = convertValueToBengali(obj[key].toString());
             obj[key] = v;
         }
         else if (typeof (obj[key]) == "string") {
-            if(key && obj[key]) {
+            if (key && obj[key]) {
                 obj[key] = t.instant(obj[key]);
             }
         }
@@ -125,6 +130,26 @@ export function convertValueToBengali(value: any) {
         }
     }
     return bengaliNumber;
+}
+
+export function convertValueToEnglish(value: any) {
+    value = value.toString();
+    const map = getNumberMap();
+    const len = value.length;
+    let EnglishNumber = "";
+    for (let i = 0; i < len; i++) {
+        const l = getKeyByValue(map, value[i]);
+        if (l) {
+            EnglishNumber += l;
+        }
+        else {
+            EnglishNumber += value[i];
+        }
+    }
+    return EnglishNumber;
+}
+export function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
 }
 
 export function getNumberMap() {
