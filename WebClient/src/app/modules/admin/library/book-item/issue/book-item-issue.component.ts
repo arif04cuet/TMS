@@ -62,8 +62,8 @@ export class BookItemIssueComponent extends FormComponent {
 
   submit(): void {
     const body = this.constructObject(this.form.controls);
-    this.submitting = true;
     this.validateForm(() => {
+      this.submitting = true;
       this.subscribe(this.bookHttpService.issueBookItem(this.id, body),
         (res: any) => {
           this.submitting = false;

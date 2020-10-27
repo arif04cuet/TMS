@@ -5,6 +5,7 @@ using Module.Core.Shared;
 using Module.Library.Entities;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using System;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,10 +26,54 @@ namespace Module.Library.Data
             _dbConnection = _unitOfWork.GetConnection();
         }
 
+        public Task<PagedCollection<NewBookListViewModel>> ListNewBookAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = null)
+        {
+            throw new NotImplementedException();
+            //var previous5Days = DateTime.Now.AddDays(-5);
+            //var query = _unitOfWork.GetRepository<BookItem>()
+            //    .Where(x => x.StatusId != BookStatusConstants.Lost
+            //    && !x.IsDeleted);
+
+            //var result = await query.Select(x => new NewBookListViewModel
+            //{
+            //    Author = x.Book.AuthorId != null ? x.Book.Author.Name : "",
+            //    Publisher = x.Book.PublisherId != null ? x.Book.Publisher.Name : "",
+            //    Comment = x.CurrentIssueId != null ? x.CurrentIssue.Note : "",
+            //    Title = x.Book.Title
+            //})
+            //    .ApplySearch(searchOptions)
+            //    .ApplyPagination(pagingOptions)
+            //    .ToListAsync();
+
+            //var total = await query.Select(x => x.Id).CountAsync();
+            //return new PagedCollection<NewBookListViewModel>(result, total, pagingOptions);
+        }
+
+        public async Task<PagedCollection<LostBookListViewModel>> ListLostBookAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = null)
+        {
+            var query = _unitOfWork.GetRepository<BookItem>()
+                .Where(x => x.StatusId == BookStatusConstants.Lost && !x.IsDeleted);
+
+            var result = await query.Select(x => new LostBookListViewModel
+            {
+                Author = x.Book.AuthorId != null ? x.Book.Author.Name : "",
+                Publisher = x.Book.PublisherId != null ? x.Book.Publisher.Name : "",
+                RecipientAndDesignation = x.IssuedToId != null ? x.IssuedTo.FullName + (x.IssuedTo.DesignationId != null ? ", " + x.IssuedTo.Designation.Name : "") : "",
+                Comment = x.CurrentIssueId != null ? x.CurrentIssue.Note : "",
+                Title = x.Book.Title
+            })
+                .ApplySearch(searchOptions)
+                .ApplyPagination(pagingOptions)
+                .ToListAsync();
+
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<LostBookListViewModel>(result, total, pagingOptions);
+        }
+
         public async Task<PagedCollection<LibraryAtAGlanceListViewModel>> ListLibraryAtAGlanceAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = null)
         {
             var sql = $@"select b.Id, a.Name Author, p.Name Publisher, b.Title,
-                    (select count(*) from [library].[BookItem] bi where bi.BookId = b.Id and bi.CurrentIssueId is not null) IssueAmount,
+                    (select count(*) from [library].[BookItem] bi where bi.BookId = b.Id and bi.StatusId = 3) IssueAmount,
                     stuff(
                         (select ', ' + s.Name from [library].[BookSubject] bs
                         left join [library].[Subject] s on s.Id = bs.SubjectId
@@ -81,7 +126,7 @@ namespace Module.Library.Data
 
             var query = _bookIssueRepository
                 .AsReadOnly()
-                .Where(x => !x.IsDeleted)
+                .Where(x => x.BookItem.StatusId == BookStatusConstants.Loned && !x.IsDeleted)
                 .ApplySearch(searchOptions)
                 .OrderByDescending(x => x.IssueDate);
 
@@ -108,6 +153,6 @@ namespace Module.Library.Data
             var total = await query.Select(x => x.Id).CountAsync();
             return new PagedCollection<BookIssueListViewModel>(result, total, pagingOptions);
         }
-        
+
     }
 }

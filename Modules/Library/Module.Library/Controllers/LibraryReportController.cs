@@ -46,5 +46,21 @@ namespace Module.Library.Controllers
             var result = await _libraryReportService.ListLibraryAtAGlanceAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
+
+        [HttpGet("lost-books")]
+        [RequirePermission(BookList, BookManage)]
+        public async Task<ActionResult> ListLostBook([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _libraryReportService.ListLostBookAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("new-books")]
+        [RequirePermission(BookList, BookManage)]
+        public async Task<ActionResult> ListNewBook([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _libraryReportService.ListNewBookAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
     }
 }

@@ -35,7 +35,7 @@ export class BookItemListComponent extends TableComponent {
     {
       label: 'return',
       action: d => this.return(d),
-      condition: d => d.issuedTo,
+      condition: d => d.status && d.status.id == 3, // Loaned
       permissions: ['book.manage', 'book.return'],
       type: 'primary'
     },
