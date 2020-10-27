@@ -9,8 +9,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
-using Module.Core.Data;
-using System.Linq.Expressions;
 
 namespace Module.Asset.Data
 {

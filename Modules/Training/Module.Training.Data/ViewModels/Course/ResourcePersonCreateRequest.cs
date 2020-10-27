@@ -1,5 +1,4 @@
-﻿using Infrastructure.Data;
-using Module.Core.Entities;
+﻿using Module.Core.Entities;
 using Module.Training.Entities;
 
 namespace Module.Training.Data
@@ -27,6 +26,18 @@ namespace Module.Training.Data
 
         public long[] Expertises { get; set; }
 
+        public string FacebookUrl { get; set; }
+        public bool IsFacebookUrlPublic { get; set; }
+
+        public string YouTubeUrl { get; set; }
+        public bool IsYouTubeUrlPublic { get; set; }
+
+        public string LinkedinUrl { get; set; }
+        public bool IsLinkedinUrlPublic { get; set; }
+
+        public string InstagramUrl { get; set; }
+        public bool IsInstagramUrlPublic { get; set; }
+
         public ResourcePerson MapResourcePerson(ResourcePerson person = null)
         {
             var entity = person ?? new ResourcePerson();
@@ -39,8 +50,14 @@ namespace Module.Training.Data
             entity.AltEmail = AltEmail;
             entity.MailingAddress = MailingAddress;
             entity.OfficeAddress = OfficeAddress;
-
-
+            entity.FacebookUrl = FacebookUrl;
+            entity.IsFacebookUrlPublic = IsFacebookUrlPublic;
+            entity.YouTubeUrl = YouTubeUrl;
+            entity.IsYouTubeUrlPublic = IsYouTubeUrlPublic;
+            entity.LinkedinUrl = LinkedinUrl;
+            entity.IsLinkedinUrlPublic = IsLinkedinUrlPublic;
+            entity.InstagramUrl = InstagramUrl;
+            entity.IsInstagramUrlPublic = IsInstagramUrlPublic;
             return entity;
         }
 

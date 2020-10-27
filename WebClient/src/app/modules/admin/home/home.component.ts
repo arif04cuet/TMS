@@ -266,36 +266,51 @@ export class HomeComponent extends BaseComponent {
               return this.permissionService.isRouteGranted('book.issue');
             }
           },
-
-
-
-
           {
             level: 2,
             title: 'reports',
             icon: 'user',
             fn: () => {
-              return this.permissionService.isRouteGranted(['#library.report.issue', '#library.report.fine']);
+              return this.permissionService.isRouteGranted(['#library.report.issue', '#library.report.book.entry', '#library.report.at.a.glance']);
             },
             nav: [
               {
                 level: 3,
+                title: 'book.entry',
+                icon: 'user',
+                route: '/admin/library/reports/book-entry',
+                fn: () => {
+                  return this.permissionService.isRouteGranted('#library.report.book.entry');
+                },
+              },
+              {
+                level: 3,
                 title: 'issue',
                 icon: 'user',
-                route: '/admin/library/issues',
+                route: '/admin/library/reports/issues',
                 fn: () => {
                   return this.permissionService.isRouteGranted('#library.report.issue');
                 },
               },
               {
                 level: 3,
-                title: 'fine',
+                title: 'library.at.a.glance',
                 icon: 'user',
-                route: '/admin/library/fines',
+                route: '/admin/library/reports/library-at-a-glance',
                 fn: () => {
-                  return this.permissionService.isRouteGranted('#library.report.fine');
+                  return this.permissionService.isRouteGranted('#library.report.at.a.glance');
                 },
-              }
+              },
+              // {
+              //   level: 3,
+              //   title: 'fine',
+              //   icon: 'user',
+              //   route: '/admin/library/fines',
+              //   fn: () => {
+              //     return true
+              //     return this.permissionService.isRouteGranted('#library.report.fine');
+              //   },
+              // }
             ]
           }
         ]

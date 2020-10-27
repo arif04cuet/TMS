@@ -172,7 +172,6 @@
                         </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-
                         <div>
                             <label class="">{{'cv.upload'|translate}}</label>
                         </div>
@@ -183,13 +182,66 @@
                         <a target="__blank" *ngIf="!cvLoading && cvUrl" [href]="cvUrl">
                             {{cvFileName}}
                         </a>
-
-
                     </div>
                 </div>
 
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="12" style="display: flex;">
+                        <nz-form-item class="field-container">
+                            <nz-form-control>
+                                <input type="url" nz-input formControlName="facebookUrl" placeholder="{{'facebook'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="field-container">
+                            <nz-form-control>
+                                <span nz-checkbox
+                                    formControlName="isFacebookUrlPublic">{{'is.public'|translate}}</span>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzSpan]="12" style="display: flex;">
+                        <nz-form-item class="field-container">
+                            <nz-form-control>
+                                <input type="url" nz-input formControlName="youTubeUrl" placeholder="{{'youtube'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="field-container">
+                            <nz-form-control>
+                                <span nz-checkbox
+                                    formControlName="isYouTubeUrlPublic">{{'is.public'|translate}}</span>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
 
-
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="12" style="display: flex;">
+                        <nz-form-item class="field-container">
+                            <nz-form-control>
+                                <input type="url" nz-input formControlName="linkedinUrl" placeholder="{{'linkedin'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="field-container">
+                            <nz-form-control>
+                                <span nz-checkbox
+                                    formControlName="isLinkedinUrlPublic">{{'is.public'|translate}}</span>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-col [nzSpan]="12" style="display: flex;">
+                        <nz-form-item class="field-container">
+                            <nz-form-control>
+                                <input type="url" nz-input formControlName="instagramUrl" placeholder="{{'instagram'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="field-container">
+                            <nz-form-control>
+                                <span nz-checkbox
+                                    formControlName="isInstagramUrlPublic">{{'is.public'|translate}}</span>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
             </form>
         </div>
 

@@ -1,4 +1,4 @@
-import { Component, ViewChild, Type, TemplateRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { CommonValidator } from 'src/validators/common.validator';
@@ -10,7 +10,6 @@ import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.se
 import { HonorariumHeadHttpService } from 'src/services/http/budget-and-schedule/honorarium-head-http.service';
 import { MediaHttpService } from 'src/services/http/media-http.service';
 import { environment } from 'src/environments/environment';
-import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-resource-person-add',
@@ -64,6 +63,14 @@ export class ResourcePersonAddComponent extends FormComponent {
       photo: [],
       expertises: [],
       honorariumHead: [null, [], this.v.required.bind(this)],
+      facebookUrl: [],
+      isFacebookUrlPublic: [true],
+      youTubeUrl: [],
+      isYouTubeUrlPublic: [true],
+      linkedinUrl: [],
+      isLinkedinUrlPublic: [true],
+      instagramUrl: [],
+      isInstagramUrlPublic: [true]
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -87,6 +94,12 @@ export class ResourcePersonAddComponent extends FormComponent {
     const body: any = this.constructObject(this.form.controls);
     if (!body.expertises) {
       body.expertises = [];
+    }
+    if(!body.cv) {
+      delete body.cv;
+    }
+    if(!body.photo) {
+      delete body.photo;
     }
 
     this.submitForm(

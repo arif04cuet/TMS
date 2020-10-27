@@ -14,6 +14,7 @@ namespace Module.Library.Data
         public DateTime IssueDate { get; set; }
         public DateTime? ReturnDate { get; set; }
         public DateTime? ActualReturnDate { get; set; }
+        public string Note { get; set; }
 
     }
 }

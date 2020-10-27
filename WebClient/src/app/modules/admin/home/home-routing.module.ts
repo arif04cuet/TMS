@@ -284,8 +284,8 @@ const routes: Routes = [
         }
       },
       {
-        path: 'library/issues',
-        loadChildren: () => import('../library/issue/list/issue-list.module').then(x => x.IssueListModule),
+        path: 'library/reports/issues',
+        loadChildren: () => import('../library/reports/issue/issue-list.module').then(x => x.IssueListModule),
         data: {
           name: 'issue_list',
           breadcrumb: {
@@ -307,6 +307,32 @@ const routes: Routes = [
             module: "library.management"
           },
           permissions: ['library.report.fine']
+        }
+      },
+      {
+        path: 'library/reports/book-entry',
+        loadChildren: () => import('../library/reports/entry/entry-list.module').then(x => x.EntryListModule),
+        data: {
+          name: 'library_book_entry',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'book.entry',
+            module: "library.management"
+          },
+          permissions: ['library.report.book.entry']
+        }
+      },
+      {
+        path: 'library/reports/library-at-a-glance',
+        loadChildren: () => import('../library/reports/glance/glance-list.module').then(x => x.GlanceListModule),
+        data: {
+          name: 'library_at_a_glance',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'library.at.a.glance',
+            module: "library.management"
+          },
+          permissions: ['library.report.at.a.glance']
         }
       },
       {

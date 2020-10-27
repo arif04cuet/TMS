@@ -71,17 +71,6 @@ export class BookHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
-    public listIssues(pagination = null, search = null) {
-        let url = 'books/issues?'
-        if(pagination){
-            url += pagination
-        }
-        if(search) {
-            url += search
-        }
-        return this.httpService.get(url);
-    }
-
     public checkFine(id: number, body) {
         return this.httpService.post(`books/items/${id}/check-fine`, body);
     }
