@@ -271,7 +271,7 @@ export class HomeComponent extends BaseComponent {
             title: 'reports',
             icon: 'user',
             fn: () => {
-              return this.permissionService.isRouteGranted(['#library.report.issue', '#library.report.book.entry', '#library.report.new.books', '#library.report.lost.books', '#library.report.at.a.glance']);
+              return 1;//this.permissionService.isRouteGranted(['#library.report.issue', '#library.report.book.entry', '#library.report.new.books', '#library.report.lost.books', '#library.report.at.a.glance']);
             },
             nav: [
               {
@@ -280,7 +280,7 @@ export class HomeComponent extends BaseComponent {
                 icon: 'user',
                 route: '/admin/library/reports/book-entry',
                 fn: () => {
-                  return this.permissionService.isRouteGranted('#library.report.book.entry');
+                  return 1;//this.permissionService.isRouteGranted('#library.report.book.entry');
                 },
               },
               {
@@ -289,7 +289,7 @@ export class HomeComponent extends BaseComponent {
                 icon: 'user',
                 route: '/admin/library/reports/issues',
                 fn: () => {
-                  return this.permissionService.isRouteGranted('#library.report.issue');
+                  return 1;//this.permissionService.isRouteGranted('#library.report.issue');
                 },
               },
               {
@@ -298,7 +298,7 @@ export class HomeComponent extends BaseComponent {
                 icon: 'user',
                 route: '/admin/library/reports/new-books',
                 fn: () => {
-                  return this.permissionService.isRouteGranted('#library.report.new.books');
+                  return 1;//this.permissionService.isRouteGranted('#library.report.new.books');
                 },
               },
               {
@@ -307,7 +307,7 @@ export class HomeComponent extends BaseComponent {
                 icon: 'user',
                 route: '/admin/library/reports/lost-books',
                 fn: () => {
-                  return this.permissionService.isRouteGranted('#library.report.lost.books');
+                  return 1;//this.permissionService.isRouteGranted('#library.report.lost.books');
                 },
               },
               {
@@ -316,7 +316,7 @@ export class HomeComponent extends BaseComponent {
                 icon: 'user',
                 route: '/admin/library/reports/library-at-a-glance',
                 fn: () => {
-                  return this.permissionService.isRouteGranted('#library.report.at.a.glance');
+                  return 1;//this.permissionService.isRouteGranted('#library.report.at.a.glance');
                 },
               },
               // {

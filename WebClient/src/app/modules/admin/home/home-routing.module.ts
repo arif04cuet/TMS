@@ -293,7 +293,7 @@ const routes: Routes = [
             title: 'issues',
             module: "library.management"
           },
-          permissions: ['library.report.issue']
+          //permissions: ['library.report.issue']
         }
       },
       {
@@ -306,7 +306,7 @@ const routes: Routes = [
             title: 'fines',
             module: "library.management"
           },
-          permissions: ['library.report.fine']
+          //permissions: ['library.report.fine']
         }
       },
       {
@@ -319,7 +319,7 @@ const routes: Routes = [
             title: 'book.entry',
             module: "library.management"
           },
-          permissions: ['library.report.book.entry']
+          //permissions: ['library.report.book.entry']
         }
       },
       {
@@ -332,7 +332,7 @@ const routes: Routes = [
             title: 'library.at.a.glance',
             module: "library.management"
           },
-          permissions: ['library.report.at.a.glance']
+          //permissions: ['library.report.at.a.glance']
         }
       },
       {
@@ -345,7 +345,7 @@ const routes: Routes = [
             title: 'lost.books',
             module: "library.management"
           },
-          permissions: ['library.report.lost.books']
+          //permissions: ['library.report.lost.books']
         }
       },
       {
@@ -358,7 +358,7 @@ const routes: Routes = [
             title: 'new.books',
             module: "library.management"
           },
-          permissions: ['library.report.new.books']
+          //permissions: ['library.report.new.books']
         }
       },
       {
