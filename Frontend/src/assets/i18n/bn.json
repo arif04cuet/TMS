@@ -39,7 +39,7 @@
     "Course Coordinator": "কোর্স সমন্বয়কারী",
     "Course Co Coordinator": "সহকারী কোর্স সমন্বয়কারী",
     "Course Description": "পাঠ্যসূচী বর্ণনা",
-    "Modules": "মডিউল",
+    "Modules": "মডিউলস",
     "Apply": "আবেদন করুণ",
     "Mobile": "মোবাইল",
     "Email": "ইমেইল",
@@ -48,5 +48,8 @@
     "Select a library": "লাইব্রেরি নির্বাচন করুন",
     "Home Room Facilities": "হোস্টেলের সুবিধা সমূহ ",
     "Photo": "ছবি",
-    "choose.photo": "ছবি নির্বাচন করুন"
+    "choose.photo": "ছবি নির্বাচন করুন",
+    "UPCOMING": "আসন্ন",
+    "RUNNING": "চলমান",
+    "FINISHED": "সমাপ্ত"
 }

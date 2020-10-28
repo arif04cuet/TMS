@@ -33,8 +33,9 @@ export class PermissionHttpService {
         let _permissions = []
         if (Array.isArray(modules)) {
             (<string[]>modules).forEach(m => {
-                if(m[0] == '#') {
-                    _permissions.push(m);
+                if (m[0] == '#') {
+                    _permissions.push(m.substring(1));
+
                 }
                 else {
                     _permissions.push(`${m}.manage`, `${m}.list`);
@@ -42,17 +43,19 @@ export class PermissionHttpService {
             });
         }
         else {
-            if(modules[0] == '#') {
-                _permissions.push(modules);
+            if (modules[0] == '#') {
+                _permissions.push(modules.substring(1));
             }
             else {
                 _permissions = [`${modules}.manage`, `${modules}.list`];
             }
         }
         const cacheKey = _permissions.toString();
+
         let granted = false;
         if (state.permissionCache.hasOwnProperty(cacheKey)) {
             granted = state.permissionCache[cacheKey];
+
         }
         else {
             const permissions = this.getPermissions();
