@@ -271,7 +271,7 @@ export class HomeComponent extends BaseComponent {
             title: 'reports',
             icon: 'user',
             fn: () => {
-              return this.permissionService.isRouteGranted(['#library.report.issue', '#library.report.book.entry', '#library.report.at.a.glance']);
+              return this.permissionService.isRouteGranted(['#library.report.issue', '#library.report.book.entry', '#library.report.new.books', '#library.report.lost.books', '#library.report.at.a.glance']);
             },
             nav: [
               {
@@ -290,6 +290,24 @@ export class HomeComponent extends BaseComponent {
                 route: '/admin/library/reports/issues',
                 fn: () => {
                   return this.permissionService.isRouteGranted('#library.report.issue');
+                },
+              },
+              {
+                level: 3,
+                title: 'new.books',
+                icon: 'user',
+                route: '/admin/library/reports/new-books',
+                fn: () => {
+                  return this.permissionService.isRouteGranted('#library.report.new.books');
+                },
+              },
+              {
+                level: 3,
+                title: 'lost.books',
+                icon: 'user',
+                route: '/admin/library/reports/lost-books',
+                fn: () => {
+                  return this.permissionService.isRouteGranted('#library.report.lost.books');
                 },
               },
               {

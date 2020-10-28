@@ -579,5 +579,7 @@
   "entry.amount": "Entry amount",
   "library.at.a.glance": "Library at a glance",
   "book.type": "Book type",
-  "issue.amount": "Issue amount"
+  "issue.amount": "Issue amount",
+  "lost.books": "Lost books",
+  "new.books": "New books"
 }

@@ -504,8 +504,8 @@ namespace Module.Library.Data
             {
                 bookItem.CurrentIssue.ActualReturnDate = date;
                 bookItem.StatusId = BookStatusConstants.Lost;
-                bookItem.IssuedToId = null;
-                bookItem.CurrentIssueId = null;
+                //bookItem.IssuedToId = null;
+                //bookItem.CurrentIssueId = null;
             }
 
             result += await _unitOfWork.SaveChangesAsync(ct);

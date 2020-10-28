@@ -336,6 +336,32 @@ const routes: Routes = [
         }
       },
       {
+        path: 'library/reports/lost-books',
+        loadChildren: () => import('../library/reports/lost/lost-list.module').then(x => x.LostListModule),
+        data: {
+          name: 'library_lost_books',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'lost.books',
+            module: "library.management"
+          },
+          permissions: ['library.report.lost.books']
+        }
+      },
+      {
+        path: 'library/reports/new-books',
+        loadChildren: () => import('../library/reports/new/new-list.module').then(x => x.NewListModule),
+        data: {
+          name: 'library_new_books',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'new.books',
+            module: "library.management"
+          },
+          permissions: ['library.report.new.books']
+        }
+      },
+      {
         path: 'asset',
         loadChildren: () => import('../asset/asset/list/asset-list.module').then(x => x.AssetListModule),
         data: {

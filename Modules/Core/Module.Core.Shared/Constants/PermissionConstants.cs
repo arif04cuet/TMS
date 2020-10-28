@@ -124,6 +124,10 @@
 
         public const long LibraryReportIssue = 2200;
         public const long LibraryReportFine = 2201;
+        public const long LibraryReportBookEntry = 2202;
+        public const long LibraryReportAtAGlance = 2203;
+        public const long LibraryReportLostBook = 2204;
+        public const long LibraryReportNewBook = 2205;
 
         //Asset
         public const long AssetCreate = 2300;
@@ -137,7 +141,6 @@
         public const long MaintenanceDelete = 2403;
         public const long MaintenanceList = 2404;
         public const long MaintenanceManage = 2405;
-
 
         public const long AssetAuditCreate = 2406;
         public const long AssetBulkCheckoutCreate = 2407;
@@ -157,7 +160,6 @@
         public const long ConsumableManage = 2424;
 
         // setting asset model
-
         public const long AssetModelCreate = 2440;
         public const long AssetModelUpdate = 2441;
         public const long AssetModelDelete = 2442;
@@ -165,7 +167,6 @@
         public const long AssetModelManage = 2444;
 
         // setting item code
-
         public const long ItemCodeCreate = 2450;
         public const long ItemCodeUpdate = 2451;
         public const long ItemCodeDelete = 2452;
@@ -173,7 +174,6 @@
         public const long ItemCodeManage = 2454;
 
         // setting item code
-
         public const long SupplierCreate = 2460;
         public const long SupplierUpdate = 2461;
         public const long SupplierDelete = 2462;
@@ -181,7 +181,6 @@
         public const long SupplierList   = 2463;      
         
         // setting depreciation
-
         public const long DepreciationCreate = 2470;
         public const long DepreciationUpdate = 2471;
         public const long DepreciationDelete = 2472;
@@ -189,7 +188,6 @@
         public const long DepreciationList   = 2473;      
 
         // setting manufacturer
-
         public const long ManufacturerCreate = 2480;
         public const long ManufacturerUpdate = 2481;
         public const long ManufacturerDelete = 2482;
@@ -206,7 +204,6 @@
         
 
         // setting asset.status
-
         public const long AssetStatusCreate = 2490;
         public const long AssetStatusUpdate = 2491;
         public const long AssetStatusDelete = 2492;
@@ -214,19 +211,15 @@
         public const long AssetStatusList   = 2493;  
 
         // setting category
-
         public const long AssetCategoryCreate = 2594;
         public const long AssetCategoryUpdate = 2495;
         public const long AssetCategoryDelete = 2496;
         public const long AssetCategoryManage = 2497;
         public const long AssetCategoryList   = 2498;  
 
-
         public const long BookMemberStatusView = 2500;
         public const long BookMemberStatusList = 2501;
         public const long BookMemberStatusManage = 2502;
-
-        
 
         //CMS
 
@@ -257,7 +250,6 @@
         public const long ContentBannerDelete = 2902;
         public const long ContentBannerList = 2903;
         public const long ContentBannerManage = 2904;
-
 
         //Hostel
 
@@ -347,14 +339,12 @@
         public const long TrainingMethodManage = 4104;
         public const long TrainingMethodList   = 4105; 
 
-
         //evaluation.method
         public const long TrainingEvaluationMethodCreate = 4201;
         public const long TrainingEvaluationMethodUpdate = 4202;
         public const long TrainingEvaluationMethodDelete = 4203;
         public const long TrainingEvaluationMethodManage = 4204;
         public const long TrainingEvaluationMethodList   = 4205; 
-
 
         //grade
         public const long TrainingGradeCreate = 4301;
@@ -421,8 +411,6 @@
         public const long AssetRequisitionDelete = 7103;
         public const long AssetRequisitionManage = 7104;
         public const long AssetRequisitionList   = 7105; 
-
-
     }
 
     public static class PermissionGroupConstants
@@ -447,7 +435,6 @@
         //Asset
         public const long AssetGroup = 17;
         public const long MaintenanceGroup = 18;
-        
         
         //CMS
         public const long ContentCategoryGroup = 19;
@@ -500,9 +487,6 @@
         public const long AssetSettingManufacturerGroup         = 62;
         public const long AssetSettingStatusGroup         = 63;
         public const long AssetSettingCategoryGroup         = 64;
-
-
-
     }
 
     public static class PermissionOperationConstants
@@ -520,9 +504,12 @@
         public const string Checkout = "Checkout";
         public const string Audit = "Audit";
         public const string BulkCheckout = "Bulk Checkout";
+        public const string BookEntry = "Book Entry";
+        public const string AtAGlance = "At A Glance";
+        public const string LostBook = "Lost Book";
+        public const string NewBook = "New Book";
 
         //Reports
-
         public const string AssetReportActivityLog  = "Activity Log";
         public const string AssetReportAuditLog     = "Audit Log";
         public const string AssetReportDepreciation = "Depreciation";
@@ -531,7 +518,5 @@
         public const string AssetReportAsset        = "Asset";
 
         public const string MyExam  = "MyExam";
-
-
     }
 }

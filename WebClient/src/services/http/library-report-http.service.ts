@@ -28,4 +28,14 @@ export class LibraryReportHttpService extends BaseHttpService {
         return this.httpService.get(url);
     }
 
+    public lostBooks(pagination = null, search = null) {
+        const url = this.buildUrl(`${this.END_POINT}/lost-books`, pagination, search);
+        return this.httpService.get(url);
+    }
+
+    public newBooks(pagination = null, search = null) {
+        const url = this.buildUrl(`${this.END_POINT}/new-books`, pagination, search);
+        return this.httpService.get(url);
+    }
+
 }

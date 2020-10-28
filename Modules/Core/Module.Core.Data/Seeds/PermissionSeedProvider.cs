@@ -256,6 +256,10 @@ namespace Module.Core.Data
                 #region Library Report
                 new Permission (LibraryReportIssue, Issue, $"library.report.issue", LibraryReportGroup, LibraryManagement),
                 new Permission (LibraryReportFine, Fine, $"library.report.fine", LibraryReportGroup, LibraryManagement),
+                new Permission (LibraryReportBookEntry, BookEntry, $"library.report.book.entry", LibraryReportGroup, LibraryManagement),
+                new Permission (LibraryReportAtAGlance, AtAGlance, $"library.report.at.a.glance", LibraryReportGroup, LibraryManagement),
+                new Permission (LibraryReportLostBook, LostBook, $"library.report.lost.books", LibraryReportGroup, LibraryManagement),
+                new Permission (LibraryReportNewBook, NewBook, $"library.report.new.books", LibraryReportGroup, LibraryManagement),
                 #endregion
 
                 #region Asset
@@ -274,13 +278,10 @@ namespace Module.Core.Data
                 new Permission (MaintenanceManage,  Manage, $"maintenance.{Manage.ToLower()}", MaintenanceGroup, AssetManagement),
                 #endregion
 
-
-
                 #region Asset Audit
                 new Permission (AssetAuditCreate, Audit, $"asset.audit.{Create.ToLower()}", AssetGroup, AssetManagement),
                 new Permission (AssetBulkCheckoutCreate, BulkCheckout, $"asset.bulk.{Checkout.ToLower()}", AssetGroup, AssetManagement),
                 #endregion
-
 
                 #region License
                 new Permission (LicenseCreate,   Create, $"license.{Create.ToLower()}",  LicenseGroup, AssetManagement),
@@ -371,8 +372,6 @@ namespace Module.Core.Data
                 new Permission (AssetRequisitionManage,   Manage, $"requisition.{Manage.ToLower()}",  AssetRequisitionGroup, AssetManagement),
                 #endregion
 
-
-
                 #region ContentCategory
                 new Permission (ContentCategoryCreate, Create, $"content.category.{Create.ToLower()}", ContentCategoryGroup, CmsManagement),
                 new Permission (ContentCategoryUpdate,  Update, $"content.category.{Update.ToLower()}", ContentCategoryGroup, CmsManagement),
@@ -404,7 +403,6 @@ namespace Module.Core.Data
                 new Permission (ContentBannerDelete,  Delete, $"content.banner.{Delete.ToLower()}", ContentBannerGroup, CmsManagement),
                 new Permission (ContentBannerManage,  Manage, $"content.banner.{Manage.ToLower()}", ContentBannerGroup, CmsManagement),
                 #endregion
-
 
                 #region Hostel Allocation
                 new Permission (HostelAllocationCreate,   Create, $"allocation.{Create.ToLower()}",  HostelAllocationGroup, HostelManagement),
@@ -518,7 +516,6 @@ namespace Module.Core.Data
                 new Permission (TrainingGradeManage,   Manage, $"grade.{Manage.ToLower()}",  TrainingGradeGroup, TrainingManagement),
                 #endregion
 
-
                 #region Traingin expertise
                 new Permission (TrainingExpertiseCreate,   Create, $"expertise.{Create.ToLower()}",  TrainingExpertiseGroup, TrainingManagement),
                 new Permission (TrainingExpertiseUpdate,   Update, $"expertise.{Update.ToLower()}",  TrainingExpertiseGroup, TrainingManagement),
@@ -552,7 +549,6 @@ namespace Module.Core.Data
                 new Permission (MyExamManage,          MyExam, $"myexam.{Manage.ToLower()}", TrainingBatchGroup, TrainingManagement),
                 #endregion
 
-
                 #region Traingin batch.allocation
                 new Permission (TrainingBatchAllocationCreate,   Create, $"batch.allocation.{Create.ToLower()}",  TrainingBatchAllocationGroup, TrainingManagement),
                 new Permission (TrainingBatchAllocationUpdate,   Update, $"batch.allocation.{Update.ToLower()}",  TrainingBatchAllocationGroup, TrainingManagement),
@@ -576,9 +572,6 @@ namespace Module.Core.Data
                 new Permission (TrainingHonorariumHeadDelete,   Delete, $"honorarium.head.{Delete.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
                 new Permission (TrainingHonorariumHeadManage,   Manage, $"honorarium.head.{Manage.ToLower()}",  TrainingHonorariumHeadGroup, TrainingManagement),
                 #endregion
-
-            
-
             };
         }
     }
