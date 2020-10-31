@@ -26,27 +26,29 @@ namespace Module.Library.Data
             _dbConnection = _unitOfWork.GetConnection();
         }
 
-        public Task<PagedCollection<NewBookListViewModel>> ListNewBookAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = null)
+        public async Task<PagedCollection<NewBookListViewModel>> ListNewBookAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = null)
         {
-            throw new NotImplementedException();
-            //var previous5Days = DateTime.Now.AddDays(-5);
-            //var query = _unitOfWork.GetRepository<BookItem>()
-            //    .Where(x => x.StatusId != BookStatusConstants.Lost
-            //    && !x.IsDeleted);
+            var previous10Days = DateTime.Now.AddDays(-10);
+            var query = _unitOfWork.GetRepository<BookItem>()
+                .Where(x => x.StatusId != BookStatusConstants.Lost
+                && x.CreatedAt != null
+                && x.CreatedAt.Value.Date >= previous10Days
+                && !x.IsDeleted);
 
-            //var result = await query.Select(x => new NewBookListViewModel
-            //{
-            //    Author = x.Book.AuthorId != null ? x.Book.Author.Name : "",
-            //    Publisher = x.Book.PublisherId != null ? x.Book.Publisher.Name : "",
-            //    Comment = x.CurrentIssueId != null ? x.CurrentIssue.Note : "",
-            //    Title = x.Book.Title
-            //})
-            //    .ApplySearch(searchOptions)
-            //    .ApplyPagination(pagingOptions)
-            //    .ToListAsync();
+            var result = await query.Select(x => new NewBookListViewModel
+            {
+                Author = x.Book.AuthorId != null ? x.Book.Author.Name : "",
+                Publisher = x.Book.PublisherId != null ? x.Book.Publisher.Name : "",
+                Comment = x.CurrentIssueId != null ? x.CurrentIssue.Note : "",
+                Title = x.Book.Title,
+                Price = x.PurchagePrice
+            })
+                .ApplySearch(searchOptions)
+                .ApplyPagination(pagingOptions)
+                .ToListAsync();
 
-            //var total = await query.Select(x => x.Id).CountAsync();
-            //return new PagedCollection<NewBookListViewModel>(result, total, pagingOptions);
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<NewBookListViewModel>(result, total, pagingOptions);
         }
 
         public async Task<PagedCollection<LostBookListViewModel>> ListLostBookAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = null)
