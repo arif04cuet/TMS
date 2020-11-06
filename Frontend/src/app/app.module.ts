@@ -16,14 +16,14 @@ import { RegistrationHttpService } from 'src/services/registration-http-service'
 import { CommonValidator } from 'src/shared/common.validator';
 import { HotelHttpService } from 'src/services/hotel-http-service';
 import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
+import bn from '@angular/common/locales/bn';
 import { NZ_I18N, en_US } from 'ng-zorro-antd';
 import { environment } from 'src/environments/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { EnglishToBanglaInterceptor } from 'src/interceptors/english-to-bangla.interceptor';
 
-registerLocaleData(en);
+registerLocaleData(bn);
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, environment.langFilePath);

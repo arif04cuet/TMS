@@ -4,28 +4,28 @@
 
     <nz-form-item>
       <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="name">{{'Name'|translate}}</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
         <input nz-input formControlName="fullName" id="name" />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="mobile">{{'Mobile'|translate}}</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzErrorTip]="errorTemplate">
         <input nz-input formControlName="mobile" id="mobile" />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="email">{{'Email'|translate}}</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzErrorTip]="errorTemplate">
         <input nz-input formControlName="email" id="email" />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="password" nzRequired>{{'Password'|translate}}</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
         <input nz-input type="password" id="password" formControlName="password" />
       </nz-form-control>
     </nz-form-item>
@@ -34,11 +34,28 @@
       <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="library" nzRequired>{{'Library'|translate}}</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-select id="library" formControlName="library" nzPlaceHolder="{{'Select a library'|translate}}">
-          <nz-option nzValue="0" nzLabel="{{'All'|translate}}"></nz-option>
           <nz-option *ngFor="let library of libraries" [nzValue]="library.id" [nzLabel]="library.name"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="photo">{{'Photo'|translate}}</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzErrorTip]="errorTemplate">
+        <div (click)="photo.click()" class="photo-uploader cursor-pointer">
+          <div class="container">
+            <input id="photo" (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
+            <div class="placeholder" *ngIf="!photoLoading && !photoUrl">
+              <i nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
+              <span></span>
+            </div>
+            <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i>
+            <img *ngIf="!photoLoading && photoUrl" [src]="photoUrl" class="photo" />
+          </div>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+
 
     <nz-form-item nz-row class="register-area">
       <nz-form-control [nzSpan]="14" [nzOffset]="4">
@@ -46,4 +63,10 @@
       </nz-form-control>
     </nz-form-item>
   </form>
+
+  <ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+  </ng-template>
+
+
 </div>

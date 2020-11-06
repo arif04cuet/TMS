@@ -94,7 +94,7 @@ export function toBengali(obj, t: TranslateService) {
 }
 export function ignoreKeys() {
     return [
-        "id", "offset", "limit", 'size', "eBook", "categoryId"
+        "id", "offset", "limit", "eBook", "categoryId"
     ];
 
 }

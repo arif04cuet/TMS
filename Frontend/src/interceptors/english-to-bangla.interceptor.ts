@@ -26,8 +26,7 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
 
     allowed(url: string): boolean {
         const list = [
-            "api/libraries/counts",
-            "api/hostels/rooms-and-beds"
+            "api/libraries/counts"
         ];
         for (let i = 0; i < list.length; i++) {
             if (url.lastIndexOf(list[i]) != -1) {

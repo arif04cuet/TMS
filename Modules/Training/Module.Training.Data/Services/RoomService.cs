@@ -123,6 +123,17 @@ namespace Module.Training.Data
             }
 
 
+            // delete all bed of this room
+
+            var requestBeds = request.Beds.Where(x => x.Id.HasValue).Select(x => (long)x.Id);
+            var bedsToBeDelete = await _bedRepository
+                .Where(x => x.RoomId == entity.Id && !x.IsDeleted)
+                .ToListAsync();
+            _bedRepository.RemoveRange(bedsToBeDelete);
+
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            //recreate beds
             foreach (var bed in request.Beds)
             {
                 if (bed.Id.HasValue)
@@ -152,13 +163,14 @@ namespace Module.Training.Data
             }
 
             // delete floors
-            var requestBeds = request.Beds.Where(x => x.Id.HasValue).Select(x => (long)x.Id);
-            var bedsToBeDelete = await _bedRepository
-                .Where(x => x.BuildingId == request.Building && x.HostelId == request.Hostel && x.FloorId == request.Floor && !requestBeds.Contains(x.Id) && !x.IsDeleted)
-                .ToListAsync();
-            _bedRepository.RemoveRange(bedsToBeDelete);
+            // var requestBeds = request.Beds.Where(x => x.Id.HasValue).Select(x => (long)x.Id);
+            // var bedsToBeDelete = await _bedRepository
+            //     .Where(x => x.BuildingId == request.Building && x.HostelId == request.Hostel && x.FloorId == request.Floor && !requestBeds.Contains(x.Id) && !x.IsDeleted)
+            //     .ToListAsync();
+            // _bedRepository.RemoveRange(bedsToBeDelete);
 
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             if (result > 0)
             {
