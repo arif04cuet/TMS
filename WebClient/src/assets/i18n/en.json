@@ -581,5 +581,6 @@
   "book.type": "Book type",
   "issue.amount": "Issue amount",
   "lost.books": "Lost books",
-  "new.books": "New books"
+  "new.books": "New books",
+  "loading.user.data": "Loading user data"
 }

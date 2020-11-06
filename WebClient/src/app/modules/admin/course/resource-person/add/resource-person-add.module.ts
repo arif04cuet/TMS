@@ -13,6 +13,7 @@ import { DesignationHttpService } from 'src/services/http/user/designation-http.
 import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.service';
 import { HonorariumHeadHttpService } from 'src/services/http/budget-and-schedule/honorarium-head-http.service';
 import { MediaHttpService } from 'src/services/http/media-http.service';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MediaHttpService } from 'src/services/http/media-http.service';
     DesignationHttpService,
     ExpertiseHttpService,
     HonorariumHeadHttpService,
-    MediaHttpService
+    MediaHttpService,
+    UserHttpService
   ]
 })
 export class ResourcePersonAddModule { }

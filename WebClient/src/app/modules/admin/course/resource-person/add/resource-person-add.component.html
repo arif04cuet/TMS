@@ -21,6 +21,13 @@
 
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
+                        <app-select-control (onChange)="userChanged($event)" #userSelect label="user" [formControl]="form.controls.user">
+                        </app-select-control>
+                    </div>
+                </div>
+
+                <div nz-row [nzGutter]="24">
+                    <div nz-col [nzSpan]="8">
                         <nz-form-item class="field-container">
                             <div>
                                 <label class="required">{{'name'|translate}}</label>
@@ -130,8 +137,6 @@
                         </nz-form-item>
                     </div>
                     <div nz-col [nzSpan]="8">
-
-
                         <div (click)="photo.click()" class="photo-uploader cursor-pointer">
                             <div class="container">
                                 <input (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
@@ -242,6 +247,7 @@
                         </nz-form-item>
                     </div>
                 </div>
+
             </form>
         </div>
 
