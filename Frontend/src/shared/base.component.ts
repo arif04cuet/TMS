@@ -3,7 +3,7 @@ import { Subscription, Observable } from 'rxjs';
 import { AppInjector } from 'src/app/app.component';
 import { Router, NavigationExtras, UrlTree, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-// import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { invoke, getLang, forEachObj } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
@@ -15,7 +15,7 @@ export class BaseComponent {
     _messageService: NzMessageService;
     _router: Router;
     _httpService: HttpService;
-    // _translate: TranslateService;
+    _translate: TranslateService;
     _modalService: NzModalService
     breadcrumbs = [];
 
@@ -26,7 +26,7 @@ export class BaseComponent {
         this._messageService = AppInjector.get(NzMessageService);
         this._router = AppInjector.get(Router);
         this._httpService = AppInjector.get(HttpService);
-        // this._translate = AppInjector.get(TranslateService);
+        this._translate = AppInjector.get(TranslateService);
         this._modalService = AppInjector.get(NzModalService);
 
     }

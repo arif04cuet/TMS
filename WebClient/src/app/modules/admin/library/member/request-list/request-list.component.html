@@ -26,10 +26,13 @@
                 (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)"
                 (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable nzShowSizeChanger
                 [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate"
+                            (nzCheckedChange)="onAllChecked($event)"></th>
+                        <th>{{'photo'|translate}}</th>
                         <th>
                             {{'name'|translate}}
                             <input [(ngModel)]="name" nz-input />
@@ -64,7 +67,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.isApproved" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.isApproved"
+                            (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                        <td><img *ngIf="data.photo" width="100" height="100" [src]="data.photoUrl"
+                                alt="{{ data.fullName }}"></td>
                         <td>{{ data.fullName }}</td>
                         <td>{{ data.mobile }}</td>
                         <td>{{ data.email }}</td>

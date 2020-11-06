@@ -27,7 +27,7 @@ namespace Module.Library.Data
                 },
                 IsApproved = x.IsApproved,
                 RequestDate = x.RequestDate,
-                Photo = mediaService.GetPhotoUrl(x.User.Profile.Media)
+                Photo = x.IsApproved ? mediaService.GetPhotoUrl(x.User.Profile.Media) : mediaService.GetPhotoUrl(x.Media)
             };
         }
 

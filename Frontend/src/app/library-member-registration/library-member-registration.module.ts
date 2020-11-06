@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { LibraryMemberRegistrationComponent } from './library-member-registration.component';
 import { LibraryHttpService } from 'src/services/library-http-service';
-import { NzFormModule, NzInputModule, NzSelectModule, NzButtonModule } from 'ng-zorro-antd';
+import { NzFormModule, NzInputModule, NzSelectModule, NzButtonModule, NzIconModule } from 'ng-zorro-antd';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SharedModule } from 'src/shared/share.module';
+import { MediaHttpService } from 'src/services/media-http.service';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,12 @@ import { SharedModule } from 'src/shared/share.module';
     ReactiveFormsModule,
     NzInputModule,
     NzSelectModule,
-    SharedModule
+    SharedModule,
+    NzIconModule
   ],
   providers: [
-    LibraryHttpService
+    LibraryHttpService,
+    MediaHttpService
   ]
 })
 export class LibraryMemberRegistrationModule { }

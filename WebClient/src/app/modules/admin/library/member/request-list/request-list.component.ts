@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Searchable } from 'src/decorators/searchable.decorator';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 import { LibraryHttpService } from 'src/services/http/library-http.service';
+import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-request-list',
@@ -31,7 +33,22 @@ export class MemberRequestListComponent extends TableComponent {
 
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
-    this.gets();
+    this.gets2();
+  }
+
+  gets2(pagination = null, search = null) {
+    this.load((pagination, search) => {
+      var list = this.libraryMemberHttpService.listRequests(pagination, search).pipe(
+        map((x: any) => {
+          x.data.items.forEach(o => {
+            o.photoUrl = `${environment.serverUri}/${o.photo}`;
+          });
+          return x;
+        })
+      );
+      console.log(list);
+      return list;
+    });
   }
 
   gets(pagination = null, search = null) {

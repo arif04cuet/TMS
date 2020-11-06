@@ -103,13 +103,24 @@ namespace Module.Training.Data
 
         public async Task<PagedCollection<HotelAndRoomViewModel>> ListRoomsAndBedsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var result = await _roomRepository.ListAsync(x => !x.IsBooked,
+            // var result = await _roomRepository.ListAsync(x => !x.IsBooked,
+            //     x => new HotelAndRoomViewModel
+            //     {
+            //         Name = x.Name,
+            //         Type = x.Type.Name,
+            //         BedCount = x.Beds.Where(y => !y.IsBooked && !y.IsDeleted).Count()
+            //     }, pagingOptions, searchOptions, cancellationToken);
+
+
+            var result = await _bedRepository.ListAsync(x => !x.IsBooked,
                 x => new HotelAndRoomViewModel
                 {
-                    Name = x.Name,
-                    Type = x.Type.Name,
-                    BedCount = x.Beds.Where(y => !y.IsBooked && !y.IsDeleted).Count()
+                    Name = x.Room.Name,
+                    Type = x.Room.Type.Name,
+                    BedCount = 1
                 }, pagingOptions, searchOptions, cancellationToken);
+
+
             return result;
         }
 

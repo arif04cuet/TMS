@@ -8,7 +8,7 @@ export class HotelHttpService {
 
     }
 
-    list(pagination, search) {
+    list(pagination = null, search = null) {
         let url = `hostels/rooms-and-beds?`;
         if (pagination) {
             url += `&${pagination}`;

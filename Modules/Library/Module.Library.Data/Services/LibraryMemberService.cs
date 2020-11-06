@@ -189,6 +189,19 @@ namespace Module.Library.Data
                 await _userRepository.AddAsync(user, ct);
                 var result = await _unitOfWork.SaveChangesAsync(ct);
 
+                // create profile with photo
+
+                if (user != null && memberRequest.MediaId.HasValue)
+                {
+                    var profile = new UserProfile
+                    {
+                        UserId = user.Id,
+                        MediaId = memberRequest.MediaId
+                    };
+                    await _userProfileRepository.AddAsync(profile);
+                }
+
+
                 var member = new LibraryMember
                 {
                     UserId = user.Id,
@@ -226,6 +239,13 @@ namespace Module.Library.Data
                 Email = request.Email,
                 Password = request.Password.HashPassword()
             };
+
+            if (request.Media.HasValue)
+            {
+                memberRequest.MediaId = request.Media;
+                await _mediaService.UseAsync(request.Media.Value);
+            }
+
             await _libraryMemberRequestRepository.AddAsync(memberRequest, ct);
             var result = await _unitOfWork.SaveChangesAsync(ct);
             return memberRequest.Id;

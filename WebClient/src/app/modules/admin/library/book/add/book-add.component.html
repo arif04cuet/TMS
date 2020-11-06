@@ -200,12 +200,12 @@
                                                 <div nz-row [nzGutter]="24">
                                                     <nz-form-item class="field-container">
                                                         <div>
-                                                            <label class="required">{{'Upload Pdf'|translate}}</label>
+                                                            <label class="">{{'Upload Pdf'|translate}}</label>
                                                         </div>
 
                                                         <input (change)="fileChanged($event, item)" type="file"
                                                             accept=".pdf" placeholder="{{'select.file'|translate}}" />
-                                                        <a target="__blank" *ngIf="data.editions[i].eBook?.fileName"
+                                                        <a target="__blank" *ngIf="data?.editions[i].eBook?.fileName"
                                                             href="{{environment.serverUri +'/'+data.editions[i].eBook.fileName}}">Download</a>
                                                     </nz-form-item>
                                                 </div>
@@ -214,7 +214,7 @@
                                                 <div nz-row [nzGutter]="24">
                                                     <nz-form-item class="field-container">
                                                         <div>
-                                                            <label class="required">{{'azw_KFX_mobi'|translate}}</label>
+                                                            <label class="">{{'azw_KFX_mobi'|translate}}</label>
                                                         </div>
 
                                                         <input (change)="fileChanged2($event, item)" type="file"

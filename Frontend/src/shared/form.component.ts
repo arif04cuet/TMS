@@ -147,8 +147,10 @@ export class FormComponent extends BaseComponent {
         if (e.error && e.error.message == "form_error") {
             forEachObj(this.form.controls, (k, v) => {
                 const data = e.error.data.filter(x => x.field.toLowerCase() == k.toLowerCase());
+
                 if (data && data.length > 0) {
                     const err = { message: data[data.length - 1].message }
+                    console.log(err);
                     v.setErrors(err);
                 }
             });

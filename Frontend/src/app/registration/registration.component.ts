@@ -43,7 +43,8 @@ export class RegistrationComponent extends FormComponent {
       {
         request: this.registrationHttpService.registration(body),
         succeed: res => {
-          this.success('Success');
+          const message = this._translate.instant('Member Registration Request Successfull');
+          this.success(message);
           this.form.reset();
           this.photoUrl = '';
         },

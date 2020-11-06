@@ -3,6 +3,7 @@ import { Validators } from '@angular/forms';
 import { FormComponent } from 'src/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { LibraryHttpService } from 'src/services/library-http-service';
+import { MediaHttpService } from 'src/services/media-http.service';
 
 @Component({
   selector: 'app-library-member-registration',
@@ -12,20 +13,25 @@ import { LibraryHttpService } from 'src/services/library-http-service';
 export class LibraryMemberRegistrationComponent extends FormComponent {
 
   libraries = []
+  photoUrl;
+  photoLoading = false;
+
 
   constructor(
-    private libraryHttpService: LibraryHttpService) {
+    private libraryHttpService: LibraryHttpService,
+    private mediaHttpService: MediaHttpService) {
     super();
   }
 
   ngOnInit(): void {
     this.createForm({
       fullName: [null, [Validators.required]],
-      email: [null, [Validators.email, Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
       mobile: [null, [Validators.required]],
       library: [null, [Validators.required]],
-      agree: []
+      agree: [],
+      media: [],
     });
     this.markModeAsAdd();
     this.getData();
@@ -37,7 +43,10 @@ export class LibraryMemberRegistrationComponent extends FormComponent {
       {
         request: this.libraryHttpService.registration(body),
         succeed: res => {
-          this.success('Success');
+          const message = this._translate.instant('Library Member Registration Request Successfull');
+          this.success(message);
+          this.form.reset();
+          this.photoUrl = '';
         },
         failed: err => {
           this.log(err);
@@ -50,9 +59,46 @@ export class LibraryMemberRegistrationComponent extends FormComponent {
   getData() {
     this.subscribe(this.libraryHttpService.list(null, null),
       (res: any) => {
-        this.libraries = res.data.items
+        var first_item;
+        const items = res.data.items;
+        for (let index = 0; index < items.length; ++index) {
+          var library = items[index];
+          if (library.name.includes('all') || library.name.includes('সকল')) {
+            first_item = library;
+          }
+          else
+            this.libraries.push(library);
+        }
+
+        this.libraries.unshift(first_item);
+
       }
     );
+  }
+
+  handlePhotoChange(e) {
+    const file = e.target.files[0];
+    if (file) {
+      this.photoLoading = true;
+      var fr = new FileReader();
+      fr.onload = () => {
+        this.photoUrl = fr.result;
+      }
+      fr.readAsDataURL(file);
+      this.mediaHttpService.upload(file, true,
+        progress => {
+          this.log('progress', progress);
+        },
+        success => {
+          this.log('success', success);
+          this.form.controls.media.setValue(success.data);
+          this.photoLoading = false;
+        },
+        error => {
+          this.photoLoading = false;
+        }
+      );
+    }
   }
 
 }

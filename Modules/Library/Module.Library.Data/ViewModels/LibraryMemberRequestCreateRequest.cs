@@ -9,5 +9,6 @@ namespace Module.Library.Data
         public string Email { get; set; }
         public string Password { get; set; }
         public long? Library { get; set; }
+        public long? Media { get; set; }
     }
 }
