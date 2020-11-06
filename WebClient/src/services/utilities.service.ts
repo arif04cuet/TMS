@@ -42,7 +42,7 @@ export function getLang() {
     return lang || localStorage.getItem('otms_lang');
 }
 
-export function createAnchorAndFireForDownload(blob: Blob, fileName: string) {
+export function createAnchorAndFireForDownload(blob: Blob, fileName?: string) {
     const _event = document.createEvent('MouseEvent');
     _event.initEvent('click', false, false);
     const href = URL.createObjectURL(blob);

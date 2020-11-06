@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { LibraryReportHttpService } from 'src/services/http/library-report-http.service';
+import { createAnchorAndFireForDownload, progress } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-new-list',
@@ -37,6 +38,15 @@ export class NewListComponent extends TableComponent {
     super.load((p, s) => {
       return this.libraryReportHttpService.newBooks(p, s);
     });
+  }
+
+  print() {
+    this.subscribe(this.libraryReportHttpService.printNewBooks(),
+      res => progress(res, null, (data: Blob) => {
+        createAnchorAndFireForDownload(data, "export-new-books.csv");
+        this.success('success');
+      })
+    );
   }
 
 }

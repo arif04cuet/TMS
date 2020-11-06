@@ -6,6 +6,7 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 import { LibraryReportHttpService } from 'src/services/http/library-report-http.service';
+import { createAnchorAndFireForDownload, progress } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-issue-list',
@@ -64,6 +65,17 @@ export class IssueListComponent extends TableComponent {
     super.load((p, s) => {
       return this.libraryReportHttpService.issues(p, s);
     });
+  }
+
+  print() {
+    this.subscribe(this.libraryReportHttpService.printIssues(),
+      res => {
+        progress(res, null, (data: Blob) => {
+          createAnchorAndFireForDownload(data, "export-issues.csv");
+          this.success('success');
+        })
+      }
+    );
   }
 
 }
