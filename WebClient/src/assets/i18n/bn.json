@@ -658,5 +658,7 @@
   "my.book": "আমার বইসমূহ",
   "all.book": "সকল বই",
   "all.ebook": "সকল ই-বই",
-  "available.books": "আভাইলেবল বই"
+  "available.books": "আভাইলেবল বই",
+  "create_from_user": "সিস্টেম ইউজার থেকে তৈরি করুন",
+  "loading.user.data": "ব্যাবহারকারি লোড হচ্ছে"
 }
