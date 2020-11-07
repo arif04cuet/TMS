@@ -136,30 +136,30 @@ namespace Module.Training.Data
             //recreate beds
             foreach (var bed in request.Beds)
             {
-                if (bed.Id.HasValue)
+                // if (bed.Id.HasValue)
+                // {
+                //     // update
+                //     var dbBed = await _bedRepository
+                //         .AsQueryable()
+                //         .FirstOrDefaultAsync(x => x.Id == bed.Id && !x.IsDeleted);
+                //     if (dbBed != null)
+                //     {
+                //         dbBed.Name = bed.Name;
+                //     }
+                // }
+                // else
+                // {
+                // new
+                var newBed = new Bed
                 {
-                    // update
-                    var dbBed = await _bedRepository
-                        .AsQueryable()
-                        .FirstOrDefaultAsync(x => x.Id == bed.Id && !x.IsDeleted);
-                    if (dbBed != null)
-                    {
-                        dbBed.Name = bed.Name;
-                    }
-                }
-                else
-                {
-                    // new
-                    var newBed = new Bed
-                    {
-                        BuildingId = request.Building,
-                        FloorId = request.Floor,
-                        HostelId = request.Hostel,
-                        RoomId = entity.Id,
-                        Name = bed.Name
-                    };
-                    await _bedRepository.AddAsync(newBed);
-                }
+                    BuildingId = request.Building,
+                    FloorId = request.Floor,
+                    HostelId = request.Hostel,
+                    RoomId = entity.Id,
+                    Name = bed.Name
+                };
+                await _bedRepository.AddAsync(newBed);
+                // }
             }
 
             // delete floors
