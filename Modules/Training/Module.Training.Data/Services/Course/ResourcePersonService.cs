@@ -79,6 +79,21 @@ namespace Module.Training.Data
             await _resourcePersonRepository.AddAsync(person);
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            if (result > 0 && userId.HasValue)
+            {
+                var roleExist = await _unitOfWork.GetRepository<UserRole>()
+                    .Where(x => x.UserId == userId.Value
+                    && x.RoleId == RoleConstants.ResourcePerson
+                    && !x.IsDeleted)
+                    .CountAsync() > 0;
+                if(!roleExist)
+                {
+                    var role = new UserRole { UserId = userId.Value, RoleId = RoleConstants.ResourcePerson };
+                    await _unitOfWork.GetRepository<UserRole>().AddAsync(role);
+                    result += await _unitOfWork.SaveChangesAsync();
+                }
+            }
+
             var expertises = request.Expertises.Select(x => new ResourcePersonExpertise
             {
                 ExpertiseId = x,
