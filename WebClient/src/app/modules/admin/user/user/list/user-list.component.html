@@ -83,7 +83,7 @@
                         <td class="fit-cell">{{ data.designation }}</td>
                         <td>{{ data.mobile }}</td>
                         <td>{{ data.email }}</td>
-                        <td>{{ data.status.name }}</td>
+                        <td>{{ data.status?.name }}</td>
                         <td class="action-column fit-cell">
                             <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>

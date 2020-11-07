@@ -10,7 +10,7 @@ namespace Module.Training.Data
     public class ResourcePersonViewModel : IViewModel
     {
         public long Id { get; set; }
-        public long UserId { get; set; }
+        public IdNameViewModel User { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
         public IdNameViewModel Designation { get; set; }
@@ -51,7 +51,7 @@ namespace Module.Training.Data
             return x => new ResourcePersonViewModel
             {
                 Id = x.Id,
-                UserId = x.UserId.Value,
+                User = x.UserId != null ? new IdNameViewModel { Id = x.User.Id, Name = x.User.FullName } : null,
                 Designation = x.UserId != null && x.User.DesignationId != null ? new IdNameViewModel { Id = x.User.Designation.Id, Name = x.User.Designation.Name } : null,
                 Email = x.User.Email,
                 Mobile = x.User.Mobile,

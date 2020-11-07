@@ -38,6 +38,8 @@ namespace Module.Training.Data
         public string InstagramUrl { get; set; }
         public bool IsInstagramUrlPublic { get; set; }
 
+        public long? User { get; set; }
+
         public ResourcePerson MapResourcePerson(ResourcePerson person = null)
         {
             var entity = person ?? new ResourcePerson();
@@ -58,6 +60,7 @@ namespace Module.Training.Data
             entity.IsLinkedinUrlPublic = IsLinkedinUrlPublic;
             entity.InstagramUrl = InstagramUrl;
             entity.IsInstagramUrlPublic = IsInstagramUrlPublic;
+            entity.UserId = User;
             return entity;
         }
 

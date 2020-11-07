@@ -32,15 +32,7 @@ namespace Module.Training.Controllers
         public async Task<ActionResult> ExportList([FromQuery]SearchOptions searchOptions)
         {
             var result = await _batchScheduleAllocationService.ExportAllocationAsync(searchOptions);
-            if (result != null && result.Length > 0)
-            {
-                string contetntType = @"text/csv";
-                HttpContext.Response.ContentType = contetntType;
-                var fileResult = new FileContentResult(result, contetntType);
-                fileResult.FileDownloadName = $"batch-schedule-allocation.csv";
-                return fileResult;
-            }
-            return NoContent();
+            return result.ToCsvResult(HttpContext, $"batch-schedule-allocation.csv");
         }
 
         [HttpGet("{id}")]

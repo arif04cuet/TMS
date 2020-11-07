@@ -10,6 +10,8 @@ import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.se
 import { HonorariumHeadHttpService } from 'src/services/http/budget-and-schedule/honorarium-head-http.service';
 import { MediaHttpService } from 'src/services/http/media-http.service';
 import { environment } from 'src/environments/environment';
+import { of } from 'rxjs';
+import { UserHttpService } from 'src/services/http/user/user-http.service';
 
 @Component({
   selector: 'app-resource-person-add',
@@ -27,11 +29,10 @@ export class ResourcePersonAddComponent extends FormComponent {
   cvFileName;
   cvLoading = false;
 
-
-
   @ViewChild('designationSelect') designationSelect: SelectControlComponent;
   @ViewChild('expertiseSelect') expertiseSelect: SelectControlComponent;
   @ViewChild('honorariumHeadSelect') honorariumHeadSelect: SelectControlComponent;
+  @ViewChild('userSelect') userSelect: SelectControlComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -40,7 +41,8 @@ export class ResourcePersonAddComponent extends FormComponent {
     private expertiseHttpService: ExpertiseHttpService,
     private honorariumHeadHttpService: HonorariumHeadHttpService,
     private v: CommonValidator,
-    private mediaHttpService: MediaHttpService
+    private mediaHttpService: MediaHttpService,
+    private userService: UserHttpService
   ) {
     super();
   }
@@ -53,6 +55,7 @@ export class ResourcePersonAddComponent extends FormComponent {
       designation: [null, [], this.v.required.bind(this)],
       email: [null, [], this.v.required.bind(this)],
       mobile: [null, [], this.v.required.bind(this)],
+      user: [],
       nid: [],
       tin: [],
       altEmail: [],
@@ -87,6 +90,13 @@ export class ResourcePersonAddComponent extends FormComponent {
     this.honorariumHeadSelect.register((pagination, search) => {
       return this.honorariumHeadHttpService.latestYearHonorariumHeads(pagination, search);
     }).fetch();
+
+    this.userSelect.register((pagination, search) => {
+      if (this.isAddMode()) {
+        return this.resourcePersonHttpService.assignableUsersList(pagination, search);
+      }
+      return of({ data: { items: [] } });
+    }).fetch();
   }
 
   submit(): void {
@@ -95,10 +105,10 @@ export class ResourcePersonAddComponent extends FormComponent {
     if (!body.expertises) {
       body.expertises = [];
     }
-    if(!body.cv) {
+    if (!body.cv) {
       delete body.cv;
     }
-    if(!body.photo) {
+    if (!body.photo) {
       delete body.photo;
     }
 
@@ -170,7 +180,6 @@ export class ResourcePersonAddComponent extends FormComponent {
     }
   }
 
-
   get(id) {
     this.loading = true;
     if (id != null) {
@@ -179,17 +188,20 @@ export class ResourcePersonAddComponent extends FormComponent {
           this.setValues(this.form.controls, res.data);
           this.loading = false;
           this.data = res.data;
-
           if (res.data.photo) {
             this.photoUrl = `${environment.serverUri}/${res.data.photo}`;
           }
-
           if (res.data.cv) {
             this.cvUrl = `${environment.serverUri}/${res.data.cv}`;
             this.cvFileName = res.data.cvFileName;
           }
-
-
+          if (this.userSelect) {
+            this.userSelect.register((pagination, search) => {
+              if (this.isEditMode()) {
+                return of({ data: { items: [this.data.user] } });
+              }
+            }).fetch();
+          }
         }
       );
     }
@@ -204,6 +216,26 @@ export class ResourcePersonAddComponent extends FormComponent {
 
   delete(e) {
 
+  }
+
+  userChanged(e) {
+    this.log('user changed', e);
+    const msg = this._translate.instant('loading.user.data');
+    const loading = this._messageService.loading(msg);
+    this.subscribe(this.userService.get(e),
+      (res: any) => {
+        if(res.data) {
+          this.setValue('name', res.data.fullName);
+          this.setValue('designation', res.data.designation.id);
+          this.setValue('email', res.data.email);
+          this.setValue('mobile', res.data.mobile);
+        }
+        this._messageService.remove(loading.messageId);
+      },
+      err => {
+        this._messageService.remove(loading.messageId);
+      }
+    );
   }
 
 }

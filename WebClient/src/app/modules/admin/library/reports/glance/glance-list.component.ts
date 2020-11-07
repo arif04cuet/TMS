@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { LibraryReportHttpService } from 'src/services/http/library-report-http.service';
+import { createAnchorAndFireForDownload, progress } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-glance-list',
@@ -37,6 +38,15 @@ export class GlanceListComponent extends TableComponent {
     super.load((p, s) => {
       return this.libraryReportHttpService.atAGlance(p, s);
     });
+  }
+
+  print() {
+    this.subscribe(this.libraryReportHttpService.printAtAGlance(),
+      res => progress(res, null, (data: Blob) => {
+        createAnchorAndFireForDownload(data, "export-at-a-glance.csv");
+        this.success('success');
+      })
+    );
   }
 
 }

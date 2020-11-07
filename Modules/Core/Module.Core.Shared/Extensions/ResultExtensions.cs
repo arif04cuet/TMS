@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Msi.UtilityKit.Pagination;
 
 namespace Module.Core.Shared
@@ -28,6 +29,24 @@ namespace Module.Core.Shared
         public static ActionResult ToCreatedResult<T>(this T value, string location = "", int status = 201, string message = default)
         {
             return new CreatedResult(location, value.ToResult(status, message));
+        }
+
+        public static ActionResult ToFileResult(this byte[] result, HttpContext httpContext, string contentType, string filename)
+        {
+            if (result != null && result.Length > 0)
+            {
+                string contetntType = contentType;
+                httpContext.Response.ContentType = contetntType;
+                var fileResult = new FileContentResult(result, contetntType);
+                fileResult.FileDownloadName = filename;
+                return fileResult;
+            }
+            return new NoContentResult();
+        }
+
+        public static ActionResult ToCsvResult(this byte[] result, HttpContext httpContext, string filename = "")
+        {
+            return result.ToFileResult(httpContext, @"text/csv", filename);
         }
     }
 }

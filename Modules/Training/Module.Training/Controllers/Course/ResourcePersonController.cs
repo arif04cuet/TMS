@@ -57,6 +57,13 @@ namespace Module.Training.Controllers
             return NoContent();
         }
 
+        [HttpGet("assignable-users")]
+        public async Task<ActionResult> ListAssignableUsers([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        {
+            var result = await _resourcePersonService.ListAssignableUsersAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
 
     }
 }

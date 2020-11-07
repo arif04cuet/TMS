@@ -34,14 +34,23 @@ namespace Module.Training.Data
 
         public async Task<long> CreateAsync(ResourcePersonCreateRequest request, CancellationToken cancellationToken = default)
         {
-            ValidateResourcePerson(request.Email, request.Mobile);
-
-            var user = request.MapUser();
-            await _userRepository.AddAsync(user);
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            long? userId = null;
+            int result = 0;
+            if (!request.User.HasValue)
+            {
+                ValidateResourcePerson(request.Email, request.Mobile);
+                var user = request.MapUser();
+                await _userRepository.AddAsync(user);
+                result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+                userId = user.Id;
+            }
+            else
+            {
+                userId = request.User;
+            }
 
             var person = request.MapResourcePerson();
-            person.UserId = user.Id;
+            person.UserId = userId;
 
             //upload cv
             if (request.Cv.HasValue)
@@ -120,8 +129,6 @@ namespace Module.Training.Data
                 }
             }
 
-
-
             await _resourcePersonExpertiseRepository.UpdateAsync(
                 request.Expertises,
                 x => x.ResourcePersonId == request.Id,
@@ -181,5 +188,22 @@ namespace Module.Training.Data
                 throw new ValidationException("Email not available");
         }
 
+        public async Task<PagedCollection<IdNameViewModel>> ListAssignableUsersAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = null, CancellationToken cancellationToken = default)
+        {
+            var userIds = await _resourcePersonRepository
+                .Where(x => x.UserId != null && !x.IsDeleted)
+                .Select(x => x.UserId.Value)
+                .ToListAsync();
+
+            var result = await _userRepository.ListAsync(
+                x => !userIds.Contains(x.Id),
+                x => new IdNameViewModel
+                {
+                    Id = x.Id,
+                    Name = x.FullName
+                }, pagingOptions, searchOptions, cancellationToken);
+
+            return result;
+        }
     }
 }
