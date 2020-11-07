@@ -55,5 +55,9 @@
     "Library Member Registration Request Successfull": "লাইব্রেরি মেম্বার নিবন্ধন অনুরোধ সফল হয়েছে। অনুমোদনের জন্য অপেক্ষা করুন",
     "Member Registration Request Successfull": "মেম্বার নিবন্ধন অনুরোধ সফল হয়েছে। অনুমোদনের জন্য অপেক্ষা করুন",
     "no_bed_found": "পর্যাপ্ত বিছানা পাওয়া যায়নি",
-    "today": "আজকে"
+    "today": "আজকে",
+    "Search Books": "বই খুঁজুন",
+    "Author": "লেখক",
+    "Publisher": "প্রকাশক",
+    "no_result_found": "কিছু খুঁজে পাওয়া যায়নি"
 }

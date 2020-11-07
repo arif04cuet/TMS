@@ -4,6 +4,8 @@ import { NzGridModule, NzIconModule, NzTableModule, NzButtonModule } from 'ng-zo
 import { CommonModule } from '@angular/common';
 import { ContentListModule } from 'src/app/content-list/content-list.module';
 import { LibraryHttpService } from 'src/services/library-http-service';
+import { SharedModule } from 'src/shared/share.module';
+import { BookSearchModule } from 'src/app/book-search/book-search.module';
 
 
 
@@ -17,7 +19,9 @@ import { LibraryHttpService } from 'src/services/library-http-service';
     NzGridModule,
     NzIconModule,
     NzTableModule,
-    NzButtonModule
+    NzButtonModule,
+    SharedModule,
+    BookSearchModule
   ],
   providers: [
     LibraryHttpService

@@ -1,0 +1,54 @@
+<ng-template #extraTemplate>
+
+  <div class="search-bar">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input [(ngModel)]="q" type="text" nz-input placeholder="{{'Search Books'|translate}}" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button (click)="search()" nz-button nzType="primary" nzSearch>{{'Search'|translate}}</button>
+    </ng-template>
+
+  </div>
+</ng-template>
+
+<nz-card style="width:100%;" nzTitle="" [nzExtra]="extraTemplate">
+
+  <div class="book-search-results" *ngIf="searchResult.length">
+
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
+          (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
+          nzShowSizeChanger [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex"
+          [(nzPageSize)]="pageSize" [nzData]="searchResult" [nzPageSizeOptions]="pageSizeOptions">
+          <thead>
+            <tr class="v-align-top advanced-table-filter">
+              <th>{{"Name"|translate}}</th>
+              <th>{{"Author"|translate}}</th>
+              <th>{{"Publisher"|translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td>{{ data.title }}</td>
+              <td>{{ data.author?.name }}</td>
+              <td>{{ data.publisher?.name }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+
+        <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }}
+          {{'Items'|translate}}
+        </ng-template>
+
+
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="noResult">
+    {{'no_result_found'|translate}}
+  </div>
+
+</nz-card>

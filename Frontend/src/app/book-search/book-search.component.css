@@ -1,0 +1,8 @@
+.search-bar{
+    width: 100%;
+}
+.ant-card-extra {
+    float: none;
+    margin-left: none;
+    padding: 16px 0;
+}
