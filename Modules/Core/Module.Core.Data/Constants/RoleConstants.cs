@@ -18,7 +18,7 @@
         public const long Principle = 8;
 
         public const long VicePrinciple = 9;
-        
+
         public const long Participant = 10;
 
 

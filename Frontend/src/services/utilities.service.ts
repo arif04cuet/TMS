@@ -61,7 +61,7 @@ export function convertBookFormatToBangla(obj) {
 
 export function convertPropertyToBengali(obj, key) {
     if (!["id", "offset", "limit", "size"].includes(key)) {
-        console.log(obj[key]);
+        //console.log(obj[key]);
         if (typeof (obj[key]) == "number" || /^\d+$/.test(obj[key])) {
             const v = convertValueToBengali(obj[key].toString());
             obj[key] = v;

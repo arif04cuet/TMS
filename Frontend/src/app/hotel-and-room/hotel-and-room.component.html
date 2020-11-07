@@ -45,7 +45,7 @@
         <tr *ngFor="let data of basicTable.data">
           <td>{{ data.name }}</td>
           <td>{{ data.type }}</td>
-          <td>{{ data.bedCount }}</td>
+          <td>{{ data.bedCount|bangla }}</td>
         </tr>
       </tbody>
     </nz-table>
@@ -56,5 +56,5 @@
   {{'no_bed_found'|translate}}
 </div> -->
 
-<ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }} Items
+<ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total|bangla }} Items
 </ng-template>

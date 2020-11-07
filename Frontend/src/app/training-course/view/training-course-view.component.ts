@@ -31,8 +31,8 @@ export class TrainingCourseViewComponent extends BaseComponent {
     this.subscribe(this.trainingCourseHttpService.get(id),
       (res: any) => {
         this.item = res.data;
-        this.item.course.imageUrl = (this.item.course.imageUrl) ? `${environment.serverUri}/${this.item.course.imageUrl}`:'https://via.placeholder.com/200';
-        console.log(this.item);
+        this.item.course.imageUrl = (this.item.course.imageUrl) ? `${environment.serverUri}/${this.item.course.imageUrl}` : 'https://via.placeholder.com/200';
+
       },
       err => { }
     );

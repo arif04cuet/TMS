@@ -21,6 +21,20 @@ const routes: Routes = [
       },
 
       {
+        path: 'library/my-book',
+        loadChildren: () => import('../library/my-book/list/my-book-list.module').then(x => x.MyBookListModule),
+        data: {
+          name: 'my_book_list',
+          breadcrumb: {
+            icon: 'team',
+            title: 'my.book',
+            module: "library.management"
+          }
+        }
+      },
+
+
+      {
         path: 'cms/faq',
         loadChildren: () => import('../cms/faq/list/faq-list.module').then(x => x.CmsFaqListModule),
         data: {

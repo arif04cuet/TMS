@@ -33,7 +33,10 @@ namespace Module.Library.Entities
 
         public DateTime? DateOfPurchage { get; set; }
 
+        [Searchable]
         public long? IssuedToId { get; set; }
+
+        [Searchable]
         public virtual User IssuedTo { get; set; }
 
         public long? CurrentIssueId { get; set; }

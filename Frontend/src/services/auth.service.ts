@@ -15,7 +15,7 @@ export class AuthService {
     ) { }
 
     public init(): void {
-        
+
     }
 
     public login(body) {
@@ -31,14 +31,14 @@ export class AuthService {
         this.securityService.removeAuthData();
     }
 
-    public isAuthenticated() : boolean {
+    public isAuthenticated(): boolean {
         const data = this.securityService.getAuthData();
         return data != null;
     }
 
     public getLoggedInUserInfo() {
         const data: any = this.securityService.getAuthData();
-        return data.userInfo;
+        return data?.userInfo;
     }
 
     public getLoggedInUserId() {

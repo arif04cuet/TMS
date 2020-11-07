@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/services/auth.service';
 
 
 @Component({
@@ -8,7 +9,11 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
-  constructor(private router: Router) {
+  loggedIn = false;
+
+  constructor(private router: Router, private authService: AuthService) {
+
+    this.loggedIn = this.authService.isAuthenticated() ? true : false;
 
   }
 
@@ -18,6 +23,11 @@ export class HeaderComponent {
 
   goToUrl(url: string): void {
     window.location.href = url;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigateByUrl('/');
   }
 
 }

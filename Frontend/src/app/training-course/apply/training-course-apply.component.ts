@@ -16,7 +16,8 @@ export class TrainingCourseApplyComponent extends FormComponent {
   looggedInUser = null;
   item = null;
   allocation = null;
-  alreadyApplied =false;
+  alreadyApplied = false;
+  firstAvailableBed;
 
   @ViewChild('bedSelect') bedSelect: SelectControlComponent;
 
@@ -30,7 +31,7 @@ export class TrainingCourseApplyComponent extends FormComponent {
 
   ngOnInit(): void {
 
-    
+
     const snapshot = this.activatedRoute.snapshot
     const id = snapshot.params.id;
 
@@ -40,7 +41,7 @@ export class TrainingCourseApplyComponent extends FormComponent {
     this.batchAllocation(id);
     this.looggedInUser = this.authService.getLoggedInUserInfo();
     this.get(id);
-  
+
     this.createForm({
       bed: []
     });
@@ -48,9 +49,9 @@ export class TrainingCourseApplyComponent extends FormComponent {
   }
 
   ngAfterViewInit() {
-    this.bedSelect.register((pagination, search) => {
-      return this.trainingCourseHttpService.beds(pagination, search);
-    }).fetch();
+    // this.bedSelect.register((pagination, search) => {
+    //   return this.trainingCourseHttpService.beds(pagination, search);
+    // }).fetch();
   }
 
   navigate(route: string) {
@@ -61,17 +62,32 @@ export class TrainingCourseApplyComponent extends FormComponent {
     this.subscribe(this.trainingCourseHttpService.get(id),
       (res: any) => {
         this.item = res.data;
-        
+
       },
       err => { }
     );
+
+    this.getBeds();
   }
 
+  getBeds() {
+
+    this.subscribe(this.trainingCourseHttpService.beds(),
+      (res: any) => {
+
+        this.firstAvailableBed = res.data.items[0];
+
+      },
+      err => { }
+    );
+
+
+  }
   batchAllocation(id) {
     this.subscribe(this.trainingCourseHttpService.batchAllocation(id),
       (res: any) => {
-       
-        this.allocation = res.data.items?res.data.items[0]:null;
+
+        this.allocation = res.data.items ? res.data.items[0] : null;
         this.alreadyApplied = this.allocation?.trainee?.id == this.looggedInUser?.id;
       },
       err => { }
@@ -87,13 +103,17 @@ export class TrainingCourseApplyComponent extends FormComponent {
     body['course'] = this.item.course.id;
     body['appliedDate'] = new Date().toJSON("yyyy/MM/dd HH:mm");
     body['status'] = 3;
+    body['bed'] = this.firstAvailableBed.id;
+
 
     this.submitForm(
       {
 
         request: this.trainingCourseHttpService.apply(this.item.id, body),
         succeed: res => {
-          this.success('You have successfully applied to selected course');
+          const msg = this._translate.instant('successfully_applied');
+
+          this.success(msg);
           this.goTo('/course');
         },
         failed: err => {

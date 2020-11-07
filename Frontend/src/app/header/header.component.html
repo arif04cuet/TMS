@@ -10,8 +10,20 @@
       <ul nzTheme="light" nz-menu nzMode="horizontal" class="">
         <li (click)="navigate('/')" nz-menu-item nzSelected>হোম</li>
         <li (click)="navigate('faq')" nz-menu-item>প্রশ্ন ও উত্তর</li>
-        <li (click)="goToUrl('https://dashboard-tms.softbdltd.com')" nz-menu-item>লগইন</li>
+
+        <li *ngIf="!loggedIn; else loggedInItems" (click)="navigate('login')" nz-menu-item>
+          লগইন</li>
+
+
+        <ng-template #loggedInItems>
+          <li (click)="goToUrl('https://dashboard-tms.softbdltd.com')" nz-menu-item>ড্যাশবোর্ড</li>
+          <li (click)="logout()" nz-menu-item>প্রস্থান</li>
+        </ng-template>
+
+
+
       </ul>
+
     </nz-header>
   </nz-layout>
 </div>

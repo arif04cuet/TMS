@@ -38,6 +38,16 @@ export class HomeComponent extends BaseComponent {
         icon: 'dashboard',
         fn: () => true
       },
+
+      {
+        level: 1,
+        title: 'my.book',
+        route: '/admin/library/my-book',
+        icon: 'dashboard',
+        fn: () => true
+      },
+
+
       {
         level: 1,
         title: 'my.exam',

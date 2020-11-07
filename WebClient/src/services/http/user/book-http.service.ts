@@ -38,12 +38,16 @@ export class BookHttpService extends BaseHttpService {
         return this.httpService.get(this.buildUrl('books/items', pagination, search));
     }
 
+    public listMyBookItems(pagination = null, search = null) {
+        return this.httpService.get(this.buildUrl('books/items/my-books', pagination, search));
+    }
+
     public listBookStatus(pagination = null, search = null) {
         let url = 'books/status?'
-        if(pagination){
+        if (pagination) {
             url += pagination
         }
-        if(search) {
+        if (search) {
             url += search
         }
         return this.httpService.get(url);
@@ -51,10 +55,10 @@ export class BookHttpService extends BaseHttpService {
 
     public listBookFormats(pagination = null, search = null) {
         let url = 'books/formats?'
-        if(pagination){
+        if (pagination) {
             url += pagination
         }
-        if(search) {
+        if (search) {
             url += search
         }
         return this.httpService.get(url);
@@ -62,10 +66,10 @@ export class BookHttpService extends BaseHttpService {
 
     public getEditions(bookId, pagination = null, search = null) {
         let url = `books/${bookId}/editions?`
-        if(pagination){
+        if (pagination) {
             url += pagination
         }
-        if(search) {
+        if (search) {
             url += search
         }
         return this.httpService.get(url);

@@ -5,16 +5,16 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent{
+export class HomeComponent {
 
-  home=false;
+  home = false;
 
   constructor(private router: Router) {
     router.events.subscribe(x => {
-       if(x instanceof NavigationEnd) {
-         this.home = window.location.href.split("#").pop() == '/';
-         console.log(this.home);
-       }
+      if (x instanceof NavigationEnd) {
+        this.home = window.location.href.split("#").pop() == '/';
+
+      }
     });
   }
 

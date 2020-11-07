@@ -46,7 +46,7 @@ namespace Module.Library.Data
             _bookSubjecRepository = _unitOfWork.GetRepository<BookSubject>();
             _bookIssueRepository = _unitOfWork.GetRepository<BookIssue>();
             _eBookIssueRepository = _unitOfWork.GetRepository<EBook>();
-        } 
+        }
 
         #region Book
         public async Task<long> CreateAsync(BookCreateRequest request, CancellationToken ct = default)
@@ -339,7 +339,53 @@ namespace Module.Library.Data
             {
                 items = items.Where(x => x.CurrentIssue.IssueDate.Date >= issueDateStart.Value.Date);
             }
-            if(issueDateEnd.HasValue)
+            if (issueDateEnd.HasValue)
+            {
+                items = items.Where(x => x.CurrentIssue.IssueDate.Date <= issueDateEnd.Value.Date);
+            }
+
+            items = items.OrderBy(x => x.Book.Title).ThenBy(x => x.CurrentIssue);
+
+            var result = items.Select(x => new BookItemListViewModel
+            {
+                Id = x.Id,
+                Isbn = x.Book.Isbn,
+                Barcode = x.Barcode,
+                Title = x.Book.Title,
+                Author = IdNameViewModel.Map(x.Book.Author),
+                Publisher = IdNameViewModel.Map(x.Book.Publisher),
+                IssuedTo = x.IssuedToId != null ? new IdNameViewModel
+                {
+                    Id = x.IssuedTo.Id,
+                    Name = x.IssuedTo.FullName
+                } : null,
+                Status = IdNameViewModel.Map(x.Status),
+                IssueDate = x.CurrentIssue.IssueDate,
+                ReturnDate = x.CurrentIssue.ReturnDate
+            });
+
+            var _items = await result
+                .ApplyPagination(pagingOptions)
+                .ToListAsync();
+
+            var total = await items.Select(x => x.Id).CountAsync();
+            return new PagedCollection<BookItemListViewModel>(_items, total, pagingOptions);
+        }
+
+        public async Task<PagedCollection<BookItemListViewModel>> ListMyBookItemsAsync(DateTime? issueDateStart, DateTime? issueDateEnd, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+            var userId = _appService.GetAuthenticatedUser().Id;
+            var issues = _bookIssueRepository.AsReadOnly();
+            var items = _bookItemRepository
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted && x.IssuedToId == userId)
+                .ApplySearch(searchOptions);
+
+            if (issueDateStart.HasValue)
+            {
+                items = items.Where(x => x.CurrentIssue.IssueDate.Date >= issueDateStart.Value.Date);
+            }
+            if (issueDateEnd.HasValue)
             {
                 items = items.Where(x => x.CurrentIssue.IssueDate.Date <= issueDateEnd.Value.Date);
             }
@@ -653,7 +699,7 @@ namespace Module.Library.Data
                     lateFineAmount = days * card.LateFee;
                     isFine = isFine || true;
                 }
-                if(request.IsLost)
+                if (request.IsLost)
                 {
                     lostFineAmount = bookItem.PurchagePrice * 2;
                     isFine = isFine || true;

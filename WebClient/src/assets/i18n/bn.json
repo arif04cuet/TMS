@@ -654,5 +654,6 @@
   "book.type": "বইয়ের ধরণ",
   "issue.amount": "ইস্যু এমাউন্ট",
   "lost.books": "হারানো বইসমূহ",
-  "new.books": "নতুন বই"
+  "new.books": "নতুন বই",
+  "my.book": "আমার বইসমূহ"
 }

@@ -1,54 +1,52 @@
-
-<div  nz-row>
+<div nz-row class="apply-course">
   <div nz-col nzSpan="12" nzOffset="6">
-  
+
+
     <div *ngIf="alreadyApplied">
-      <nz-alert 
-      nzType="error" 
-      nzMessage="You already applied to this course."
-      nzShowIcon>
+      <nz-alert nzType="error" nzMessage="{{'already_applied'|translate}}" nzShowIcon>
       </nz-alert>
-      <a (click)="navigate('course')" >প্রশিক্ষণ কোর্স</a>
+      <a (click)="navigate('course')">প্রশিক্ষণ কোর্স</a>
     </div>
 
     <div *ngIf="!alreadyApplied">
 
-      <nz-alert 
-        nzType="info" 
-        nzMessage="You are going to apply on following course. after selecting bed, pls click on apply button." 
-        nzShowIcon>
-    
+      <nz-alert nzType="info" nzMessage="{{'course_apply_message'|translate}}" nzShowIcon>
+
       </nz-alert>
-    
-      <br><br>
-      <div class="">
-      
-        <h4>{{item?.name}}</h4>
-        <h3>{{item?.course?.name}}</h3>
-        <h4>{{item?.startDate | date :'MMM d, y'}} - {{item?.endDate | date :'MMM d, y'}}</h4>
-        
+
+
+      <div class="flex">
+
+        <div>
+          <h2>কোর্সের বিস্তারিত</h2>
+
+          <h4><b>{{'Batch'|translate}}</b> : {{item?.name}}</h4>
+          <h4><b>{{'Course'|translate}}</b> : {{item?.course?.name}}</h4>
+          <h4><b>{{'start_end_date'|translate}} </b> : {{item?.startDate | date :'dd/MM/yyyy'}} -
+            {{item?.endDate | date :'dd/MM/yyyy'}}</h4>
+
+          <h4><b>{{'coordinator'|translate}}</b> : {{item?.coordinator?.name}}</h4>
+
+          <h4><b>{{'co.coordinator'|translate}}</b> : {{item?.coCoordinator?.name}}</h4>
+
+        </div>
+
+        <div>
+          <h2>আবেদনকারীর বিস্তারিত</h2>
+          <div>
+            <img src="{{looggedInUser.photo}}" width="100" height="100" alt="">
+          </div>
+          <h4><b>নাম </b> : {{looggedInUser?.name}}</h4>
+          <h4><b>ইমেইল </b> : {{looggedInUser?.email}}</h4>
+        </div>
+
       </div>
-    
-    
-      <br><br>
-      <div class="bed">
-       
-        <form nz-form [formGroup]="form">
-          <app-select-control  [formControl]="form.controls.bed"
-          label="select.bed" #bedSelect></app-select-control>
-          <nz-form-item class="register-area">
-            <nz-form-control>
-              <button (click)="apply()" nz-button nzType="primary">Apply</button>
-            </nz-form-control>
-          </nz-form-item>
-        </form>
-        
-        
+
+      <div>
+        <button (click)="apply()" nz-button nzType="primary">{{'Apply'|translate}}</button>
       </div>
 
     </div>
-
-
 
   </div>
 </div>

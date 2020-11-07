@@ -24,7 +24,7 @@ namespace Module.Core.Data
                 new Role(VicePrinciple, "Vice Principle"),
                 new Role(Participant, "Participant")
 
-                
+
             };
         }
     }

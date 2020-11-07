@@ -26,9 +26,17 @@ namespace Module.Library.Controllers
 
         [HttpGet]
         [RequirePermission(BookList, BookManage)]
-        public async Task<ActionResult> List([FromQuery] DateTime? issueDateStart, [FromQuery] DateTime? issueDateEnd, [FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> List([FromQuery] DateTime? issueDateStart, [FromQuery] DateTime? issueDateEnd, [FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
             var result = await _bookService.ListBookItemsAsync(issueDateStart, issueDateEnd, pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
+        [HttpGet("my-books")]
+        [RequirePermission(BookList, BookManage)]
+        public async Task<ActionResult> ListMyBook([FromQuery] DateTime? issueDateStart, [FromQuery] DateTime? issueDateEnd, [FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
+        {
+            var result = await _bookService.ListMyBookItemsAsync(issueDateStart, issueDateEnd, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

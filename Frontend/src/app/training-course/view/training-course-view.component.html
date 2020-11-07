@@ -8,10 +8,10 @@
 
     <div nz-row>
       <div nz-col nzSpan="6">
-        <img [src]="item.course.imageUrl" alt="{{item.name}" style="max-width: 98%;">
+        <img [src]="item?.course.imageUrl" alt="{{item?.name}" style="max-width: 98%;">
         <br>
-        
-        
+
+
         <button nz-button nzType="primary">{{item?.category?.name}} </button>
         <br><br>
         <button nz-button nzType=" primary">{{item?.course?.duration}} {{'Hours'|translate}}</button>
@@ -25,15 +25,15 @@
       <div nz-col nzSpan="12">
         <div class="details">
           <h3>
-            <span>{{item.name}}</span>
+            <span>{{item?.name}}</span>
           </h3>
 
-          <h2>{{item.course.name}}</h2>
+          <h2>{{item?.course.name}}</h2>
 
-          <p>{{item.startDate | date :'dd/MM/yyyy'}} - {{item.endDate|date :'dd/MM/yyyy'}}</p>
+          <p>{{item?.startDate | date :'dd/MM/yyyy'}} - {{item?.endDate|date :'dd/MM/yyyy'}}</p>
 
-          <p>{{'Course Coordinator'|translate}}: <b>{{item.coordinator.name}}</b></p>
-          <p>{{'Course Co Coordinator'|translate}}: <b>{{item.coCoordinator.name}}</b></p>
+          <p>{{'Course Coordinator'|translate}}: <b>{{item?.coordinator.name}}</b></p>
+          <p>{{'Course Co Coordinator'|translate}}: <b>{{item?.coCoordinator.name}}</b></p>
 
           <div class="description">
             <p>{{'Course Description'|translate}}</p>
@@ -45,7 +45,7 @@
 
             <nz-list nzBordered nzSize="small">
               <nz-list-header>{{'Modules'|translate}}</nz-list-header>
-              <nz-list-item *ngFor="let i of item.modules">
+              <nz-list-item *ngFor="let i of item?.modules">
 
                 <a href="http://">{{i.name}}</a>
 

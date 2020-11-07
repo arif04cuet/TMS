@@ -1,15 +1,19 @@
 import { NgModule } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { getLang } from 'src/services/utilities.service';
+import { BanglaPipe } from 'src/pipes/bangla.pipe';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    BanglaPipe
+  ],
   imports: [
     TranslateModule
   ],
   exports: [
-    TranslateModule
+    TranslateModule,
+    BanglaPipe
   ]
 })
 export class SharedModule {
