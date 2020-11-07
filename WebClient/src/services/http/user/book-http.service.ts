@@ -42,6 +42,10 @@ export class BookHttpService extends BaseHttpService {
         return this.httpService.get(this.buildUrl('books/items/my-books', pagination, search));
     }
 
+    public listEbooks(pagination = null, search = null) {
+        return this.httpService.get(this.buildUrl('books/ebooks', pagination, search));
+    }
+
     public listBookStatus(pagination = null, search = null) {
         let url = 'books/status?'
         if (pagination) {

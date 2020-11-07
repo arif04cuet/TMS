@@ -42,9 +42,32 @@ export class HomeComponent extends BaseComponent {
       {
         level: 1,
         title: 'my.book',
-        route: '/admin/library/my-book',
         icon: 'dashboard',
-        fn: () => true
+        fn: () => true,
+        nav: [
+          {
+            level: 2,
+            title: 'my.book',
+            route: '/admin/library/my-book',
+            icon: 'dashboard',
+            fn: () => true,
+          },
+          {
+            level: 2,
+            title: 'all.book',
+            route: '/admin/library/all-books',
+            icon: 'user',
+            fn: () => true
+          },
+          {
+            level: 2,
+            title: 'all.ebook',
+            route: '/admin/library/all-ebooks',
+            icon: 'user',
+            fn: () => true
+          }
+
+        ]
       },
 
 
@@ -56,7 +79,7 @@ export class HomeComponent extends BaseComponent {
         fn: () => {
           return this.permissionService.isRouteGranted('myexam');
           //return true;
-        },
+        }
       },
       {
         level: 1,

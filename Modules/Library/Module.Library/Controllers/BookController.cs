@@ -25,7 +25,7 @@ namespace Module.Library.Controllers
 
         [HttpGet]
         [RequirePermission(BookList, BookManage)]
-        public async Task<ActionResult> List([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> List([FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
             var result = await _bookService.ListAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
@@ -67,16 +67,26 @@ namespace Module.Library.Controllers
         // Book Editions
         [HttpGet("{bookId}/editions")]
         [RequirePermission(BookList, BookManage)]
-        public async Task<ActionResult> ListBookEditions(long bookId, [FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> ListBookEditions(long bookId, [FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
             var result = await _bookService.ListBookEditionsAsync(bookId, pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 
+        [HttpGet("ebooks")]
+
+        public async Task<ActionResult> ListEbooks([FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
+        {
+            var result = await _bookService.ListEbooksAsync(pagingOptions, searchOptions);
+            return result.ToOkResult();
+        }
+
         [HttpGet("issues")]
         [RequirePermission(BookList, BookManage)]
-        public async Task<ActionResult> ListIssue([FromQuery] PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> ListIssue([FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
+
+
             var result = await _bookService.ListIssueAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }

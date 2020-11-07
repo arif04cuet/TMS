@@ -1,12 +1,11 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 <div *ngIf="!loading">
-
     <div class="box">
         <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'my.book'|translate}} ({{ total|bangla }})
+                        {{'available.books'|translate}} ({{ total|bangla }})
                     </span>
                 </div>
             </div>
@@ -29,25 +28,20 @@
                 [nzScroll]="{ x: '100%' }" [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-
+                        <th></th>
                         <th>
                             {{'title'|translate}}
                             <input [(ngModel)]="title" nz-input />
                         </th>
                         <th>
-                            {{'status'|translate}}
+                            {{'author'|translate}}
+                            <input [(ngModel)]="author" nz-input />
+                        </th>
 
-                        </th>
                         <th>
-                            {{'issued.to'|translate}}
+                            {{'publisher'|translate}}
                         </th>
-                        <th>
-                            {{'issue.date'|translate}}
 
-                        </th>
-                        <th>
-                            {{'return.date'|translate}}
-                        </th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
@@ -63,12 +57,14 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-
+                        <td class="fit-cell">
+                            <nz-avatar nzSrc="{{serverUrl + '/' + data.photo }}" *ngIf="data.photo" nzSize="large">
+                            </nz-avatar>
+                            <nz-avatar *ngIf="!data.photo" nzSize="large" nzIcon="user"></nz-avatar>
+                        </td>
                         <td>{{ data.title }}</td>
-                        <td>{{ data.status?.name }}</td>
-                        <td>{{ data.issuedTo?.name }}</td>
-                        <td>{{ data.issueDate|date:'mediumDate':'+0000' }}</td>
-                        <td>{{ data.returnDate|date:'mediumDate':'+0000' }}</td>
+                        <td>{{ data.author?.name }}</td>
+                        <td>{{ data.publisher?.name }}</td>
                         <td class="action-column fit-cell">
                             <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>

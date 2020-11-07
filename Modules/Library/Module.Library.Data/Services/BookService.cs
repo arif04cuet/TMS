@@ -101,6 +101,22 @@ namespace Module.Library.Data
             return new PagedCollection<BookListViewModel>(items, total, pagingOptions);
         }
 
+        public async Task<PagedCollection<BookEditionViewModel>> ListEbooksAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        {
+
+            var query = _bookEditionRepository
+                .AsReadOnly()
+                .Include(x => x.EBook)
+                .Where(x => x.EBookId != null);
+
+            var items = await query
+                .Select(BookEditionViewModel.Select(_mediaService))
+                .ToListAsync();
+
+            var total = await query.Select(x => x.Id).CountAsync();
+            return new PagedCollection<BookEditionViewModel>(items, total, pagingOptions);
+        }
+
         public async Task<BookViewModel> GetAsync(long id)
         {
             var result = await _bookRepository

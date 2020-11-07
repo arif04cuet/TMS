@@ -31,6 +31,7 @@ namespace Module.Library.Data
         Task<PagedCollection<BookItemListViewModel>> ListBookItemsAsync(DateTime? issueDateStart, DateTime? issueDateEnd, IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
         Task<PagedCollection<BookItemListViewModel>> ListMyBookItemsAsync(DateTime? issueDateStart, DateTime? issueDateEnd, IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
         Task<PagedCollection<IdNameViewModel>> ListBookEditionsAsync(long bookId, IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
+        Task<PagedCollection<BookEditionViewModel>> ListEbooksAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default);
 
         Task<long> IssueBookItemAsync(BookItemIssueRequest request, CancellationToken ct = default);
 

@@ -655,5 +655,8 @@
   "issue.amount": "ইস্যু এমাউন্ট",
   "lost.books": "হারানো বইসমূহ",
   "new.books": "নতুন বই",
-  "my.book": "আমার বইসমূহ"
+  "my.book": "আমার বইসমূহ",
+  "all.book": "সকল বই",
+  "all.ebook": "সকল ই-বই",
+  "available.books": "আভাইলেবল বই"
 }

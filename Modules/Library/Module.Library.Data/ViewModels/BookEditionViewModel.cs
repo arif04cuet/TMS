@@ -22,6 +22,7 @@ namespace Module.Library.Data
             return x => new BookEditionViewModel
             {
                 Id = x.Id,
+                Book = new IdNameViewModel { Id = x.Book.Id, Name = x.Book.Title },
                 Edition = x.Edition,
                 NumberOfCopy = x.NumberOfCopy,
                 NumberOfPage = x.NumberOfPage,

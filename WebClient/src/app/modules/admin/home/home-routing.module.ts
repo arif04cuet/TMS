@@ -33,6 +33,33 @@ const routes: Routes = [
         }
       },
 
+      {
+        path: 'library/all-books',
+        loadChildren: () => import('../library/my-book/all-books/my-book-all-book.module').then(x => x.MyBookAllBookModule),
+        data: {
+          name: 'my_book_all_books',
+          breadcrumb: {
+            icon: 'team',
+            title: 'all.book',
+            module: "library.management"
+          }
+        }
+      },
+
+
+      {
+        path: 'library/all-ebooks',
+        loadChildren: () => import('../library/my-book/ebooks/my-book-ebooks.module').then(x => x.MyBookEbooksModule),
+        data: {
+          name: 'my_book_all_ebooks',
+          breadcrumb: {
+            icon: 'team',
+            title: 'all.ebook',
+            module: "library.management"
+          }
+        }
+      },
+
 
       {
         path: 'cms/faq',

@@ -6,15 +6,12 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'my.book'|translate}} ({{ total|bangla }})
+                        {{'all.ebooks'|translate}} ({{ total|bangla }})
                     </span>
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['book.manage', 'book.create']" (click)="add()" nz-button class="btn-custom">
-                    <i nz-icon nzType="plus" nzTheme="outline"></i>
-                    {{'new'|translate}}
-                </button>
+
                 <button (click)="refresh()" nz-button class="btn-custom">
                     <i nz-icon nzType="sync" nzTheme="outline"></i>
                     {{'refresh'|translate}}
@@ -34,20 +31,8 @@
                             {{'title'|translate}}
                             <input [(ngModel)]="title" nz-input />
                         </th>
-                        <th>
-                            {{'status'|translate}}
-
-                        </th>
-                        <th>
-                            {{'issued.to'|translate}}
-                        </th>
-                        <th>
-                            {{'issue.date'|translate}}
-
-                        </th>
-                        <th>
-                            {{'return.date'|translate}}
-                        </th>
+                        <th>{{'view'|translate}}</th>
+                        <th>{{'download'|translate}}</th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
@@ -64,14 +49,15 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
 
-                        <td>{{ data.title }}</td>
-                        <td>{{ data.status?.name }}</td>
-                        <td>{{ data.issuedTo?.name }}</td>
-                        <td>{{ data.issueDate|date:'mediumDate':'+0000' }}</td>
-                        <td>{{ data.returnDate|date:'mediumDate':'+0000' }}</td>
-                        <td class="action-column fit-cell">
-                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
+                        <td>{{ data.book?.name }}</td>
+                        <td><a href="https://docs.google.com/viewer?url={{serverUrl + '/' + data.eBook?.fileName }}&embedded=true"
+                                target="_blank" rel="noopener noreferrer">{{ 'view'|translate }}</a></td>
+                        <td>
+                            <a *ngIf="data.eBook?.isDownloadable" href="{{serverUrl + '/' + data.eBook?.fileName }}"
+                                target="_blank" rel="noopener noreferrer">{{ 'download'|translate}}</a>
                         </td>
+
+
                     </tr>
                 </tbody>
             </nz-table>
