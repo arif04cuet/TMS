@@ -22,14 +22,8 @@ namespace Module.Core.Data
                 new Role(CourseCoordinator, "Course Coordinator"),
                 new Role(Principle, "Principle"),
                 new Role(VicePrinciple, "Vice Principle"),
-<<<<<<< HEAD
-                new Role(Participant, "Participant")
-
-
-=======
                 new Role(Participant, "Participant"),
                 new Role(ResourcePerson, "Resource Person")
->>>>>>> cf7dfd4e8b0088ada57563c1e5b2882a17303b4c
             };
         }
     }
