@@ -48,7 +48,8 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
             "api/books",
             "api/library/members",
             "api/libraries/cards",
-            "api/asset/itemcodes/categories/2"
+            "api/asset/itemcodes/categories/2",
+            "api/courses?"
         ];
         for (let i = 0; i < list.length; i++) {
             if (url.lastIndexOf(list[i]) != -1) {
