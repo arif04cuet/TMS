@@ -25,7 +25,7 @@ namespace Module.Asset.Data
         public long LocationId { get; set; }
 
         //public virtual Office Location { get; set; }
-        public long DepreciationId { get; set; }
+        //public long DepreciationId { get; set; }
         public virtual Depreciation Depreciation { get; set; }
         public List<LicenseSeat> SeatList { get; set; }
         public bool IsActive { get; set; }
@@ -49,7 +49,7 @@ namespace Module.Asset.Data
             entity.IsActive = IsActive;
             entity.SupplierId = SupplierId;
             entity.LocationId = LocationId;
-            entity.DepreciationId = DepreciationId;
+            //entity.DepreciationId = DepreciationId;
             return entity;
         }
 

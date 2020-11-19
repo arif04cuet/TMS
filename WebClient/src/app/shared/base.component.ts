@@ -175,6 +175,18 @@ export class BaseComponent {
         this._subscriptions.push(s);
     }
 
+    splitTranslate(value: string) {
+        var translatedString = [];
+
+        value.split(" ").forEach((v, i, array) => {
+            const tword = this._translate.instant(v.trim());
+            translatedString.push(tword);
+        });
+
+        return translatedString.join(" ");
+
+    }
+
     t(key: string, interpolateParams?: Object) {
         this._translate.use(getLang());
         return this._translate.get(key, interpolateParams).toPromise()
@@ -231,7 +243,7 @@ export class BaseComponent {
             route += `/${x.url}`
             return { ...x, route: route, last: i == this.breadcrumbs.length - 1 };
         });
-        if(moduleBreadcrumb) {
+        if (moduleBreadcrumb) {
             this.breadcrumbs.splice(1, 0, moduleBreadcrumb);
         }
         setTimeout(() => this.broadcast('breadcrumbs', this.breadcrumbs));

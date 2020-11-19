@@ -15,8 +15,9 @@ namespace Module.Asset.Entities
         public string Barcode { get; set; }
         [Searchable]
         public string AssetTag { get; set; }
-
+        [Searchable]
         public long AssetModelId { get; set; }
+        [Searchable]
         public AssetModel AssetModel { get; set; }
         [Searchable]
         public long StatusId { get; set; }

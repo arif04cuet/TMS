@@ -6,10 +6,10 @@
             <div class="header-container">
                 <span class="header">
                     <span *ngIf="mode=='add'">
-                        {{ 'create.a.x0'|translate:{x0: 'office'|translate|lowercase} }}
+                        {{ 'create.a.x0'|translate:{x0: 'offices'|translate|lowercase} }}
                     </span>
                     <span *ngIf="mode=='edit'">
-                        {{ 'update.a.x0'|translate:{x0: 'office'|translate|lowercase} }}
+                        {{ 'update.a.x0'|translate:{x0: 'offices'|translate|lowercase} }}
                     </span>
                 </span>
             </div>
@@ -19,55 +19,52 @@
         <div class="content">
             <form nz-form [formGroup]="form">
                 <div nz-row [nzGutter]="24">
-                    <div nz-col [nzMd]="12" [nzSm]="24">
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label class="required">{{'name'|translate}}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="text" nz-input formControlName="officeName"
-                                        placeholder="{{'office.name'|translate}}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label>{{'address.line.x0'|translate:{x0: 2} }}</label>
-                                </div>
-                                <nz-form-control>
-                                    <input type="text" nz-input formControlName="addressLine2"
-                                        placeholder="{{'address.line.x0'|translate:{x0: 2} }}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <app-select-control mandatory="true" #districtSelect label="district" [formControl]="form.controls.district">
-                            </app-select-control>
-                        </div>
+
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'name'|translate}}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="text" nz-input formControlName="officeName"
+                                    placeholder="{{'office.name'|translate}}" />
+                            </nz-form-control>
+                        </nz-form-item>
                     </div>
-                    <div nz-col [nzMd]="12" [nzSm]="24">
-                        <div nz-row [nzGutter]="24">
-                            <nz-form-item class="field-container">
-                                <div>
-                                    <label class="required">{{'address.line.x0'|translate:{x0: 1} }}</label>
-                                </div>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <input type="text" nz-input formControlName="addressLine1"
-                                        placeholder="{{'address.line.x0'|translate:{x0: 1} }}" />
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <app-select-control mandatory="true" #divisionSelect label="division" [formControl]="form.controls.division">
-                            </app-select-control>
-                        </div>
-                        <div nz-row [nzGutter]="24">
-                            <app-select-control mandatory="true" #upazilaSelect label="upazila" [formControl]="form.controls.upazila">
-                            </app-select-control>
-                        </div>
+
+
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item class="field-container">
+                            <div>
+                                <label class="required">{{'address.line.x0'|translate:{x0: 1} }}</label>
+                            </div>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                <input type="text" nz-input formControlName="addressLine1"
+                                    placeholder="{{'address.line.x0'|translate:{x0: 1} }}" />
+                            </nz-form-control>
+                        </nz-form-item>
                     </div>
+                </div>
+                <div nz-row [nzGutter]="24">
+
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #divisionSelect label="division"
+                            [formControl]="form.controls.division">
+                        </app-select-control>
+                    </div>
+
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #districtSelect label="district"
+                            [formControl]="form.controls.district">
+                        </app-select-control>
+                    </div>
+
+                    <div nz-col [nzSpan]="8">
+                        <app-select-control mandatory="true" #upazilaSelect label="upazila"
+                            [formControl]="form.controls.upazila">
+                        </app-select-control>
+                    </div>
+
                 </div>
             </form>
         </div>

@@ -6,6 +6,7 @@ import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-item-issue',
@@ -45,14 +46,21 @@ export class BookItemIssueComponent extends FormComponent {
   ngAfterViewInit() {
 
     this.cardSelect.register((pagination, search) => {
-      return this.libraryMemberHttpService.cards(pagination, search);
+      return this.libraryMemberHttpService.cards(pagination, search).pipe(
+        map((x: any) => {
+          x.data.items.forEach(o => {
+            o.label = `${o.name} - ${o.member}`
+          });
+          return x;
+        })
+      );
     }).fetch();
 
     this.bookItemSelect.register((pagination, search) => {
       return this.bookHttpService.listBookItems(pagination, search);
     })
       .onLoadCompleted(() => {
-        if(this.id) {
+        if (this.id) {
           this.bookItemSelect.setValue(Number(this.id));
         }
       })

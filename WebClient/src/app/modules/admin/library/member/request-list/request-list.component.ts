@@ -21,6 +21,7 @@ export class MemberRequestListComponent extends TableComponent {
   @Searchable("User.Email", "like") email;
 
   rowItemDisabledFilterKey = 'isApproved';
+  environment = environment;
 
   constructor(
     private libraryMemberHttpService: LibraryMemberHttpService,
@@ -46,24 +47,25 @@ export class MemberRequestListComponent extends TableComponent {
           return x;
         })
       );
-      console.log(list);
       return list;
     });
   }
 
   gets(pagination = null, search = null) {
     this.loading = true;
-    const request = [
-      this.libraryMemberHttpService.listRequests(pagination, search)
-    ]
-    this.subscribe(forkJoin(request),
-      (res: any) => {
-        this.fill(res[0]);
-      },
-      err => {
-        this.loading = false;
-      }
+
+    var response = this.libraryMemberHttpService.listRequests(pagination, search).pipe(
+      map((x: any) => {
+        x.data.items.forEach(o => {
+          o.photoUrl = `${environment.serverUri}/${o.photo}`;
+        });
+        return x;
+      })
     );
+
+    console.log(response);
+    return response;
+
   }
 
   refresh() {

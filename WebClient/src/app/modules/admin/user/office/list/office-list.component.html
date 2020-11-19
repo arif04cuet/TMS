@@ -12,7 +12,8 @@
             </div>
 
             <div class="column">
-                <button *checkPermission="['office.manage', 'office.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['office.manage', 'office.create']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -24,7 +25,8 @@
         </div>
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>
@@ -34,9 +36,7 @@
                         <th>
                             {{'address.line.x0'|translate:{x0: 1} }}
                         </th>
-                        <th>
-                            {{'address.line.x0'|translate:{x0: 2} }}
-                        </th>
+
                         <th>
                             {{'division'|translate}}
                         </th>
@@ -63,7 +63,7 @@
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.officeName }}</td>
                         <td>{{ data.addressLine1 }}</td>
-                        <td>{{ data.addressLine2 }}</td>
+
                         <td>{{ data.division?.name }}</td>
                         <td>{{ data.district?.name }}</td>
                         <td>{{ data.upazila?.name }}</td>

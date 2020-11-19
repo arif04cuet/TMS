@@ -69,14 +69,14 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.barcode }}</td>
+                        <td>{{ data.barcode|bangla }}</td>
                         <td>{{ data.cardType?.name }}</td>
                         <td>{{ data.member?.name }}</td>
-                        <td>{{ data.cardFee }}</td>
-                        <td>{{ data.lateFee }}</td>
-                        <td>{{ data.maxIssueCount }}</td>
-                        <td>{{ data.expireDate|date:'medium':'+0000' }}</td>
-                        <td>{{ data.status?.name }}</td>
+                        <td>{{ data.cardFee|bangla }}</td>
+                        <td>{{ data.lateFee|bangla }}</td>
+                        <td>{{ data.maxIssueCount|bangla }}</td>
+                        <td>{{ data.expireDate|date }}</td>
+                        <td>{{ data.status?.name|translate }}</td>
                         <td class="action-column fit-cell">
                             <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>

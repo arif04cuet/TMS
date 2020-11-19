@@ -43,7 +43,7 @@ namespace Module.Asset.Entities
         public long LocationId { get; set; }
         public Office Location { get; set; }
 
-        public long DepreciationId { get; set; }
+        public long? DepreciationId { get; set; }
         public Depreciation Depreciation { get; set; }
 
         public List<LicenseSeat> LicenseSeats { get; set; }

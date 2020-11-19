@@ -28,7 +28,7 @@ export class LicenseSeatsComponent extends BaseComponent {
     this._activatedRouteSnapshot = this.activatedRoute.snapshot
 
     const id = this.getQueryParams('id');
-    console.log(id);
+
     this.get(id);
 
   }
@@ -41,7 +41,6 @@ export class LicenseSeatsComponent extends BaseComponent {
       (res: any) => {
         this.item = res.data;
         this.licenseId = res.data.id;
-        console.log(this.item.seatList);
         this.loading = false;
       }
     );
@@ -59,6 +58,11 @@ export class LicenseSeatsComponent extends BaseComponent {
 
   cancel() {
     this.goTo('/admin/asset/licenses');
+  }
+
+  seatName(value) {
+
+    return this.splitTranslate(value);
   }
 
 }

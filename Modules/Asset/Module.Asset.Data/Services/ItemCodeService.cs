@@ -129,13 +129,24 @@ namespace Module.Asset.Data
                             where c1.IsDeleted = 0
                             ) ";
 
-            var itemSql = sql + @"select i.Id, i.Code, i.Name, i.Available, i.MinQuantity,      i.TotalQuantity, cte.Id CategoryId, cte.Name CategoryName from cte
+            var itemSql = sql + @"select i.Id, i.Code, i.Name, i.Available, i.MinQuantity,i.TotalQuantity, i.IsActive, cte.Id CategoryId, cte.Name CategoryName from cte
                             join[asset].[ItemCode] i on i.CategoryId = cte.Id ";
+
 
             var totalSql = sql + @"select count(i.Id) from cte
                             join [asset].[ItemCode] i on i.CategoryId = cte.Id";
 
+            // if (searchOptions?.Search?.Length > 0)
+            // {
+            //     var _searchQuery = searchOptions.Search;
+            //     var tokens = _searchQuery[0].Split(' ');
+            //     string name = tokens[2];
+
+            //     itemSql += $" where i.Name like '{name}%' ";
+            // }
+
             itemSql += $" order by i.Code ";
+
             itemSql += pagingOptions.BuildSql();
 
             var items = await _dbConnection.QueryAsync<ItemCodeByCategoryViewModel>(itemSql);

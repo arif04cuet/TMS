@@ -50,7 +50,7 @@ namespace Module.Asset.Data
 
         public async Task<bool> UpdateAsync(LicenseUpdateRequest request, CancellationToken cancellationToken = default)
         {
-            var entity = await _repository.Where(x => x.Id == request.Id && !x.IsDeleted).Include(x=>x.LicenseSeats).FirstOrDefaultAsync();
+            var entity = await _repository.Where(x => x.Id == request.Id && !x.IsDeleted).Include(x => x.LicenseSeats).FirstOrDefaultAsync();
 
             if (entity == null)
                 throw new NotFoundException($"License not found");
@@ -99,8 +99,7 @@ namespace Module.Asset.Data
                     ManufacturerId = x.ManufacturerId,
                     IsActive = x.IsActive,
                     SupplierId = x.SupplierId,
-                    LocationId = x.LocationId,
-                    DepreciationId = x.DepreciationId
+                    LocationId = x.LocationId
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -145,9 +144,7 @@ namespace Module.Asset.Data
                     SupplierId = x.SupplierId,
                     Supplier = x.Supplier,
                     LocationId = x.LocationId,
-                    DepreciationId = x.DepreciationId,
-                    Depreciation = x.Depreciation,
-                    SeatList = x.LicenseSeats.Where(ls=>!ls.IsDeleted).ToList()
+                    SeatList = x.LicenseSeats.Where(ls => !ls.IsDeleted).ToList()
 
                 })
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -185,8 +182,7 @@ namespace Module.Asset.Data
                     ManufacturerId = x.ManufacturerId,
                     IsActive = x.IsActive,
                     SupplierId = x.SupplierId,
-                    LocationId = x.LocationId,
-                    DepreciationId = x.DepreciationId
+                    LocationId = x.LocationId
                 })
                 .ToListAsync();
 
@@ -214,7 +210,7 @@ namespace Module.Asset.Data
 
         public async Task UpdateSeats(License license, int requestedSeats, CancellationToken ct = default)
         {
-            List<LicenseSeat> licenseSeats = license.LicenseSeats.Where(ls =>!ls.IsDeleted).ToList();
+            List<LicenseSeat> licenseSeats = license.LicenseSeats.Where(ls => !ls.IsDeleted).ToList();
             if (licenseSeats.Count < requestedSeats)
             {
                 List<LicenseSeat> items = new List<LicenseSeat>();
@@ -228,11 +224,11 @@ namespace Module.Asset.Data
                 }
                 await _seatRepository.AddRangeAsync(items, ct);
             }
-            else if(licenseSeats.Count > requestedSeats)
+            else if (licenseSeats.Count > requestedSeats)
             {
                 var availableToDelete = licenseSeats.Count(ls => ls.IssuedToUserId == null);
                 var requestedToDelete = (licenseSeats.Count - requestedSeats);
-                
+
                 if (availableToDelete < requestedToDelete)
                 {
                     throw new Exception("This license is currently checked out to a user and cannot be deleted. Please check the license in first, and then try deleting again.");
@@ -240,7 +236,7 @@ namespace Module.Asset.Data
                 else
                 {
                     licenseSeats = licenseSeats.OrderByDescending(ls => ls.Id).Take(requestedToDelete).ToList();
-                    foreach(LicenseSeat licenseSeat in licenseSeats)
+                    foreach (LicenseSeat licenseSeat in licenseSeats)
                     {
                         licenseSeat.IsDeleted = true;
                     }
@@ -255,21 +251,21 @@ namespace Module.Asset.Data
 
             if (entity == null)
                 throw new NotFoundException($"License not found");
-            
-            LicenseSeat availableLicenceSeat = null ;
 
-            if(request.LicenseSeatId > 0)
+            LicenseSeat availableLicenceSeat = null;
+
+            if (request.LicenseSeatId > 0)
                 availableLicenceSeat = await _seatRepository.FirstOrDefaultAsync(ls => ls.Id == request.LicenseSeatId && !ls.IsDeleted);
             else
                 availableLicenceSeat = entity.LicenseSeats.FirstOrDefault(ls => ls.IssuedToUserId == null && ls.IssuedToAssetId == null && !ls.IsDeleted);
-            
-            if(availableLicenceSeat != null)
-            { 
+
+            if (availableLicenceSeat != null)
+            {
                 bool isAssetSelected = request.IssuedToUserId == null;
                 if (isAssetSelected)
                     availableLicenceSeat.IssuedToAssetId = request.IssuedToAssetId;
                 else
-                availableLicenceSeat.IssuedToUserId = request.IssuedToUserId;
+                    availableLicenceSeat.IssuedToUserId = request.IssuedToUserId;
                 availableLicenceSeat.IssueDate = DateTime.Now;
                 entity.Available = entity.Available - 1;
 
@@ -284,7 +280,7 @@ namespace Module.Asset.Data
                     TargetId = isAssetSelected ? request.IssuedToAssetId : request.IssuedToUserId
                 });
 
-                if(request.IssuedToUserId.HasValue)
+                if (request.IssuedToUserId.HasValue)
                 {
                     await _assetEmailService.SendEULAEmailAsync(request.IssuedToUserId.Value, entity.CategoryId);
                 }

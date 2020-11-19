@@ -15,6 +15,7 @@ namespace Module.Asset.Data
         public int? Available { get; set; }
         public int MinQuantity { get; set; }
         public int? TotalQuantity { get; set; }
+        public bool IsActive { get; set; }
 
     }
 }

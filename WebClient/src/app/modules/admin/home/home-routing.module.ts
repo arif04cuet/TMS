@@ -541,19 +541,19 @@ const routes: Routes = [
           permissions: ['supplier.manage', 'supplier.list']
         }
       },
-      {
-        path: 'asset/depreciations',
-        loadChildren: () => import('../asset/depreciation/list/depreciation-list.module').then(x => x.DepreciationListModule),
-        data: {
-          name: 'depreciation_list',
-          breadcrumb: {
-            icon: 'safety',
-            title: 'depreciation',
-            module: "asset.management"
-          },
-          permissions: ['depreciation.manage', 'depreciation.list']
-        }
-      },
+      // {
+      //   path: 'asset/depreciations',
+      //   loadChildren: () => import('../asset/depreciation/list/depreciation-list.module').then(x => x.DepreciationListModule),
+      //   data: {
+      //     name: 'depreciation_list',
+      //     breadcrumb: {
+      //       icon: 'safety',
+      //       title: 'depreciation',
+      //       module: "asset.management"
+      //     },
+      //     permissions: ['depreciation.manage', 'depreciation.list']
+      //   }
+      // },
 
       {
         path: 'asset/manufacturers',

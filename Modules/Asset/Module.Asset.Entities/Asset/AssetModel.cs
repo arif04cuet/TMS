@@ -22,7 +22,7 @@ namespace Module.Asset.Entities
         [Searchable]
         public Category Category { get; set; }
 
-        public long ManufacturerId { get; set; }
+        public long? ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
 
         public bool IsRequestable { get; set; }

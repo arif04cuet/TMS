@@ -11,7 +11,8 @@
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['book.category.manage', 'book.category.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['book.category.manage', 'book.category.create']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -23,15 +24,23 @@
         </div>
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>
                             {{'name'|translate}}
+                            <input [(ngModel)]="name" nz-input />
                         </th>
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
+                            </div>
+                            <div>
+                                <button (click)="search()" nz-button class="btn-custom">
+                                    <i nz-icon nzType="search"></i>
+                                    {{'search'|translate}}
+                                </button>
                             </div>
                         </th>
                     </tr>

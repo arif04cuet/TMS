@@ -183,7 +183,7 @@ namespace Module.Library.Data
                     FullName = memberRequest.FullName,
                     Email = memberRequest.Email,
                     Mobile = memberRequest.Mobile,
-                    StatusId = StatusConstants.Pending,
+                    StatusId = StatusConstants.Approved,
                     Password = memberRequest.Password
                 };
                 await _userRepository.AddAsync(user, ct);
@@ -278,6 +278,7 @@ namespace Module.Library.Data
             var query = _libraryMemberRequestRepository
                 .AsReadOnly()
                 .Where(x => !x.IsDeleted)
+                .OrderByDescending(x => x.UpdatedAt)
                 .ApplySearch(searchOptions);
 
             if (isApproved.HasValue)

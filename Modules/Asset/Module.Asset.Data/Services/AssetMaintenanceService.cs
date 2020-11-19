@@ -131,7 +131,7 @@ namespace Module.Asset.Data
                 {
                     Id = x.Id,
                     Type = new IdNameViewModel { Id = (long)x.Type, Name = x.Type.ToString() },
-                    Asset = new IdNameViewModel { Id = x.Asset.Id, Name = x.Asset.Name },
+                    Asset = new IdNameViewModel { Id = x.Asset.Id, Name = x.Asset.AssetTag + " - " + x.Asset.AssetModel.Name },
                     CompletionDate = x.CompletionDate,
                     Cost = x.Cost,
                     IsWarrantyImprovement = x.IsWarrantyImprovement,

@@ -20,7 +20,6 @@ export class LicenseAddComponent extends FormComponent {
   @ViewChild('categorySelect') categorySelect: SelectControlComponent;
   @ViewChild('manufacturerSelect') manufacturerSelect: SelectControlComponent;
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
-  @ViewChild('depreciationSelect') depreciationSelect: SelectControlComponent;
   @ViewChild('locationSelect') locationSelect: SelectControlComponent;
 
   constructor(
@@ -40,7 +39,6 @@ export class LicenseAddComponent extends FormComponent {
       categoryId: [null, [], this.v.required.bind(this)],
       manufacturerId: [null, []],
       supplierId: [null, [], this.v.required.bind(this)],
-      depreciationId: [null, [], this.v.required.bind(this)],
       locationId: [null, [], this.v.required.bind(this)],
       productKey: [null, [], this.v.required.bind(this)],
       orderNumber: [null, []],
@@ -71,9 +69,6 @@ export class LicenseAddComponent extends FormComponent {
       return this.licenseHttpService.suppliers(pagination, search);
     }).fetch();
 
-    this.depreciationSelect.register((pagination, search) => {
-      return this.licenseHttpService.depreciations(pagination, search);
-    }).fetch();
 
     this.locationSelect.register((pagination, search) => {
       return this.licenseHttpService.locations(pagination, search);

@@ -5,12 +5,13 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'assets'|translate}} ({{total}})
+                        {{'assets'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['asset.manage', 'asset.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['asset.manage', 'asset.create']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -24,27 +25,33 @@
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
                 (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
                 nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
+                [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions"
+                nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th></th>
-                        <th> {{'name'|translate}}</th>
+                        <th>
+                            {{'order.name'|translate}}
+                            <input [(ngModel)]="name" nz-input />
+                        </th>
+                        <th>
+                            {{'asset.model.name'|translate}}
+                            <input [(ngModel)]="assetModel" nz-input />
+                        </th>
+
                         <th>
                             {{'asset.tag'|translate}}
                             <input [(ngModel)]="assetTag" nz-input />
                         </th>
-                        <th>
-                            {{'title'|translate}}
-                            
-                        </th>
+
                         <th>
                             {{'category'|translate}}
                             <input [(ngModel)]="category" nz-input />
                         </th>
-                        <th>{{'model.no'|translate}} </th>
+                        <th>{{'purchase.cost'|translate}}</th>
                         <th>{{'status'|translate}}</th>
                         <th>{{'location'|translate}}</th>
-                        <th>{{'purchase.cost'|translate}}</th>
+
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
@@ -65,14 +72,16 @@
                             </nz-avatar>
                             <nz-avatar *ngIf="!data.photo" nzSize="large" nzIcon="user"></nz-avatar>
                         </td>
+                        <td>{{ data.name }}</td>
                         <td>{{ data.assetModel.name }}</td>
-                        <td>{{ data.assetTag }}</td>
-                        <td><a (click)="view(data)">{{ data.name }}</a></td>
+                        <td><a (click)="view(data)">{{ data.assetTag }}</a></td>
+
                         <td>{{ data.category.name }}</td>
-                        <td>{{ data.modelNo }}</td>
-                        <td>{{ data.status?.name }}</td>
+                        <!-- <td>{{ data.modelNo }}</td> -->
+                        <td>{{ data.purchaseCost|bangla }}</td>
+                        <td>{{ data.status?.name|translate }}</td>
                         <td>{{ data.location?.name }}</td>
-                        <td>{{ data.purchaseCost }}</td>
+
                         <td class="action-column fit-cell">
                             <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>

@@ -64,8 +64,10 @@ export class CardListComponent extends TableComponent {
     if (oldCard) {
       oldCard.remove();
     }
+
     let data = "";
-    const photo = model.member ? environment.serverUri + '/' + model.member.photo : './assets/images/userphoto.png';
+    let photo = model.member?.photo ? environment.serverUri + '/' + model.member.photo : './assets/images/userphoto.png';
+    photo = photo + '?rand=' + Math.floor(Math.random() * 1000);
     const title = this._translate.instant('library.card.print.title');
     const address = this._translate.instant('library.card.print.address');
     const expireDate = model.expireDate ? moment.utc(model.expireDate).local().format('MMM D, YYYY') : "";
@@ -121,7 +123,11 @@ export class CardListComponent extends TableComponent {
     div.innerHTML = data;
     document.getElementsByTagName('html')[0].appendChild(div);
     JsBarcode(`#barcode-${model.barcode}`, model.barcode, { width: 1, height: 20, fontSize: '5px', displayValue: false });
-    window.print();
+
+    setTimeout(function () {
+      window.print();
+    }, 250);
+
   }
 
   refresh() {

@@ -43,8 +43,8 @@
                             {{'status'|translate}}
                             <div>
                                 <nz-select [(ngModel)]="IsActive" class="btn-custom" nzShowSearch nzAllowClear
-                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'isActive'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of status" [nzLabel]="p.name" [nzValue]="p.id">
+                                    [nzPlaceHolder]="">
+                                    <nz-option *ngFor="let p of status" [nzLabel]="p.name|translate" [nzValue]="p.id">
                                     </nz-option>
                                 </nz-select>
                             </div>

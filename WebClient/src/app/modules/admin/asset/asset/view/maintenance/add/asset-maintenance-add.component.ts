@@ -23,13 +23,14 @@ export class AssetMaintenanceAddComponent extends FormComponent {
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
 
   assetInfo = item => {
-    if(item.warrantyRemainingInDays) {
+    if (item.warrantyRemainingInDays) {
       const d = Math.floor(item.warrantyRemainingInDays);
-      return this._translate.get('remaining.warranty.is.x0.days', {x0: d}).toPromise();
+      return this._translate.get('remaining.warranty.is.x0.days', { x0: d }).toPromise();
     }
     return "";
   }
   private assetId;
+  hasWarranty: Boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -50,8 +51,7 @@ export class AssetMaintenanceAddComponent extends FormComponent {
       startDate: [null, [], this.v.required.bind(this)],
       completionDate: [],
       cost: [],
-      note: [],
-      warrantyImprovement: []
+      note: []
     });
     const snapshot = this.activatedRoute.snapshot;
     super.ngOnInit(snapshot);
@@ -67,7 +67,7 @@ export class AssetMaintenanceAddComponent extends FormComponent {
       return this.assetHttpService.list(pagination, search).pipe(
         map((x: any) => {
           x.data.items.forEach(item => {
-            item.name = `${item.assetTag} - ${item.name}`;
+            item.name = `${item.assetTag} - ${item.assetModel.name}`;
           });
           return x;
         })
@@ -124,16 +124,18 @@ export class AssetMaintenanceAddComponent extends FormComponent {
   onAssetChanged(e) {
     if (this.isAddMode()) {
       const asset: any = this.assetSelect.items.find(x => x.id == e);
-      if(asset) {
-        if(asset.supplier) {
+      console.log(asset);
+      if (asset) {
+        if (asset.supplier) {
           this.supplierSelect.setValue(asset.supplier.id);
         }
-        if(asset.maintenanceRemainingInDays > 0) {
+        if (asset.maintenanceRemainingInDays > 0) {
           this.typeSelect.setValue(1);
+          this.hasWarranty = true;
         }
-        if(asset.warrantyRemainingInDays > 0) {
-          this.setValue('warrantyImprovement', true);
-        }
+        // if (asset.warrantyRemainingInDays > 0) {
+        //   this.setValue('warrantyImprovement', true);
+        // }
       }
     }
   }

@@ -283,7 +283,7 @@ export class HomeComponent extends BaseComponent {
 
           {
             level: 2,
-            title: 'cards',
+            title: 'card.management',
             route: '/admin/library/cards',
             icon: 'user',
             fn: () => {
@@ -497,15 +497,15 @@ export class HomeComponent extends BaseComponent {
                   return this.permissionService.isRouteGranted('supplier');
                 },
               },
-              {
-                level: 3,
-                title: 'depreciation',
-                route: '/admin/asset/depreciations',
-                icon: 'user',
-                fn: () => {
-                  return this.permissionService.isRouteGranted('depreciation');
-                },
-              },
+              // {
+              //   level: 3,
+              //   title: 'depreciation',
+              //   route: '/admin/asset/depreciations',
+              //   icon: 'user',
+              //   fn: () => {
+              //     return this.permissionService.isRouteGranted('depreciation');
+              //   },
+              // },
               {
                 level: 3,
                 title: 'manufacturer',

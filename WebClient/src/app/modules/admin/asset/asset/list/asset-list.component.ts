@@ -20,6 +20,7 @@ export class AssetListComponent extends TableComponent {
   @Searchable("AssetTag", "like") assetTag;
   @Searchable("Name", "like") name;
   @Searchable("Category.Name", "like") category;
+  @Searchable("AssetModel.Name", "like") assetModel;
   serverUrl = environment.serverUri;
 
   buttons: IButton[] = [

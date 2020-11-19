@@ -34,8 +34,6 @@ namespace Module.Asset.Data.Validators
 
             RuleFor(x => x.ManufacturerId).NotEmpty().NotNull();
             RuleFor(x => x.SupplierId).NotEmpty().NotNull();
-            //RuleFor(x => x.LocationId).NotEmpty().NotNull();
-            RuleFor(x => x.DepreciationId).NotEmpty().NotNull();
 
 
 

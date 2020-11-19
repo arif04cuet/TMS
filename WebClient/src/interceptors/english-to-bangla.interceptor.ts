@@ -32,7 +32,7 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
 
     allowed(url: string): boolean {
         const list = [
-            "api/asset",
+
             "api/users",
             "api/languages",
             "api/libraries/racks",
@@ -47,16 +47,28 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
             "api/books/formats",
             "api/books",
             "api/library/members",
-            "api/libraries/cards",
             "api/asset/itemcodes/categories/2",
-            "api/courses?"
+            "api/courses",
+            "api/asset/licenses"
         ];
-        for (let i = 0; i < list.length; i++) {
-            if (url.lastIndexOf(list[i]) != -1) {
-                return true;
-            }
-        }
-        return false
+
+        var urlObj = new URL(url);
+
+        if (list.findIndex(el => el == urlObj.pathname.substring(1)) != -1)
+            return true;
+
+        return false;
+
+        // for (let i = 0; i < list.length; i++) {
+
+        //     //var urlParts = url.split("?");
+        //     //url = urlParts[0];
+        //     var urlObj = new URL(url);
+        //     if (url.lastIndexOf(list[i]) != -1) {
+        //         return true;
+        //     }
+        // }
+        // return false
     }
 
 }

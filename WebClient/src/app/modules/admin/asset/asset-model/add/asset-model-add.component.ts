@@ -35,10 +35,8 @@ export class AssetModelAddComponent extends FormComponent {
       name: [null, [], this.v.required.bind(this)],
       category: [null, [], this.v.required.bind(this)],
       manufacturer: [],
-      depreciation: [null, [], this.v.required.bind(this)],
       modelNo: [],
       note: [],
-      eol: [],
       isRequestable: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
@@ -55,9 +53,7 @@ export class AssetModelAddComponent extends FormComponent {
       return this.categoryHttpService.listByParent(1, pagination, search);
     }).fetch();
 
-    this.depreciationSelect.register((pagination, search) => {
-      return this.assetModelHttpService.depreciations(pagination, search);
-    }).fetch();
+
 
   }
 

@@ -12,8 +12,10 @@ import { IButton } from 'src/app/shared/table-actions.component';
 })
 export class AssetMaintenanceListComponent extends TableComponent {
 
-  @Searchable("Name", "like") Name;
+  @Searchable("Asset.AssetTag", "like") assetName;
+
   id;
+
   buttons: IButton[] = [
     {
       label: 'edit',
@@ -65,7 +67,7 @@ export class AssetMaintenanceListComponent extends TableComponent {
     }
     else {
       let url = `/admin/asset/maintenances/add`;
-      if(this.id) {
+      if (this.id) {
         url += `?assetId=${this.id}`
       }
       this.goTo(url);

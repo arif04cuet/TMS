@@ -67,9 +67,9 @@ namespace Module.Asset.Data
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Category = new IdNameViewModel { Id = x.CategoryId,  Name = x.Category.Name },
+                    Category = new IdNameViewModel { Id = x.CategoryId, Name = x.Category.Name },
                     IsRequestable = x.IsRequestable,
-                    Manufacturer = new IdNameViewModel { Id = x.ManufacturerId, Name = x.Manufacturer.Name },
+                    Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name } : null,
                     ModelNo = x.ModelNo,
                     Note = x.Note
                 })
@@ -80,7 +80,7 @@ namespace Module.Asset.Data
 
             return result;
         }
-        
+
         public async Task<PagedCollection<AssetModelViewModel>> ListAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
             var itemsQuery = _assetModelRepository
@@ -96,7 +96,7 @@ namespace Module.Asset.Data
                     Name = x.Name,
                     Category = new IdNameViewModel { Id = x.CategoryId, Name = x.Category.Name },
                     IsRequestable = x.IsRequestable,
-                    Manufacturer = new IdNameViewModel { Id = x.ManufacturerId, Name = x.Manufacturer.Name },
+                    Manufacturer = x.ManufacturerId != null ? new IdNameViewModel { Id = x.Manufacturer.Id, Name = x.Manufacturer.Name } : null,
                     ModelNo = x.ModelNo,
                     Note = x.Note
                 })

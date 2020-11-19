@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201118130118_makeManufacturerFieldNullableForAssetModel")]
+    partial class makeManufacturerFieldNullableForAssetModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1158,7 +1160,7 @@ namespace OTMS.Migrations
                     b.Property<long?>("CreatedBy")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("DepreciationId")
+                    b.Property<long>("DepreciationId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("ExpireDate")
@@ -15936,7 +15938,9 @@ namespace OTMS.Migrations
 
                     b.HasOne("Module.Asset.Entities.Depreciation", "Depreciation")
                         .WithMany()
-                        .HasForeignKey("DepreciationId");
+                        .HasForeignKey("DepreciationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Module.Core.Entities.Office", "Location")
                         .WithMany()

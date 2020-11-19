@@ -6,11 +6,11 @@ namespace Module.Asset.Data
     {
         public string Name { get; set; }
         public string ModelNo { get; set; }
-        public int Eol { get; set; }
+
         public string Note { get; set; }
         public long Category { get; set; }
-        public long Manufacturer { get; set; }
-        public long Depreciation { get; set; }
+        public long? Manufacturer { get; set; }
+
         public bool IsRequestable { get; set; }
         public long? Media { get; set; }
 

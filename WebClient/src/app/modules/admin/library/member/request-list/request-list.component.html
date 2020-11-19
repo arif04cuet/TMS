@@ -69,8 +69,8 @@
                     <tr *ngFor="let data of basicTable.data">
                         <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.isApproved"
                             (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-                        <td><img *ngIf="data.photo" width="100" height="100" [src]="data.photoUrl"
-                                alt="{{ data.fullName }}"></td>
+                        <td><img *ngIf="data.photo" width="100" height="100"
+                                src="{{environment.serverUri +'/' + data.photo}}" alt="{{ data.fullName }}"></td>
                         <td>{{ data.fullName }}</td>
                         <td>{{ data.mobile }}</td>
                         <td>{{ data.email }}</td>

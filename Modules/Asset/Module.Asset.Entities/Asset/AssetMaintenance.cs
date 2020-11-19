@@ -26,8 +26,9 @@ namespace Module.Asset.Entities
 
         [Searchable]
         public MaintenanceType Type { get; set; }
-
+        [Searchable]
         public long? AssetId { get; set; }
+        [Searchable]
         public Asset Asset { get; set; }
 
         public long SupplierId { get; set; }

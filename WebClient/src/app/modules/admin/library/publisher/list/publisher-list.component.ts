@@ -54,7 +54,7 @@ export class PublisherListComponent extends TableComponent {
   gets(pagination = null, search = null) {
     this.loading = true;
     const request = [
-      this.publisherHttpService.list(),
+      this.publisherHttpService.list(pagination, search),
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
