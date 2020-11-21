@@ -70,9 +70,14 @@
         public const long PublisherList = 1204;
         public const long PublisherManage = 1205;
 
-        public const long BookReservationView = 1300;
+        public const long BookReservationCreate = 1300;
         public const long BookReservationList = 1301;
         public const long BookReservationManage = 1302;
+        public const long BookReservationUpdate = 1303;
+        public const long BookReservationDelete = 1304;
+        public const long BookReservationView = 1305;
+        public const long BookReservationCancel = 1306;
+        public const long BookReservationIssue = 1307;
 
         public const long LibraryCreate = 1400;
         public const long LibraryUpdate = 1401;
@@ -487,6 +492,7 @@
         public const long AssetSettingManufacturerGroup         = 62;
         public const long AssetSettingStatusGroup         = 63;
         public const long AssetSettingCategoryGroup         = 64;
+        public const long BookReservationGroup         = 65;
     }
 
     public static class PermissionOperationConstants
@@ -508,6 +514,7 @@
         public const string AtAGlance = "At A Glance";
         public const string LostBook = "Lost Book";
         public const string NewBook = "New Book";
+        public const string Cancel = "Cancel";
 
         //Reports
         public const string AssetReportActivityLog  = "Activity Log";

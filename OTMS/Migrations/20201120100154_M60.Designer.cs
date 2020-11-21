@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201120100154_M60")]
+    partial class M60
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3980,22 +3982,6 @@ namespace OTMS.Migrations
                         {
                             Id = 1302L,
                             Code = "book.reservation.manage",
-                            GroupId = 65L,
-                            ModuleId = 2L,
-                            Name = "Manage"
-                        },
-                        new
-                        {
-                            Id = 1306L,
-                            Code = "book.reservation.cancel",
-                            GroupId = 65L,
-                            ModuleId = 2L,
-                            Name = "Manage"
-                        },
-                        new
-                        {
-                            Id = 1307L,
-                            Code = "book.reservation.issue",
                             GroupId = 65L,
                             ModuleId = 2L,
                             Name = "Manage"

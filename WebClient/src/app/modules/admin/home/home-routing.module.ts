@@ -325,6 +325,19 @@ const routes: Routes = [
         }
       },
       {
+        path: 'library/books/reservations',
+        loadChildren: () => import('../library/reserve-book/list/book-item-reserve-list.module').then(x => x.BookItemReserveListModule),
+        data: {
+          name: 'book_reservation',
+          breadcrumb: {
+            icon: 'safety',
+            title: 'book.reservation',
+            module: "library.management"
+          },
+          permissions: ['book.reservation.manage', 'book.reservation.list']
+        }
+      },
+      {
         path: 'library/reports/issues',
         loadChildren: () => import('../library/reports/issue/issue-list.module').then(x => x.IssueListModule),
         data: {

@@ -436,12 +436,6 @@ namespace Module.Library.Data
 
         public async Task<long> IssueBookItemAsync(BookItemIssueRequest request, CancellationToken ct = default)
         {
-            // check book is available
-            var item = await _bookItemRepository
-                .FirstOrDefaultAsync(x => x.Id == request.BookItem && x.StatusId == BookStatusConstants.Available && !x.IsDeleted, false, ct);
-
-            if (item == null)
-                throw new ValidationException(BOOK_IS_NOT_AVAILABLE_FOR_ISSUE);
 
             var card = await _unitOfWork.GetRepository<LibraryCard>()
                 .AsReadOnly()
@@ -458,6 +452,15 @@ namespace Module.Library.Data
 
             if (!(card.Member.StatusId == StatusConstants.Active || card.Member.StatusId == StatusConstants.Approved))
                 throw new ValidationException($"Member is {card.Member.Status.Name}");
+
+            // check book is available
+            var item = await _bookItemRepository
+                .FirstOrDefaultAsync(x => x.Id == request.BookItem
+                && (x.StatusId == BookStatusConstants.Available || (x.StatusId == BookStatusConstants.Reserved && x.ReservedForId == card.MemberId))
+                && !x.IsDeleted, false, ct);
+
+            if (item == null)
+                throw new ValidationException(BOOK_IS_NOT_AVAILABLE_FOR_ISSUE);
 
             // check if already issued to this user
             var issue = await _bookIssueRepository
@@ -483,6 +486,7 @@ namespace Module.Library.Data
             // mark book item as loaned
             item.StatusId = BookStatusConstants.Loned;
             item.IssuedToId = (long)card.MemberId;
+            item.ReservedForId = null;
 
             var result = await _unitOfWork.SaveChangesAsync(ct);
 

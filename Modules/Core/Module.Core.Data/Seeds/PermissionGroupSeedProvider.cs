@@ -32,6 +32,7 @@ namespace Module.Core.Data
                 new PermissionGroup(PublisherGroup, "Publisher"),
                 new PermissionGroup(BookCategoryGroup, "Category"),
                 new PermissionGroup(LibraryReportGroup, "Report"),
+                new PermissionGroup(BookReservationGroup, "Book Reservation"),
                 
                 //asset
                 new PermissionGroup(AssetGroup, "Asset"),

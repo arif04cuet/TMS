@@ -221,6 +221,17 @@ namespace Module.Core.Data
                 new Permission (BookReturn,  Return, $"book.{Return.ToLower()}", BookGroup, LibraryManagement),
                 #endregion
 
+                #region Book Reservation
+                new Permission (BookReservationCreate, Create, $"book.reservation.{Create.ToLower()}", BookReservationGroup, LibraryManagement),
+                new Permission (BookReservationUpdate,  Update, $"book.reservation.{Update.ToLower()}", BookReservationGroup, LibraryManagement),
+                new Permission (BookReservationView, View, $"book.reservation.{View.ToLower()}", BookReservationGroup, LibraryManagement),
+                new Permission (BookReservationList, List, $"book.reservation.{List.ToLower()}", BookReservationGroup, LibraryManagement),
+                new Permission (BookReservationDelete,  Delete, $"book.reservation.{Delete.ToLower()}", BookReservationGroup, LibraryManagement),
+                new Permission (BookReservationManage,  Manage, $"book.reservation.{Manage.ToLower()}", BookReservationGroup, LibraryManagement),
+                new Permission (BookReservationCancel,  Manage, $"book.reservation.{Cancel.ToLower()}", BookReservationGroup, LibraryManagement),
+                new Permission (BookReservationIssue,  Manage, $"book.reservation.{Issue.ToLower()}", BookReservationGroup, LibraryManagement),
+                #endregion
+
                 #region Rack
                 new Permission (RackCreate, Create, $"rack.{Create.ToLower()}", RackGroup, LibraryManagement),
                 new Permission (RackUpdate,  Update, $"rack.{Update.ToLower()}", RackGroup, LibraryManagement),

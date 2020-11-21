@@ -280,7 +280,6 @@ export class HomeComponent extends BaseComponent {
               return this.permissionService.isRouteGranted('library.member');
             }
           },
-
           {
             level: 2,
             title: 'card.management',
@@ -288,6 +287,15 @@ export class HomeComponent extends BaseComponent {
             icon: 'user',
             fn: () => {
               return this.permissionService.isRouteGranted('card');
+            }
+          },
+          {
+            level: 2,
+            title: 'book.reservation',
+            route: '/admin/library/books/reservations',
+            icon: 'user',
+            fn: () => {
+              return this.permissionService.isRouteGranted('book.reservation');
             }
           },
           {

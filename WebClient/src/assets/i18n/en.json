@@ -582,5 +582,7 @@
   "issue.amount": "Issue amount",
   "lost.books": "Lost books",
   "new.books": "New books",
-  "loading.user.data": "Loading user data"
+  "loading.user.data": "Loading user data",
+  "book.reservation": "Book reservation",
+  "book.reservations": "Book reservations"
 }

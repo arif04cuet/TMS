@@ -10,7 +10,7 @@ using Msi.UtilityKit.Search;
 
 namespace Module.Library.Controllers
 {
-    [Route("api/books/reservations")]
+    [Route("api/books/reservations/status")]
     [ApiController]
     public class BookReservationStatusController : ControllerBase
     {
