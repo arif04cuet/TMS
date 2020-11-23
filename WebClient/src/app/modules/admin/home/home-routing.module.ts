@@ -334,7 +334,7 @@ const routes: Routes = [
             title: 'book.reservation',
             module: "library.management"
           },
-          permissions: ['book.reservation.manage', 'book.reservation.list']
+          //permissions: ['book.reservation.manage', 'book.reservation.list']
         }
       },
       {

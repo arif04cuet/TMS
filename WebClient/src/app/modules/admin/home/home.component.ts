@@ -268,7 +268,7 @@ export class HomeComponent extends BaseComponent {
             route: '/admin/library/books/reservations',
             icon: 'user',
             fn: () => {
-              return this.permissionService.isRouteGranted('book.reservation');
+              return true;//this.permissionService.isRouteGranted('book.reservation');
             }
           },
           {
