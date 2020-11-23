@@ -10,8 +10,8 @@
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['book.reservation.manage', 'book.reservation.create']" (click)="add()"
-                    nz-button class="btn-custom">
+                <button *checkPermission="['book.reservation.manage', 'book.issue']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
