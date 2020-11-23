@@ -9,7 +9,7 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 import { BookItemReserveAddRoutingModule } from './book-item-reserve-routing.module';
 import { BookReservationHttpService } from 'src/services/http/book-reservation.http.service';
-import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
   exports: [BookItemReserveAddComponent],
   providers: [
     BookReservationHttpService,
-    UserHttpService,
+    LibraryMemberHttpService,
     CommonValidator,
   ]
 })

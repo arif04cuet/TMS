@@ -3,12 +3,15 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { IButton } from 'src/app/shared/table-actions.component';
 import { BookReservationHttpService } from 'src/services/http/book-reservation.http.service';
+import { Searchable } from 'src/decorators/searchable.decorator';
 
 @Component({
   selector: 'app-book-item-reserve-list',
   templateUrl: './book-item-reserve-list.component.html'
 })
 export class BookItemReserveListComponent extends TableComponent {
+
+  @Searchable("BookItem.Barcode", "like") bookBarCode;
 
   buttons: IButton[] = [
     {

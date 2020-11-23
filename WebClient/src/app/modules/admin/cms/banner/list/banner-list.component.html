@@ -11,7 +11,8 @@
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['content.banner.manage', 'content.banner.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['content.banner.manage', 'content.banner.create']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -45,8 +46,8 @@
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.name }}</td>
                         <td><img width="300" height="100" [src]="data.mediaUrl" alt=""></td>
-                        <td>{{ data.createdAt|date:'medium':'+0000' }}</td>
-                        <td>{{ data.updatedAt|date:'medium':'+0000' }}</td>
+                        <td>{{ data.createdAt|date }}</td>
+                        <td>{{ data.updatedAt|date }}</td>
                         <td>{{ data.isActive ? 'Active':'Inactive'}}</td>
                         <td class="action-column fit-cell">
                             <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>

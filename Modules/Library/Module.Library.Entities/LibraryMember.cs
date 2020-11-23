@@ -17,8 +17,9 @@ namespace Module.Library.Entities
 
         public long TotalBooksCheckout { get; set; }
         public bool Blocked { get; set; }
-
+        [Searchable]
         public long? CurrentCardId { get; set; }
+        [Searchable]
         public LibraryCard CurrentCard { get; set; }
     }
 }

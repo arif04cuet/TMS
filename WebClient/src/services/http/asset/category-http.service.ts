@@ -17,4 +17,17 @@ export class CategoryHttpService extends AssetBaseHttpService {
     public rootCategories() {
         return this.httpService.get(`${this.AssetBaseUri}/${this.EndPoint}/root`);
     }
+
+    public masterCategories() {
+        return [
+            "Asset",
+            "Consumable",
+            "License",
+            'সম্পদ',
+            'ভোগ্য সম্পদ',
+            'লাইসেন্স',
+            'স্থাবর সম্পদ',
+            'অস্থাবর সম্পদ'
+        ];
+    }
 }

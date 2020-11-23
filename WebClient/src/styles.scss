@@ -583,7 +583,7 @@ nz-header .ant-badge-count {
       padding-right: 8px;
       border-radius: 10px;
       border: none;
-      font-weight: 500;     
+      font-weight: 500;
   }
   &.paid, &.succeed {
       .ant-tag {
@@ -666,13 +666,13 @@ nz-header .ant-badge-count {
     display: flex;
     border-radius: 50%;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
   }
-  
+
   .container:hover .overlay {
     opacity: 1;
   }
-  
+
   .icon {
     color: black;
     font-size: 22px;
@@ -710,13 +710,13 @@ nz-header .ant-badge-count {
     display: flex;
     border-radius: 50%;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
   }
-  
+
   .container:hover .overlay {
     opacity: 1;
   }
-  
+
   .icon {
     color: black;
     font-size: 22px;
@@ -821,7 +821,7 @@ body{
 .asset-categories {
   table{
     tr{
-      
+
       td.hide app-table-actions{
         display: none;
       }
@@ -871,7 +871,7 @@ body{
 
   .top .title {
       text-transform: uppercase;
-      font-size: 20px;
+      font-size: 18px;
   }
 
   .bottom {

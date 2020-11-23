@@ -7,6 +7,7 @@ using Module.Core.Shared;
 using static Module.Core.Shared.PermissionConstants;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
+using Infrastructure.Security;
 
 namespace Module.Library.Controllers
 {
@@ -16,10 +17,12 @@ namespace Module.Library.Controllers
     {
 
         private readonly IBookReservationService _bookReservationService;
-
+        public readonly IAppService _appService;
         public BookReservationController(
+            IAppService appService,
             IBookReservationService bookReservationService)
         {
+            _appService = appService;
             _bookReservationService = bookReservationService;
         }
 
@@ -53,6 +56,18 @@ namespace Module.Library.Controllers
             var result = await _bookReservationService.CreateAsync(request);
             return result.ToCreatedResult($"api/books/reservations/{result}");
         }
+
+        [HttpPost("reserveBymember")]
+        [RequirePermission(BookReservationCreate, BookReservationManage)]
+        public async Task<IActionResult> ReserveByMember([FromBody] BookReservationCreateRequest request)
+        {
+
+            request.User = _appService.GetAuthenticatedUser().Id;
+            var result = await _bookReservationService.CreateAsync(request);
+            return result.ToOkResult();
+
+        }
+
 
         [HttpPut("{id}")]
         [RequirePermission(BookReservationUpdate, BookReservationManage)]

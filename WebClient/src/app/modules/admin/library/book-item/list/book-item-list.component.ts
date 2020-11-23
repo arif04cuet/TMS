@@ -16,13 +16,15 @@ export class BookItemListComponent extends TableComponent {
 
   publishers = [];
   authors = [];
+  statuses = [];
 
   @Searchable("Book.Title", "like") title;
   @Searchable("Barcode", "like") barcode;
   @Searchable("Book.PublisherId", "eq") publisher;
   @Searchable("Book.AuthorId", "eq") author;
-  @Searchable("Status.Name", "like") status;
+  @Searchable("Status.Id", "eq") status;
   issueDate;
+
 
   buttons: IButton[] = [
     {
@@ -82,11 +84,13 @@ export class BookItemListComponent extends TableComponent {
     const request = [
       this.authorHttpService.list(),
       this.publisherHttpService.list(),
+      this.bookHttpService.listBookStatus()
     ]
     this.subscribe(forkJoin(request),
       (res: any) => {
         this.authors = res[0].data.items;
         this.publishers = res[1].data.items;
+        this.statuses = res[2].data.items;
       },
       err => {
         this.loading = false;

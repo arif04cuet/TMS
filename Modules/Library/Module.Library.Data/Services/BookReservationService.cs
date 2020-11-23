@@ -51,7 +51,7 @@ namespace Module.Library.Data
 
         public async Task<PagedCollection<IdNameViewModel>> ListAssignableBookItemsAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
         {
-            var result = await _unitOfWork.GetRepository<BookItem>().ListAsync(x => x.StatusId == BookStatusConstants.Available, x => new IdNameViewModel { Id = x.Id, Name = x.Book.Title }, pagingOptions, searchOptions);
+            var result = await _unitOfWork.GetRepository<BookItem>().ListAsync(x => x.StatusId == BookStatusConstants.Available, x => new IdNameViewModel { Id = x.Id, Name = x.Barcode }, pagingOptions, searchOptions);
             return result;
         }
 

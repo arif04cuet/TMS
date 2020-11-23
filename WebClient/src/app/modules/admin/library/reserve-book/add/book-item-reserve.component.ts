@@ -5,7 +5,9 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { MESSAGE_KEY } from 'src/constants/message-key.constant';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { BookReservationHttpService } from 'src/services/http/book-reservation.http.service';
-import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { LibraryMemberHttpService } from 'src/services/http/library-member-http.service';
+import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-book-item-reserve-add',
@@ -21,7 +23,7 @@ export class BookItemReserveAddComponent extends FormComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private bookReservationHttpService: BookReservationHttpService,
-    private userHttpService: UserHttpService,
+    private libraryMemberHttpService: LibraryMemberHttpService,
     private v: CommonValidator
   ) {
     super();
@@ -42,7 +44,19 @@ export class BookItemReserveAddComponent extends FormComponent {
     }).fetch();
 
     this.userSelect.register((pagination, search) => {
-      return this.userHttpService.list(pagination, search);
+      return this.libraryMemberHttpService.list(pagination, search).pipe(
+
+        map((x: any) => {
+
+          var items = x.data.items.filter(item => item.card !== null);
+
+          x.data.items = items;
+
+          return x;
+
+        })
+
+      );
     }).fetch();
   }
 

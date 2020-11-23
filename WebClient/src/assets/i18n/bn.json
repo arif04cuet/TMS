@@ -630,8 +630,8 @@
   "License": "লাইসেন্স",
   "azw_KFX_mobi": "আপলোড .azw /.KFX /.mobi",
   "Upload Pdf": "আপলোড .pdf",
-  "library.card.print.title": "ডিপার্টমেন্ট অফ সোশ্যাল সার্ভিস",
-  "library.card.print.address": "৪৪ শার্লি অভ. ওয়েস্ট শিকাগো. ইল",
+  "library.card.print.title": "সমাজসেবা অধিদফতর-গণপ্রজাতন্ত্রী বাংলাদেশ সরকার",
+  "library.card.print.address": "সমাজসেবা ভবন ই-৮/বি-১, আগারগাঁও, শেরেবাংলা নগর ঢাকা-১২০৭, বাংলাদেশ।",
   "remaining.warranty.is.x0.days": "অবশিষ্ট ওয়ারেন্টিটি {{x0}} দিন",
   "library.card.print.label.title": "পদবী",
   "library.card.print.label.code": "বারকোড",
@@ -670,5 +670,9 @@
   "supplier.or.maintainer": "সরবরাহকারী / মেইনটেইনার",
   "maintain.start.date": "দেয়ার তারিখ",
   "maintain.completion.date": "ফেরতের তারিখ",
-  "maintenance.cost": "সার্ভিস চার্জ"
+  "maintenance.cost": "সার্ভিস চার্জ",
+  "book.reservation": "বই রিজার্ভেশন",
+  "book.reservations": "বই রিজার্ভেশন",
+  "no_card_assigned": "কোন কার্ড দেয়া হইনি",
+  "no.bookitem.found": "কোন কপি পাওয়া যায়নি"
 }

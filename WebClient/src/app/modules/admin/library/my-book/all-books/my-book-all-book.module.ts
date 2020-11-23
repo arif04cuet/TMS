@@ -10,6 +10,7 @@ import { BookHttpService } from 'src/services/http/user/book-http.service';
 import { PublisherHttpService } from 'src/services/http/publisher-http.service';
 import { AuthorHttpService } from 'src/services/http/user/author-http.service';
 import { TableActionsModule } from 'src/app/shared/table-actions.component';
+import { BookReservationHttpService } from 'src/services/http/book-reservation.http.service';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { TableActionsModule } from 'src/app/shared/table-actions.component';
   providers: [
     BookHttpService,
     PublisherHttpService,
-    AuthorHttpService
+    AuthorHttpService,
+    BookReservationHttpService
   ]
 })
 export class MyBookAllBookModule { }

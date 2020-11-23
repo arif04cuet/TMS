@@ -4,14 +4,16 @@ using Infrastructure.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace OTMS.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201122073227_removeUserFromBookReservation")]
+    partial class removeUserFromBookReservation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -12413,9 +12415,6 @@ namespace OTMS.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("ReservationById")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("ReservationDate")
                         .HasColumnType("datetime2");
 
@@ -12438,8 +12437,6 @@ namespace OTMS.Migrations
                     b.HasIndex("BookItemId");
 
                     b.HasIndex("LibraryId");
-
-                    b.HasIndex("ReservationById");
 
                     b.HasIndex("StatusId");
 
@@ -16475,10 +16472,6 @@ namespace OTMS.Migrations
                     b.HasOne("Module.Library.Entities.Library", "Library")
                         .WithMany()
                         .HasForeignKey("LibraryId");
-
-                    b.HasOne("Module.Library.Entities.LibraryMember", "ReservationBy")
-                        .WithMany()
-                        .HasForeignKey("ReservationById");
 
                     b.HasOne("Module.Library.Entities.ReservationStatus", "Status")
                         .WithMany()

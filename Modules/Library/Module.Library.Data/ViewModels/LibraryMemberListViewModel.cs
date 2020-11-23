@@ -15,6 +15,7 @@ namespace Module.Library.Data
         public string Mobile { get; set; }
         public string Email { get; set; }
         public IdNameViewModel Library { get; set; }
+        public IdNameViewModel Card { get; set; }
 
         public static Expression<Func<LibraryMemberRequest, LibraryMemberListViewModel>> Select(IMediaService mediaService)
         {
@@ -47,6 +48,11 @@ namespace Module.Library.Data
                     Id = x.Library.Id,
                     Name = x.Library.Name
                 },
+                Card = x.CurrentCardId != null ? new IdNameViewModel
+                {
+                    Id = x.CurrentCard.Id,
+                    Name = x.CurrentCard.Barcode
+                } : null,
                 Photo = mediaService.GetPhotoUrl(x.User.Profile.Media)
             };
         }

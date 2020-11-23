@@ -67,8 +67,8 @@
                         <td>{{ data.title }}</td>
                         <td>{{ data.author?.name }}</td>
                         <td>{{ data.issuedTo?.name }}</td>
-                        <td>{{ data.issueDate|date:'medium':'+0000' }}</td>
-                        <td>{{ data.returnDate|date:'medium':'+0000' }}</td>
+                        <td>{{ data.issueDate|date }}</td>
+                        <td>{{ data.returnDate|date }}</td>
                         <td>{{ data.note }}</td>
                     </tr>
                 </tbody>

@@ -9,9 +9,11 @@ import { map } from 'rxjs/operators';
 import { invoke, getLang, forEachObj } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
 import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
+import { AuthService } from 'src/services/auth.service';
 
 export class BaseComponent {
 
+    user;
     _subscriptions: Subscription[];
     _messageService: NzMessageService;
     _router: Router;
@@ -28,6 +30,7 @@ export class BaseComponent {
         this._messageService = AppInjector.get(NzMessageService);
         this._router = AppInjector.get(Router);
         this._httpService = AppInjector.get(HttpService);
+        this.user = AppInjector.get(AuthService).getLoggedInUserInfo();
         this._translate = AppInjector.get(TranslateService);
         this._modalService = AppInjector.get(NzModalService);
         this._permissionService = AppInjector.get(PermissionHttpService);

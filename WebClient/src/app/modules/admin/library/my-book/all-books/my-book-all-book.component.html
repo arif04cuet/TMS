@@ -66,7 +66,9 @@
                         <td>{{ data.author?.name }}</td>
                         <td>{{ data.publisher?.name }}</td>
                         <td class="action-column fit-cell">
-                            <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
+                            <app-table-actions *ngIf="!isReserved(data)" [data]="data" [buttons]="buttons">
+                            </app-table-actions>
+                            <span *ngIf="isReserved(data)">Requested</span>
                         </td>
                     </tr>
                 </tbody>

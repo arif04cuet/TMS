@@ -18,13 +18,7 @@ export class CategoryListComponent extends TableComponent {
     { id: false, name: 'In Active' }
   ];
 
-  nonEditable = [
-    'সম্পদ',
-    'ভোগ্য সম্পদ',
-    'লাইসেন্স',
-    'স্থাবর সম্পদ',
-    'অস্থাবর সম্পদ'
-  ];
+  nonEditable = [];
 
   @Searchable("Name", "like") Name;
   @Searchable("Parent.Name", "like") Parent;
@@ -55,7 +49,8 @@ export class CategoryListComponent extends TableComponent {
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
     this.gets();
-
+    this.nonEditable = this.categoryHttpService.masterCategories();
+    console.log(this.nonEditable);
     this.onDeleted = (res: any) => {
       this.gets();
     }
@@ -94,5 +89,9 @@ export class CategoryListComponent extends TableComponent {
     this.gets(null, null);
   }
 
+  isEditable(category) {
+
+    return !this.nonEditable.includes(category.name.trim());
+  }
 
 }

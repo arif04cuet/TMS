@@ -122,7 +122,13 @@ export class CategoryAddComponent extends FormComponent {
   getData() {
     this.subscribe(this.categoryHttpService.list(),
       (res: any) => {
-        this.mastercategories = res.data.items;
+
+        let parents = this.categoryHttpService.masterCategories();
+
+        res.data.items.forEach(element => {
+          if (parents.includes(element.name.trim()))
+            this.mastercategories.push(element);
+        });
       }
     );
   }

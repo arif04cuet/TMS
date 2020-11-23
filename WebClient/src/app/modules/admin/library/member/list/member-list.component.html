@@ -43,6 +43,13 @@
                             {{'name'|translate}}
                             <input [(ngModel)]="name" nz-input />
                         </th>
+
+                        <th>
+                            {{'card'|translate}}
+                            <input [(ngModel)]="card" nz-input />
+                        </th>
+
+
                         <th>
                             <div>
                                 {{'library'|translate}}
@@ -79,6 +86,7 @@
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
                         <td>{{ data.fullName }}</td>
+                        <td>{{ data.card ? data.card.name : 'no_card_assigned'|translate }}</td>
                         <td>{{ data.library?.name }}</td>
                         <td>{{ data.mobile }}</td>
                         <td>{{ data.email }}</td>

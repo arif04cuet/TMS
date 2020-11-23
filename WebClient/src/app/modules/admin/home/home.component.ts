@@ -264,6 +264,15 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
+            title: 'book.reservation',
+            route: '/admin/library/books/reservations',
+            icon: 'user',
+            fn: () => {
+              return this.permissionService.isRouteGranted('book.reservation');
+            }
+          },
+          {
+            level: 2,
             title: 'member.requests',
             route: '/admin/library/members/requests',
             icon: 'user',
@@ -289,15 +298,7 @@ export class HomeComponent extends BaseComponent {
               return this.permissionService.isRouteGranted('card');
             }
           },
-          {
-            level: 2,
-            title: 'book.reservation',
-            route: '/admin/library/books/reservations',
-            icon: 'user',
-            fn: () => {
-              return this.permissionService.isRouteGranted('book.reservation');
-            }
-          },
+
           {
             level: 2,
             title: 'book.issue',

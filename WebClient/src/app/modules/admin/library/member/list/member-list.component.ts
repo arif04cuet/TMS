@@ -17,6 +17,7 @@ export class MemberListComponent extends TableComponent {
   libraries = [];
 
   @Searchable("User.FullName", "like") name;
+  @Searchable("CurrentCard.Barcode", "like") card;
   @Searchable("LibraryId", "eq") library;
   @Searchable("User.Mobile", "like") mobile;
   @Searchable("User.Email", "like") email;

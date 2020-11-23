@@ -79,15 +79,6 @@ export class MyBookListComponent extends TableComponent {
 
   load() {
     super.load((p, s) => {
-      if (this.issueDate && this.issueDate.length) {
-        if (this.issueDate[0]) {
-          s += `&IssueDateStart=${this.issueDate[0].toISOString()}`
-        }
-        if (this.issueDate[1]) {
-          s += `&IssueDateEnd=${this.issueDate[1].toISOString()}`
-        }
-      }
-      s += `&IssuedToId=${this.log}`
       return this.bookHttpService.listMyBookItems(p, s)
     })
   }

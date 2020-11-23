@@ -49,7 +49,8 @@ export class EnglishToBanglaInterceptor implements HttpInterceptor {
             "api/library/members",
             "api/asset/itemcodes/categories/2",
             "api/courses",
-            "api/asset/licenses"
+            "api/asset/licenses",
+            "api/asset/categories"
         ];
 
         var urlObj = new URL(url);

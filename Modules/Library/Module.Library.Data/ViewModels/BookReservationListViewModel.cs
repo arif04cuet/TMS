@@ -21,8 +21,8 @@ namespace Module.Library.Data
             {
                 Id = x.Id,
                 BookItemId = x.BookItemId,
-                Book = new IdNameViewModel { Id = x.BookId, Name = x.Book.Title },
-                User = x.ReservationById != null ? new IdNameViewModel { Id = x.ReservationBy.Id, Name = x.ReservationBy.FullName } : null,
+                Book = x.BookItemId != null ? new IdNameViewModel { Id = x.BookItem.Id, Name = x.BookItem.Barcode + "-" +x.Book.Title }:null,
+                User = x.ReservationById != null ? new IdNameViewModel { Id = x.ReservationBy.Id, Name = x.ReservationBy.User.FullName } : null,
                 ReserveDate = x.ReservationDate,
                 Status = x.StatusId != null ? new IdNameViewModel { Id = x.Status.Id, Name = x.Status.Name } : null
             };

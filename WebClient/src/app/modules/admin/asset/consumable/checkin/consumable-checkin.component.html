@@ -20,7 +20,7 @@
                         <app-view [data]="data.user?.name" label="user"></app-view>
                     </div>
                     <div nz-col [nzSpan]="6">
-                        <app-view data="{{data.issueDate|date:'medium':'+0000'}}" label="issue.date"></app-view>
+                        <app-view data="{{data.issueDate|date}}" label="issue.date"></app-view>
                     </div>
                     <div nz-col [nzSpan]="6">
                         <app-view data="{{data.quantity}}" label="quantity"></app-view>
@@ -44,8 +44,7 @@
                                 <label>{{'note'|translate}}</label>
                             </div>
                             <nz-form-control>
-                                <textarea nz-input formControlName="note"
-                                    placeholder="{{'note'|translate}}"></textarea>
+                                <textarea nz-input formControlName="note" placeholder="{{'note'|translate}}"></textarea>
                             </nz-form-control>
                         </nz-form-item>
                     </div>

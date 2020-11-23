@@ -42,8 +42,9 @@ namespace Module.Library.Entities
         public long? CurrentIssueId { get; set; }
         [ForeignKey(nameof(CurrentIssueId))]
         public BookIssue CurrentIssue { get; set; }
-
+        [Searchable]
         public long? ReservedForId { get; set; }
+        [Searchable]
         public virtual User ReservedFor { get; set; }
 
     }

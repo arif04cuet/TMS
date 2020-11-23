@@ -19,4 +19,9 @@ export class BookReservationHttpService extends BaseHttpService {
         const url = `${this.END_POINT}/${reservationId}/issue`;
         return this.httpService.post(url, {});
     }
+    public reserveBymember(body) {
+        const url = `${this.END_POINT}/reserveBymember`;
+        return this.httpService.post(url, body);
+    }
+
 }
