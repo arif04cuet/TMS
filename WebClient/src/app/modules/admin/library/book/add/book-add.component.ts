@@ -49,7 +49,7 @@ export class BookAddComponent extends FormComponent {
     this.onCheckMode = id => this.get(id);
     this.createForm({
       title: [null, [], this.v.required.bind(this)],
-      isbn: [null, [], this.v.required.bind(this)],
+      isbn: [null, [], this.v.isbn.bind(this)],
       language: [null, [], this.v.required.bind(this)],
       publisher: [null, [], this.v.required.bind(this)],
       subjects: [],
@@ -66,7 +66,8 @@ export class BookAddComponent extends FormComponent {
 
     //convert eng number to bangla
     for (let index = 0; index < body.editions.length; index++) {
-      body.editions[index].numberOfPage = Number(convertValueToEnglish(body.editions[index].numberOfPage));
+      if (body.editions[index].numberOfPage)
+        body.editions[index].numberOfPage = Number(convertValueToEnglish(body.editions[index].numberOfPage));
     }
 
     this.submitForm(

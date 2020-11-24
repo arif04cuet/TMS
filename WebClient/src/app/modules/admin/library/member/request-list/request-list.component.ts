@@ -15,10 +15,12 @@ import { environment } from 'src/environments/environment';
 })
 export class MemberRequestListComponent extends TableComponent {
 
-  @Searchable("User.FullName", "like") name;
-  @Searchable("Library.Name", "like") library;
-  @Searchable("User.Mobile", "like") mobile;
-  @Searchable("User.Email", "like") email;
+  libraries = [];
+  @Searchable("FullName", "like") name;
+  @Searchable("LibraryId", "eq") library;
+  @Searchable("Mobile", "like") mobile;
+  @Searchable("Email", "like") email;
+
 
   rowItemDisabledFilterKey = 'isApproved';
   environment = environment;
@@ -34,11 +36,12 @@ export class MemberRequestListComponent extends TableComponent {
 
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
-    this.gets2();
+    this.gets();
   }
 
-  gets2(pagination = null, search = null) {
+  gets(pagination = null, search = null) {
     this.load((pagination, search) => {
+      search += `&IsApproved=false`;
       var list = this.libraryMemberHttpService.listRequests(pagination, search).pipe(
         map((x: any) => {
           x.data.items.forEach(o => {
@@ -49,24 +52,25 @@ export class MemberRequestListComponent extends TableComponent {
       );
       return list;
     });
-  }
 
-  gets(pagination = null, search = null) {
-    this.loading = true;
+    const request = [
+      this.libraryHttpService.list(pagination, search),
+    ]
+    this.subscribe(forkJoin(request),
+      (res: any) => {
 
-    var response = this.libraryMemberHttpService.listRequests(pagination, search).pipe(
-      map((x: any) => {
-        x.data.items.forEach(o => {
-          o.photoUrl = `${environment.serverUri}/${o.photo}`;
-        });
-        return x;
-      })
+        this.libraries = res[0].data.items;
+
+      },
+      err => {
+        console.log(err);
+        this.loading = false;
+      }
     );
 
-    console.log(response);
-    return response;
 
   }
+
 
   refresh() {
     this.gets(null, this.getSearchTerms());

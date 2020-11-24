@@ -6,12 +6,13 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'hostels'|translate}} ({{total}})
+                        {{'hostels'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['hostel.manage', 'hostel.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['hostel.manage', 'hostel.create']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>

@@ -6,12 +6,13 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'course.methods'|translate}} ({{total}})
+                        {{'course.methods'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['method.manage', 'method.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['method.manage', 'method.create']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -25,7 +26,8 @@
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
                 (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
                 nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>{{'name'|translate}}</th>

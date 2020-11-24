@@ -6,7 +6,7 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'member.requests'|translate}} ({{total}})
+                        {{'member.requests'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
@@ -47,7 +47,13 @@
                         </th>
                         <th>
                             {{'library'|translate}}
-                            <input [(ngModel)]="email" nz-input />
+
+                            <nz-select [(ngModel)]="library" class="btn-custom" nzShowSearch nzAllowClear
+                                [nzPlaceHolder]="'select.x0'|translate:{x0: 'library'|translate|lowercase}">
+                                <nz-option *ngFor="let p of libraries" [nzLabel]="p.name" [nzValue]="p.id">
+                                </nz-option>
+                            </nz-select>
+
                         </th>
                         <th>
                             {{'approved'|translate}}

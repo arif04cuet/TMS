@@ -6,7 +6,7 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'allocations'|translate}} ({{total}})
+                        {{'allocations'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
@@ -14,7 +14,8 @@
                 <button (click)="export()" nzType="primary" nz-button class="btn-custom">
                     {{'export'|translate}}
                 </button>
-                <button *ngIf="setOfCheckedId.size" nz-dropdown [nzDropdownMenu]="actions" nzTrigger="click" nz-button class="btn-custom">
+                <button *ngIf="setOfCheckedId.size" nz-dropdown [nzDropdownMenu]="actions" nzTrigger="click" nz-button
+                    class="btn-custom">
                     {{'actions'|translate}}
                 </button>
                 <nz-dropdown-menu #actions="nzDropdownMenu">
@@ -39,12 +40,15 @@
         </div>
         <div class="block">
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
-                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable
-                nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)"
+                (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable nzShowSizeChanger
+                [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate"
+                            (nzCheckedChange)="onAllChecked($event)"></th>
                         <th>{{'trainee'|translate}}</th>
                         <th>
                             <div>{{'batch'|translate}}</div>
@@ -80,7 +84,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)"
+                            (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                         <td>{{ data.trainee?.name }}</td>
                         <td>{{ data.batchSchedule?.name }}</td>
                         <td>{{ data.course?.name }}</td>

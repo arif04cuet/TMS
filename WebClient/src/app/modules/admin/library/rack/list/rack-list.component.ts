@@ -13,7 +13,7 @@ import { IButton } from 'src/app/shared/table-actions.component';
 export class RackListComponent extends TableComponent {
 
   @Searchable("Name", "like") name;
-  @Searchable("FloorNo", "like") floorNo;
+  @Searchable("FloorNo", "eq") floorNo;
   @Searchable("BuildingName", "like") buildingName;
 
   buttons: IButton[] = [
@@ -30,7 +30,7 @@ export class RackListComponent extends TableComponent {
       icon: 'delete'
     }
   ]
-  
+
   constructor(
     private rackHttpService: RackHttpService,
     private activatedRoute: ActivatedRoute

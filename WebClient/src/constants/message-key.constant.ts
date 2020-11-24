@@ -9,5 +9,6 @@ export const MESSAGE_KEY = {
     CHECKIN_SUCCESSFUL: 'checkin.successful',
     SUCCESSFULLY_UPDATED: 'successfully.updated',
     SUCCESSFULLY_LOGGED_IN: 'successfully.logged.in',
-    NO_BOOK_ITEM_FOUND: "no.bookitem.found"
+    NO_BOOK_ITEM_FOUND: "no.bookitem.found",
+    MUST_BE_ISBN_NUMBER: "must.be.isbn.number",
 }

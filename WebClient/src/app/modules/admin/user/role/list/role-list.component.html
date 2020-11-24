@@ -6,7 +6,7 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'roles'|translate}} ({{total}})
+                        {{'roles'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
@@ -23,7 +23,8 @@
         </div>
         <div class="block">
             <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
-                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>

@@ -40,7 +40,7 @@ export class BookItemAddComponent extends FormComponent {
     this.createForm({
       book: [null, [], this.v.required.bind(this)],
       library: [null, [], this.v.required.bind(this)],
-      edition: [null, [], this.v.required.bind(this)],
+      edition: [],
       rack: [null, [], this.v.required.bind(this)],
       purchasePrice: [null, [], this.v.required.bind(this)],
       dateOfPurchase: [null, [], this.v.required.bind(this)],
@@ -114,7 +114,7 @@ export class BookItemAddComponent extends FormComponent {
     if (e) {
       this.editionSelect.register((pagination, search) => {
         return this.bookHttpService.getEditions(e, pagination, search);
-      }).fetch();
+      }).fetch(null, true);
     }
   }
 

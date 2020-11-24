@@ -15,14 +15,28 @@ export class CommonValidator extends BaseComponent {
   }
 
   mobile(control: FormControl) {
+    let pattern = /^(\d)+$/;
+
     if (!control.value) {
       return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
     }
-    else if (isNaN(control.value)) {
+    else if (!pattern.test(control.value)) {
       return this.error(MESSAGE_KEY.MUST_BE_NUMERIC);
     }
     else if (control.value.length != 11) {
       return this.error(MESSAGE_KEY.MUST_BE_EQUAL_X0_CHARACTERS, { x0: 11 });
+    }
+    return of(true);
+  }
+
+  isbn(control: FormControl) {
+    let pattern = /^(\d|-|x|X)+$/;
+
+    if (!control.value) {
+      return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+    }
+    else if (!pattern.test(control.value)) {
+      return this.error(MESSAGE_KEY.MUST_BE_ISBN_NUMBER);
     }
     return of(true);
   }

@@ -99,7 +99,7 @@ export class FormBaseComponent extends BaseComponent {
 
     checkMode(fn: (id: number) => void, paramKey: string = 'id'): void {
         const id = this.getQueryParams(paramKey);
-        if(id) {
+        if (id) {
             this.id = id;
         }
         if (this.id) {
@@ -148,7 +148,8 @@ export class FormBaseComponent extends BaseComponent {
             forEachObj(this.form.controls, (k, v) => {
                 const data = e.error.data.filter(x => x.field.toLowerCase() == k.toLowerCase());
                 if (data && data.length > 0) {
-                    const err = { message: data[data.length - 1].message }
+                    const servermsg = this._translate.instant(data[data.length - 1].message);
+                    const err = { message: servermsg }
                     v.setErrors(err);
                 }
             });

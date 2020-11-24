@@ -13,10 +13,15 @@ namespace Module.Library.Entities
         [Searchable]
         public User User { get; set; }
         public DateTime RequestDate { get; set; }
+        [Searchable]
         public bool IsApproved { get; set; }
+        [Searchable]
         public string FullName { get; set; }
+        [Searchable]
         public string Email { get; set; }
+        [Searchable]
         public string Mobile { get; set; }
+
         public string Password { get; set; }
 
         public long? MediaId { get; set; }

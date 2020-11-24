@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { convertValueToEnglish } from 'src/services/utilities.service';
 
 const metadataKey = Symbol('otmsSearchable');
 
@@ -22,11 +23,12 @@ function registerProperty(target: object, key: string): void {
 export function getSearchableProperties(origin: object): object {
     const keys: string[] = Reflect.getMetadata(metadataKey, origin);
     const result = [];
-    if(keys && keys.length) {
+    if (keys && keys.length) {
         keys.forEach(key => {
             const arr = key.split(":");
             const property = arr[0];
-            const value = origin[property];
+            const value = origin[property] ? convertValueToEnglish(origin[property]) : origin[property];
+            //const value = origin[property];
             if (value !== undefined && value !== null && value !== "") {
                 result.push(`Search=${arr[1]} ${arr[2]} ${value}`);
             }

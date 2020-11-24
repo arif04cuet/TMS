@@ -6,15 +6,17 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'allocations'|translate}} ({{total}})
+                        {{'allocations'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['allocation.manage', 'allocation.checkout']" (click)="batchCheckout()" nzType="primary" nz-button class="btn-custom">
+                <button *checkPermission="['allocation.manage', 'allocation.checkout']" (click)="batchCheckout()"
+                    nzType="primary" nz-button class="btn-custom">
                     {{'batch.checkout'|translate}}
                 </button>
-                <button *checkPermission="['allocation.manage', 'allocation.create']"  (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['allocation.manage', 'allocation.create']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -26,9 +28,11 @@
         </div>
         <div class="block">
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
-                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable
-                nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
+                (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)"
+                (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable nzShowSizeChanger
+                [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions" nzTableLayout="fixed" [nzScroll]="{ x: '100%' }">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>{{'checkin'|translate}}</th>
@@ -58,17 +62,20 @@
                         <td>{{ data.status?.name }}</td>
                         <td class="action-column fit-cell">
                             <ng-container *checkPermission="['allocation.manage', 'allocation.update']">
-                                <button nzType="primary" *ngIf="data.status?.id == 1" nz-button (click)="add(data)" class="btn-custom">
+                                <button nzType="primary" *ngIf="data.status?.id == 1" nz-button (click)="add(data)"
+                                    class="btn-custom">
                                     {{'edit'|translate}}
                                 </button>
                             </ng-container>
                             <ng-container *checkPermission="['allocation.manage', 'allocation.cancel']">
-                                <button (click)="cancel(data)" *ngIf="data.status?.id == 1" nz-button class="btn-custom">
+                                <button (click)="cancel(data)" *ngIf="data.status?.id == 1" nz-button
+                                    class="btn-custom">
                                     {{'cancel'|translate}}
                                 </button>
                             </ng-container>
                             <ng-container *checkPermission="['allocation.manage', 'allocation.checkout']">
-                                <button nzType="primary" (click)="checkout(data)" *ngIf="data.status?.id == 2" nz-button class="btn-custom">
+                                <button nzType="primary" (click)="checkout(data)" *ngIf="data.status?.id == 2" nz-button
+                                    class="btn-custom">
                                     {{'checkout'|translate}}
                                 </button>
                             </ng-container>

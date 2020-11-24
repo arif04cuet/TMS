@@ -6,12 +6,13 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'honorarium.heads'|translate}} ({{total}})
+                        {{'honorarium.heads'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['honorarium.head.manage', 'honorarium.head.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['honorarium.head.manage', 'honorarium.head.create']" (click)="add()"
+                    nz-button class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
@@ -25,7 +26,8 @@
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
                 (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
                 nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
                         <th>{{'year'|translate}}</th>

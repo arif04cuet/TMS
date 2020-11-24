@@ -169,7 +169,7 @@
   "date.of.joining": "যোগদানের তারিখ",
   "date.of.purchase": "ক্রয়ের তারিখ",
   "degree": "ডিগ্রী",
-  "delete": "মুছা",
+  "delete": "মুছে ফেলুন",
   "delete.edition": "সংস্করণটি মুছুন",
   "department": "বিভাগ",
   "departments": "বিভাগ",
@@ -443,7 +443,7 @@
   "sale.this": "বিক্রয়",
   "sales": "বিক্রয়",
   "save_new": "সংরক্ষণ করুন এবং নতুন",
-  "search": "অনুসন্ধান করা",
+  "search": "অনুসন্ধান করুন",
   "seats": "আসন",
   "select.customer": "ক্রেতা নির্বাচন করুন",
   "select.date": "তারিখ নির্বাচন করুন",
@@ -482,6 +482,7 @@
   "tax": "শুল্ক",
   "term": "টার্ম",
   "this.field.is.required": "ঘরটি অবশ্যই পূরণ করতে হবে",
+  "This field is required.": "ঘরটি অবশ্যই পূরণ করতে হবে",
   "this.user.will.be.emailed.a.copy.of.the.eula": " EULA এর  অনুলিপি এই ব্যবহারকারীকে ইমেল করা হবে ",
   "timeline": "টাইম লাইন",
   "tin": "টিআইএন",
@@ -674,5 +675,6 @@
   "book.reservation": "বই রিজার্ভেশন",
   "book.reservations": "বই রিজার্ভেশন",
   "no_card_assigned": "কোন কার্ড দেয়া হইনি",
-  "no.bookitem.found": "কোন কপি পাওয়া যায়নি"
+  "no.bookitem.found": "কোন কপি পাওয়া যায়নি",
+  "must.be.isbn.number": "আইএসবিএন নাম্বার ফরম্যাট পাওয়া যায়নি। শুধুমাত্র নাম্বার,-,x"
 }

@@ -38,6 +38,7 @@ export class BanglaToEnglishInterceptor implements HttpInterceptor {
         const list = [
             "api/libraries/racks",
             "api/books",
+            "api/users",
             "api/books/items",
             "api/library/members",
             "api/libraries/cards",

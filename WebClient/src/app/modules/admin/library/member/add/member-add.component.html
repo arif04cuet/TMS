@@ -33,11 +33,13 @@
                                 <div>
                                     <label class="required">{{'library'|translate}}</label>
                                 </div>
-                                <nz-select class="btn-custom" formControlName="library" nzShowSearch nzAllowClear
-                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'library'|translate|lowercase}">
-                                    <nz-option *ngFor="let p of libraries" [nzLabel]="p.name" [nzValue]="p.id">
-                                    </nz-option>
-                                </nz-select>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                    <nz-select class="btn-custom" formControlName="library" nzShowSearch nzAllowClear
+                                        [nzPlaceHolder]="'select.x0'|translate:{x0: 'library'|translate|lowercase}">
+                                        <nz-option *ngFor="let p of libraries" [nzLabel]="p.name" [nzValue]="p.id">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
                             </nz-form-item>
                         </div>
                     </div>
@@ -64,7 +66,7 @@
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="text" nz-input formControlName="mobile"
-                                        placeholder="{{'mobile'|translate}}" />
+                                        placeholder="{{'01xxx xx xx xx'|translate}}" />
                                 </nz-form-control>
                             </nz-form-item>
                         </div>

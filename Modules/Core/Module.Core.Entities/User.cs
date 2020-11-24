@@ -22,7 +22,9 @@ namespace Module.Core.Entities
         public bool EmailConfirmed { get; set; }
         public bool TwoFactorEnabled { get; set; }
 
+        [Searchable]
         public long? StatusId { get; set; }
+        [Searchable]
         public Status Status { get; set; }
 
         [Searchable]

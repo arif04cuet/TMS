@@ -14,7 +14,7 @@
                                         <label class="required">{{'name'|translate}}</label>
                                     </div>
                                     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <input enToBn type="text" nz-input formControlName="name"
+                                        <input type="text" nz-input formControlName="name"
                                             placeholder="{{'name'|translate}}" />
                                     </nz-form-control>
                                 </nz-form-item>
@@ -27,7 +27,8 @@
         </nz-tab>
         <nz-tab nzTitle="{{'assign.permissions'|translate}}">
             <ng-template nz-tab>
-                <app-permission (changePermissions)="onChangePermissions($event)" #permission purpose='role'></app-permission>
+                <app-permission (changePermissions)="onChangePermissions($event)" #permission purpose='role'>
+                </app-permission>
             </ng-template>
         </nz-tab>
     </nz-tabset>

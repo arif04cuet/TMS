@@ -5,7 +5,7 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'assets'|translate}} ({{total}})
+                        {{'assets'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
@@ -18,12 +18,15 @@
         </div>
         <div class="block">
             <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
-                (nzPageIndexChange)="pageIndexChanged($event)" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
-                nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-                [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+                (nzPageIndexChange)="pageIndexChanged($event)"
+                (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" (nzPageSizeChange)="pageSizeChanged($event)"
+                #basicTable nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate"
+                [nzTotal]="total" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate"
+                            (nzCheckedChange)="onAllChecked($event)"></th>
                         <th>
                             {{'asset.tag'|translate}}
                             <input [(ngModel)]="assetTag" nz-input />
@@ -52,7 +55,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)"
+                            (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                         <td>{{ data.assetTag }}</td>
                         <td>{{ data.name }}</td>
                         <td>{{ data.category.name }}</td>

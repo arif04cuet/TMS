@@ -75,7 +75,7 @@ export class MemberAddComponent extends FormComponent {
           this.setValues(this.form.controls, res.data);
           this.photoUrl = environment.serverUri + '/' + res.data.photo;
           const card = res.data.card;
-          if(card) {
+          if (card) {
             this.setValue('cardId', card.id);
             this.setValue('cardExpireDate', card.expireDate);
           }
@@ -93,8 +93,10 @@ export class MemberAddComponent extends FormComponent {
   }
 
   getData() {
+
+    let s = `Search=StatusId eq 2`;
     const requests = [
-      this.userHttpService.list(),
+      this.userHttpService.list(null, s),
       this.libraryHttpService.list(),
       this.libraryCardHttpService.listAssignableCards(),
     ]
@@ -103,9 +105,9 @@ export class MemberAddComponent extends FormComponent {
         this.users = res[0].data.items;
         this.libraries = res[1].data.items;
         this.cards = res[2].data.items;
-        if (this.libraries.length > 0) {
-          this.form.controls.library.setValue(this.libraries[0].id);
-        }
+        // if (this.libraries.length > 0) {
+        //   this.form.controls.library.setValue(this.libraries[0].id);
+        // }
       }
     );
   }

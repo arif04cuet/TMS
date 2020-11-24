@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Entities;
 using Module.Core.Entities.Constants;
+using Msi.UtilityKit.Search;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Core.Entities
@@ -7,6 +8,7 @@ namespace Module.Core.Entities
     [Table(nameof(Office), Schema = SchemaConstants.Core)]
     public class Office : BaseEntity
     {
+        [Searchable]
         public string OfficeName { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }

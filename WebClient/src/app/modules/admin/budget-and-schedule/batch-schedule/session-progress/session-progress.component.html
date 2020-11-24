@@ -6,15 +6,17 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'session.progress'|translate}} ({{total}})
+                        {{'session.progress'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
             <div class="column">
-                <button *ngIf="setOfCheckedId.size > 0" (click)="markCompleteMultiple()" nz-button nzType="primary" class="btn-custom">
+                <button *ngIf="setOfCheckedId.size > 0" (click)="markCompleteMultiple()" nz-button nzType="primary"
+                    class="btn-custom">
                     {{'mark.complete'|translate}}
                 </button>
-                <button *ngIf="setOfCheckedId.size > 0" (click)="markCompleteMultipleAndGenerateSheet()" nz-button nzType="primary" class="btn-custom">
+                <button *ngIf="setOfCheckedId.size > 0" (click)="markCompleteMultipleAndGenerateSheet()" nz-button
+                    nzType="primary" class="btn-custom">
                     {{'mark.complete.and.generate.honorarium.sheet'|translate}}
                 </button>
                 <button (click)="refresh()" nz-button class="btn-custom">
@@ -24,11 +26,13 @@
             </div>
         </div>
         <div class="block">
-            <nz-table (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable
-                [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total" [nzData]="items" nzShowPagination="false" [nzPageSizeOptions]="pageSizeOptions">
+            <nz-table (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" #basicTable [nzLoading]="loading"
+                [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total" [nzData]="items" nzShowPagination="false"
+                [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+                        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate"
+                            (nzCheckedChange)="onAllChecked($event)"></th>
                         <th>{{'topic'|translate}}</th>
                         <th>{{'module'|translate}}</th>
                         <th>{{'status'|translate}}</th>
@@ -37,12 +41,14 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+                        <td nzShowCheckbox [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled"
+                            (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
                         <td>{{ data.topic?.name }}</td>
                         <td>{{ data.courseModule?.name }}</td>
                         <td>{{ (data.completed ? 'completed' : '')|translate }}</td>
                         <td>
-                            <button (click)="markCompleteAndGenerateSheet(data)" nz-button nzType="primary" class="btn-custom">
+                            <button (click)="markCompleteAndGenerateSheet(data)" nz-button nzType="primary"
+                                class="btn-custom">
                                 {{'mark.complete.and.generate.honorarium.sheet'|translate}}
                             </button>
                         </td>

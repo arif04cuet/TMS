@@ -6,12 +6,13 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'cms.faq'|translate}} ({{total}})
+                        {{'cms.faq'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
             <div class="column">
-                <button *checkPermission="['content.faq.manage', 'content.faq.create']" (click)="add()" nz-button class="btn-custom">
+                <button *checkPermission="['content.faq.manage', 'content.faq.create']" (click)="add()" nz-button
+                    class="btn-custom">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
                     {{'new'|translate}}
                 </button>
