@@ -32,7 +32,7 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     data: {
       name: 'admin',
-      title: "Admin",
+      title: "Dashboard",
       breadcrumb: {
         icon: 'dashboard'
       }

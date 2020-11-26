@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
 import { Title } from '@angular/platform-browser';
 import { filter } from 'rxjs/operators';
@@ -31,6 +31,7 @@ export class HomeComponent extends BaseComponent {
     this.snapshot(this.activatedRoute.snapshot);
     this.on('breadcrumbs', (data: any[]) => {
       this.breadcrumbs = data;
+      this.setMetaTitle(data);
     })
     this.userInfo = this.authService.getLoggedInUserInfo() || {};
 
@@ -840,30 +841,25 @@ export class HomeComponent extends BaseComponent {
     this.nav = nav;
     this.permissionLoaded = true;
 
-    //title service
-
-
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-    ).subscribe(() => {
-      const rt = this.getChild(this.activatedRoute);
-      rt.data.subscribe(data => {
-        const title = this._translate.instant(data.breadcrumb.title);
-        const module = this._translate.instant(data.breadcrumb.module);
-        this.titleService.setTitle(title + ' - ' + module);
-      });
-    });
-
-
   }
 
-  getChild(activatedRoute: ActivatedRoute) {
-    if (activatedRoute.firstChild) {
-      return this.getChild(activatedRoute.firstChild);
-    } else {
-      return activatedRoute;
-    }
+  setMetaTitle(breadcrumbs) {
+    let title = '';
 
+    breadcrumbs.reverse().forEach((element, index, array) => {
+      if (typeof element.title != "undefined") {
+
+        title += this._translate.instant(element.title);
+
+        if (index != (array.length - 2)) {
+          title += '-';
+        }
+
+      }
+
+    });
+
+    this.titleService.setTitle(title);
   }
 
 

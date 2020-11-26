@@ -36,7 +36,12 @@
                         <th>
                             {{'room.type'|translate}}
                             <div>
-                                <app-select #roomType></app-select>
+                                <nz-select [(ngModel)]="roomType" class="btn-custom" nzShowSearch nzAllowClear
+                                    [nzPlaceHolder]="'select.x0'|translate:{x0: 'room.type'|translate|lowercase}">
+                                    <nz-option *ngFor="let p of types" [nzLabel]="p.name" [nzValue]="p.id">
+                                    </nz-option>
+                                </nz-select>
+
                             </div>
                         </th>
                         <th>{{'floor'|translate}}</th>

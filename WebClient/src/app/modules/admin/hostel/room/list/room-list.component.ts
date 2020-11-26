@@ -7,6 +7,7 @@ import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
 import { SelectComponent } from 'src/app/shared/select/select.component';
 import { RoomTypeHttpService } from 'src/services/http/hostel/room-type-http.service';
 import { IButton } from 'src/app/shared/table-actions.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-room-list',
@@ -14,8 +15,11 @@ import { IButton } from 'src/app/shared/table-actions.component';
 })
 export class RoomListComponent extends TableComponent {
 
-  @ViewChild('roomType') roomType: SelectComponent;
+  types = [];
+
+  //@ViewChild('roomType') roomType: SelectComponent;
   @Searchable("Name", "like") name;
+  @Searchable("TypeId", "eq") roomType;
   serverUrl = environment.serverUri;
 
   buttons: IButton[] = [
@@ -48,9 +52,23 @@ export class RoomListComponent extends TableComponent {
   }
 
   ngAfterViewInit() {
-    this.roomType.register((pagination, search) => {
-      return this.roomTypeHttpService.list(pagination, search);
-    }).fetch();
+
+    // this.roomType.register((pagination, search) => {
+    //   return this.roomTypeHttpService.list(pagination, search);
+    // }).fetch();
+
+
+    const request = [
+      this.roomTypeHttpService.list()
+    ]
+    this.subscribe(forkJoin(request),
+      (res: any) => {
+
+        this.types = res[0].data.items;
+      }
+    );
+
+
 
   }
 
