@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { Title } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgZorroAntdModule,
     SharedModule
   ],
+  providers: [Title],
   exports: [HomeComponent]
 })
 export class HomeModule { }

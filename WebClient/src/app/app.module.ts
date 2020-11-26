@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -90,7 +90,8 @@ const dateConfig: NzDateConfig = {
       deps: [AuthService, SecurityService, PermissionHttpService],
       multi: true
     },
-    CacheService
+    CacheService,
+    Title
   ],
   bootstrap: [AppComponent]
 })

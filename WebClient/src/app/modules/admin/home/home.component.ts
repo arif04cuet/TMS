@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthService } from 'src/services/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
+import { Title } from '@angular/platform-browser';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +20,9 @@ export class HomeComponent extends BaseComponent {
   constructor(
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
-    private permissionService: PermissionHttpService
+    private permissionService: PermissionHttpService,
+    private router: Router,
+    private titleService: Title
   ) {
     super();
   }
@@ -835,7 +839,33 @@ export class HomeComponent extends BaseComponent {
     this.checkNavGrant(nav);
     this.nav = nav;
     this.permissionLoaded = true;
+
+    //title service
+
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+    ).subscribe(() => {
+      const rt = this.getChild(this.activatedRoute);
+      rt.data.subscribe(data => {
+        const title = this._translate.instant(data.breadcrumb.title);
+        const module = this._translate.instant(data.breadcrumb.module);
+        this.titleService.setTitle(title + ' - ' + module);
+      });
+    });
+
+
   }
+
+  getChild(activatedRoute: ActivatedRoute) {
+    if (activatedRoute.firstChild) {
+      return this.getChild(activatedRoute.firstChild);
+    } else {
+      return activatedRoute;
+    }
+
+  }
+
 
   logout() {
     this.authService.logout();

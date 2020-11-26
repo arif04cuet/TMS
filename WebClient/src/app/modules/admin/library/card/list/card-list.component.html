@@ -34,7 +34,12 @@
                         </th>
                         <th>
                             {{'type'|translate}}
-                            <input [(ngModel)]="type" nz-input />
+                            <nz-select [(ngModel)]="type" class="btn-custom" nzShowSearch nzAllowClear
+                                nzPlaceHolder="{{'select'|translate}}">
+                                <nz-option *ngFor="let p of types" [nzLabel]="p.name|translate" [nzValue]="p.id">
+                                </nz-option>
+                            </nz-select>
+
                         </th>
                         <th>
                             {{'member'|translate}}

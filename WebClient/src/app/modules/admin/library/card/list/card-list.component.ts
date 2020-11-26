@@ -6,6 +6,7 @@ import { LibraryCardHttpService } from 'src/services/http/library-card-http.serv
 import { IButton } from 'src/app/shared/table-actions.component';
 import { environment } from 'src/environments/environment';
 import * as moment from 'moment';
+import { forkJoin } from 'rxjs';
 declare const JsBarcode: any;
 
 @Component({
@@ -14,8 +15,10 @@ declare const JsBarcode: any;
 })
 export class CardListComponent extends TableComponent {
 
+  types = [];
+
   @Searchable("Barcode", "like") number;
-  @Searchable("CardType.Name", "like") type;
+  @Searchable("CardTypeId", "eq") type;
   buttons: IButton[] = [
     {
       label: 'print',
@@ -48,7 +51,23 @@ export class CardListComponent extends TableComponent {
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
     this.load();
+    this.loadCardTypes();
   }
+
+  loadCardTypes() {
+
+    this.loading = true;
+    const request = [
+      this.libraryCardHttpService.listTypes(),
+    ]
+    this.subscribe(forkJoin(request),
+      (res: any) => {
+        this.types = res[0].data.items;
+      }
+    );
+
+  }
+
 
   add(model = null) {
     if (model) {
