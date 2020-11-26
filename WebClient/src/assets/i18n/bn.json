@@ -1,4 +1,4 @@
-﻿{
+{
   "access.denied": "আপনার এই পৃষ্ঠাটি অ্যাক্সেস করার অনুমতি নেই.",
   "accessory": "একসেসোরিজ",
   "account_manager_name": "অ্যাকাউন্ট  ম্যানেজারের নাম",
@@ -646,6 +646,8 @@
   "book.entry.report": "বই এন্ট্রি রিপোর্ট",
   "book.entry": "বই এন্ট্রি",
   "book.name": "বইয়ের নাম",
+  "comment": "মতামত",
+  "voucher": "ভাউচার",
   "recipient.name.and.designation": "প্রাপকের নাম ও পদবি",
   "book.entries": "বই সমূহ",
   "voucher.no": "ভাওচার নাম্বার",
