@@ -17,6 +17,7 @@ namespace Infrastructure.Entities
         }
 
         [Searchable]
+        [UniqueField]
         public string Name { get; set; }
     }
 }

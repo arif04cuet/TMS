@@ -38,73 +38,75 @@ namespace Msi.UtilityKit.Search
 
                     // expression -> name eq shahid
                     var tokens = _searchQuery[i].Split(' ');
-                    if (tokens.Length == 3)
+                    if (tokens.Length >= 3)
                     {
                         string @operator = tokens[1];
-                        string value = tokens[2];
-
-                        for (int j = 0; j < propertiesLength; j++)
+                        string value = tokens.Skip(2).Join(" ").Trim();
+                        if (!string.IsNullOrWhiteSpace(value))
                         {
-                            var property = properties[j];
-
-                            // if property has searchable attribute and search term equals to property name
-                            var searchableAttribute = properties[j].GetCustomAttributes<SearchableAttribute>().FirstOrDefault();
-                            var tokenParts = tokens[0].Split('.');
-                            bool isSearchable = searchableAttribute != null && properties[j].Name.Equals(tokenParts[0], StringComparison.OrdinalIgnoreCase);
-
-                            if (isSearchable)
+                            for (int j = 0; j < propertiesLength; j++)
                             {
-                                // build up the LINQ expression backwards:
-                                // query = query.Where(x => x.Property == "Value");
+                                var property = properties[j];
 
-                                var parameter = ExpressionUtilities.Parameter<T>();
+                                // if property has searchable attribute and search term equals to property name
+                                var searchableAttribute = properties[j].GetCustomAttributes<SearchableAttribute>().FirstOrDefault();
+                                var tokenParts = tokens[0].Split('.');
+                                bool isSearchable = searchableAttribute != null && properties[j].Name.Equals(tokenParts[0], StringComparison.OrdinalIgnoreCase);
 
-                                // x.Property
-                                var left = parameter.GetPropertyExpression(property);
-
-                                if (tokenParts.Length > 1)
+                                if (isSearchable)
                                 {
-                                    left = tokenParts.Skip(1).Aggregate(left, Expression.Property);
-                                }
+                                    // build up the LINQ expression backwards:
+                                    // query = query.Where(x => x.Property == "Value");
 
-                                // "Value"
-                                var propertyType = property.GetSafePropertyType();
+                                    var parameter = ExpressionUtilities.Parameter<T>();
 
-                                if (tokenParts.Length > 1)
-                                {
-                                    foreach (var tokenPart in tokenParts.Skip(1))
+                                    // x.Property
+                                    var left = parameter.GetPropertyExpression(property);
+
+                                    if (tokenParts.Length > 1)
                                     {
-                                        property = propertyType.GetProperty(tokenPart);
-                                        propertyType = property.GetSafePropertyType();
+                                        left = tokenParts.Skip(1).Aggregate(left, Expression.Property);
                                     }
-                                }
 
-                                object constantValue = null;
-                                if (propertyType.IsEnum)
-                                {
-                                    constantValue = Enum.Parse(propertyType, value);
-                                }
-                                else
-                                {
-                                    if(!value.Equals("NULL"))
+                                    // "Value"
+                                    var propertyType = property.GetSafePropertyType();
+
+                                    if (tokenParts.Length > 1)
                                     {
-                                        constantValue = Convert.ChangeType(value, propertyType);
+                                        foreach (var tokenPart in tokenParts.Skip(1))
+                                        {
+                                            property = propertyType.GetProperty(tokenPart);
+                                            propertyType = property.GetSafePropertyType();
+                                        }
                                     }
+
+                                    object constantValue = null;
+                                    if (propertyType.IsEnum)
+                                    {
+                                        constantValue = Enum.Parse(propertyType, value);
+                                    }
+                                    else
+                                    {
+                                        if (!value.Equals("NULL"))
+                                        {
+                                            constantValue = Convert.ChangeType(value, propertyType);
+                                        }
+                                    }
+
+                                    var right = Expression.Constant(constantValue, property.PropertyType);
+
+                                    // x.Property == "Value"
+                                    var comparisonExpressionProvider = _comparisonExpressionProviderFactory.CreateProvider(@operator.ToLower());
+                                    var comparisonExpression = comparisonExpressionProvider.GetExpression(left, right);
+
+                                    // x => x.Property == "Value"
+                                    var lambda = ExpressionUtilities
+                                        .GetLambda<T, bool>(parameter, comparisonExpression);
+
+                                    // query = query.Where...
+                                    query = query.DynamicWhere(lambda);
+
                                 }
-
-                                var right = Expression.Constant(constantValue, property.PropertyType);
-
-                                // x.Property == "Value"
-                                var comparisonExpressionProvider = _comparisonExpressionProviderFactory.CreateProvider(@operator.ToLower());
-                                var comparisonExpression = comparisonExpressionProvider.GetExpression(left, right);
-
-                                // x => x.Property == "Value"
-                                var lambda = ExpressionUtilities
-                                    .GetLambda<T, bool>(parameter, comparisonExpression);
-
-                                // query = query.Where...
-                                query = query.DynamicWhere(lambda);
-
                             }
                         }
                     }
@@ -119,7 +121,7 @@ namespace Msi.UtilityKit.Search
             options.Invoke(_utilitiesOptions);
         }
 
-        private static Type GetSafePropertyType(this PropertyInfo propertyInfo)
+        public static Type GetSafePropertyType(this PropertyInfo propertyInfo)
         {
             return Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType;
         }

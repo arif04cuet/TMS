@@ -15,14 +15,13 @@ import { TranslateService } from '@ngx-translate/core';
   </div>
   <div [class]="uploaderClass + ' cursor-pointer' ">
     <div class="container">
-        <input (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
+        <input [accept]="accept" (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
         <div class="placeholder" *ngIf="!photoLoading && !photoUrl">
             <i nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
             <span>{{ 'no.photo'|translate }}</span>
         </div>
         <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i> 
         <img *ngIf="!photoLoading && photoUrl && type == 'image'" [src]="photoUrl" class="photo" />
-        
         <div *ngIf="!photoLoading && type == 'file'" >
         <div>
           <a class="icon" (click)="handleUpload($event); photo.click()">
@@ -35,19 +34,16 @@ import { TranslateService } from '@ngx-translate/core';
           </a>
         </div>
       </div>
-
-        
-
-        <div *ngIf="!photoLoading && type == 'image'" class="overlay">
-          <div>
-            <a class="icon" (click)="handleUpload($event); photo.click()">
-              <i nz-icon nzType="upload" nzTheme="outline"></i>
-            </a>
-            <a *ngIf="photoUrl && delete" class="icon" (click)="handleDelete($event)">
-              <i nz-icon nzType="delete" nzTheme="outline"></i>
-            </a>
-          </div>
+      <div *ngIf="!photoLoading && type == 'image'" class="overlay">
+        <div>
+          <a class="icon" (click)="handleUpload($event); photo.click()">
+            <i nz-icon nzType="upload" nzTheme="outline"></i>
+          </a>
+          <a *ngIf="photoUrl && delete" class="icon" (click)="handleDelete($event)">
+            <i nz-icon nzType="delete" nzTheme="outline"></i>
+          </a>
         </div>
+      </div>
     </div>
   </div>
   `
@@ -60,6 +56,7 @@ export class PhotoUploadComponent {
   @Input() photoUrl;
   @Input() control: FormControl;
   @Input() delete: (mediaId: any) => Observable<boolean>;
+  @Input() accept: string = "";
 
   photoLoading: boolean = false;
 

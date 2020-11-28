@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Module.Core.Entities
 {
 	[Table(nameof(Role), Schema = SchemaConstants.Core)]
+	[CheckUnique]
 	public class Role : IdNameEntity
 	{
 		public Role() : base()
