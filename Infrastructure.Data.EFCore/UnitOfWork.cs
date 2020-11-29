@@ -95,6 +95,20 @@ namespace Infrastructure.Data.EFCore
 
                         var parameter = Expression.Parameter(type);
 
+                        if(entry.State == EntityState.Modified || entry.State == EntityState.Unchanged)
+                        {
+                            var id = entry.Entity.GetValue("Id");
+                            if(id != null)
+                            {
+                                var idProp = type.GetProperty("Id");
+                                var left = parameter.GetPropertyExpression(idProp);
+                                var right = Expression.Constant(id);
+                                var expression = Expression.NotEqual(left, right);
+                                var lambda = ExpressionUtilities.GetLambda(type, typeof(bool), parameter, expression);
+                                query = WhereMethod(type).Invoke(null, new object[] { query, lambda });
+                            }
+                        }
+
                         foreach (var prop in props)
                         {
                             // x.Property
