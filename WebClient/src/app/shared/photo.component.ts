@@ -19,8 +19,9 @@ import { TranslateService } from '@ngx-translate/core';
         <div class="placeholder" *ngIf="!photoLoading && !photoUrl">
             <i nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
             <span>{{ 'no.photo'|translate }}</span>
+            <span *ngIf="accept.length>0">{{ 'only'|translate }} {{ accept}} {{ 'files'|translate }}</span>
         </div>
-        <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i> 
+        <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i>
         <img *ngIf="!photoLoading && photoUrl && type == 'image'" [src]="photoUrl" class="photo" />
         <div *ngIf="!photoLoading && type == 'file'" >
         <div>
@@ -70,6 +71,22 @@ export class PhotoUploadComponent {
   handlePhotoChange(e) {
     const file = e.target.files[0];
     if (file) {
+
+      // check file extension
+      if (this.accept.length > 0) {
+        var fileName = file.name;
+        var ext = fileName.substr(fileName.lastIndexOf('.') + 1);
+
+        console.log(this.accept.split(","));
+        if (!this.accept.split(",").includes("." + ext)) {
+          this.control.setErrors({ 'incorrect': true });
+          this.translateService.get('only.x0.files', { x0: this.accept }).subscribe(x => {
+            this.messageService.error(x);
+          });
+          return false;
+        }
+      }
+
       this.photoLoading = true;
       var fr = new FileReader();
       fr.onload = () => {

@@ -9,9 +9,11 @@ using Module.Core.Entities.Constants;
 namespace Module.Asset.Entities
 {
     [Table(nameof(Consumable), Schema = SchemaConstants.Asset)]
+    [CheckUnique]
     public class Consumable : BaseEntity
     {
         [Searchable]
+        [UniqueField]
         public string Name { get; set; }
 
         public long ItemCodeId { get; set; }

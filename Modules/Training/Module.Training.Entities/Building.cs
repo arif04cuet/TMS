@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Module.Training.Entities
 {
     [Table(nameof(Building), Schema = SchemaConstants.Training)]
+    [CheckUnique]
     public class Building : IdNameEntity
     {
         [Searchable]

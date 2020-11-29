@@ -6,9 +6,11 @@ using Module.Core.Entities.Constants;
 namespace Module.Asset.Entities
 {
     [Table(nameof(ItemCode), Schema = SchemaConstants.Asset)]
+    [CheckUnique]
     public class ItemCode : BaseEntity
     {
         [Searchable]
+        [UniqueField]
         public string Name { get; set; }
 
         [Searchable]
@@ -19,7 +21,7 @@ namespace Module.Asset.Entities
 
         public int? TotalQuantity { get; set; }
         public int? Available { get; set; }
-        
+
         public int MinQuantity { get; set; }
 
     }

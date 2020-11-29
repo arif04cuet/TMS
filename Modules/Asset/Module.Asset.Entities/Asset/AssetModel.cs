@@ -8,9 +8,11 @@ using Module.Core.Entities.Constants;
 namespace Module.Asset.Entities
 {
     [Table(nameof(AssetModel), Schema = SchemaConstants.Asset)]
+    [CheckUnique]
     public class AssetModel : BaseEntity
     {
         [Searchable]
+        [UniqueField]
         public string Name { get; set; }
 
         [Searchable]

@@ -9,9 +9,11 @@ using Module.Core.Entities.Constants;
 namespace Module.Asset.Entities
 {
     [Table(nameof(License), Schema = SchemaConstants.Asset)]
+    [CheckUnique]
     public class License : BaseEntity
     {
         [Searchable]
+        [UniqueField]
         public string Name { get; set; }
 
         [Searchable]

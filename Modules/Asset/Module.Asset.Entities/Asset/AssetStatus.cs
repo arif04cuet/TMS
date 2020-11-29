@@ -14,9 +14,11 @@ namespace Module.Asset.Entities
     }
 
     [Table(nameof(AssetStatus), Schema = SchemaConstants.Asset)]
+    [CheckUnique]
     public class AssetStatus : BaseEntity
     {
         [Searchable]
+        [UniqueField]
         public string Name { get; set; }
 
         [Searchable]

@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Module.Training.Entities
 {
     [Table(nameof(Hostel), Schema = SchemaConstants.Training)]
+    [CheckUnique]
     public class Hostel : IdNameEntity
     {
 

@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Module.Training.Entities
 {
     [Table(nameof(Room), Schema = SchemaConstants.Training)]
+    [CheckUnique]
     public class Room : IdNameEntity
     {
         public Room()

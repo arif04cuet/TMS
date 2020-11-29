@@ -8,9 +8,11 @@ using System.Collections.Generic;
 namespace Module.Asset.Entities
 {
     [Table(nameof(Category), Schema = SchemaConstants.Asset)]
+    [CheckUnique]
     public class Category : BaseEntity
     {
         [Searchable]
+        [UniqueField]
         public string Name { get; set; }
 
         public string EULA { get; set; }

@@ -6,9 +6,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Module.Asset.Entities
 {
     [Table(nameof(Supplier), Schema = SchemaConstants.Asset)]
+    [CheckUnique]
     public class Supplier : BaseEntity
     {
         [Searchable]
+        [UniqueField]
         public string Name { get; set; }
 
         [Searchable]

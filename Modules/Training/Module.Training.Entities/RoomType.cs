@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Module.Training.Entities
 {
     [Table(nameof(RoomType), Schema = SchemaConstants.Training)]
+    [CheckUnique]
     public class RoomType : IdNameEntity
     {
         public float Rent { get; set; }

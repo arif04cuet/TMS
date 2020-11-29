@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Module.Training.Entities
 {
     [Table(nameof(Facilities), Schema = SchemaConstants.Training)]
+    [CheckUnique]
     public class Facilities : IdNameEntity
     {
     }

@@ -7,9 +7,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Module.Library.Entities
 {
     [Table(nameof(Library), Schema = SchemaConstants.Library)]
+    [CheckUnique]
     public class Library : BaseEntity
     {
         [Searchable]
+        [UniqueField]
         public string Name { get; set; }
         public long? AddressId { get; set; }
         public Address Address { get; set; }
