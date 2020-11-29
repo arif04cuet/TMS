@@ -12,7 +12,8 @@
     <nz-form-item>
       <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="mobile">{{'Mobile'|translate}}</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzErrorTip]="errorTemplate">
-        <input nz-input formControlName="mobile" id="mobile" />
+        <input nz-input formControlName="mobile" id="mobile" placeholder="01xxx xx xx xx" pattern="^(\d)+$"
+          minlength="11" maxlength="11" />
       </nz-form-control>
     </nz-form-item>
 
@@ -44,7 +45,8 @@
       <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzErrorTip]="errorTemplate">
         <div (click)="photo.click()" class="photo-uploader cursor-pointer">
           <div class="container">
-            <input id="photo" (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
+            <input id="photo" (change)="handlePhotoChange($event)" #photo type="file" style="display: none;"
+              accept=".png,.jpg,.jpeg">
             <div class="placeholder" *ngIf="!photoLoading && !photoUrl">
               <i nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
               <span></span>
