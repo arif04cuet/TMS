@@ -95,10 +95,21 @@ namespace Infrastructure.Data.EFCore
 
                         var parameter = Expression.Parameter(type);
 
-                        if(entry.State == EntityState.Modified || entry.State == EntityState.Unchanged)
+                        var isDeletedProp = entry.Entity.GetProperty("IsDeleted");
+                        if (isDeletedProp != null)
+                        {
+                            var left = parameter.GetPropertyExpression(isDeletedProp);
+                            var right = Expression.Constant(false);
+                            var expression = Expression.Equal(left, right);
+                            var lambda = ExpressionUtilities.GetLambda(type, typeof(bool), parameter, expression);
+                            query = WhereMethod(type).Invoke(null, new object[] { query, lambda });
+
+                        }
+
+                        if (entry.State == EntityState.Modified || entry.State == EntityState.Unchanged)
                         {
                             var id = entry.Entity.GetValue("Id");
-                            if(id != null)
+                            if (id != null)
                             {
                                 var idProp = type.GetProperty("Id");
                                 var left = parameter.GetPropertyExpression(idProp);
@@ -132,7 +143,7 @@ namespace Infrastructure.Data.EFCore
                         var count = (int)CountMethod
                             .MakeGenericMethod(type)
                             .Invoke(null, new object[] { query });
-                        if(count > 0)
+                        if (count > 0)
                         {
                             throw new ValidationException($"Item already exist.");
                         }
