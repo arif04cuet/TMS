@@ -214,7 +214,7 @@ const routes: Routes = [
           name: 'library_member_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'members',
+            title: 'member.management',
             module: "library.management"
           },
           permissions: ['library.member.manage', 'library.member.list']
@@ -227,7 +227,7 @@ const routes: Routes = [
           name: 'library_members_requests_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'members',
+            title: 'member.requests',
             module: "library.management"
           },
           permissions: ['library.member.request.manage', 'library.member.request.list']
@@ -253,7 +253,7 @@ const routes: Routes = [
           name: 'book_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'books',
+            title: 'book.catalog',
             module: "library.management"
           },
           permissions: ['book.catalog.manage', 'book.catalog.list']
@@ -266,7 +266,7 @@ const routes: Routes = [
           name: 'book_item_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'books',
+            title: 'book.management',
             module: "library.management"
           },
           permissions: ['book.manage', 'book.list']
