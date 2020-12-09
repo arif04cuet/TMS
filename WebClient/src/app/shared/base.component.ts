@@ -89,21 +89,22 @@ export class BaseComponent {
     handleError(error, redirect = '/login') {
         if (error && error.error) {
             if (error && error.status === 403) {
-                this._messageService.error(error.error);
+                this.failed(error.error);
                 this._router.navigateByUrl(redirect);
             } else if (error.error.message) {
                 if (error.error.message == "form_error") {
 
                 }
                 else {
-                    this._messageService.error(error.error.message);
+                    this.failed(error.error.message);
                 }
             } else {
-                this._messageService.error(error.message);
+                this.failed(error.message);
             }
         } else if (error && !error.ok) {
-            this._messageService.error(error.message);
+            this.failed(error.message);
         }
+
     }
 
     getQueryParams(name: string) {

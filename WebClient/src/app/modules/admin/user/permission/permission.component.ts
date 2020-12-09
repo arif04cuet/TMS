@@ -50,6 +50,7 @@ export class PermissionComponent extends BaseComponent {
 
   get() {
     if (this.service) {
+      this.id = typeof this.id == 'undefined' ? 0 : this.id;
       this.subscribe(this.service.getPermissions(this.id),
         (res: any) => {
           this.nodes = this.transformTreeData(res);

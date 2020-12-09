@@ -27,7 +27,7 @@ namespace Module.Core.Controllers
 
         [HttpGet]
         [RequirePermission(RoleList, RoleManage)]
-        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions)
+        public async Task<ActionResult> List([FromQuery] PagingOptions pagingOptions)
         {
             var result = await _roleService.ListAsync(pagingOptions);
             return result.ToOkResult();
@@ -42,9 +42,9 @@ namespace Module.Core.Controllers
 
         [HttpPost]
         [RequirePermission(RoleCreate, RoleManage)]
-        public async Task<IActionResult> Post([FromBody] NameCreateRequest request)
+        public async Task<IActionResult> Post([FromBody] RoleUpdateRequest request)
         {
-            var result = await _roleService.CreateAsync(request);
+            var result = await _roleService.CreateRoleWithPermissionAsync(request);
             return result.ToCreatedResult();
         }
 
@@ -59,7 +59,7 @@ namespace Module.Core.Controllers
 
         [HttpGet("{id}/permissions")]
         [RequirePermission(RoleUpdate, RoleManage)]
-        public async Task<IActionResult> ListRolePermission(long id, [FromQuery]PagingOptions pagingOptions)
+        public async Task<IActionResult> ListRolePermission(long id, [FromQuery] PagingOptions pagingOptions)
         {
             var result = await _permissionService.ListRolePermissionsAsync(id, pagingOptions);
             return result.ToOkResult();

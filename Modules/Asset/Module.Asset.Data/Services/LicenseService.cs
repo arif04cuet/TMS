@@ -72,6 +72,11 @@ namespace Module.Asset.Data
                 throw new NotFoundException("License not found");
 
             entity.IsDeleted = true;
+
+            // delete seats of this license
+            var seats = await _seatRepository.Where(x => x.LicenseId == entity.Id).ToListAsync();
+            seats.ForEach(x => x.IsDeleted = true);
+
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
         }

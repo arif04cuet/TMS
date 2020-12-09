@@ -24,6 +24,25 @@ namespace Module.Core.Data
             _permissionService = permissionService;
         }
 
+        public async Task<long> CreateRoleWithPermissionAsync(RoleUpdateRequest request, CancellationToken cancellationToken = default)
+        {
+            var item = new Role
+            {
+                Name = request.Name,
+            };
+
+            await _repository.AddAsync(item, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            if (request.Permissions != null)
+            {
+                await _permissionService.AssignRolePermission(item.Id, request.Permissions);
+            }
+
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return item.Id;
+        }
+
         public async Task<bool> UpdateRoleAsync(RoleUpdateRequest request, CancellationToken cancellationToken = default)
         {
             var item = await _repository.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -33,7 +52,7 @@ namespace Module.Core.Data
 
             item.Name = request.Name;
 
-            if(request.Permissions != null)
+            if (request.Permissions != null)
             {
                 await _permissionService.AssignRolePermission(item.Id, request.Permissions);
             }

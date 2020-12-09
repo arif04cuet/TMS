@@ -12,5 +12,7 @@ namespace Module.Core.Data
         Task<IEnumerable<long>> GetRoleIdsAsync(long userId);
 
         Task<bool> UpdateRoleAsync(RoleUpdateRequest request, CancellationToken cancellationToken = default);
+        Task<long> CreateRoleWithPermissionAsync(RoleUpdateRequest request, CancellationToken cancellationToken = default);
+
     }
 }

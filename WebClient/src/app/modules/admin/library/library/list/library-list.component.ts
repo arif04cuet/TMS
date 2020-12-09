@@ -30,11 +30,13 @@ export class LibraryListComponent extends TableComponent {
     }
   ]
 
+
   constructor(
     private libraryHttpService: LibraryHttpService,
     private activatedRoute: ActivatedRoute
   ) {
     super(libraryHttpService);
+    this.onDeleteFailed = this.onDeleteFailedHandler.bind(this);
   }
 
   ngOnInit() {
@@ -76,5 +78,21 @@ export class LibraryListComponent extends TableComponent {
   search() {
     this.gets(null, this.getSearchTerms())
   }
+
+  onDeleteFailedHandler(res: any) {
+
+  }
+
+  handleError(error, redirect = '/login') {
+
+    if (error && error.status === 500 && error.error.message == 'Something went wrong.') {
+
+      this.failed('library.delete.failed');
+
+    } else {
+      super.handleError(error);
+    }
+  }
+
 
 }

@@ -9,6 +9,7 @@ import { LibraryMemberHttpService } from 'src/services/http/library-member-http.
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { LibraryCardHttpService } from 'src/services/http/library-card-http.service';
 import { environment } from 'src/environments/environment';
+import { convertValueToBengali, convertValueToEnglish } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-member-add-existing',
@@ -99,12 +100,19 @@ export class MemberAddComponent extends FormComponent {
       this.userHttpService.list(null, s),
       this.libraryHttpService.list(),
       this.libraryCardHttpService.listAssignableCards(),
+      this.libraryMemberHttpService.list(),
     ]
     this.subscribe(forkJoin(requests),
       (res: any[]) => {
-        this.users = res[0].data.items;
+        let users = res[0].data.items;
         this.libraries = res[1].data.items;
         this.cards = res[2].data.items;
+        let members = res[3].data.items;
+        console.log(users);
+        console.log(members);
+        this.users = users.filter(user => !members.some(e => convertValueToEnglish(e.userId) == user.id));
+
+
         // if (this.libraries.length > 0) {
         //   this.form.controls.library.setValue(this.libraries[0].id);
         // }

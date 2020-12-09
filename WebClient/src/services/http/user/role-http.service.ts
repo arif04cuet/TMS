@@ -29,6 +29,7 @@ export class RoleHttpService {
     }
 
     public getPermissions(userId) {
+        console.log(userId);
         return this.httpService.get(`roles/${userId}/permissions`);
     }
 

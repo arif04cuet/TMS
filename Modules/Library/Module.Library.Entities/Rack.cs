@@ -11,8 +11,11 @@ namespace Module.Library.Entities
         [Searchable]
         public int FloorNo { get; set; }
         [Searchable]
+
         public string BuildingName { get; set; }
+        [Searchable]
         public long? LibraryId { get; set; }
+        [Searchable]
         public Library Library { get; set; }
 
     }

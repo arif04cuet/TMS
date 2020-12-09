@@ -33,7 +33,7 @@
                         <th>{{'name'|translate}} <input [(ngModel)]="name" nz-input /></th>
                         <th>{{'hostel'|translate}}
                             <div>
-                                <nz-select [(ngModel)]="hostels" class="btn-custom" nzShowSearch nzAllowClear
+                                <nz-select [(ngModel)]="hostel" class="btn-custom" nzShowSearch nzAllowClear
                                     [nzPlaceHolder]="'select.x0'|translate:{x0: 'hostel'|translate|lowercase}">
                                     <nz-option *ngFor="let p of hostels" [nzLabel]="p.name" [nzValue]="p.id">
                                     </nz-option>

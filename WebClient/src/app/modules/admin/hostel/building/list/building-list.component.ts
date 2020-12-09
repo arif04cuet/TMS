@@ -13,8 +13,9 @@ import { IButton } from 'src/app/shared/table-actions.component';
 })
 export class BuildingListComponent extends TableComponent {
 
+  hostels = [];
   @Searchable("Name", "like") name;
-  @Searchable("HostelId", "eq") hostels;
+  @Searchable("HostelId", "eq") hostel;
   serverUrl = environment.serverUri;
 
   buttons: IButton[] = [
@@ -56,19 +57,22 @@ export class BuildingListComponent extends TableComponent {
 
   gets() {
     this.load();
+    this.subscribe(this.hostelHttpService.list(),
+      (res: any) => {
+        res.data.items.forEach(e => {
+          this.hostels.push({ id: e.id, name: e.name });
+        });
+      },
+      err => {
+        console.log(err);
+        this.loading = false;
+      }
+    );
   }
 
   refresh() {
     this.load();
-    this.subscribe(this.hostelHttpService.list(),
-    (res: any) => {
-      this.hostels = res.data.items;
-    },
-    err => {
-      console.log(err);
-      this.loading = false;
-    }
-  );
+
   }
 
   search() {

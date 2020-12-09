@@ -46,6 +46,8 @@ export class RoleAddComponent extends FormComponent {
   }
 
   submit(): void {
+
+
     const body: any = this.constructObject(this.form.controls);
     const permissions = this.getPermissions();
     if (permissions && permissions.length > 0) {
