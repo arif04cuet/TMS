@@ -134,22 +134,15 @@ namespace Module.Asset.Data
                             join [asset].[ItemCode] i on i.CategoryId = cte.Id ";
 
             string where = searchOptions.ToSqlSyntax("i.");
-            if(!string.IsNullOrEmpty(where))
-            {
-                itemSql += $" where {where}";
-            }
 
             var totalSql = sql + @"select count(i.Id) from cte
                             join [asset].[ItemCode] i on i.CategoryId = cte.Id";
 
-            // if (searchOptions?.Search?.Length > 0)
-            // {
-            //     var _searchQuery = searchOptions.Search;
-            //     var tokens = _searchQuery[0].Split(' ');
-            //     string name = tokens[2];
-
-            //     itemSql += $" where i.Name like '{name}%' ";
-            // }
+            if (!string.IsNullOrEmpty(where))
+            {
+                itemSql += $" where {where} ";
+                totalSql += $" where {where} ";
+            }
 
             itemSql += $" order by i.Code ";
 

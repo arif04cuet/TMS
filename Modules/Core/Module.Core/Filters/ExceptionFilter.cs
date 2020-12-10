@@ -67,7 +67,7 @@ namespace Module.Core.Filters
             return new ObjectResult(new
             {
                 Status = 500,
-                Message = "Something went wrong.",
+                Message = err.Item2 ? "Can't delete, child records exist." : "Something went wrong.",
                 Errors = err.Item1,
                 Error = err.Item2 ? "DELETE_CONFLICT_ERROR" : null
             })
@@ -81,7 +81,7 @@ namespace Module.Core.Filters
             return new ObjectResult(new
             {
                 Status = 500,
-                Message = "Something went wrong.",
+                Message = conflicted ? "Can't delete, child records exist." : "Something went wrong.",
                 Error = conflicted ? "DELETE_CONFLICT_ERROR" : null
             })
             {
