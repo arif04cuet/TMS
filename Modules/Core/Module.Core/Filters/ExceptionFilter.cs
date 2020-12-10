@@ -3,6 +3,7 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -48,8 +49,8 @@ namespace Module.Core.Filters
                 ObjectResult result;
                 if (_env.IsProduction())
                 {
-                    CollectErrors(context);
-                    result = GetProductionErrorResult();
+                    var err = CollectErrors(context);
+                    result = GetProductionErrorResult(err.Item2);
                 }
                 else
                 {
@@ -62,40 +63,54 @@ namespace Module.Core.Filters
 
         private ObjectResult GetDevelopmentErrorResult(ExceptionContext context)
         {
+            var err = CollectErrors(context);
             return new ObjectResult(new
             {
                 Status = 500,
                 Message = "Something went wrong.",
-                Errors = CollectErrors(context)
+                Errors = err.Item1,
+                Error = err.Item2 ? "DELETE_CONFLICT_ERROR" : null
             })
             {
                 StatusCode = 500
             };
         }
 
-        private ObjectResult GetProductionErrorResult()
+        private ObjectResult GetProductionErrorResult(bool conflicted = false)
         {
             return new ObjectResult(new
             {
                 Status = 500,
-                Message = "Something went wrong."
+                Message = "Something went wrong.",
+                Error = conflicted ? "DELETE_CONFLICT_ERROR" : null
             })
             {
                 StatusCode = 500
             };
         }
 
-        private List<string> CollectErrors(ExceptionContext context)
+        private (List<string>, bool) CollectErrors(ExceptionContext context)
         {
             List<string> errors = new List<string>();
             Exception ex = context.Exception;
+            bool isSqpException = ex is SqlException;
+            bool conflicted = false;
             while (ex != null)
             {
+                if(isSqpException)
+                {
+                    SqlException sqlEx = ex as SqlException;
+                    if(sqlEx.Number == 547)
+                    {
+                        conflicted = true;
+                    }
+                }
                 _logger.LogError(ex.Message);
                 errors.Add(ex.Message);
                 ex = ex.InnerException;
+                isSqpException = ex is SqlException;
             }
-            return errors;
+            return (errors, conflicted);
         }
     }
 }

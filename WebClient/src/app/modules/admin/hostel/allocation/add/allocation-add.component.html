@@ -149,6 +149,6 @@
 
 <ng-template #modalFooter>
     <div class="pad-v-12 pad-h-20">
-        <button nz-button class="btn-custom">Cancel</button>
+        <button (click)="closeModal()" nz-button class="btn-custom">{{'cancel'|translate}}</button>
     </div>
 </ng-template>

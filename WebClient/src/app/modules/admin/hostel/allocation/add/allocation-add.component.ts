@@ -8,7 +8,7 @@ import { HostelHttpService } from 'src/services/http/hostel/hostel-http.service'
 import { AllocationHttpService } from 'src/services/http/hostel/allocation-http.service';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
 import { BedModalComponent } from '../bed-modal/bed-modal.component';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { RoomModalComponent } from '../room-modal/room-modal.component';
 import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
 import { BedHttpService } from 'src/services/http/hostel/bed-http.service';
@@ -28,6 +28,8 @@ export class AllocationAddComponent extends FormComponent {
   @ViewChild('userSelect') userSelect: SelectControlComponent;
   @ViewChild('statusSelect') statusSelect: SelectControlComponent;
   @ViewChild("modalFooter") modalFooter: TemplateRef<any>;
+
+  private modalRef: NzModalRef<any>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -157,9 +159,9 @@ export class AllocationAddComponent extends FormComponent {
   }
 
   selectRoom() {
-    const modal = this.createModal(RoomModalComponent);
-    this.subscribe(modal.afterClose, res => {
-      this.additionalInfo = modal.getContentComponent().selectedRoom;
+    this.modalRef = this.createModal(RoomModalComponent);
+    this.subscribe(this.modalRef.afterClose, res => {
+      this.additionalInfo = this.modalRef.getContentComponent().selectedRoom;
       if (this.additionalInfo) {
         this.form.controls.bed.setValue(null);
         this.form.controls.room.setValue(this.additionalInfo.id);
@@ -168,9 +170,9 @@ export class AllocationAddComponent extends FormComponent {
   }
 
   selectBed() {
-    const modal = this.createModal(BedModalComponent);
-    this.subscribe(modal.afterClose, res => {
-      this.additionalInfo = modal.getContentComponent().selectedBed;
+    this.modalRef = this.createModal(BedModalComponent);
+    this.subscribe(this.modalRef.afterClose, res => {
+      this.additionalInfo = this.modalRef.getContentComponent().selectedBed;
       if (this.additionalInfo) {
         this.form.controls.bed.setValue(this.additionalInfo.id);
         this.form.controls.room.setValue(null);
@@ -226,6 +228,12 @@ export class AllocationAddComponent extends FormComponent {
       },
       err => { }
     );
+  }
+
+  closeModal() {
+    if(this.modalRef) {
+      this.modalRef.close();
+    }
   }
 
   private getStatus() {

@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Module.Asset.Entities;
+using Msi.UtilityKit;
 using Msi.UtilityKit.Pagination;
 using Msi.UtilityKit.Search;
 using System.Data;
@@ -129,9 +130,14 @@ namespace Module.Asset.Data
                             where c1.IsDeleted = 0
                             ) ";
 
-            var itemSql = sql + @"select i.Id, i.Code, i.Name, i.Available, i.MinQuantity,i.TotalQuantity, i.IsActive, cte.Id CategoryId, cte.Name CategoryName from cte
-                            join[asset].[ItemCode] i on i.CategoryId = cte.Id ";
+            var itemSql = sql + @"select i.Id, i.Code, i.Name, i.Available, i.MinQuantity, i.TotalQuantity, i.IsActive, cte.Id CategoryId, cte.Name CategoryName from cte
+                            join [asset].[ItemCode] i on i.CategoryId = cte.Id ";
 
+            string where = searchOptions.ToSqlSyntax("i.");
+            if(!string.IsNullOrEmpty(where))
+            {
+                itemSql += $" where {where}";
+            }
 
             var totalSql = sql + @"select count(i.Id) from cte
                             join [asset].[ItemCode] i on i.CategoryId = cte.Id";
