@@ -132,6 +132,28 @@ export function convertValueToBengali(value: any) {
     return bengaliNumber;
 }
 
+export function convertDateToBengali(date: any) {
+
+    var parts = date.split(" ");
+
+    const map = getNumberMap();
+    const len = parts.length;
+    let bangla = ""
+
+    for (let i = 0; i < len; i++) {
+        const value = parts[i];
+        if (map[value]) {
+            bangla += map[value] + ' ';
+        } else {
+            bangla += value + ' ';
+        }
+    }
+
+    bangla = convertValueToBengali(bangla);
+
+    return bangla;
+}
+
 export function convertValueToEnglish(value: any) {
     value = value.toString();
     const map = getNumberMap();
@@ -163,6 +185,21 @@ export function getNumberMap() {
         '6': '৬',
         '7': '৭',
         '8': '৮',
-        '9': '৯'
+        '9': '৯',
+        'Jan': 'জানু',
+        'Feb': 'ফেব',
+        'Mar': 'মার্চ',
+        'Apr': 'এপ্রিল',
+        'May': 'মে',
+        'Jun': 'জুন',
+        'Jul': 'জুলাই',
+        'Aug': 'আগস্ট',
+        'Sept': 'সেপ্টেম্বর',
+        'Oct': 'অক্টোবর',
+        'Nov': 'নভেম্বর',
+        'Dec': 'ডিসেম্বর',
+        'PM': 'পিএম',
+        'AM': 'এম'
+
     }
 }

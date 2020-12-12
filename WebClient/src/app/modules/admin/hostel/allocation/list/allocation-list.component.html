@@ -52,8 +52,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                        <td>{{ data.checkinDate|momentDate  }}</td>
-                        <td>{{ data.checkoutDate|momentDate  }}</td>
+                        <td>{{ data.checkinDate|momentDate|banglaDate  }}</td>
+                        <td>{{ data.checkoutDate|momentDate|banglaDate }}</td>
                         <td>{{ data.user?.name }}</td>
                         <td>{{ data.room?.name }}</td>
                         <td>{{ data.bed?.name }}</td>

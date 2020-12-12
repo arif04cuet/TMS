@@ -6,6 +6,7 @@ import { MomentPipeModule } from 'src/pipes/moment.pipe';
 import { CheckPermissionDirective } from 'src/directives/permission.directive';
 import { EnToBnDirective } from 'src/directives/en-to-bn.directive';
 import { BanglaPipe } from 'src/pipes/bangla.pipe';
+import { BanglaDatePipe } from 'src/pipes/bangla-date.pipe';
 
 
 
@@ -13,7 +14,8 @@ import { BanglaPipe } from 'src/pipes/bangla.pipe';
   declarations: [
     CheckPermissionDirective,
     EnToBnDirective,
-    BanglaPipe
+    BanglaPipe,
+    BanglaDatePipe
   ],
   imports: [
     TranslateModule,
@@ -26,7 +28,8 @@ import { BanglaPipe } from 'src/pipes/bangla.pipe';
     MomentPipeModule,
     CheckPermissionDirective,
     EnToBnDirective,
-    BanglaPipe
+    BanglaPipe,
+    BanglaDatePipe
   ]
 })
 export class SharedModule {

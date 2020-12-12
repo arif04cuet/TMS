@@ -4,6 +4,7 @@ using Msi.UtilityKit.Pagination;
 using Module.Core.Shared;
 using Module.Core.Entities;
 using Msi.UtilityKit.Search;
+using Module.Core.Data;
 
 namespace Module.Core.Controllers
 {
@@ -13,17 +14,21 @@ namespace Module.Core.Controllers
     {
 
         private readonly INameService<District> _nameService;
-
+        private readonly IGeoService _geoService;
         public DistrictController(
-            INameService<District> nameService)
+            INameService<District> nameService,
+            IGeoService geoService
+            )
         {
             _nameService = nameService;
+            _geoService = geoService;
+
         }
 
         [HttpGet]
-        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> List([FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
-            var result = await _nameService.ListAsync(pagingOptions, searchOptions);
+            var result = await _geoService.ListDistrictAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
         }
 

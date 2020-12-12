@@ -77,8 +77,8 @@
                         <td>{{ data.title }}</td>
                         <td>{{ data.status?.name }}</td>
                         <td>{{ data.issuedTo?.name }}</td>
-                        <td>{{ data.issueDate|date }}</td>
-                        <td>{{ data.returnDate|date }}</td>
+                        <td>{{ data.issueDate|date|banglaDate }}</td>
+                        <td>{{ data.returnDate|date|banglaDate }}</td>
                         <td class="action-column fit-cell">
                             <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>

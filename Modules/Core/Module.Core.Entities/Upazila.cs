@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Entities;
 using Module.Core.Entities.Constants;
 using System.ComponentModel.DataAnnotations.Schema;
+using Msi.UtilityKit.Search;
 
 namespace Module.Core.Entities
 {
@@ -8,9 +9,11 @@ namespace Module.Core.Entities
     public class Upazila : IdNameEntity
     {
         public string BnName { get; set; }
+        [Searchable]
         public long? DivisionId { get; set; }
         public Division Division { get; set; }
 
+        [Searchable]
         public long? DistrictId { get; set; }
         public District District { get; set; }
 

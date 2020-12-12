@@ -177,7 +177,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   private infoPromise(e) {
     if (this.info && this.items && this.items.length) {
       const item = this.items.find(x => x.id == e);
-      if(item) {
+      if (item) {
         Promise.resolve(this.info(item)).then(x => {
           this.infoText = x || '';
         });

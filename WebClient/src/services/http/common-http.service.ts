@@ -53,7 +53,7 @@ export class CommonHttpService {
     }
 
     public getAllDistrict(search?: string) {
-        return this.httpService.get('districts?offset=0&limit=64');
+        return this.httpService.get('districts?offset=0&limit=64&' + search);
     }
 
     public getAllDivision(search?: string) {
@@ -61,7 +61,7 @@ export class CommonHttpService {
     }
 
     public getAllUpazila(search?: string) {
-        return this.httpService.get('upazilas?offset=0&limit=500');
+        return this.httpService.get('upazilas?offset=0&limit=500&' + search);
     }
 
 }
