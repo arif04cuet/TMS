@@ -133,7 +133,7 @@ namespace Module.Asset.Data
             var itemSql = sql + @"select i.Id, i.Code, i.Name, i.Available, i.MinQuantity, i.TotalQuantity, i.IsActive, cte.Id CategoryId, cte.Name CategoryName from cte
                             join [asset].[ItemCode] i on i.CategoryId = cte.Id ";
 
-            string where = searchOptions.ToSqlSyntax("i.");
+            string where = searchOptions.ToSqlSyntax((prop, index) => "i.");
 
             var totalSql = sql + @"select count(i.Id) from cte
                             join [asset].[ItemCode] i on i.CategoryId = cte.Id";

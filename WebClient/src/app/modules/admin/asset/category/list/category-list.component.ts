@@ -21,7 +21,7 @@ export class CategoryListComponent extends TableComponent {
   nonEditable = [];
 
   @Searchable("Name", "like") Name;
-  @Searchable("Parent.Name", "like") Parent;
+  @Searchable("Parent", "like") Parent;
   @Searchable("IsActive", "eq") IsActive;
 
   buttons: IButton[] = [

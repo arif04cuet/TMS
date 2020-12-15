@@ -154,12 +154,36 @@ namespace Module.Asset.Data
                         where c1.IsDeleted = 0
                         )";
 
+            var totalWhere = searchOptions.ToSqlSyntax((p, i) => p == "Parent" ? "#c.Name" : "cte.");
             var totalSql = sql + @"select count(cte.Id) from cte";
+            if(!string.IsNullOrEmpty(totalWhere))
+            {
+                totalSql += " left join [asset].[Category] c on c.Id = cte.ParentId ";
+                totalSql += $"where {totalWhere} ";
+            }
 
             sql += @"select cte.*, c.Name Parent, c.EULA Eula, c.IsSendEmail, c.IsRequireUserConfirmation, c.MediaId, c.IsActive from cte
-            left join[asset].[Category] c on c.Id = cte.ParentId
-                        order by cte.Name ";
+            left join[asset].[Category] c on c.Id = cte.ParentId ";
 
+            string where = searchOptions.ToSqlSyntax((prop, index) => {
+                if(prop == "Name")
+                {
+                    return "cte.";
+                }
+                else if (prop == "Parent")
+                {
+                    return "#c.Name";
+                }
+                else
+                {
+                    return "c.";
+                }
+            });
+            if (!string.IsNullOrEmpty(where))
+            {
+                sql += $"where {where} ";
+            }
+            sql += "order by cte.Name ";
             sql += pagingOptions.BuildSql();
 
             var items = await _dbConnection.QueryAsync<CategoryViewModel>(sql);

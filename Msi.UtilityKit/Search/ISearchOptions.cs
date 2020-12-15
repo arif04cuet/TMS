@@ -1,9 +1,11 @@
-﻿namespace Msi.UtilityKit.Search
+﻿using System;
+
+namespace Msi.UtilityKit.Search
 {
     public interface ISearchOptions
     {
         string[] Search { get; set; }
 
-        string ToSqlSyntax(string properyPrefix = "");
+        string ToSqlSyntax(Func<string, int ,string> func = null);
     }
 }

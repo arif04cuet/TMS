@@ -1,12 +1,15 @@
-﻿namespace Msi.UtilityKit.Search
+﻿using System;
+
+namespace Msi.UtilityKit.Search
 {
     public class SearchOptions : ISearchOptions
     {
         public string[] Search { get; set; }
 
-        public string ToSqlSyntax(string properyPrefix = "")
+        public string ToSqlSyntax(Func<string, int, string> func)
         {
             string where = "";
+            string properyPrefix = "";
             if (this.Search?.Length > 0)
             {
                 int len = this.Search.Length;
@@ -23,9 +26,26 @@
                         string propertyName = parts[0];
                         string @operator = parts[1];
                         string value = parts[2];
+                        if(func != null)
+                        {
+                            properyPrefix = func(propertyName, c);
+                            if(properyPrefix.Length > 0)
+                            {
+                                if(properyPrefix[0] == '#')
+                                {
+                                    var arr = properyPrefix.Split('.');
+                                    if(arr.Length > 1)
+                                    {
+                                        properyPrefix = arr[0].Substring(1) + ".";
+                                        propertyName = arr[1];
+                                    }
+                                }
+                            }
+                        }
+                        propertyName = propertyName ?? "";
                         if (@operator == "like")
                         {
-                            where += $" {properyPrefix}{propertyName} like '{value}%'";
+                            where += $" {properyPrefix}{propertyName} like N'{value}%'";
                         }
                         else if (@operator == "eq")
                         {
@@ -40,7 +60,7 @@
                             }
                             else
                             {
-                                value = $"'{value}'";
+                                value = $"N'{value}'";
                             }
                             where += $" {properyPrefix}{propertyName} = {value}";
                         }
