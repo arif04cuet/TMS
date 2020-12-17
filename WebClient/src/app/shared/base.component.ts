@@ -122,7 +122,7 @@ export class BaseComponent {
                     obj[key] = value.map(x => {
                         const o = {}
                         forEachObj(x, (k, v) => {
-                            if (v !== null && v !== undefined) {
+                            if (!(v === null || v === undefined)) {
                                 o[k] = v;
                             }
                         });

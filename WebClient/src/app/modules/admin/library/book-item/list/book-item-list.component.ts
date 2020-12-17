@@ -25,7 +25,6 @@ export class BookItemListComponent extends TableComponent {
   @Searchable("Status.Id", "eq") status;
   issueDate;
 
-
   buttons: IButton[] = [
     {
       label: 'issue',
@@ -66,6 +65,7 @@ export class BookItemListComponent extends TableComponent {
 
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
+    this.deleteFunc = id => this.bookHttpService.deleteBookItem(id);
     this.gets();
   }
 

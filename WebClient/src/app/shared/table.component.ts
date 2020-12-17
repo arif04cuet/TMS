@@ -16,6 +16,7 @@ export class TableComponent extends BaseComponent {
     service;
     onDeleted: (res: any) => void;
     onDeleteFailed: (res: any) => void;
+    deleteFunc: (id: number) => Observable<Object>;
 
     allChecked = false;
     setOfCheckedId = new Set<number>();
@@ -58,7 +59,11 @@ export class TableComponent extends BaseComponent {
             nzClosable: false,
             nzOnOk: () => {
                 deleteModal.getInstance().nzOkLoading = true;
-                this.subscribe(this.service.delete(e.id),
+                let _deleteFunc = this.deleteFunc;
+                if(!_deleteFunc) {
+                    _deleteFunc = id => this.service.delete(id);
+                }
+                this.subscribe(_deleteFunc(e.id),
                     res => {
                         deleteModal.getInstance().nzOkLoading = false;
                         this._messageService.create('success', deletedText);
