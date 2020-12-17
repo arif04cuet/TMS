@@ -134,6 +134,9 @@ export function convertValueToBengali(value: any) {
 
 export function convertDateToBengali(date: any) {
 
+    if (!date)
+        return date;
+
     var parts = date.split(" ");
 
     const map = getNumberMap();

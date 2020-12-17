@@ -30,6 +30,7 @@ export class BookHttpService extends BaseHttpService {
         return this.httpService.get(`books/items/${id}`);
     }
 
+
     public getBookItemIssue(id) {
         return this.httpService.get(`books/items/${id}/issue`);
     }
