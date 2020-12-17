@@ -121,11 +121,14 @@ export class BaseComponent {
                 if (control.constructor.name == "FormArray" && Array.isArray(value)) {
                     obj[key] = value.map(x => {
                         const o = {}
-                        forEachObj(x, (k, v) => {
-                            if (!(v === null || v === undefined)) {
-                                o[k] = v;
+                        for (const xKey in x) {
+                            if (x.hasOwnProperty(xKey)) {
+                                const xValue = x[xKey];
+                                if (!(xValue === null || xValue === undefined)) {
+                                    o[xKey] = xValue;
+                                }
                             }
-                        });
+                        }
                         return o;
                     });
                 }
