@@ -118,17 +118,14 @@ export class BaseComponent {
             if (controls.hasOwnProperty(key)) {
                 const control = controls[key];
                 const value = control.value;
-                if (control.constructor.name == "FormArray" && Array.isArray(value)) {
+                if (Array.isArray(value)) {
                     obj[key] = value.map(x => {
                         const o = {}
-                        for (const xKey in x) {
-                            if (x.hasOwnProperty(xKey)) {
-                                const xValue = x[xKey];
-                                if (!(xValue === null || xValue === undefined)) {
-                                    o[xKey] = xValue;
-                                }
+                        forEachObj(x, (k, v) => {
+                            if (v !== null && v !== undefined) {
+                                o[k] = v;
                             }
-                        }
+                        });
                         return o;
                     });
                 }
