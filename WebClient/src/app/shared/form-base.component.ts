@@ -160,8 +160,8 @@ export class FormBaseComponent extends BaseComponent {
         for (const i in controls) {
             controls[i].markAsDirty();
             controls[i].updateValueAndValidity();
-            const ctr = controls[i].constructor.name;
-            if (ctr == "FormArray") {
+            const v = controls[i]?.value;
+            if(v && Array.isArray(v)) {
                 for (let a = 0; a < controls[i].length; a++) {
                     const _controls = controls[i].controls[a].controls;
                     this.markDirtyAndCheckValidity(_controls);
