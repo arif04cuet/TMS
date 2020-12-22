@@ -63,7 +63,7 @@ export class BookAddComponent extends FormComponent {
   submit(): void {
     const body: any = this.constructObject(this.form.controls);
 
-    console.log(body);
+    //console.log(body);
     //convert eng number to bangla
     for (let index = 0; index < body.editions.length; index++) {
       if (body.editions[index].numberOfPage)

@@ -63,7 +63,7 @@ namespace Module.Library.Data
 
             // check already a member
             var member = await _libraryMemberRepository
-                .FirstOrDefaultAsync(x => x.UserId == user.Id, true, ct);
+                .FirstOrDefaultAsync(x => x.UserId == user.Id && !x.IsDeleted, true, ct);
 
             if (member != null)
                 throw new ValidationException(ALREADY_A_MEMBER);
