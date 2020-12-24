@@ -71,7 +71,8 @@
                             <div nz-col [nzSpan]="12">
                                 <nz-form-item class="field-container">
                                     <div>
-                                        <label class="required">{{'email'|translate }} {{'in.english'|translate}}</label>
+                                        <label class="required">{{'email'|translate }}
+                                            {{'in.english'|translate}}</label>
                                     </div>
                                     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                         <input nz-input formControlName="email" placeholder="{{'email'|translate}}" />
@@ -81,7 +82,8 @@
                             <div nz-col [nzSpan]="12">
                                 <nz-form-item class="field-container">
                                     <div>
-                                        <label class="required">{{'mobile'|translate}} {{'in.english'|translate }}</label>
+                                        <label class="required">{{'mobile'|translate}}
+                                            {{'in.english'|translate }}</label>
                                     </div>
                                     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                         <input type="text" nz-input formControlName="mobile"
@@ -112,7 +114,7 @@
                                         <nz-select class="btn-custom" nzMode="multiple" formControlName="roles"
                                             nzShowSearch nzAllowClear
                                             [nzPlaceHolder]="'select.x0'|translate:{x0: 'role'|translate|lowercase}">
-                                            <nz-option *ngFor="let p of roles" [nzLabel]="p.name" [nzValue]="p.id">
+                                            <nz-option *ngFor="let p of roleList" [nzLabel]="p.name" [nzValue]="p.id">
                                             </nz-option>
                                         </nz-select>
                                     </nz-form-control>
@@ -146,7 +148,8 @@
         </nz-tab>
         <nz-tab nzTitle="{{'assign.permissions'|translate}}">
             <ng-template nz-tab>
-                <app-permission (changePermissions)="onChangePermissions($event)" #permission purpose='user'></app-permission>
+                <app-permission (changePermissions)="onChangePermissions($event)" #permission purpose='user'>
+                </app-permission>
             </ng-template>
         </nz-tab>
     </nz-tabset>

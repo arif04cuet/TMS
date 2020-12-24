@@ -119,9 +119,15 @@ export class BaseComponent {
                 const control = controls[key];
                 const value = control.value;
                 if (Array.isArray(value)) {
+
                     obj[key] = value.map(x => {
+
+                        if (typeof x == 'number')
+                            return x;
+
                         const o = {}
                         forEachObj(x, (k, v) => {
+
                             if (v !== null && v !== undefined) {
                                 o[k] = v;
                             }

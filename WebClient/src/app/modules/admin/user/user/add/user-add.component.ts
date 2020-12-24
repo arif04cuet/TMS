@@ -19,7 +19,7 @@ import { PermissionComponent } from '../../permission/permission.component';
 export class UserAddComponent extends FormComponent {
 
   loading: boolean = true;
-  roles = [];
+  roleList = [];
   designations = [];
   departments = [];
   statuses = []
@@ -72,6 +72,7 @@ export class UserAddComponent extends FormComponent {
     if (this.id) {
       body.id = Number(this.id);
     }
+
     const permissions = this.getPermissions();
     if (permissions && permissions.length > 0) {
       body.permissions = permissions;
@@ -129,7 +130,8 @@ export class UserAddComponent extends FormComponent {
         this.statuses = res[0].data.items,
           this.designations = res[1].data.items.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)),
           this.departments = res[2].data.items,
-          this.roles = res[3].data.items
+          this.roleList = res[3].data.items
+
       }
     );
   }
