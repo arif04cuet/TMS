@@ -18,4 +18,10 @@ export class AssetViewComponent extends BaseComponent {
     this._activatedRouteSnapshot = this.activatedRoute.snapshot
   }
 
+  back_to_list() {
+
+    this.goTo('/admin/asset');
+
+  }
+
 }

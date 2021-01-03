@@ -29,7 +29,16 @@
                 [nzPageSizeOptions]="pageSizeOptions">
                 <thead>
                     <tr class="v-align-top advanced-table-filter">
-                        <th>{{'item'|translate}} </th>
+                        <th>
+                            {{'item'|translate}}
+                            <br>
+                            <nz-select [(ngModel)]="codeId" class="btn-custom" nzShowSearch nzAllowClear
+                                [nzPlaceHolder]="'select'|translate">
+                                <nz-option *ngFor="let p of itemCodes" [nzLabel]="p.name" [nzValue]="p.id">
+                                </nz-option>
+                            </nz-select>
+
+                        </th>
                         <th>{{'category'|translate}}</th>
                         <th>{{'total'|translate}}</th>
                         <th>{{'available'|translate}}</th>

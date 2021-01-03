@@ -13,10 +13,7 @@ import { IButton } from 'src/app/shared/table-actions.component';
 })
 export class SupplierListComponent extends TableComponent {
 
-  statuses = [
-    { id: true, name: 'Active' },
-    { id: false, name: 'In Active' }
-  ];
+  statuses = [];
 
   @Searchable("Name", "like") Name;
   @Searchable("ContactName", "like") ContactName;
@@ -49,6 +46,7 @@ export class SupplierListComponent extends TableComponent {
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
     this.gets();
+    this.statuses = this.supplierHttpService.getStatus();
 
     this.onDeleted = (res: any) => {
       this.gets();

@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ConsumableListRoutingModule } from './consumable-list-routing.module';
 import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
 import { TableActionsModule } from 'src/app/shared/table-actions.component';
+import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { TableActionsModule } from 'src/app/shared/table-actions.component';
   ],
   exports: [ConsumableListComponent],
   providers: [
-    ConsumableHttpService
+    ConsumableHttpService,
+    ItemCodeHttpService
   ]
 })
 export class ConsumableListModule { }

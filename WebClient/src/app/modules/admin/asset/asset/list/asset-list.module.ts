@@ -8,6 +8,7 @@ import { AssetListComponent } from './asset-list.component';
 import { AssetListRoutingModule } from './asset-list-routing.module';
 import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
 import { TableActionsModule } from 'src/app/shared/table-actions.component';
+import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { TableActionsModule } from 'src/app/shared/table-actions.component';
   ],
   exports: [AssetListComponent],
   providers: [
-    AssetBaseHttpService
+    AssetBaseHttpService,
+    CategoryHttpService
   ]
 })
 export class AssetListModule { }

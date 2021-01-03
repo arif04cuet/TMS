@@ -53,5 +53,9 @@ export class LicenseViewComponent extends BaseComponent {
   cancel() {
     this.goTo('/admin/asset/licenses');
   }
+  back_to_list() {
 
+    this.goTo('/admin/asset/licenses');
+
+  }
 }

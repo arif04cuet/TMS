@@ -46,7 +46,14 @@
 
                         <th>
                             {{'category'|translate}}
-                            <input [(ngModel)]="category" nz-input />
+
+                            <nz-select [(ngModel)]="categoryId" class="btn-custom" nzShowSearch nzAllowClear
+                                [nzPlaceHolder]="'select'|translate">
+                                <nz-option *ngFor="let p of categories" [nzLabel]="p.name" [nzValue]="p.id">
+                                </nz-option>
+                            </nz-select>
+
+
                         </th>
                         <th>{{'purchase.cost'|translate}}</th>
                         <th>{{'status'|translate}}</th>

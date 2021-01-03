@@ -3,6 +3,9 @@ import { TableComponent } from 'src/app/shared/table.component';
 import { ActivatedRoute } from '@angular/router';
 import { ConsumableHttpService } from 'src/services/http/asset/consumable-http.service';
 import { IButton } from 'src/app/shared/table-actions.component';
+import { ItemCodeHttpService } from 'src/services/http/asset/itemcode-http.service';
+import { forkJoin } from 'rxjs';
+import { Searchable } from 'src/decorators/searchable.decorator';
 
 
 @Component({
@@ -10,6 +13,9 @@ import { IButton } from 'src/app/shared/table-actions.component';
   templateUrl: './consumable-list.component.html'
 })
 export class ConsumableListComponent extends TableComponent {
+
+  itemCodes = [];
+  @Searchable("ItemCodeId", "eq") codeId;
 
   private itemCodeId;
   buttons: IButton[] = [
@@ -29,7 +35,8 @@ export class ConsumableListComponent extends TableComponent {
 
   constructor(
     private consumableHttpService: ConsumableHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private itemCodeHttpService: ItemCodeHttpService
   ) {
     super(consumableHttpService);
   }
@@ -40,6 +47,7 @@ export class ConsumableListComponent extends TableComponent {
     this.snapshot(snapshot);
     this.load();
   }
+
 
   add(model = null) {
     if (model) {
@@ -80,6 +88,23 @@ export class ConsumableListComponent extends TableComponent {
     super.load((p, s) => {
       return this.consumableHttpService.listGroupByItemCode(p, s);
     });
+
+
+    this.loading = true;
+    const request = [
+      this.itemCodeHttpService.listByCategory(2)
+    ]
+    this.subscribe(forkJoin(request),
+      (res: any) => {
+
+        this.itemCodes = res[0].data.items.map(o => {
+          o.name = `${o.code} - ${o.name}`
+          return o;
+        });
+      }
+    );
+
+
   }
 
 }

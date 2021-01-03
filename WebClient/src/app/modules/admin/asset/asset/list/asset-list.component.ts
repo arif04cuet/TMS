@@ -5,6 +5,9 @@ import { Searchable } from 'src/decorators/searchable.decorator';
 import { AssetBaseHttpService } from 'src/services/http/asset/asset-http-service';
 import { environment } from 'src/environments/environment';
 import { IButton } from 'src/app/shared/table-actions.component';
+import { CategoryHttpService } from 'src/services/http/asset/category-http.service';
+import { forkJoin } from 'rxjs';
+
 
 @Component({
   selector: 'app-asset-list',
@@ -17,21 +20,23 @@ export class AssetListComponent extends TableComponent {
     { id: false, name: 'In Active' }
   ];
 
+  categories = [];
+
   @Searchable("AssetTag", "like") assetTag;
   @Searchable("Name", "like") name;
-  @Searchable("Category.Name", "like") category;
   @Searchable("AssetModel.Name", "like") assetModel;
+  @Searchable("AssetModel.CategoryId", "eq") categoryId;
   serverUrl = environment.serverUri;
 
   buttons: IButton[] = [
     {
-      label: 'checkout',
+      label: 'asset.checkout',
       action: d => this.checkout(d),
       condition: d => !d.checkoutId,
       type: 'primary'
     },
     {
-      label: 'checkin',
+      label: 'asset.checkin',
       action: d => this.checkin(d),
       condition: d => d.checkoutId,
       type: 'primary'
@@ -62,7 +67,8 @@ export class AssetListComponent extends TableComponent {
 
   constructor(
     private assetHttpService: AssetBaseHttpService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private categoryHttpService: CategoryHttpService,
   ) {
     super(assetHttpService);
   }
@@ -70,11 +76,31 @@ export class AssetListComponent extends TableComponent {
   ngOnInit() {
     this.snapshot(this.activatedRoute.snapshot);
     this.load();
+    this.gets();
 
     this.onDeleted = (res: any) => {
       this.load();
     }
   }
+
+  gets(pagination = null, search = null) {
+
+    this.loading = true;
+    const request = [
+      this.categoryHttpService.listByParent(1, pagination, search)
+    ]
+    this.subscribe(forkJoin(request),
+      (res: any) => {
+
+        this.categories = res[0].data.items;
+      },
+      err => {
+        console.log(err);
+        this.loading = false;
+      }
+    );
+  }
+
 
   add(model = null) {
     if (model) {

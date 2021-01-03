@@ -1,5 +1,14 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 <div *ngIf="!loading" class="box">
+
+    <div>
+        <button (click)="back_to_list()" nz-button class="btn-custom">
+            <i nz-icon nzType="left"></i>
+            {{'back_to_list'|translate}}
+        </button>
+    </div>
+
+
     <nz-tabset class="form-tabset">
         <nz-tab *checkPermission="['license.manage', 'license.view']" nzTitle="{{'details'|translate}}">
             <ng-template nz-tab>

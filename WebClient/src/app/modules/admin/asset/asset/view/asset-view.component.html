@@ -1,11 +1,19 @@
 <div class="box">
+
+    <div>
+        <button (click)="back_to_list()" nz-button class="btn-custom">
+            <i nz-icon nzType="left"></i>
+            {{'back_to_list'|translate}}
+        </button>
+    </div>
     <nz-tabset class="form-tabset">
         <nz-tab *checkPermission="['asset.manage', 'asset.view']" nzTitle="{{'details'|translate}}">
             <ng-template nz-tab>
                 <app-asset-details></app-asset-details>
             </ng-template>
         </nz-tab>
-        <nz-tab *checkPermission="['asset.manage', 'license.manage', 'license.list']" nzTitle="{{ 'licenses'|translate }}">
+        <nz-tab *checkPermission="['asset.manage', 'license.manage', 'license.list']"
+            nzTitle="{{ 'licenses'|translate }}">
             <ng-template nz-tab>
                 <app-asset-license-list></app-asset-license-list>
             </ng-template>
@@ -15,7 +23,8 @@
                 <app-asset-component-list></app-asset-component-list>
             </ng-template>
         </nz-tab> -->
-        <nz-tab *checkPermission="['asset.manage', 'maintenance.manage', 'maintenance.list']" nzTitle="{{ 'maintenances'|translate }}">
+        <nz-tab *checkPermission="['asset.manage', 'maintenance.manage', 'maintenance.list']"
+            nzTitle="{{ 'maintenances'|translate }}">
             <ng-template nz-tab>
                 <app-asset-maintenance-list></app-asset-maintenance-list>
             </ng-template>

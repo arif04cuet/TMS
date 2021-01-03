@@ -33,7 +33,7 @@ export class ManufacturerAddComponent extends FormComponent {
       name: [null, [], this.v.required.bind(this)],
       url: [null, []],
       supportEmail: [null, [], this.v.required.bind(this)],
-      supportPhone: [null, [], this.v.required.bind(this)],
+      supportPhone: [null, [], this.v.mobile.bind(this)],
       supportUrl: [null, []],
       isActive: [null, []]
     });

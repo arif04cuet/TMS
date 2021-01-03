@@ -14,6 +14,17 @@ export class CommonValidator extends BaseComponent {
     return of(false);
   }
 
+  email(control: FormControl) {
+    let pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!pattern.test(control.value)) {
+      return this.error(MESSAGE_KEY.MUST_BE_EMAIL);
+    }
+    return of(true);
+  }
+
+
+
   mobile(control: FormControl) {
     let pattern = /^(\d)+$/;
 

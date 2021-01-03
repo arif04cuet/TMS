@@ -13,9 +13,9 @@ namespace Module.Asset.Entities
     public class Consumable : BaseEntity
     {
         [Searchable]
-        [UniqueField]
-        public string Name { get; set; }
 
+        public string Name { get; set; }
+        [Searchable]
         public long ItemCodeId { get; set; }
         public ItemCode ItemCode { get; set; }
 

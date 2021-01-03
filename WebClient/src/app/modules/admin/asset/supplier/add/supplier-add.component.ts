@@ -34,8 +34,8 @@ export class SupplierAddComponent extends FormComponent {
       name: [null, [], this.v.required.bind(this)],
       address: [null, [], this.v.required.bind(this)],
       contactName: [null, [], this.v.required.bind(this)],
-      contactEmail: [null, [], this.v.required.bind(this)],
-      contactPhone: [null, [], this.v.required.bind(this)],
+      contactEmail: [null, [], this.v.email.bind(this)],
+      contactPhone: [null, [], this.v.mobile.bind(this)],
       isActive: [null, []]
     });
     super.ngOnInit(this.activatedRoute.snapshot);

@@ -19,7 +19,7 @@ namespace Module.Asset.Entities
         public string ModelNo { get; set; }
 
         public string Note { get; set; }
-
+        [Searchable]
         public long CategoryId { get; set; }
         [Searchable]
         public Category Category { get; set; }
