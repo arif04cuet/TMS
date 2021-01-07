@@ -24,7 +24,7 @@ export class AssetAddComponent extends FormComponent {
 
   @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
   @ViewChild('locationSelect') locationSelect: SelectControlComponent;
-  
+
   @ViewChildren('modelSelect') modelSelects: QueryList<SelectControlComponent>;
   @ViewChildren('statusSelect') statusSelects: QueryList<SelectControlComponent>;
 
@@ -45,7 +45,7 @@ export class AssetAddComponent extends FormComponent {
     this.createForm({
       name: [null, [], this.v.required.bind(this)],
       supplier: [],
-      location: [],
+      location: [null, [], this.v.required.bind(this)],
       note: [],
       orderNo: [],
       invoiceNo: [],
@@ -168,7 +168,7 @@ export class AssetAddComponent extends FormComponent {
       purchaseCost: [null, [], this.v.required.bind(this)],
       isRequestable: [false],
       warranty: [],
-      maintenance: [],
+      maintenance: [null, [], this.v.required.bind(this)],
       media: [],
       status: [null, [], this.v.required.bind(this)],
       assetModel: [null, [], this.v.required.bind(this)],

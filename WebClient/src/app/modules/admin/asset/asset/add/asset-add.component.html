@@ -73,9 +73,11 @@
                         </app-select-control>
                     </div>
                     <div nz-col [nzSpan]="8">
-                        <app-select-control #locationSelect label="location" labelKey="officeName"
-                            [formControl]="form.controls.location">
-                        </app-select-control>
+                        <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <app-select-control #locationSelect label="location" labelKey="officeName"
+                                [formControl]="form.controls.location">
+                            </app-select-control>
+                        </nz-form-control>
                     </div>
                 </div>
 
@@ -187,9 +189,9 @@
                                         <div nz-col [nzSpan]="6">
                                             <nz-form-item class="field-container">
                                                 <div>
-                                                    <label>{{'maintenance'|translate}}</label>
+                                                    <label class="required">{{'maintenance'|translate}}</label>
                                                 </div>
-                                                <nz-form-control>
+                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                                     <nz-input-group nzAddOnAfter="{{'months'|translate|lowercase}}">
                                                         <input type="number" nz-input formControlName="maintenance"
                                                             placeholder="{{'maintenance'|translate}}" />

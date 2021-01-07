@@ -214,11 +214,11 @@ namespace Module.Asset.Data
 
         public async Task<PagedCollection<ConsumableListGroupByItemCodeViewModel>> ListGroupByItemCodeAsync(IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
         {
-            var sql = @"with cte 
+            var sql = @"with cte
                         as (select c.ItemCodeId,
                         sum(c.Available) Available, sum(c.Quantity) Quantity
                         from [asset].[Consumable] c
-                        where c.IsDeleted = 0 
+                        where c.IsDeleted = 0
                         group by c.ItemCodeId
                         )
                         select cte.ItemCodeId Id, cte.Available, cte.Quantity,
@@ -228,15 +228,27 @@ namespace Module.Asset.Data
                         left join [asset].[ItemCode] i on i.Id = cte.ItemCodeId
                         left join [asset].[Category] c on c.Id = i.CategoryId";
 
+            string where = searchOptions.ToSqlSyntax((prop, index) => "cte.");
+            if (!string.IsNullOrEmpty(where))
+            {
+                sql += $" where {where} ";
+            }
+
             var itemSql = sql + $" order by i.Code ";
             itemSql += pagingOptions.BuildSql();
 
-            var totalSql = @"with cte 
+            var totalSql = @"with cte
                             as (select c.ItemCodeId
                             from [asset].[Consumable] c
                             group by c.ItemCodeId
                             )
                             select count(cte.ItemCodeId) from cte";
+
+            string totalWhere = searchOptions.ToSqlSyntax((prop, index) => "cte.");
+            if (!string.IsNullOrEmpty(totalWhere))
+            {
+                totalSql += $" where {where} ";
+            }
 
             var items = await _dbConnection.QueryAsync<ConsumableListGroupByItemCodeViewModel>(itemSql);
             var total = await _dbConnection.ExecuteScalarAsync<int>(totalSql);
