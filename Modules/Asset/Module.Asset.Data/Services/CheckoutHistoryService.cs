@@ -44,8 +44,26 @@ namespace Module.Asset.Data
             var item = itemType.ToString();
             var itemName = itemType == AssetType.User ? "FullName" : "Name";
 
-            var sql = $@"select h.*, item.{itemName} as ItemName,
-                            case 
+            var sql = "select h.*";
+            if(!string.IsNullOrEmpty(item))
+            {
+                sql += $", item.{itemName} as ItemName";
+            }
+            else
+            {
+                sql += $@",
+                       case
+                            when h.ItemType = 1 then i1.Name
+                            when h.ItemType = 2 then i2.Name
+                            when h.ItemType = 3 then concat(ic.Code, ' - ', ic.Name)
+                            when h.ItemType = 4 then i4.Name
+                            when h.ItemType = 5 then i5.FullName
+                            when h.ItemType = 6 then i6.Name
+                        end as ItemName";
+            }
+
+            sql += $@",
+                        case 
                                 when h.TargetType = 1 then t1.Name
                                 when h.TargetType = 2 then t2.Name
                                 when h.TargetType = 3 then t3.Name
@@ -53,8 +71,25 @@ namespace Module.Asset.Data
                                 when h.TargetType = 5 then t5.FullName
                                 when h.TargetType = 6 then t6.Name
                             end as TargetName
-                        from [asset].[CheckoutHistory] h
-                        left join [asset].[{item}] item on item.Id = h.ItemId
+                        from [asset].[CheckoutHistory] h";
+            if (!string.IsNullOrEmpty(item))
+            {
+                sql += $" left join [asset].[{item}] item on item.Id = h.ItemId";
+            }
+            else
+            {
+                sql += $@"
+                        -- for item
+                        left join [asset].[Asset] i1 on i1.Id = h.ItemId
+                        left join [asset].[Accessory] i2 on i2.Id = h.ItemId
+                        left join [asset].[Consumable] i3 on i3.Id = h.ItemId
+                        left join [asset].[ItemCode] ic on ic.Id = i3.ItemCodeId
+                        left join [asset].[Component] i4 on i4.Id = h.ItemId
+                        left join [core].[User] i5 on i5.Id = h.ItemId
+                        left join [asset].[License] i6 on i6.Id = h.ItemId";
+            }
+            sql += $@"
+                        -- for target
                         left join [asset].[Asset] t1 on t1.Id = h.TargetId
                         left join [asset].[Accessory] t2 on t2.Id = h.TargetId
                         left join [asset].[Consumable] t3 on t3.Id = h.TargetId
@@ -62,7 +97,10 @@ namespace Module.Asset.Data
                         left join [core].[User] t5 on t5.Id = h.TargetId
                         left join [asset].[License] t6 on t6.Id = h.TargetId";
 
-            sql += BuildWhere(itemId, itemType);
+            if (itemId.HasValue && itemType.HasValue)
+            {
+                sql += BuildWhere(itemId, itemType);
+            }
             sql += $" order by h.IssueDate desc ";
             sql += pagingOptions.BuildSql();
 
@@ -71,7 +109,10 @@ namespace Module.Asset.Data
             var totalSql = $@"select count(h.Id) as Total
                             from [asset].[CheckoutHistory] h";
 
-            totalSql += BuildWhere(itemId, itemType);
+            if (itemId.HasValue && itemType.HasValue)
+            {
+                totalSql += BuildWhere(itemId, itemType);
+            }
 
             var total = await _dbConnection.ExecuteScalarAsync<int>(totalSql);
 
