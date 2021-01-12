@@ -74,7 +74,7 @@
                     </div>
                     <div nz-col [nzSpan]="8">
                         <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                            <app-select-control #locationSelect label="location" labelKey="officeName"
+                            <app-select-control #locationSelect mandatory="true" label="location" labelKey="officeName"
                                 [formControl]="form.controls.location">
                             </app-select-control>
                         </nz-form-control>

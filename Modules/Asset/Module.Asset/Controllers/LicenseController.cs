@@ -24,7 +24,7 @@ namespace Module.Asset.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> List([FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
             var result = await _service.ListAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
@@ -77,7 +77,7 @@ namespace Module.Asset.Controllers
         }
 
         [HttpGet("{id}/histories")]
-        public async Task<ActionResult> ListHistories(long id, [FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> ListHistories(long id, [FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
             var result = await _checkoutHistoryService.ListAsync(id, AssetType.License, pagingOptions, searchOptions);
             return result.ToOkResult();
@@ -87,6 +87,13 @@ namespace Module.Asset.Controllers
         public async Task<IActionResult> Delete(long id)
         {
             await _service.DeleteAsync(id);
+            return NoContent();
+        }
+
+        [HttpDelete("deleteSeat/{id}")]
+        public async Task<IActionResult> deleteSeat(long id)
+        {
+            await _service.DeleteSeatAsync(id);
             return NoContent();
         }
 

@@ -36,6 +36,12 @@ export class DepreciationScheduleReportComponent extends TableComponent {
     this.load();
   }
 
+  back_to_list() {
+
+    this.goTo('/admin/asset/reports/depreciation');
+
+  }
+
   load() {
     super.load((p, s) => {
       return this.assetReportHttpService.depreciationSchedule(this.assetId, p, s);

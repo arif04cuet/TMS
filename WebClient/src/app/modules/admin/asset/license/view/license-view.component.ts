@@ -29,7 +29,7 @@ export class LicenseViewComponent extends BaseComponent {
     this._activatedRouteSnapshot = this.activatedRoute.snapshot
 
     const id = this.getQueryParams('id');
-    console.log(id);
+    //console.log(id);
     this.get(id);
 
   }

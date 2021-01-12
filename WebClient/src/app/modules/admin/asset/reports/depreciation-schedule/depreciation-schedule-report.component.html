@@ -10,6 +10,14 @@
                 </div>
             </div>
             <div class="column">
+
+                <button (click)="back_to_list()" nz-button class="btn-custom">
+
+                    <i nz-icon nzType="backward" nzTheme="outline"></i>
+                    {{'back_to_list'|translate}}
+                </button>
+
+
                 <button (click)="refresh()" nz-button class="btn-custom">
                     <i nz-icon nzType="sync" nzTheme="outline"></i>
                     {{'refresh'|translate}}
@@ -28,10 +36,10 @@
                         <th>{{'asset'|translate}}</th>
                         <th>{{'price'|translate}}</th>
                         <th>{{'current.year.depreciation'|translate}}</th>
-                        <th>{{'depreciation.value'|translate}} ({{'cumulative'}})</th>
+                        <th>{{'depreciation.value'|translate}} ({{'cumulative'|translate}})</th>
                         <th>{{'current.value'|translate}}</th>
                         <th>{{'eol'|translate}} ({{ 'year'|translate }}) </th>
-                        <th>{{'depreciation.rate'|translate}}/{{'year'}}</th>
+                        <th>{{'depreciation.rate'|translate}}/{{'year'|translate}}</th>
                     </tr>
                 </thead>
                 <tbody>

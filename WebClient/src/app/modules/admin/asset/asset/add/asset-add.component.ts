@@ -88,6 +88,7 @@ export class AssetAddComponent extends FormComponent {
       body.id = Number(this.id);
     }
     const items = (this.form.controls.items as any).controls.length;
+    console.log(items)
     if (!items || items <= 0) {
       this.info('please.add.at.least.one.item');
       return;
@@ -143,7 +144,9 @@ export class AssetAddComponent extends FormComponent {
   }
 
   addItem() {
-    this.createItemFormGroup({});
+    const itemFormArray = this.getItemFormArray();
+    const lastItem = itemFormArray.value.length ? itemFormArray.value.pop() : {};
+    this.createItemFormGroup(lastItem);
   }
 
   deleteItem(index) {

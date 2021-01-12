@@ -9,4 +9,8 @@ export class LicenseHttpService extends AssetBaseHttpService {
     public getDetails(id) {
         return this.httpService.get(this.AssetBaseUri + '/' + this.EndPoint + '/' + `${id}` + '/details');
     }
+
+    deleteSeat(id) {
+        return this.httpService.delete(this.AssetBaseUri + '/' + this.EndPoint + '/deleteSeat/' + id);
+    }
 }

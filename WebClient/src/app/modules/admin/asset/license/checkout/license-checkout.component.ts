@@ -19,9 +19,9 @@ export class LicenseCheckoutComponent extends FormComponent {
 
   loading: boolean = true;
   data: any = {};
-  isUserSelected : boolean = true;
+  isUserSelected: boolean = true;
   private checkoutId: number;
-  
+
   @ViewChild('userSelect') userSelect: SelectControlComponent;
   @ViewChild('assetSelect') assetSelect: SelectControlComponent;
 
@@ -41,12 +41,12 @@ export class LicenseCheckoutComponent extends FormComponent {
     super.ngOnInit(this.activatedRoute.snapshot);
     this.checkoutId = this._activatedRouteSnapshot.queryParams.checkout;
     this.createForm({
-      licenseSeatId: [this.checkoutId? +this.checkoutId : 0],
+      licenseSeatId: [this.checkoutId ? +this.checkoutId : 0],
       issuedToAssetId: [null, [], this.assetRequiredValidation.bind(this)],
       issuedToUserId: [null, [], this.userRequiredValidation.bind(this)],
-      note: [null, [], this.v.required.bind(this)]
+      note: []
     });
-    
+
   }
 
   ngAfterViewInit() {
@@ -91,7 +91,7 @@ export class LicenseCheckoutComponent extends FormComponent {
   getData() {
 
   }
-  
+
   cancel() {
     this.goTo('/admin/asset/licenses');
   }

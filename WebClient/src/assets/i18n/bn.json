@@ -691,5 +691,9 @@
   "asset.checkout": "ইস্যু ",
   "asset.checkin": "ফেরত",
   "back_to_list": "লিস্টে ফিরে যান",
-  "must.be.valid.email": "ইমেইল ফরম্যাট ঠিক নাই"
+  "must.be.valid.email": "ইমেইল ফরম্যাট ঠিক নাই",
+  "license_cant_issue_random_order": " সিরিয়ালি ইস্যু করুন প্লিস। আগে {{x0}} ইস্যু করুন",
+  "license_cant_delete_random_order": " সিরিয়ালি ডিলিট করুন প্লিস। আগে {{x0}} ডিলিট করুন",
+  "target": "যাকে/যেখানে দেয়া হয়েছে",
+  "EOL must be equal or greater than depreciation frequency.": "ই ও এল অবশ্যই আবচয় ফ্রিকুয়েন্সির সমান অথবা বড় হবে"
 }

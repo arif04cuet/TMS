@@ -81,6 +81,21 @@ namespace Module.Asset.Data
             return result > 0;
         }
 
+        public async Task<bool> DeleteSeatAsync(long id, CancellationToken cancellationToken = default)
+        {
+            LicenseSeat entity = await _seatRepository.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, true);
+
+            if (entity == null)
+                throw new NotFoundException("License not found");
+
+            entity.IsDeleted = true;
+
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return result > 0;
+        }
+
+
+
         public async Task<LicenseViewModel> Get(long id, CancellationToken cancellationToken = default)
         {
 
@@ -200,7 +215,7 @@ namespace Module.Asset.Data
         public async Task<long> CreateSeats(License license, CancellationToken ct = default)
         {
             List<LicenseSeat> items = new List<LicenseSeat>();
-            for (int i = 0; i < license.Seats; i++)
+            for (int i = 1; i <= license.Seats; i++)
             {
                 items.Add(new LicenseSeat
                 {

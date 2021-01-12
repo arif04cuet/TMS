@@ -28,6 +28,9 @@
                                 <button class="btn-custom" *ngIf="!(data.issuedToUserId || data.issuedToAsset)"
                                     (click)="checkout(data.id)" nz-button
                                     nzType="default">{{'issue'|translate}}</button>
+                                <button class="btn-custom" *ngIf="!(data.issuedToUserId || data.issuedToAsset)"
+                                    (click)="delete(data.id)" nz-button nzType="default"
+                                    nzDanger>{{'delete'|translate}}</button>
                             </ng-container>
                         </td>
                     </tr>
