@@ -88,7 +88,7 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
       this.form.controls.appliedDate.setValue(new Date());
     }
     const body: any = this.constructObject(this.form.controls);
-    if(body.bed && body.room){
+    if (body.bed && body.room) {
       this.failed('bed.and.room.both.can.not.be.choose');
       return;
     }
@@ -117,6 +117,7 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
       this.subscribe(this.batchScheduleAllocationHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
+          this.setValue('bed', res.data.bed.id);
           this.loading = false;
         }
       );

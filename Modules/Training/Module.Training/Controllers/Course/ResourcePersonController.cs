@@ -22,7 +22,7 @@ namespace Module.Training.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> List([FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
             var result = await _resourcePersonService.ListAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
@@ -58,10 +58,18 @@ namespace Module.Training.Controllers
         }
 
         [HttpGet("assignable-users")]
-        public async Task<ActionResult> ListAssignableUsers([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public async Task<ActionResult> ListAssignableUsers([FromQuery] PagingOptions pagingOptions, [FromQuery] SearchOptions searchOptions)
         {
             var result = await _resourcePersonService.ListAssignableUsersAsync(pagingOptions, searchOptions);
             return result.ToOkResult();
+        }
+
+
+        [HttpDelete("{id?}/images/{imageId}")]
+        public async Task<IActionResult> DeleteImage(long imageId, long? id)
+        {
+            await _resourcePersonService.DeletePhotoAsync(imageId, id);
+            return NoContent();
         }
 
 

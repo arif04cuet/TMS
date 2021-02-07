@@ -11,6 +11,7 @@ namespace Module.Training.Entities
     [Table(nameof(BatchSchedule), Schema = SchemaConstants.Training)]
     public class BatchSchedule : BaseEntity
     {
+        [Searchable]
         public string Name { get; set; }
         public long CourseScheduleId { get; set; }
         [Searchable]

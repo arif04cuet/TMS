@@ -59,8 +59,8 @@
                                 <label class="required">{{'duration'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="number" nz-input formControlName="duration"
-                                    placeholder="{{'duration'|translate}}" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="1" nz-input
+                                    formControlName="duration" placeholder="{{'duration'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -71,8 +71,8 @@
                                 <label class="required">{{'marks'|translate}}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                <input type="number" nz-input formControlName="marks"
-                                    placeholder="{{'marks'|translate}}" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="1" nz-input
+                                    formControlName="marks" placeholder="{{'marks'|translate}}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>

@@ -14,6 +14,7 @@ import { ExpertiseHttpService } from 'src/services/http/course/expertise-http.se
 import { HonorariumHeadHttpService } from 'src/services/http/budget-and-schedule/honorarium-head-http.service';
 import { MediaHttpService } from 'src/services/http/media-http.service';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { PhotoUploadModule } from 'src/app/shared/photo.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { UserHttpService } from 'src/services/http/user/user-http.service';
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectControlModule
+    SelectControlModule,
+    PhotoUploadModule
   ],
   exports: [ResourcePersonAddComponent],
   providers: [

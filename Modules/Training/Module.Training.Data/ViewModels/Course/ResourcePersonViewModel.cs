@@ -27,7 +27,8 @@ namespace Module.Training.Data
 
         public string Cv { get; set; }
         public string CvFileName { get; set; }
-        public string Photo { get; set; }
+        public string PhotoUrl { get; set; }
+        public long Photo { get; set; }
 
         public string NID { get; set; }
         public string TIN { get; set; }
@@ -65,7 +66,8 @@ namespace Module.Training.Data
                 HonorariumHead = x.HonorariumHeadId != null ? new IdNameViewModel { Id = x.HonorariumHead.Id, Name = x.HonorariumHead.Head } : null,
                 ShortName = x.ShortName,
                 TIN = x.TIN,
-                Photo = x.PhotoId.HasValue ? Path.Combine(MediaConstants.Path, x.Photo.FileName) : string.Empty,
+                PhotoUrl = x.PhotoId.HasValue ? Path.Combine(MediaConstants.Path, x.Photo.FileName) : string.Empty,
+                Photo = x.PhotoId.HasValue ? x.Photo.Id : 0,
                 Cv = x.CvId.HasValue ? Path.Combine(MediaConstants.Path, x.Cv.FileName) : string.Empty,
                 CvFileName = x.CvId.HasValue ? x.Cv.FileName : string.Empty,
 

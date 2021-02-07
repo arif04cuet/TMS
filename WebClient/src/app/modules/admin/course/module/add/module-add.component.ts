@@ -144,7 +144,7 @@ export class ModuleAddComponent extends FormComponent {
       nzContent: component,
       nzGetContainer: () => document.body,
       nzComponentParams: {},
-      nzFooter: this.modalFooter
+      nzFooter: null
     });
   }
 
@@ -187,7 +187,7 @@ export class ModuleAddComponent extends FormComponent {
 
   private calculate(prop) {
     let value = 0;
-    if(this.hasTopic()) {
+    if (this.hasTopic()) {
       value = this.data.topics.map(x => x[prop]).reduce((a, c) => a + c)
     }
     this.setValue(prop, value);

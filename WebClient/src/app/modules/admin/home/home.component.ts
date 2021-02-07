@@ -30,8 +30,11 @@ export class HomeComponent extends BaseComponent {
   ngOnInit(): void {
     this.snapshot(this.activatedRoute.snapshot);
     this.on('breadcrumbs', (data: any[]) => {
-      this.breadcrumbs = data;
-      this.setMetaTitle(data);
+
+      if (data.length > 0) {
+        this.breadcrumbs = data;
+        this.setMetaTitle(data);
+      }
     })
     this.userInfo = this.authService.getLoggedInUserInfo() || {};
 
@@ -698,11 +701,11 @@ export class HomeComponent extends BaseComponent {
         nav: [
           {
             level: 2,
-            title: 'courses',
+            title: 'topics',
             icon: 'team',
-            route: '/admin/courses',
+            route: '/admin/courses/topics',
             fn: () => {
-              return this.permissionService.isRouteGranted('course');
+              return this.permissionService.isRouteGranted('topic');
             },
           },
           {
@@ -716,13 +719,15 @@ export class HomeComponent extends BaseComponent {
           },
           {
             level: 2,
-            title: 'topics',
+            title: 'courses',
             icon: 'team',
-            route: '/admin/courses/topics',
+            route: '/admin/courses',
             fn: () => {
-              return this.permissionService.isRouteGranted('topic');
+              return this.permissionService.isRouteGranted('course');
             },
           },
+
+
           {
             level: 2,
             title: 'categories',

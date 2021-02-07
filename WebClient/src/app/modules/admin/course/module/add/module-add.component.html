@@ -95,7 +95,7 @@
                     <div nz-col [nzSpan]="8">
                         <div class="field-container">
                             <button (click)="addTopics()" nz-button class="btn-custom">
-                                {{'select.x0'|translate:{x0: 'topics'|translate} }}
+                                {{'select.x0'|translate:{x0: 'topic'|translate} }}
                             </button>
                         </div>
                     </div>
@@ -124,12 +124,13 @@
                         <tr *ngFor="let data of basicTable.data">
                             <td>{{ data.topic?.name }}</td>
                             <td>
-                                <input (input)="durationChanged()" type="number" [(ngModel)]="data.duration" nz-input
-                                    placeholder="{{'duration'|translate}}" />
+                                <input (input)="durationChanged()" type="number"
+                                    onkeypress="return event.charCode >= 48" min="1" [(ngModel)]="data.duration"
+                                    nz-input placeholder="{{'duration'|translate}}" />
                             </td>
                             <td>
-                                <input (input)="marksChanged()" type="number" [(ngModel)]="data.marks" nz-input
-                                    placeholder="{{'marks'|translate}}" />
+                                <input (input)="marksChanged()" type="number" onkeypress="return event.charCode >= 48"
+                                    min="1" [(ngModel)]="data.marks" nz-input placeholder="{{'marks'|translate}}" />
                             </td>
                             <td class="action-column fit-cell">
                                 <button nz-button class="btn-custom" (click)="delete(data)">

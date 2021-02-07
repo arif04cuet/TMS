@@ -58,7 +58,7 @@ export class CourseAddComponent extends FormComponent {
       category: [null, [], this.v.required.bind(this)],
       totalMark: [null, [], this.v.required.bind(this)],
       duration: [null, [], this.v.required.bind(this)],
-      methods: [],
+      methods: [null, [], this.v.required.bind(this)],
       image: []
     });
     super.ngOnInit(this.activatedRoute.snapshot);
@@ -101,12 +101,12 @@ export class CourseAddComponent extends FormComponent {
 
   submit() {
 
-    if(this.calculateTotalEvaluationMark() > Number(this.form.controls.totalMark.value || 0)) {
+    if (this.calculateTotalEvaluationMark() > Number(this.form.controls.totalMark.value || 0)) {
       this.failed('total.evaluation.marks.must.be.less.than.course.total.marks');
       return;
     }
 
-    if(this.evaluationMethodHasZeroValue()) {
+    if (this.evaluationMethodHasZeroValue()) {
       this.failed('evaluation.marks.can.not.have.zero');
       return;
     }

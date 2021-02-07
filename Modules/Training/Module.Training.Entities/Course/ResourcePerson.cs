@@ -2,15 +2,18 @@
 using Module.Core.Entities;
 using Module.Core.Entities.Constants;
 using System.ComponentModel.DataAnnotations.Schema;
+using Msi.UtilityKit.Search;
 
 namespace Module.Training.Entities
 {
     [Table(nameof(ResourcePerson), Schema = SchemaConstants.Training)]
     public class ResourcePerson : BaseEntity
     {
+        [Searchable]
         public string ShortName { get; set; }
 
         public long? UserId { get; set; }
+        [Searchable]
         public User User { get; set; }
 
         public long? OfficeId { get; set; }
@@ -18,7 +21,7 @@ namespace Module.Training.Entities
 
         public long? HonorariumHeadId { get; set; }
         public HonorariumHead HonorariumHead { get; set; }
-
+        [Searchable]
         public string NID { get; set; }
         public string TIN { get; set; }
 

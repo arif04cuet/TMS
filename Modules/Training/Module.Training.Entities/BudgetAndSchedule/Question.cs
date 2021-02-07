@@ -9,6 +9,7 @@ namespace Module.Training.Entities
     [Table(nameof(Question), Schema = SchemaConstants.Training)]
     public class Question : BaseEntity
     {
+        [Searchable]
         public string Title { get; set; }
         public int Mark { get; set; }
         public int? AnswerLength { get; set; }

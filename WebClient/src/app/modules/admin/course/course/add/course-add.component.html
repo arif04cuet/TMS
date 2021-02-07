@@ -71,8 +71,8 @@
 
                     <div nz-col [nzSpan]="8">
                         <div class="field-container">
-                            <app-photo-upload [control]="form.controls.image" label="photo" [photoUrl]="imageUrl"
-                                [delete]="imageDeleteHandler">
+                            <app-photo-upload accept=".png,.jpg,.jpeg" [control]="form.controls.image" label="photo"
+                                [photoUrl]="imageUrl" [delete]="imageDeleteHandler">
                             </app-photo-upload>
                         </div>
                     </div>
@@ -201,8 +201,8 @@
                         <tr *ngFor="let data of basicTable2.data">
                             <td>{{ data.evaluationMethod?.name }}</td>
                             <td>
-                                <input type="number" [(ngModel)]="data.mark" nz-input
-                                    placeholder="{{'mark'|translate}}" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="1"
+                                    [(ngModel)]="data.mark" nz-input placeholder="{{'mark'|translate}}" />
                             </td>
                             <td class="action-column fit-cell">
                                 <button nz-button class="btn-custom" (click)="deleteEvaluationMethod(data)">

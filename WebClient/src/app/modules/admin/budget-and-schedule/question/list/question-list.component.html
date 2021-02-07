@@ -6,7 +6,7 @@
             <div class="column content">
                 <div class="header-container">
                     <span class="header">
-                        {{'questions'|translate}} ({{total|bangla}})
+                        {{'question'|translate}} ({{total|bangla}})
                     </span>
                 </div>
             </div>
@@ -36,6 +36,12 @@
                         <th class="ta-right">
                             <div>
                                 {{'action'|translate}}
+                            </div>
+                            <div>
+                                <button (click)="search()" nz-button class="btn-custom">
+                                    <i nz-icon nzType="search"></i>
+                                    {{'search'|translate}}
+                                </button>
                             </div>
                         </th>
                     </tr>

@@ -21,11 +21,14 @@ namespace Module.Training.Data
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<Media> _mediaRepository;
         private readonly IRepository<ResourcePersonExpertise> _resourcePersonExpertiseRepository;
+        private readonly IMediaService _mediaService;
 
         public ResourcePersonService(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IMediaService mediaService)
         {
             _unitOfWork = unitOfWork;
+            _mediaService = mediaService;
             _resourcePersonRepository = _unitOfWork.GetRepository<ResourcePerson>();
             _userRepository = _unitOfWork.GetRepository<User>();
             _mediaRepository = _unitOfWork.GetRepository<Media>();
@@ -86,7 +89,7 @@ namespace Module.Training.Data
                     && x.RoleId == RoleConstants.ResourcePerson
                     && !x.IsDeleted)
                     .CountAsync() > 0;
-                if(!roleExist)
+                if (!roleExist)
                 {
                     var role = new UserRole { UserId = userId.Value, RoleId = RoleConstants.ResourcePerson };
                     await _unitOfWork.GetRepository<UserRole>().AddAsync(role);
@@ -220,5 +223,37 @@ namespace Module.Training.Data
 
             return result;
         }
+
+        public async Task<bool> DeletePhotoAsync(long imageId, long? entityId, CancellationToken cancellationToken = default)
+        {
+            long result = 0;
+            if (entityId.HasValue)
+            {
+                var entity = await _resourcePersonRepository
+                .FirstOrDefaultAsync(x => x.Id == entityId && !x.IsDeleted);
+
+                if (entity == null)
+                    throw new NotFoundException("Image not found");
+
+                if (entity.PhotoId.HasValue)
+                {
+                    // delete image association
+                    entity.PhotoId = null;
+                    result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+                }
+                else
+                {
+                    entityId = null;
+                }
+            }
+
+            // delete physical file
+            if ((entityId.HasValue && result > 0) || !entityId.HasValue)
+                await _mediaService.DeleteMediaAsync(imageId);
+
+            return result > 0;
+        }
+
     }
+
 }

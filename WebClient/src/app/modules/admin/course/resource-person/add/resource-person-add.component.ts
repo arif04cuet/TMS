@@ -12,6 +12,7 @@ import { MediaHttpService } from 'src/services/http/media-http.service';
 import { environment } from 'src/environments/environment';
 import { of } from 'rxjs';
 import { UserHttpService } from 'src/services/http/user/user-http.service';
+import { map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-resource-person-add',
@@ -130,31 +131,6 @@ export class ResourcePersonAddComponent extends FormComponent {
     );
   }
 
-  handlePhotoChange(e) {
-    const file = e.target.files[0];
-    if (file) {
-      this.photoLoading = true;
-      var fr = new FileReader();
-      fr.onload = () => {
-        this.photoUrl = fr.result;
-      }
-      fr.readAsDataURL(file);
-      this.mediaHttpService.upload(file, true,
-        progress => {
-          this.log('progress', progress);
-        },
-        success => {
-          this.log('success', success);
-          this.form.controls.photo.setValue(success.data);
-          this.photoLoading = false;
-        },
-        error => {
-          this.photoLoading = false;
-        }
-      );
-    }
-  }
-
   handleCvChange(e) {
     const file = e.target.files[0];
     if (file) {
@@ -179,6 +155,19 @@ export class ResourcePersonAddComponent extends FormComponent {
       );
     }
   }
+
+  photoDeleteHandler = imageId => {
+    return this.resourcePersonHttpService
+      .deleteImage(imageId, this.id || null)
+      .pipe(
+        map(x => {
+          this.log('resource person image delete', x);
+          return true
+        }),
+        catchError(_ => of(false))
+      );
+  }
+
 
   get(id) {
     this.loading = true;
@@ -224,7 +213,7 @@ export class ResourcePersonAddComponent extends FormComponent {
     const loading = this._messageService.loading(msg);
     this.subscribe(this.userService.get(e),
       (res: any) => {
-        if(res.data) {
+        if (res.data) {
           this.setValue('name', res.data.fullName);
           this.setValue('designation', res.data.designation.id);
           this.setValue('email', res.data.email);

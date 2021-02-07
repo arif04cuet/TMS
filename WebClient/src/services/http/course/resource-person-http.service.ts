@@ -12,4 +12,9 @@ export class ResourcePersonHttpService extends BaseHttpService {
         return this.httpService.get(this.buildUrl(url, pagination, search));
     }
 
+    deleteImage(imageId, entityId = null) {
+        const url = `${this.END_POINT}/${entityId}/images/${imageId}`
+        return this.httpService.delete(url);
+    }
+
 }

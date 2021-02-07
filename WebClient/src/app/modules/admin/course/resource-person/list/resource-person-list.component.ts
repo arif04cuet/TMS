@@ -12,10 +12,10 @@ import { IButton } from 'src/app/shared/table-actions.component';
 })
 export class ResourcePersonListComponent extends TableComponent {
 
-  @Searchable("Name", "like") name;
+  @Searchable("User.FullName", "like") name;
   @Searchable("ShortName", "like") shortName;
-  @Searchable("Mobile", "like") mobile;
-  @Searchable("Email", "like") email;
+  @Searchable("User.Mobile", "like") mobile;
+  @Searchable("User.Email", "like") email;
 
   serverUrl = environment.serverUri;
 
