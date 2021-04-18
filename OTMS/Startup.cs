@@ -85,7 +85,7 @@ namespace OTMS
 
             ProjectManager.StoragePath = Path.Combine(Directory.GetCurrentDirectory(), MediaConstants.Path);
             ProjectManager.Env = env.EnvironmentName;
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseCors("default");
