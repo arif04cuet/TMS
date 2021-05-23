@@ -12,6 +12,7 @@ namespace OTMS.Extensions
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+            System.Console.WriteLine("Adding Dependency");
             ServiceFactory.Init(services.BuildServiceProvider());
             services.AddAesSecurity(configuration);
             services.AddCors();

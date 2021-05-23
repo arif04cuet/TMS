@@ -28,8 +28,15 @@ namespace OTMS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDataContextOptions(Configuration, GetType().Assembly);
-            services.AddDependencies(Configuration);
+            try
+            {
+                services.AddDataContextOptions(Configuration, GetType().Assembly);
+                services.AddDependencies(Configuration);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR: {ex.Message}");
+            }
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(typeof(ExceptionFilter));
@@ -68,6 +75,9 @@ namespace OTMS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            Console.WriteLine($"ENV -> {env.EnvironmentName}");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
