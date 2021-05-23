@@ -19,6 +19,9 @@ import { RoomHttpService } from 'src/services/http/hostel/room-http.service';
 export class BatchScheduleAllocationAddComponent extends FormComponent {
 
   loading: boolean = true;
+  selectedBed = null;
+  selectedRoom = null;
+
   @ViewChild('batchScheduleSelect') batchScheduleSelect: SelectControlComponent;
   @ViewChild('courseSelect') courseSelect: SelectControlComponent;
   @ViewChild('traineeSelect') traineeSelect: SelectControlComponent;
@@ -71,6 +74,8 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
       return this.batchScheduleAllocationHttpService.listStatus();
     }).fetch();
 
+
+
     this.bedSelect.register((pagination, search) => {
       search += `&Search=IsBooked eq false`;
       return this.bedHttpService.list(pagination, search);
@@ -87,28 +92,48 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
     if (this.isAddMode()) {
       this.form.controls.appliedDate.setValue(new Date());
     }
+
     const body: any = this.constructObject(this.form.controls);
+
     if (body.bed && body.room) {
       this.failed('bed.and.room.both.can.not.be.choose');
       return;
     }
 
-    this.submitForm(
-      {
-        request: this.batchScheduleAllocationHttpService.add(body),
-        succeed: res => {
-          this.cancel();
-          this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
-        }
-      },
-      {
-        request: this.batchScheduleAllocationHttpService.edit(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
-        }
+    //add allocationDate to current date if status is approved
+    if (body.status == 2 && !Boolean(body.allocationDate)) {
+      body.allocationDate = new Date().toJSON("yyyy/MM/dd HH:mm");
+    }
+    //check participant duplikacy
+
+    this.batchScheduleAllocationHttpService.list(null, this.getSearch()).subscribe((res: any) => {
+      if (res.data.items.length && this.isAddMode()) {
+        this.failed('participant.already.added');
+        return;
       }
-    );
+      else {
+
+        this.submitForm(
+          {
+            request: this.batchScheduleAllocationHttpService.add(body),
+            succeed: res => {
+              this.cancel();
+              this.success(MESSAGE_KEY.SUCCESSFULLY_CREATED);
+            }
+          },
+          {
+            request: this.batchScheduleAllocationHttpService.edit(this.id, body),
+            succeed: res => {
+              this.cancel();
+              this.success(MESSAGE_KEY.SUCCESSFULLY_UPDATED);
+            }
+          }
+        );
+
+      }
+    });
+
+
   }
 
   get(id) {
@@ -118,7 +143,14 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
         (res: any) => {
           this.setValues(this.form.controls, res.data);
           this.setValue('bed', res.data.bed.id);
+          this.selectedBed = res.data.bed;
           this.loading = false;
+
+          //for edit mode show allocated bed in list with others available bed
+          if (res.data.bed)
+            this.bedSelect.items.push(res.data.bed);
+          if (res.data.room)
+            this.roomSelect.items.push(res.data.room);
         }
       );
     }
@@ -129,6 +161,20 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
 
   cancel() {
     this.goTo('/admin/trainings/batch-schedules/allocations');
+  }
+  getSearch() {
+    let search = '';
+    if (this.courseSelect?.value) {
+      search += `Search=CourseId eq ${this.courseSelect.value}&`;
+    }
+    if (this.batchScheduleSelect?.value) {
+      search += `Search=BatchScheduleId eq ${this.batchScheduleSelect.value}&`;
+    }
+    if (this.traineeSelect?.value) {
+      search += `Search=TraineeId eq ${this.traineeSelect.value}`;
+    }
+    console.log(search);
+    return search;
   }
 
 }

@@ -17,6 +17,7 @@ namespace Module.Training.Data
 
         public IdNameViewModel Status { get; set; }
         public IdNameViewModel Bed { get; set; }
+        public IdNameViewModel Room { get; set; }
 
         public static Expression<Func<BatchScheduleAllocation, BatchScheduleAllocationViewModel>> Select()
         {
@@ -29,7 +30,8 @@ namespace Module.Training.Data
                 Course = new IdNameViewModel { Id = x.Course.Id, Name = x.Course.Name },
                 Trainee = new IdNameViewModel { Id = x.Trainee.Id, Name = x.Trainee.FullName },
                 Status = new IdNameViewModel { Id = (long)x.Status, Name = x.Status.ToString() },
-                Bed = x.BedId.HasValue ? new IdNameViewModel { Id = x.Bed.Id, Name = x.Bed.Name } : null
+                Bed = x.BedId.HasValue ? new IdNameViewModel { Id = x.Bed.Id, Name = x.Bed.Name } : null,
+                Room = x.RoomId.HasValue ? new IdNameViewModel { Id = x.Room.Id, Name = x.Room.Name } : null
             };
         }
     }

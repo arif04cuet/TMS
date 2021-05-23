@@ -219,6 +219,7 @@ namespace Module.Training.Data
             var result = await _batchSceduleAllocationRepository
                 .AsQueryable()
                 .ApplySearch(searchOptions)
+                .Where(x => !x.IsDeleted)
                 .Select(BatchScheduleAllocationExcelModel.Select())
                 .ToListAsync();
 

@@ -584,5 +584,7 @@
   "new.books": "New books",
   "loading.user.data": "Loading user data",
   "book.reservation": "Book reservation",
-  "book.reservations": "Book reservations"
+  "book.reservations": "Book reservations",
+  "enddate.must.be.leter": " End date must be greater than start",
+  "participant.already.added": "Participant already added "
 }

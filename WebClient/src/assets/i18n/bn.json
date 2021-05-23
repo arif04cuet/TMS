@@ -695,5 +695,7 @@
   "license_cant_issue_random_order": " সিরিয়ালি ইস্যু করুন প্লিস। আগে {{x0}} ইস্যু করুন",
   "license_cant_delete_random_order": " সিরিয়ালি ডিলিট করুন প্লিস। আগে {{x0}} ডিলিট করুন",
   "target": "যাকে/যেখানে দেয়া হয়েছে",
-  "EOL must be equal or greater than depreciation frequency.": "ই ও এল অবশ্যই আবচয় ফ্রিকুয়েন্সির সমান অথবা বড় হবে"
+  "EOL must be equal or greater than depreciation frequency.": "ই ও এল অবশ্যই আবচয় ফ্রিকুয়েন্সির সমান অথবা বড় হবে",
+  "enddate.must.be.leter": " শেষ তারিখ শুরুর তারিখের চেয়ে বড় হতে হবে ",
+  "participant.already.added": " প্রশিক্ষণার্থী ইতিমধ্যে যোগ করা হয়েছে "
 }

@@ -31,7 +31,7 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
   courseModuleCount;
   data;
 
-  persons = [1,2]
+  persons = [1, 2]
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,6 +62,7 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
 
   ngAfterViewInit() {
 
+    console.log('rendered');
     this.subscribe(this.moduleSelect.changes, (selects: QueryList<SelectControlComponent>) => {
       selects.forEach(select => {
         if (!select.items.length) {
@@ -97,7 +98,7 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
         const topicId = select.name.topic.value;
         const selectControl = select.name.select as SelectControlComponent
         selectControl.onLoadCompleted(() => {
-          console.log('dddddddddddddd');
+          //console.log('changed=' + topicId);
         })
 
         if (topicId) {
@@ -108,11 +109,13 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
         }
         else {
           // get all resource persons
-          fn = (pagination, search) => {
-            return this.resourcePersonHttpService.list(pagination, search);
-          }
+          // fn = (pagination, search) => {
+          //   return this.resourcePersonHttpService.list(pagination, search);
+          // }
         }
-        select.register(fn).fetch();
+        if (!select.items.length)
+          select.register(fn).fetch();
+
       });
     });
 
@@ -193,12 +196,15 @@ export class BatchScheduleRoutineAddComponent extends FormComponent {
   }
 
   topicChanged(e, periodIndex) {
+    //console.log(e.target.value);
+    const topicId = e;
     const resourcePersonSelects = this.resourcePersonSelect.toArray().filter(x => x.name.period == periodIndex);
     if (resourcePersonSelects) {
       resourcePersonSelects.forEach(select => {
         select.items = [];
         select.register((pagination, search) => {
-          return this.resourcePersonHttpService.list(pagination, search);
+          //return this.resourcePersonHttpService.list(pagination, search);
+          return this.topicHttpService.listResourcePersons(topicId);
         }).fetch();
       });
     }

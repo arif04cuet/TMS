@@ -21,8 +21,8 @@
 
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="8">
-                        <app-select-control (onChange)="onTypeChanged($event)" mandatory="true" [formControl]="form.controls.honorariumFor"
-                            #honorariumForSelect label="honorarium.for">
+                        <app-select-control (onChange)="onTypeChanged($event)" mandatory="true"
+                            [formControl]="form.controls.honorariumFor" #honorariumForSelect label="honorarium.for">
                         </app-select-control>
                     </div>
                     <div nz-col [nzSpan]="8">
@@ -42,7 +42,7 @@
                     <div nz-row [nzGutter]="24" class="field-container">
                         <div nz-col [nzSpan]="24" style="margin: 10px 0">
                             <span class="title-text">
-                                {{'heads'|translate|uppercase}}
+                                <!-- {{'heads'|translate|uppercase}} -->
                             </span>
                         </div>
                     </div>
@@ -53,19 +53,23 @@
                                 <div nz-col [nzSpan]="24" style="margin: 10px 0">
                                     <div nz-row class="edition-row">
 
-                                        <div [style.display]="headType == 2 ? 'none' : ''" nz-col [nzMd]="8" [nzSm]="24">
-                                            <app-select-control mandatory="true" [formControl]="head.controls.designation"
-                                                #designationSelect label="designation">
+                                        <div [style.display]="headType == 2 ? 'none' : ''" nz-col [nzMd]="8"
+                                            [nzSm]="24">
+                                            <app-select-control mandatory="true"
+                                                [formControl]="head.controls.designation" #designationSelect
+                                                label="designation">
                                             </app-select-control>
                                         </div>
 
-                                        <div [style.display]="headType == 1 ? 'none' : ''" nz-col [nzMd]="8" [nzSm]="24">
+                                        <div [style.display]="headType == 1 ? 'none' : ''" nz-col [nzMd]="8"
+                                            [nzSm]="24">
                                             <nz-form-item class="field-container">
                                                 <div>
                                                     <label class="required">{{'head'|translate}}</label>
                                                 </div>
                                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="text" nz-input formControlName="head" placeholder="{{'head'|translate}}" />
+                                                    <input type="text" nz-input formControlName="head"
+                                                        placeholder="{{'head'|translate}}" />
                                                 </nz-form-control>
                                             </nz-form-item>
                                         </div>
@@ -76,7 +80,8 @@
                                                     <label class="required">{{'amount'|translate}}</label>
                                                 </div>
                                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="number" nz-input formControlName="amount" placeholder="{{'amount'|translate}}" />
+                                                    <input type="number" nz-input formControlName="amount"
+                                                        placeholder="{{'amount'|translate}}" />
                                                     <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
                                                         (click)="deleteHead(i)"></i>
                                                 </nz-form-control>

@@ -96,11 +96,22 @@ export class BatchScheduleAddComponent extends FormComponent {
   }
 
   submit(): void {
+
+
     if (this.currentSelectedTab && this.currentSelectedTab.index != 0) {
       this.broadcastService.broadcast('batch_schedule_update');
       return;
     }
-    const body = this.constructObject(this.form.controls);
+    const body: any = this.constructObject(this.form.controls);
+
+    // check end date is later than start date
+    if (Date.parse(body.startDate) > Date.parse(body.endDate)) {
+
+      this.failed('enddate.must.be.leter');
+      return;
+    }
+
+
     this.submitForm(
       {
         request: this.batchScheduleHttpService.add(body),

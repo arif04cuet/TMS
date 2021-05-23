@@ -52,7 +52,7 @@ export class CourseScheduleAddComponent extends FormComponent {
 
     // course schedule form
     this.createForm({
-      name: [],
+      name: [null, [], this.v.required.bind(this)],
       course: [null, [], this.v.required.bind(this)],
       coordinator: [null, [], this.v.required.bind(this)],
       coCoordinator: [null, [], this.v.required.bind(this)],

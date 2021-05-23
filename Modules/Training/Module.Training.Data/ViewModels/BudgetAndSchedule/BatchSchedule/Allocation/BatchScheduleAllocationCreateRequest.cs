@@ -12,6 +12,7 @@ namespace Module.Training.Data
         public long Trainee { get; set; }
 
         public DateTime AppliedDate { get; set; }
+        public DateTime? AllocationDate { get; set; }
 
         public long? Bed { get; set; }
         public long? Room { get; set; }
@@ -25,6 +26,7 @@ namespace Module.Training.Data
             entity.CourseId = Course;
             entity.TraineeId = Trainee;
             entity.AppliedDate = AppliedDate;
+            entity.AllocationDate = AllocationDate;
             entity.Status = Status;
             entity.BedId = Bed;
             entity.RoomId = Room;
