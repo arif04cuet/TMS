@@ -142,7 +142,9 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
       this.subscribe(this.batchScheduleAllocationHttpService.get(id),
         (res: any) => {
           this.setValues(this.form.controls, res.data);
-          this.setValue('bed', res.data.bed.id);
+          if (res?.data?.bed?.id) {
+            this.setValue('bed', res.data.bed.id);
+          }
           this.selectedBed = res.data.bed;
           this.loading = false;
 

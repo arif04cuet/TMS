@@ -19,7 +19,7 @@
         </div>
         <div class="block pad-v-12 pad-h-20">
             <div class="clearfix">
-                <nz-upload [nzAction]="uploadUrl" nzListType="picture-card" [(nzFileList)]="fileList"
+                <nz-upload [nzAccept]="allowedFileType" [nzAction]="uploadUrl" nzListType="picture-card" [(nzFileList)]="fileList"
                     [nzShowUploadList]="showUploadList" [nzPreview]="handlePreview" [nzRemove]="handleRemove"
                     (nzChange)="handleChange($event)">
                     <i nz-icon nzType="plus"></i>

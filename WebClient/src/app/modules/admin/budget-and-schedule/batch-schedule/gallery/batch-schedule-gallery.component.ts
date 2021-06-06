@@ -24,6 +24,7 @@ export class BatchScheduleGalleryComponent extends BaseComponent {
   previewImage: string | undefined = '';
   previewVisible = false;
   uploadUrl = '';
+  allowedFileType = 'image/png,image/jpeg,image/jpg'
 
   private id;
 
