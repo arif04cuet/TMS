@@ -435,7 +435,7 @@ const routes: Routes = [
           name: 'requisition_list',
           breadcrumb: {
             icon: 'safety',
-            title: 'requisitions',
+            title: 'my.requisition',
             module: "asset.management"
           },
           permissions: ['requisition.manage', 'requisition.list']

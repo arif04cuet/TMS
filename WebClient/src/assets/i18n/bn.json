@@ -697,5 +697,6 @@
   "target": "যাকে/যেখানে দেয়া হয়েছে",
   "EOL must be equal or greater than depreciation frequency.": "ই ও এল অবশ্যই আবচয় ফ্রিকুয়েন্সির সমান অথবা বড় হবে",
   "enddate.must.be.leter": " শেষ তারিখ শুরুর তারিখের চেয়ে বড় হতে হবে ",
+  "registrationenddate.must.be.leter": " নিবন্ধকরণ শেষ তারিখ শুরুর তারিখের চেয়ে বড় হতে হবে ",
   "participant.already.added": " প্রশিক্ষণার্থী ইতিমধ্যে যোগ করা হয়েছে "
 }

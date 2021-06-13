@@ -74,8 +74,6 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
       return this.batchScheduleAllocationHttpService.listStatus();
     }).fetch();
 
-
-
     this.bedSelect.register((pagination, search) => {
       search += `&Search=IsBooked eq false`;
       return this.bedHttpService.list(pagination, search);
@@ -104,10 +102,16 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
     if (body.status == 2 && !Boolean(body.allocationDate)) {
       body.allocationDate = new Date().toJSON("yyyy/MM/dd HH:mm");
     }
-    //check participant duplikacy
 
+    //check participant duplikacy
     this.batchScheduleAllocationHttpService.list(null, this.getSearch()).subscribe((res: any) => {
+      console.log(this.id, res.data.items);
+
       if (res.data.items.length && this.isAddMode()) {
+        this.failed('participant.already.added');
+        return;
+      } else if (res.data.items.length && this.isEditMode() && (res.data.items[0]?.id != this.id)) {
+        console.log('okk');
         this.failed('participant.already.added');
         return;
       }
@@ -165,6 +169,7 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
     this.goTo('/admin/trainings/batch-schedules/allocations');
   }
   getSearch() {
+
     let search = '';
     if (this.courseSelect?.value) {
       search += `Search=CourseId eq ${this.courseSelect.value}&`;
@@ -175,7 +180,7 @@ export class BatchScheduleAllocationAddComponent extends FormComponent {
     if (this.traineeSelect?.value) {
       search += `Search=TraineeId eq ${this.traineeSelect.value}`;
     }
-    console.log(search);
+
     return search;
   }
 

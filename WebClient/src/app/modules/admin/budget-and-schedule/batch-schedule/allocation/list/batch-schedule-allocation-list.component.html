@@ -90,7 +90,10 @@
                         <td>{{ data.batchSchedule?.name }}</td>
                         <td>{{ data.course?.name }}</td>
                         <td>{{ data.status?.name }}</td>
-                        <td>{{ data.bed?.name }}</td>
+                        <td>
+                            {{ data.bed?.name }}
+                            {{ data.room?.name }}
+                        </td>
                         <td class="action-column fit-cell">
                             <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
                         </td>

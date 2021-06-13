@@ -111,6 +111,14 @@ export class BatchScheduleAddComponent extends FormComponent {
       return;
     }
 
+    // registration end date is later than registration start date
+    if (Date.parse(body.registrationStartDate) > Date.parse(body.registrationEndDate)) {
+
+      this.failed('registrationenddate.must.be.leter');
+      return;
+    }
+
+
 
     this.submitForm(
       {

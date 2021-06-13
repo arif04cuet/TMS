@@ -32,8 +32,10 @@ export class HomeComponent extends BaseComponent {
     this.on('breadcrumbs', (data: any[]) => {
 
       if (data.length > 0) {
+        data = data.reverse();
         this.breadcrumbs = data;
         this.setMetaTitle(data);
+
       }
     })
     this.userInfo = this.authService.getLoggedInUserInfo() || {};
@@ -849,22 +851,18 @@ export class HomeComponent extends BaseComponent {
   }
 
   setMetaTitle(breadcrumbs) {
-    let title = '';
+    let title = [];
 
     breadcrumbs.reverse().forEach((element, index, array) => {
       if (typeof element.title != "undefined") {
 
-        title += this._translate.instant(element.title);
-
-        if (index != (array.length - 2)) {
-          title += '-';
-        }
+        title.push(this._translate.instant(element.title));
 
       }
 
     });
 
-    this.titleService.setTitle(title);
+    this.titleService.setTitle(title.join("-"));
   }
 
 

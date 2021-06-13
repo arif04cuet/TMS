@@ -3,6 +3,8 @@ import { BaseComponent } from 'src/app/shared/base.component';
 import { AdminHttpService } from 'src/services/http/admin-http.service';
 import { forkJoin } from 'rxjs';
 import { AuthService } from 'src/services/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +22,9 @@ export class DashboardComponent extends BaseComponent {
 
   constructor(
     private authService: AuthService,
-    private adminHttpService: AdminHttpService
+    private adminHttpService: AdminHttpService,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title
   ) {
     super();
   }
@@ -28,6 +32,17 @@ export class DashboardComponent extends BaseComponent {
   ngOnInit(): void {
     this.get();
     this.userInfo = this.authService.getLoggedInUserInfo();
+    this.snapshot(this.activatedRoute.snapshot);
+    this.on('breadcrumbs', (data: any[]) => {
+
+      if (data.length > 0) {
+        data = data.reverse();
+        console.log(data);
+        this.breadcrumbs = data;
+        this.titleService.setTitle('Dashboard');
+      }
+    })
+
   }
   userHasRole(roles = []) {
     var hasRole = false;
@@ -39,7 +54,7 @@ export class DashboardComponent extends BaseComponent {
     }
     return hasRole;
   }
-  
+
   hasRole(roleId) {
     return this.userInfo.roles.some(r => r.id == roleId);
   }

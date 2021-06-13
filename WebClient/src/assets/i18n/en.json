@@ -586,5 +586,6 @@
   "book.reservation": "Book reservation",
   "book.reservations": "Book reservations",
   "enddate.must.be.leter": " End date must be greater than start",
+  "registrationenddate.must.be.leter": " Registration End date must be greater than start",
   "participant.already.added": "Participant already added "
 }
