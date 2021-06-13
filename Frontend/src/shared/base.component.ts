@@ -213,7 +213,8 @@ export class BaseComponent {
             }
             parent = parent.parent;
         }
-        this.breadcrumbs = arr.reverse();
+        //this.breadcrumbs = arr.reverse();
+
         let route = ''
         this.breadcrumbs = this.breadcrumbs.map((x, i) => {
             route += `/${x.url}`
