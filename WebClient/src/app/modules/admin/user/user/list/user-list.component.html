@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="block">
-            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
+            <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="true"
                 (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
                 nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
                 [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"

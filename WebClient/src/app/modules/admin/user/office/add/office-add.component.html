@@ -36,11 +36,11 @@
                     <div nz-col [nzSpan]="12">
                         <nz-form-item class="field-container">
                             <div>
-                                <label class="required">{{'address.line.x0'|translate:{x0: 1} }}</label>
+                                <label class="required">{{'address'|translate }}</label>
                             </div>
                             <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                 <input type="text" nz-input formControlName="addressLine1"
-                                    placeholder="{{'address.line.x0'|translate:{x0: 1} }}" />
+                                    placeholder="{{'address'|translate }}" />
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -48,22 +48,24 @@
                 <div nz-row [nzGutter]="24">
 
                     <div nz-col [nzSpan]="8">
-                        <app-select-control (onChange)="onChangeDivision($event)" mandatory="true" #divisionSelect
-                            label="division" [formControl]="form.controls.division">
+                        <app-select-control (onChange)="onChangeDivision($event)" mandatory="true" sort="asc"
+                            [isLoadMore]="false" #divisionSelect label="division"
+                            [formControl]="form.controls.division">
                         </app-select-control>
 
                     </div>
 
 
                     <div nz-col [nzSpan]="8">
-                        <app-select-control (onChange)="onChangeDistrict($event)" mandatory="true" #districtSelect
-                            label="district" [formControl]="form.controls.district">
+                        <app-select-control (onChange)="onChangeDistrict($event)" sort="asc" mandatory="true"
+                            #districtSelect label="district" [formControl]="form.controls.district"
+                            [isLoadMore]="false">
                         </app-select-control>
                     </div>
 
                     <div nz-col [nzSpan]="8">
-                        <app-select-control mandatory="true" #upazilaSelect label="upazila"
-                            [formControl]="form.controls.upazila">
+                        <app-select-control mandatory="true" #upazilaSelect sort="asc" label="upazila"
+                            [formControl]="form.controls.upazila" [isLoadMore]="false">
                         </app-select-control>
                     </div>
 

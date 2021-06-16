@@ -47,7 +47,6 @@ export class HostelListComponent extends TableComponent {
 
   add(model = null) {
     this.addModal(HostelAddComponent, this.modalService, { id: model?.id });
-    this.load();
   }
 
   gets() {

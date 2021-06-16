@@ -10,6 +10,7 @@ import { CommonValidator } from 'src/validators/common.validator';
 import { OfficeHttpService } from 'src/services/http/user/office-http.service';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 import { CommonHttpService } from 'src/services/http/common-http.service';
+import { SelectModule } from 'src/app/shared/select/select.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CommonHttpService } from 'src/services/http/common-http.service';
     ReactiveFormsModule,
     NgZorroAntdModule,
     SharedModule,
-    SelectControlModule
+    SelectControlModule,
+    SelectModule
   ],
   exports: [OfficeAddComponent],
   providers: [

@@ -43,7 +43,7 @@ export class LicenseAddComponent extends FormComponent {
       productKey: [null, [], this.v.required.bind(this)],
       orderNumber: [null, []],
       licenseToName: [null, [], this.v.required.bind(this)],
-      licenseToEmail: [null, [], this.v.required.bind(this)],
+      licenseToEmail: [null, [], this.v.email.bind(this)],
       purchaseDate: [null, [], this.v.required.bind(this)],
       purchaseCost: [null, [], this.v.required.bind(this)],
       expireDate: [null, [], this.v.required.bind(this)],

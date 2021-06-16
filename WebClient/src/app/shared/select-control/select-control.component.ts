@@ -24,6 +24,8 @@ export class SelectControlComponent implements ControlValueAccessor {
   @Input() info: (item: any) => string | Promise<string>;
   @Input() mode: string = 'default';
   @Input() name: any = '';
+  @Input() isLoadMore: boolean = true;
+  @Input() sort = '';
 
   infoText: string = '';
 
@@ -95,6 +97,7 @@ export class SelectControlComponent implements ControlValueAccessor {
           const _items = [...this.items, ...items];
           setTimeout(() => {
             this.items = _items
+            this.sortItems(this.items);
           }, 0);
           this.busy(false);
           if (this._selectFirstOption && this.items.length > 0) {
@@ -135,6 +138,10 @@ export class SelectControlComponent implements ControlValueAccessor {
     this.infoPromise(e);
   }
 
+  sortItems(items) {
+    if (Boolean(this.sort) && Array.isArray(items))
+      this.items = items.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+  }
   onLoadCompleted(fn: (items?: any[]) => void) {
     this._onLoadCompleted = fn;
     return this;
@@ -150,7 +157,8 @@ export class SelectControlComponent implements ControlValueAccessor {
     const canLoadMore = (this.loadingMoreCallCount == 0
       || (this.loadingMoreCallCount > 0 && this.lastLoadingMoreFetchItems.length > 0))
       && !this.loadingMore;
-    if (canLoadMore) {
+
+    if (canLoadMore && this.isLoadMore) {
       this.loadingMore = true;
       this.fetchNext()
       this.loadingMoreCallCount++;

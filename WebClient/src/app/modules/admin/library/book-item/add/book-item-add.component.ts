@@ -40,12 +40,12 @@ export class BookItemAddComponent extends FormComponent {
     this.createForm({
       book: [null, [], this.v.required.bind(this)],
       library: [null, [], this.v.required.bind(this)],
-      edition: [],
+      edition: [null, [], this.v.required.bind(this)],
       rack: [null, [], this.v.required.bind(this)],
       purchasePrice: [null, [], this.v.required.bind(this)],
       dateOfPurchase: [null, [], this.v.required.bind(this)],
       numberOfCopy: [null, [], this.numberOfCopyValidator.bind(this)],
-      format: [],
+      format: [null, [], this.v.required.bind(this)],
       status: [null, [], this.v.required.bind(this)],
     });
     super.ngOnInit(this.activatedRoute.snapshot);

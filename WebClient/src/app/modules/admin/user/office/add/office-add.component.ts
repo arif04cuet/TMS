@@ -21,6 +21,7 @@ export class OfficeAddComponent extends FormComponent {
 
   districts = [];
   upazilas = [];
+  item = null;
 
   constructor(
     private officeHttpService: OfficeHttpService,
@@ -65,6 +66,8 @@ export class OfficeAddComponent extends FormComponent {
   }
 
   ngAfterViewInit() {
+
+
     this.divisionSelect.register((pagination, search) => {
       return this.commonHttpService.getAllDivision();
     }).fetch(null, true);
@@ -89,7 +92,11 @@ export class OfficeAddComponent extends FormComponent {
       this.upazilaSelect.register((pagination, search) => {
         search = `Search=DistrictId eq ${district}`;
         return this.commonHttpService.getAllUpazila(search);
-      }).fetch(null, true);
+      }).fetch(null, false).onLoadCompleted(items => {
+        if (this.form.controls.district.value != this.item?.district?.id) {
+          this.form.controls.upazila.reset();
+        }
+      });
     }
   }
 
@@ -97,13 +104,19 @@ export class OfficeAddComponent extends FormComponent {
 
     this.districtSelect.items = [];
     this.upazilaSelect.items = [];
-
+    const that = this;
     let division = this.form.controls.division.value;
     if (division) {
       this.districtSelect.register((pagination, search) => {
         search = `Search=DivisionId eq ${division}`;
         return this.commonHttpService.getAllDistrict(search);
-      }).fetch(null, true);
+      }).fetch(null, false).onLoadCompleted(items => {
+        if (this.form.controls.division.value != this.item?.division?.id) {
+          this.form.controls.district.reset();
+          this.form.controls.upazila.reset();
+        }
+      });
+
     }
 
   }
@@ -114,7 +127,20 @@ export class OfficeAddComponent extends FormComponent {
     if (id != null) {
       this.subscribe(this.officeHttpService.get(id),
         (res: any) => {
+
+          this.item = res.data;
+
           this.setValues(this.form.controls, res.data);
+          if (res?.data?.division?.id) {
+            this.setValue('division', res.data.division.id);
+          }
+          if (res?.data?.district?.id) {
+            console.log(res.data.district.id);
+            this.setValue('district', res.data.district.id);
+          }
+          if (res?.data?.upazila?.id) {
+            this.setValue('upazila', res.data.upazila.id);
+          }
           this.loading = false;
         }
       );

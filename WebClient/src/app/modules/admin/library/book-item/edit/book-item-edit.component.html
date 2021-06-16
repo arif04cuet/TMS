@@ -26,7 +26,8 @@
                                     <label>{{'book'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-select class="btn-custom" formControlName="book" nzShowSearch nzAllowClear (ngModelChange)="onBookChange($event)"
+                                    <nz-select class="btn-custom" formControlName="book" nzShowSearch nzAllowClear
+                                        (ngModelChange)="onBookChange($event)"
                                         [nzPlaceHolder]="'select.x0'|translate:{x0: 'book'|translate|lowercase}">
                                         <nz-option *ngFor="let p of books" [nzLabel]="p.title" [nzValue]="p.id">
                                         </nz-option>
@@ -64,7 +65,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'edition'|translate }}</label>
+                                    <label class="required">{{'edition'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="edition" nzShowSearch nzAllowClear
@@ -104,7 +105,7 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label>{{'format'|translate }}</label>
+                                    <label class="required">{{'format'|translate }}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <nz-select class="btn-custom" formControlName="format" nzShowSearch nzAllowClear

@@ -50,7 +50,8 @@
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control [formControl]="form.controls.edition" #editionSelect label="edition">
+                            <app-select-control [formControl]="form.controls.edition" mandatory="true" #editionSelect
+                                label="edition">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
@@ -77,7 +78,8 @@
                             </nz-form-item>
                         </div>
                         <div nz-row [nzGutter]="24">
-                            <app-select-control [formControl]="form.controls.format" #formatSelect label="format">
+                            <app-select-control [formControl]="form.controls.format" mandatory="true" #formatSelect
+                                label="format">
                             </app-select-control>
                         </div>
                         <div nz-row [nzGutter]="24">
