@@ -569,6 +569,7 @@
   "training.management": "প্রশিক্ষণ ব্যবস্থাপনা",
   "course.management": "কোর্স  ব্যবস্থাপনা",
   "my.requisition": "আমার চাহিদা",
+  "requisition": "চাহিদা",
   "license.seats": "লাইসেন্সের সংখ্যা ",
   "add.asset": "আইটেম নির্বাচন করুন ",
   "approver.employee": "অনুমোদনকারী ",
@@ -698,5 +699,12 @@
   "EOL must be equal or greater than depreciation frequency.": "ই ও এল অবশ্যই আবচয় ফ্রিকুয়েন্সির সমান অথবা বড় হবে",
   "enddate.must.be.leter": " শেষ তারিখ শুরুর তারিখের চেয়ে বড় হতে হবে ",
   "registrationenddate.must.be.leter": " নিবন্ধকরণ শেষ তারিখ শুরুর তারিখের চেয়ে বড় হতে হবে ",
-  "participant.already.added": " প্রশিক্ষণার্থী ইতিমধ্যে যোগ করা হয়েছে "
+  "participant.already.added": " প্রশিক্ষণার্থী ইতিমধ্যে যোগ করা হয়েছে ",
+  "slug": "স্লাগ",
+  "initiator": "ইনিশিয়েটর",
+  "count": "সংখ্যা",
+  "requisition.details": "চাহিদার বিস্তারিত",
+  "requested.assets": "চাহিদা",
+  "all.ebooks": "সকল ই-বই",
+  "request": "বুকিং অনুরোধ"
 }
