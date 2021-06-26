@@ -52,4 +52,26 @@ export class CommonValidator extends BaseComponent {
     return of(true);
   }
 
+  numberEnBn(control: FormControl) {
+
+    var allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+      "ARROWRIGHT", "ARROWLEFT", "TAB", "BACKSPACE", "DELETE", "HOME", "END",
+      "০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"
+    ];
+
+    const value = control.value;
+
+    if (!value) {
+      return this.error(MESSAGE_KEY.THIS_FIELD_IS_REQUIRED);
+    }
+
+    const restrictedChars = value.toString().split('').filter(c => !allowedKeys.includes(c));
+
+    if (restrictedChars.length)
+      return this.error(MESSAGE_KEY.MUST_BE_NUMERIC);
+    else
+      return of(true);
+
+  }
+
 }

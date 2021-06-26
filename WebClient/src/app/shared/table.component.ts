@@ -60,7 +60,7 @@ export class TableComponent extends BaseComponent {
             nzOnOk: () => {
                 deleteModal.getInstance().nzOkLoading = true;
                 let _deleteFunc = this.deleteFunc;
-                if(!_deleteFunc) {
+                if (!_deleteFunc) {
                     _deleteFunc = id => this.service.delete(id);
                 }
                 this.subscribe(_deleteFunc(e.id),
@@ -177,9 +177,8 @@ export class TableComponent extends BaseComponent {
         });
         const _fn = this._fn;
         const s2 = modal.afterClose.subscribe(x => {
-            if (x === true) {
-                this.load(_fn);
-            }
+            this.load(_fn);
+
         });
         this._subscriptions.push(...[s, s2]);
     }

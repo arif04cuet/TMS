@@ -706,5 +706,8 @@
   "requisition.details": "চাহিদার বিস্তারিত",
   "requested.assets": "চাহিদা",
   "all.ebooks": "সকল ই-বই",
-  "request": "বুকিং অনুরোধ"
+  "request": "বুকিং অনুরোধ",
+  "Requested": "অনুরোধ করা হয়েছে",
+  "max_file_size": "সর্বোচ্চ ফাইল সাইজ ১ এমবি",
+  "time": "সময়"
 }

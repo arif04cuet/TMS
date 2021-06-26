@@ -20,6 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
             <i nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
             <span>{{ 'no.photo'|translate }}</span>
             <span *ngIf="accept.length>0">{{ 'only'|translate }} {{ accept}} {{ 'files'|translate }}</span>
+            <span>{{'max_file_size'|translate}}</span>
         </div>
         <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i>
         <img *ngIf="!photoLoading && photoUrl && type == 'image'" [src]="photoUrl" class="photo" />
@@ -59,6 +60,7 @@ export class PhotoUploadComponent {
   @Input() delete: (mediaId: any) => Observable<boolean>;
   @Input() accept: string = "";
 
+  fileSizeLimit: string = '1 MB';
   photoLoading: boolean = false;
 
   constructor(
@@ -72,12 +74,22 @@ export class PhotoUploadComponent {
     const file = e.target.files[0];
     if (file) {
 
+      //check file size
+      const bytesToMegaBytes = bytes => bytes / (1024 * 1024);
+      if (bytesToMegaBytes(file.size) > 1) {
+        this.control.setErrors({ 'incorrect': true });
+        this.translateService.get('max_file_size').subscribe(x => {
+          this.messageService.error(x);
+        });
+        return false;
+      }
+
       // check file extension
       if (this.accept.length > 0) {
         var fileName = file.name;
         var ext = fileName.substr(fileName.lastIndexOf('.') + 1);
 
-        console.log(this.accept.split(","));
+
         if (!this.accept.split(",").includes("." + ext)) {
           this.control.setErrors({ 'incorrect': true });
           this.translateService.get('only.x0.files', { x0: this.accept }).subscribe(x => {

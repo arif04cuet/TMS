@@ -89,7 +89,8 @@
                         <div nz-row [nzGutter]="24">
                             <nz-form-item class="field-container">
                                 <div>
-                                    <label class="required">{{'password'|translate}}</label>
+                                    <label *ngIf="mode=='add'" class="required">{{'password'|translate}}</label>
+                                    <label *ngIf="mode=='edit'">{{'password'|translate}}</label>
                                 </div>
                                 <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                     <input type="password" nz-input formControlName="password"

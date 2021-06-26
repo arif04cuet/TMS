@@ -38,7 +38,7 @@ export class ItemCodeAddComponent extends FormComponent {
       name: [null, [], this.v.required.bind(this)],
       code: [null, [], this.v.required.bind(this)],
       categoryId: [null, [], this.v.required.bind(this)],
-      minQuantity: [null, [], this.v.required.bind(this)],
+      minQuantity: [null, [], this.v.numberEnBn.bind(this)],
       isActive: [null, []]
     });
     const snapshot = this.activatedRoute.snapshot;

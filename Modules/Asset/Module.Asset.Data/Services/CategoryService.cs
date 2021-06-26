@@ -78,6 +78,17 @@ namespace Module.Asset.Data
             entity.IsSendEmail = request.IsSendEmail;
             entity.IsActive = request.IsActive;
 
+            if (request.Media.HasValue)
+            {
+                entity.MediaId = request.Media;
+                var media = await _mediaRepository
+                    .FirstOrDefaultAsync(x => x.Id == request.Media.Value);
+                if (media != null)
+                {
+                    media.IsInUse = true;
+                }
+            }
+
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0;
         }
@@ -156,7 +167,7 @@ namespace Module.Asset.Data
 
             var totalWhere = searchOptions.ToSqlSyntax((p, i) => p == "Parent" ? "#c.Name" : "cte.");
             var totalSql = sql + @"select count(cte.Id) from cte";
-            if(!string.IsNullOrEmpty(totalWhere))
+            if (!string.IsNullOrEmpty(totalWhere))
             {
                 totalSql += " left join [asset].[Category] c on c.Id = cte.ParentId ";
                 totalSql += $"where {totalWhere} ";
@@ -165,8 +176,9 @@ namespace Module.Asset.Data
             sql += @"select cte.*, c.Name Parent, c.EULA Eula, c.IsSendEmail, c.IsRequireUserConfirmation, c.MediaId, c.IsActive from cte
             left join[asset].[Category] c on c.Id = cte.ParentId ";
 
-            string where = searchOptions.ToSqlSyntax((prop, index) => {
-                if(prop == "Name")
+            string where = searchOptions.ToSqlSyntax((prop, index) =>
+            {
+                if (prop == "Name")
                 {
                     return "cte.";
                 }

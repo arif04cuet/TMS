@@ -89,10 +89,15 @@ export class CourseScheduleAddComponent extends FormComponent {
     }).fetch();
 
     this.coordinatorSelect.register((pagination, search) => {
+      if (this.isEditMode())
+        pagination = 'limit=10000';
       return this.userHttpService.list(pagination, search);
     }).fetch();
 
     this.coCoordinatorSelect.register((pagination, search) => {
+      if (this.isEditMode())
+        pagination = 'limit=10000';
+
       return this.userHttpService.list(pagination, search);
     }).fetch();
 
@@ -101,14 +106,20 @@ export class CourseScheduleAddComponent extends FormComponent {
     }).fetch();
 
     this.staff1Select.register((pagination, search) => {
+      if (this.isEditMode())
+        pagination = 'limit=10000';
       return this.userHttpService.list(pagination, search);
     }).fetch();
 
     this.staff2Select.register((pagination, search) => {
+      if (this.isEditMode())
+        pagination = 'limit=10000';
       return this.userHttpService.list(pagination, search);
     }).fetch();
 
     this.staff3Select.register((pagination, search) => {
+      if (this.isEditMode())
+        pagination = 'limit=10000';
       return this.userHttpService.list(pagination, search);
     }).fetch();
   }

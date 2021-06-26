@@ -77,17 +77,11 @@
                 </div>
                 <div nz-row [nzGutter]="24">
                     <div nz-col [nzSpan]="12">
-                        <div (click)="photo.click()" class="rectangular-uploader cursor-pointer">
-                            <div class="container">
-                                <input (change)="handlePhotoChange($event)" #photo type="file" style="display: none;">
-                                <div class="placeholder" *ngIf="!photoLoading && !photoUrl">
-                                    <i nz-icon [nzType]="photoLoading ? 'loading' : 'plus'"></i>
-                                    <span>{{'choose.photo'|translate}}</span>
-                                </div>
-                                <i *ngIf="photoLoading" nz-icon nzType="loading" style="font-size: 24px;"></i>
-                                <img *ngIf="!photoLoading && photoUrl" [src]="photoUrl" class="photo" />
-                            </div>
-                        </div>
+                        <nz-form-item class="field-container">
+                            <app-photo-upload accept=".png,.jpg,.jpeg" uploaderClass="rectangular-uploader"
+                                [control]="form.controls.media" label="photo" [photoUrl]="photoUrl">
+                            </app-photo-upload>
+                        </nz-form-item>
                     </div>
                 </div>
             </form>

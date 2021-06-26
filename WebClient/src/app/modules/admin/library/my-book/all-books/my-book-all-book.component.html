@@ -68,14 +68,15 @@
                         <td class="action-column fit-cell">
                             <app-table-actions *ngIf="!isReserved(data)" [data]="data" [buttons]="buttons">
                             </app-table-actions>
-                            <span *ngIf="isReserved(data)">Requested</span>
+                            <span *ngIf="isReserved(data)">{{'requested'|translate}}</span>
                         </td>
                     </tr>
+
                 </tbody>
             </nz-table>
         </div>
     </div>
     <ng-template #indicatorTemplate><i nz-icon nzType="loading" style="font-size: 28px;"></i> </ng-template>
-    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }} - {{ range[1] }} of {{ total }}
-        {{'items'|translate}} </ng-template>
+    <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }} - {{ range[1] }} of {{ total }} {{'items'|translate}} </ng-template>
 </div>

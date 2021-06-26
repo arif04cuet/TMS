@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RoleHttpService } from 'src/services/http/user/role-http.service';
 import { CommonValidator } from 'src/validators/common.validator';
 import { MediaHttpService } from 'src/services/http/media-http.service';
+import { PhotoUploadModule } from 'src/app/shared/photo.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MediaHttpService } from 'src/services/http/media-http.service';
     NzFormModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    SharedModule
+    SharedModule,
+    PhotoUploadModule
   ],
   exports: [CategoryAddComponent],
   providers: [

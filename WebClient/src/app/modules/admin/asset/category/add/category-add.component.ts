@@ -105,7 +105,6 @@ export class CategoryAddComponent extends FormComponent {
         (res: any) => {
           this.setValues(this.form.controls, res.data);
           this.loading = false;
-          console.log(`${environment}`);
           if (res.data.photo) {
             this.photoUrl = `${environment.serverUri}/${res.data.photo}`;
           }

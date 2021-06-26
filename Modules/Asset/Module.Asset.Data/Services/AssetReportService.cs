@@ -133,7 +133,7 @@ namespace Module.Asset.Data
                     StartDate = x.StartDate,
                     Supplier = x.Supplier.Name,
                     Title = x.Title,
-                    AssetMaintenanceTime = (long)(x.StartDate - x.CompletionDate.Value).TotalDays
+                    AssetMaintenanceTime = (long)(x.CompletionDate.Value - x.StartDate).TotalDays
                 })
                 .ToListAsync();
 
